@@ -186,9 +186,7 @@ namespace PicoXLSX
             string tValue = "";
             string value = "";
             bool bVal;
-            int iVal;
-            double dbVal;
-            float fVal;
+
             DateTime dVal;
             int col = 0;
             foreach (Cell item in columnFields)
@@ -204,30 +202,30 @@ namespace PicoXLSX
                     else { value = "0"; }
                     
                 }
+                // Number casting
                 else if (item.Fieldtype == Cell.CellType.NUMBER)
                 {
                     typeAttribute = "n";
                     tValue = " t=\"" + typeAttribute + "\" ";
-                    try
+                    Type t = item.Value.GetType();
+
+
+                    if (t == typeof(int))
                     {
-                        iVal = (int)item.Value;
-                        value = iVal.ToString("G", culture);
+                        value = ((int)item.Value).ToString("G", culture);
                     }
-                    catch
+                    else if(t == typeof(double))
                     {
-                        try
-                        {
-                            dbVal = (double)item.Value;
-                            value = dbVal.ToString("G", culture);
-                        }
-                        catch
-                        {
-                            fVal = (float)item.Value;
-                            value = fVal.ToString("G", culture);
-                        }
+                        value = ((double)item.Value).ToString("G", culture);
+
+                    }
+                    else if(t == typeof(float))
+                    {
+                        value = ((float)item.Value).ToString("G", culture);
                     }
 
                 }
+                // Date parsing
                 else if (item.Fieldtype == Cell.CellType.DATE)
                 {
                     typeAttribute = "d";
@@ -235,6 +233,7 @@ namespace PicoXLSX
                     value = LowLevel.GetOADateTimeString(dVal);
                     sValue = " s=\"1\" ";
                 }
+                // String parsing
                 else
                 {
                     typeAttribute = "str";

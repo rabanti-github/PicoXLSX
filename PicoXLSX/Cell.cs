@@ -36,34 +36,22 @@ namespace PicoXLSX
             DEFAULT
         }
 
-        /// <summary>
-        /// Number of the row (zerobased)
-        /// </summary>
+        /// <summary>Number of the row (zerobased)</summary>
         public int RowAddress { get; set; }
-        /// <summary>
-        /// Number of the column (zerobased)
-        /// </summary>
+        /// <summary>Number of the column (zero-based)</summary>
         public int ColumnAddress { get; set; }
-        /// <summary>
-        /// Value of the cell (generic object type)
-        /// </summary>
+        /// <summary>Value of the cell (generic object type)</summary>
         public object Value { get; set; }
-        /// <summary>
-        /// Type of the cell
-        /// </summary>
+        /// <summary>Type of the cell</summary>
         public CellType Fieldtype { get; set; }
 
-        /// <summary>
-        /// Combined cell address as struct (read-only)
-        /// </summary>
+        /// <summary>Combined cell address as struct (read-only)</summary>
         public Address CellAddress
         {
             get { return new Address(this.ColumnAddress, this.RowAddress); }
         }
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
+        /// <summary>Default constructor</summary>
         public Cell()
         {
 
@@ -136,27 +124,29 @@ namespace PicoXLSX
             foreach(T item in list)
             {
                 o = (object)item;
-                if (typeof(T) == typeof(int))
+                Type t = typeof(T);
+
+                if (t == typeof(int))
                 {
                     c = new Cell((int)o, CellType.NUMBER);
                 }
-                else if (typeof(T) == typeof(float))
+                else if (t == typeof(float))
                 {
                     c = new Cell((float)o, CellType.NUMBER);
                 }
-                else if (typeof(T) == typeof(double))
+                else if (t == typeof(double))
                 {
                     c = new Cell((double)o, CellType.NUMBER);
                 }
-                else if (typeof(T) == typeof(bool))
+                else if (t == typeof(bool))
                 {
                     c = new Cell((bool)o, CellType.BOOL);
                 }
-                else if (typeof(T) == typeof(DateTime))
+                else if (t == typeof(DateTime))
                 {
                     c = new Cell((DateTime)o, CellType.DATE);
                 }
-                else if (typeof(T) == typeof(string))
+                else if (t == typeof(string))
                 {
                     c = new Cell((string)o, CellType.STRING);
                 }

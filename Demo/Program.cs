@@ -13,8 +13,8 @@ namespace Demo
         static void Main(string[] args)
         {
             Demo1();
-            Demo2();
-            Demo3();
+            //Demo2();
+            //Demo3();
         }
 
         private static void Demo1()
