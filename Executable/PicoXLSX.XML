@@ -1,0 +1,2132 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PicoXLSX</name>
+    </assembly>
+    <members>
+        <member name="T:PicoXLSX.Cell">
+            <summary>
+            Class representing a cell of a worksheet
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Cell.#ctor">
+            <summary>Default constructor</summary>
+        </member>
+        <member name="M:PicoXLSX.Cell.#ctor(System.Object,PicoXLSX.Cell.CellType)">
+            <summary>
+            Constructor with value and cell type
+            </summary>
+            <param name="value">Value of the cell</param>
+            <param name="type">Type of the cell</param>
+        </member>
+        <member name="M:PicoXLSX.Cell.#ctor(System.Object,PicoXLSX.Cell.CellType,System.Int32,System.Int32)">
+            <summary>
+            Constructor with value, cell type, row address and column address
+            </summary>
+            <param name="value">Value of the cell</param>
+            <param name="type">Type of the cell</param>
+            <param name="column">Column address of the cell (zero-based)</param>
+            <param name="row">Row address of the cell (zero-based)</param>
+        </member>
+        <member name="M:PicoXLSX.Cell.ResolveCellType">
+            <summary>
+            Method resets the Cell type an tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellType FORMULA will skip this method
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Cell.GetCellAddress">
+            <summary>
+            Gets the cell Address as string in the format A1 - XFD16384
+            </summary>
+            <returns>Cell address</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.SetStyle(PicoXLSX.Style,PicoXLSX.Workbook)">
+            <summary>
+            Sets the style of the cell
+            </summary>
+            <param name="style">style to assign</param>
+            <param name="workbookReference">Workbook reference. All styles will be managed in this workbook</param>
+            <returns>If the passed style already exists in the workbook, the existing one will be returned, otherwise the passed one</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.RemoveStyle(PicoXLSX.Workbook)">
+            <summary>
+            Removes the assigned style from the cell
+            </summary>
+            <param name="workbookReference">Workbook reference. All styles will be managed in this workbook</param>
+        </member>
+        <member name="M:PicoXLSX.Cell.CompareTo(PicoXLSX.Cell)">
+            <summary>
+            Implemented CompareTo method
+            </summary>
+            <param name="other">object to compare</param>
+            <returns>0 if values are the same, -1 if this object is smaller, 1 if it is bigger</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.ConvertArray``1(System.Collections.Generic.List{``0})">
+            <summary>
+            Converts a List of supported objects into a list of cells
+            </summary>
+            <typeparam name="T">Generic data type</typeparam>
+            <param name="list">List of generic objects</param>
+            <returns>List of cells</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.GetCellRange(System.String)">
+            <summary>
+            Get a list of cell addresses from a cell range (format A1:B3 or AAD556:AAD1000)
+            </summary>
+            <param name="range">Range to process</param>
+            <returns>List of cell addresses</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.GetCellRange(System.String,System.String)">
+            <summary>
+            Get a list of cell addresses from a cell range
+            </summary>
+            <param name="startAddress">Start address as string in the format A1 - XFD16384</param>
+            <param name="endAddress">End address as string in the format A1 - XFD16384</param>
+            <returns>List of cell addresses</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.GetCellRange(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Get a list of cell addresses from a cell range
+            </summary>
+            <param name="startColumn">Start column (zero based)</param>
+            <param name="startRow">Start row (zero based)</param>
+            <param name="endColumn">End column (zero based)</param>
+            <param name="endRow">End row (zero based)</param>
+            <returns>List of cell addresses</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.GetCellRange(PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
+            <summary>
+            Get a list of cell addresses from a cell range
+            </summary>
+            <param name="startAddress">Start address</param>
+            <param name="endAddress">End address</param>
+            <returns>List of cell addresses</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.ResolveCellRange(System.String,PicoXLSX.Cell.Address@,PicoXLSX.Cell.Address@)">
+            <summary>
+            Resolves a cell range from the format like  A1:B3 or AAD556:AAD1000
+            </summary>
+            <param name="range">Range to process</param>
+            <param name="startAddress">Start address as out parameter</param>
+            <param name="endAddress">End address as out parameter</param>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the start or end address was malformed</exception>
+        </member>
+        <member name="M:PicoXLSX.Cell.ResolveCellAddress(System.Int32,System.Int32)">
+            <summary>
+            Gets the address of a cell by the column and row number (zero based)
+            </summary>
+            <param name="column">Column address of the cell (zero-based)</param>
+            <param name="row">Row address of the cell (zero-based)</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws a OutOfRangeException if the start or end address was out of range</exception>
+            <returns>Cell Address as string in the format A1 - XFD16384</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.ResolveCellCoordinate(System.String,System.Int32@,System.Int32@)">
+            <summary>
+            Gets the column and row number (zero based) of a cell by the address
+            </summary>
+            <param name="address">Address as string in the format A1 - XFD16384</param>
+            <param name="column">Column address of the cell (zero-based) as out parameter</param>
+            <param name="row">Row address of the cell (zero-based) as out parameter</param>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the range address was malformed</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws a OutOfRangeException if the start or end address was out of range</exception>
+        </member>
+        <member name="M:PicoXLSX.Cell.ResolveColumn(System.String)">
+            <summary>
+            Gets the column number from the column address (A - XFD)
+            </summary>
+            <param name="columnAddress">Column address (A - XFD)</param>
+            <returns>Column number (zero-based)</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.ResolveCellCoordinate(System.String)">
+            <summary>
+            Gets the column and row number (zero based) of a cell by the address
+            </summary>
+            <param name="address">Address as string in the format A1 - XFD16384</param>
+            <returns>Struct with row and column</returns>
+        </member>
+        <member name="P:PicoXLSX.Cell.RowAddress">
+            <summary>Number of the row (zero-based)</summary>
+        </member>
+        <member name="P:PicoXLSX.Cell.ColumnAddress">
+            <summary>Number of the column (zero-based)</summary>
+        </member>
+        <member name="P:PicoXLSX.Cell.Value">
+            <summary>Value of the cell (generic object type)</summary>
+        </member>
+        <member name="P:PicoXLSX.Cell.Fieldtype">
+            <summary>Type of the cell</summary>
+        </member>
+        <member name="P:PicoXLSX.Cell.CellStyle">
+            <summary>
+            Assigned style of the cell
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Cell.CellAddress">
+            <summary>Combined cell address as struct (read-only)</summary>
+        </member>
+        <member name="T:PicoXLSX.Cell.CellType">
+            <summary>
+            Enum defines the basic data types of a cell
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Cell.CellType.STRING">
+            <summary>Type for single characters and strings</summary>
+        </member>
+        <member name="F:PicoXLSX.Cell.CellType.NUMBER">
+            <summary>Type for all numeric types (integers and floats, respectively doubles)</summary>
+        </member>
+        <member name="F:PicoXLSX.Cell.CellType.DATE">
+            <summary>Type for dates and times</summary>
+        </member>
+        <member name="F:PicoXLSX.Cell.CellType.BOOL">
+            <summary>Type for boolean</summary>
+        </member>
+        <member name="F:PicoXLSX.Cell.CellType.FORMULA">
+            <summary>Type for Formulas (The cell will be handled differently)</summary>
+        </member>
+        <member name="F:PicoXLSX.Cell.CellType.DEFAULT">
+            <summary>Default Type, not specified</summary>
+        </member>
+        <member name="T:PicoXLSX.Cell.Address">
+            <summary>
+            Struct representing the cell address as column and row (zero based)
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Cell.Address.Row">
+            <summary>
+            Row number (zero based)
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Cell.Address.Column">
+            <summary>
+            Column number (zero based)
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Cell.Address.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Constructor with arguments
+            </summary>
+            <param name="column">Column number (zero based)</param>
+            <param name="row">Row number (zero based)</param>
+        </member>
+        <member name="M:PicoXLSX.Cell.Address.GetAddress">
+            <summary>
+            Returns the combined Address
+            </summary>
+            <returns>Address as string in the format A1 - XFD16384</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.Address.ToString">
+            <summary>
+            Overwritten ToString method
+            </summary>
+            <returns>Returns the cell address(e.g. 'A15')</returns>
+        </member>
+        <member name="T:PicoXLSX.OutOfRangeException">
+            <summary>
+            Class for exceptions regarding out-of-range incidents
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.OutOfRangeException.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.OutOfRangeException.#ctor(System.String)">
+            <summary>
+            Constructor with passed message
+            </summary>
+            <param name="message">Message of the exception</param>
+        </member>
+        <member name="T:PicoXLSX.FormatException">
+            <summary>
+            Class for exceptions regarding format error incidents
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.FormatException.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.FormatException.#ctor(System.String)">
+            <summary>
+            Constructor with passed message
+            </summary>
+            <param name="message">Message of the exception</param>
+        </member>
+        <member name="M:PicoXLSX.FormatException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructor with passed message and inner exception
+            </summary>
+            <param name="message">Message of the exception</param>
+            <param name="inner">Inner exception</param>
+        </member>
+        <member name="T:PicoXLSX.IOException">
+            <summary>
+            Class for exceptions regarding stream or save error incidents
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.IOException.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.IOException.#ctor(System.String)">
+            <summary>
+            Constructor with passed message
+            </summary>
+            <param name="message">Message of the exception</param>
+        </member>
+        <member name="M:PicoXLSX.IOException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructor with passed message and inner exception
+            </summary>
+            <param name="message">Message of the exception</param>
+            <param name="inner">Inner exception</param>
+        </member>
+        <member name="T:PicoXLSX.WorksheetNameAlreadxExistsException">
+            <summary>
+            Class for exceptions regarding an already existing worksheet (same name)
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.WorksheetNameAlreadxExistsException.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.WorksheetNameAlreadxExistsException.#ctor(System.String)">
+            <summary>
+            Constructor with passed message
+            </summary>
+            <param name="message">Message of the exception</param>
+        </member>
+        <member name="T:PicoXLSX.UnknownWorksheetException">
+            <summary>
+            Class for exceptions regarding an unknown worksheet (name not found)
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.UnknownWorksheetException.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.UnknownWorksheetException.#ctor(System.String)">
+            <summary>
+            Constructor with passed message
+            </summary>
+            <param name="message">Message of the exception</param>
+        </member>
+        <member name="T:PicoXLSX.UnsupportedDataTypeException">
+            <summary>
+            Class for exceptions regarding an unsupported data type
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.UnsupportedDataTypeException.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.UnsupportedDataTypeException.#ctor(System.String)">
+            <summary>
+            Constructor with passed message
+            </summary>
+            <param name="message">Message of the exception</param>
+        </member>
+        <member name="T:PicoXLSX.UndefinedStyleException">
+            <summary>
+            Class for exceptions regarding undefined Styles
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.UndefinedStyleException.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.UndefinedStyleException.#ctor(System.String)">
+            <summary>
+            Constructor with passed message
+            </summary>
+            <param name="message">Message of the exception</param>
+        </member>
+        <member name="T:PicoXLSX.LowLevel">
+            <summary>
+            Class for low level handling (XML, formatting, packing)
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.#ctor(PicoXLSX.Workbook)">
+            <summary>
+            Constructor with defined workbook object
+            </summary>
+            <param name="workbook">workbook to process</param>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.Save">
+            <summary>
+            Method to save the workbook
+            </summary>
+            <exception cref="T:PicoXLSX.IOException">Throws IOException in case of an error</exception>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateWorksheetPart(PicoXLSX.Worksheet)">
+            <summary>
+            Method to create a worksheet part as XML document
+            </summary>
+            <param name="worksheet">worksheet object to process</param>
+            <returns>Formated XML document</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateStyleSheetDocument">
+            <summary>
+            Method to create a style sheet as XML document
+            </summary>
+            <returns>Formated XML document</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateAppPropertiesDocument">
+            <summary>
+            Method to create the app-properties (part of meta data) as XML document
+            </summary>
+            <returns>Formated XML document</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateCorePropertiesDocument">
+            <summary>
+            Method to create the core-properties (part of meta data) as XML document
+            </summary>
+            <returns>Formated XML document</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateWorkbookDocument">
+            <summary>
+            Method to create a workbook as XML document
+            </summary>
+            <returns>Formated XML document</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateStyleSheetDocumentFallback">
+            <summary>
+            Method to create a style sheet as XML document (OBSOLETE / fall-back method)
+            </summary>
+            <returns>Formated XML document</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.GetSortedSheetData(PicoXLSX.Worksheet)">
+            <summary>
+            Method to sort the cells of a worksheet as preparation for the XML document
+            </summary>
+            <param name="sheet">Worksheet to process</param>
+            <returns>Two dimensional array of cell objects</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateRowString(System.Collections.Generic.List{PicoXLSX.Cell},PicoXLSX.Worksheet)">
+            <summary>
+            Method to create a row string
+            </summary>
+            <param name="columnFields">List of cells</param>
+            <param name="worksheet">worksheet to process</param>
+            <returns>Formated row string</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateAppString">
+            <summary>
+            Method to create the XML string for the app-properties document
+            </summary>
+            <returns>String with formated XML data</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateCorePropertiesString">
+            <summary>
+            Method to create the XML string for the core-properties document
+            </summary>
+            <returns>String with formated XML data</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateStyleFontString(System.Collections.Generic.List{PicoXLSX.Style.Font})">
+            <summary>
+            Method to create the XML string for the font part of the style sheet document
+            </summary>
+            <param name="fontStyles">List of Style.Font objects</param>
+            <returns>String with formated XML data</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateStyleBorderString(System.Collections.Generic.List{PicoXLSX.Style.Border})">
+            <summary>
+            Method to create the XML string for the border part of the style sheet document
+            </summary>
+            <param name="boderStyles">List of Style.Border objects</param>
+            <returns>String with formated XML data</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateStyleFillString(System.Collections.Generic.List{PicoXLSX.Style.Fill})">
+            <summary>
+            Method to create the XML string for the fill part of the style sheet document
+            </summary>
+            <param name="fillStyles">List of Style.Fill objects</param>
+            <returns>String with formated XML data</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateMruColorsString(System.Collections.Generic.List{PicoXLSX.Style.Font},System.Collections.Generic.List{PicoXLSX.Style.Fill})">
+            <summary>
+            Method to create the XML string for the color-MRU part of the style sheet document (recent colors)
+            </summary>
+            <param name="fills">List of Style.Fill objects</param>
+            <param name="fonts">List of Style.Font objects</param>
+            <returns>String with formated XML data</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateStyleXfsString(System.Collections.Generic.List{PicoXLSX.Style})">
+            <summary>
+            Method to create the XML string for the Xf part of the style sheet document
+            </summary>
+            <param name="styles">List of Style objects</param>
+            <returns>String with formated XML data</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateColsString(PicoXLSX.Worksheet)">
+            <summary>
+            Method to create the columns as XML string. This is used to define the width of columns
+            </summary>
+            <param name="worksheet">Worksheet to process</param>
+            <returns>String with formated XML data</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateStyleNumberFormatString(System.Collections.Generic.List{PicoXLSX.Style.NumberFormat},System.Int32@)">
+            <summary>
+            Method to create the XML string for the number format part of the style sheet document 
+            </summary>
+            <param name="numberFormatStyles">List of Style.NumberFormat objects</param>
+            <param name="counter">Out-parameter for the number of custom number formats</param>
+            <returns>String with formated XML data</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.AppendXMLtag(System.Text.StringBuilder,System.String,System.String,System.String)">
+            <summary>
+            Method to append a simple XML tag with an enclosed value to the passed StringBuilder
+            </summary>
+            <param name="sb">StringBuilder to append</param>
+            <param name="value">Value of the XML element</param>
+            <param name="tagName">Tag name of the XML element</param>
+            <param name="nameSpace">Optional XML name space. Can be empty or null</param>
+            <returns>Returns false if no tag was appended, because the value or tag name was null or empty</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.WriteXMLStream(System.IO.MemoryStream,System.Xml.XmlDocument)">
+            <summary>
+            Method to write an XML document to a MemoryStream
+            </summary>
+            <param name="stream">Stream to write the XML document</param>
+            <param name="document">XML document to process</param>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.EscapeXMLChars(System.String)">
+            <summary>
+            Method to escape XML characters between two XML tags
+            </summary>
+            <param name="input">Input string to process</param>
+            <returns>Escaped string</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.EscapeXMLAttributeChars(System.String)">
+            <summary>
+            Method to escape XML characters in an XML attribute
+            </summary>
+            <param name="input">Input string to process</param>
+            <returns>Escaped string</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CopyStream(System.IO.MemoryStream,System.IO.Stream)">
+            <summary>
+            Method to copy a memory stream into another memory stream
+            </summary>
+            <param name="sourceStream">Source stream</param>
+            <param name="targetStream">Target stream</param>
+            <exception cref="T:PicoXLSX.IOException">Throws a IOException if the memory stream could not be copied</exception>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.GetOADateTimeString(System.DateTime)">
+            <summary>
+            Method to convert a date or date and time into the Excel time format
+            </summary>
+            <param name="date">Date to process</param>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the date could not be converted to the OA format</exception>
+            <returns>Date or date and time as Number</returns>
+        </member>
+        <member name="T:PicoXLSX.LowLevel.DocumentPath">
+            <summary>
+            Class to manage XML document paths
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.DocumentPath.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.DocumentPath.#ctor(System.String,System.String)">
+            <summary>
+            Constructor with defined file name and path
+            </summary>
+            <param name="filename">File name of the document</param>
+            <param name="path">Path of the document</param>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.DocumentPath.GetFullPath">
+            <summary>
+            Method to return the full path of the document
+            </summary>
+            <returns>Full path</returns>
+        </member>
+        <member name="P:PicoXLSX.LowLevel.DocumentPath.Filename">
+            <summary>
+            File name of the document
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.LowLevel.DocumentPath.Path">
+            <summary>
+            Path of the document
+            </summary>
+        </member>
+        <member name="T:PicoXLSX.Metadata">
+            <summary>
+            Class representing the meta data of a workbook
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Metadata.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Metadata.ParseVersion(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Method to parse a common version (major.minor.revision.build) into the compatible format (major.minor). The minimum value is 0.0 and the maximum value is 99999.99999<br></br>
+            The minor, revision and build number are joined if possible. If the number is to long, the additional characters will be removed from the right side down to five characters (e.g. 785563 will be 78556)
+            </summary>
+            <param name="major">Major number from 0 to 99999</param>
+            <param name="minor">Minor number</param>
+            <param name="build">Build number</param>
+            <param name="revision">Revision number</param>
+            <returns>Formated version number (e.g. 1.0 or 55.987)</returns>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the major number is to long or one of the numbers is negative</exception>
+        </member>
+        <member name="M:PicoXLSX.Metadata.CheckVersion">
+            <summary>
+            Checks the format of the passed version string
+            </summary>
+            /// <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the version string is malformed</exception>
+        </member>
+        <member name="P:PicoXLSX.Metadata.UseColorMRU">
+            <summary>
+            If true, custom defined colors (in styles) will be added as recent colors (MRU)
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Metadata.Title">
+            <summary>
+            Title of the workbook
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Metadata.Subject">
+            <summary>
+            Subject of the workbook
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Metadata.Creator">
+            <summary>
+            Creator of the workbook. Add more than one creator by using the semicolon (;) between the authors
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Metadata.Keywords">
+            <summary>
+            Keyword for the workbook. Separate the keywords with semicolons (;)
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Metadata.Application">
+            <summary>
+            Application which created the workbook. Default is PicoXLSX
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Metadata.ApplicationVersion">
+            <summary>
+            Version of the creation application. Default is the library version of PicoXLSX. Use the format xxxxx.yyyyy (e.g. 1.0 or 55.9875) in case of a custom value.
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Metadata.Description">
+            <summary>
+            Description of the document or comment about it
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Metadata.Category">
+            <summary>
+            Category of the document. There are no predefined values or restrictions about the content of this field
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Metadata.ContentStatus">
+            <summary>
+            Status of the document. There are no predefined values or restrictions about the content of this field
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Metadata.Manager">
+            <summary>
+            Responsible manager of the document. This value is for organizational purpose.
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Metadata.Company">
+            <summary>
+            Company owning of the document. This value is for organizational purpose. Add more than one manager by using the semicolon (;) between the words
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Metadata.HyperlinkBase">
+            <summary>
+            Hyper-link base of the document.
+            </summary>
+        </member>
+        <member name="T:PicoXLSX.Style">
+            <summary>
+            Class representing a Style with sub classes within a style sheet. An instance of this class is only a container for the different sub-classes. These sub-classes contains the actual styling information.
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Style.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Style.#ctor(System.String)">
+            <summary>
+            Constructor wit definition of the style name
+            </summary>
+            <param name="name">Name of the style</param>
+        </member>
+        <member name="M:PicoXLSX.Style.Equals(PicoXLSX.Style)">
+            <summary>
+            Method to determine the equality of two objects
+            </summary>
+            <param name="other">Object to compare against this object</param>
+            <returns>True if both objects are equal, otherwise false</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.CompareTo(PicoXLSX.Style)">
+            <summary>
+            method to compare two objects for sorting purpose
+            </summary>
+            <param name="other">Other object to compare with this object</param>
+            <returns>-1 if the other object is bigger. 0 if both objects are equal. 1 if the other object is smaller.</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.Copy">
+            <summary>
+            Method to copy the current object to a new one
+            </summary>
+            <returns>Copy of the current object without the internal ID</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.Copy(PicoXLSX.Style.NumberFormat)">
+            <summary>
+            Method to copy the current object to a new one
+            </summary>
+            <param name="overwriteFormat">NumberFormat object to replace the original object of the current object in the copy</param>
+            <returns>Copy of the current object without the internal ID</returns>
+        </member>
+        <member name="P:PicoXLSX.Style.CurrentFont">
+            <summary>
+            Current Font object of the style
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.CurrentFill">
+            <summary>
+            Current Fill object of the style
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.CurrentBorder">
+            <summary>
+            Current Border object of the style
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.CurrentNumberFormat">
+            <summary>
+            Current NumberFormat object of the style
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.CurrentCellXf">
+            <summary>
+            Current CellXf object of the style
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.InternalID">
+            <summary>
+            Internal ID for sorting purpose
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Name">
+            <summary>
+            Name of the style. If not defined, a random name will be generated when the style is created
+            </summary>
+        </member>
+        <member name="T:PicoXLSX.Style.CellXf">
+            <summary>
+            Class representing an XF entry. The XF entry is used to make reference to other style instances like Border oder Fill and for the positioning of the cell content
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Style.CellXf.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Style.CellXf.CalculateInternalRotation">
+            <summary>
+            Method to calculate the internal text rotation. The text direction and rotation are handled internally by the text rotation value
+            </summary>
+            <returns>Returns the valid rotation in degrees for internal uses (LowLevel)</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.CellXf.Equals(PicoXLSX.Style.CellXf)">
+            <summary>
+            Method to determine the equality of two objects
+            </summary>
+            <param name="other">Object to compare against this object</param>
+            <returns>True if both objects are equal, otherwise false</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.CellXf.CompareTo(PicoXLSX.Style.CellXf)">
+            <summary>
+            method to compare two objects for sorting purpose
+            </summary>
+            <param name="other">Other object to compare with this object</param>
+            <returns>-1 if the other object is bigger. 0 if both objects are equal. 1 if the other object is smaller.</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.CellXf.Copy">
+            <summary>
+            Method to copy the current object to a new one
+            </summary>
+            <returns>Copy of the current object without the internal ID</returns>
+        </member>
+        <member name="P:PicoXLSX.Style.CellXf.HorizontalAlign">
+            <summary>
+            Horizontal alignment of the style
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.CellXf.VerticalAlign">
+            <summary>
+            Vertical alignment of the style
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.CellXf.Alignment">
+            <summary>
+            Text break options of the style
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.CellXf.InternalID">
+            <summary>
+            Internal ID for sorting purpose
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.CellXf.TextRotation">
+            <summary>
+            Text rotation in degrees (from +90 to -90)
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.CellXf.TextDirection">
+            <summary>
+            Direction of the text within the cell
+            </summary>
+        </member>
+        <member name="T:PicoXLSX.Style.CellXf.HorizontalAlignValue">
+            <summary>
+            Enum for the horizontal alignment of a cell 
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.HorizontalAlignValue.left">
+            <summary>Content will be aligned left</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.HorizontalAlignValue.center">
+            <summary>Content will be aligned in the center</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.HorizontalAlignValue.right">
+            <summary>Content will be aligned right</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.HorizontalAlignValue.fill">
+            <summary>Content will fill up the cell</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.HorizontalAlignValue.justify">
+            <summary>justify alignment</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.HorizontalAlignValue.general">
+            <summary>General alignment</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.HorizontalAlignValue.centerContinuous">
+            <summary>Center continuous alignment</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.HorizontalAlignValue.distributed">
+            <summary>Distributed alignment</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.HorizontalAlignValue.none">
+            <summary>No alignment. The alignment will not be used in a style</summary>
+        </member>
+        <member name="T:PicoXLSX.Style.CellXf.VerticallAlignValue">
+            <summary>
+            Enum for the vertical alignment of a cell 
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.VerticallAlignValue.bottom">
+            <summary>Content will be aligned on the bottom (default)</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.VerticallAlignValue.top">
+            <summary>Content will be aligned on the top</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.VerticallAlignValue.center">
+            <summary>Content will be aligned in the center</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.VerticallAlignValue.justify">
+            <summary>justify alignment</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.VerticallAlignValue.distributed">
+            <summary>Distributed alignment</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.VerticallAlignValue.none">
+            <summary>No alignment. The alignment will not be used in a style</summary>
+        </member>
+        <member name="T:PicoXLSX.Style.CellXf.TextBreakValue">
+            <summary>
+            Enum for text break options
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.TextBreakValue.wrapText">
+            <summary>Word wrap is active</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.TextBreakValue.shrinkToFit">
+            <summary>Text will be shrinked to fit the cell</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.TextBreakValue.none">
+            <summary>Text will overflow in cell</summary>
+        </member>
+        <member name="T:PicoXLSX.Style.CellXf.TextDirectionValue">
+            <summary>
+            Enum for the general text alignment direction
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.TextDirectionValue.horizontal">
+            <summary>Text direction is horizontal (default)</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.CellXf.TextDirectionValue.vertical">
+            <summary>Text direction is vertical</summary>
+        </member>
+        <member name="T:PicoXLSX.Style.Font">
+            <summary>
+            Class representing a Font entry. The Font entry is used to define text formatting
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Font.DEFAULTFONT">
+            <summary>
+            Default font family as constant
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Style.Font.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Style.Font.Equals(PicoXLSX.Style.Font)">
+            <summary>
+            Method to determine the equality of two objects
+            </summary>
+            <param name="other">Object to compare against this object</param>
+            <returns>True if both objects are equal, otherwise false</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.Font.CompareTo(PicoXLSX.Style.Font)">
+            <summary>
+            method to compare two objects for sorting purpose
+            </summary>
+            <param name="other">Other object to compare with this object</param>
+            <returns>-1 if the other object is bigger. 0 if both objects are equal. 1 if the other object is smaller.</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.Font.Copy">
+            <summary>
+            Method to copy the current object to a new one
+            </summary>
+            <returns>Copy of the current object without the internal ID</returns>
+        </member>
+        <member name="P:PicoXLSX.Style.Font.Size">
+            <summary>
+            Font size. Valid range is from 8 to 75
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Font.Name">
+            <summary>
+            Font name (Default is Calibri)
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Font.Family">
+            <summary>
+             Font family (Default is 2)
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Font.ColorTheme">
+            <summary>
+            Font color theme (Default is 1)
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Font.ColorValue">
+            <summary>
+            Font color (default is empty)
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Font.Scheme">
+            <summary>
+            Font scheme (Default is minor)
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Font.VerticalAlign">
+            <summary>
+            Alignment of the font (Default is none)
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Font.Bold">
+            <summary>
+            If true, the font is bold
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Font.Italic">
+            <summary>
+            If true, the font is italic
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Font.Underline">
+            <summary>
+            If true, the font as one underline
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Font.DoubleUnderline">
+            <summary>
+            If true, the font ha a double underline
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Font.Strike">
+            <summary>
+            If true, the font is stroked through
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Font.Charset">
+            <summary>
+            Charset of the Font (Default is empty)
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Font.InternalID">
+            <summary>
+            Internal ID for sorting purpose
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Font.IsDefaultFont">
+            <summary>
+            In true the font is equals the default font
+            </summary>
+        </member>
+        <member name="T:PicoXLSX.Style.Font.VerticalAlignValue">
+            <summary>
+            Enum for the vertical alignment of the text from base line
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Font.VerticalAlignValue.subscript">
+            <summary>Text will be rendered as subscript</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Font.VerticalAlignValue.superscript">
+            <summary>Text will be rendered as superscript</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Font.VerticalAlignValue.none">
+            <summary>Text will be rendered normal</summary>
+        </member>
+        <member name="T:PicoXLSX.Style.Font.SchemeValue">
+            <summary>
+            Enum for the font scheme
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Font.SchemeValue.major">
+            <summary>Font scheme is major</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Font.SchemeValue.minor">
+            <summary>Font scheme is minor (default)</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Font.SchemeValue.none">
+            <summary>No Font scheme is used</summary>
+        </member>
+        <member name="T:PicoXLSX.Style.Fill">
+            <summary>
+            Class representing a Fill (background) entry. The Fill entry is used to define background colors and fill patterns
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Fill.DEFAULTCOLOR">
+            <summary>
+            Default Color (foreground or background) as constant
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Style.Fill.GetPatternName(PicoXLSX.Style.Fill.PatternValue)">
+            <summary>
+            Gets the pattern name from the enum
+            </summary>
+            <param name="pattern">enum to process</param>
+            <returns>The valid value of the pattern as String</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.Fill.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Style.Fill.#ctor(System.String,System.String)">
+            <summary>
+            Constructor with foreground and background color
+            </summary>
+            <param name="forground">Foreground color of the fill</param>
+            <param name="background">Background color of the fill</param>
+        </member>
+        <member name="M:PicoXLSX.Style.Fill.#ctor(System.String,PicoXLSX.Style.Fill.FillType)">
+            <summary>
+            Constructor with color value and fill type
+            </summary>
+            <param name="value">color value</param>
+            <param name="filltype">fill type (fill or pattern)</param>
+        </member>
+        <member name="M:PicoXLSX.Style.Fill.SetColor(System.String,PicoXLSX.Style.Fill.FillType)">
+            <summary>
+            Seth the color an the depending fill type
+            </summary>
+            <param name="value">color value</param>
+            <param name="filltype">fill type (fill or pattern)</param>
+        </member>
+        <member name="M:PicoXLSX.Style.Fill.Equals(PicoXLSX.Style.Fill)">
+            <summary>
+            Method to determine the equality of two objects
+            </summary>
+            <param name="other">Object to compare against this object</param>
+            <returns>True if both objects are equal, otherwise false</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.Fill.CompareTo(PicoXLSX.Style.Fill)">
+            <summary>
+            method to compare two objects for sorting purpose
+            </summary>
+            <param name="other">Other object to compare with this object</param>
+            <returns>-1 if the other object is bigger. 0 if both objects are equal. 1 if the other object is smaller.</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.Fill.Copy">
+            <summary>
+            Method to copy the current object to a new one
+            </summary>
+            <returns>Copy of the current object without the internal ID</returns>
+        </member>
+        <member name="P:PicoXLSX.Style.Fill.IndexedColor">
+            <summary>
+            Indexed color (Default is 64)
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Fill.PatternFill">
+            <summary>
+            Pattern type of the fill (Default is none)
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Fill.ForegroundColor">
+            <summary>
+            Foreground color of the fill
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Fill.BackgroundColor">
+            <summary>
+            Background color of the fill
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Fill.InternalID">
+            <summary>
+            Internal ID for sorting purpose
+            </summary>
+        </member>
+        <member name="T:PicoXLSX.Style.Fill.PatternValue">
+            <summary>
+            Enum for the pattern values
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Fill.PatternValue.none">
+            <summary>No pattern (default)</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Fill.PatternValue.solid">
+            <summary>Solid fill (for colors)</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Fill.PatternValue.darkGray">
+            <summary>Dark gray fill</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Fill.PatternValue.mediumGray">
+            <summary>Medium gray fill</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Fill.PatternValue.lightGray">
+            <summary>Light gray fill</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Fill.PatternValue.gray0625">
+            <summary>6.25% gray fill</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Fill.PatternValue.gray125">
+            <summary>12.5% gray fill</summary>
+        </member>
+        <member name="T:PicoXLSX.Style.Fill.FillType">
+            <summary>
+            Enum for the type of the color
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Fill.FillType.patternColor">
+            <summary>Color defines a pattern color </summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Fill.FillType.fillColor">
+            <summary>Color defines a solid fill color </summary>
+        </member>
+        <member name="T:PicoXLSX.Style.Border">
+            <summary>
+            Class representing a Border entry. The Border entry is used to define frames and cell borders
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Style.Border.GetStyleName(PicoXLSX.Style.Border.StyleValue)">
+            <summary>
+            Gets the border style name from the enum
+            </summary>
+            <param name="style">enum to process</param>
+            <returns>The valid value of the border style as String</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.Border.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Style.Border.Equals(PicoXLSX.Style.Border)">
+            <summary>
+            method to compare two objects for sorting purpose
+            </summary>
+            <param name="other">Other object to compare with this object</param>
+            <returns>True if both objects are equal, otherwise false</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.Border.IsEmpty">
+            <summary>
+            Method to determine whether the object has no values but the default values (means: is empty and must not be processed)
+            </summary>
+            <returns>True if empty, otherwise false</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.Border.CompareTo(PicoXLSX.Style.Border)">
+            <summary>
+            method to compare two objects for sorting purpose
+            </summary>
+            <param name="other">Other object to compare with this object</param>
+            <returns>-1 if the other object is bigger. 0 if both objects are equal. 1 if the other object is smaller.</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.Border.Copy">
+            <summary>
+            Method to copy the current object to a new one
+            </summary>
+            <returns>Copy of the current object without the internal ID</returns>
+        </member>
+        <member name="P:PicoXLSX.Style.Border.LeftStyle">
+            <summary>
+            Style of left cell border
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Border.RightStyle">
+            <summary>
+            Style of right cell border
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Border.TopStyle">
+            <summary>
+            Style of top cell border
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Border.BottomStyle">
+            <summary>
+            Style of bottom cell border
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Border.DiagonalStyle">
+            <summary>
+            Style of the diagonal lines
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Border.DiagonalDown">
+            <summary>
+            If true, the downwards diagonal line is used
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Border.DiagonalUp">
+            <summary>
+            If true, the upwards diagonal line is used
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Border.LeftColor">
+            <summary>
+            Color code (ARGB) of the left border
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Border.RightColor">
+            <summary>
+            Color code (ARGB) of the right border
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Border.TopColor">
+            <summary>
+            Color code (ARGB) of the top border
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Border.BottomColor">
+            <summary>
+            Color code (ARGB) of the bottom border
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Border.DiagonalColor">
+            <summary>
+            Color code (ARGB) of the diagonal lines
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.Border.InternalID">
+            <summary>
+            Internal ID for sorting purpose
+            </summary>
+        </member>
+        <member name="T:PicoXLSX.Style.Border.StyleValue">
+            <summary>
+            enum for the border style
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Border.StyleValue.none">
+            <summary>no border</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Border.StyleValue.hair">
+            <summary>hair border</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Border.StyleValue.dotted">
+            <summary>dotted border</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Border.StyleValue.dashDotDot">
+            <summary>dashed border with double-dots</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Border.StyleValue.dashDot">
+            <summary>dash-dotted border</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Border.StyleValue.dashed">
+            <summary>dashed border</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Border.StyleValue.thin">
+            <summary>thin border</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Border.StyleValue.mediumDashDotDot">
+            <summary>medium-dashed border with double-dots</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Border.StyleValue.slantDashDot">
+            <summary>slant dash-dotted border</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Border.StyleValue.mediumDashDot">
+            <summary>medium dash-dotted border</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Border.StyleValue.mediumDashed">
+            <summary>medium dashed border</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Border.StyleValue.medium">
+            <summary>medium border</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Border.StyleValue.thick">
+            <summary>thick border</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.Border.StyleValue.s_double">
+            <summary>double border</summary>
+        </member>
+        <member name="T:PicoXLSX.Style.NumberFormat">
+            <summary>
+            Class representing a NumberFormat entry. The NumberFormat entry is used to define cell formats like currency or date
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.CUSTOMFORMAT_START_NUMBER">
+            <summary>
+            Start ID for custom number formats as constant
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Style.NumberFormat.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Style.NumberFormat.Equals(PicoXLSX.Style.NumberFormat)">
+            <summary>
+            Method to determine the equality of two objects
+            </summary>
+            <param name="other">Object to compare against this object</param>
+            <returns>True if both objects are equal, otherwise false</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.NumberFormat.CompareTo(PicoXLSX.Style.NumberFormat)">
+            <summary>
+            method to compare two objects for sorting purpose
+            </summary>
+            <param name="other">Other object to compare with this object</param>
+            <returns>-1 if the other object is bigger. 0 if both objects are equal. 1 if the other object is smaller.</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.NumberFormat.Copy">
+            <summary>
+            Method to copy the current object to a new one
+            </summary>
+            <returns>Copy of the current object without the internal ID</returns>
+        </member>
+        <member name="P:PicoXLSX.Style.NumberFormat.Number">
+            <summary>
+            Format number. Set it to custom (164) in case of custom number formats
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.NumberFormat.CustomFormatID">
+            <summary>
+            Format number of the custom format. Must be higher or equal then predefined custom number (164) 
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.NumberFormat.CustomFormatCode">
+            <summary>
+            Custom format code in the notation of Excel
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.NumberFormat.IsCustomFormat">
+            <summary>
+            Returns true in case of a custom format (higher or equals 164)
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.NumberFormat.InternalID">
+            <summary>
+            Internal ID for sorting purpose
+            </summary>
+        </member>
+        <member name="T:PicoXLSX.Style.NumberFormat.FormatNumber">
+            <summary>
+            Enum for predefined number formats
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.none">
+            <summary>No format / Default</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_1">
+            <summary>Format: 0</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_2">
+            <summary>Format: 0.00</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_3">
+            <summary>Format: #,##0</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_4">
+            <summary>Format: #,##0.00</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_5">
+            <summary>Format: $#,##0_);($#,##0)</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_6">
+            <summary>Format: $#,##0_);[Red]($#,##0)</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_7">
+            <summary>Format: $#,##0.00_);($#,##0.00)</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_8">
+            <summary>Format: $#,##0.00_);[Red]($#,##0.00)</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_9">
+            <summary>Format: 0%</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_10">
+            <summary>Format: 0.00%</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_11">
+            <summary>Format: 0.00E+00</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_12">
+            <summary>Format: # ?/?</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_13">
+            <summary>Format: # ??/??</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_14">
+            <summary>Format: m/d/yyyy</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_15">
+            <summary>Format: d-mmm-yy</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_16">
+            <summary>Format: d-mmm</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_17">
+            <summary>Format: mmm-yy</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_18">
+            <summary>Format: mm AM/PM</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_19">
+            <summary>Format: h:mm:ss AM/PM</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_20">
+            <summary>Format: h:mm</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_21">
+            <summary>Format: h:mm:ss</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_22">
+            <summary>Format: m/d/yyyy h:mm</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_37">
+            <summary>Format: #,##0_);(#,##0)</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_38">
+            <summary>Format: #,##0_);[Red](#,##0)</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_39">
+            <summary>Format: #,##0.00_);(#,##0.00)</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_40">
+            <summary>Format: #,##0.00_);[Red](#,##0.00)</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_45">
+            <summary>Format: mm:ss</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_46">
+            <summary>Format: [h]:mm:ss</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_47">
+            <summary>Format: mm:ss.0</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_48">
+            <summary>Format: ##0.0E+0</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.format_49">
+            <summary>Format: #</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.NumberFormat.FormatNumber.custom">
+            <summary>Custom Format (ID 164 and higher)</summary>
+        </member>
+        <member name="T:PicoXLSX.Style.BasicStyles">
+            <summary>
+            Factory class with the most important predefined styles
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Style.BasicStyles.GetStyle(PicoXLSX.Style.BasicStyles.StyleEnum)">
+            <summary>
+            Method to maintain the styles and create singleton instances
+            </summary>
+            <param name="value">Enum value to maintain</param>
+            <returns>The style according to the passed enum value</returns>
+        </member>
+        <member name="P:PicoXLSX.Style.BasicStyles.Bold">
+            <summary>Gets the bold style</summary>
+        </member>
+        <member name="P:PicoXLSX.Style.BasicStyles.Italic">
+            <summary>Gets the italic style</summary>
+        </member>
+        <member name="P:PicoXLSX.Style.BasicStyles.BoldItalic">
+            <summary>Gets the bold and italic style</summary>
+        </member>
+        <member name="P:PicoXLSX.Style.BasicStyles.Underline">
+            <summary>Gets the underline style</summary>
+        </member>
+        <member name="P:PicoXLSX.Style.BasicStyles.DoubleUnderline">
+            <summary>Gets the double underline style</summary>
+        </member>
+        <member name="P:PicoXLSX.Style.BasicStyles.Strike">
+            <summary>Gets the strike style</summary>
+        </member>
+        <member name="P:PicoXLSX.Style.BasicStyles.DateFormat">
+            <summary>Gets the date format style</summary>
+        </member>
+        <member name="P:PicoXLSX.Style.BasicStyles.RoundFormat">
+            <summary>Gets the round format style</summary>
+        </member>
+        <member name="P:PicoXLSX.Style.BasicStyles.BorderFrame">
+            <summary>Gets the border frame style</summary>
+        </member>
+        <member name="P:PicoXLSX.Style.BasicStyles.BorderFrameHeader">
+            <summary>Gets the border style for header cells</summary>
+        </member>
+        <member name="P:PicoXLSX.Style.BasicStyles.DottedFill_0_125">
+            <summary>Gets the special pattern fill style (for compatibility)</summary>
+        </member>
+        <member name="T:PicoXLSX.Style.BasicStyles.StyleEnum">
+            <summary>
+            Enum with style selection
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.bold">
+            <summary>Format text bold</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.italic">
+            <summary>Format text italic</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.boldItalic">
+            <summary>Format text bold and italic</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.underline">
+            <summary>Format text with an underline</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.doubleUnderlien">
+            <summary>Format text with a double underline</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.strike">
+            <summary>Format text with a strike-through</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.dateFormat">
+            <summary>Format number as date</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.roundFormat">
+            <summary>Rounds number as an integer</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.borderFrame">
+            <summary>Format cell with a thin border</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.borderFrameHeader">
+            <summary>Format cell with a thin border and a thick bottom line as header cell</summary>
+        </member>
+        <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.dottedFill_0_125">
+            <summary>Special pattern fill style for compatibility purpose </summary>
+        </member>
+        <member name="T:PicoXLSX.NamespaceDoc">
+            <summary>
+            PicoXLSX is a library to generate XLSX files in a easy and native way
+            </summary>
+        </member>
+        <member name="T:PicoXLSX.Workbook">
+            <summary>
+            Class representing a workbook
+            </summary>
+            
+        </member>
+        <member name="M:PicoXLSX.Workbook.#ctor(System.Boolean)">
+            <summary>
+            Default Constructor with additional parameter to create a default worksheet
+            </summary>
+            <param name="createWorkSheet">If true, a default worksheet will be crated and set as default worksheet</param>
+        </member>
+        <member name="M:PicoXLSX.Workbook.#ctor(System.String,System.String)">
+            <summary>
+            Constructor with filename ant the name of the first worksheet
+            </summary>
+            <param name="filename">Filename of the workbook</param>
+            <param name="sheetName">Name of the first worksheet</param>
+        </member>
+        <member name="M:PicoXLSX.Workbook.AddWorksheet(System.String)">
+            <summary>
+            Adding a new Worksheet
+            </summary>
+            <param name="name">Name of the new worksheet</param>
+            <exception cref="T:PicoXLSX.WorksheetNameAlreadxExistsException">Throws a WorksheetNameAlreadxExistsException if the name of the worksheet already exists</exception>
+        </member>
+        <member name="M:PicoXLSX.Workbook.SetCurrentWorksheet(System.String)">
+            <summary>
+            Sets the current worksheet
+            </summary>
+            <param name="name">Name of the worksheet</param>
+            <returns>Returns the current worksheet</returns>
+            <exception cref="T:PicoXLSX.UnknownWorksheetException">Throws a UnknownWorksheetException if the name of the worksheet is unknown</exception>
+        </member>
+        <member name="M:PicoXLSX.Workbook.RemoveWorksheet(System.String)">
+            <summary>
+            Removes the defined worksheet
+            </summary>
+            <param name="name">Name of the worksheet</param>
+            <exception cref="T:PicoXLSX.UnknownWorksheetException">Throws a UnknownWorksheetException if the name of the worksheet is unknown</exception>
+        </member>
+        <member name="M:PicoXLSX.Workbook.AddStyle(PicoXLSX.Style,System.Boolean)">
+            <summary>
+            Adds a style to the style sheet of the workbook
+            </summary>
+            <param name="style">Style to add</param>
+            <param name="distinct">If true, the passed style will be replaced by an identical style if existing. Otherwise an exception will be thrown in case of a duplicate</param>
+            <returns>Returns the added styles. In case of an existing style, the distinct style will be returned</returns>
+        </member>
+        <member name="M:PicoXLSX.Workbook.RemoveStyle(PicoXLSX.Style)">
+            <summary>
+            Removes the passed style from the style sheet
+            </summary>
+            <param name="style">Style to remove</param>
+        </member>
+        <member name="M:PicoXLSX.Workbook.RemoveStyle(System.String)">
+            <summary>
+            Removes the defined style from the style sheet of the workbook
+            </summary>
+            <param name="styleName">Name of the style to be removed</param>
+        </member>
+        <member name="M:PicoXLSX.Workbook.RemoveStyle(PicoXLSX.Style,System.Boolean)">
+            <summary>
+            Removes the defined style from the style sheet of the workbook
+            </summary>
+            <param name="style">Style to remove</param>
+            <param name="onlyIfUnused">If true, the style will only be removed if not used in any cell</param>
+        </member>
+        <member name="M:PicoXLSX.Workbook.RemoveStyle(System.String,System.Boolean)">
+            <summary>
+            Removes the defined style from the style sheet of the workbook
+            </summary>
+            <param name="styleName">Name of the style to be removed</param>
+            <param name="onlyIfUnused">If true, the style will only be removed if not used in any cell</param>
+        </member>
+        <member name="M:PicoXLSX.Workbook.ReorganizeStyles(System.Collections.Generic.List{PicoXLSX.Style.Border}@,System.Collections.Generic.List{PicoXLSX.Style.Fill}@,System.Collections.Generic.List{PicoXLSX.Style.Font}@,System.Collections.Generic.List{PicoXLSX.Style.NumberFormat}@,System.Collections.Generic.List{PicoXLSX.Style.CellXf}@)">
+            <summary>
+            Method to prepare the styles before saving the workbook. Don't use the method otherwise,because styles will be reordered and probably removed from the style sheet
+            </summary>
+            <param name="borders">Out parameter for a sorted list of Style.Border objects</param>
+            <param name="fills">Out parameter for a sorted list of Style.Fill objects</param>
+            <param name="fonts">Out parameter for a sorted list of Style.Font objects</param>
+            <param name="numberFormats">Out parameter for a sorted list of Style.NumberFormat objects</param>
+            <param name="cellXfs">Out parameter for a sorted list of Style.CellXf objects</param>
+        </member>
+        <member name="M:PicoXLSX.Workbook.Save">
+            <summary>
+            Saves the workbook
+            </summary>
+            <exception cref="T:PicoXLSX.IOException">Throws IOException in case of an error</exception>
+        </member>
+        <member name="M:PicoXLSX.Workbook.SaveAs(System.String)">
+            <summary>
+            Saves the workbook with the defined name
+            </summary>
+            <param name="filename">filename of the saved workbook</param>
+            <exception cref="T:PicoXLSX.IOException">Throws IOException in case of an error</exception>
+        </member>
+        <member name="P:PicoXLSX.Workbook.CurrentWorksheet">
+            <summary>
+            Gets the current worksheet
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Workbook.Worksheets">
+            <summary>
+            Gets the list of worksheets in the workbook
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Workbook.Filename">
+            <summary>
+            Gets or sets the filename of the workbook
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Workbook.Styles">
+            <summary>
+            List of Styles of the workbook
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Workbook.WorkbookMetadata">
+            <summary>
+            Meta data object of the workbook
+            </summary>
+        </member>
+        <member name="T:PicoXLSX.Worksheet">
+            <summary>
+            Class representing the style sheet of a workbook
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.DEFAULT_COLUMN_WIDTH">
+            <summary>
+            Default column width as constant
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.DEFAULT_ROW_HEIGHT">
+            <summary>
+            Default row height as constant
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.#ctor(System.String,System.Int32)">
+            <summary>
+            Constructor with name and sheet ID
+            </summary>
+            <param name="name">Name of the worksheet</param>
+            <param name="id">ID of the worksheet (for internal use)</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddNextCell(System.Object)">
+            <summary>
+            Adds a object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String
+            </summary>
+            <param name="value">Unspecified value to insert</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddNextCell(System.String)">
+            <summary>
+            Adds a string value to the next cell position
+            </summary>
+            <param name="value">String value to insert</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddNextCell(System.Int32)">
+            <summary>
+            Adds a integer value to the next cell position
+            </summary>
+            <param name="value">Integer value to insert</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddNextCell(System.Double)">
+            <summary>
+            Adds a double value to the next cell position
+            </summary>
+            <param name="value">Double value to insert</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddNextCell(System.Single)">
+            <summary>
+            Adds a float value to the next cell position
+            </summary>
+            <param name="value">Float value to insert</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddNextCell(System.DateTime)">
+            <summary>
+            Adds a DateTime value to the next cell position
+            </summary>
+            <param name="value">DateTime value to insert</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddNextCell(System.Boolean)">
+            <summary>
+            Adds a boolean value to the next cell position
+            </summary>
+            <param name="value">Boolean value to insert</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddNextCellFormula(System.String)">
+            <summary>
+            Adds a formula as string to the next cell position
+            </summary>
+            <param name="formula">Formula to insert</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddNextCell(PicoXLSX.Cell,System.Boolean)">
+            <summary>
+            Method to insert a generic cell to the next cell position
+            </summary>
+            <param name="cell">Cell object to insert</param>
+            <param name="increment">If true, the address value (row or column) will be incremented, otherwise not</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCell(System.Object,System.Int32,System.Int32)">
+            <summary>
+            Adds a object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
+            </summary>
+            <param name="value">Unspecified value to insert</param>
+            <param name="columnAddress">Column number (zero based)</param>
+            <param name="rowAddress">Row number (zero based)</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCell(System.Object,System.String)">
+            <summary>
+            Adds a object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
+            </summary>
+            <param name="value">Unspecified value to insert</param>
+            <param name="address">Cell address in the format A1 - XFD16384</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCell(System.String,System.Int32,System.Int32)">
+            <summary>
+            Adds a string value to the defined cell address
+            </summary>
+            <param name="value">String value to insert</param>
+            <param name="columnAddress">Column number (zero based)</param>
+            <param name="rowAddress">Row number (zero based)</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCell(System.String,System.String)">
+            <summary>
+            Adds a string value to the defined cell address
+            </summary>
+            <param name="value">String value to insert</param>
+            <param name="address">Cell address in the format A1 - XFD16384</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCell(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Adds a integer value to the defined cell address
+            </summary>
+            <param name="value">Integer value to insert</param>
+            <param name="columnAddress">Column number (zero based)</param>
+            <param name="rowAddress">Row number (zero based)</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCell(System.Int32,System.String)">
+            <summary>
+            Adds a integer value to the defined cell address
+            </summary>
+            <param name="value">Integer value to insert</param>
+            <param name="address">Cell address in the format A1 - XFD16384</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCell(System.Double,System.Int32,System.Int32)">
+            <summary>
+            Adds a double value to the defined cell address
+            </summary>
+            <param name="value">Double value to insert</param>
+            <param name="columnAddress">Column number (zero based)</param>
+            <param name="rowAddress">Row number (zero based)</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCell(System.Double,System.String)">
+            <summary>
+            Adds a double value to the defined cell address
+            </summary>
+            <param name="value">Double value to insert</param>
+            <param name="address">Cell address in the format A1 - XFD16384</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCell(System.Single,System.Int32,System.Int32)">
+            <summary>
+            Adds a float value to the defined cell address
+            </summary>
+            <param name="value">Float value to insert</param>
+            <param name="columnAddress">Column number (zero based)</param>
+            <param name="rowAddress">Row number (zero based)</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCell(System.Single,System.String)">
+            <summary>
+            Adds a float value to the defined cell address
+            </summary>
+            <param name="value">Float value to insert</param>
+            <param name="address">Cell address in the format A1 - XFD16384</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCell(System.DateTime,System.Int32,System.Int32)">
+            <summary>
+            Adds a DateTime value to the defined cell address
+            </summary>
+            <param name="value">DateTime value to insert</param>
+            <param name="columnAddress">Column number (zero based)</param>
+            <param name="rowAddress">Row number (zero based)</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCell(System.DateTime,System.String)">
+            <summary>
+            Adds a DateTime value to the defined cell address
+            </summary>
+            <param name="value">DateTime value to insert</param>
+            <param name="address">Cell address in the format A1 - XFD16384</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCell(System.Boolean,System.Int32,System.Int32)">
+            <summary>
+            Adds a boolean value to the defined cell address
+            </summary>
+            <param name="value">Boolean value to insert</param>
+            <param name="columnAddress">Column number (zero based)</param>
+            <param name="rowAddress">Row number (zero based)</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCell(System.Boolean,System.String)">
+            <summary>
+            Adds a boolean value to the defined cell address
+            </summary>
+            <param name="value">Boolean value to insert</param>
+            <param name="address">Cell address in the format A1 - XFD16384</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellFormula(System.String,System.String)">
+            <summary>
+            Adds a cell formula as string to the defined cell address
+            </summary>
+            <param name="formula">Formula to insert</param>
+            <param name="address">Cell address in the format A1 - XFD16384</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellFormula(System.String,System.Int32,System.Int32)">
+            <summary>
+            Adds a cell formula as string to the defined cell address
+            </summary>
+            <param name="formula">Formula to insert</param>
+            <param name="columnAddress">Column number (zero based)</param>
+            <param name="rowAddress">Row number (zero based)</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Object},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
+            <summary>
+            Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
+            </summary>
+            <param name="values">List of unspecified objects to insert</param>
+            <param name="startAddress">Start address</param>
+            <param name="endAddress">End address</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Object},System.String)">
+            <summary>
+            Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
+            </summary>
+            <param name="values">List of unspecified objects to insert</param>
+            <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.String},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
+            <summary>
+            Adds a list of string values to a defined cell range
+            </summary>
+            <param name="values">List of string values to insert from the start address to the end address</param>
+            <param name="startAddress">Start address</param>
+            <param name="endAddress">End address</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.String},System.String)">
+            <summary>
+            Adds a list of string values to a defined cell range
+            </summary>
+            <param name="values">List of string values to insert from the start address to the end address</param>
+            <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Int32},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
+            <summary>
+            Adds a list of integer values to a defined cell range
+            </summary>
+            <param name="values">List of integer values to insert from the start address to the end address</param>
+            <param name="startAddress">Start address</param>
+            <param name="endAddress">End address</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Int32},System.String)">
+            <summary>
+            Adds a list of integer values to a defined cell range
+            </summary>
+            <param name="values">List of integer values to insert from the start address to the end address</param>
+            <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Double},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
+            <summary>
+            Adds a list of double values to a defined cell range
+            </summary>
+            <param name="values">List of double values to insert from the start address to the end address</param>
+            <param name="startAddress">Start address</param>
+            <param name="endAddress">End address</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Double},System.String)">
+            <summary>
+            Adds a list of double values to a defined cell range
+            </summary>
+            <param name="values">List of double values to insert from the start address to the end address</param>
+            <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Single},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
+            <summary>
+            Adds a list of float values to a defined cell range
+            </summary>
+            <param name="values">List of float values to insert from the start address to the end address</param>
+            <param name="startAddress">Start address</param>
+            <param name="endAddress">End address</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Single},System.String)">
+            <summary>
+            Adds a list of float values to a defined cell range
+            </summary>
+            <param name="values">List of float values to insert from the start address to the end address</param>
+            <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.DateTime},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
+            <summary>
+            Adds a list of DateTime values to a defined cell range
+            </summary>
+            <param name="values">List of DateTime values to insert from the start address to the end address</param>
+            <param name="startAddress">Start address</param>
+            <param name="endAddress">End address</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.DateTime},System.String)">
+            <summary>
+            Adds a list of DateTime values to a defined cell range
+            </summary>
+            <param name="values">List of DateTime values to insert from the start address to the end address</param>
+            <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Boolean},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
+            <summary>
+            Adds a list of boolean values to a defined cell range
+            </summary>
+            <param name="values">List of boolean values to insert from the start address to the end address</param>
+            <param name="startAddress">Start address</param>
+            <param name="endAddress">End address</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Boolean},System.String)">
+            <summary>
+            Adds a list of boolean values to a defined cell range
+            </summary>
+            <param name="values">List of boolean values to insert from the start address to the end address</param>
+            <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddCellRangeInternal``1(System.Collections.Generic.List{``0},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
+            <summary>
+            Internal function to add a generic list of value to the defined cell range
+            </summary>
+            <typeparam name="T">Data type of the generic value list</typeparam>
+            <param name="values">List of values</param>
+            <param name="startAddress">Start address</param>
+            <param name="endAddress">End address</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws a OutOfRangeException if the number of cells differs from the number of passed values</exception>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.RemoveCell(System.Int32,System.Int32)">
+            <summary>
+            Removes a previous inserted cell at the defined address
+            </summary>
+            <param name="columnAddress">Column number (zero based)</param>
+            <param name="rowAddress">Row number (zero based)</param>
+            <returns>Returns true if the cell could be removed (existed), otherwise false (did not exist)</returns>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.RemoveCell(System.String)">
+            <summary>
+            Removes a previous inserted cell at the defined address
+            </summary>
+            <param name="address">Cell address in the format A1 - XFD16384</param>
+            <returns>Returns true if the cell could be removed (existed), otherwise false (did not exist)</returns>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.GoToNextColumn">
+            <summary>
+            Moves the current position to the next column
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.GoToNextRow">
+            <summary>
+            Moves the current position to the next row (use for a new line)
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.SetCurrentRowAddress(System.Int32)">
+            <summary>
+            Sets the current row address (row number, zero based)
+            </summary>
+            <param name="rowAddress">Row number (zero based)</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws a OutOfRangeException if the address is out of the valid range. Range is from 0 to 1048575 (1048576 rows)</exception>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.SetCurrentColumnAddress(System.Int32)">
+            <summary>
+            Sets the current column address (column number, zero based)
+            </summary>
+            <param name="columnAddress">Column number (zero based)</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws a OutOfRangeException if the address is out of the valid range. Range is from 0 to 1048575 (1048576 rows)</exception>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.SetCurentCellAddress(System.String)">
+            <summary>
+            Set the current cell address
+            </summary>
+            <param name="address">Cell address in the format A1 - XFD16384</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.SetCurentCellAddress(System.Int32,System.Int32)">
+            <summary>
+            Set the current cell address
+            </summary>
+            <param name="columnAddress">Column number (zero based)</param>
+            <param name="rowAddress">Row number (zero based)</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.SetSheetname(System.String)">
+            <summary>
+            Validates and sets the worksheet name
+            </summary>
+            <param name="name">Name to set</param>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the sheet name is to long (max. 31) or contains illegal characters [  ]  * ? / \</exception>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.SetColumnWidth(System.String,System.Single)">
+            <summary>
+            Sets the width of the passed column address
+            </summary>
+            <param name="columnAddress">Column address (A - XFD)</param>
+            <param name="width">Width from 0 to 255.0</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.SetColumnWidth(System.Int32,System.Single)">
+            <summary>
+            Sets the width of the passed column number (zero-based)
+            </summary>
+            <param name="columnNumber">Column number (zero-based, from 0 to 16383)</param>
+            <param name="width">Width from 0 to 255.0</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.SetRowHeight(System.Int32,System.Single)">
+            <summary>
+            Sets the height of the passed row number (zero-based)
+            </summary>
+            <param name="rowNumber">Row number (zero-based, 0 to 1048575)</param>
+            <param name="height">Height from 0 to 409.5</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.SetActiveStyle(PicoXLSX.Style,PicoXLSX.Workbook)">
+            <summary>
+            Sets the active style of the worksheet. This style will be assigned to all later added cells
+            </summary>
+            <param name="style">Style to set as active style</param>
+            <param name="workbookReference">reference to the workbook. All stiles are managed in this workbook</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.ClearActiveStyle">
+            <summary>
+            Clears the active style of the worksheet. All later added calls will contain no style unless another active style is set
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.CurrentCellDirection">
+            <summary>
+            Direction when using AddNextCell method
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.SheetName">
+            <summary>
+            Name of the worksheet
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.SheetID">
+            <summary>
+            Internal ID of the sheet
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.Cells">
+            <summary>
+            Cells of the worksheet
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.DefaultRowHeight">
+            <summary>
+            Default Row height
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.DefaultColumnWidth">
+            <summary>
+            Default column width
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.ColumnWidths">
+            <summary>
+            Dictionary of column widths. Key is the column number (zero-based), value is a float from 0 to 255.0
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.RowHeights">
+            <summary>
+            Dictionary of row heights. Key is the row number (zero-based), value is a float from 0 to 409.5
+            </summary>
+        </member>
+        <member name="T:PicoXLSX.Worksheet.CellDirection">
+            <summary>
+            Enum to define the direction when using AddNextCell method
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.CellDirection.ColumnToColum">
+            <summary>The next cell will be on the same row (A1,B1,C1...)</summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.CellDirection.RowToRow">
+            <summary>The next cell will be on the same column (A1,A2,A3...)</summary>
+        </member>
+    </members>
+</doc>

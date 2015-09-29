@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 namespace PicoXLSX
 {
     /// <summary>
-    /// Class representing a Cell of a worksheet
+    /// Class representing a cell of a worksheet
     /// </summary>
     public class Cell : IComparable<Cell>
     {
@@ -36,7 +36,9 @@ namespace PicoXLSX
             DEFAULT
         }
 
-        /// <summary>Number of the row (zerobased)</summary>
+        private Style cellStyle;
+
+        /// <summary>Number of the row (zero-based)</summary>
         public int RowAddress { get; set; }
         /// <summary>Number of the column (zero-based)</summary>
         public int ColumnAddress { get; set; }
@@ -44,6 +46,13 @@ namespace PicoXLSX
         public object Value { get; set; }
         /// <summary>Type of the cell</summary>
         public CellType Fieldtype { get; set; }
+        /// <summary>
+        /// Assigned style of the cell
+        /// </summary>
+        public Style CellStyle
+        {
+            get { return cellStyle; }
+        }
 
         /// <summary>Combined cell address as struct (read-only)</summary>
         public Address CellAddress
@@ -51,10 +60,10 @@ namespace PicoXLSX
             get { return new Address(this.ColumnAddress, this.RowAddress); }
         }
 
+
         /// <summary>Default constructor</summary>
         public Cell()
         {
-
         }
 
         /// <summary>
@@ -73,14 +82,27 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="value">Value of the cell</param>
         /// <param name="type">Type of the cell</param>
-        /// <param name="column">Column address of the cell (zerobased)</param>
-        /// <param name="row">Row address of the cell (zerobased)</param>
-        public Cell(object value, CellType type, int column, int row)
+        /// <param name="column">Column address of the cell (zero-based)</param>
+        /// <param name="row">Row address of the cell (zero-based)</param>
+        public Cell(object value, CellType type, int column, int row) : this(value, type)
         {
-            this.Value = value;
-            this.Fieldtype = type;
             this.ColumnAddress = column;
             this.RowAddress = row;
+        }
+
+        /// <summary>
+        /// Method resets the Cell type an tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellType FORMULA will skip this method
+        /// </summary>
+        public void ResolveCellType()
+        {
+            if (this.Fieldtype == CellType.FORMULA) { return; }
+            Type t = this.Value.GetType();
+            if (t == typeof(int)) { this.Fieldtype = CellType.NUMBER; }
+            else if (t == typeof(float)) { this.Fieldtype = CellType.NUMBER; }
+            else if (t == typeof(double)) { this.Fieldtype = CellType.NUMBER; }
+            else if (t == typeof(bool)) { this.Fieldtype = CellType.BOOL; }
+            else if (t == typeof(DateTime)) { this.Fieldtype = CellType.DATE; }
+            else { this.Fieldtype = CellType.STRING; } // Default
         }
 
         /// <summary>
@@ -91,6 +113,43 @@ namespace PicoXLSX
         {
             return Cell.ResolveCellAddress(this.ColumnAddress, this.RowAddress);
         }
+
+        /// <summary>
+        /// Sets the style of the cell
+        /// </summary>
+        /// <param name="style">style to assign</param>
+        /// <param name="workbookReference">Workbook reference. All styles will be managed in this workbook</param>
+        /// <returns>If the passed style already exists in the workbook, the existing one will be returned, otherwise the passed one</returns>
+        public Style SetStyle(Style style, Workbook workbookReference)
+        {
+            if (workbookReference == null)
+            {
+                throw new UndefinedStyleException("No workbook reference was defined while trying to set a style to a cell");
+            }
+            if (style == null)
+            {
+                throw new UndefinedStyleException("No style to assign was defined");
+            }
+            Style s = workbookReference.AddStyle(style, true);
+            this.cellStyle = s;
+            return s;
+        }
+
+        /// <summary>
+        /// Removes the assigned style from the cell
+        /// </summary>
+        /// <param name="workbookReference">Workbook reference. All styles will be managed in this workbook</param>
+        public void RemoveStyle(Workbook workbookReference)
+        {
+            if (workbookReference == null)
+            {
+                throw new UndefinedStyleException("No workbook reference was defined while trying to remove a style from a cell");
+            }
+            string styleName = this.cellStyle.Name;
+            this.cellStyle = null;
+            workbookReference.RemoveStyle(styleName, true);
+        }
+
 
         /// <summary>
         /// Implemented CompareTo method
@@ -110,11 +169,10 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Convertrs a List of supported objects into a list of celss
+        /// Converts a List of supported objects into a list of cells
         /// </summary>
         /// <typeparam name="T">Generic data type</typeparam>
         /// <param name="list">List of generic objects</param>
-        /// <exception cref="UnsupportedDataTypeException">Throws a UnsupportedDataTypeException if an usupported value was passed</exception>
         /// <returns>List of cells</returns>
         public static List<Cell> ConvertArray<T>(List<T> list)
         {
@@ -150,9 +208,19 @@ namespace PicoXLSX
                 {
                     c = new Cell((string)o, CellType.STRING);
                 }
-                else
+                else // Default = unspecified object
                 {
-                    throw new UnsupportedDataTypeException("The data type '" + typeof(T).ToString() + "' is not supported");
+                    c = new Cell((string)o, CellType.DEFAULT);
+                    /*
+                    try
+                    {
+                       
+                    }
+                    catch
+                    {
+                        throw new UnsupportedDataTypeException("The data type '" + typeof(T).ToString() + "' is not supported");
+                    }
+                    */
                 }
                 output.Add(c);
             }
@@ -264,8 +332,8 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the address of a cell by the column and row number (zero based)
         /// </summary>
-        /// <param name="column">Column address of the cell (zerobased)</param>
-        /// <param name="row">Row address of the cell (zerobased)</param>
+        /// <param name="column">Column address of the cell (zero-based)</param>
+        /// <param name="row">Row address of the cell (zero-based)</param>
         /// <exception cref="OutOfRangeException">Throws a OutOfRangeException if the start or end address was out of range</exception>
         /// <returns>Cell Address as string in the format A1 - XFD16384</returns>
         public static string ResolveCellAddress(int column, int row)
@@ -301,15 +369,15 @@ namespace PicoXLSX
             if (k > 0) { sb.Append((char)(k + 64)); }
             sb.Append((char)(j + 64));
             sb.Append((row + 1).ToString());
-            return (sb.ToString());
+            return sb.ToString();
         }
 
         /// <summary>
         /// Gets the column and row number (zero based) of a cell by the address
         /// </summary>
         /// <param name="address">Address as string in the format A1 - XFD16384</param>
-        /// <param name="column">Column address of the cell (zerobased) as out parameter</param>
-        /// <param name="row">Row address of the cell (zerobased) as out parameter</param>
+        /// <param name="column">Column address of the cell (zero-based) as out parameter</param>
+        /// <param name="row">Row address of the cell (zero-based) as out parameter</param>
         /// <exception cref="FormatException">Throws a FormatException if the range address was malformed</exception>
         /// <exception cref="OutOfRangeException">Throws a OutOfRangeException if the start or end address was out of range</exception>
         public static void ResolveCellCoordinate(string address, out int column, out int row)
@@ -325,19 +393,8 @@ namespace PicoXLSX
             {
                 throw new FormatException("The format of the cell address (" + address + ") is malformed");
             }
-            string chars = mx.Groups[1].Value;
             int digits = int.Parse(mx.Groups[2].Value);
-            int temp;
-            int result = 0;
-            int multiplicator = 1;
-            for (int i = chars.Length - 1; i >= 0; i--)
-            {
-                temp = (int)chars[i];
-                temp = temp - 64;
-                result = result + (temp * multiplicator);
-                multiplicator = multiplicator * 26;
-            }
-            column = result - 1;
+            column = ResolveColumn(mx.Groups[1].Value);
             row = digits - 1;
             if (row >= 1048576 || row < 0)
             {
@@ -350,10 +407,34 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Gets the column number from the column address (A - XFD)
+        /// </summary>
+        /// <param name="columnAddress">Column address (A - XFD)</param>
+        /// <returns>Column number (zero-based)</returns>
+        public static int ResolveColumn(string columnAddress)
+        {
+            int temp;
+            int result = 0;
+            int multiplicator = 1;
+            for (int i = columnAddress.Length - 1; i >= 0; i--)
+            {
+                temp = (int)columnAddress[i];
+                temp = temp - 64;
+                result = result + (temp * multiplicator);
+                multiplicator = multiplicator * 26;
+            }
+            if (result - 1 >= 16384 || result - 1 < 0)
+            {
+                throw new OutOfRangeException("The column number (" + (result - 1).ToString() + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+            }
+            return result - 1;
+        }
+
+        /// <summary>
         /// Gets the column and row number (zero based) of a cell by the address
         /// </summary>
         /// <param name="address">Address as string in the format A1 - XFD16384</param>
-        /// <returns>Strucht with row and column</returns>
+        /// <returns>Struct with row and column</returns>
         public static Address ResolveCellCoordinate(string address)
         {
             int row, column;
@@ -362,7 +443,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Struct represening the cell address as column and row (zero based)
+        /// Struct representing the cell address as column and row (zero based)
         /// </summary>
         public struct Address
         {
@@ -395,6 +476,10 @@ namespace PicoXLSX
                 return ResolveCellAddress(Column, Row);
             }
 
+            /// <summary>
+            /// Overwritten ToString method
+            /// </summary>
+            /// <returns>Returns the cell address(e.g. 'A15')</returns>
             public override string ToString()
             {
                 return GetAddress();

@@ -15,13 +15,21 @@ using System.Threading.Tasks;
 namespace PicoXLSX
 {
     /// <summary>
-    /// Class representing a worksheet of a workbook
+    /// Class representing the style sheet of a workbook
     /// </summary>
     public class Worksheet
     {
+        /// <summary>
+        /// Default column width as constant
+        /// </summary>
+        public const float DEFAULT_COLUMN_WIDTH = 10f;
+        /// <summary>
+        /// Default row height as constant
+        /// </summary>
+        public const float DEFAULT_ROW_HEIGHT = 15f;
 
         /// <summary>
-        /// Enum to definte the direction when using AddNextCell method
+        /// Enum to define the direction when using AddNextCell method
         /// </summary>
         public enum CellDirection
         {
@@ -36,10 +44,16 @@ namespace PicoXLSX
         /// </summary>
         public CellDirection CurrentCellDirection { get; set; }
 
+        private Style activeStyle;
+        private Workbook workbookReference;
         private string sheetName;
         private int currentRowNumber;
         private int currentColumnNumber;
         private Dictionary<string, Cell> cells;
+        private float defaultRowHeight;
+        private float defaultColumnWidth;
+        private Dictionary<int, float> columnWidths;
+        private Dictionary<int, float> rowHeights;
 
         /// <summary>
         /// Name of the worksheet
@@ -64,6 +78,39 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Default Row height
+        /// </summary>
+        public float DefaultRowHeight
+        {
+          get { return defaultRowHeight; }
+          set { defaultRowHeight = value; }
+        }
+
+        /// <summary>
+        /// Default column width
+        /// </summary>
+        public float DefaultColumnWidth
+        {
+          get { return defaultColumnWidth; }
+          set { defaultColumnWidth = value; }
+        }
+
+        /// <summary>
+        /// Dictionary of column widths. Key is the column number (zero-based), value is a float from 0 to 255.0
+        /// </summary>
+        public Dictionary<int, float> ColumnWidths
+        {
+            get { return columnWidths; }
+        }
+        /// <summary>
+        /// Dictionary of row heights. Key is the row number (zero-based), value is a float from 0 to 409.5
+        /// </summary>
+        public Dictionary<int, float> RowHeights
+        {
+            get { return rowHeights; }
+        }
+
+        /// <summary>
         /// Default Constructor
         /// </summary>
         public Worksheet()
@@ -72,6 +119,12 @@ namespace PicoXLSX
             this.cells = new Dictionary<string, Cell>();
             this.currentRowNumber = 0;
             this.currentColumnNumber = 0;
+            this.defaultColumnWidth = DEFAULT_COLUMN_WIDTH;
+            this.defaultRowHeight = DEFAULT_ROW_HEIGHT;
+            this.columnWidths = new Dictionary<int, float>();
+            this.rowHeights = new Dictionary<int, float>();
+            this.activeStyle = null;
+            this.workbookReference = null;
         }
 
         /// <summary>
@@ -86,6 +139,16 @@ namespace PicoXLSX
         }
 
 #region AddNextCell
+
+        /// <summary>
+        /// Adds a object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String
+        /// </summary>
+        /// <param name="value">Unspecified value to insert</param>
+        public void AddNextCell(object value)
+        {
+            Cell c = new Cell(value, Cell.CellType.DEFAULT, this.currentColumnNumber, this.currentRowNumber);
+            AddNextCell(c, true);
+        }
 
         /// <summary>
         /// Adds a string value to the next cell position
@@ -161,9 +224,13 @@ namespace PicoXLSX
         /// Method to insert a generic cell to the next cell position
         /// </summary>
         /// <param name="cell">Cell object to insert</param>
-        /// <param name="increment">If true, the address value (row or colum) will be incremented, otherwise not</param>
+        /// <param name="increment">If true, the address value (row or column) will be incremented, otherwise not</param>
         private void AddNextCell(Cell cell, bool increment)
         {
+            if (this.activeStyle != null)
+            {
+                cell.SetStyle(this.activeStyle, this.workbookReference);
+            }
             string address = cell.GetCellAddress();
             if (this.cells.ContainsKey(address))
             {
@@ -202,6 +269,31 @@ namespace PicoXLSX
 #endregion
 
 #region AddCell
+
+        /// <summary>
+        /// Adds a object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
+        /// </summary>
+        /// <param name="value">Unspecified value to insert</param>
+        /// <param name="columnAddress">Column number (zero based)</param>
+        /// <param name="rowAddress">Row number (zero based)</param>
+        public void AddCell(object value, int columnAddress, int rowAddress)
+        {
+            Cell c = new Cell(value, Cell.CellType.DEFAULT, columnAddress, rowAddress);
+            AddNextCell(c, false);
+        }
+
+        /// <summary>
+        /// Adds a object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
+        /// </summary>
+        /// <param name="value">Unspecified value to insert</param>
+        /// <param name="address">Cell address in the format A1 - XFD16384</param>
+        public void AddCell(object value, string address)
+        {
+            int column, row;
+            Cell.ResolveCellCoordinate(address, out column, out row);
+            AddCell(value, column, row);
+        }
+
         /// <summary>
         /// Adds a string value to the defined cell address
         /// </summary>
@@ -352,7 +444,7 @@ namespace PicoXLSX
         /// <summary>
         /// Adds a cell formula as string to the defined cell address
         /// </summary>
-        /// <param name="formula">Forumla to insert</param>
+        /// <param name="formula">Formula to insert</param>
         /// <param name="address">Cell address in the format A1 - XFD16384</param>
         public void AddCellFormula(string formula, string address)
         {
@@ -365,7 +457,7 @@ namespace PicoXLSX
         /// <summary>
         /// Adds a cell formula as string to the defined cell address
         /// </summary>
-        /// <param name="formula">Forumla to insert</param>
+        /// <param name="formula">Formula to insert</param>
         /// <param name="columnAddress">Column number (zero based)</param>
         /// <param name="rowAddress">Row number (zero based)</param>
         public void AddCellFormula(string formula, int columnAddress, int rowAddress)
@@ -376,6 +468,29 @@ namespace PicoXLSX
 #endregion
 
 #region AddCellRange
+
+        /// <summary>
+        /// Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
+        /// </summary>
+        /// <param name="values">List of unspecified objects to insert</param>
+        /// <param name="startAddress">Start address</param>
+        /// <param name="endAddress">End address</param>
+        public void AddCellRange(List<object> values, Cell.Address startAddress, Cell.Address endAddress)
+        {
+            AddCellRangeInternal(values, startAddress, endAddress);
+        }
+
+        /// <summary>
+        /// Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
+        /// </summary>
+        /// <param name="values">List of unspecified objects to insert</param>
+        /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
+        public void AddCellRange(List<object> values, string cellRange)
+        {
+            Cell.Address start, end;
+            Cell.ResolveCellRange(cellRange, out start, out end);
+            AddCellRangeInternal(values, start, end);
+        }
 
         /// <summary>
         /// Adds a list of string values to a defined cell range
@@ -662,9 +777,90 @@ namespace PicoXLSX
             Match mx = rx.Match(name);
             if (mx.Captures.Count > 0)
             {
-                throw new FormatException(@"The sheet name must must not contain the characters [  ]  * ? / \ ");
+                throw new FormatException(@"The sheet name must not contain the characters [  ]  * ? / \ ");
             }
             this.sheetName = name;
+        }
+
+        /// <summary>
+        /// Sets the width of the passed column address
+        /// </summary>
+        /// <param name="columnAddress">Column address (A - XFD)</param>
+        /// <param name="width">Width from 0 to 255.0</param>
+        public void SetColumnWidth(string columnAddress, float width)
+        {
+            int columnNumber = Cell.ResolveColumn(columnAddress);
+            SetColumnWidth(columnNumber, width);
+        }
+
+        /// <summary>
+        /// Sets the width of the passed column number (zero-based)
+        /// </summary>
+        /// <param name="columnNumber">Column number (zero-based, from 0 to 16383)</param>
+        /// <param name="width">Width from 0 to 255.0</param>
+        public void SetColumnWidth(int columnNumber, float width)
+        {
+            if (columnNumber >= 16384 || columnNumber < 0)
+            {
+                throw new OutOfRangeException("The column number (" + columnNumber.ToString() + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+            }
+            if (width < 0 || width > 255)
+            {
+                throw new OutOfRangeException("The column width (" + width.ToString() + ") is out of range. Range is from 0 to 255 (chars).");
+            }
+            if (this.columnWidths.ContainsKey(columnNumber))
+            {
+                this.columnWidths[columnNumber] = width;
+            }
+            else
+            {
+                this.columnWidths.Add(columnNumber, width);
+            }
+        }
+
+        /// <summary>
+        /// Sets the height of the passed row number (zero-based)
+        /// </summary>
+        /// <param name="rowNumber">Row number (zero-based, 0 to 1048575)</param>
+        /// <param name="height">Height from 0 to 409.5</param>
+        public void SetRowHeight(int rowNumber, float height)
+        {
+            if (rowNumber >= 1048576 || rowNumber < 0)
+            {
+                throw new OutOfRangeException("The row number (" + rowNumber.ToString() + ") is out of range. Range is from 0 to 1048575 (1048576 rows).");
+            }
+            if (height < 0 || height > 409.5)
+            {
+                throw new OutOfRangeException("The row height (" + height.ToString() + ") is out of range. Range is from 0 to 409.5 (equals 546px).");
+            }
+            if (this.rowHeights.ContainsKey(rowNumber))
+            {
+                this.rowHeights[rowNumber] = height;
+            }
+            else
+            {
+                this.rowHeights.Add(rowNumber, height);
+            }
+        }
+
+        /// <summary>
+        /// Sets the active style of the worksheet. This style will be assigned to all later added cells
+        /// </summary>
+        /// <param name="style">Style to set as active style</param>
+        /// <param name="workbookReference">reference to the workbook. All stiles are managed in this workbook</param>
+        public void SetActiveStyle(Style style, Workbook workbookReference)
+        {
+            this.activeStyle = style;
+            this.workbookReference = workbookReference;
+        }
+
+        /// <summary>
+        /// Clears the active style of the worksheet. All later added calls will contain no style unless another active style is set
+        /// </summary>
+        public void ClearActiveStyle()
+        {
+            this.activeStyle = null;
+            this.workbookReference = null;
         }
         
     }

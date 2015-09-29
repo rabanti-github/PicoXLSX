@@ -25,7 +25,8 @@
     <CleanIntermediates>True</CleanIntermediates>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\PicoXLSX\bin\Debug\PicoXLSX.XML" />
-<DocumentationSource sourceFile="..\PicoXLSX\bin\Debug\PicoXLSX.dll" /></DocumentationSources>
+      <DocumentationSource sourceFile="..\PicoXLSX\bin\Debug\PicoXLSX.dll" />
+    </DocumentationSources>
     <HelpFileVersion>1.0.0.0</HelpFileVersion>
     <MaximumGroupParts>2</MaximumGroupParts>
     <NamespaceGrouping>True</NamespaceGrouping>
@@ -67,8 +68,7 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>xcopy "$(OutputPath)Documentation.chm" "$(SolutionDir)Executable" /Y</PostBuildEvent>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 </Project>

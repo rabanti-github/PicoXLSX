@@ -18,8 +18,15 @@ namespace PicoXLSX
     /// </summary>
     public class OutOfRangeException : Exception
     {
-        public OutOfRangeException()
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public OutOfRangeException() : base()
         { }
+        /// <summary>
+        /// Constructor with passed message
+        /// </summary>
+        /// <param name="message">Message of the exception</param>
         public OutOfRangeException(string message)
             : base(message)
         { }
@@ -30,11 +37,23 @@ namespace PicoXLSX
     /// </summary>
     public class FormatException : Exception
     {
-        public FormatException()
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public FormatException() : base()
         { }
+        /// <summary>
+        /// Constructor with passed message
+        /// </summary>
+        /// <param name="message">Message of the exception</param>
         public FormatException(string message)
             : base(message)
         { }
+        /// <summary>
+        /// Constructor with passed message and inner exception
+        /// </summary>
+        /// <param name="message">Message of the exception</param>
+        /// <param name="inner">Inner exception</param>
         public FormatException(string message, Exception inner)
             : base(message, inner)
         { }
@@ -45,11 +64,23 @@ namespace PicoXLSX
     /// </summary>
     public class IOException : Exception
     {
-        public IOException()
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public IOException() : base()
         { }
+        /// <summary>
+        /// Constructor with passed message
+        /// </summary>
+        /// <param name="message">Message of the exception</param>
         public IOException(string message)
             : base(message)
         { }
+        /// <summary>
+        /// Constructor with passed message and inner exception
+        /// </summary>
+        /// <param name="message">Message of the exception</param>
+        /// <param name="inner">Inner exception</param>
         public IOException(string message, Exception inner)
             : base(message, inner)
         { }
@@ -60,8 +91,15 @@ namespace PicoXLSX
     /// </summary>
     public class WorksheetNameAlreadxExistsException : Exception
     {
-        public WorksheetNameAlreadxExistsException()
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public WorksheetNameAlreadxExistsException() : base()
         { }
+        /// <summary>
+        /// Constructor with passed message
+        /// </summary>
+        /// <param name="message">Message of the exception</param>
         public WorksheetNameAlreadxExistsException(string message)
             : base(message)
         { }
@@ -72,21 +110,54 @@ namespace PicoXLSX
     /// </summary>
     public class UnknownWorksheetException : Exception
     {
-        public UnknownWorksheetException()
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public UnknownWorksheetException() : base()
         { }
+        /// <summary>
+        /// Constructor with passed message
+        /// </summary>
+        /// <param name="message">Message of the exception</param>
         public UnknownWorksheetException(string message)
             : base(message)
         { }
     }
 
     /// <summary>
-    /// Class for exceptions regarding an unsuppored data type
+    /// Class for exceptions regarding an unsupported data type
     /// </summary>
     public class UnsupportedDataTypeException : Exception
     {
-        public UnsupportedDataTypeException()
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public UnsupportedDataTypeException() : base()
         { }
+        /// <summary>
+        /// Constructor with passed message
+        /// </summary>
+        /// <param name="message">Message of the exception</param>
         public UnsupportedDataTypeException(string message)
+            : base(message)
+        { }
+    }
+
+    /// <summary>
+    /// Class for exceptions regarding undefined Styles
+    /// </summary>
+    public class UndefinedStyleException : Exception
+    {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public UndefinedStyleException() : base()
+        { }
+        /// <summary>
+        /// Constructor with passed message
+        /// </summary>
+        /// <param name="message">Message of the exception</param>
+        public UndefinedStyleException(string message)
             : base(message)
         { }
     }
