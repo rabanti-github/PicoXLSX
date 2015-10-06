@@ -12,9 +12,13 @@ v1.1.0	29.09.2015
 - Added support for meta data (title, subject etc.)
 - Added support for cell width and cell height
 - Fixed many spelling errors
-- Added new Method to add cells as objects with automatic casting
+- Added new methods to add cells as objects with automatic casting
 - Added more documentation
 - Added post build macros to VS project for easier deployment
 - Many bug fixes and optimizations
 
 NOTE: Styling is not complete and fully tested yet. Several additions and changes are possible with the next version
+
+v1.1.1	06.10.2015
+******************
+- Minor bug fixes

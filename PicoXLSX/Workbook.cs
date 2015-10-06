@@ -347,7 +347,7 @@ namespace PicoXLSX
             Style dateStyle = AddStyle(Style.BasicStyles.DateFormat, true);
             int existingIndex = 0;
             bool existing;
-            int custmNumberFormat = Style.NumberFormat.CUSTOMFORMAT_START_NUMBER;
+            int customNumberFormat = Style.NumberFormat.CUSTOMFORMAT_START_NUMBER;
             for(int i = 0; i < this.styles.Count; i++)
             {
                 this.styles[i].InternalID = i;
@@ -429,8 +429,8 @@ namespace PicoXLSX
                 }
                 if (this.styles[i].CurrentNumberFormat.IsCustomFormat == true)
                 {
-                    this.styles[i].CurrentNumberFormat.CustomFormatID = custmNumberFormat;
-                    custmNumberFormat++;
+                    this.styles[i].CurrentNumberFormat.CustomFormatID = customNumberFormat;
+                    customNumberFormat++;
                 }
                 existing = false;
                 foreach (Style.CellXf item in tempCellXfs)

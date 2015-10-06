@@ -326,8 +326,8 @@ namespace PicoXLSX
                 get { return size; }
                 set 
                 {
-                    if (size < 8) { size = 8; }
-                    else if (size > 75) { size = 72; }
+                    if (value < 8) { size = 8; }
+                    else if (value > 75) { size = 72; }
                     else { size = value; }
                 }
             }

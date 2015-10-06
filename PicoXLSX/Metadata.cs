@@ -137,8 +137,8 @@ namespace PicoXLSX
         /// /// <exception cref="FormatException">Throws a FormatException if the version string is malformed</exception>
         private void CheckVersion()
         {
-            if (string.IsNullOrEmpty(this.ApplicationVersion)) { return; }
-            string[] split = this.ApplicationVersion.Split('.');
+            if (string.IsNullOrEmpty(this.applicationVersion)) { return; }
+            string[] split = this.applicationVersion.Split('.');
             bool state = true;
             if (split.Length != 2) { state = false; }
             else
@@ -148,7 +148,7 @@ namespace PicoXLSX
             }
             if (state == false)
             {
-                throw new FormatException("The format of the version in the meta data is wrong (" + this.ApplicationVersion + "). Should be in the format and a range from '0.0' to '99999.99999'");
+                throw new FormatException("The format of the version in the meta data is wrong (" + this.applicationVersion + "). Should be in the format and a range from '0.0' to '99999.99999'");
             }
         }
 

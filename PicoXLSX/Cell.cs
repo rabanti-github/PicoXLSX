@@ -179,10 +179,11 @@ namespace PicoXLSX
             List<Cell> output = new List<Cell>();
             Cell c;
             object o;
+            Type t;
             foreach(T item in list)
             {
                 o = (object)item;
-                Type t = typeof(T);
+                t = typeof(T);
 
                 if (t == typeof(int))
                 {
