@@ -726,7 +726,7 @@ namespace PicoXLSX
         /// Sets the current column address (column number, zero based)
         /// </summary>
         /// <param name="columnAddress">Column number (zero based)</param>
-        /// <exception cref="OutOfRangeException">Throws a OutOfRangeException if the address is out of the valid range. Range is from 0 to 1048575 (1048576 rows)</exception>
+        /// <exception cref="OutOfRangeException">Throws a OutOfRangeException if the address is out of the valid range. Range is from 0 to 16383 (16384 columns)</exception>
         public void SetCurrentColumnAddress(int columnAddress)
         {
             if (columnAddress >= 16383 || columnAddress < 0)
@@ -847,7 +847,7 @@ namespace PicoXLSX
         /// Sets the active style of the worksheet. This style will be assigned to all later added cells
         /// </summary>
         /// <param name="style">Style to set as active style</param>
-        /// <param name="workbookReference">reference to the workbook. All stiles are managed in this workbook</param>
+        /// <param name="workbookReference">Reference to the workbook. All stiles are managed in this workbook</param>
         public void SetActiveStyle(Style style, Workbook workbookReference)
         {
             this.activeStyle = style;

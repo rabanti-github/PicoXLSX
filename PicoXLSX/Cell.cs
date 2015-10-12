@@ -117,7 +117,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the style of the cell
         /// </summary>
-        /// <param name="style">style to assign</param>
+        /// <param name="style">Style to assign</param>
         /// <param name="workbookReference">Workbook reference. All styles will be managed in this workbook</param>
         /// <returns>If the passed style already exists in the workbook, the existing one will be returned, otherwise the passed one</returns>
         public Style SetStyle(Style style, Workbook workbookReference)
@@ -154,7 +154,7 @@ namespace PicoXLSX
         /// <summary>
         /// Implemented CompareTo method
         /// </summary>
-        /// <param name="other">object to compare</param>
+        /// <param name="other">Object to compare</param>
         /// <returns>0 if values are the same, -1 if this object is smaller, 1 if it is bigger</returns>
         public int CompareTo(Cell other)
         {
@@ -229,7 +229,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Get a list of cell addresses from a cell range (format A1:B3 or AAD556:AAD1000)
+        /// Gets a list of cell addresses from a cell range (format A1:B3 or AAD556:AAD1000)
         /// </summary>
         /// <param name="range">Range to process</param>
         /// <returns>List of cell addresses</returns>

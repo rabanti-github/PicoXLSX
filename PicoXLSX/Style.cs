@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace PicoXLSX
 {
@@ -18,6 +19,8 @@ namespace PicoXLSX
     /// </summary>
     public class Style : IComparable<Style>, IEquatable<Style>
     {
+        private static RNGCryptoServiceProvider RNGcsp = new RNGCryptoServiceProvider();
+
         /// <summary>
         /// Current Font object of the style
         /// </summary>
@@ -64,12 +67,11 @@ namespace PicoXLSX
             this.CurrentBorder = new Border();
             this.CurrentNumberFormat = new NumberFormat();
             this.CurrentCellXf = new CellXf();
-            Random rnd = new Random(DateTime.Now.Millisecond);
-            this.name = "Style" + rnd.Next().ToString();
+            this.name = createUniqueName();
         }
 
         /// <summary>
-        /// Constructor wit definition of the style name
+        /// Constructor with definition of the style name
         /// </summary>
         /// <param name="name">Name of the style</param>
         public Style(string name) : this()
@@ -365,11 +367,11 @@ namespace PicoXLSX
             /// </summary>
             public bool Italic { get; set; }
             /// <summary>
-            /// If true, the font as one underline
+            /// If true, the font has one underline
             /// </summary>
             public bool Underline { get; set; }
             /// <summary>
-            /// If true, the font ha a double underline
+            /// If true, the font has a double underline
             /// </summary>
             public bool DoubleUnderline { get; set; }
             /// <summary>
@@ -512,7 +514,7 @@ namespace PicoXLSX
             /// <summary>
             /// Gets the pattern name from the enum
             /// </summary>
-            /// <param name="pattern">enum to process</param>
+            /// <param name="pattern">Enum to process</param>
             /// <returns>The valid value of the pattern as String</returns>
             public static string GetPatternName(PatternValue pattern)
             {
@@ -593,8 +595,8 @@ namespace PicoXLSX
             /// <summary>
             /// Constructor with color value and fill type
             /// </summary>
-            /// <param name="value">color value</param>
-            /// <param name="filltype">fill type (fill or pattern)</param>
+            /// <param name="value">Color value</param>
+            /// <param name="filltype">Fill type (fill or pattern)</param>
             public Fill(string value, FillType filltype)
             {
                 if (filltype == FillType.fillColor)
@@ -677,7 +679,7 @@ namespace PicoXLSX
         public class Border : IComparable<Border>, IEquatable<Border>
         {
             /// <summary>
-            /// enum for the border style
+            /// Enum for the border style
             /// </summary>
             public enum StyleValue
             {
@@ -714,7 +716,7 @@ namespace PicoXLSX
             /// <summary>
             /// Gets the border style name from the enum
             /// </summary>
-            /// <param name="style">enum to process</param>
+            /// <param name="style">Enum to process</param>
             /// <returns>The valid value of the border style as String</returns>
             public static string GetStyleName(StyleValue style)
             {
@@ -840,7 +842,7 @@ namespace PicoXLSX
                 this.DiagonalUp = false;
             }
             /// <summary>
-            /// method to compare two objects for sorting purpose
+            /// Method to compare two objects for sorting purpose
             /// </summary>
             /// <param name="other">Other object to compare with this object</param>
             /// <returns>True if both objects are equal, otherwise false</returns>
@@ -885,7 +887,7 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// method to compare two objects for sorting purpose
+            /// Method to compare two objects for sorting purpose
             /// </summary>
             /// <param name="other">Other object to compare with this object</param>
             /// <returns>-1 if the other object is bigger. 0 if both objects are equal. 1 if the other object is smaller.</returns>
@@ -1145,7 +1147,7 @@ namespace PicoXLSX
             { get { return GetStyle(StyleEnum.dottedFill_0_125); } }
 
             /// <summary>
-            /// Method to maintain the styles and create singleton instances
+            /// Method to maintain the styles and to create singleton instances
             /// </summary>
             /// <param name="value">Enum value to maintain</param>
             /// <returns>The style according to the passed enum value</returns>
@@ -1337,6 +1339,21 @@ namespace PicoXLSX
             copy.CurrentCellXf = this.CurrentCellXf.Copy();
             copy.CurrentNumberFormat = overwriteFormat;
             return copy;
+        }
+
+        /// <summary>
+        /// Creates a random style names using Crypto Service Provider (prevents same random numbers due to too fast processing)
+        /// </summary>
+        /// <returns>Random style name</returns>
+        private string createUniqueName()
+        {
+            byte[] rndByte = new byte[4];
+            RNGcsp.GetBytes(rndByte);
+            int res = BitConverter.ToInt32(rndByte, 0);
+            Random rnd = new Random(res);
+            int number = rnd.Next(0, int.MaxValue);
+            int number2 = rnd.Next(0, int.MaxValue);
+            return "Style" + number.ToString() + "-" + number2.ToString();
         }
 
     }

@@ -43,7 +43,7 @@
             <summary>
             Sets the style of the cell
             </summary>
-            <param name="style">style to assign</param>
+            <param name="style">Style to assign</param>
             <param name="workbookReference">Workbook reference. All styles will be managed in this workbook</param>
             <returns>If the passed style already exists in the workbook, the existing one will be returned, otherwise the passed one</returns>
         </member>
@@ -57,7 +57,7 @@
             <summary>
             Implemented CompareTo method
             </summary>
-            <param name="other">object to compare</param>
+            <param name="other">Object to compare</param>
             <returns>0 if values are the same, -1 if this object is smaller, 1 if it is bigger</returns>
         </member>
         <member name="M:PicoXLSX.Cell.ConvertArray``1(System.Collections.Generic.List{``0})">
@@ -70,7 +70,7 @@
         </member>
         <member name="M:PicoXLSX.Cell.GetCellRange(System.String)">
             <summary>
-            Get a list of cell addresses from a cell range (format A1:B3 or AAD556:AAD1000)
+            Gets a list of cell addresses from a cell range (format A1:B3 or AAD556:AAD1000)
             </summary>
             <param name="range">Range to process</param>
             <returns>List of cell addresses</returns>
@@ -438,7 +438,7 @@
             <summary>
             Method to create the XML string for the border part of the style sheet document
             </summary>
-            <param name="boderStyles">List of Style.Border objects</param>
+            <param name="borderStyles">List of Style.Border objects</param>
             <returns>String with formated XML data</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateStyleFillString(System.Collections.Generic.List{PicoXLSX.Style.Fill})">
@@ -608,7 +608,7 @@
         </member>
         <member name="P:PicoXLSX.Metadata.Keywords">
             <summary>
-            Keyword for the workbook. Separate the keywords with semicolons (;)
+            Keywords for the workbook. Separate the keywords with semicolons (;)
             </summary>
         </member>
         <member name="P:PicoXLSX.Metadata.Application">
@@ -643,7 +643,7 @@
         </member>
         <member name="P:PicoXLSX.Metadata.Company">
             <summary>
-            Company owning of the document. This value is for organizational purpose. Add more than one manager by using the semicolon (;) between the words
+            Company owning the document. This value is for organizational purpose. Add more than one manager by using the semicolon (;) between the words
             </summary>
         </member>
         <member name="P:PicoXLSX.Metadata.HyperlinkBase">
@@ -663,7 +663,7 @@
         </member>
         <member name="M:PicoXLSX.Style.#ctor(System.String)">
             <summary>
-            Constructor wit definition of the style name
+            Constructor with definition of the style name
             </summary>
             <param name="name">Name of the style</param>
         </member>
@@ -693,6 +693,12 @@
             </summary>
             <param name="overwriteFormat">NumberFormat object to replace the original object of the current object in the copy</param>
             <returns>Copy of the current object without the internal ID</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.createUniqueName">
+            <summary>
+            Creates a random style names using Crypto Service Provider (prevents same random numbers due to too fast processing)
+            </summary>
+            <returns>Random style name</returns>
         </member>
         <member name="P:PicoXLSX.Style.CurrentFont">
             <summary>
@@ -957,12 +963,12 @@
         </member>
         <member name="P:PicoXLSX.Style.Font.Underline">
             <summary>
-            If true, the font as one underline
+            If true, the font has one underline
             </summary>
         </member>
         <member name="P:PicoXLSX.Style.Font.DoubleUnderline">
             <summary>
-            If true, the font ha a double underline
+            If true, the font has a double underline
             </summary>
         </member>
         <member name="P:PicoXLSX.Style.Font.Strike">
@@ -1027,7 +1033,7 @@
             <summary>
             Gets the pattern name from the enum
             </summary>
-            <param name="pattern">enum to process</param>
+            <param name="pattern">Enum to process</param>
             <returns>The valid value of the pattern as String</returns>
         </member>
         <member name="M:PicoXLSX.Style.Fill.#ctor">
@@ -1046,8 +1052,8 @@
             <summary>
             Constructor with color value and fill type
             </summary>
-            <param name="value">color value</param>
-            <param name="filltype">fill type (fill or pattern)</param>
+            <param name="value">Color value</param>
+            <param name="filltype">Fill type (fill or pattern)</param>
         </member>
         <member name="M:PicoXLSX.Style.Fill.SetColor(System.String,PicoXLSX.Style.Fill.FillType)">
             <summary>
@@ -1147,7 +1153,7 @@
             <summary>
             Gets the border style name from the enum
             </summary>
-            <param name="style">enum to process</param>
+            <param name="style">Enum to process</param>
             <returns>The valid value of the border style as String</returns>
         </member>
         <member name="M:PicoXLSX.Style.Border.#ctor">
@@ -1157,7 +1163,7 @@
         </member>
         <member name="M:PicoXLSX.Style.Border.Equals(PicoXLSX.Style.Border)">
             <summary>
-            method to compare two objects for sorting purpose
+            Method to compare two objects for sorting purpose
             </summary>
             <param name="other">Other object to compare with this object</param>
             <returns>True if both objects are equal, otherwise false</returns>
@@ -1170,7 +1176,7 @@
         </member>
         <member name="M:PicoXLSX.Style.Border.CompareTo(PicoXLSX.Style.Border)">
             <summary>
-            method to compare two objects for sorting purpose
+            Method to compare two objects for sorting purpose
             </summary>
             <param name="other">Other object to compare with this object</param>
             <returns>-1 if the other object is bigger. 0 if both objects are equal. 1 if the other object is smaller.</returns>
@@ -1248,7 +1254,7 @@
         </member>
         <member name="T:PicoXLSX.Style.Border.StyleValue">
             <summary>
-            enum for the border style
+            Enum for the border style
             </summary>
         </member>
         <member name="F:PicoXLSX.Style.Border.StyleValue.none">
@@ -1464,7 +1470,7 @@
         </member>
         <member name="M:PicoXLSX.Style.BasicStyles.GetStyle(PicoXLSX.Style.BasicStyles.StyleEnum)">
             <summary>
-            Method to maintain the styles and create singleton instances
+            Method to maintain the styles and to create singleton instances
             </summary>
             <param name="value">Enum value to maintain</param>
             <returns>The style according to the passed enum value</returns>
@@ -1592,7 +1598,7 @@
             </summary>
             <param name="style">Style to add</param>
             <param name="distinct">If true, the passed style will be replaced by an identical style if existing. Otherwise an exception will be thrown in case of a duplicate</param>
-            <returns>Returns the added styles. In case of an existing style, the distinct style will be returned</returns>
+            <returns>Returns the added style. In case of an existing style, the distinct style will be returned</returns>
         </member>
         <member name="M:PicoXLSX.Workbook.RemoveStyle(PicoXLSX.Style)">
             <summary>
@@ -1660,7 +1666,7 @@
         </member>
         <member name="P:PicoXLSX.Workbook.Styles">
             <summary>
-            List of Styles of the workbook
+            Gets the list of Styles of the workbook
             </summary>
         </member>
         <member name="P:PicoXLSX.Workbook.WorkbookMetadata">
@@ -2022,7 +2028,7 @@
             Sets the current column address (column number, zero based)
             </summary>
             <param name="columnAddress">Column number (zero based)</param>
-            <exception cref="T:PicoXLSX.OutOfRangeException">Throws a OutOfRangeException if the address is out of the valid range. Range is from 0 to 1048575 (1048576 rows)</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws a OutOfRangeException if the address is out of the valid range. Range is from 0 to 16383 (16384 columns)</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.SetCurentCellAddress(System.String)">
             <summary>
@@ -2070,7 +2076,7 @@
             Sets the active style of the worksheet. This style will be assigned to all later added cells
             </summary>
             <param name="style">Style to set as active style</param>
-            <param name="workbookReference">reference to the workbook. All stiles are managed in this workbook</param>
+            <param name="workbookReference">Reference to the workbook. All stiles are managed in this workbook</param>
         </member>
         <member name="M:PicoXLSX.Worksheet.ClearActiveStyle">
             <summary>

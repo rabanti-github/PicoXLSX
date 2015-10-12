@@ -59,7 +59,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// List of Styles of the workbook
+        /// Gets the list of Styles of the workbook
         /// </summary>
         public List<Style> Styles
         {
@@ -198,7 +198,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="style">Style to add</param>
         /// <param name="distinct">If true, the passed style will be replaced by an identical style if existing. Otherwise an exception will be thrown in case of a duplicate</param>
-        /// <returns>Returns the added styles. In case of an existing style, the distinct style will be returned</returns>
+        /// <returns>Returns the added style. In case of an existing style, the distinct style will be returned</returns>
         public Style AddStyle(Style style, bool distinct)
         {
             bool styleExits = false;

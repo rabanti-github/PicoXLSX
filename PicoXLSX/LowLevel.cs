@@ -561,12 +561,12 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the XML string for the border part of the style sheet document
         /// </summary>
-        /// <param name="boderStyles">List of Style.Border objects</param>
+        /// <param name="borderStyles">List of Style.Border objects</param>
         /// <returns>String with formated XML data</returns>
-        private string CreateStyleBorderString(List<Style.Border> boderStyles)
+        private string CreateStyleBorderString(List<Style.Border> borderStyles)
         {
             StringBuilder sb = new StringBuilder();
-            foreach (Style.Border item in boderStyles)
+            foreach (Style.Border item in borderStyles)
             {
                 if (item.DiagonalDown == true && item.DiagonalUp == false) { sb.Append("<border diagonalDown=\"1\">\r\n"); }
                 else if (item.DiagonalDown == false && item.DiagonalUp == true) { sb.Append("<border diagonalUp=\"1\">\r\n"); }

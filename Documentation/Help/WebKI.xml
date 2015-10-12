@@ -121,6 +121,7 @@
     <HelpKINode Title="Style.Font.Copy Method " Url="html/23d3c06f-6899-ca99-41ab-96de83a2075e.htm" />
     <HelpKINode Title="Style.NumberFormat.Copy Method " Url="html/ec67a3c2-73ca-3c5d-2f28-45a6f06450ff.htm" />
   </HelpKINode>
+  <HelpKINode Title="createUniqueName method" Url="html/3bf4ae8a-dc46-9282-fcca-ccdccddefea9.htm" />
   <HelpKINode Title="Creator property" Url="html/7d892715-fa5e-9073-b3f0-85c63ec2d63d.htm" />
   <HelpKINode Title="CurrentBorder property" Url="html/985ca533-d5e5-3d56-4365-cd00df47dcbe.htm" />
   <HelpKINode Title="CurrentCellDirection property" Url="html/51fa8cd6-af04-a45f-ee80-5bf99d75bccd.htm" />
@@ -425,6 +426,7 @@
   <HelpKINode Title="Style class">
     <HelpKINode Title="Style Class" Url="html/d39b4a51-0a49-7a9b-bcd1-bac433145294.htm" />
     <HelpKINode Title="about Style class" Url="html/d39b4a51-0a49-7a9b-bcd1-bac433145294.htm" />
+    <HelpKINode Title="constructor" Url="html/860ef806-3528-5ed8-6386-e119d3ca0aaa.htm" />
     <HelpKINode Title="constructor" Url="html/77978064-4924-b5de-216e-befac1d59766.htm" />
     <HelpKINode Title="methods" Url="html/f8a20be1-6f12-aea2-6718-311ec5cf1a92.htm" />
     <HelpKINode Title="properties" Url="html/7b895d9a-22aa-86c0-1855-a11ded23636b.htm" />
@@ -493,6 +495,7 @@
   <HelpKINode Title="Style.CellXf.VerticallAlignValue enumeration" Url="html/422563e9-6272-264a-49f2-6d101f353cec.htm" />
   <HelpKINode Title="Style.CompareTo method" Url="html/a69523ec-9400-5ff5-c3e1-daabc404735a.htm" />
   <HelpKINode Title="Style.Copy method" Url="html/ba35aabb-c668-5ece-b3ee-8ffdaebe8e03.htm" />
+  <HelpKINode Title="Style.createUniqueName method" Url="html/3bf4ae8a-dc46-9282-fcca-ccdccddefea9.htm" />
   <HelpKINode Title="Style.CurrentBorder property" Url="html/985ca533-d5e5-3d56-4365-cd00df47dcbe.htm" />
   <HelpKINode Title="Style.CurrentCellXf property" Url="html/98f0424c-73c9-8ac3-677b-1e21cfaae015.htm" />
   <HelpKINode Title="Style.CurrentFill property" Url="html/19857227-c764-1c6b-8c2a-03752e346229.htm" />
@@ -563,7 +566,10 @@
   <HelpKINode Title="Style.NumberFormat.IsCustomFormat property" Url="html/241da745-2318-b976-a750-85d0c3263142.htm" />
   <HelpKINode Title="Style.NumberFormat.Number property" Url="html/06026975-7c50-7830-0791-44c7d353f653.htm" />
   <HelpKINode Title="Style.NumberFormat.NumberFormat constructor" Url="html/60a35a6a-7d41-5823-9ebc-87c47d6dd1ad.htm" />
-  <HelpKINode Title="Style.Style constructor" Url="html/77978064-4924-b5de-216e-befac1d59766.htm" />
+  <HelpKINode Title="Style.Style constructor">
+    <HelpKINode Title="Style Constructor " Url="html/860ef806-3528-5ed8-6386-e119d3ca0aaa.htm" />
+    <HelpKINode Title="Style Constructor " Url="html/77978064-4924-b5de-216e-befac1d59766.htm" />
+  </HelpKINode>
   <HelpKINode Title="Styles property" Url="html/804d7cdc-a478-aca4-d470-667a1ec98101.htm" />
   <HelpKINode Title="Subject property" Url="html/50ef6b0c-7c04-dd50-7bc5-871f0c7b0bcd.htm" />
   <HelpKINode Title="subscript enumeration member" Url="html/a1869e04-b523-eae9-eb43-c71978e39369.htm" />

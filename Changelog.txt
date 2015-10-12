@@ -22,3 +22,9 @@ NOTE: Styling is not complete and fully tested yet. Several additions and change
 v1.1.1	06.10.2015
 ******************
 - Minor bug fixes
+
+v1.1.2	12.10.2015
+******************
+- Added a method to generate random style names using a Crypto Service Provider. Fixed a problem of identical style names due to too fast processing when using a standard RNG
+- Minor bug fixes
+- Fixed typos

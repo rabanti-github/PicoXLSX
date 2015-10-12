@@ -12,11 +12,21 @@ namespace Demo
     {
         static void Main(string[] args)
         {
+            basicDemo();
             Demo1();
             Demo2();
             Demo3();
             Demo4();
             Demo5();
+        }
+
+        private static void basicDemo()
+        {
+            Workbook workbook = new Workbook("basic.xlsx", "Sheet1");   // Create new workbook
+            workbook.CurrentWorksheet.AddNextCell("Test");              // Add cell A1
+            workbook.CurrentWorksheet.AddNextCell("Test2");              // Add cell A1
+            workbook.CurrentWorksheet.AddNextCell("Test3");              // Add cell A1
+            workbook.Save();
         }
 
         private static void Demo1()

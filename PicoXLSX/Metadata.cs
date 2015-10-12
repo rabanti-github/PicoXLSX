@@ -40,7 +40,7 @@ namespace PicoXLSX
         /// </summary>
         public string Creator { get; set; }
         /// <summary>
-        /// Keyword for the workbook. Separate the keywords with semicolons (;)
+        /// Keywords for the workbook. Separate the keywords with semicolons (;)
         /// </summary>
         public string Keywords { get; set; }
         /// <summary>
@@ -76,7 +76,7 @@ namespace PicoXLSX
         /// </summary>
         public string Manager { get; set; }
         /// <summary>
-        /// Company owning of the document. This value is for organizational purpose. Add more than one manager by using the semicolon (;) between the words
+        /// Company owning the document. This value is for organizational purpose. Add more than one manager by using the semicolon (;) between the words
         /// </summary>
         public string Company { get; set; }
         /// <summary>
