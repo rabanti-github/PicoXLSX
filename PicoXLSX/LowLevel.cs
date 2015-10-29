@@ -34,7 +34,7 @@ namespace PicoXLSX
         /// <summary>
         /// Constructor with defined workbook object
         /// </summary>
-        /// <param name="workbook">workbook to process</param>
+        /// <param name="workbook">Workbook to process</param>
         public LowLevel(Workbook workbook)
         {
             this.culture = CultureInfo.CreateSpecificCulture("en-US");
@@ -47,11 +47,13 @@ namespace PicoXLSX
         /// <exception cref="IOException">Throws IOException in case of an error</exception>
         public void Save()
         {
+            this.workbook.ResolveMergedCells();
             XmlDocument workbookDocument = CreateWorkbookDocument();
             XmlDocument stylesheetDocument = CreateStyleSheetDocument();
             XmlDocument worksheetDocument;
             DocumentPath sheetPath;
             List<Uri> sheetURIs = new List<Uri>();
+
             try
             {
                 using (System.IO.Packaging.Package p = Package.Open(this.workbook.Filename, FileMode.Create))
@@ -153,6 +155,10 @@ namespace PicoXLSX
                 sb.Append(line + "\r\n");
             }
             sb.Append("</x:sheetData>\r\n");
+
+            sb.Append(CreateMergedCellsString(worksheet));
+            sb.Append(CreateSheetProtectionString(worksheet));
+
             sb.Append("</x:worksheet>");
             worksheetDocument.LoadXml(sb.ToString());
             XmlDeclaration dec = worksheetDocument.CreateXmlDeclaration("1.0", "UTF-8", "yes");
@@ -322,7 +328,7 @@ namespace PicoXLSX
         /// Method to sort the cells of a worksheet as preparation for the XML document
         /// </summary>
         /// <param name="sheet">Worksheet to process</param>
-        /// <returns>Two dimensional array of cell objects</returns>
+        /// <returns>Two dimensional array of Cell objects</returns>
         private List<List<Cell>> GetSortedSheetData(Worksheet sheet)
         {
             List<Cell> temp = new List<Cell>();
@@ -358,7 +364,7 @@ namespace PicoXLSX
         /// Method to create a row string
         /// </summary>
         /// <param name="columnFields">List of cells</param>
-        /// <param name="worksheet">worksheet to process</param>
+        /// <param name="worksheet">Worksheet to process</param>
         /// <returns>Formated row string</returns>
         private string CreateRowString(List<Cell> columnFields, Worksheet worksheet)
         {
@@ -444,23 +450,117 @@ namespace PicoXLSX
                 {
                     typeAttribute = "str";
                     tValue = " t=\"" + typeAttribute + "\" ";
-                    value = item.Value.ToString();
+                    if (item.Value == null)
+                    {
+                        value = string.Empty;
+                    }
+                    else
+                    {
+                        value = item.Value.ToString();
+                    }
                 }
-                sb.Append("<x:c" + tValue + "r=\"" + item.GetCellAddress() + "\"" + sValue + ">\r\n");
-                if (item.Fieldtype == Cell.CellType.FORMULA)
+                if (item.Fieldtype != Cell.CellType.EMPTY)
                 {
-                    sb.Append("<x:f>" + LowLevel.EscapeXMLChars(item.Value.ToString()) + "</x:f>\r\n");
+                    sb.Append("<x:c" + tValue + "r=\"" + item.GetCellAddress() + "\"" + sValue + ">\r\n");
+                    if (item.Fieldtype == Cell.CellType.FORMULA)
+                    {
+                        sb.Append("<x:f>" + LowLevel.EscapeXMLChars(item.Value.ToString()) + "</x:f>\r\n");
+                    }
+                    else
+                    {
+                        sb.Append("<x:v>" + LowLevel.EscapeXMLChars(value) + "</x:v>\r\n");
+                    }
+                    sb.Append("</x:c>\r\n");
                 }
-                else
+                else // Empty cell
                 {
-                    sb.Append("<x:v>" + LowLevel.EscapeXMLChars(value) + "</x:v>\r\n");
+                    sb.Append("<x:c" + tValue + "r=\"" + item.GetCellAddress() + "\"" + sValue + "/>\r\n");
                 }
-
-                sb.Append("</x:c>\r\n");
                 col++;
             }
             sb.Append("</x:row>");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Method to create the merged cells string of the passed worksheet
+        /// </summary>
+        /// <param name="sheet">Worksheet to process</param>
+        /// <returns>Formated string with merged cell ranges</returns>
+        private string CreateMergedCellsString(Worksheet sheet)
+        {
+            if (sheet.MergedCells.Count < 1)
+            {
+                return string.Empty;
+            }
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<x:mergeCells count=\"" + sheet.MergedCells.Count.ToString("G", culture) + "\">\r\n");
+                foreach (KeyValuePair<string, Cell.Range> item in sheet.MergedCells)
+                {
+                    sb.Append("<x:mergeCell ref=\"" + item.Value.ToString() + "\"/>\r\n");
+                }
+            sb.Append("</x:mergeCells>\r\n");
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Method to create the protection string of the passed worksheet
+        /// </summary>
+        /// <param name="sheet">Worksheet to process</param>
+        /// <returns>Formated string with protection statement of the worksheet</returns>
+        private string CreateSheetProtectionString(Worksheet sheet)
+        {
+            if (sheet.UseSheetProtection == false)
+            {
+                return string.Empty;
+            }
+            Dictionary<Worksheet.SheetProtectionValue, int> actualLockingValues = new Dictionary<Worksheet.SheetProtectionValue,int>();
+            if (sheet.SheetProtectionValues.Count == 0)
+            {
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.selectLockedCells, 1);
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.selectUnlockedCells, 1);
+            }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.objects) == false)
+            {
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.objects, 1);
+            }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.scenarios) == false)
+            {
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.scenarios, 1);
+            }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells) == false )
+            {
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.selectLockedCells, 1);
+            }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectUnlockedCells) == false || sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells) == false)
+            {
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.selectUnlockedCells, 1);
+            }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.formatCells)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.formatCells, 0); }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.formatColumns)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.formatColumns, 0); }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.formatRows)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.formatRows, 0); }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.insertColumns)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.insertColumns, 0); }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.insertRows)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.insertRows, 0); }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.insertHyperlinks)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.insertHyperlinks, 0); }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.deleteColumns)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.deleteColumns, 0); }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.deleteRows)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.deleteRows, 0); }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.sort)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.sort, 0); }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.autoFilter)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.autoFilter, 0); }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.pivotTables)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.pivotTables, 0); }
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<x:sheetProtection");
+            string temp;
+            foreach(KeyValuePair<Worksheet.SheetProtectionValue, int>item in actualLockingValues)
+           {
+               try
+               {
+                   temp = Enum.GetName(typeof(Worksheet.SheetProtectionValue), item.Key); // Note! If the enum names differs from the OOXML definitions, this method will cause invalid OOXML entries
+                   sb.Append(" " + temp + "=\"" + item.Value.ToString("G", culture)  + "\"");
+               }
+               catch { }
+           }
+            sb.Append(" sheet=\"1\"/>\r\n");
+           return sb.ToString();
         }
 
 
@@ -730,12 +830,13 @@ namespace PicoXLSX
         {
             StringBuilder sb = new StringBuilder();
             StringBuilder sb2 = new StringBuilder();
-            string alignmentString;
+            string alignmentString, protectionString;
             int formatNumber, textRotation;
             foreach (Style item in styles)
             {
                 textRotation = item.CurrentCellXf.CalculateInternalRotation();
                 alignmentString = string.Empty;
+                protectionString = string.Empty;
                 if (item.CurrentCellXf.HorizontalAlign != Style.CellXf.HorizontalAlignValue.none || item.CurrentCellXf.VerticalAlign != Style.CellXf.VerticallAlignValue.none || item.CurrentCellXf.Alignment != Style.CellXf.TextBreakValue.none || textRotation != 0)
                 {
                     sb2.Clear();
@@ -780,6 +881,22 @@ namespace PicoXLSX
                     alignmentString = sb2.ToString();
                 }
 
+                if (item.CurrentCellXf.Hidden == true || item.CurrentCellXf.Locked == true)
+                {
+                    if (item.CurrentCellXf.Hidden == true && item.CurrentCellXf.Locked == true)
+                    {
+                        protectionString = "<protection locked=\"1\" hidden=\"1\"/>\r\n";
+                    }
+                    else if (item.CurrentCellXf.Hidden == true && item.CurrentCellXf.Locked == false)
+                    {
+                        protectionString = "<protection hidden=\"1\" locked=\"0\"/>\r\n";
+                    }
+                    else
+                    {
+                        protectionString = "<protection hidden=\"0\" locked=\"1\"/>\r\n";
+                    }
+                }
+
                 sb.Append("<xf numFmtId=\"");
                 if (item.CurrentNumberFormat.IsCustomFormat == true)
                 {
@@ -805,9 +922,13 @@ namespace PicoXLSX
                 {
                     sb.Append("\" applyBorder=\"1");
                 }
-                if (alignmentString != string.Empty)
+                if (alignmentString != string.Empty || item.CurrentCellXf.ForceApplyAlingnment == true)
                 {
                     sb.Append("\" applyAlignment=\"1");
+                }
+                if (protectionString != string.Empty)
+                {
+                    sb.Append("\" applyProtection=\"1");
                 }
                 if (item.CurrentNumberFormat.Number != Style.NumberFormat.FormatNumber.none)
                 {
@@ -817,10 +938,11 @@ namespace PicoXLSX
                 {
                     sb.Append("\""); 
                 }
-                if (alignmentString != string.Empty)
+                if (alignmentString != string.Empty || protectionString != string.Empty)
                 {
                     sb.Append(">\r\n");
                     sb.Append(alignmentString);
+                    sb.Append(protectionString);
                     sb.Append("</xf>\r\n");
                 }
                 else

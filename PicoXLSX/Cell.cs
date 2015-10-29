@@ -32,6 +32,8 @@ namespace PicoXLSX
             BOOL,
             /// <summary>Type for Formulas (The cell will be handled differently)</summary>
             FORMULA,
+            /// <summary>Type for empty cells. This type is only used for merged cells (all cells except the first of the cell range)</summary>
+            EMPTY,
             /// <summary>Default Type, not specified</summary>
             DEFAULT
         }
@@ -91,11 +93,11 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method resets the Cell type an tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellType FORMULA will skip this method
+        /// Method resets the Cell type an tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellTypes FORMULA and EMPTY will skip this method
         /// </summary>
         public void ResolveCellType()
         {
-            if (this.Fieldtype == CellType.FORMULA) { return; }
+            if (this.Fieldtype == CellType.FORMULA || this.Fieldtype == CellType.EMPTY) { return; }
             Type t = this.Value.GetType();
             if (t == typeof(int)) { this.Fieldtype = CellType.NUMBER; }
             else if (t == typeof(float)) { this.Fieldtype = CellType.NUMBER; }
@@ -235,9 +237,8 @@ namespace PicoXLSX
         /// <returns>List of cell addresses</returns>
         public static List<Address> GetCellRange(string range)
         {
-            Address start, end;
-            ResolveCellRange(range, out start, out end);
-            return GetCellRange(start, end);
+            Range range2 = ResolveCellRange(range);
+            return GetCellRange(range2.StartAddress, range2.EndAddress);
         }
 
         /// <summary>
@@ -306,16 +307,15 @@ namespace PicoXLSX
                 }
             }
             return output;
-        }
-
+        }     
+        
         /// <summary>
         /// Resolves a cell range from the format like  A1:B3 or AAD556:AAD1000
         /// </summary>
         /// <param name="range">Range to process</param>
-        /// <param name="startAddress">Start address as out parameter</param>
-        /// <param name="endAddress">End address as out parameter</param>
+        /// <returns>Range object</returns>
         /// <exception cref="FormatException">Throws a FormatException if the start or end address was malformed</exception>
-        public static void ResolveCellRange(string range, out Address startAddress, out Address endAddress)
+        public static Range ResolveCellRange(string range)
         {
             if (string.IsNullOrEmpty(range))
             {
@@ -326,8 +326,7 @@ namespace PicoXLSX
             {
                 throw new FormatException("The cell range (" + range + ") is malformed and could not be resolved");
             }
-            startAddress = ResolveCellCoordinate(split[0]);
-            endAddress = ResolveCellCoordinate(split[1]);
+            return new Range(ResolveCellCoordinate(split[0]), ResolveCellCoordinate(split[1]));
         }
 
         /// <summary>
@@ -432,6 +431,28 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Sets the lock state of the cell
+        /// </summary>
+        /// <param name="isLocked">If true, the cell will be locked if the worksheet is protected</param>
+        /// <param name="isHidden">If true, the value of the cell will be invisible if the worksheet is protected</param>
+        /// <param name="workbookReference">Workbook reference. Locking of cells uses styles which are managed in the workbook</param>
+        public void SetCellLockedState(bool isLocked, bool isHidden, Workbook workbookReference)
+        {
+            Style lockStyle;
+            if (this.cellStyle == null)
+            {
+                lockStyle = new Style();
+            }
+            else
+            {
+                lockStyle = this.cellStyle.Copy();
+            }
+            lockStyle.CurrentCellXf.Locked = isLocked;
+            lockStyle.CurrentCellXf.Hidden = isHidden;
+            this.SetStyle(lockStyle, workbookReference);
+        }
+
+        /// <summary>
         /// Gets the column and row number (zero based) of a cell by the address
         /// </summary>
         /// <param name="address">Address as string in the format A1 - XFD16384</param>
@@ -480,12 +501,47 @@ namespace PicoXLSX
             /// <summary>
             /// Overwritten ToString method
             /// </summary>
-            /// <returns>Returns the cell address(e.g. 'A15')</returns>
+            /// <returns>Returns the cell address (e.g. 'A15')</returns>
             public override string ToString()
             {
                 return GetAddress();
             }
             
+        }
+
+        /// <summary>
+        /// Struct representing a cell range with a start and end address
+        /// </summary>
+        public struct Range
+        {
+            /// <summary>
+            /// Start address of the range
+            /// </summary>
+            public Address StartAddress;
+            /// <summary>
+            /// End address of the range
+            /// </summary>
+            public Address EndAddress;
+
+            /// <summary>
+            /// Constructor with arguments
+            /// </summary>
+            /// <param name="start">Start address of the range</param>
+            /// <param name="end">End address of the range</param>
+            public Range(Address start, Address end)
+            {
+                StartAddress = start;
+                EndAddress = end;
+            }
+            /// <summary>
+            /// Overwritten ToString method
+            /// </summary>
+            /// <returns>Returns the range (e.g. 'A1:B12')</returns>
+            public override string ToString()
+            {
+                return StartAddress.ToString() + ":" + EndAddress.ToString();
+            }
+
         }
 
     }

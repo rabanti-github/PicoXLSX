@@ -30,7 +30,7 @@
         </member>
         <member name="M:PicoXLSX.Cell.ResolveCellType">
             <summary>
-            Method resets the Cell type an tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellType FORMULA will skip this method
+            Method resets the Cell type an tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellTypes FORMULA and EMPTY will skip this method
             </summary>
         </member>
         <member name="M:PicoXLSX.Cell.GetCellAddress">
@@ -101,13 +101,12 @@
             <param name="endAddress">End address</param>
             <returns>List of cell addresses</returns>
         </member>
-        <member name="M:PicoXLSX.Cell.ResolveCellRange(System.String,PicoXLSX.Cell.Address@,PicoXLSX.Cell.Address@)">
+        <member name="M:PicoXLSX.Cell.ResolveCellRange(System.String)">
             <summary>
             Resolves a cell range from the format like  A1:B3 or AAD556:AAD1000
             </summary>
             <param name="range">Range to process</param>
-            <param name="startAddress">Start address as out parameter</param>
-            <param name="endAddress">End address as out parameter</param>
+            <returns>Range object</returns>
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the start or end address was malformed</exception>
         </member>
         <member name="M:PicoXLSX.Cell.ResolveCellAddress(System.Int32,System.Int32)">
@@ -135,6 +134,14 @@
             </summary>
             <param name="columnAddress">Column address (A - XFD)</param>
             <returns>Column number (zero-based)</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.SetCellLockedState(System.Boolean,System.Boolean,PicoXLSX.Workbook)">
+            <summary>
+            Sets the lock state of the cell
+            </summary>
+            <param name="isLocked">If true, the cell will be locked if the worksheet is protected</param>
+            <param name="isHidden">If true, the value of the cell will be invisible if the worksheet is protected</param>
+            <param name="workbookReference">Workbook reference. Locking of cells uses styles which are managed in the workbook</param>
         </member>
         <member name="M:PicoXLSX.Cell.ResolveCellCoordinate(System.String)">
             <summary>
@@ -183,6 +190,9 @@
         <member name="F:PicoXLSX.Cell.CellType.FORMULA">
             <summary>Type for Formulas (The cell will be handled differently)</summary>
         </member>
+        <member name="F:PicoXLSX.Cell.CellType.EMPTY">
+            <summary>Type for empty cells. This type is only used for merged cells (all cells except the first of the cell range)</summary>
+        </member>
         <member name="F:PicoXLSX.Cell.CellType.DEFAULT">
             <summary>Default Type, not specified</summary>
         </member>
@@ -218,7 +228,35 @@
             <summary>
             Overwritten ToString method
             </summary>
-            <returns>Returns the cell address(e.g. 'A15')</returns>
+            <returns>Returns the cell address (e.g. 'A15')</returns>
+        </member>
+        <member name="T:PicoXLSX.Cell.Range">
+            <summary>
+            Struct representing a cell range with a start and end address
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Cell.Range.StartAddress">
+            <summary>
+            Start address of the range
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Cell.Range.EndAddress">
+            <summary>
+            End address of the range
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Cell.Range.#ctor(PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
+            <summary>
+            Constructor with arguments
+            </summary>
+            <param name="start">Start address of the range</param>
+            <param name="end">End address of the range</param>
+        </member>
+        <member name="M:PicoXLSX.Cell.Range.ToString">
+            <summary>
+            Overwritten ToString method
+            </summary>
+            <returns>Returns the range (e.g. 'A1:B12')</returns>
         </member>
         <member name="T:PicoXLSX.OutOfRangeException">
             <summary>
@@ -346,6 +384,22 @@
             </summary>
             <param name="message">Message of the exception</param>
         </member>
+        <member name="T:PicoXLSX.UnkownRangeException">
+            <summary>
+            Class for exceptions regarding unknown cell ranges
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.UnkownRangeException.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.UnkownRangeException.#ctor(System.String)">
+            <summary>
+            Constructor with passed message
+            </summary>
+            <param name="message">Message of the exception</param>
+        </member>
         <member name="T:PicoXLSX.LowLevel">
             <summary>
             Class for low level handling (XML, formatting, packing)
@@ -355,7 +409,7 @@
             <summary>
             Constructor with defined workbook object
             </summary>
-            <param name="workbook">workbook to process</param>
+            <param name="workbook">Workbook to process</param>
         </member>
         <member name="M:PicoXLSX.LowLevel.Save">
             <summary>
@@ -405,15 +459,29 @@
             Method to sort the cells of a worksheet as preparation for the XML document
             </summary>
             <param name="sheet">Worksheet to process</param>
-            <returns>Two dimensional array of cell objects</returns>
+            <returns>Two dimensional array of Cell objects</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateRowString(System.Collections.Generic.List{PicoXLSX.Cell},PicoXLSX.Worksheet)">
             <summary>
             Method to create a row string
             </summary>
             <param name="columnFields">List of cells</param>
-            <param name="worksheet">worksheet to process</param>
+            <param name="worksheet">Worksheet to process</param>
             <returns>Formated row string</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateMergedCellsString(PicoXLSX.Worksheet)">
+            <summary>
+            Method to create the merged cells string of the passed worksheet
+            </summary>
+            <param name="sheet">Worksheet to process</param>
+            <returns>Formated string with merged cell ranges</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateSheetProtectionString(PicoXLSX.Worksheet)">
+            <summary>
+            Method to create the protection string of the passed worksheet
+            </summary>
+            <param name="sheet">Worksheet to process</param>
+            <returns>Formated string with protection statement of the worksheet</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateAppString">
             <summary>
@@ -771,6 +839,16 @@
             </summary>
             <returns>Copy of the current object without the internal ID</returns>
         </member>
+        <member name="P:PicoXLSX.Style.CellXf.Locked">
+            <summary>
+            If true, the style is used for locking / protection of cells or worksheets
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.CellXf.Hidden">
+            <summary>
+            If true, the style is used for hiding cell values / protection of cells
+            </summary>
+        </member>
         <member name="P:PicoXLSX.Style.CellXf.HorizontalAlign">
             <summary>
             Horizontal alignment of the style
@@ -799,6 +877,11 @@
         <member name="P:PicoXLSX.Style.CellXf.TextDirection">
             <summary>
             Direction of the text within the cell
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Style.CellXf.ForceApplyAlingnment">
+            <summary>
+            If true, the applyAlignment value of the style will be set to true (used to merge cells)
             </summary>
         </member>
         <member name="T:PicoXLSX.Style.CellXf.HorizontalAlignValue">
@@ -865,7 +948,7 @@
             <summary>Word wrap is active</summary>
         </member>
         <member name="F:PicoXLSX.Style.CellXf.TextBreakValue.shrinkToFit">
-            <summary>Text will be shrinked to fit the cell</summary>
+            <summary>Text will be resized to fit the cell</summary>
         </member>
         <member name="F:PicoXLSX.Style.CellXf.TextBreakValue.none">
             <summary>Text will overflow in cell</summary>
@@ -1508,6 +1591,9 @@
         <member name="P:PicoXLSX.Style.BasicStyles.DottedFill_0_125">
             <summary>Gets the special pattern fill style (for compatibility)</summary>
         </member>
+        <member name="P:PicoXLSX.Style.BasicStyles.MergeCellStyle">
+            <summary>Gets the style used when merging cells</summary>
+        </member>
         <member name="T:PicoXLSX.Style.BasicStyles.StyleEnum">
             <summary>
             Enum with style selection
@@ -1545,6 +1631,9 @@
         </member>
         <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.dottedFill_0_125">
             <summary>Special pattern fill style for compatibility purpose </summary>
+        </member>
+        <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.mergeCellStyle">
+            <summary>Style to apply on merged cells </summary>
         </member>
         <member name="T:PicoXLSX.NamespaceDoc">
             <summary>
@@ -1635,6 +1724,11 @@
             <param name="fonts">Out parameter for a sorted list of Style.Font objects</param>
             <param name="numberFormats">Out parameter for a sorted list of Style.NumberFormat objects</param>
             <param name="cellXfs">Out parameter for a sorted list of Style.CellXf objects</param>
+        </member>
+        <member name="M:PicoXLSX.Workbook.ResolveMergedCells">
+            <summary>
+            Method to resolve all merged cells in all worksheets. Only the value of the very first cell of the locked cells range will be visible. The other values are still present (set to EMPTY) but will not be stored in the worksheet.
+            </summary>
         </member>
         <member name="M:PicoXLSX.Workbook.Save">
             <summary>
@@ -1861,6 +1955,12 @@
             <param name="value">Boolean value to insert</param>
             <param name="address">Cell address in the format A1 - XFD16384</param>
         </member>
+        <member name="M:PicoXLSX.Worksheet.AddCell(PicoXLSX.Cell)">
+            <summary>
+            Adds a cell object. This object must contain a valid row and column address
+            </summary>
+            <param name="cell">Cell object to insert</param>
+        </member>
         <member name="M:PicoXLSX.Worksheet.AddCellFormula(System.String,System.String)">
             <summary>
             Adds a cell formula as string to the defined cell address
@@ -2083,9 +2183,54 @@
             Clears the active style of the worksheet. All later added calls will contain no style unless another active style is set
             </summary>
         </member>
+        <member name="M:PicoXLSX.Worksheet.MergeCells(PicoXLSX.Cell.Range)">
+            <summary>
+            Merges the defined cell range
+            </summary>
+            <param name="cellRange">Range to merge</param>
+            <returns>Returns the validated range of the merged cells (e.g. 'A1:B12')</returns>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.MergeCells(System.String)">
+            <summary>
+            Merges the defined cell range
+            </summary>
+            <param name="cellRange">Range to merge (e.g. 'A1:B12')</param>
+            <returns>Returns the validated range of the merged cells (e.g. 'A1:B12')</returns>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.MergeCells(PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
+            <summary>
+            Merges the defined cell range
+            </summary>
+            <param name="startAddress">Start address of the merged cell range</param>
+            <param name="endAddress">End address of the merged cell range</param>
+            <returns>Returns the validated range of the merged cells (e.g. 'A1:B12')</returns>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.RemoveMergedCells(System.String)">
+            <summary>
+            Removes the defined merged cell range
+            </summary>
+            <param name="range">Cell range to remove the merging</param>
+            <exception cref="T:PicoXLSX.UnkownRangeException">Throws a UnkownRangeException if the passed cell range was not merged earlier</exception>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddAllowedActionOnSheetProtection(PicoXLSX.Worksheet.SheetProtectionValue)">
+            <summary>
+            Method to add allowed actions if the worksheet is protected. If one or more values are added, UseSheetProtection will be set to true
+            </summary>
+            <param name="typeOfProtection">Allowed action on the worksheet or cells</param>
+        </member>
         <member name="P:PicoXLSX.Worksheet.CurrentCellDirection">
             <summary>
             Direction when using AddNextCell method
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.SheetProtectionValues">
+            <summary>
+            List of SheetProtectionValue. These values defines the allowed actions if the worksheet is protected
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.UseSheetProtection">
+            <summary>
+            If true, the worksheet is protected
             </summary>
         </member>
         <member name="P:PicoXLSX.Worksheet.SheetName">
@@ -2101,6 +2246,11 @@
         <member name="P:PicoXLSX.Worksheet.Cells">
             <summary>
             Cells of the worksheet
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.MergedCells">
+            <summary>
+            Dictionary with merged cells (only references)
             </summary>
         </member>
         <member name="P:PicoXLSX.Worksheet.DefaultRowHeight">
@@ -2133,6 +2283,56 @@
         </member>
         <member name="F:PicoXLSX.Worksheet.CellDirection.RowToRow">
             <summary>The next cell will be on the same column (A1,A2,A3...)</summary>
+        </member>
+        <member name="T:PicoXLSX.Worksheet.SheetProtectionValue">
+            <summary>
+            Enum to define the possible protection types when protectong a worksheet
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.objects">
+            <summary>If selected, the user can edit objects if the worksheets is protected</summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.scenarios">
+            <summary>If selected, the user can edit scenarios if the worksheets is protected</summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.formatCells">
+            <summary>If selected, the user can format cells if the worksheets is protected</summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.formatColumns">
+            <summary>If selected, the user can format columns if the worksheets is protected</summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.formatRows">
+            <summary>If selected, the user can format rows if the worksheets is protected</summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.insertColumns">
+            <summary>If selected, the user can insert columns if the worksheets is protected</summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.insertRows">
+            <summary>If selected, the user can insert rows if the worksheets is protected</summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.insertHyperlinks">
+            <summary>If selected, the user can insert hyperlinks if the worksheets is protected</summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.deleteColumns">
+            <summary>If selected, the user can delete columns if the worksheets is protected</summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.deleteRows">
+            <summary>If selected, the user can delete rows if the worksheets is protected</summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.selectLockedCells">
+            <summary>If selected, the user can select locked cells if the worksheets is protected</summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.sort">
+            <summary>If selected, the user can sort cells if the worksheets is protected</summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.autoFilter">
+            <summary>If selected, the user can use auto filters if the worksheets is protected</summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.pivotTables">
+            <summary>If selected, the user can use pivot tables if the worksheets is protected</summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.selectUnlockedCells">
+            <summary>If selected, the user can select unlocked cells if the worksheets is protected</summary>
         </member>
     </members>
 </doc>

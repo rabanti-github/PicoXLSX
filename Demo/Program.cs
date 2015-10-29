@@ -10,6 +10,10 @@ namespace Demo
 {
     class Program
     {
+        /// <summary>
+        /// Method to run all demos 
+        /// </summary>
+        /// <param name="args">Not used</param>
         static void Main(string[] args)
         {
             basicDemo();
@@ -18,17 +22,24 @@ namespace Demo
             Demo3();
             Demo4();
             Demo5();
+            Demo6();
         }
 
+        /// <summary>
+        /// This is a very basic demo (adding three values and save the workbook)
+        /// </summary>
         private static void basicDemo()
         {
             Workbook workbook = new Workbook("basic.xlsx", "Sheet1");   // Create new workbook
             workbook.CurrentWorksheet.AddNextCell("Test");              // Add cell A1
-            workbook.CurrentWorksheet.AddNextCell("Test2");              // Add cell A1
-            workbook.CurrentWorksheet.AddNextCell("Test3");              // Add cell A1
+            workbook.CurrentWorksheet.AddNextCell("Test2");              // Add cell B1
+            workbook.CurrentWorksheet.AddNextCell("Test3");              // Add cell C1
             workbook.Save();
         }
 
+        /// <summary>
+        /// This method shows the usage of AddNextCell with several data types and formulas
+        /// </summary>
         private static void Demo1()
         {
             Workbook workbook = new Workbook("test1.xlsx", "Sheet1");   // Create new workbook
@@ -46,9 +57,12 @@ namespace Demo
             workbook.Save();                                            // Save the workbook
         }
 
+        /// <summary>
+        /// This demo shows the usage of several data types, the method AddCell, more than one worksheet and the SaveAs method
+        /// </summary>
         private static void Demo2()
         {
-            Workbook workbook = new Workbook(false);                         // Create new workbook
+            Workbook workbook = new Workbook(false);                    // Create new workbook
             workbook.AddWorksheet("Sheet1");                            // Add a new Worksheet and set it as current sheet
             workbook.CurrentWorksheet.AddNextCell("月曜日");            // Add cell A1 (Unicode)
             workbook.CurrentWorksheet.AddNextCell(-987);                // Add cell B1
@@ -67,6 +81,9 @@ namespace Demo
             workbook.SaveAs("test2.xlsx");                              // Save the workbook
         }
 
+        /// <summary>
+        /// This demo shows the usage of flipped direction when using AddnextCell
+        /// </summary>
         private static void Demo3()
         {
             Workbook workbook = new Workbook("test3.xlsx", "Sheet1");   // Create new workbook
@@ -85,6 +102,9 @@ namespace Demo
             workbook.Save();                                            // Save the workbook
         }
 
+        /// <summary>
+        /// This demo shows the usage of several styles, column widths and row heights
+        /// </summary>
         private static void Demo4()
         {
             Workbook workbook = new Workbook("test4.xlsx", "Sheet1");                                        // Create new workbook
@@ -129,6 +149,9 @@ namespace Demo
             workbook.Save();                                                                               // Save the workbook
         }
 
+        /// <summary>
+        /// This demo shows the usage of cell ranges, adding and removing styles, and meta data 
+        /// </summary>
         private static void Demo5()
         {
             Workbook workbook = new Workbook("test5.xlsx", "Sheet1");                                   // Create new workbook
@@ -152,6 +175,30 @@ namespace Demo
             workbook.WorkbookMetadata.Creator = "PicoXLSX";                                             // Add meta data to workbook
             workbook.WorkbookMetadata.Keywords = "Keyword1;Keyword2;Keyword3";                          // Add meta data to workbook
 
+            workbook.Save();                                                                            // Save the workbook
+        }
+
+        /// <summary>
+        /// This demo shows the usage of merging and protecting cells
+        /// </summary>
+        private static void Demo6()
+        {
+            Workbook workbook = new Workbook("test6.xlsx", "Sheet1");                                   // Create new workbook
+            workbook.CurrentWorksheet.AddNextCell("Mergerd1");                                          // Add cell A1
+            workbook.CurrentWorksheet.MergeCells("A1:C1");                                              // Merge cells from A1 to C1
+            workbook.CurrentWorksheet.GoToNextRow();                                                    // Go to next row
+            workbook.CurrentWorksheet.AddNextCell(false);                                               // Add cell A2
+            workbook.CurrentWorksheet.MergeCells("A2:D2");                                              // Merge cells from A2 to D1
+            workbook.CurrentWorksheet.GoToNextRow();                                                    // Go to next row
+            workbook.CurrentWorksheet.AddNextCell("22.2d");                                             // Add cell A3
+            workbook.CurrentWorksheet.MergeCells("A3:E4");                                              // Merge cells from A3 to E4
+            workbook.AddWorksheet("Protected");                                                         // Add a new worksheet
+            workbook.CurrentWorksheet.AddAllowedActionOnSheetProtection(Worksheet.SheetProtectionValue.sort);               // Allow to sort sheet (worksheet is automatically set as protected)
+            workbook.CurrentWorksheet.AddAllowedActionOnSheetProtection(Worksheet.SheetProtectionValue.insertRows);         // Allow to insert rows
+            workbook.CurrentWorksheet.AddAllowedActionOnSheetProtection(Worksheet.SheetProtectionValue.selectLockedCells);  // Allow to select cells (locked cells caused automatically to select unlocked cells)
+            workbook.CurrentWorksheet.AddNextCell("Cell A1");                                           // Add cell A1
+            workbook.CurrentWorksheet.AddNextCell("Cell B1");                                           // Add cell B1
+            workbook.CurrentWorksheet.Cells["A1"].SetCellLockedState(false, true, workbook);            // Set the locking state of cell A1 (not locked but value is hidden when cell selected)
             workbook.Save();                                                                            // Save the workbook
         }
 

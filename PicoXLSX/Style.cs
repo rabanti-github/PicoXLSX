@@ -135,7 +135,7 @@ namespace PicoXLSX
             {
                 /// <summary>Word wrap is active</summary>
                 wrapText,
-                /// <summary>Text will be shrinked to fit the cell</summary>
+                /// <summary>Text will be resized to fit the cell</summary>
                 shrinkToFit,
                 /// <summary>Text will overflow in cell</summary>
                 none,
@@ -151,7 +151,14 @@ namespace PicoXLSX
                 /// <summary>Text direction is vertical</summary>
                 vertical,
             }
-
+            /// <summary>
+            /// If true, the style is used for locking / protection of cells or worksheets
+            /// </summary>
+            public bool Locked { get; set; }
+            /// <summary>
+            /// If true, the style is used for hiding cell values / protection of cells
+            /// </summary>
+            public bool Hidden { get; set; }
             /// <summary>
             /// Horizontal alignment of the style
             /// </summary>
@@ -197,7 +204,12 @@ namespace PicoXLSX
                     textDirection = value;
                     CalculateInternalRotation();
                 }
-            }            
+            }
+
+            /// <summary>
+            /// If true, the applyAlignment value of the style will be set to true (used to merge cells)
+            /// </summary>
+            public bool ForceApplyAlingnment { get; set; }
             
             /// <summary>
             /// Default constructor
@@ -251,7 +263,10 @@ namespace PicoXLSX
                 if (this.TextDirection != other.TextDirection) { return false; }
                 if (this.TextRotation != other.TextRotation) { return false; }
                 if (this.VerticalAlign != other.VerticalAlign) { return false; }
-                else { return true; }
+                if (this.ForceApplyAlingnment != other.ForceApplyAlingnment) { return false; }
+                if (this.Locked != other.Locked) { return false; }
+                if (this.Hidden != other.Hidden) { return false; }
+                return true;
             }
 
             /// <summary>
@@ -276,6 +291,9 @@ namespace PicoXLSX
                 copy.TextDirection = this.TextDirection;
                 copy.TextRotation = this.TextRotation;
                 copy.VerticalAlign = this.VerticalAlign;
+                copy.ForceApplyAlingnment = this.ForceApplyAlingnment;
+                copy.Locked = this.Locked;
+                copy.Hidden = this.Hidden;
                 return copy;
             }
 
@@ -1107,10 +1125,12 @@ namespace PicoXLSX
                 /// <summary>Format cell with a thin border and a thick bottom line as header cell</summary>
                 borderFrameHeader,
                 /// <summary>Special pattern fill style for compatibility purpose </summary>
-                dottedFill_0_125
+                dottedFill_0_125,
+                /// <summary>Style to apply on merged cells </summary>
+                mergeCellStyle,
             }
 
-            private static Style bold, italic, boldItalic, underline, doubleUnderline, strike, dateFormat, roundFormat, borderFrame, borderFrameHeader, dottedFill_0_125;
+            private static Style bold, italic, boldItalic, underline, doubleUnderline, strike, dateFormat, roundFormat, borderFrame, borderFrameHeader, dottedFill_0_125, mergeCellStyle;
 
             /// <summary>Gets the bold style</summary>
             public static Style Bold
@@ -1145,6 +1165,9 @@ namespace PicoXLSX
             /// <summary>Gets the special pattern fill style (for compatibility)</summary>
             public static Style DottedFill_0_125
             { get { return GetStyle(StyleEnum.dottedFill_0_125); } }
+            /// <summary>Gets the style used when merging cells</summary>
+            public static Style MergeCellStyle
+            { get { return GetStyle(StyleEnum.mergeCellStyle); } }
 
             /// <summary>
             /// Method to maintain the styles and to create singleton instances
@@ -1251,6 +1274,14 @@ namespace PicoXLSX
                             dottedFill_0_125.CurrentFill.PatternFill = Fill.PatternValue.gray125;
                         }
                         s = dottedFill_0_125;
+                        break;
+                    case StyleEnum.mergeCellStyle:
+                        if (mergeCellStyle == null)
+                        {
+                            mergeCellStyle = new Style();
+                            mergeCellStyle.CurrentCellXf.ForceApplyAlingnment = true;
+                        }
+                        s = mergeCellStyle;
                         break;
                     default:
                         break;

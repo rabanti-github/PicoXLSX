@@ -486,6 +486,47 @@ namespace PicoXLSX
 
         }
 
+        /// <summary>
+        /// Method to resolve all merged cells in all worksheets. Only the value of the very first cell of the locked cells range will be visible. The other values are still present (set to EMPTY) but will not be stored in the worksheet.
+        /// </summary>
+        public void ResolveMergedCells()
+        {
+            Style mergStyle = Style.BasicStyles.MergeCellStyle;
+            int pos;
+            List<Cell.Address> addresses;
+            Cell cell;
+            foreach(Worksheet sheet in this.worksheets)
+            {
+                foreach(KeyValuePair<string, Cell.Range> range in sheet.MergedCells)
+                {
+                    pos = 0;
+                    addresses = Cell.GetCellRange(range.Value.StartAddress, range.Value.EndAddress);
+                    foreach(Cell.Address address in addresses)
+                    {
+                        if (sheet.Cells.ContainsKey(address.ToString()) == false)
+                        {
+                            cell = new Cell();
+                            cell.Fieldtype = Cell.CellType.EMPTY;
+                            cell.RowAddress = address.Row;
+                            cell.ColumnAddress = address.Column;
+                            sheet.AddCell(cell);
+                        }
+                        else
+                        {
+                            cell = sheet.Cells[address.ToString()];
+                        }
+                        if (pos != 0)
+                        {
+                            cell.Fieldtype = Cell.CellType.EMPTY;
+                        }
+                        cell.SetStyle(mergStyle, this);
+                        pos++;
+                    }
+
+                }
+            }
+        }
+
         
         /// <summary>
         /// Saves the workbook

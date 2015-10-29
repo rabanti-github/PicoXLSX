@@ -40,6 +40,44 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Enum to define the possible protection types when protectong a worksheet
+        /// </summary>
+        public enum SheetProtectionValue
+        {
+           // sheet, // Is alway on 1 if protected
+            /// <summary>If selected, the user can edit objects if the worksheets is protected</summary>
+            objects,
+            /// <summary>If selected, the user can edit scenarios if the worksheets is protected</summary>
+            scenarios,
+            /// <summary>If selected, the user can format cells if the worksheets is protected</summary>
+            formatCells,
+            /// <summary>If selected, the user can format columns if the worksheets is protected</summary>
+            formatColumns,
+            /// <summary>If selected, the user can format rows if the worksheets is protected</summary>
+            formatRows,
+            /// <summary>If selected, the user can insert columns if the worksheets is protected</summary>
+            insertColumns,
+            /// <summary>If selected, the user can insert rows if the worksheets is protected</summary>
+            insertRows,
+            /// <summary>If selected, the user can insert hyperlinks if the worksheets is protected</summary>
+            insertHyperlinks,
+            /// <summary>If selected, the user can delete columns if the worksheets is protected</summary>
+            deleteColumns,
+            /// <summary>If selected, the user can delete rows if the worksheets is protected</summary>
+            deleteRows,
+            /// <summary>If selected, the user can select locked cells if the worksheets is protected</summary>
+            selectLockedCells,
+            /// <summary>If selected, the user can sort cells if the worksheets is protected</summary>
+            sort,
+            /// <summary>If selected, the user can use auto filters if the worksheets is protected</summary>
+            autoFilter,
+            /// <summary>If selected, the user can use pivot tables if the worksheets is protected</summary>
+            pivotTables,
+            /// <summary>If selected, the user can select unlocked cells if the worksheets is protected</summary>
+            selectUnlockedCells 
+        }
+
+        /// <summary>
         /// Direction when using AddNextCell method
         /// </summary>
         public CellDirection CurrentCellDirection { get; set; }
@@ -54,6 +92,27 @@ namespace PicoXLSX
         private float defaultColumnWidth;
         private Dictionary<int, float> columnWidths;
         private Dictionary<int, float> rowHeights;
+        private Dictionary<string, Cell.Range> mergedCells;
+        private bool useSheetProtection;
+        private List<SheetProtectionValue> sheetProtectionValues;
+
+        /// <summary>
+        /// List of SheetProtectionValue. These values defines the allowed actions if the worksheet is protected
+        /// </summary>
+        public List<SheetProtectionValue> SheetProtectionValues
+        {
+            get { return sheetProtectionValues; }
+        }
+
+        /// <summary>
+        /// If true, the worksheet is protected
+        /// </summary>
+        public bool UseSheetProtection
+        {
+            get { return useSheetProtection; }
+            set { useSheetProtection = value; }
+        }
+        
 
         /// <summary>
         /// Name of the worksheet
@@ -75,6 +134,14 @@ namespace PicoXLSX
         public Dictionary<string, Cell> Cells
         {
             get { return cells; }
+        }
+
+        /// <summary>
+        /// Dictionary with merged cells (only references)
+        /// </summary>
+        public Dictionary<string, Cell.Range> MergedCells
+        {
+            get { return mergedCells; }
         }
 
         /// <summary>
@@ -123,6 +190,8 @@ namespace PicoXLSX
             this.defaultRowHeight = DEFAULT_ROW_HEIGHT;
             this.columnWidths = new Dictionary<int, float>();
             this.rowHeights = new Dictionary<int, float>();
+            this.mergedCells = new Dictionary<string,Cell.Range>();
+            this.sheetProtectionValues = new List<SheetProtectionValue>();
             this.activeStyle = null;
             this.workbookReference = null;
         }
@@ -396,6 +465,7 @@ namespace PicoXLSX
         /// <param name="value">DateTime value to insert</param>
         /// <param name="columnAddress">Column number (zero based)</param>
         /// <param name="rowAddress">Row number (zero based)</param>
+
         public void AddCell(DateTime value, int columnAddress, int rowAddress)
         {
             Cell c = new Cell(value, Cell.CellType.DATE, columnAddress, rowAddress);
@@ -436,6 +506,15 @@ namespace PicoXLSX
             int column, row;
             Cell.ResolveCellCoordinate(address, out column, out row);
             AddCell(value, column, row);
+        }
+
+        /// <summary>
+        /// Adds a cell object. This object must contain a valid row and column address
+        /// </summary>
+        /// <param name="cell">Cell object to insert</param>
+        public void AddCell(Cell cell)
+        {
+            AddNextCell(cell, false);
         }
 
 #endregion
@@ -487,9 +566,8 @@ namespace PicoXLSX
         /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
         public void AddCellRange(List<object> values, string cellRange)
         {
-            Cell.Address start, end;
-            Cell.ResolveCellRange(cellRange, out start, out end);
-            AddCellRangeInternal(values, start, end);
+            Cell.Range range = Cell.ResolveCellRange(cellRange);
+            AddCellRangeInternal(values, range.StartAddress, range.EndAddress);
         }
 
         /// <summary>
@@ -510,9 +588,8 @@ namespace PicoXLSX
         /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
         public void AddCellRange(List<string> values, string cellRange)
         {
-            Cell.Address start, end;
-            Cell.ResolveCellRange(cellRange, out start, out end);
-            AddCellRangeInternal(values, start, end);
+            Cell.Range range = Cell.ResolveCellRange(cellRange);
+            AddCellRangeInternal(values, range.StartAddress, range.EndAddress);
         }
 
         /// <summary>
@@ -533,9 +610,8 @@ namespace PicoXLSX
         /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
         public void AddCellRange(List<int> values, string cellRange)
         {
-            Cell.Address start, end;
-            Cell.ResolveCellRange(cellRange, out start, out end);
-            AddCellRangeInternal(values, start, end);
+            Cell.Range range = Cell.ResolveCellRange(cellRange);
+            AddCellRangeInternal(values, range.StartAddress, range.EndAddress);
         }
 
         /// <summary>
@@ -556,9 +632,8 @@ namespace PicoXLSX
         /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
         public void AddCellRange(List<double> values, string cellRange)
         {
-            Cell.Address start, end;
-            Cell.ResolveCellRange(cellRange, out start, out end);
-            AddCellRangeInternal(values, start, end);
+            Cell.Range range = Cell.ResolveCellRange(cellRange);
+            AddCellRangeInternal(values, range.StartAddress, range.EndAddress);
         }
 
         /// <summary>
@@ -579,9 +654,8 @@ namespace PicoXLSX
         /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
         public void AddCellRange(List<float> values, string cellRange)
         {
-            Cell.Address start, end;
-            Cell.ResolveCellRange(cellRange, out start, out end);
-            AddCellRangeInternal(values, start, end);
+            Cell.Range range = Cell.ResolveCellRange(cellRange);
+            AddCellRangeInternal(values, range.StartAddress, range.EndAddress);
         }
 
         /// <summary>
@@ -602,9 +676,8 @@ namespace PicoXLSX
         /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
         public void AddCellRange(List<DateTime> values, string cellRange)
         {
-            Cell.Address start, end;
-            Cell.ResolveCellRange(cellRange, out start, out end);
-            AddCellRangeInternal(values, start, end);
+            Cell.Range range = Cell.ResolveCellRange(cellRange);
+            AddCellRangeInternal(values, range.StartAddress, range.EndAddress);
         }
 
         /// <summary>
@@ -625,9 +698,8 @@ namespace PicoXLSX
         /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
         public void AddCellRange(List<bool> values, string cellRange)
         {
-            Cell.Address start, end;
-            Cell.ResolveCellRange(cellRange, out start, out end);
-            AddCellRangeInternal(values, start, end);
+            Cell.Range range = Cell.ResolveCellRange(cellRange);
+            AddCellRangeInternal(values, range.StartAddress, range.EndAddress);
         }
         
         /// <summary>
@@ -861,6 +933,95 @@ namespace PicoXLSX
         {
             this.activeStyle = null;
             this.workbookReference = null;
+        }
+
+        /// <summary>
+        /// Merges the defined cell range
+        /// </summary>
+        /// <param name="cellRange">Range to merge</param>
+        /// <returns>Returns the validated range of the merged cells (e.g. 'A1:B12')</returns>
+        public string MergeCells(Cell.Range cellRange)
+        {
+            return MergeCells(cellRange.StartAddress, cellRange.EndAddress);
+        }
+
+        /// <summary>
+        /// Merges the defined cell range
+        /// </summary>
+        /// <param name="cellRange">Range to merge (e.g. 'A1:B12')</param>
+        /// <returns>Returns the validated range of the merged cells (e.g. 'A1:B12')</returns>
+        public string MergeCells(string cellRange)
+        {
+            Cell.Range range = Cell.ResolveCellRange(cellRange);
+            return MergeCells(range.StartAddress, range.EndAddress);
+        }
+
+        /// <summary>
+        /// Merges the defined cell range
+        /// </summary>
+        /// <param name="startAddress">Start address of the merged cell range</param>
+        /// <param name="endAddress">End address of the merged cell range</param>
+        /// <returns>Returns the validated range of the merged cells (e.g. 'A1:B12')</returns>
+        public string MergeCells(Cell.Address startAddress, Cell.Address endAddress)
+        {
+            
+            List<Cell.Address> addresses = Cell.GetCellRange(startAddress, endAddress);
+            string key = startAddress.ToString() + ":" + endAddress.ToString();
+            Cell.Range value = new Cell.Range(startAddress, endAddress);
+            if (this.mergedCells.ContainsKey(key) == false)
+            {
+                this.mergedCells.Add(key, value);
+            }
+            return key;
+        }
+
+        /// <summary>
+        /// Removes the defined merged cell range
+        /// </summary>
+        /// <param name="range">Cell range to remove the merging</param>
+        /// <exception cref="UnkownRangeException">Throws a UnkownRangeException if the passed cell range was not merged earlier</exception>
+        public void RemoveMergedCells(string range)
+        {
+            range = range.ToUpper();
+            if (this.mergedCells.ContainsKey(range) == false)
+            {
+                throw new UnkownRangeException("The cell range " + range + " was not found in the list of merged cell ranges");
+            }
+            else
+            {
+                List<Cell.Address> addresses = Cell.GetCellRange(range);
+                Cell cell;
+                foreach(Cell.Address address in addresses)
+                {
+                    if (this.cells.ContainsKey(addresses.ToString()))
+                    {
+                        cell = this.cells[address.ToString()]; 
+                        cell.Fieldtype = Cell.CellType.DEFAULT; // resets the type
+                        if (cell.Value == null)
+                        {
+                            cell.Value = string.Empty;
+                        }
+                    }
+                }
+                this.mergedCells.Remove(range);
+            }
+        }
+
+        /// <summary>
+        /// Method to add allowed actions if the worksheet is protected. If one or more values are added, UseSheetProtection will be set to true
+        /// </summary>
+        /// <param name="typeOfProtection">Allowed action on the worksheet or cells</param>
+        public void AddAllowedActionOnSheetProtection(SheetProtectionValue typeOfProtection)
+        {
+            if (this.sheetProtectionValues.Contains(typeOfProtection) == false)
+            {
+                if (typeOfProtection == SheetProtectionValue.selectLockedCells && this.sheetProtectionValues.Contains(SheetProtectionValue.selectUnlockedCells) == false)
+                {
+                    this.sheetProtectionValues.Add(SheetProtectionValue.selectUnlockedCells);
+                }
+                this.sheetProtectionValues.Add(typeOfProtection);
+                this.UseSheetProtection = true;
+            }
         }
         
     }
