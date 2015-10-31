@@ -384,17 +384,17 @@
             </summary>
             <param name="message">Message of the exception</param>
         </member>
-        <member name="T:PicoXLSX.UnkownRangeException">
+        <member name="T:PicoXLSX.UnknownRangeException">
             <summary>
             Class for exceptions regarding unknown cell ranges
             </summary>
         </member>
-        <member name="M:PicoXLSX.UnkownRangeException.#ctor">
+        <member name="M:PicoXLSX.UnknownRangeException.#ctor">
             <summary>
             Default constructor
             </summary>
         </member>
-        <member name="M:PicoXLSX.UnkownRangeException.#ctor(System.String)">
+        <member name="M:PicoXLSX.UnknownRangeException.#ctor(System.String)">
             <summary>
             Constructor with passed message
             </summary>
@@ -879,7 +879,7 @@
             Direction of the text within the cell
             </summary>
         </member>
-        <member name="P:PicoXLSX.Style.CellXf.ForceApplyAlingnment">
+        <member name="P:PicoXLSX.Style.CellXf.ForceApplyAlignment">
             <summary>
             If true, the applyAlignment value of the style will be set to true (used to merge cells)
             </summary>
@@ -2210,7 +2210,7 @@
             Removes the defined merged cell range
             </summary>
             <param name="range">Cell range to remove the merging</param>
-            <exception cref="T:PicoXLSX.UnkownRangeException">Throws a UnkownRangeException if the passed cell range was not merged earlier</exception>
+            <exception cref="T:PicoXLSX.UnknownRangeException">Throws a UnkownRangeException if the passed cell range was not merged earlier</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddAllowedActionOnSheetProtection(PicoXLSX.Worksheet.SheetProtectionValue)">
             <summary>
@@ -2286,7 +2286,7 @@
         </member>
         <member name="T:PicoXLSX.Worksheet.SheetProtectionValue">
             <summary>
-            Enum to define the possible protection types when protectong a worksheet
+            Enum to define the possible protection types when protecting a worksheet
             </summary>
         </member>
         <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.objects">

@@ -922,7 +922,7 @@ namespace PicoXLSX
                 {
                     sb.Append("\" applyBorder=\"1");
                 }
-                if (alignmentString != string.Empty || item.CurrentCellXf.ForceApplyAlingnment == true)
+                if (alignmentString != string.Empty || item.CurrentCellXf.ForceApplyAlignment == true)
                 {
                     sb.Append("\" applyAlignment=\"1");
                 }

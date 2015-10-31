@@ -165,19 +165,19 @@ namespace PicoXLSX
     /// <summary>
     /// Class for exceptions regarding unknown cell ranges
     /// </summary>
-    public class UnkownRangeException : Exception
+    public class UnknownRangeException : Exception
     {
         /// <summary>
         /// Default constructor
         /// </summary>
-        public UnkownRangeException()
+        public UnknownRangeException()
             : base()
         { }
         /// <summary>
         /// Constructor with passed message
         /// </summary>
         /// <param name="message">Message of the exception</param>
-        public UnkownRangeException(string message)
+        public UnknownRangeException(string message)
             : base(message)
         { }
     }

@@ -40,7 +40,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Enum to define the possible protection types when protectong a worksheet
+        /// Enum to define the possible protection types when protecting a worksheet
         /// </summary>
         public enum SheetProtectionValue
         {
@@ -979,13 +979,13 @@ namespace PicoXLSX
         /// Removes the defined merged cell range
         /// </summary>
         /// <param name="range">Cell range to remove the merging</param>
-        /// <exception cref="UnkownRangeException">Throws a UnkownRangeException if the passed cell range was not merged earlier</exception>
+        /// <exception cref="UnknownRangeException">Throws a UnkownRangeException if the passed cell range was not merged earlier</exception>
         public void RemoveMergedCells(string range)
         {
             range = range.ToUpper();
             if (this.mergedCells.ContainsKey(range) == false)
             {
-                throw new UnkownRangeException("The cell range " + range + " was not found in the list of merged cell ranges");
+                throw new UnknownRangeException("The cell range " + range + " was not found in the list of merged cell ranges");
             }
             else
             {

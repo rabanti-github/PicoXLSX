@@ -1,3 +1,7 @@
+v1.2.1	31.10.2015
+******************
+- Fixed typos
+
 v1.2.0	29.10.2015
 ******************
 - Added support for merging cells

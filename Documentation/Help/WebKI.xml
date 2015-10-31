@@ -204,7 +204,7 @@
     <HelpKINode Title="methods" Url="html/f8c32df5-62c0-0f94-ab3a-c55c70b181a4.htm" />
     <HelpKINode Title="properties" Url="html/feb34171-9dba-71a1-cdfa-e0f7f02f35ce.htm" />
   </HelpKINode>
-  <HelpKINode Title="ForceApplyAlingnment property" Url="html/4a8c9bdf-0e8c-2d2b-31b3-f836de84f4f0.htm" />
+  <HelpKINode Title="ForceApplyAlignment property" Url="html/9b93abcd-46c9-bd1e-6aa1-3dc3d2277137.htm" />
   <HelpKINode Title="ForegroundColor property" Url="html/e422690a-a3f5-bf19-943e-97f7f4bb7024.htm" />
   <HelpKINode Title="formatCells enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
   <HelpKINode Title="formatColumns enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
@@ -402,8 +402,8 @@
   <HelpKINode Title="PicoXLSX.Style.NumberFormat class" Url="html/383cdbae-d857-dd99-c4eb-f62fa557ff6b.htm" />
   <HelpKINode Title="PicoXLSX.Style.NumberFormat.FormatNumber enumeration" Url="html/551f78ab-758c-cbe9-8e7c-1cef0a87f040.htm" />
   <HelpKINode Title="PicoXLSX.UndefinedStyleException class" Url="html/0237edc9-e952-28db-b2de-7c636f8b66f4.htm" />
+  <HelpKINode Title="PicoXLSX.UnknownRangeException class" Url="html/a01ab593-f2f4-9cd8-fd89-de92ccc5972e.htm" />
   <HelpKINode Title="PicoXLSX.UnknownWorksheetException class" Url="html/e597a296-884d-feed-c910-90ddc8fea36f.htm" />
-  <HelpKINode Title="PicoXLSX.UnkownRangeException class" Url="html/ffcaacdb-63c7-b677-cace-41d4643ac086.htm" />
   <HelpKINode Title="PicoXLSX.UnsupportedDataTypeException class" Url="html/185f46ff-f6a7-bf33-298a-d38a1c7d4177.htm" />
   <HelpKINode Title="PicoXLSX.Workbook class" Url="html/aa9e6490-6a12-3b26-bd7a-6a6f3317ba31.htm" />
   <HelpKINode Title="PicoXLSX.Worksheet class" Url="html/c3b3c4d1-7f62-b7df-bb0a-76cecc18fef3.htm" />
@@ -532,7 +532,7 @@
   <HelpKINode Title="Style.CellXf.CompareTo method" Url="html/822c78d2-5616-d0ef-e0d4-b41a8cd45d45.htm" />
   <HelpKINode Title="Style.CellXf.Copy method" Url="html/9b2381ac-3ab2-59e1-17ec-5e105bd941c9.htm" />
   <HelpKINode Title="Style.CellXf.Equals method" Url="html/74704010-4ba3-7100-4376-7eda59c5cc78.htm" />
-  <HelpKINode Title="Style.CellXf.ForceApplyAlingnment property" Url="html/4a8c9bdf-0e8c-2d2b-31b3-f836de84f4f0.htm" />
+  <HelpKINode Title="Style.CellXf.ForceApplyAlignment property" Url="html/9b93abcd-46c9-bd1e-6aa1-3dc3d2277137.htm" />
   <HelpKINode Title="Style.CellXf.Hidden property" Url="html/6e71f31d-a3ed-0ef5-b22d-26ff073aaf82.htm" />
   <HelpKINode Title="Style.CellXf.HorizontalAlign property" Url="html/00ac2c39-ba99-39d1-a30b-a86c1521ac03.htm" />
   <HelpKINode Title="Style.CellXf.HorizontalAlignValue enumeration" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
@@ -618,8 +618,8 @@
   <HelpKINode Title="Style.NumberFormat.Number property" Url="html/06026975-7c50-7830-0791-44c7d353f653.htm" />
   <HelpKINode Title="Style.NumberFormat.NumberFormat constructor" Url="html/60a35a6a-7d41-5823-9ebc-87c47d6dd1ad.htm" />
   <HelpKINode Title="Style.Style constructor">
-    <HelpKINode Title="Style Constructor " Url="html/77978064-4924-b5de-216e-befac1d59766.htm" />
     <HelpKINode Title="Style Constructor " Url="html/860ef806-3528-5ed8-6386-e119d3ca0aaa.htm" />
+    <HelpKINode Title="Style Constructor " Url="html/77978064-4924-b5de-216e-befac1d59766.htm" />
   </HelpKINode>
   <HelpKINode Title="Styles property" Url="html/804d7cdc-a478-aca4-d470-667a1ec98101.htm" />
   <HelpKINode Title="Subject property" Url="html/50ef6b0c-7c04-dd50-7bc5-871f0c7b0bcd.htm" />
@@ -652,6 +652,15 @@
     <HelpKINode Title="Style.BasicStyles.Underline Property " Url="html/5df19794-1527-b038-6daf-a76a85dc7cd2.htm" />
     <HelpKINode Title="Style.Font.Underline Property " Url="html/618e0bd3-75a6-69a1-71ed-465a6d72ee83.htm" />
   </HelpKINode>
+  <HelpKINode Title="UnknownRangeException class">
+    <HelpKINode Title="UnknownRangeException Class" Url="html/a01ab593-f2f4-9cd8-fd89-de92ccc5972e.htm" />
+    <HelpKINode Title="about UnknownRangeException class" Url="html/a01ab593-f2f4-9cd8-fd89-de92ccc5972e.htm" />
+    <HelpKINode Title="constructor" Url="html/0b8b71c0-adce-a60d-52cf-8d5abc370c53.htm" />
+    <HelpKINode Title="events" Url="html/03b6dc6d-b87b-c025-c018-db3d2276c79f.htm" />
+    <HelpKINode Title="methods" Url="html/01e2eebf-5e65-f60f-a8ff-dd0ca4ccdd28.htm" />
+    <HelpKINode Title="properties" Url="html/d4cb50c5-47ef-81e2-6086-01bad8a6efb5.htm" />
+  </HelpKINode>
+  <HelpKINode Title="UnknownRangeException.UnknownRangeException constructor" Url="html/0b8b71c0-adce-a60d-52cf-8d5abc370c53.htm" />
   <HelpKINode Title="UnknownWorksheetException class">
     <HelpKINode Title="UnknownWorksheetException Class" Url="html/e597a296-884d-feed-c910-90ddc8fea36f.htm" />
     <HelpKINode Title="about UnknownWorksheetException class" Url="html/e597a296-884d-feed-c910-90ddc8fea36f.htm" />
@@ -661,15 +670,6 @@
     <HelpKINode Title="properties" Url="html/f99c5e54-d732-ddac-51d8-cab236984925.htm" />
   </HelpKINode>
   <HelpKINode Title="UnknownWorksheetException.UnknownWorksheetException constructor" Url="html/eaa9a4f8-daa2-573d-b97c-c76c63dd6ae3.htm" />
-  <HelpKINode Title="UnkownRangeException class">
-    <HelpKINode Title="UnkownRangeException Class" Url="html/ffcaacdb-63c7-b677-cace-41d4643ac086.htm" />
-    <HelpKINode Title="about UnkownRangeException class" Url="html/ffcaacdb-63c7-b677-cace-41d4643ac086.htm" />
-    <HelpKINode Title="constructor" Url="html/950d7ac0-22f8-2f15-c90d-98ccf9ffc3b5.htm" />
-    <HelpKINode Title="events" Url="html/28966d5f-c333-c944-0237-864d09ddb736.htm" />
-    <HelpKINode Title="methods" Url="html/608fbd2f-f74a-e636-5d19-9c4c1e1888ed.htm" />
-    <HelpKINode Title="properties" Url="html/a166087e-b9f5-d2ec-6d98-6014142bfc67.htm" />
-  </HelpKINode>
-  <HelpKINode Title="UnkownRangeException.UnkownRangeException constructor" Url="html/950d7ac0-22f8-2f15-c90d-98ccf9ffc3b5.htm" />
   <HelpKINode Title="UnsupportedDataTypeException class">
     <HelpKINode Title="UnsupportedDataTypeException Class" Url="html/185f46ff-f6a7-bf33-298a-d38a1c7d4177.htm" />
     <HelpKINode Title="about UnsupportedDataTypeException class" Url="html/185f46ff-f6a7-bf33-298a-d38a1c7d4177.htm" />

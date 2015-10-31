@@ -209,7 +209,7 @@ namespace PicoXLSX
             /// <summary>
             /// If true, the applyAlignment value of the style will be set to true (used to merge cells)
             /// </summary>
-            public bool ForceApplyAlingnment { get; set; }
+            public bool ForceApplyAlignment { get; set; }
             
             /// <summary>
             /// Default constructor
@@ -263,7 +263,7 @@ namespace PicoXLSX
                 if (this.TextDirection != other.TextDirection) { return false; }
                 if (this.TextRotation != other.TextRotation) { return false; }
                 if (this.VerticalAlign != other.VerticalAlign) { return false; }
-                if (this.ForceApplyAlingnment != other.ForceApplyAlingnment) { return false; }
+                if (this.ForceApplyAlignment != other.ForceApplyAlignment) { return false; }
                 if (this.Locked != other.Locked) { return false; }
                 if (this.Hidden != other.Hidden) { return false; }
                 return true;
@@ -291,7 +291,7 @@ namespace PicoXLSX
                 copy.TextDirection = this.TextDirection;
                 copy.TextRotation = this.TextRotation;
                 copy.VerticalAlign = this.VerticalAlign;
-                copy.ForceApplyAlingnment = this.ForceApplyAlingnment;
+                copy.ForceApplyAlignment = this.ForceApplyAlignment;
                 copy.Locked = this.Locked;
                 copy.Hidden = this.Hidden;
                 return copy;
@@ -1279,7 +1279,7 @@ namespace PicoXLSX
                         if (mergeCellStyle == null)
                         {
                             mergeCellStyle = new Style();
-                            mergeCellStyle.CurrentCellXf.ForceApplyAlingnment = true;
+                            mergeCellStyle.CurrentCellXf.ForceApplyAlignment = true;
                         }
                         s = mergeCellStyle;
                         break;
