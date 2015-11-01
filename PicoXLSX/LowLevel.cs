@@ -530,11 +530,17 @@ namespace PicoXLSX
             }
             if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells) == false )
             {
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.selectLockedCells, 1);
+                if (actualLockingValues.ContainsKey(Worksheet.SheetProtectionValue.selectLockedCells) == false)
+                {
+                    actualLockingValues.Add(Worksheet.SheetProtectionValue.selectLockedCells, 1);
+                }
             }
             if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectUnlockedCells) == false || sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells) == false)
             {
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.selectUnlockedCells, 1);
+                if (actualLockingValues.ContainsKey(Worksheet.SheetProtectionValue.selectUnlockedCells) == false)
+                {
+                    actualLockingValues.Add(Worksheet.SheetProtectionValue.selectUnlockedCells, 1);
+                }
             }
             if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.formatCells)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.formatCells, 0); }
             if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.formatColumns)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.formatColumns, 0); }
@@ -551,14 +557,19 @@ namespace PicoXLSX
             sb.Append("<x:sheetProtection");
             string temp;
             foreach(KeyValuePair<Worksheet.SheetProtectionValue, int>item in actualLockingValues)
-           {
+            {
                try
                {
                    temp = Enum.GetName(typeof(Worksheet.SheetProtectionValue), item.Key); // Note! If the enum names differs from the OOXML definitions, this method will cause invalid OOXML entries
                    sb.Append(" " + temp + "=\"" + item.Value.ToString("G", culture)  + "\"");
                }
                catch { }
-           }
+            }
+            if (string.IsNullOrEmpty(sheet.SheetProtectionPassword) == false)
+            {
+                string hash = GeneratePasswordHash(sheet.SheetProtectionPassword);
+                sb.Append(" password=\"" + hash + "\"");
+            }
             sb.Append(" sheet=\"1\"/>\r\n");
            return sb.ToString();
         }
@@ -1007,6 +1018,8 @@ namespace PicoXLSX
             return sb.ToString();
         }
 
+#region utilMethods
+
         /// <summary>
         /// Method to append a simple XML tag with an enclosed value to the passed StringBuilder
         /// </summary>
@@ -1114,6 +1127,32 @@ namespace PicoXLSX
                 throw new FormatException("The date could not be transformed into Excel format (OADate).", e);
             }
         }
+
+        /// <summary>
+        /// Method to generate an Excel internal password hast to protect workbooks or worksheets<br></br>This method is derived from the c++ implementation by Kohei Yoshida (http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/)
+        /// </summary>
+        /// <remarks>WARNING! Do not use this method to encrypt 'real' passwords or data outside from PicoXLSX. This is only a minor security feature. Use a proper cryptography method instead.</remarks>
+        /// <param name="password">Password string in UTF-8 to encrypt</param>
+        /// <returns>16 bit hash as hex string</returns>
+        public static string GeneratePasswordHash(string password)
+        {
+            if (string.IsNullOrEmpty(password)) { return string.Empty; }
+            int PasswordLength = password.Length;
+            int passwordHash = 0;
+            char character;
+            for (int i = PasswordLength; i > 0; i--)
+            {
+                character = password[i - 1];
+                passwordHash = ((passwordHash >> 14) & 0x01) | ((passwordHash << 1) & 0x7fff);
+                passwordHash ^= character;
+            }
+            passwordHash = ((passwordHash >> 14) & 0x01) | ((passwordHash << 1) & 0x7fff);
+            passwordHash ^= (0x8000 | ('N' << 8) | 'K');
+            passwordHash ^= PasswordLength;
+            return passwordHash.ToString("X");
+        }
+
+#endregion
 
         /// <summary>
         /// Class to manage XML document paths

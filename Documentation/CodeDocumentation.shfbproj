@@ -38,7 +38,7 @@
     <NamingMethod>Guid</NamingMethod>
     <HelpTitle>PicoXLSX Library Documentation</HelpTitle>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
-    <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Privates, Protected, ProtectedInternalAsProtected</VisibleItems>
+    <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Internals, Privates, Protected, SealedProtected, ProtectedInternalAsProtected</VisibleItems>
     <FeedbackEMailAddress>
     </FeedbackEMailAddress>
     <CopyrightText>Copyright Raphael Stoeckli &amp;#169%3b 2015</CopyrightText>

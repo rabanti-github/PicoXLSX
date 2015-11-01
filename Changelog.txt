@@ -1,3 +1,10 @@
+v1.2.2	01.11.2015
+******************
+- Added support to protect worksheets with a password
+- Minor bug fixes
+- Fixed some code formatting issues
+- Fixed issue in documentation project to include the private LowLevel class (and sub classes)
+
 v1.2.1	31.10.2015
 ******************
 - Fixed typos

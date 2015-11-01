@@ -95,6 +95,7 @@ namespace PicoXLSX
         private Dictionary<string, Cell.Range> mergedCells;
         private bool useSheetProtection;
         private List<SheetProtectionValue> sheetProtectionValues;
+        private string sheetProtectionPassword;
 
         /// <summary>
         /// List of SheetProtectionValue. These values defines the allowed actions if the worksheet is protected
@@ -112,7 +113,14 @@ namespace PicoXLSX
             get { return useSheetProtection; }
             set { useSheetProtection = value; }
         }
-        
+
+        /// <summary>
+        /// Gets the password used for sheet protection
+        /// </summary>
+        public string SheetProtectionPassword
+        {
+            get { return sheetProtectionPassword; }
+        }
 
         /// <summary>
         /// Name of the worksheet
@@ -1020,6 +1028,24 @@ namespace PicoXLSX
                     this.sheetProtectionValues.Add(SheetProtectionValue.selectUnlockedCells);
                 }
                 this.sheetProtectionValues.Add(typeOfProtection);
+                this.UseSheetProtection = true;
+            }
+        }
+
+        /// <summary>
+        /// Sets or removes the password for worksheet protection. If set, UseSheetProtection will be also set to true
+        /// </summary>
+        /// <param name="password">Password (UTF-8) to protect the worksheet. If the password is null or empty, no password will be used</param>
+        public void SetSheetProtectionPassword(string password)
+        {
+            if (string.IsNullOrEmpty(password) == true)
+            {
+                this.sheetProtectionPassword = null;
+                return;
+            }
+            else
+            {
+                this.sheetProtectionPassword = password;
                 this.UseSheetProtection = true;
             }
         }

@@ -593,6 +593,14 @@
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the date could not be converted to the OA format</exception>
             <returns>Date or date and time as Number</returns>
         </member>
+        <member name="M:PicoXLSX.LowLevel.GeneratePasswordHash(System.String)">
+            <summary>
+            Method to generate an Excel internal password hast to protect workbooks or worksheets<br></br>This method is derived from the c++ implementation by Kohei Yoshida (http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/)
+            </summary>
+            <remarks>WARNING! Do not use this method to encrypt 'real' passwords or data outside from PicoXLSX. This is only a minor security feature. Use a proper cryptography method instead.</remarks>
+            <param name="password">Password string in UTF-8 to encrypt</param>
+            <returns>16 bit hash as hex string</returns>
+        </member>
         <member name="T:PicoXLSX.LowLevel.DocumentPath">
             <summary>
             Class to manage XML document paths
@@ -2218,6 +2226,12 @@
             </summary>
             <param name="typeOfProtection">Allowed action on the worksheet or cells</param>
         </member>
+        <member name="M:PicoXLSX.Worksheet.SetSheetProtectionPassword(System.String)">
+            <summary>
+            Sets or removes the password for worksheet protection. If set, UseSheetProtection will be also set to true
+            </summary>
+            <param name="password">Password (UTF-8) to protect the worksheet. If the password is null or empty, no password will be used</param>
+        </member>
         <member name="P:PicoXLSX.Worksheet.CurrentCellDirection">
             <summary>
             Direction when using AddNextCell method
@@ -2231,6 +2245,11 @@
         <member name="P:PicoXLSX.Worksheet.UseSheetProtection">
             <summary>
             If true, the worksheet is protected
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.SheetProtectionPassword">
+            <summary>
+            Gets the password used for sheet protection
             </summary>
         </member>
         <member name="P:PicoXLSX.Worksheet.SheetName">
