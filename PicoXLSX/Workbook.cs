@@ -32,6 +32,9 @@ namespace PicoXLSX
         private Worksheet currentWorksheet;
         private List<Style> styles;
         private Metadata workbookMetadata;
+        private string workbookProtectionPassword;
+        private bool lockWindowsIfProtected;
+        private bool lockStructureIfProtected;
 
         /// <summary>
         /// Gets the current worksheet
@@ -75,6 +78,38 @@ namespace PicoXLSX
             set { workbookMetadata = value; }
         }
 
+
+        /// <summary>
+        /// Gets or sets whether the workbook is protected
+        /// </summary>
+        public bool UseWorkbookProtection { get; set; }
+
+        /// <summary>
+        /// Gets the password used for workbook protection
+        /// </summary>
+        /// <see cref="SetWorkbookProtection"/>
+        public string WorkbookProtectionPassword
+        {
+            get { return workbookProtectionPassword; }
+        }
+
+        /// <summary>
+        /// Gets whether the windows are locked if workbook is protected
+        /// </summary>
+        /// <see cref="SetWorkbookProtection"/> 
+        public bool LockWindowsIfProtected
+        {
+            get { return lockWindowsIfProtected; }
+        }
+
+        /// <summary>
+        /// Gets whether the structure are locked if workbook is protected
+        /// </summary>
+        /// <see cref="SetWorkbookProtection"/>
+        public bool LockStructureIfProtected
+        {
+            get { return lockStructureIfProtected; }
+        }
         
         /// <summary>
         /// Default Constructor with additional parameter to create a default worksheet
@@ -190,6 +225,28 @@ namespace PicoXLSX
             else
             {
                 this.currentWorksheet = null;
+            }
+        }
+
+        /// <summary>
+        /// Sets or removes the workbook protection. If protectWindows and protectStructure are both false, the workbook will not be protected
+        /// </summary>
+        /// <param name="state">If true, the workbook will be protected, otherwise not</param>
+        /// <param name="protectWindows">If true, the windows will be locked if the workbook is protected</param>
+        /// <param name="protectStructure">If true, the structure will be locked if the workbook is protected</param>
+        /// <param name="password">Optional password. If null or empty, no password will be set in case of protection</param>
+        public void SetWorkbookProtection(bool state, bool protectWindows, bool protectStructure, string password)
+        {
+            this.lockWindowsIfProtected = protectWindows;
+            this.lockStructureIfProtected = protectStructure;
+            this.workbookProtectionPassword = password;
+            if (protectWindows == false && protectStructure == false)
+            {
+                this.UseWorkbookProtection = false;
+            }
+            else
+            {
+                this.UseWorkbookProtection = state;
             }
         }
 

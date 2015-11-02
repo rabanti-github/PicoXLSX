@@ -268,6 +268,25 @@ namespace PicoXLSX
             XmlDocument doc = new XmlDocument();
             StringBuilder sb = new StringBuilder();
             sb.Append("<x:workbook xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\r\n");
+            if (this.workbook.UseWorkbookProtection == true)
+            {
+                sb.Append("<x:workbookProtection");
+                if (this.workbook.LockWindowsIfProtected == true)
+                {
+                    sb.Append(" lockWindows=\"1\"");
+                }
+                if (this.workbook.LockStructureIfProtected == true)
+                {
+                    sb.Append(" lockStructure=\"1\"");
+                }
+                if (string.IsNullOrEmpty(this.workbook.WorkbookProtectionPassword) == false)
+                {
+                    sb.Append("workbookPassword=\"");
+                    sb.Append(GeneratePasswordHash(this.workbook.WorkbookProtectionPassword));
+                    sb.Append("\"");
+                }
+                sb.Append("/>\r\n");
+            }
             sb.Append("<x:sheets>\r\n");
             foreach (Worksheet item in this.workbook.Worksheets)
             {
@@ -1129,7 +1148,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method to generate an Excel internal password hast to protect workbooks or worksheets<br></br>This method is derived from the c++ implementation by Kohei Yoshida (http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/)
+        /// Method to generate an Excel internal password hash to protect workbooks or worksheets<br></br>This method is derived from the c++ implementation by Kohei Yoshida (<a href="http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/">http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/</a>)
         /// </summary>
         /// <remarks>WARNING! Do not use this method to encrypt 'real' passwords or data outside from PicoXLSX. This is only a minor security feature. Use a proper cryptography method instead.</remarks>
         /// <param name="password">Password string in UTF-8 to encrypt</param>

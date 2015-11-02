@@ -77,11 +77,6 @@ namespace PicoXLSX
             selectUnlockedCells 
         }
 
-        /// <summary>
-        /// Direction when using AddNextCell method
-        /// </summary>
-        public CellDirection CurrentCellDirection { get; set; }
-
         private Style activeStyle;
         private Workbook workbookReference;
         private string sheetName;
@@ -96,6 +91,11 @@ namespace PicoXLSX
         private bool useSheetProtection;
         private List<SheetProtectionValue> sheetProtectionValues;
         private string sheetProtectionPassword;
+
+        /// <summary>
+        /// Direction when using AddNextCell method
+        /// </summary>
+        public CellDirection CurrentCellDirection { get; set; }
 
         /// <summary>
         /// List of SheetProtectionValue. These values defines the allowed actions if the worksheet is protected
@@ -117,6 +117,7 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the password used for sheet protection
         /// </summary>
+        /// <see cref="SetSheetProtectionPassword"/>
         public string SheetProtectionPassword
         {
             get { return sheetProtectionPassword; }

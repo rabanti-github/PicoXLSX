@@ -595,7 +595,7 @@
         </member>
         <member name="M:PicoXLSX.LowLevel.GeneratePasswordHash(System.String)">
             <summary>
-            Method to generate an Excel internal password hast to protect workbooks or worksheets<br></br>This method is derived from the c++ implementation by Kohei Yoshida (http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/)
+            Method to generate an Excel internal password hash to protect workbooks or worksheets<br></br>This method is derived from the c++ implementation by Kohei Yoshida (<a href="http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/">http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/</a>)
             </summary>
             <remarks>WARNING! Do not use this method to encrypt 'real' passwords or data outside from PicoXLSX. This is only a minor security feature. Use a proper cryptography method instead.</remarks>
             <param name="password">Password string in UTF-8 to encrypt</param>
@@ -1689,6 +1689,15 @@
             <param name="name">Name of the worksheet</param>
             <exception cref="T:PicoXLSX.UnknownWorksheetException">Throws a UnknownWorksheetException if the name of the worksheet is unknown</exception>
         </member>
+        <member name="M:PicoXLSX.Workbook.SetWorkbookProtection(System.Boolean,System.Boolean,System.Boolean,System.String)">
+            <summary>
+            Sets or removes the workbook protection. If protectWindows and protectStructure are both false, the workbook will not be protected
+            </summary>
+            <param name="state">If true, the workbook will be protected, otherwise not</param>
+            <param name="protectWindows">If true, the windows will be locked if the workbook is protected</param>
+            <param name="protectStructure">If true, the structure will be locked if the workbook is protected</param>
+            <param name="password">Optional password. If null or empty, no password will be set in case of protection</param>
+        </member>
         <member name="M:PicoXLSX.Workbook.AddStyle(PicoXLSX.Style,System.Boolean)">
             <summary>
             Adds a style to the style sheet of the workbook
@@ -1775,6 +1784,29 @@
             <summary>
             Meta data object of the workbook
             </summary>
+        </member>
+        <member name="P:PicoXLSX.Workbook.UseWorkbookProtection">
+            <summary>
+            Gets or sets whether the workbook is protected
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Workbook.WorkbookProtectionPassword">
+            <summary>
+            Gets the password used for workbook protection
+            </summary>
+            <see cref="M:PicoXLSX.Workbook.SetWorkbookProtection(System.Boolean,System.Boolean,System.Boolean,System.String)"/>
+        </member>
+        <member name="P:PicoXLSX.Workbook.LockWindowsIfProtected">
+            <summary>
+            Gets whether the windows are locked if workbook is protected
+            </summary>
+            <see cref="M:PicoXLSX.Workbook.SetWorkbookProtection(System.Boolean,System.Boolean,System.Boolean,System.String)"/> 
+        </member>
+        <member name="P:PicoXLSX.Workbook.LockStructureIfProtected">
+            <summary>
+            Gets whether the structure are locked if workbook is protected
+            </summary>
+            <see cref="M:PicoXLSX.Workbook.SetWorkbookProtection(System.Boolean,System.Boolean,System.Boolean,System.String)"/>
         </member>
         <member name="T:PicoXLSX.Worksheet">
             <summary>
@@ -2251,6 +2283,7 @@
             <summary>
             Gets the password used for sheet protection
             </summary>
+            <see cref="M:PicoXLSX.Worksheet.SetSheetProtectionPassword(System.String)"/>
         </member>
         <member name="P:PicoXLSX.Worksheet.SheetName">
             <summary>

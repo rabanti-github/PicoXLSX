@@ -179,7 +179,7 @@ namespace Demo
         }
 
         /// <summary>
-        /// This demo shows the usage of merging cells, protecting cells and worksheet password protection
+        /// This demo shows the usage of merging cells, protecting cells, worksheet password protection and workbook protection
         /// </summary>
         private static void Demo6()
         {
@@ -203,6 +203,7 @@ namespace Demo
             workbook.CurrentWorksheet.AddCell("This worksheet is password protected. The password is:",0,0);  // Add cell A1
             workbook.CurrentWorksheet.AddCell("test123", 0, 1);                                         // Add cell A2
             workbook.CurrentWorksheet.SetSheetProtectionPassword("test123");                            // Set the password "test123"
+            workbook.SetWorkbookProtection(true, true, true, null);                                     // Set workbook protection (windows locked, structure locked, no password)
             workbook.Save();                                                                            // Save the workbook
         }
 
