@@ -608,7 +608,7 @@ namespace PicoXLSX
             AppendXMLtag(sb, "0", "DocSecurity", null);
             AppendXMLtag(sb, "false", "ScaleCrop", null);
             AppendXMLtag(sb, md.Manager, "Manager", null);
-            AppendXMLtag(sb, md.Company, "Manager", null);
+            AppendXMLtag(sb, md.Company, "Company", null);
             AppendXMLtag(sb, "false", "LinksUpToDate", null);
             AppendXMLtag(sb, "false", "SharedDoc", null);
             AppendXMLtag(sb, md.HyperlinkBase, "HyperlinkBase", null);
