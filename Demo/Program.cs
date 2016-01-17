@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using PicoXLSX;
+
 
 namespace Demo
 {
@@ -16,6 +13,7 @@ namespace Demo
         /// <param name="args">Not used</param>
         static void Main(string[] args)
         {
+            /*
             basicDemo();
             Demo1();
             Demo2();
@@ -23,6 +21,8 @@ namespace Demo
             Demo4();
             Demo5();
             Demo6();
+             * */
+            Demo7();
         }
 
         /// <summary>
@@ -204,6 +204,25 @@ namespace Demo
             workbook.CurrentWorksheet.AddCell("test123", 0, 1);                                         // Add cell A2
             workbook.CurrentWorksheet.SetSheetProtectionPassword("test123");                            // Set the password "test123"
             workbook.SetWorkbookProtection(true, true, true, null);                                     // Set workbook protection (windows locked, structure locked, no password)
+            workbook.Save();                                                                            // Save the workbook
+        }
+
+        /// <summary>
+        /// This demo shows the usage of hiding rows and columns, and auto-filter
+        /// </summary>
+        private static void Demo7()
+        {
+            Workbook workbook = new Workbook("test7.xlsx", "Sheet1");                                   // Create new workbook
+            Worksheet ws = workbook.CurrentWorksheet;                                                   // Create reference (shortening)
+            List<string> values = new List<string>() { "Cell A1", "Cell B1", "Cell C1", "Cell D1" };    // Create a List of values
+            ws.AddCellRange(values, "A1:D1");                                                           // Insert cell range
+            values = new List<string>() { "Cell A2", "Cell B2", "Cell C2", "Cell D2" };                 // Create a List of values
+            ws.AddCellRange(values, "A2:D2");                                                           // Insert cell range
+            values = new List<string>() { "Cell A3", "Cell B3", "Cell C3", "Cell D3" };                 // Create a List of values
+            ws.AddCellRange(values, "A3:D3");                                                           // Insert cell range
+            ws.AddHiddenColumn("C");                                                                    // Hide column C
+            ws.AddHiddenRow(1);                                                                         // Hider row 2 (zero-based: 1)
+            ws.SetAutoFilter(1, 3);                                                                     // Set auto-filter for column B to D
             workbook.Save();                                                                            // Save the workbook
         }
 

@@ -7,9 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PicoXLSX
 {
@@ -144,6 +141,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="name">Name of the new worksheet</param>
         /// <exception cref="WorksheetNameAlreadxExistsException">Throws a WorksheetNameAlreadxExistsException if the name of the worksheet already exists</exception>
+        /// <exception cref="FormatException">Throws a FormatException if the name contains illegal characters or is out of range (length between 1 an 31 characters)</exception>
         public void AddWorksheet(string name)
         {
             foreach(Worksheet item in this.worksheets)
@@ -256,6 +254,7 @@ namespace PicoXLSX
         /// <param name="style">Style to add</param>
         /// <param name="distinct">If true, the passed style will be replaced by an identical style if existing. Otherwise an exception will be thrown in case of a duplicate</param>
         /// <returns>Returns the added style. In case of an existing style, the distinct style will be returned</returns>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style already exists and parameter 'distinct' is set to false</exception>
         public Style AddStyle(Style style, bool distinct)
         {
             bool styleExits = false;
@@ -297,6 +296,7 @@ namespace PicoXLSX
         /// Removes the passed style from the style sheet
         /// </summary>
         /// <param name="style">Style to remove</param>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
         public void RemoveStyle(Style style)
         {
             RemoveStyle(style, false);
@@ -306,6 +306,7 @@ namespace PicoXLSX
         /// Removes the defined style from the style sheet of the workbook
         /// </summary>
         /// <param name="styleName">Name of the style to be removed</param>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
         public void RemoveStyle(string styleName)
         {
             RemoveStyle(styleName, false);
@@ -316,6 +317,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="style">Style to remove</param>
         /// <param name="onlyIfUnused">If true, the style will only be removed if not used in any cell</param>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
         public void RemoveStyle(Style style, bool onlyIfUnused)
         {
             if (style == null)
@@ -330,6 +332,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="styleName">Name of the style to be removed</param>
         /// <param name="onlyIfUnused">If true, the style will only be removed if not used in any cell</param>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
         public void RemoveStyle(string styleName, bool onlyIfUnused)
         {
             if (string.IsNullOrEmpty(styleName))
@@ -387,13 +390,15 @@ namespace PicoXLSX
 
 
         /// <summary>
-        /// Method to prepare the styles before saving the workbook. Don't use the method otherwise,because styles will be reordered and probably removed from the style sheet
+        /// Method to prepare the styles before saving the workbook. Don't use the method otherwise. Styles will be reordered and probably removed from the style sheet
         /// </summary>
         /// <param name="borders">Out parameter for a sorted list of Style.Border objects</param>
         /// <param name="fills">Out parameter for a sorted list of Style.Fill objects</param>
         /// <param name="fonts">Out parameter for a sorted list of Style.Font objects</param>
         /// <param name="numberFormats">Out parameter for a sorted list of Style.NumberFormat objects</param>
         /// <param name="cellXfs">Out parameter for a sorted list of Style.CellXf objects</param>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the passed style components cannot be referenced or is null</exception>
+        /// <remarks>This method is for internal use but must be public. Otherwise it's not possible to access it from low level methods. Don't use it</remarks>
         public void ReorganizeStyles(out  List<Style.Border> borders, out List<Style.Fill> fills, out List<Style.Font> fonts, out List<Style.NumberFormat> numberFormats, out List<Style.CellXf> cellXfs)
         {
             List<Style.Border> tempBorders = new List<Style.Border>();
@@ -546,6 +551,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to resolve all merged cells in all worksheets. Only the value of the very first cell of the locked cells range will be visible. The other values are still present (set to EMPTY) but will not be stored in the worksheet.
         /// </summary>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the merged cells cannot be referenced or is null</exception>
         public void ResolveMergedCells()
         {
             Style mergStyle = Style.BasicStyles.MergeCellStyle;
@@ -589,6 +595,9 @@ namespace PicoXLSX
         /// Saves the workbook
         /// </summary>
         /// <exception cref="IOException">Throws IOException in case of an error</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
+        /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the workbook cannot be referenced or is null</exception>
         public void Save()
         {
             LowLevel l = new LowLevel(this);
@@ -600,6 +609,9 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="filename">filename of the saved workbook</param>
         /// <exception cref="IOException">Throws IOException in case of an error</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
+        /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the workbook cannot be referenced or is null</exception>
         public void SaveAs(string filename)
         {
             string backup = this.filename;

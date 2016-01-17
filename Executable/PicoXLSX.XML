@@ -35,7 +35,7 @@
         </member>
         <member name="M:PicoXLSX.Cell.GetCellAddress">
             <summary>
-            Gets the cell Address as string in the format A1 - XFD16384
+            Gets the cell Address as string in the format A1 - XFD1048576
             </summary>
             <returns>Cell address</returns>
         </member>
@@ -46,12 +46,14 @@
             <param name="style">Style to assign</param>
             <param name="workbookReference">Workbook reference. All styles will be managed in this workbook</param>
             <returns>If the passed style already exists in the workbook, the existing one will be returned, otherwise the passed one</returns>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the style cannot be referenced or no style was defined</exception>
         </member>
         <member name="M:PicoXLSX.Cell.RemoveStyle(PicoXLSX.Workbook)">
             <summary>
             Removes the assigned style from the cell
             </summary>
             <param name="workbookReference">Workbook reference. All styles will be managed in this workbook</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the style cannot be referenced</exception>
         </member>
         <member name="M:PicoXLSX.Cell.CompareTo(PicoXLSX.Cell)">
             <summary>
@@ -74,14 +76,18 @@
             </summary>
             <param name="range">Range to process</param>
             <returns>List of cell addresses</returns>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a part of the passed range is malformed</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the range is out of range (A-XFD and 1 to 1048576) </exception>
         </member>
         <member name="M:PicoXLSX.Cell.GetCellRange(System.String,System.String)">
             <summary>
             Get a list of cell addresses from a cell range
             </summary>
-            <param name="startAddress">Start address as string in the format A1 - XFD16384</param>
-            <param name="endAddress">End address as string in the format A1 - XFD16384</param>
+            <param name="startAddress">Start address as string in the format A1 - XFD1048576</param>
+            <param name="endAddress">End address as string in the format A1 - XFD1048576</param>
             <returns>List of cell addresses</returns>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a part of the passed range is malformed</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the range is out of range (A-XFD and 1 to 1048576) </exception> 
         </member>
         <member name="M:PicoXLSX.Cell.GetCellRange(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
@@ -92,6 +98,7 @@
             <param name="endColumn">End column (zero based)</param>
             <param name="endRow">End row (zero based)</param>
             <returns>List of cell addresses</returns>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the value of one passed address parts is out of range (A-XFD and 1 to 1048576) </exception>
         </member>
         <member name="M:PicoXLSX.Cell.GetCellRange(PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
             <summary>
@@ -100,6 +107,8 @@
             <param name="startAddress">Start address</param>
             <param name="endAddress">End address</param>
             <returns>List of cell addresses</returns>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a part of the passed addresses is malformed</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the value of one passed address is out of range (A-XFD and 1 to 1048576) </exception>
         </member>
         <member name="M:PicoXLSX.Cell.ResolveCellRange(System.String)">
             <summary>
@@ -108,6 +117,7 @@
             <param name="range">Range to process</param>
             <returns>Range object</returns>
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the start or end address was malformed</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the range is out of range (A-XFD and 1 to 1048576) </exception>
         </member>
         <member name="M:PicoXLSX.Cell.ResolveCellAddress(System.Int32,System.Int32)">
             <summary>
@@ -115,18 +125,18 @@
             </summary>
             <param name="column">Column address of the cell (zero-based)</param>
             <param name="row">Row address of the cell (zero-based)</param>
-            <exception cref="T:PicoXLSX.OutOfRangeException">Throws a OutOfRangeException if the start or end address was out of range</exception>
-            <returns>Cell Address as string in the format A1 - XFD16384</returns>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the start or end address was out of range</exception>
+            <returns>Cell Address as string in the format A1 - XFD1048576</returns>
         </member>
         <member name="M:PicoXLSX.Cell.ResolveCellCoordinate(System.String,System.Int32@,System.Int32@)">
             <summary>
             Gets the column and row number (zero based) of a cell by the address
             </summary>
-            <param name="address">Address as string in the format A1 - XFD16384</param>
+            <param name="address">Address as string in the format A1 - XFD1048576</param>
             <param name="column">Column address of the cell (zero-based) as out parameter</param>
             <param name="row">Row address of the cell (zero-based) as out parameter</param>
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the range address was malformed</exception>
-            <exception cref="T:PicoXLSX.OutOfRangeException">Throws a OutOfRangeException if the start or end address was out of range</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the start or end address was out of range</exception>
         </member>
         <member name="M:PicoXLSX.Cell.ResolveColumn(System.String)">
             <summary>
@@ -134,6 +144,15 @@
             </summary>
             <param name="columnAddress">Column address (A - XFD)</param>
             <returns>Column number (zero-based)</returns>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the start or end address was out of range</exception>
+        </member>
+        <member name="M:PicoXLSX.Cell.ResolveColumnAddress(System.Int32)">
+            <summary>
+            Gets the column address (A - XFD)
+            </summary>
+            <param name="columnNumber">Column number (zero-based)</param>
+            <returns>Column address (A - XFD)</returns>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the start or end address was out of range</exception>
         </member>
         <member name="M:PicoXLSX.Cell.SetCellLockedState(System.Boolean,System.Boolean,PicoXLSX.Workbook)">
             <summary>
@@ -142,13 +161,17 @@
             <param name="isLocked">If true, the cell will be locked if the worksheet is protected</param>
             <param name="isHidden">If true, the value of the cell will be invisible if the worksheet is protected</param>
             <param name="workbookReference">Workbook reference. Locking of cells uses styles which are managed in the workbook</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the style used to lock cells cannot be referenced</exception>
+            <remarks>The listed exception should never happen because the mentioned style is internally generated</remarks>
         </member>
         <member name="M:PicoXLSX.Cell.ResolveCellCoordinate(System.String)">
             <summary>
             Gets the column and row number (zero based) of a cell by the address
             </summary>
-            <param name="address">Address as string in the format A1 - XFD16384</param>
+            <param name="address">Address as string in the format A1 - XFD1048576</param>
             <returns>Struct with row and column</returns>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed address is malformed</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the value of the passed address is out of range (A-XFD and 1 to 1048576) </exception>
         </member>
         <member name="P:PicoXLSX.Cell.RowAddress">
             <summary>Number of the row (zero-based)</summary>
@@ -222,7 +245,7 @@
             <summary>
             Returns the combined Address
             </summary>
-            <returns>Address as string in the format A1 - XFD16384</returns>
+            <returns>Address as string in the format A1 - XFD1048576</returns>
         </member>
         <member name="M:PicoXLSX.Cell.Address.ToString">
             <summary>
@@ -352,22 +375,6 @@
             </summary>
             <param name="message">Message of the exception</param>
         </member>
-        <member name="T:PicoXLSX.UnsupportedDataTypeException">
-            <summary>
-            Class for exceptions regarding an unsupported data type
-            </summary>
-        </member>
-        <member name="M:PicoXLSX.UnsupportedDataTypeException.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:PicoXLSX.UnsupportedDataTypeException.#ctor(System.String)">
-            <summary>
-            Constructor with passed message
-            </summary>
-            <param name="message">Message of the exception</param>
-        </member>
         <member name="T:PicoXLSX.UndefinedStyleException">
             <summary>
             Class for exceptions regarding undefined Styles
@@ -404,6 +411,7 @@
             <summary>
             Class for low level handling (XML, formatting, packing)
             </summary>
+            <remarks>This class is only for internal use. Use the high level API (e.g. class Workbook) to manipulate data and create Excel files</remarks>
         </member>
         <member name="M:PicoXLSX.LowLevel.#ctor(PicoXLSX.Workbook)">
             <summary>
@@ -416,6 +424,10 @@
             Method to save the workbook
             </summary>
             <exception cref="T:PicoXLSX.IOException">Throws IOException in case of an error</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+            <remarks>The UndefinedStyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateWorksheetPart(PicoXLSX.Worksheet)">
             <summary>
@@ -423,12 +435,15 @@
             </summary>
             <param name="worksheet">worksheet object to process</param>
             <returns>Formated XML document</returns>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateStyleSheetDocument">
             <summary>
             Method to create a style sheet as XML document
             </summary>
             <returns>Formated XML document</returns>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if one of the styles cannot be referenced or is null</exception>
+            <remarks>The UndefinedStyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateAppPropertiesDocument">
             <summary>
@@ -447,6 +462,7 @@
             Method to create a workbook as XML document
             </summary>
             <returns>Formated XML document</returns>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the start or end address was out of range</exception>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateStyleSheetDocumentFallback">
             <summary>
@@ -468,6 +484,7 @@
             <param name="columnFields">List of cells</param>
             <param name="worksheet">Worksheet to process</param>
             <returns>Formated row string</returns>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateMergedCellsString(PicoXLSX.Worksheet)">
             <summary>
@@ -590,8 +607,9 @@
             Method to convert a date or date and time into the Excel time format
             </summary>
             <param name="date">Date to process</param>
-            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the date could not be converted to the OA format</exception>
             <returns>Date or date and time as Number</returns>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed date cannot be translated to OADate format</exception>
+            <remarks>OA Date format starts at January 1st 1900 (actually 00.01.1900). Dates beyond this date cannot be handled by Excel under normal circumstances</remarks>
         </member>
         <member name="M:PicoXLSX.LowLevel.GeneratePasswordHash(System.String)">
             <summary>
@@ -660,7 +678,7 @@
             <summary>
             Checks the format of the passed version string
             </summary>
-            /// <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the version string is malformed</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the version string is malformed</exception>
         </member>
         <member name="P:PicoXLSX.Metadata.UseColorMRU">
             <summary>
@@ -826,6 +844,7 @@
             Method to calculate the internal text rotation. The text direction and rotation are handled internally by the text rotation value
             </summary>
             <returns>Returns the valid rotation in degrees for internal uses (LowLevel)</returns>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the rotation angle (-90 to 90) is out of range</exception>
         </member>
         <member name="M:PicoXLSX.Style.CellXf.Equals(PicoXLSX.Style.CellXf)">
             <summary>
@@ -1427,7 +1446,7 @@
         </member>
         <member name="P:PicoXLSX.Style.NumberFormat.Number">
             <summary>
-            Format number. Set it to custom (164) in case of custom number formats
+            Format number. Set this to custom (164) in case of custom number formats
             </summary>
         </member>
         <member name="P:PicoXLSX.Style.NumberFormat.CustomFormatID">
@@ -1673,6 +1692,7 @@
             </summary>
             <param name="name">Name of the new worksheet</param>
             <exception cref="T:PicoXLSX.WorksheetNameAlreadxExistsException">Throws a WorksheetNameAlreadxExistsException if the name of the worksheet already exists</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the name contains illegal characters or is out of range (length between 1 an 31 characters)</exception>
         </member>
         <member name="M:PicoXLSX.Workbook.SetCurrentWorksheet(System.String)">
             <summary>
@@ -1705,18 +1725,21 @@
             <param name="style">Style to add</param>
             <param name="distinct">If true, the passed style will be replaced by an identical style if existing. Otherwise an exception will be thrown in case of a duplicate</param>
             <returns>Returns the added style. In case of an existing style, the distinct style will be returned</returns>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the style already exists and parameter 'distinct' is set to false</exception>
         </member>
         <member name="M:PicoXLSX.Workbook.RemoveStyle(PicoXLSX.Style)">
             <summary>
             Removes the passed style from the style sheet
             </summary>
             <param name="style">Style to remove</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
         </member>
         <member name="M:PicoXLSX.Workbook.RemoveStyle(System.String)">
             <summary>
             Removes the defined style from the style sheet of the workbook
             </summary>
             <param name="styleName">Name of the style to be removed</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
         </member>
         <member name="M:PicoXLSX.Workbook.RemoveStyle(PicoXLSX.Style,System.Boolean)">
             <summary>
@@ -1724,6 +1747,7 @@
             </summary>
             <param name="style">Style to remove</param>
             <param name="onlyIfUnused">If true, the style will only be removed if not used in any cell</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
         </member>
         <member name="M:PicoXLSX.Workbook.RemoveStyle(System.String,System.Boolean)">
             <summary>
@@ -1731,27 +1755,34 @@
             </summary>
             <param name="styleName">Name of the style to be removed</param>
             <param name="onlyIfUnused">If true, the style will only be removed if not used in any cell</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
         </member>
         <member name="M:PicoXLSX.Workbook.ReorganizeStyles(System.Collections.Generic.List{PicoXLSX.Style.Border}@,System.Collections.Generic.List{PicoXLSX.Style.Fill}@,System.Collections.Generic.List{PicoXLSX.Style.Font}@,System.Collections.Generic.List{PicoXLSX.Style.NumberFormat}@,System.Collections.Generic.List{PicoXLSX.Style.CellXf}@)">
             <summary>
-            Method to prepare the styles before saving the workbook. Don't use the method otherwise,because styles will be reordered and probably removed from the style sheet
+            Method to prepare the styles before saving the workbook. Don't use the method otherwise. Styles will be reordered and probably removed from the style sheet
             </summary>
             <param name="borders">Out parameter for a sorted list of Style.Border objects</param>
             <param name="fills">Out parameter for a sorted list of Style.Fill objects</param>
             <param name="fonts">Out parameter for a sorted list of Style.Font objects</param>
             <param name="numberFormats">Out parameter for a sorted list of Style.NumberFormat objects</param>
             <param name="cellXfs">Out parameter for a sorted list of Style.CellXf objects</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if one of the passed style components cannot be referenced or is null</exception>
+            <remarks>This method is for internal use but must be public. Otherwise it's not possible to access it from low level methods. Don't use it</remarks>
         </member>
         <member name="M:PicoXLSX.Workbook.ResolveMergedCells">
             <summary>
             Method to resolve all merged cells in all worksheets. Only the value of the very first cell of the locked cells range will be visible. The other values are still present (set to EMPTY) but will not be stored in the worksheet.
             </summary>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the merged cells cannot be referenced or is null</exception>
         </member>
         <member name="M:PicoXLSX.Workbook.Save">
             <summary>
             Saves the workbook
             </summary>
             <exception cref="T:PicoXLSX.IOException">Throws IOException in case of an error</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the workbook cannot be referenced or is null</exception>
         </member>
         <member name="M:PicoXLSX.Workbook.SaveAs(System.String)">
             <summary>
@@ -1759,6 +1790,9 @@
             </summary>
             <param name="filename">filename of the saved workbook</param>
             <exception cref="T:PicoXLSX.IOException">Throws IOException in case of an error</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the workbook cannot be referenced or is null</exception>
         </member>
         <member name="P:PicoXLSX.Workbook.CurrentWorksheet">
             <summary>
@@ -1810,7 +1844,7 @@
         </member>
         <member name="T:PicoXLSX.Worksheet">
             <summary>
-            Class representing the style sheet of a workbook
+            Class representing a worksheet of a workbook
             </summary>
         </member>
         <member name="F:PicoXLSX.Worksheet.DEFAULT_COLUMN_WIDTH">
@@ -1840,48 +1874,56 @@
             Adds a object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String
             </summary>
             <param name="value">Unspecified value to insert</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddNextCell(System.String)">
             <summary>
             Adds a string value to the next cell position
             </summary>
             <param name="value">String value to insert</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddNextCell(System.Int32)">
             <summary>
             Adds a integer value to the next cell position
             </summary>
             <param name="value">Integer value to insert</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddNextCell(System.Double)">
             <summary>
             Adds a double value to the next cell position
             </summary>
             <param name="value">Double value to insert</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddNextCell(System.Single)">
             <summary>
             Adds a float value to the next cell position
             </summary>
             <param name="value">Float value to insert</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddNextCell(System.DateTime)">
             <summary>
             Adds a DateTime value to the next cell position
             </summary>
             <param name="value">DateTime value to insert</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddNextCell(System.Boolean)">
             <summary>
             Adds a boolean value to the next cell position
             </summary>
             <param name="value">Boolean value to insert</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddNextCellFormula(System.String)">
             <summary>
             Adds a formula as string to the next cell position
             </summary>
             <param name="formula">Formula to insert</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddNextCell(PicoXLSX.Cell,System.Boolean)">
             <summary>
@@ -1889,6 +1931,7 @@
             </summary>
             <param name="cell">Cell object to insert</param>
             <param name="increment">If true, the address value (row or column) will be incremented, otherwise not</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.Object,System.Int32,System.Int32)">
             <summary>
@@ -1897,13 +1940,18 @@
             <param name="value">Unspecified value to insert</param>
             <param name="columnAddress">Column number (zero based)</param>
             <param name="rowAddress">Row number (zero based)</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.Object,System.String)">
             <summary>
             Adds a object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
             </summary>
             <param name="value">Unspecified value to insert</param>
-            <param name="address">Cell address in the format A1 - XFD16384</param>
+            <param name="address">Cell address in the format A1 - XFD1048576</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell address is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.String,System.Int32,System.Int32)">
             <summary>
@@ -1912,13 +1960,18 @@
             <param name="value">String value to insert</param>
             <param name="columnAddress">Column number (zero based)</param>
             <param name="rowAddress">Row number (zero based)</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.String,System.String)">
             <summary>
             Adds a string value to the defined cell address
             </summary>
             <param name="value">String value to insert</param>
-            <param name="address">Cell address in the format A1 - XFD16384</param>
+            <param name="address">Cell address in the format A1 - XFD1048576</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell address is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.Int32,System.Int32,System.Int32)">
             <summary>
@@ -1927,13 +1980,18 @@
             <param name="value">Integer value to insert</param>
             <param name="columnAddress">Column number (zero based)</param>
             <param name="rowAddress">Row number (zero based)</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.Int32,System.String)">
             <summary>
             Adds a integer value to the defined cell address
             </summary>
             <param name="value">Integer value to insert</param>
-            <param name="address">Cell address in the format A1 - XFD16384</param>
+            <param name="address">Cell address in the format A1 - XFD1048576</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell address is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.Double,System.Int32,System.Int32)">
             <summary>
@@ -1942,13 +2000,18 @@
             <param name="value">Double value to insert</param>
             <param name="columnAddress">Column number (zero based)</param>
             <param name="rowAddress">Row number (zero based)</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.Double,System.String)">
             <summary>
             Adds a double value to the defined cell address
             </summary>
             <param name="value">Double value to insert</param>
-            <param name="address">Cell address in the format A1 - XFD16384</param>
+            <param name="address">Cell address in the format A1 - XFD1048576</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell address is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.Single,System.Int32,System.Int32)">
             <summary>
@@ -1957,13 +2020,18 @@
             <param name="value">Float value to insert</param>
             <param name="columnAddress">Column number (zero based)</param>
             <param name="rowAddress">Row number (zero based)</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.Single,System.String)">
             <summary>
             Adds a float value to the defined cell address
             </summary>
             <param name="value">Float value to insert</param>
-            <param name="address">Cell address in the format A1 - XFD16384</param>
+            <param name="address">Cell address in the format A1 - XFD1048576</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell address is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.DateTime,System.Int32,System.Int32)">
             <summary>
@@ -1972,13 +2040,18 @@
             <param name="value">DateTime value to insert</param>
             <param name="columnAddress">Column number (zero based)</param>
             <param name="rowAddress">Row number (zero based)</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.DateTime,System.String)">
             <summary>
             Adds a DateTime value to the defined cell address
             </summary>
             <param name="value">DateTime value to insert</param>
-            <param name="address">Cell address in the format A1 - XFD16384</param>
+            <param name="address">Cell address in the format A1 - XFD1048576</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell address is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.Boolean,System.Int32,System.Int32)">
             <summary>
@@ -1987,26 +2060,35 @@
             <param name="value">Boolean value to insert</param>
             <param name="columnAddress">Column number (zero based)</param>
             <param name="rowAddress">Row number (zero based)</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.Boolean,System.String)">
             <summary>
             Adds a boolean value to the defined cell address
             </summary>
             <param name="value">Boolean value to insert</param>
-            <param name="address">Cell address in the format A1 - XFD16384</param>
+            <param name="address">Cell address in the format A1 - XFD1048576</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell address is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(PicoXLSX.Cell)">
             <summary>
             Adds a cell object. This object must contain a valid row and column address
             </summary>
             <param name="cell">Cell object to insert</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellFormula(System.String,System.String)">
             <summary>
             Adds a cell formula as string to the defined cell address
             </summary>
             <param name="formula">Formula to insert</param>
-            <param name="address">Cell address in the format A1 - XFD16384</param>
+            <param name="address">Cell address in the format A1 - XFD1048576</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell address is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellFormula(System.String,System.Int32,System.Int32)">
             <summary>
@@ -2015,6 +2097,8 @@
             <param name="formula">Formula to insert</param>
             <param name="columnAddress">Column number (zero based)</param>
             <param name="rowAddress">Row number (zero based)</param>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Object},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
             <summary>
@@ -2023,6 +2107,8 @@
             <param name="values">List of unspecified objects to insert</param>
             <param name="startAddress">Start address</param>
             <param name="endAddress">End address</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Object},System.String)">
             <summary>
@@ -2030,6 +2116,9 @@
             </summary>
             <param name="values">List of unspecified objects to insert</param>
             <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell range is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.String},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
             <summary>
@@ -2038,6 +2127,8 @@
             <param name="values">List of string values to insert from the start address to the end address</param>
             <param name="startAddress">Start address</param>
             <param name="endAddress">End address</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.String},System.String)">
             <summary>
@@ -2045,6 +2136,9 @@
             </summary>
             <param name="values">List of string values to insert from the start address to the end address</param>
             <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell range is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Int32},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
             <summary>
@@ -2053,6 +2147,8 @@
             <param name="values">List of integer values to insert from the start address to the end address</param>
             <param name="startAddress">Start address</param>
             <param name="endAddress">End address</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Int32},System.String)">
             <summary>
@@ -2060,6 +2156,10 @@
             </summary>
             <param name="values">List of integer values to insert from the start address to the end address</param>
             <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell range is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Double},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
             <summary>
@@ -2068,6 +2168,8 @@
             <param name="values">List of double values to insert from the start address to the end address</param>
             <param name="startAddress">Start address</param>
             <param name="endAddress">End address</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Double},System.String)">
             <summary>
@@ -2075,6 +2177,9 @@
             </summary>
             <param name="values">List of double values to insert from the start address to the end address</param>
             <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell address is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Single},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
             <summary>
@@ -2083,6 +2188,8 @@
             <param name="values">List of float values to insert from the start address to the end address</param>
             <param name="startAddress">Start address</param>
             <param name="endAddress">End address</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Single},System.String)">
             <summary>
@@ -2090,6 +2197,8 @@
             </summary>
             <param name="values">List of float values to insert from the start address to the end address</param>
             <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell address is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.DateTime},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
             <summary>
@@ -2098,6 +2207,8 @@
             <param name="values">List of DateTime values to insert from the start address to the end address</param>
             <param name="startAddress">Start address</param>
             <param name="endAddress">End address</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.DateTime},System.String)">
             <summary>
@@ -2105,6 +2216,9 @@
             </summary>
             <param name="values">List of DateTime values to insert from the start address to the end address</param>
             <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell address is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Boolean},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
             <summary>
@@ -2113,6 +2227,8 @@
             <param name="values">List of boolean values to insert from the start address to the end address</param>
             <param name="startAddress">Start address</param>
             <param name="endAddress">End address</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Boolean},System.String)">
             <summary>
@@ -2120,6 +2236,9 @@
             </summary>
             <param name="values">List of boolean values to insert from the start address to the end address</param>
             <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell address is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRangeInternal``1(System.Collections.Generic.List{``0},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
             <summary>
@@ -2129,7 +2248,8 @@
             <param name="values">List of values</param>
             <param name="startAddress">Start address</param>
             <param name="endAddress">End address</param>
-            <exception cref="T:PicoXLSX.OutOfRangeException">Throws a OutOfRangeException if the number of cells differs from the number of passed values</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the number of cells differs from the number of passed values</exception>
+            <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.RemoveCell(System.Int32,System.Int32)">
             <summary>
@@ -2138,13 +2258,16 @@
             <param name="columnAddress">Column number (zero based)</param>
             <param name="rowAddress">Row number (zero based)</param>
             <returns>Returns true if the cell could be removed (existed), otherwise false (did not exist)</returns>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.RemoveCell(System.String)">
             <summary>
             Removes a previous inserted cell at the defined address
             </summary>
-            <param name="address">Cell address in the format A1 - XFD16384</param>
+            <param name="address">Cell address in the format A1 - XFD1048576</param>
             <returns>Returns true if the cell could be removed (existed), otherwise false (did not exist)</returns>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell address is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.GoToNextColumn">
             <summary>
@@ -2161,20 +2284,22 @@
             Sets the current row address (row number, zero based)
             </summary>
             <param name="rowAddress">Row number (zero based)</param>
-            <exception cref="T:PicoXLSX.OutOfRangeException">Throws a OutOfRangeException if the address is out of the valid range. Range is from 0 to 1048575 (1048576 rows)</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the address is out of the valid range. Range is from 0 to 1048575 (1048576 rows)</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.SetCurrentColumnAddress(System.Int32)">
             <summary>
             Sets the current column address (column number, zero based)
             </summary>
             <param name="columnAddress">Column number (zero based)</param>
-            <exception cref="T:PicoXLSX.OutOfRangeException">Throws a OutOfRangeException if the address is out of the valid range. Range is from 0 to 16383 (16384 columns)</exception>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the address is out of the valid range. Range is from 0 to 16383 (16384 columns)</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.SetCurentCellAddress(System.String)">
             <summary>
             Set the current cell address
             </summary>
-            <param name="address">Cell address in the format A1 - XFD16384</param>
+            <param name="address">Cell address in the format A1 - XFD1048576</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell address is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.SetCurentCellAddress(System.Int32,System.Int32)">
             <summary>
@@ -2182,6 +2307,7 @@
             </summary>
             <param name="columnAddress">Column number (zero based)</param>
             <param name="rowAddress">Row number (zero based)</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if one of the passed cell addresses is out of range</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.SetSheetname(System.String)">
             <summary>
@@ -2196,6 +2322,7 @@
             </summary>
             <param name="columnAddress">Column address (A - XFD)</param>
             <param name="width">Width from 0 to 255.0</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException:<br></br>a) If the passed column address is out of range<br></br>b) if the column width is out of range (0 - 255.0)</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.SetColumnWidth(System.Int32,System.Single)">
             <summary>
@@ -2203,6 +2330,7 @@
             </summary>
             <param name="columnNumber">Column number (zero-based, from 0 to 16383)</param>
             <param name="width">Width from 0 to 255.0</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException:<br></br>a) If the passed column number is out of range<br></br>b) if the column width is out of range (0 - 255.0)</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.SetRowHeight(System.Int32,System.Single)">
             <summary>
@@ -2210,6 +2338,7 @@
             </summary>
             <param name="rowNumber">Row number (zero-based, 0 to 1048575)</param>
             <param name="height">Height from 0 to 409.5</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException:<br></br>a) If the passed row number is out of range<br></br>b) if the row height is out of range (0 - 409.5)</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.SetActiveStyle(PicoXLSX.Style,PicoXLSX.Workbook)">
             <summary>
@@ -2229,6 +2358,7 @@
             </summary>
             <param name="cellRange">Range to merge</param>
             <returns>Returns the validated range of the merged cells (e.g. 'A1:B12')</returns>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell range is out of range</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.MergeCells(System.String)">
             <summary>
@@ -2236,6 +2366,8 @@
             </summary>
             <param name="cellRange">Range to merge (e.g. 'A1:B12')</param>
             <returns>Returns the validated range of the merged cells (e.g. 'A1:B12')</returns>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed cell range is out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell range is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.MergeCells(PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
             <summary>
@@ -2244,6 +2376,7 @@
             <param name="startAddress">Start address of the merged cell range</param>
             <param name="endAddress">End address of the merged cell range</param>
             <returns>Returns the validated range of the merged cells (e.g. 'A1:B12')</returns>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if one of the passed cell addresses is out of range</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.RemoveMergedCells(System.String)">
             <summary>
@@ -2263,6 +2396,100 @@
             Sets or removes the password for worksheet protection. If set, UseSheetProtection will be also set to true
             </summary>
             <param name="password">Password (UTF-8) to protect the worksheet. If the password is null or empty, no password will be used</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddHiddenRow(System.Int32)">
+            <summary>
+            Sets the defined row as hidden
+            </summary>
+            <param name="rowNumber">Row number to hide on the worksheet</param>
+            <exception cref="!:OutOfRange">Throws an OutOfRange if the passed row number is out of range</exception>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.RemoveHiddenRow(System.Int32)">
+            <summary>
+            Sets a previously defined, hidden row as visible again
+            </summary>
+            <param name="rowNumber">Row number to hide on the worksheet</param>
+            <exception cref="!:OutOfRange">Throws an OutOfRange if the passed row number is out of range</exception>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.SetRowHiddenState(System.Int32,System.Boolean)">
+            <summary>
+            Sets the defined row as hidden or visible
+            </summary>
+            <param name="rowNumber">Row number to hide on the worksheet</param>
+            <param name="state">If true, the row will be hidden, otherwise be visible</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the start or end address was out of range</exception>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddHiddenColumn(System.Int32)">
+            <summary>
+            Sets the defined column as hidden
+            </summary>
+            <param name="columnNumber">Column number to hide on the worksheet</param>
+            <exception cref="!:OutOfRange">Throws an OutOfRange if the passed column number is out of range</exception>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.AddHiddenColumn(System.String)">
+            <summary>
+            Sets the defined column as hidden
+            </summary>
+            <param name="columnAddress">Column address to hide on the worksheet</param>
+            <exception cref="!:OutOfRange">Throws an OutOfRange if the passed column address is out of range</exception>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.RemoveHiddenColumn(System.Int32)">
+            <summary>
+            Sets a previously defined, hidden column as visible again
+            </summary>
+            <param name="columnNumber">Column number to hide on the worksheet</param>
+            <exception cref="!:OutOfRange">Throws an OutOfRange if the passed column number is out of range</exception>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.RemoveHiddenColumn(System.String)">
+            <summary>
+            Sets a previously defined, hidden column as visible again
+            </summary>
+            <param name="columnAddress">Column address to hide on the worksheet</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the column address out of range</exception>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.SetColumnHiddenState(System.Int32,System.Boolean)">
+            <summary>
+            Sets the defined column as hidden or visible
+            </summary>
+            <param name="columnNumber">Column number to hide on the worksheet</param>
+            <param name="state">If true, the column will be hidden, otherwise be visible</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the column address out of range</exception>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.SetAutoFilter(System.Int32,System.Int32)">
+            <summary>
+            Sets the column auto filter within the defined column range
+            </summary>
+            <param name="startColumn">Column number with the first appearance of a auto filter drop down</param>
+            <param name="endColumn">Column number with the last appearance of a auto filter drop down</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the start or end address out of range</exception>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.SetAutoFilter(System.String)">
+            <summary>
+            Sets the column auto filter within the defined column range
+            </summary>
+            <param name="range"></param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed range out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws an FormatException if the passed range is malformed</exception>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.RemoveAutoFilter">
+            <summary>
+            Removes auto filters from the worksheet
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.RecalculateAutoFilter">
+            <summary>
+            Method to recalculate the auto filter (columns) of this worksheet. This is an internal method. There is no need to use it. It must be public to require access from the LowLevel class
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.RecalculateColumns">
+            <summary>
+            Method to recalculate the collection of columns of this worksheet. This is an internal method. There is no need to use it. It must be public to require access from the LowLevel class
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.AutoFilterRange">
+            <summary>
+            Range of the auto-filter. Wrapped to Nullable to provide null as value. If null, no auto-filter is applied
+            </summary>
         </member>
         <member name="P:PicoXLSX.Worksheet.CurrentCellDirection">
             <summary>
@@ -2315,11 +2542,6 @@
             Default column width
             </summary>
         </member>
-        <member name="P:PicoXLSX.Worksheet.ColumnWidths">
-            <summary>
-            Dictionary of column widths. Key is the column number (zero-based), value is a float from 0 to 255.0
-            </summary>
-        </member>
         <member name="P:PicoXLSX.Worksheet.RowHeights">
             <summary>
             Dictionary of row heights. Key is the row number (zero-based), value is a float from 0 to 409.5
@@ -2348,13 +2570,13 @@
             <summary>If selected, the user can edit scenarios if the worksheets is protected</summary>
         </member>
         <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.formatCells">
-            <summary>If selected, the user can format cells if the worksheets is protected</summary>
+            <summary>If selected, the user ca Format cells if the worksheets is protected</summary>
         </member>
         <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.formatColumns">
-            <summary>If selected, the user can format columns if the worksheets is protected</summary>
+            <summary>If selected, the user ca Format columns if the worksheets is protected</summary>
         </member>
         <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.formatRows">
-            <summary>If selected, the user can format rows if the worksheets is protected</summary>
+            <summary>If selected, the user ca Format rows if the worksheets is protected</summary>
         </member>
         <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.insertColumns">
             <summary>If selected, the user can insert columns if the worksheets is protected</summary>
@@ -2385,6 +2607,53 @@
         </member>
         <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.selectUnlockedCells">
             <summary>If selected, the user can select unlocked cells if the worksheets is protected</summary>
+        </member>
+        <member name="T:PicoXLSX.Worksheet.Column">
+            <summary>
+            Class representing a column of a worksheet
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.Column.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.Column.#ctor(System.Int32)">
+            <summary>
+            Constructor with column number
+            </summary>
+            <param name="columnCoordinate">Column number (zero-based, 0 to 16383)</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.Column.#ctor(System.String)">
+            <summary>
+            Constructor with column address
+            </summary>
+            <param name="columnAddress">Column address (A to XFD)</param>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.Column.Number">
+            <summary>
+            Column number (0 to 16383)
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.Column.ColumnAddress">
+            <summary>
+            Column address (A to XFD)
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.Column.Width">
+            <summary>
+            Width of the column
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.Column.IsHidden">
+            <summary>
+            If true, the column is hidden, otherwise visible
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.Column.HasAutoFilter">
+            <summary>
+            If true, the column has auto filter applied, otherwise not
+            </summary>
         </member>
     </members>
 </doc>

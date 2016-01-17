@@ -6,11 +6,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PicoXLSX
 {
@@ -134,7 +130,7 @@ namespace PicoXLSX
         /// <summary>
         /// Checks the format of the passed version string
         /// </summary>
-        /// /// <exception cref="FormatException">Throws a FormatException if the version string is malformed</exception>
+        /// <exception cref="FormatException">Throws a FormatException if the version string is malformed</exception>
         private void CheckVersion()
         {
             if (string.IsNullOrEmpty(this.applicationVersion)) { return; }

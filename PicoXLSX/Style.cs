@@ -6,10 +6,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Security.Cryptography;
 
 namespace PicoXLSX
@@ -227,6 +223,7 @@ namespace PicoXLSX
             /// Method to calculate the internal text rotation. The text direction and rotation are handled internally by the text rotation value
             /// </summary>
             /// <returns>Returns the valid rotation in degrees for internal uses (LowLevel)</returns>
+            /// <exception cref="FormatException">Throws a FormatException if the rotation angle (-90 to 90) is out of range</exception>
             public int CalculateInternalRotation()
             {
                 if (this.textRotation < -90 || this.textRotation > 90)
@@ -1019,7 +1016,7 @@ namespace PicoXLSX
                 custom = 164,
             }
             /// <summary>
-            /// Format number. Set it to custom (164) in case of custom number formats
+            /// Format number. Set this to custom (164) in case of custom number formats
             /// </summary>
             public FormatNumber Number { get; set; }
             /// <summary>

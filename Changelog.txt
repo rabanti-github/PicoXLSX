@@ -1,3 +1,14 @@
+
+v1.3.0  17.01.2016
+*****************
+- Added support for auto filter (columns)
+- Added support for hiding columns and rows
+- Added new Column class (sub-class of Worksheet) to manage column based properties more efficiently
+- Removed unused Exception UnsupportedDataTypeException
+- Added more documentation (exceptions are now better defined)
+- Minor bug fixes + typos 
+- Added further demo for the new features
+
 v1.2.4	08.11.2015
 ******************
 - Fixed a bug in the meta data section

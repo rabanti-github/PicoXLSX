@@ -108,7 +108,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets the cell Address as string in the format A1 - XFD16384
+        /// Gets the cell Address as string in the format A1 - XFD1048576
         /// </summary>
         /// <returns>Cell address</returns>
         public string GetCellAddress()
@@ -122,6 +122,7 @@ namespace PicoXLSX
         /// <param name="style">Style to assign</param>
         /// <param name="workbookReference">Workbook reference. All styles will be managed in this workbook</param>
         /// <returns>If the passed style already exists in the workbook, the existing one will be returned, otherwise the passed one</returns>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style cannot be referenced or no style was defined</exception>
         public Style SetStyle(Style style, Workbook workbookReference)
         {
             if (workbookReference == null)
@@ -141,6 +142,7 @@ namespace PicoXLSX
         /// Removes the assigned style from the cell
         /// </summary>
         /// <param name="workbookReference">Workbook reference. All styles will be managed in this workbook</param>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style cannot be referenced</exception>
         public void RemoveStyle(Workbook workbookReference)
         {
             if (workbookReference == null)
@@ -214,16 +216,6 @@ namespace PicoXLSX
                 else // Default = unspecified object
                 {
                     c = new Cell((string)o, CellType.DEFAULT);
-                    /*
-                    try
-                    {
-                       
-                    }
-                    catch
-                    {
-                        throw new UnsupportedDataTypeException("The data type '" + typeof(T).ToString() + "' is not supported");
-                    }
-                    */
                 }
                 output.Add(c);
             }
@@ -235,6 +227,8 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="range">Range to process</param>
         /// <returns>List of cell addresses</returns>
+        /// <exception cref="FormatException">Throws a FormatException if a part of the passed range is malformed</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the range is out of range (A-XFD and 1 to 1048576) </exception>
         public static List<Address> GetCellRange(string range)
         {
             Range range2 = ResolveCellRange(range);
@@ -244,9 +238,11 @@ namespace PicoXLSX
         /// <summary>
         /// Get a list of cell addresses from a cell range
         /// </summary>
-        /// <param name="startAddress">Start address as string in the format A1 - XFD16384</param>
-        /// <param name="endAddress">End address as string in the format A1 - XFD16384</param>
+        /// <param name="startAddress">Start address as string in the format A1 - XFD1048576</param>
+        /// <param name="endAddress">End address as string in the format A1 - XFD1048576</param>
         /// <returns>List of cell addresses</returns>
+        /// <exception cref="FormatException">Throws a FormatException if a part of the passed range is malformed</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the range is out of range (A-XFD and 1 to 1048576) </exception> 
         public static List<Address> GetCellRange(string startAddress, string endAddress)
         {
             Address start = ResolveCellCoordinate(startAddress);
@@ -262,6 +258,7 @@ namespace PicoXLSX
         /// <param name="endColumn">End column (zero based)</param>
         /// <param name="endRow">End row (zero based)</param>
         /// <returns>List of cell addresses</returns>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the value of one passed address parts is out of range (A-XFD and 1 to 1048576) </exception>
         public static List<Address> GetCellRange(int startColumn, int startRow, int endColumn, int endRow)
         {
             Address start = new Address(startColumn, startRow);
@@ -275,6 +272,8 @@ namespace PicoXLSX
         /// <param name="startAddress">Start address</param>
         /// <param name="endAddress">End address</param>
         /// <returns>List of cell addresses</returns>
+        /// <exception cref="FormatException">Throws a FormatException if a part of the passed addresses is malformed</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the value of one passed address is out of range (A-XFD and 1 to 1048576) </exception>
         public static List<Address> GetCellRange(Address startAddress, Address endAddress)
         {
             int startColumn, endColumn, startRow, endRow;
@@ -315,6 +314,7 @@ namespace PicoXLSX
         /// <param name="range">Range to process</param>
         /// <returns>Range object</returns>
         /// <exception cref="FormatException">Throws a FormatException if the start or end address was malformed</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the range is out of range (A-XFD and 1 to 1048576) </exception>
         public static Range ResolveCellRange(string range)
         {
             if (string.IsNullOrEmpty(range))
@@ -334,52 +334,25 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="column">Column address of the cell (zero-based)</param>
         /// <param name="row">Row address of the cell (zero-based)</param>
-        /// <exception cref="OutOfRangeException">Throws a OutOfRangeException if the start or end address was out of range</exception>
-        /// <returns>Cell Address as string in the format A1 - XFD16384</returns>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address was out of range</exception>
+        /// <returns>Cell Address as string in the format A1 - XFD1048576</returns>
         public static string ResolveCellAddress(int column, int row)
         {
-            if (row >= 1048576 || row < 0)
-            {
-                throw new OutOfRangeException("The row number (" + row.ToString() + ") is out of range. Range is from 0 to 1048575 (1048576 rows).");
-            }
             if (column >= 16384 || column < 0)
             {
                 throw new OutOfRangeException("The column number (" + column.ToString() + ") is out of range. Range is from 0 to 16383 (16384 columns).");
             }
-            // A - XFD
-            int j = 0;
-            int k = 0;
-            int l = 0;
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i <= column; i++)
-            {
-                if (j > 25)
-                {
-                    k++;
-                    j = 0;
-                }
-                if (k > 25)
-                {
-                    l++;
-                    k = 0;
-                }
-                j++;
-            }
-            if (l > 0) { sb.Append((char)(l + 64)); }
-            if (k > 0) { sb.Append((char)(k + 64)); }
-            sb.Append((char)(j + 64));
-            sb.Append((row + 1).ToString());
-            return sb.ToString();
+            return ResolveColumnAddress(column) + (row + 1).ToString();
         }
 
         /// <summary>
         /// Gets the column and row number (zero based) of a cell by the address
         /// </summary>
-        /// <param name="address">Address as string in the format A1 - XFD16384</param>
+        /// <param name="address">Address as string in the format A1 - XFD1048576</param>
         /// <param name="column">Column address of the cell (zero-based) as out parameter</param>
         /// <param name="row">Row address of the cell (zero-based) as out parameter</param>
         /// <exception cref="FormatException">Throws a FormatException if the range address was malformed</exception>
-        /// <exception cref="OutOfRangeException">Throws a OutOfRangeException if the start or end address was out of range</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address was out of range</exception>
         public static void ResolveCellCoordinate(string address, out int column, out int row)
         {
             if (string.IsNullOrEmpty(address))
@@ -411,6 +384,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="columnAddress">Column address (A - XFD)</param>
         /// <returns>Column number (zero-based)</returns>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address was out of range</exception>
         public static int ResolveColumn(string columnAddress)
         {
             int temp;
@@ -431,11 +405,50 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Gets the column address (A - XFD)
+        /// </summary>
+        /// <param name="columnNumber">Column number (zero-based)</param>
+        /// <returns>Column address (A - XFD)</returns>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address was out of range</exception>
+        public static string ResolveColumnAddress(int columnNumber)
+        {
+            if (columnNumber >= 16384 || columnNumber < 0)
+            {
+                throw new OutOfRangeException("The column number (" + columnNumber.ToString() + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+            }
+            // A - XFD
+            int j = 0;
+            int k = 0;
+            int l = 0;
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i <= columnNumber; i++)
+            {
+                if (j > 25)
+                {
+                    k++;
+                    j = 0;
+                }
+                if (k > 25)
+                {
+                    l++;
+                    k = 0;
+                }
+                j++;
+            }
+            if (l > 0) { sb.Append((char)(l + 64)); }
+            if (k > 0) { sb.Append((char)(k + 64)); }
+            sb.Append((char)(j + 64));
+            return sb.ToString();
+        }
+
+        /// <summary>
         /// Sets the lock state of the cell
         /// </summary>
         /// <param name="isLocked">If true, the cell will be locked if the worksheet is protected</param>
         /// <param name="isHidden">If true, the value of the cell will be invisible if the worksheet is protected</param>
         /// <param name="workbookReference">Workbook reference. Locking of cells uses styles which are managed in the workbook</param>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style used to lock cells cannot be referenced</exception>
+        /// <remarks>The listed exception should never happen because the mentioned style is internally generated</remarks>
         public void SetCellLockedState(bool isLocked, bool isHidden, Workbook workbookReference)
         {
             Style lockStyle;
@@ -455,8 +468,10 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the column and row number (zero based) of a cell by the address
         /// </summary>
-        /// <param name="address">Address as string in the format A1 - XFD16384</param>
+        /// <param name="address">Address as string in the format A1 - XFD1048576</param>
         /// <returns>Struct with row and column</returns>
+        /// <exception cref="FormatException">Throws a FormatException if the passed address is malformed</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the value of the passed address is out of range (A-XFD and 1 to 1048576) </exception>
         public static Address ResolveCellCoordinate(string address)
         {
             int row, column;
@@ -492,7 +507,7 @@ namespace PicoXLSX
             /// <summary>
             /// Returns the combined Address
             /// </summary>
-            /// <returns>Address as string in the format A1 - XFD16384</returns>
+            /// <returns>Address as string in the format A1 - XFD1048576</returns>
             public string GetAddress()
             {
                 return ResolveCellAddress(Column, Row);

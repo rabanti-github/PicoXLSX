@@ -6,16 +6,13 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PicoXLSX
 {
     /// <summary>
     /// Class for exceptions regarding out-of-range incidents
     /// </summary>
+    [Serializable]
     public class OutOfRangeException : Exception
     {
         /// <summary>
@@ -35,6 +32,7 @@ namespace PicoXLSX
     /// <summary>
     /// Class for exceptions regarding format error incidents
     /// </summary>
+    [Serializable]
     public class FormatException : Exception
     {
         /// <summary>
@@ -62,6 +60,7 @@ namespace PicoXLSX
     /// <summary>
     /// Class for exceptions regarding stream or save error incidents
     /// </summary>
+    [Serializable]
     public class IOException : Exception
     {
         /// <summary>
@@ -89,6 +88,7 @@ namespace PicoXLSX
     /// <summary>
     /// Class for exceptions regarding an already existing worksheet (same name)
     /// </summary>
+    [Serializable]
     public class WorksheetNameAlreadxExistsException : Exception
     {
         /// <summary>
@@ -108,6 +108,7 @@ namespace PicoXLSX
     /// <summary>
     /// Class for exceptions regarding an unknown worksheet (name not found)
     /// </summary>
+    [Serializable]
     public class UnknownWorksheetException : Exception
     {
         /// <summary>
@@ -125,27 +126,9 @@ namespace PicoXLSX
     }
 
     /// <summary>
-    /// Class for exceptions regarding an unsupported data type
-    /// </summary>
-    public class UnsupportedDataTypeException : Exception
-    {
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public UnsupportedDataTypeException() : base()
-        { }
-        /// <summary>
-        /// Constructor with passed message
-        /// </summary>
-        /// <param name="message">Message of the exception</param>
-        public UnsupportedDataTypeException(string message)
-            : base(message)
-        { }
-    }
-
-    /// <summary>
     /// Class for exceptions regarding undefined Styles
     /// </summary>
+    [Serializable]
     public class UndefinedStyleException : Exception
     {
         /// <summary>
@@ -165,6 +148,7 @@ namespace PicoXLSX
     /// <summary>
     /// Class for exceptions regarding unknown cell ranges
     /// </summary>
+    [Serializable]
     public class UnknownRangeException : Exception
     {
         /// <summary>

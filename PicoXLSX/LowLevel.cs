@@ -9,18 +9,16 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 using System.IO.Packaging;
-using System.Text.RegularExpressions;
+using System.Text;
+using System.Xml;
 
 namespace PicoXLSX
 {
     /// <summary>
     /// Class for low level handling (XML, formatting, packing)
     /// </summary>
+    /// <remarks>This class is only for internal use. Use the high level API (e.g. class Workbook) to manipulate data and create Excel files</remarks>
     class LowLevel
     {
         private static DocumentPath WORKBOOK = new DocumentPath("workbook.xml", "xl/");
@@ -45,6 +43,10 @@ namespace PicoXLSX
         /// Method to save the workbook
         /// </summary>
         /// <exception cref="IOException">Throws IOException in case of an error</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
+        /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+        /// <remarks>The UndefinedStyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
         public void Save()
         {
             this.workbook.ResolveMergedCells();
@@ -133,8 +135,11 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="worksheet">worksheet object to process</param>
         /// <returns>Formated XML document</returns>
+        /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
         private XmlDocument CreateWorksheetPart(Worksheet worksheet)
         {
+            worksheet.RecalculateAutoFilter();
+            worksheet.RecalculateColumns();
             XmlDocument worksheetDocument = new XmlDocument();
             List<List<Cell>> celldata = GetSortedSheetData(worksheet);
             StringBuilder sb = new StringBuilder();
@@ -159,6 +164,11 @@ namespace PicoXLSX
             sb.Append(CreateMergedCellsString(worksheet));
             sb.Append(CreateSheetProtectionString(worksheet));
 
+            if (worksheet.AutoFilterRange != null)
+            {
+                sb.Append("<x:autoFilter ref=\"" + worksheet.AutoFilterRange.Value.ToString() + "\"/>\r\n");
+            }
+
             sb.Append("</x:worksheet>");
             worksheetDocument.LoadXml(sb.ToString());
             XmlDeclaration dec = worksheetDocument.CreateXmlDeclaration("1.0", "UTF-8", "yes");
@@ -171,6 +181,9 @@ namespace PicoXLSX
         /// Method to create a style sheet as XML document
         /// </summary>
         /// <returns>Formated XML document</returns>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the styles cannot be referenced or is null</exception>
+        /// <remarks>The UndefinedStyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
+        
         private XmlDocument CreateStyleSheetDocument()
         {
             List<Style.Border> borders;
@@ -259,6 +272,7 @@ namespace PicoXLSX
         /// Method to create a workbook as XML document
         /// </summary>
         /// <returns>Formated XML document</returns>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address was out of range</exception>
         private XmlDocument CreateWorkbookDocument()
         {
             if (this.workbook.Worksheets.Count == 0)
@@ -385,10 +399,12 @@ namespace PicoXLSX
         /// <param name="columnFields">List of cells</param>
         /// <param name="worksheet">Worksheet to process</param>
         /// <returns>Formated row string</returns>
+        /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
         private string CreateRowString(List<Cell> columnFields, Worksheet worksheet)
         {
             int rowNumber = columnFields[0].RowAddress;
             string heigth = "";
+            string hidden = "";
             if (worksheet.RowHeights.ContainsKey(rowNumber))
             {
                 if (worksheet.RowHeights[rowNumber] != worksheet.DefaultRowHeight)
@@ -396,10 +412,17 @@ namespace PicoXLSX
                     heigth = " x14ac:dyDescent=\"0.25\" customHeight=\"1\" ht=\"" + worksheet.RowHeights[rowNumber].ToString("G", culture) + "\"";
                 }
             }
+            if (worksheet.HiddenRows.ContainsKey(rowNumber))
+            {
+                if (worksheet.HiddenRows[rowNumber] == true)
+                {
+                    hidden = " hidden=\"1\"";
+                }
+            }
             StringBuilder sb = new StringBuilder();
             if (columnFields.Count > 0)
             {
-                sb.Append("<x:row r=\"" + (rowNumber + 1).ToString() + "\"" + heigth + ">\r\n");
+                sb.Append("<x:row r=\"" + (rowNumber + 1).ToString() + "\"" + heigth + hidden + ">\r\n");
             }
             else
             {
@@ -990,15 +1013,30 @@ namespace PicoXLSX
         /// <returns>String with formated XML data</returns>
         private string CreateColsString(Worksheet worksheet)
         {
-            if (worksheet.ColumnWidths.Count > 0)
+            //if (worksheet.ColumnWidths.Count > 0 || worksheet.HiddenColumns.Count > 0)
+            if (worksheet.Columns.Count > 0)
             {
                 string col;
+                string hidden = "";
                 StringBuilder sb = new StringBuilder();
-                foreach (KeyValuePair<int, float>item in worksheet.ColumnWidths)
+                //foreach (KeyValuePair<int, float>item in worksheet.ColumnWidths)
+                foreach(KeyValuePair<int, Worksheet.Column> column in worksheet.Columns)
                 { 
-                    if (item.Value == worksheet.DefaultColumnWidth) { continue; }
-                    col = (item.Key + 1).ToString("G", culture); // Add 1 for Address
-                    sb.Append("<x:col customWidth=\"1\" width=\"" + item.Value.ToString("G", culture) + "\" max=\"" + col + "\" min=\"" + col + "\"/>\r\n");
+                    //if (item.Value == worksheet.DefaultColumnWidth) { continue; }
+                    if (column.Value.Width == worksheet.DefaultColumnWidth && column.Value.IsHidden == false) { continue; }
+                    if (worksheet.Columns.ContainsKey(column.Key))
+                    //if (worksheet.HiddenColumns.ContainsKey(item.Key))
+                    {
+                        //if (worksheet.HiddenColumns[item.Key] == true)
+                        if (worksheet.Columns[column.Key].IsHidden == true)
+                        {
+                            hidden = " hidden=\"1\"";
+                        }
+                    }
+                    //col = (item.Key + 1).ToString("G", culture); // Add 1 for Address
+                    col = (column.Key + 1).ToString("G", culture); // Add 1 for Address
+                    //sb.Append("<x:col customWidth=\"1\" width=\"" + item.Value.ToString("G", culture) + "\" max=\"" + col + "\" min=\"" + col + "\"" + hidden + "/>\r\n");
+                    sb.Append("<x:col customWidth=\"1\" width=\"" + column.Value.Width.ToString("G", culture) + "\" max=\"" + col + "\" min=\"" + col + "\"" + hidden + "/>\r\n");
                 }
                 string value = sb.ToString();
                 if (value.Length > 0)
@@ -1133,8 +1171,9 @@ namespace PicoXLSX
         /// Method to convert a date or date and time into the Excel time format
         /// </summary>
         /// <param name="date">Date to process</param>
-        /// <exception cref="FormatException">Throws a FormatException if the date could not be converted to the OA format</exception>
         /// <returns>Date or date and time as Number</returns>
+        /// <exception cref="FormatException">Throws a FormatException if the passed date cannot be translated to OADate format</exception>
+        /// <remarks>OA Date format starts at January 1st 1900 (actually 00.01.1900). Dates beyond this date cannot be handled by Excel under normal circumstances</remarks>
         public static string GetOADateTimeString(DateTime date)
         {
             try
