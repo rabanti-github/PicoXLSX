@@ -13,7 +13,6 @@ namespace Demo
         /// <param name="args">Not used</param>
         static void Main(string[] args)
         {
-            /*
             basicDemo();
             Demo1();
             Demo2();
@@ -21,7 +20,6 @@ namespace Demo
             Demo4();
             Demo5();
             Demo6();
-             * */
             Demo7();
         }
 
