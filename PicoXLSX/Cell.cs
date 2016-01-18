@@ -352,7 +352,7 @@ namespace PicoXLSX
         /// <param name="column">Column address of the cell (zero-based) as out parameter</param>
         /// <param name="row">Row address of the cell (zero-based) as out parameter</param>
         /// <exception cref="FormatException">Throws a FormatException if the range address was malformed</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address was out of range</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the row or column address was out of range</exception>
         public static void ResolveCellCoordinate(string address, out int column, out int row)
         {
             if (string.IsNullOrEmpty(address))
@@ -384,7 +384,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="columnAddress">Column address (A - XFD)</param>
         /// <returns>Column number (zero-based)</returns>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address was out of range</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed address was out of range</exception>
         public static int ResolveColumn(string columnAddress)
         {
             int temp;
@@ -409,7 +409,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="columnNumber">Column number (zero-based)</param>
         /// <returns>Column address (A - XFD)</returns>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address was out of range</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed column number was out of range</exception>
         public static string ResolveColumnAddress(int columnNumber)
         {
             if (columnNumber >= 16384 || columnNumber < 0)

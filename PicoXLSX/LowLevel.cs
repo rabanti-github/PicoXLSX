@@ -272,7 +272,7 @@ namespace PicoXLSX
         /// Method to create a workbook as XML document
         /// </summary>
         /// <returns>Formated XML document</returns>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address was out of range</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if an address was out of range</exception>
         private XmlDocument CreateWorkbookDocument()
         {
             if (this.workbook.Worksheets.Count == 0)
@@ -1013,29 +1013,22 @@ namespace PicoXLSX
         /// <returns>String with formated XML data</returns>
         private string CreateColsString(Worksheet worksheet)
         {
-            //if (worksheet.ColumnWidths.Count > 0 || worksheet.HiddenColumns.Count > 0)
             if (worksheet.Columns.Count > 0)
             {
                 string col;
                 string hidden = "";
                 StringBuilder sb = new StringBuilder();
-                //foreach (KeyValuePair<int, float>item in worksheet.ColumnWidths)
                 foreach(KeyValuePair<int, Worksheet.Column> column in worksheet.Columns)
                 { 
-                    //if (item.Value == worksheet.DefaultColumnWidth) { continue; }
                     if (column.Value.Width == worksheet.DefaultColumnWidth && column.Value.IsHidden == false) { continue; }
                     if (worksheet.Columns.ContainsKey(column.Key))
-                    //if (worksheet.HiddenColumns.ContainsKey(item.Key))
                     {
-                        //if (worksheet.HiddenColumns[item.Key] == true)
                         if (worksheet.Columns[column.Key].IsHidden == true)
                         {
                             hidden = " hidden=\"1\"";
                         }
                     }
-                    //col = (item.Key + 1).ToString("G", culture); // Add 1 for Address
                     col = (column.Key + 1).ToString("G", culture); // Add 1 for Address
-                    //sb.Append("<x:col customWidth=\"1\" width=\"" + item.Value.ToString("G", culture) + "\" max=\"" + col + "\" min=\"" + col + "\"" + hidden + "/>\r\n");
                     sb.Append("<x:col customWidth=\"1\" width=\"" + column.Value.Width.ToString("G", culture) + "\" max=\"" + col + "\" min=\"" + col + "\"" + hidden + "/>\r\n");
                 }
                 string value = sb.ToString();

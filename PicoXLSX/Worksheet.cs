@@ -46,11 +46,11 @@ namespace PicoXLSX
             objects,
             /// <summary>If selected, the user can edit scenarios if the worksheets is protected</summary>
             scenarios,
-            /// <summary>If selected, the user ca Format cells if the worksheets is protected</summary>
+            /// <summary>If selected, the user can Format cells if the worksheets is protected</summary>
             formatCells,
-            /// <summary>If selected, the user ca Format columns if the worksheets is protected</summary>
+            /// <summary>If selected, the user can Format columns if the worksheets is protected</summary>
             formatColumns,
-            /// <summary>If selected, the user ca Format rows if the worksheets is protected</summary>
+            /// <summary>If selected, the user can Format rows if the worksheets is protected</summary>
             formatRows,
             /// <summary>If selected, the user can insert columns if the worksheets is protected</summary>
             insertColumns,
@@ -83,9 +83,7 @@ namespace PicoXLSX
         private float defaultRowHeight;
         private float defaultColumnWidth;
         private Dictionary<int, Column> columns;
-        //private Dictionary<int, float> columnWidths;
         private Dictionary<int, float> rowHeights;
-        //private Dictionary<int, bool> hiddenColumns;
         private Dictionary<int, bool> hiddenRows;
         private Dictionary<string, Cell.Range> mergedCells;
         private bool useSheetProtection;
@@ -93,7 +91,9 @@ namespace PicoXLSX
         private string sheetProtectionPassword;
         private Nullable<Cell.Range> autoFilterRange;
 
-
+        /// <summary>
+        /// Dictionary of all columns with non-standard properties, like auto filter applied or a special width
+        /// </summary>
         public Dictionary<int, Column> Columns
         {
             get { return columns; }
@@ -186,15 +186,7 @@ namespace PicoXLSX
           get { return defaultColumnWidth; }
           set { defaultColumnWidth = value; }
         }
-/*
-        /// <summary>
-        /// Dictionary of column widths. Key is the column number (zero-based), value is a float from 0 to 255.0
-        /// </summary>
-        public Dictionary<int, float> ColumnWidths
-        {
-            get { return columnWidths; }
-        }
- * */
+
         /// <summary>
         /// Dictionary of row heights. Key is the row number (zero-based), value is a float from 0 to 409.5
         /// </summary>
@@ -203,13 +195,10 @@ namespace PicoXLSX
             get { return rowHeights; }
         }
 
-/*
-        public Dictionary<int, bool> HiddenColumns
-        {
-            get { return hiddenColumns; }
-        }
- */
-
+        /// <summary>
+        /// Dictionary of hidden rows.  Key is the row number (zero-based), value is a boolean. True indicates hidden, false visible.
+        /// </summary>
+        /// <remarks>Entries with the value false are not affecting the worksheet. These entries can be removed</remarks>
         public Dictionary<int, bool> HiddenRows
         {
             get { return hiddenRows; }
@@ -227,11 +216,9 @@ namespace PicoXLSX
             this.currentColumnNumber = 0;
             this.defaultColumnWidth = DEFAULT_COLUMN_WIDTH;
             this.defaultRowHeight = DEFAULT_ROW_HEIGHT;
-           // this.columnWidths = new Dictionary<int, float>();
             this.rowHeights = new Dictionary<int, float>();
             this.mergedCells = new Dictionary<string,Cell.Range>();
             this.sheetProtectionValues = new List<SheetProtectionValue>();
-            //this.hiddenColumns = new Dictionary<int, bool>();
             this.hiddenRows = new Dictionary<int, bool>();
             this.columns = new Dictionary<int, Column>();
             this.activeStyle = null;
@@ -1149,7 +1136,6 @@ namespace PicoXLSX
             }
         }
 
-        //public void SetHiddenRows()
 
         /// <summary>
         /// Method to add allowed actions if the worksheet is protected. If one or more values are added, UseSheetProtection will be set to true
@@ -1190,7 +1176,7 @@ namespace PicoXLSX
         /// Sets the defined row as hidden
         /// </summary>
         /// <param name="rowNumber">Row number to hide on the worksheet</param>
-        /// <exception cref="OutOfRange">Throws an OutOfRange if the passed row number is out of range</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRange if the passed row number is out of range</exception>
         public void AddHiddenRow(int rowNumber)
         {
             SetRowHiddenState(rowNumber, true);
@@ -1200,7 +1186,7 @@ namespace PicoXLSX
         /// Sets a previously defined, hidden row as visible again
         /// </summary>
         /// <param name="rowNumber">Row number to hide on the worksheet</param>
-        /// <exception cref="OutOfRange">Throws an OutOfRange if the passed row number is out of range</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRange if the passed row number is out of range</exception>
         public void RemoveHiddenRow(int rowNumber)
         {
             SetRowHiddenState(rowNumber, false);
@@ -1209,9 +1195,9 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the defined row as hidden or visible
         /// </summary>
-        /// <param name="rowNumber">Row number to hide on the worksheet</param>
-        /// <param name="state">If true, the row will be hidden, otherwise be visible</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address was out of range</exception>
+        /// <param name="rowNumber">Row number to make visible again</param>
+        /// <param name="state">If true, the row will be hidden, otherwise visible</param>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed row number was out of range</exception>
         private void SetRowHiddenState(int rowNumber, bool state)
         {
             if (rowNumber >= 1048576 || rowNumber < 0)
@@ -1239,7 +1225,7 @@ namespace PicoXLSX
         /// Sets the defined column as hidden
         /// </summary>
         /// <param name="columnNumber">Column number to hide on the worksheet</param>
-        /// <exception cref="OutOfRange">Throws an OutOfRange if the passed column number is out of range</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRange if the passed column number is out of range</exception>
         public void AddHiddenColumn(int columnNumber)
         {
             SetColumnHiddenState(columnNumber, true);
@@ -1249,7 +1235,7 @@ namespace PicoXLSX
         /// Sets the defined column as hidden
         /// </summary>
         /// <param name="columnAddress">Column address to hide on the worksheet</param>
-        /// <exception cref="OutOfRange">Throws an OutOfRange if the passed column address is out of range</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRange if the passed column address is out of range</exception>
         public void AddHiddenColumn(string columnAddress)
         {
             int columnNumber = Cell.ResolveColumn(columnAddress);
@@ -1259,8 +1245,8 @@ namespace PicoXLSX
         /// <summary>
         /// Sets a previously defined, hidden column as visible again
         /// </summary>
-        /// <param name="columnNumber">Column number to hide on the worksheet</param>
-        /// <exception cref="OutOfRange">Throws an OutOfRange if the passed column number is out of range</exception>
+        /// <param name="columnNumber">Column number to make visible again</param>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRange if the passed column number is out of range</exception>
         public void RemoveHiddenColumn(int columnNumber)
         {
             SetColumnHiddenState(columnNumber, false);
@@ -1269,7 +1255,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets a previously defined, hidden column as visible again
         /// </summary>
-        /// <param name="columnAddress">Column address to hide on the worksheet</param>
+        /// <param name="columnAddress">Column address to make visible again</param>
         /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the column address out of range</exception>
         public void RemoveHiddenColumn(string columnAddress)
         {
@@ -1332,7 +1318,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the column auto filter within the defined column range
         /// </summary>
-        /// <param name="range"></param>
+        /// <param name="range">Range to apply auto filter on. The range could be 'A1:C10' for instance. The end row will be recalculated automatically when saving the file</param>
         /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed range out of range</exception>
         /// <exception cref="FormatException">Throws an FormatException if the passed range is malformed</exception>
         public void SetAutoFilter(string range)
@@ -1396,10 +1382,10 @@ namespace PicoXLSX
                 {
                     columnsToDelete.Add(col.Key);
                 }
-                foreach(int index in columnsToDelete)
-                {
-                    this.columns.Remove(index);
-                }
+            }
+            foreach (int index in columnsToDelete)
+            {
+                this.columns.Remove(index);
             }
         }
 

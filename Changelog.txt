@@ -1,3 +1,8 @@
+v1.3.1	18.01.2016
+******************
+- Fixed a bug in the auto filter section
+- Code cleanup
+- Fixed some documentation issues
 
 v1.3.0  17.01.2016
 *****************

@@ -396,8 +396,8 @@
   <HelpKINode Title="LowLevel.GetOADateTimeString method" Url="html/dd5bc4f9-de7a-cadf-6c67-fac183f3a131.htm" />
   <HelpKINode Title="LowLevel.GetSortedSheetData method" Url="html/d42cf5a8-5c66-c8f7-25de-4d48a7ff6d6d.htm" />
   <HelpKINode Title="LowLevel.LowLevel constructor">
-    <HelpKINode Title="LowLevel Constructor " Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
     <HelpKINode Title="LowLevel Constructor " Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
+    <HelpKINode Title="LowLevel Constructor " Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
   </HelpKINode>
   <HelpKINode Title="LowLevel.Save method" Url="html/29b7b40b-428d-c03f-9c7d-1d92119e2038.htm" />
   <HelpKINode Title="LowLevel.WriteXMLStream method" Url="html/f654964e-7173-fefd-9d23-0ba78343cb95.htm" />
@@ -590,8 +590,8 @@
   <HelpKINode Title="Style class">
     <HelpKINode Title="Style Class" Url="html/d39b4a51-0a49-7a9b-bcd1-bac433145294.htm" />
     <HelpKINode Title="about Style class" Url="html/d39b4a51-0a49-7a9b-bcd1-bac433145294.htm" />
-    <HelpKINode Title="constructor" Url="html/77978064-4924-b5de-216e-befac1d59766.htm" />
     <HelpKINode Title="constructor" Url="html/860ef806-3528-5ed8-6386-e119d3ca0aaa.htm" />
+    <HelpKINode Title="constructor" Url="html/77978064-4924-b5de-216e-befac1d59766.htm" />
     <HelpKINode Title="methods" Url="html/f8a20be1-6f12-aea2-6718-311ec5cf1a92.htm" />
     <HelpKINode Title="properties" Url="html/7b895d9a-22aa-86c0-1855-a11ded23636b.htm" />
   </HelpKINode>
