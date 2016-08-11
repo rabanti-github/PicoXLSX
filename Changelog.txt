@@ -3,6 +3,7 @@ v1.4.0	11.08.2016
 - Added support for Cell selection
 - Added support for worksheet selection
 - Removed XML namespace 'x' as prefix in OOXML output. No use for this at the moment
+- Removed newlines from OOXML output. No relevance for parser
 - Added further demo for the new features
 
 v1.3.1	18.01.2016
