@@ -1,12 +1,11 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2015
+ * Copyright Raphael Stoeckli © 2016
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
 
 using System;
-using System.Security.Cryptography;
 
 namespace PicoXLSX
 {
@@ -15,8 +14,6 @@ namespace PicoXLSX
     /// </summary>
     public class Style : IComparable<Style>, IEquatable<Style>
     {
-        private static RNGCryptoServiceProvider RNGcsp = new RNGCryptoServiceProvider();
-
         /// <summary>
         /// Current Font object of the style
         /// </summary>
@@ -63,7 +60,7 @@ namespace PicoXLSX
             this.CurrentBorder = new Border();
             this.CurrentNumberFormat = new NumberFormat();
             this.CurrentCellXf = new CellXf();
-            this.name = createUniqueName();
+            this.name = "Style_" + LowLevel.CreateUniqueName(16);
         }
 
         /// <summary>
@@ -1367,21 +1364,6 @@ namespace PicoXLSX
             copy.CurrentCellXf = this.CurrentCellXf.Copy();
             copy.CurrentNumberFormat = overwriteFormat;
             return copy;
-        }
-
-        /// <summary>
-        /// Creates a random style names using Crypto Service Provider (prevents same random numbers due to too fast processing)
-        /// </summary>
-        /// <returns>Random style name</returns>
-        private string createUniqueName()
-        {
-            byte[] rndByte = new byte[4];
-            RNGcsp.GetBytes(rndByte);
-            int res = BitConverter.ToInt32(rndByte, 0);
-            Random rnd = new Random(res);
-            int number = rnd.Next(0, int.MaxValue);
-            int number2 = rnd.Next(0, int.MaxValue);
-            return "Style" + number.ToString() + "-" + number2.ToString();
         }
 
     }

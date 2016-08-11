@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2015
+ * Copyright Raphael Stoeckli © 2016
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -32,6 +32,16 @@ namespace PicoXLSX
         private string workbookProtectionPassword;
         private bool lockWindowsIfProtected;
         private bool lockStructureIfProtected;
+        private int selectedWorksheet;
+
+
+        /// <summary>
+        /// Gets the selected worksheet. The selected worksheet is not the current worksheet while design time but the seelected sheet in the output file
+        /// </summary>
+        public int SelectedWorksheet
+        {
+            get { return selectedWorksheet; }
+        }
 
         /// <summary>
         /// Gets the current worksheet
@@ -182,6 +192,45 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Sets the selected worksheet in the output workbook
+        /// </summary>
+        /// <remarks>This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this</remarks>
+        /// <param name="worksheetIndex">Zero-based worksheet index</param>
+        /// <exception cref="OutOfRangeException">Throws a OutOfRangeException if the index of the worksheet is out of range</exception>
+        public void SetSelectedWorksheet(int worksheetIndex)
+        {
+            if (worksheetIndex < 0 || worksheetIndex > this.worksheets.Count - 1)
+            {
+                throw new OutOfRangeException("The worksheet index " + worksheetIndex.ToString() + " is out of range");
+            }
+            this.selectedWorksheet = worksheetIndex;
+        }
+        
+		/// <summary>
+		/// Sets the selected worksheet in the output workbook
+		/// </summary>
+		/// <remarks>This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this</remarks>
+		/// <param name="worksheet">Worksheet object (must be in the collection of worksheets)</param>
+		/// <exception cref="UnknownWorksheetException">Throws a UnknownWorksheetException if the worksheet was not found in the worksheet collection</exception>
+        public void SetSelectedWorksheet(Worksheet worksheet)
+        {
+        	bool check = false;
+            for(int i = 0; i < this.worksheets.Count; i++)
+            {
+                if (this.worksheets[i].Equals(worksheet))
+                {
+                    this.selectedWorksheet = i;
+                    check = true;
+                    break;
+                }
+            }
+            if (check == false)
+            {
+            	throw new UnknownWorksheetException("The passed worksheet object is not in the worksheet collection.");
+            }
+        }
+
+        /// <summary>
         /// Removes the defined worksheet
         /// </summary>
         /// <param name="name">Name of the worksheet</param>
@@ -223,6 +272,10 @@ namespace PicoXLSX
             else
             {
                 this.currentWorksheet = null;
+            }
+            if (this.selectedWorksheet > this.worksheets.Count - 1)
+            {
+                this.selectedWorksheet = this.worksheets.Count - 1;
             }
         }
 

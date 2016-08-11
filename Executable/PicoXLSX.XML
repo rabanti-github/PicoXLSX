@@ -563,6 +563,13 @@
             <param name="counter">Out-parameter for the number of custom number formats</param>
             <returns>String with formated XML data</returns>
         </member>
+        <member name="M:PicoXLSX.LowLevel.CreateUniqueName(System.Int32)">
+            <summary>
+            Creates an unique, random string with the stated length
+            </summary>
+            <param name="length">Lenth of the name in characters</param>
+            <returns>Unique (random) name</returns>
+        </member>
         <member name="M:PicoXLSX.LowLevel.AppendXMLtag(System.Text.StringBuilder,System.String,System.String,System.String)">
             <summary>
             Method to append a simple XML tag with an enclosed value to the passed StringBuilder
@@ -787,12 +794,6 @@
             </summary>
             <param name="overwriteFormat">NumberFormat object to replace the original object of the current object in the copy</param>
             <returns>Copy of the current object without the internal ID</returns>
-        </member>
-        <member name="M:PicoXLSX.Style.createUniqueName">
-            <summary>
-            Creates a random style names using Crypto Service Provider (prevents same random numbers due to too fast processing)
-            </summary>
-            <returns>Random style name</returns>
         </member>
         <member name="P:PicoXLSX.Style.CurrentFont">
             <summary>
@@ -1702,6 +1703,22 @@
             <returns>Returns the current worksheet</returns>
             <exception cref="T:PicoXLSX.UnknownWorksheetException">Throws a UnknownWorksheetException if the name of the worksheet is unknown</exception>
         </member>
+        <member name="M:PicoXLSX.Workbook.SetSelectedWorksheet(System.Int32)">
+            <summary>
+            Sets the selected worksheet in the output workbook
+            </summary>
+            <remarks>This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this</remarks>
+            <param name="worksheetIndex">Zero-based worksheet index</param>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws a OutOfRangeException if the index of the worksheet is out of range</exception>
+        </member>
+        <member name="M:PicoXLSX.Workbook.SetSelectedWorksheet(PicoXLSX.Worksheet)">
+            <summary>
+            Sets the selected worksheet in the output workbook
+            </summary>
+            <remarks>This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this</remarks>
+            <param name="worksheet">Worksheet object (must be in the collection of worksheets)</param>
+            <exception cref="T:PicoXLSX.UnknownWorksheetException">Throws a UnknownWorksheetException if the worksheet was not found in the worksheet collection</exception>
+        </member>
         <member name="M:PicoXLSX.Workbook.RemoveWorksheet(System.String)">
             <summary>
             Removes the defined worksheet
@@ -1793,6 +1810,11 @@
             <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
             <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+        </member>
+        <member name="P:PicoXLSX.Workbook.SelectedWorksheet">
+            <summary>
+            Gets the selected worksheet. The selected worksheet is not the current worksheet while design time but the seelected sheet in the output file
+            </summary>
         </member>
         <member name="P:PicoXLSX.Workbook.CurrentWorksheet">
             <summary>
@@ -2484,6 +2506,35 @@
         <member name="M:PicoXLSX.Worksheet.RecalculateColumns">
             <summary>
             Method to recalculate the collection of columns of this worksheet. This is an internal method. There is no need to use it. It must be public to require access from the LowLevel class
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.SetSelectedCells(PicoXLSX.Cell.Range)">
+            <summary>
+            Sets the selected cells on this worksheet
+            </summary>
+            <param name="range">Cell range to select</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.SetSelectedCells(PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
+            <summary>
+            Sets the selected cells on this worksheet
+            </summary>
+            <param name="startAddress">Start address of the range</param>
+            <param name="endAddress">End address of the range</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.SetSelectedCells(System.String)">
+            <summary>
+            Sets the selected cells on this worksheet
+            </summary>
+            <param name="range">Cell range to select</param>
+        </member>
+        <member name="M:PicoXLSX.Worksheet.RemoveSelectedCells">
+            <summary>
+            Removes the cell selection of this worksheet
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.SelectedCells">
+            <summary>
+            Cell range of selected cells of this worksheet. Null if no cells are selected
             </summary>
         </member>
         <member name="P:PicoXLSX.Worksheet.Columns">

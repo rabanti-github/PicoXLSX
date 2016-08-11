@@ -162,7 +162,7 @@
   <HelpKINode Title="CreateStyleSheetDocument method" Url="html/756143ee-7a59-3a22-93fd-391aee75860f.htm" />
   <HelpKINode Title="CreateStyleSheetDocumentFallback method" Url="html/db39294a-2c0b-1a0d-1647-8d34d5368356.htm" />
   <HelpKINode Title="CreateStyleXfsString method" Url="html/e0cfc7ea-0fb6-f8b3-67af-15fe69c82f5d.htm" />
-  <HelpKINode Title="createUniqueName method" Url="html/3bf4ae8a-dc46-9282-fcca-ccdccddefea9.htm" />
+  <HelpKINode Title="CreateUniqueName method" Url="html/97ab4dcb-d600-364a-e9a8-e0dc201c1e8d.htm" />
   <HelpKINode Title="CreateWorkbookDocument method" Url="html/3bda8d92-b877-13f2-1243-1a18c4354f38.htm" />
   <HelpKINode Title="CreateWorksheetPart method" Url="html/973de249-9e90-32a0-9058-115f2fb8eee9.htm" />
   <HelpKINode Title="Creator property" Url="html/7d892715-fa5e-9073-b3f0-85c63ec2d63d.htm" />
@@ -379,6 +379,7 @@
   <HelpKINode Title="LowLevel.CreateStyleSheetDocument method" Url="html/756143ee-7a59-3a22-93fd-391aee75860f.htm" />
   <HelpKINode Title="LowLevel.CreateStyleSheetDocumentFallback method" Url="html/db39294a-2c0b-1a0d-1647-8d34d5368356.htm" />
   <HelpKINode Title="LowLevel.CreateStyleXfsString method" Url="html/e0cfc7ea-0fb6-f8b3-67af-15fe69c82f5d.htm" />
+  <HelpKINode Title="LowLevel.CreateUniqueName method" Url="html/97ab4dcb-d600-364a-e9a8-e0dc201c1e8d.htm" />
   <HelpKINode Title="LowLevel.CreateWorkbookDocument method" Url="html/3bda8d92-b877-13f2-1243-1a18c4354f38.htm" />
   <HelpKINode Title="LowLevel.CreateWorksheetPart method" Url="html/973de249-9e90-32a0-9058-115f2fb8eee9.htm" />
   <HelpKINode Title="LowLevel.DocumentPath class">
@@ -524,6 +525,7 @@
   <HelpKINode Title="RemoveHiddenColumn method" Url="html/e6bd13bd-2dbb-f84e-a151-2ba1e57c5cbf.htm" />
   <HelpKINode Title="RemoveHiddenRow method" Url="html/28e4e96d-7380-289a-5a31-7b9ea30bd5e6.htm" />
   <HelpKINode Title="RemoveMergedCells method" Url="html/5280699f-56a4-6e1c-98af-32396e7c35cd.htm" />
+  <HelpKINode Title="RemoveSelectedCells method" Url="html/1808a9f3-a853-5e65-77e8-553a081ebf7e.htm" />
   <HelpKINode Title="RemoveStyle method">
     <HelpKINode Title="Cell.RemoveStyle Method " Url="html/1e05557b-e65e-f4a0-5b83-f338734b7029.htm" />
     <HelpKINode Title="Workbook.RemoveStyle Method " Url="html/19317dcc-6e19-445a-06e8-70576bf768eb.htm" />
@@ -553,6 +555,8 @@
   <HelpKINode Title="SaveAs method" Url="html/d61bb20a-797e-3e5d-ae87-a00b7af77d12.htm" />
   <HelpKINode Title="scenarios enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
   <HelpKINode Title="Scheme property" Url="html/ca14940c-2355-f5a8-2f3c-d78cc73a8013.htm" />
+  <HelpKINode Title="SelectedCells property" Url="html/52f77cc1-0e55-7d17-7fea-05cd10309df3.htm" />
+  <HelpKINode Title="SelectedWorksheet property" Url="html/78059228-0c26-29c6-222e-5b932f7d6448.htm" />
   <HelpKINode Title="selectLockedCells enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
   <HelpKINode Title="selectUnlockedCells enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
   <HelpKINode Title="SetActiveStyle method" Url="html/5e16df63-aad8-9b5b-a222-cb47f874b0d8.htm" />
@@ -567,6 +571,8 @@
   <HelpKINode Title="SetCurrentWorksheet method" Url="html/471008ca-dad8-81aa-3d02-6c41a0bfb29d.htm" />
   <HelpKINode Title="SetRowHeight method" Url="html/6f11a1b3-b136-e23f-fe20-241d7a871cdf.htm" />
   <HelpKINode Title="SetRowHiddenState method" Url="html/c49f088a-d58d-680f-4d6a-b45d554cf7fa.htm" />
+  <HelpKINode Title="SetSelectedCells method" Url="html/e642e906-3de8-5d92-f498-13d2f703628a.htm" />
+  <HelpKINode Title="SetSelectedWorksheet method" Url="html/29b0d50b-54b9-ade1-8f89-55ef8b4c9705.htm" />
   <HelpKINode Title="SetSheetname method" Url="html/26ed859f-c126-d114-a95b-d6a7bed349c7.htm" />
   <HelpKINode Title="SetSheetProtectionPassword method" Url="html/425b6b66-0ccf-ec1f-8520-2c08807ea3cd.htm" />
   <HelpKINode Title="SetStyle method" Url="html/e2531303-032a-e2e0-214e-35e098980614.htm" />
@@ -590,7 +596,6 @@
   <HelpKINode Title="Style class">
     <HelpKINode Title="Style Class" Url="html/d39b4a51-0a49-7a9b-bcd1-bac433145294.htm" />
     <HelpKINode Title="about Style class" Url="html/d39b4a51-0a49-7a9b-bcd1-bac433145294.htm" />
-    <HelpKINode Title="constructor" Url="html/860ef806-3528-5ed8-6386-e119d3ca0aaa.htm" />
     <HelpKINode Title="constructor" Url="html/77978064-4924-b5de-216e-befac1d59766.htm" />
     <HelpKINode Title="methods" Url="html/f8a20be1-6f12-aea2-6718-311ec5cf1a92.htm" />
     <HelpKINode Title="properties" Url="html/7b895d9a-22aa-86c0-1855-a11ded23636b.htm" />
@@ -663,7 +668,6 @@
   <HelpKINode Title="Style.CellXf.VerticallAlignValue enumeration" Url="html/422563e9-6272-264a-49f2-6d101f353cec.htm" />
   <HelpKINode Title="Style.CompareTo method" Url="html/a69523ec-9400-5ff5-c3e1-daabc404735a.htm" />
   <HelpKINode Title="Style.Copy method" Url="html/ba35aabb-c668-5ece-b3ee-8ffdaebe8e03.htm" />
-  <HelpKINode Title="Style.createUniqueName method" Url="html/3bf4ae8a-dc46-9282-fcca-ccdccddefea9.htm" />
   <HelpKINode Title="Style.CurrentBorder property" Url="html/985ca533-d5e5-3d56-4365-cd00df47dcbe.htm" />
   <HelpKINode Title="Style.CurrentCellXf property" Url="html/98f0424c-73c9-8ac3-677b-1e21cfaae015.htm" />
   <HelpKINode Title="Style.CurrentFill property" Url="html/19857227-c764-1c6b-8c2a-03752e346229.htm" />
@@ -734,10 +738,7 @@
   <HelpKINode Title="Style.NumberFormat.IsCustomFormat property" Url="html/241da745-2318-b976-a750-85d0c3263142.htm" />
   <HelpKINode Title="Style.NumberFormat.Number property" Url="html/06026975-7c50-7830-0791-44c7d353f653.htm" />
   <HelpKINode Title="Style.NumberFormat.NumberFormat constructor" Url="html/60a35a6a-7d41-5823-9ebc-87c47d6dd1ad.htm" />
-  <HelpKINode Title="Style.Style constructor">
-    <HelpKINode Title="Style Constructor " Url="html/860ef806-3528-5ed8-6386-e119d3ca0aaa.htm" />
-    <HelpKINode Title="Style Constructor " Url="html/77978064-4924-b5de-216e-befac1d59766.htm" />
-  </HelpKINode>
+  <HelpKINode Title="Style.Style constructor" Url="html/77978064-4924-b5de-216e-befac1d59766.htm" />
   <HelpKINode Title="Styles property" Url="html/804d7cdc-a478-aca4-d470-667a1ec98101.htm" />
   <HelpKINode Title="Subject property" Url="html/50ef6b0c-7c04-dd50-7bc5-871f0c7b0bcd.htm" />
   <HelpKINode Title="subscript enumeration member" Url="html/a1869e04-b523-eae9-eb43-c71978e39369.htm" />
@@ -816,7 +817,9 @@
   <HelpKINode Title="Workbook.ResolveMergedCells method" Url="html/c2b87dda-bc97-54cf-5716-befe2066b99b.htm" />
   <HelpKINode Title="Workbook.Save method" Url="html/b09ca737-6c33-0b13-bcf4-1920572075d0.htm" />
   <HelpKINode Title="Workbook.SaveAs method" Url="html/d61bb20a-797e-3e5d-ae87-a00b7af77d12.htm" />
+  <HelpKINode Title="Workbook.SelectedWorksheet property" Url="html/78059228-0c26-29c6-222e-5b932f7d6448.htm" />
   <HelpKINode Title="Workbook.SetCurrentWorksheet method" Url="html/471008ca-dad8-81aa-3d02-6c41a0bfb29d.htm" />
+  <HelpKINode Title="Workbook.SetSelectedWorksheet method" Url="html/29b0d50b-54b9-ade1-8f89-55ef8b4c9705.htm" />
   <HelpKINode Title="Workbook.SetWorkbookProtection method" Url="html/ee7b8e72-2649-dac7-a078-19be7954c1f9.htm" />
   <HelpKINode Title="Workbook.Styles property" Url="html/804d7cdc-a478-aca4-d470-667a1ec98101.htm" />
   <HelpKINode Title="Workbook.UseWorkbookProtection property" Url="html/7f634903-104d-f78b-cf4c-26747316452c.htm" />
@@ -877,7 +880,9 @@
   <HelpKINode Title="Worksheet.RemoveHiddenColumn method" Url="html/e6bd13bd-2dbb-f84e-a151-2ba1e57c5cbf.htm" />
   <HelpKINode Title="Worksheet.RemoveHiddenRow method" Url="html/28e4e96d-7380-289a-5a31-7b9ea30bd5e6.htm" />
   <HelpKINode Title="Worksheet.RemoveMergedCells method" Url="html/5280699f-56a4-6e1c-98af-32396e7c35cd.htm" />
+  <HelpKINode Title="Worksheet.RemoveSelectedCells method" Url="html/1808a9f3-a853-5e65-77e8-553a081ebf7e.htm" />
   <HelpKINode Title="Worksheet.RowHeights property" Url="html/7cbe68af-b70c-331b-76be-40a7e910b532.htm" />
+  <HelpKINode Title="Worksheet.SelectedCells property" Url="html/52f77cc1-0e55-7d17-7fea-05cd10309df3.htm" />
   <HelpKINode Title="Worksheet.SetActiveStyle method" Url="html/5e16df63-aad8-9b5b-a222-cb47f874b0d8.htm" />
   <HelpKINode Title="Worksheet.SetAutoFilter method" Url="html/b0ecd4c4-3355-86d9-e955-154e78a058cb.htm" />
   <HelpKINode Title="Worksheet.SetColumnHiddenState method" Url="html/be97f0ec-198b-bd0c-a8f0-1eb2b59fe27f.htm" />
@@ -887,6 +892,7 @@
   <HelpKINode Title="Worksheet.SetCurrentRowAddress method" Url="html/6eb86092-7959-07f5-cf65-9542b5627c9e.htm" />
   <HelpKINode Title="Worksheet.SetRowHeight method" Url="html/6f11a1b3-b136-e23f-fe20-241d7a871cdf.htm" />
   <HelpKINode Title="Worksheet.SetRowHiddenState method" Url="html/c49f088a-d58d-680f-4d6a-b45d554cf7fa.htm" />
+  <HelpKINode Title="Worksheet.SetSelectedCells method" Url="html/e642e906-3de8-5d92-f498-13d2f703628a.htm" />
   <HelpKINode Title="Worksheet.SetSheetname method" Url="html/26ed859f-c126-d114-a95b-d6a7bed349c7.htm" />
   <HelpKINode Title="Worksheet.SetSheetProtectionPassword method" Url="html/425b6b66-0ccf-ec1f-8520-2c08807ea3cd.htm" />
   <HelpKINode Title="Worksheet.SheetID property" Url="html/c68bed38-8567-4dc9-2738-57e87139f3cc.htm" />

@@ -21,6 +21,7 @@ namespace Demo
             Demo5();
             Demo6();
             Demo7();
+            Demo8();
         }
 
         /// <summary>
@@ -222,6 +223,25 @@ namespace Demo
             ws.AddHiddenRow(1);                                                                         // Hider row 2 (zero-based: 1)
             ws.SetAutoFilter(1, 3);                                                                     // Set auto-filter for column B to D
             workbook.Save();                                                                            // Save the workbook
+        }
+        
+        /// <summary>
+        /// This demo shows the usage of cell and worksheet selection
+        /// </summary>
+        private static void Demo8()
+        {
+            Workbook workbook = new Workbook("test8.xlsx", "Sheet1");  									// Create new workbook
+            workbook.CurrentWorksheet.AddNextCell("Test");              								// Add cell A1
+            workbook.CurrentWorksheet.SetSelectedCells("A5:B10");										// Set the selection to the range A5:B10
+            workbook.AddWorksheet("Sheet2");															// Create new worksheet
+            workbook.CurrentWorksheet.AddNextCell("Test2");              								// Add cell A1
+            Cell.Range range = new Cell.Range(new Cell.Address(1,1), new Cell.Address(3,3));			// Create a cell range for the selection B2:D4
+            workbook.CurrentWorksheet.SetSelectedCells(range);											// Set the selection to the range
+            workbook.AddWorksheet("Sheet3");															// Create new worksheet
+            workbook.CurrentWorksheet.AddNextCell("Test3");              								// Add cell A1
+            workbook.CurrentWorksheet.SetSelectedCells(new Cell.Address(2,2), new Cell.Address(4,4));	// Set the selection to the range C3:E5
+            workbook.SetSelectedWorksheet(1);															// Set the second Tab as selected (zero-based: 1)
+            workbook.Save();                                            								// Save the workbook
         }
 
 

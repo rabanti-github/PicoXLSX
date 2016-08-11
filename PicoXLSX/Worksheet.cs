@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2015
+ * Copyright Raphael Stoeckli © 2016
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -90,6 +90,16 @@ namespace PicoXLSX
         private List<SheetProtectionValue> sheetProtectionValues;
         private string sheetProtectionPassword;
         private Nullable<Cell.Range> autoFilterRange;
+        private Nullable<Cell.Range> selectedCells;
+
+        /// <summary>
+        /// Cell range of selected cells of this worksheet. Null if no cells are selected
+        /// </summary>
+        public Nullable<Cell.Range> SelectedCells
+        {
+            get { return selectedCells; }
+        }
+        
 
         /// <summary>
         /// Dictionary of all columns with non-standard properties, like auto filter applied or a special width
@@ -1388,7 +1398,42 @@ namespace PicoXLSX
                 this.columns.Remove(index);
             }
         }
+        
+        /// <summary>
+        /// Sets the selected cells on this worksheet
+        /// </summary>
+        /// <param name="range">Cell range to select</param>
+        public void SetSelectedCells(Cell.Range range)
+        {
+        	this.selectedCells = range;
+        }
+        
+        /// <summary>
+        /// Sets the selected cells on this worksheet
+        /// </summary>
+        /// <param name="startAddress">Start address of the range</param>
+        /// <param name="endAddress">End address of the range</param>
+        public void SetSelectedCells(Cell.Address startAddress, Cell.Address endAddress)
+        {
+        	this.selectedCells = new Cell.Range(startAddress, endAddress);
+        }
 
+        /// <summary>
+        /// Sets the selected cells on this worksheet
+        /// </summary>
+        /// <param name="range">Cell range to select</param>
+        public void SetSelectedCells(string range)
+        {
+            this.selectedCells = Cell.ResolveCellRange(range);
+        }
+
+        /// <summary>
+        /// Removes the cell selection of this worksheet
+        /// </summary>
+        public void RemoveSelectedCells()
+        {
+            this.selectedCells = null;
+        }
         
         /// <summary>
         /// Class representing a column of a worksheet
