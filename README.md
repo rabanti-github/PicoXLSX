@@ -7,7 +7,7 @@ PicoXLSX is a small .NET / C# library to create XLSX files (Microsoft Excel 2007
 * No need for an installation of the Microsoft Open Office XML SDK (OOXML)
 
 # Requirements
-PicoXLSX was created with .NET version 4.5. But older versions like 3.5 and 4.0 may also work with minor or no changes. However, this was not tested yet.
+PicoXLSX was created with .NET version 4.5 and upgraded to 4.6.1. But older versions like 3.5 and 4.0 may also work with minor or no changes. However, this was not tested yet.
 The only requirement to compile the library besides .NET is the assembly **WindowsBase**. This assembly is a standard component in all Microsoft Windows systems (except Windows RT systems) and can be found most likely under "c:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\WindowsBase.dll", according this [MSDN Blog entry](http://blogs.msdn.com/b/dmahugh/archive/2006/12/14/finding-windowsbase-dll.aspx).<br><br>
 If you want to compile the documentation project (folder: Documentation; project file: shfbproj), you need also the **[Sandcastle Help File Builder (SHFB)](https://github.com/EWSoftware/SHFB)**. It is also freely available. But you don't need the documentation project to build the PicoXLSX library.
 
