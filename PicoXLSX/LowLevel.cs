@@ -26,10 +26,13 @@ namespace PicoXLSX
         private static DocumentPath STYLES = new DocumentPath("styles.xml", "xl/");
         private static DocumentPath APP_PROPERTIES = new DocumentPath("app.xml", "docProps/");
         private static DocumentPath CORE_PROPERTIES = new DocumentPath("core.xml", "docProps/");
+        private static DocumentPath SHARED_STRINGS = new DocumentPath("sharedStrings.xml", "xl/");
         private static RNGCryptoServiceProvider RNGcsp = new RNGCryptoServiceProvider();
 
         private CultureInfo culture;
         private Workbook workbook;
+        private Dictionary<string, string> sharedStrings;
+        private int sharedStringsTotalCount;
 
         /// <summary>
         /// Constructor with defined workbook object
@@ -39,6 +42,8 @@ namespace PicoXLSX
         {
             this.culture = CultureInfo.CreateSpecificCulture("en-US");
             this.workbook = workbook;
+            this.sharedStrings = new Dictionary<string, string>();
+            this.sharedStringsTotalCount = 0;
         }
 
         /// <summary>
@@ -66,6 +71,7 @@ namespace PicoXLSX
                     Uri stylesheetUri = new Uri(STYLES.GetFullPath(), UriKind.Relative);
                     Uri appPropertiesUri = new Uri(APP_PROPERTIES.GetFullPath(), UriKind.Relative);
                     Uri corePropertiesUri = new Uri(CORE_PROPERTIES.GetFullPath(), UriKind.Relative);
+                    Uri sharedStringsUri = new Uri(SHARED_STRINGS.GetFullPath(), UriKind.Relative);
 
                     PackagePart pp = p.CreatePart(workbookUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", CompressionOption.Normal);
                     p.CreateRelationship(pp.Uri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument", "rId1");
@@ -80,6 +86,7 @@ namespace PicoXLSX
                     int idCounter = this.workbook.Worksheets.Count + 1;
                     
                     pp.CreateRelationship(stylesheetUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", "rId" + idCounter.ToString());
+                    pp.CreateRelationship(sharedStringsUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings", "rId" + (idCounter + 1).ToString());
 
                     foreach (Worksheet item in this.workbook.Worksheets)
                     {
@@ -100,6 +107,13 @@ namespace PicoXLSX
                         }
                     }
 
+                    pp = p.CreatePart(sharedStringsUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", CompressionOption.Normal);
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        WriteXMLStream(ms, CreateSharedStringsDocument());
+                        LowLevel.CopyStream(ms, pp.GetStream());
+                    }
+                    
 
                     pp = p.CreatePart(stylesheetUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", CompressionOption.Normal);
                     using (MemoryStream ms = new MemoryStream())
@@ -123,6 +137,7 @@ namespace PicoXLSX
                             LowLevel.CopyStream(ms, pp.GetStream());
                         }
                     }
+     
 
                 }
             }
@@ -382,6 +397,33 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Method to create shared strings as XML document
+        /// </summary>
+        /// <returns>Formated XML document</returns>
+        private XmlDocument CreateSharedStringsDocument()
+        {
+            XmlDocument doc = new XmlDocument();
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<sst xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" count=\"");
+            sb.Append(this.sharedStringsTotalCount.ToString("G", culture));
+            sb.Append("\" uniqueCount=\"");
+            sb.Append(this.sharedStrings.Count.ToString("G", culture));
+            sb.Append("\">");
+            foreach(KeyValuePair<string,string>str in this.sharedStrings)
+            {
+                sb.Append("<si><t>");
+                sb.Append(str.Key);
+                sb.Append("</t></si>");
+            }
+            sb.Append("</sst>");
+            doc.LoadXml(sb.ToString());
+            XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
+            XmlElement root = doc.DocumentElement;
+            doc.InsertBefore(dec, root);
+            return doc;
+        }
+
+        /// <summary>
         /// Method to sort the cells of a worksheet as preparation for the XML document
         /// </summary>
         /// <param name="sheet">Worksheet to process</param>
@@ -493,10 +535,13 @@ namespace PicoXLSX
                     {
                         value = ((int)item.Value).ToString("G", culture);
                     }
+                    else if (t == typeof(long))
+                    {
+                        value = ((long)item.Value).ToString("G", culture);
+                    }
                     else if(t == typeof(double))
                     {
                         value = ((double)item.Value).ToString("G", culture);
-
                     }
                     else if(t == typeof(float))
                     {
@@ -514,16 +559,31 @@ namespace PicoXLSX
                 // String parsing
                 else
                 {
-                    typeAttribute = "str";
-                    tValue = " t=\"" + typeAttribute + "\" ";
                     if (item.Value == null)
                     {
+                        typeAttribute = "str";
                         value = string.Empty;
                     }
-                    else
+                    else // Handle sharedStrings
                     {
-                        value = item.Value.ToString();
+                        if (item.Fieldtype == Cell.CellType.FORMULA)
+                        {
+                            typeAttribute = "str";
+                            value = item.Value.ToString();
+                        }
+                        else
+                        {
+                            typeAttribute = "s";
+                            value = item.Value.ToString();
+                            if (this.sharedStrings.ContainsKey(value) == false)
+                            {
+                                this.sharedStrings.Add(value, sharedStrings.Count.ToString("G", culture));
+                            }
+                            value = this.sharedStrings[value];
+                            this.sharedStringsTotalCount++;
+                        }
                     }
+                    tValue = " t=\"" + typeAttribute + "\" ";
                 }
                 if (item.Fieldtype != Cell.CellType.EMPTY)
                 {
@@ -1091,6 +1151,8 @@ namespace PicoXLSX
             }
             return sb.ToString();
         }
+
+
 
 #region utilMethods
 

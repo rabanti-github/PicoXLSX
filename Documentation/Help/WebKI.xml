@@ -154,6 +154,7 @@
   <HelpKINode Title="CreateMergedCellsString method" Url="html/d94dbae6-3dd1-54a6-b2e8-7b5446407fe6.htm" />
   <HelpKINode Title="CreateMruColorsString method" Url="html/20872158-7107-9d5a-f01c-cd131de0e892.htm" />
   <HelpKINode Title="CreateRowString method" Url="html/0ae9bb98-c41c-16f7-9c24-aafa823879f4.htm" />
+  <HelpKINode Title="CreateSharedStringsDocument method" Url="html/0a605960-8bbf-4723-7ef4-ce17ef1adef8.htm" />
   <HelpKINode Title="CreateSheetProtectionString method" Url="html/2bb304a6-d92b-54cc-6b64-2a7fdb6ba8e8.htm" />
   <HelpKINode Title="CreateStyleBorderString method" Url="html/2a25fab1-cc87-e380-78a9-9f81ee662898.htm" />
   <HelpKINode Title="CreateStyleFillString method" Url="html/f1f95d60-a38e-b0c7-c8ee-c86a8ca13067.htm" />
@@ -371,6 +372,7 @@
   <HelpKINode Title="LowLevel.CreateMergedCellsString method" Url="html/d94dbae6-3dd1-54a6-b2e8-7b5446407fe6.htm" />
   <HelpKINode Title="LowLevel.CreateMruColorsString method" Url="html/20872158-7107-9d5a-f01c-cd131de0e892.htm" />
   <HelpKINode Title="LowLevel.CreateRowString method" Url="html/0ae9bb98-c41c-16f7-9c24-aafa823879f4.htm" />
+  <HelpKINode Title="LowLevel.CreateSharedStringsDocument method" Url="html/0a605960-8bbf-4723-7ef4-ce17ef1adef8.htm" />
   <HelpKINode Title="LowLevel.CreateSheetProtectionString method" Url="html/2bb304a6-d92b-54cc-6b64-2a7fdb6ba8e8.htm" />
   <HelpKINode Title="LowLevel.CreateStyleBorderString method" Url="html/2a25fab1-cc87-e380-78a9-9f81ee662898.htm" />
   <HelpKINode Title="LowLevel.CreateStyleFillString method" Url="html/f1f95d60-a38e-b0c7-c8ee-c86a8ca13067.htm" />

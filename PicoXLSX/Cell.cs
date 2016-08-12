@@ -102,6 +102,7 @@ namespace PicoXLSX
             if (t == typeof(int)) { this.Fieldtype = CellType.NUMBER; }
             else if (t == typeof(float)) { this.Fieldtype = CellType.NUMBER; }
             else if (t == typeof(double)) { this.Fieldtype = CellType.NUMBER; }
+            else if (t == typeof(long)) { this.Fieldtype = CellType.NUMBER; }
             else if (t == typeof(bool)) { this.Fieldtype = CellType.BOOL; }
             else if (t == typeof(DateTime)) { this.Fieldtype = CellType.DATE; }
             else { this.Fieldtype = CellType.STRING; } // Default
@@ -187,7 +188,7 @@ namespace PicoXLSX
             foreach(T item in list)
             {
                 o = (object)item;
-                t = typeof(T);
+                t = item.GetType();
 
                 if (t == typeof(int))
                 {
@@ -200,6 +201,10 @@ namespace PicoXLSX
                 else if (t == typeof(double))
                 {
                     c = new Cell((double)o, CellType.NUMBER);
+                }
+                else if (t == typeof(long))
+                {
+                    c = new Cell((long)o, CellType.NUMBER);
                 }
                 else if (t == typeof(bool))
                 {

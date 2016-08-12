@@ -248,83 +248,7 @@ namespace PicoXLSX
 
 #region AddNextCell
 
-        /// <summary>
-        /// Adds a object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String
-        /// </summary>
-        /// <param name="value">Unspecified value to insert</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        public void AddNextCell(object value)
-        {
-            Cell c = new Cell(value, Cell.CellType.DEFAULT, this.currentColumnNumber, this.currentRowNumber);
-            AddNextCell(c, true);
-        }
-
-        /// <summary>
-        /// Adds a string value to the next cell position
-        /// </summary>
-        /// <param name="value">String value to insert</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        public void AddNextCell(string value)
-        {
-            Cell c = new Cell(value, Cell.CellType.STRING, this.currentColumnNumber, this.currentRowNumber);
-            AddNextCell(c, true);
-        }
-
-        /// <summary>
-        /// Adds a integer value to the next cell position
-        /// </summary>
-        /// <param name="value">Integer value to insert</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        public void AddNextCell(int value)
-        {
-            Cell c = new Cell(value, Cell.CellType.NUMBER, this.currentColumnNumber, this.currentRowNumber);
-            AddNextCell(c, true);
-        }
-
-        /// <summary>
-        /// Adds a double value to the next cell position
-        /// </summary>
-        /// <param name="value">Double value to insert</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        public void AddNextCell(double value)
-        {
-            Cell c = new Cell(value, Cell.CellType.NUMBER, this.currentColumnNumber, this.currentRowNumber);
-            AddNextCell(c, true);
-        }
-
-        /// <summary>
-        /// Adds a float value to the next cell position
-        /// </summary>
-        /// <param name="value">Float value to insert</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        public void AddNextCell(float value)
-        {
-            Cell c = new Cell(value, Cell.CellType.NUMBER, this.currentColumnNumber, this.currentRowNumber);
-            AddNextCell(c, true);
-        }
-
-        /// <summary>
-        /// Adds a DateTime value to the next cell position
-        /// </summary>
-        /// <param name="value">DateTime value to insert</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        public void AddNextCell(DateTime value)
-        {
-            Cell c = new Cell(value, Cell.CellType.DATE, this.currentColumnNumber, this.currentRowNumber);
-            AddNextCell(c, true);
-        }
-
-        /// <summary>
-        /// Adds a boolean value to the next cell position
-        /// </summary>
-        /// <param name="value">Boolean value to insert</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        public void AddNextCell(bool value)
-        {
-            Cell c = new Cell(value, Cell.CellType.BOOL, this.currentColumnNumber, this.currentRowNumber);
-            AddNextCell(c, true);
-        }
-
+        
         /// <summary>
         /// Adds a formula as string to the next cell position
         /// </summary>
@@ -337,12 +261,24 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Adds a object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String
+        /// </summary>
+        /// <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <param name="value">Unspecified value to insert</param> 
+        public void AddNextCell(object value)
+        {
+            Cell c = new Cell(value, Cell.CellType.DEFAULT, this.currentColumnNumber, this.currentRowNumber);
+            AddNextCell(c, true);
+        }
+
+        /// <summary>
         /// Method to insert a generic cell to the next cell position
         /// </summary>
         /// <param name="cell">Cell object to insert</param>
-        /// <param name="increment">If true, the address value (row or column) will be incremented, otherwise not</param>
+        /// <param name="incremental">If true, the address value (row or column) will be incremented, otherwise not</param>
+        /// <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced</exception>
-        private void AddNextCell(Cell cell, bool increment)
+        private void AddNextCell(Cell cell, bool incremental)
         {
             if (this.activeStyle != null)
             {
@@ -357,7 +293,7 @@ namespace PicoXLSX
             {
                 this.cells.Add(address, cell);
             }
-            if (increment == true)
+            if (incremental == true)
             {
                 if (this.CurrentCellDirection == CellDirection.ColumnToColum)
                 {
@@ -393,6 +329,7 @@ namespace PicoXLSX
         /// <param name="value">Unspecified value to insert</param>
         /// <param name="columnAddress">Column number (zero based)</param>
         /// <param name="rowAddress">Row number (zero based)</param>
+        /// <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
         public void AddCell(object value, int columnAddress, int rowAddress)
@@ -406,184 +343,11 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="value">Unspecified value to insert</param>
         /// <param name="address">Cell address in the format A1 - XFD1048576</param>
+        /// <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
         /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
         public void AddCell(object value, string address)
-        {
-            int column, row;
-            Cell.ResolveCellCoordinate(address, out column, out row);
-            AddCell(value, column, row);
-        }
-
-        /// <summary>
-        /// Adds a string value to the defined cell address
-        /// </summary>
-        /// <param name="value">String value to insert</param>
-        /// <param name="columnAddress">Column number (zero based)</param>
-        /// <param name="rowAddress">Row number (zero based)</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
-        public void AddCell(string value, int columnAddress, int rowAddress)
-        {
-            Cell c = new Cell(value, Cell.CellType.STRING, columnAddress, rowAddress);
-            AddNextCell(c, false);
-        }
-
-        /// <summary>
-        /// Adds a string value to the defined cell address
-        /// </summary>
-        /// <param name="value">String value to insert</param>
-        /// <param name="address">Cell address in the format A1 - XFD1048576</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
-        public void AddCell(string value, string address)
-        {
-            int column, row;
-            Cell.ResolveCellCoordinate(address, out column, out row);
-            AddCell(value, column, row);
-        }
-
-        /// <summary>
-        /// Adds a integer value to the defined cell address
-        /// </summary>
-        /// <param name="value">Integer value to insert</param>
-        /// <param name="columnAddress">Column number (zero based)</param>
-        /// <param name="rowAddress">Row number (zero based)</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
-        public void AddCell(int value, int columnAddress, int rowAddress)
-        {
-            Cell c = new Cell(value, Cell.CellType.NUMBER, columnAddress, rowAddress);
-            AddNextCell(c, false);
-        }
-
-        /// <summary>
-        /// Adds a integer value to the defined cell address
-        /// </summary>
-        /// <param name="value">Integer value to insert</param>
-        /// <param name="address">Cell address in the format A1 - XFD1048576</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
-        public void AddCell(int value, string address)
-        {
-            int column, row;
-            Cell.ResolveCellCoordinate(address, out column, out row);
-            AddCell(value, column, row);
-        }
-
-        /// <summary>
-        /// Adds a double value to the defined cell address
-        /// </summary>
-        /// <param name="value">Double value to insert</param>
-        /// <param name="columnAddress">Column number (zero based)</param>
-        /// <param name="rowAddress">Row number (zero based)</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
-        public void AddCell(double value, int columnAddress, int rowAddress)
-        {
-            Cell c = new Cell(value, Cell.CellType.NUMBER, columnAddress, rowAddress);
-            AddNextCell(c, false);
-        }
-
-        /// <summary>
-        /// Adds a double value to the defined cell address
-        /// </summary>
-        /// <param name="value">Double value to insert</param>
-        /// <param name="address">Cell address in the format A1 - XFD1048576</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
-        public void AddCell(double value, string address)
-        {
-            int column, row;
-            Cell.ResolveCellCoordinate(address, out column, out row);
-            AddCell(value, column, row);
-        }
-
-        /// <summary>
-        /// Adds a float value to the defined cell address
-        /// </summary>
-        /// <param name="value">Float value to insert</param>
-        /// <param name="columnAddress">Column number (zero based)</param>
-        /// <param name="rowAddress">Row number (zero based)</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
-        public void AddCell(float value, int columnAddress, int rowAddress)
-        {
-            Cell c = new Cell(value, Cell.CellType.NUMBER, columnAddress, rowAddress);
-            AddNextCell(c, false);
-        }
-
-        /// <summary>
-        /// Adds a float value to the defined cell address
-        /// </summary>
-        /// <param name="value">Float value to insert</param>
-        /// <param name="address">Cell address in the format A1 - XFD1048576</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
-        public void AddCell(float value, string address)
-        {
-            int column, row;
-            Cell.ResolveCellCoordinate(address, out column, out row);
-            AddCell(value, column, row);
-        }
-
-        /// <summary>
-        /// Adds a DateTime value to the defined cell address
-        /// </summary>
-        /// <param name="value">DateTime value to insert</param>
-        /// <param name="columnAddress">Column number (zero based)</param>
-        /// <param name="rowAddress">Row number (zero based)</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
-        public void AddCell(DateTime value, int columnAddress, int rowAddress)
-        {
-            Cell c = new Cell(value, Cell.CellType.DATE, columnAddress, rowAddress);
-            AddNextCell(c, false);
-        }
-
-        /// <summary>
-        /// Adds a DateTime value to the defined cell address
-        /// </summary>
-        /// <param name="value">DateTime value to insert</param>
-        /// <param name="address">Cell address in the format A1 - XFD1048576</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
-        public void AddCell(DateTime value, string address)
-        {
-            int column, row;
-            Cell.ResolveCellCoordinate(address, out column, out row);
-            AddCell(value, column, row);
-        }
-
-        /// <summary>
-        /// Adds a boolean value to the defined cell address
-        /// </summary>
-        /// <param name="value">Boolean value to insert</param>
-        /// <param name="columnAddress">Column number (zero based)</param>
-        /// <param name="rowAddress">Row number (zero based)</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
-        public void AddCell(bool value, int columnAddress, int rowAddress)
-        {
-            Cell c = new Cell(value, Cell.CellType.BOOL, columnAddress, rowAddress);
-            AddNextCell(c, false);
-        }
-
-        /// <summary>
-        /// Adds a boolean value to the defined cell address
-        /// </summary>
-        /// <param name="value">Boolean value to insert</param>
-        /// <param name="address">Cell address in the format A1 - XFD1048576</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
-        public void AddCell(bool value, string address)
         {
             int column, row;
             Cell.ResolveCellCoordinate(address, out column, out row);
@@ -642,6 +406,7 @@ namespace PicoXLSX
         /// <param name="values">List of unspecified objects to insert</param>
         /// <param name="startAddress">Start address</param>
         /// <param name="endAddress">End address</param>
+        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
         /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
         public void AddCellRange(List<object> values, Cell.Address startAddress, Cell.Address endAddress)
@@ -654,172 +419,11 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="values">List of unspecified objects to insert</param>
         /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
+        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
         /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
         /// <exception cref="FormatException">Throws a FormatException if the passed cell range is malformed</exception>
         public void AddCellRange(List<object> values, string cellRange)
-        {
-            Cell.Range range = Cell.ResolveCellRange(cellRange);
-            AddCellRangeInternal(values, range.StartAddress, range.EndAddress);
-        }
-
-        /// <summary>
-        /// Adds a list of string values to a defined cell range
-        /// </summary>
-        /// <param name="values">List of string values to insert from the start address to the end address</param>
-        /// <param name="startAddress">Start address</param>
-        /// <param name="endAddress">End address</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
-        public void AddCellRange(List<string> values, Cell.Address startAddress, Cell.Address endAddress)
-        {
-            AddCellRangeInternal(values, startAddress, endAddress);
-        }
-
-        /// <summary>
-        /// Adds a list of string values to a defined cell range
-        /// </summary>
-        /// <param name="values">List of string values to insert from the start address to the end address</param>
-        /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell range is malformed</exception>
-        public void AddCellRange(List<string> values, string cellRange)
-        {
-            Cell.Range range = Cell.ResolveCellRange(cellRange);
-            AddCellRangeInternal(values, range.StartAddress, range.EndAddress);
-        }
-
-        /// <summary>
-        /// Adds a list of integer values to a defined cell range
-        /// </summary>
-        /// <param name="values">List of integer values to insert from the start address to the end address</param>
-        /// <param name="startAddress">Start address</param>
-        /// <param name="endAddress">End address</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
-        public void AddCellRange(List<int> values, Cell.Address startAddress, Cell.Address endAddress)
-        {
-            AddCellRangeInternal(values, startAddress, endAddress);
-        }
-
-        /// <summary>
-        /// Adds a list of integer values to a defined cell range
-        /// </summary>
-        /// <param name="values">List of integer values to insert from the start address to the end address</param>
-        /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell range is malformed</exception>
-        public void AddCellRange(List<int> values, string cellRange)
-        {
-            Cell.Range range = Cell.ResolveCellRange(cellRange);
-            AddCellRangeInternal(values, range.StartAddress, range.EndAddress);
-        }
-
-        /// <summary>
-        /// Adds a list of double values to a defined cell range
-        /// </summary>
-        /// <param name="values">List of double values to insert from the start address to the end address</param>
-        /// <param name="startAddress">Start address</param>
-        /// <param name="endAddress">End address</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
-        public void AddCellRange(List<double> values, Cell.Address startAddress, Cell.Address endAddress)
-        {
-            AddCellRangeInternal(values, startAddress, endAddress);
-        }
-
-        /// <summary>
-        /// Adds a list of double values to a defined cell range
-        /// </summary>
-        /// <param name="values">List of double values to insert from the start address to the end address</param>
-        /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
-        public void AddCellRange(List<double> values, string cellRange)
-        {
-            Cell.Range range = Cell.ResolveCellRange(cellRange);
-            AddCellRangeInternal(values, range.StartAddress, range.EndAddress);
-        }
-
-        /// <summary>
-        /// Adds a list of float values to a defined cell range
-        /// </summary>
-        /// <param name="values">List of float values to insert from the start address to the end address</param>
-        /// <param name="startAddress">Start address</param>
-        /// <param name="endAddress">End address</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
-        public void AddCellRange(List<float> values, Cell.Address startAddress, Cell.Address endAddress)
-        {
-            AddCellRangeInternal(values, startAddress, endAddress);
-        }
-
-        /// <summary>
-        /// Adds a list of float values to a defined cell range
-        /// </summary>
-        /// <param name="values">List of float values to insert from the start address to the end address</param>
-        /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
-        public void AddCellRange(List<float> values, string cellRange)
-        {
-            Cell.Range range = Cell.ResolveCellRange(cellRange);
-            AddCellRangeInternal(values, range.StartAddress, range.EndAddress);
-        }
-
-        /// <summary>
-        /// Adds a list of DateTime values to a defined cell range
-        /// </summary>
-        /// <param name="values">List of DateTime values to insert from the start address to the end address</param>
-        /// <param name="startAddress">Start address</param>
-        /// <param name="endAddress">End address</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
-        public void AddCellRange(List<DateTime> values, Cell.Address startAddress, Cell.Address endAddress)
-        {
-            AddCellRangeInternal(values, startAddress, endAddress);
-        }
-
-        /// <summary>
-        /// Adds a list of DateTime values to a defined cell range
-        /// </summary>
-        /// <param name="values">List of DateTime values to insert from the start address to the end address</param>
-        /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
-        public void AddCellRange(List<DateTime> values, string cellRange)
-        {
-            Cell.Range range = Cell.ResolveCellRange(cellRange);
-            AddCellRangeInternal(values, range.StartAddress, range.EndAddress);
-        }
-
-        /// <summary>
-        /// Adds a list of boolean values to a defined cell range
-        /// </summary>
-        /// <param name="values">List of boolean values to insert from the start address to the end address</param>
-        /// <param name="startAddress">Start address</param>
-        /// <param name="endAddress">End address</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
-        public void AddCellRange(List<bool> values, Cell.Address startAddress, Cell.Address endAddress)
-        {
-            AddCellRangeInternal(values, startAddress, endAddress);
-        }
-
-        /// <summary>
-        /// Adds a list of boolean values to a defined cell range
-        /// </summary>
-        /// <param name="values">List of boolean values to insert from the start address to the end address</param>
-        /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the number of cells resolved from the range differs from the number of passed values</exception>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
-        public void AddCellRange(List<bool> values, string cellRange)
         {
             Cell.Range range = Cell.ResolveCellRange(cellRange);
             AddCellRangeInternal(values, range.StartAddress, range.EndAddress);
@@ -832,6 +436,7 @@ namespace PicoXLSX
         /// <param name="values">List of values</param>
         /// <param name="startAddress">Start address</param>
         /// <param name="endAddress">End address</param>
+        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the number of cells differs from the number of passed values</exception>
         /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
         private void AddCellRangeInternal<T>(List<T> values, Cell.Address startAddress, Cell.Address endAddress)

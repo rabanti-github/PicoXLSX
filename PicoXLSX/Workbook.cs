@@ -34,9 +34,8 @@ namespace PicoXLSX
         private bool lockStructureIfProtected;
         private int selectedWorksheet;
 
-
         /// <summary>
-        /// Gets the selected worksheet. The selected worksheet is not the current worksheet while design time but the seelected sheet in the output file
+        /// Gets the selected worksheet. The selected worksheet is not the current worksheet while design time but the selected sheet in the output file
         /// </summary>
         public int SelectedWorksheet
         {
@@ -440,7 +439,6 @@ namespace PicoXLSX
                 }
             }
         }
-
 
         /// <summary>
         /// Method to prepare the styles before saving the workbook. Don't use the method otherwise. Styles will be reordered and probably removed from the style sheet

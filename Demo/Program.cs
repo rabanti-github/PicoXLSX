@@ -75,7 +75,7 @@ namespace Demo
             workbook.CurrentWorksheet.AddCell(779, 2, 1);               // Add cell C2 (zero based addresses: column 2=C, row 1=2)
             workbook.CurrentWorksheet.AddCell(false, 3, 2);             // Add cell D3 (zero based addresses: column 3=D, row 2=3)
             workbook.CurrentWorksheet.AddNextCell(0);                   // Add cell E3 (direction: column to column)
-            List<string> values = new List<string>() { "V1", "V2", "V3" }; // Create a List of values
+            List<object> values = new List<object>() { "V1", true, 16.8 }; // Create a List of values
             workbook.CurrentWorksheet.AddCellRange(values, "A4:C4");    // Add a cell range to A4 - C4
             workbook.SaveAs("test2.xlsx");                              // Save the workbook
         }
@@ -107,7 +107,7 @@ namespace Demo
         private static void Demo4()
         {
             Workbook workbook = new Workbook("test4.xlsx", "Sheet1");                                        // Create new workbook
-            List<string> values = new List<string>() { "Header1", "Header2", "Header3" };                    // Create a List of values
+            List<object> values = new List<object>() { "Header1", "Header2", "Header3" };                    // Create a List of values
             workbook.CurrentWorksheet.AddCellRange(values, new Cell.Address(0,0), new Cell.Address(2,0));    // Add a cell range to A4 - C4
             workbook.CurrentWorksheet.Cells["A1"].SetStyle(Style.BasicStyles.Bold, workbook);                // Assign predefined basic style to cell
             workbook.CurrentWorksheet.Cells["B1"].SetStyle(Style.BasicStyles.Bold, workbook);                // Assign predefined basic style to cell
@@ -154,18 +154,18 @@ namespace Demo
         private static void Demo5()
         {
             Workbook workbook = new Workbook("test5.xlsx", "Sheet1");                                   // Create new workbook
-            List<string> values = new List<string>() { "Header1", "Header2", "Header3" };               // Create a List of values
+            List<object> values = new List<object>() { "Header1", "Header2", "Header3" };               // Create a List of values
             workbook.CurrentWorksheet.SetActiveStyle(Style.BasicStyles.BorderFrameHeader, workbook);    // Assign predefined basic style as active style
             workbook.CurrentWorksheet.AddCellRange(values, "A1:C1");                                    // Add cell range
 
-            values = new List<string>() { "Cell A2", "Cell B2", "Cell C2" };                            // Create a List of values
+            values = new List<object>() { "Cell A2", "Cell B2", "Cell C2" };                            // Create a List of values
             workbook.CurrentWorksheet.SetActiveStyle(Style.BasicStyles.BorderFrame, workbook);          // Assign predefined basic style as active style
             workbook.CurrentWorksheet.AddCellRange(values, "A2:C2");                                    // Add cell range
 
-            values = new List<string>() { "Cell A3", "Cell B3", "Cell C3" };                            // Create a List of values
+            values = new List<object>() { "Cell A3", "Cell B3", "Cell C3" };                            // Create a List of values
             workbook.CurrentWorksheet.AddCellRange(values, "A3:C3");                                    // Add cell range
 
-            values = new List<string>() { "Cell A4", "Cell B4", "Cell C4" };                            // Create a List of values
+            values = new List<object>() { "Cell A4", "Cell B4", "Cell C4" };                            // Create a List of values
             workbook.CurrentWorksheet.ClearActiveStyle();                                               // Clear the active style 
             workbook.CurrentWorksheet.AddCellRange(values, "A4:C4");                                     // Add cell range
 
@@ -213,11 +213,11 @@ namespace Demo
         {
             Workbook workbook = new Workbook("test7.xlsx", "Sheet1");                                   // Create new workbook
             Worksheet ws = workbook.CurrentWorksheet;                                                   // Create reference (shortening)
-            List<string> values = new List<string>() { "Cell A1", "Cell B1", "Cell C1", "Cell D1" };    // Create a List of values
+            List<object> values = new List<object>() { "Cell A1", "Cell B1", "Cell C1", "Cell D1" };    // Create a List of values
             ws.AddCellRange(values, "A1:D1");                                                           // Insert cell range
-            values = new List<string>() { "Cell A2", "Cell B2", "Cell C2", "Cell D2" };                 // Create a List of values
+            values = new List<object>() { "Cell A2", "Cell B2", "Cell C2", "Cell D2" };                 // Create a List of values
             ws.AddCellRange(values, "A2:D2");                                                           // Insert cell range
-            values = new List<string>() { "Cell A3", "Cell B3", "Cell C3", "Cell D3" };                 // Create a List of values
+            values = new List<object>() { "Cell A3", "Cell B3", "Cell C3", "Cell D3" };                 // Create a List of values
             ws.AddCellRange(values, "A3:D3");                                                           // Insert cell range
             ws.AddHiddenColumn("C");                                                                    // Hide column C
             ws.AddHiddenRow(1);                                                                         // Hider row 2 (zero-based: 1)
