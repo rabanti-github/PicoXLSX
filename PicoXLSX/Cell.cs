@@ -77,6 +77,7 @@ namespace PicoXLSX
         {
             this.Value = value;
             this.Fieldtype = type;
+            ResolveCellType();
         }
 
         /// <summary>
@@ -90,6 +91,10 @@ namespace PicoXLSX
         {
             this.ColumnAddress = column;
             this.RowAddress = row;
+            if (type == CellType.DEFAULT)
+            {
+            	ResolveCellType();
+            }
         }
 
         /// <summary>

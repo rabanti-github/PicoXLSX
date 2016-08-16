@@ -1,3 +1,7 @@
+v1.5.1 16.08.2016
+******************
+- Fixed a bug in the cell type resolution / formatting assignment
+
 v1.5.0 12.08.2016
 ******************
 Note: Using this version of the library with old code can cause compatibility issues due to the removal of some methods (see below).
