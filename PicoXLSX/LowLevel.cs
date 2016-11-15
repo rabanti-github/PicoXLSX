@@ -412,7 +412,7 @@ namespace PicoXLSX
             foreach(KeyValuePair<string,string>str in this.sharedStrings)
             {
                 sb.Append("<si><t>");
-                sb.Append(str.Key);
+                sb.Append(EscapeXMLChars(str.Key));
                 sb.Append("</t></si>");
             }
             sb.Append("</sst>");
@@ -1236,6 +1236,7 @@ namespace PicoXLSX
         /// <returns>Escaped string</returns>
         public static string EscapeXMLChars(string input)
         {
+        	input = input.Replace("&", "&amp;");
             input = input.Replace("<", "&lt;");
             input = input.Replace(">", "&gt;");
             return input;
