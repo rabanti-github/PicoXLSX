@@ -102,6 +102,12 @@ namespace PicoXLSX
         /// </summary>
         public void ResolveCellType()
         {
+	        if(this.Value == null)
+	        {
+	            this.Fieldtype = CellType.EMPTY;
+	            this.Value = "";
+	            return;
+	        }          	
             if (this.Fieldtype == CellType.FORMULA || this.Fieldtype == CellType.EMPTY) { return; }
             Type t = this.Value.GetType();
             if (t == typeof(int)) { this.Fieldtype = CellType.NUMBER; }

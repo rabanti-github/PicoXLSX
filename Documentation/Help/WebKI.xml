@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HelpKI>
+  <HelpKINode Title="Add method" Url="html/ad4a1d25-c830-1640-1a77-cf1f7a6154e6.htm" />
   <HelpKINode Title="AddAllowedActionOnSheetProtection method" Url="html/13589b86-1dee-c3b7-90e6-06131497a6ff.htm" />
   <HelpKINode Title="AddCell method" Url="html/858e777d-4b39-d54c-be05-4c5ee2ee5983.htm" />
   <HelpKINode Title="AddCellFormula method" Url="html/cedb2473-d34f-c63b-b1f1-0a1cdc1a7d5d.htm" />
@@ -110,6 +111,7 @@
   <HelpKINode Title="centerContinuous enumeration member" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
   <HelpKINode Title="Charset property" Url="html/048ce452-128b-2c67-6de7-cc4d26274f16.htm" />
   <HelpKINode Title="CheckVersion method" Url="html/d3f75b3c-69d0-8570-e49a-580559609b38.htm" />
+  <HelpKINode Title="Clear method" Url="html/cec5d76a-c540-8e92-e0f9-dc5e21d226e6.htm" />
   <HelpKINode Title="ClearActiveStyle method" Url="html/5276e7c9-cd0c-a3de-4387-9cd639a65fe0.htm" />
   <HelpKINode Title="ColorTheme property" Url="html/e0274656-f7ce-7be3-5ca5-18ae62359bd7.htm" />
   <HelpKINode Title="ColorValue property" Url="html/98020337-f8b4-b4df-3ed9-a02ca281e020.htm" />
@@ -134,6 +136,7 @@
     <HelpKINode Title="Style.Font.CompareTo Method " Url="html/6e5fedbb-9486-5b52-c553-2d86c4e1eff1.htm" />
     <HelpKINode Title="Style.NumberFormat.CompareTo Method " Url="html/0de12c8d-a029-a521-04ad-b1423dc66e24.htm" />
   </HelpKINode>
+  <HelpKINode Title="ContainsKey method" Url="html/236cd3fb-69f1-349e-8321-9e43a3f046f5.htm" />
   <HelpKINode Title="ContentStatus property" Url="html/b6754615-b0db-4811-ad92-27fc7183f1b4.htm" />
   <HelpKINode Title="ConvertArray(Of T) method" Url="html/d8bbe442-2ac8-fffb-d854-08bff7d57fc3.htm" />
   <HelpKINode Title="ConvertArray&lt;T&gt; method" Url="html/d8bbe442-2ac8-fffb-d854-08bff7d57fc3.htm" />
@@ -146,6 +149,7 @@
     <HelpKINode Title="Style.NumberFormat.Copy Method " Url="html/ec67a3c2-73ca-3c5d-2f28-45a6f06450ff.htm" />
   </HelpKINode>
   <HelpKINode Title="CopyStream method" Url="html/faefdbd4-f26b-636f-1727-8fd672cd5337.htm" />
+  <HelpKINode Title="Count property" Url="html/ba02022c-9a38-811b-deec-af177eeaaa9d.htm" />
   <HelpKINode Title="CreateAppPropertiesDocument method" Url="html/c228e594-052b-0fb4-e00f-d245b3a3b8dd.htm" />
   <HelpKINode Title="CreateAppString method" Url="html/bd00b284-a37e-943d-3ffb-8f9ee5848803.htm" />
   <HelpKINode Title="CreateColsString method" Url="html/10e6ee19-9bc4-ad8c-d8de-b73b583ef464.htm" />
@@ -296,6 +300,7 @@
   <HelpKINode Title="GetAddress method" Url="html/ff73b209-092a-f6a6-f7c9-6280d97b3367.htm" />
   <HelpKINode Title="GetCellAddress method" Url="html/622599a3-b581-0fd5-aaae-ac6206be2798.htm" />
   <HelpKINode Title="GetCellRange method" Url="html/4754841d-02de-f678-0f7d-b5660f93c728.htm" />
+  <HelpKINode Title="GetEnumerator method" Url="html/60f3d293-bbb1-1780-5495-9852387e0db0.htm" />
   <HelpKINode Title="GetFullPath method" Url="html/23d5a7ee-4309-c5f4-548f-4e83a9250106.htm" />
   <HelpKINode Title="GetOADateTimeString method" Url="html/dd5bc4f9-de7a-cadf-6c67-fac183f3a131.htm" />
   <HelpKINode Title="GetPatternName method" Url="html/7f1eb572-6e4c-8a83-5cdf-b7a16dbc9cef.htm" />
@@ -343,10 +348,13 @@
     <HelpKINode Title="Style.BasicStyles.Italic Property " Url="html/6babfc3d-b80b-f881-82c5-d5965a4dbda7.htm" />
     <HelpKINode Title="Style.Font.Italic Property " Url="html/01202bb7-d463-e723-9c6d-1eb47c3e06d3.htm" />
   </HelpKINode>
+  <HelpKINode Title="Item property" Url="html/7a3728ee-2984-ba4d-1dee-df36a51aa702.htm" />
   <HelpKINode Title="justify enumeration member">
     <HelpKINode Title="Style.CellXf.HorizontalAlignValue Enumeration" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
     <HelpKINode Title="Style.CellXf.VerticallAlignValue Enumeration" Url="html/422563e9-6272-264a-49f2-6d101f353cec.htm" />
   </HelpKINode>
+  <HelpKINode Title="Key property" Url="html/2a0a4d76-9bbd-4aec-0bb1-e9504d265d72.htm" />
+  <HelpKINode Title="Keys method" Url="html/d1d2caa5-4f0d-5ddf-fede-716f4eee31b2.htm" />
   <HelpKINode Title="Keywords property" Url="html/7db682c7-ca52-df8b-2638-6b126412efae.htm" />
   <HelpKINode Title="left enumeration member" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
   <HelpKINode Title="LeftColor property" Url="html/66049dfa-276c-78c0-dc6d-1cba661d95d3.htm" />
@@ -403,6 +411,28 @@
     <HelpKINode Title="LowLevel Constructor " Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
   </HelpKINode>
   <HelpKINode Title="LowLevel.Save method" Url="html/29b7b40b-428d-c03f-9c7d-1d92119e2038.htm" />
+  <HelpKINode Title="LowLevel.SortedMap class">
+    <HelpKINode Title="LowLevel.SortedMap Class" Url="html/c3d56b3f-c248-ae19-08d5-1d32e7116e42.htm" />
+    <HelpKINode Title="about LowLevel.SortedMap class" Url="html/c3d56b3f-c248-ae19-08d5-1d32e7116e42.htm" />
+    <HelpKINode Title="constructor" Url="html/05eb9f51-893d-ff88-b31a-b6f169c18d9d.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LowLevel.SortedMap.Add method" Url="html/ad4a1d25-c830-1640-1a77-cf1f7a6154e6.htm" />
+  <HelpKINode Title="LowLevel.SortedMap.Clear method" Url="html/cec5d76a-c540-8e92-e0f9-dc5e21d226e6.htm" />
+  <HelpKINode Title="LowLevel.SortedMap.ContainsKey method" Url="html/236cd3fb-69f1-349e-8321-9e43a3f046f5.htm" />
+  <HelpKINode Title="LowLevel.SortedMap.Count property" Url="html/ba02022c-9a38-811b-deec-af177eeaaa9d.htm" />
+  <HelpKINode Title="LowLevel.SortedMap.GetEnumerator method" Url="html/60f3d293-bbb1-1780-5495-9852387e0db0.htm" />
+  <HelpKINode Title="LowLevel.SortedMap.Item property" Url="html/7a3728ee-2984-ba4d-1dee-df36a51aa702.htm" />
+  <HelpKINode Title="LowLevel.SortedMap.Keys method" Url="html/d1d2caa5-4f0d-5ddf-fede-716f4eee31b2.htm" />
+  <HelpKINode Title="LowLevel.SortedMap.SortedMap constructor" Url="html/05eb9f51-893d-ff88-b31a-b6f169c18d9d.htm" />
+  <HelpKINode Title="LowLevel.SortedMap.Tuple class">
+    <HelpKINode Title="LowLevel.SortedMap.Tuple Class" Url="html/3c5b9070-bcb1-5395-d41f-e7053d7e5e08.htm" />
+    <HelpKINode Title="about LowLevel.SortedMap.Tuple class" Url="html/3c5b9070-bcb1-5395-d41f-e7053d7e5e08.htm" />
+    <HelpKINode Title="constructor" Url="html/f986942d-aa82-d7d7-416b-05f2868a76e7.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LowLevel.SortedMap.Tuple.Key property" Url="html/2a0a4d76-9bbd-4aec-0bb1-e9504d265d72.htm" />
+  <HelpKINode Title="LowLevel.SortedMap.Tuple.Tuple constructor" Url="html/f986942d-aa82-d7d7-416b-05f2868a76e7.htm" />
+  <HelpKINode Title="LowLevel.SortedMap.Tuple.Value property" Url="html/f199e439-b387-8fa5-58ce-35153a57b10a.htm" />
+  <HelpKINode Title="LowLevel.SortedMap.Values method" Url="html/9960d190-d6c6-3f58-3ad1-2d33285d746b.htm" />
   <HelpKINode Title="LowLevel.WriteXMLStream method" Url="html/f654964e-7173-fefd-9d23-0ba78343cb95.htm" />
   <HelpKINode Title="major enumeration member" Url="html/ef91bf2b-91e3-5d9b-22f1-77f39f2a3c68.htm" />
   <HelpKINode Title="Manager property" Url="html/5c0f2e3a-73c2-3318-e85c-22c3c23e5b6c.htm" />
@@ -486,6 +516,8 @@
   <HelpKINode Title="PicoXLSX.IOException class" Url="html/7b910ab5-f3a7-99fe-4c3b-89a7e971d96b.htm" />
   <HelpKINode Title="PicoXLSX.LowLevel class" Url="html/21d4a25a-f2b5-5ec4-8b84-8fcee13605a0.htm" />
   <HelpKINode Title="PicoXLSX.LowLevel.DocumentPath class" Url="html/24f892e1-28e9-a6f1-3416-b27c2162d10e.htm" />
+  <HelpKINode Title="PicoXLSX.LowLevel.SortedMap class" Url="html/c3d56b3f-c248-ae19-08d5-1d32e7116e42.htm" />
+  <HelpKINode Title="PicoXLSX.LowLevel.SortedMap.Tuple class" Url="html/3c5b9070-bcb1-5395-d41f-e7053d7e5e08.htm" />
   <HelpKINode Title="PicoXLSX.Metadata class" Url="html/05218a85-e20c-fc60-d57e-343ae5621845.htm" />
   <HelpKINode Title="PicoXLSX.OutOfRangeException class" Url="html/4479a75f-b13c-e56d-a228-624f23c7a2d8.htm" />
   <HelpKINode Title="PicoXLSX.Style class" Url="html/d39b4a51-0a49-7a9b-bcd1-bac433145294.htm" />
@@ -588,6 +620,10 @@
   <HelpKINode Title="slantDashDot enumeration member" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
   <HelpKINode Title="solid enumeration member" Url="html/8eb3aaa5-5ec9-f14b-0857-a910d0101c88.htm" />
   <HelpKINode Title="sort enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
+  <HelpKINode Title="SortedMap class">
+    <HelpKINode Title="methods" Url="html/50270225-2146-0983-f527-5e6d45305d5f.htm" />
+    <HelpKINode Title="properties" Url="html/0ecc8fdc-a197-a4eb-767d-53abf9595cd7.htm" />
+  </HelpKINode>
   <HelpKINode Title="StartAddress field" Url="html/23a9c8b0-d313-74b4-d09c-7fb9de4fed59.htm" />
   <HelpKINode Title="strike enumeration member" Url="html/34686cde-ba88-a4db-d64e-d3f544c9367a.htm" />
   <HelpKINode Title="Strike property">
@@ -758,6 +794,10 @@
     <HelpKINode Title="Cell.Address.ToString Method " Url="html/019dc6d7-0b33-e1dc-9e6c-b2ed6145cc4a.htm" />
     <HelpKINode Title="Cell.Range.ToString Method " Url="html/6cdb4cfb-ccfd-5a52-9856-2f31c69d2cd2.htm" />
   </HelpKINode>
+  <HelpKINode Title="Tuple class">
+    <HelpKINode Title="methods" Url="html/3479bd43-77a2-3031-9d51-9aad38320075.htm" />
+    <HelpKINode Title="properties" Url="html/0e6c19ac-b061-b295-3b6c-ef7faacaf4b2.htm" />
+  </HelpKINode>
   <HelpKINode Title="UndefinedStyleException class">
     <HelpKINode Title="UndefinedStyleException Class" Url="html/0237edc9-e952-28db-b2de-7c636f8b66f4.htm" />
     <HelpKINode Title="about UndefinedStyleException class" Url="html/0237edc9-e952-28db-b2de-7c636f8b66f4.htm" />
@@ -793,7 +833,11 @@
   <HelpKINode Title="UseColorMRU property" Url="html/21f8420d-7476-482f-9368-5caa3e65a5ed.htm" />
   <HelpKINode Title="UseSheetProtection property" Url="html/4274e257-3677-f178-81ae-67bf9a9d1d8c.htm" />
   <HelpKINode Title="UseWorkbookProtection property" Url="html/7f634903-104d-f78b-cf4c-26747316452c.htm" />
-  <HelpKINode Title="Value property" Url="html/77fb6634-2466-1fe0-0b9f-ecd943b0d36d.htm" />
+  <HelpKINode Title="Value property">
+    <HelpKINode Title="Cell.Value Property " Url="html/77fb6634-2466-1fe0-0b9f-ecd943b0d36d.htm" />
+    <HelpKINode Title="LowLevel.SortedMap.Tuple.Value Property " Url="html/f199e439-b387-8fa5-58ce-35153a57b10a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Values method" Url="html/9960d190-d6c6-3f58-3ad1-2d33285d746b.htm" />
   <HelpKINode Title="vertical enumeration member" Url="html/f49f234c-2222-24d5-d9f7-0eb0e53bffbe.htm" />
   <HelpKINode Title="VerticalAlign property">
     <HelpKINode Title="Style.CellXf.VerticalAlign Property " Url="html/fec17d64-b1a4-2df6-edbe-ed3d0b06e485.htm" />

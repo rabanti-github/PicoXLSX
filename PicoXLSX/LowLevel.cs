@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -31,7 +32,8 @@ namespace PicoXLSX
 
         private CultureInfo culture;
         private Workbook workbook;
-        private Dictionary<string, string> sharedStrings;
+        //private Dictionary<string, string> sharedStrings;
+        private SortedMap sharedStrings;
         private int sharedStringsTotalCount;
 
         /// <summary>
@@ -42,7 +44,8 @@ namespace PicoXLSX
         {
             this.culture = CultureInfo.CreateSpecificCulture("en-US");
             this.workbook = workbook;
-            this.sharedStrings = new Dictionary<string, string>();
+            //this.sharedStrings = new Dictionary<string, string>();
+            this.sharedStrings = new SortedMap();
             this.sharedStringsTotalCount = 0;
         }
 
@@ -409,7 +412,8 @@ namespace PicoXLSX
             sb.Append("\" uniqueCount=\"");
             sb.Append(this.sharedStrings.Count.ToString("G", culture));
             sb.Append("\">");
-            foreach(KeyValuePair<string,string>str in this.sharedStrings)
+           // foreach(KeyValuePair<string,string>str in this.sharedStrings)
+           foreach(SortedMap.Tuple str in this.sharedStrings)
             {
                 sb.Append("<si><t>");
                 sb.Append(EscapeXMLChars(str.Key));
@@ -1320,6 +1324,164 @@ namespace PicoXLSX
         }
 
 #endregion
+	
+	/// <summary>
+	/// Class to manage key value pairs (string / string). The entries are ordered like they were added
+	/// </summary>
+	public class SortedMap : IEnumerable<SortedMap.Tuple>
+		{
+			private List<Tuple> entries;
+			
+			/// <summary>
+			/// Gets the number of entries in the map
+			/// </summary>
+			public int Count {
+				get { return this.entries.Count; }
+			}
+			
+			/// <summary>
+			/// Indexer to get the specific value by the key
+			/// </summary>
+			public string this[string key]
+			{
+				get
+				{
+					int s = this.entries.Count;
+			        for(int i = 0; i < s; i++ )
+			        {
+			            if (this.entries[i].Key == key)
+			            {
+			            	return this.entries[i].Value;
+			            }
+			        }
+			        return null;
+				}
+			}
+			
+			/// <summary>
+			/// Default constructor
+			/// </summary>
+			public SortedMap()
+			{
+				this.entries = new List<Tuple>();
+			}
+			
+			
+			/// <summary>
+			/// Method to add a key value pair
+			/// </summary>
+			/// <param name="key">Key as string</param>
+			/// <param name="value">Value as string</param>
+			/// <returns>Returns the index of the inserted or replaced entry in the map</returns>
+			public int Add(string key, string value)
+		    {
+				int s = this.entries.Count;
+		        for(int i = 0; i < s; i++ )
+		        {
+		            if (this.entries[i].Key == key)
+		            {
+		            	this.entries[i] = new Tuple(key, value);
+		                return i;
+		            }
+		        }
+		        this.entries.Add(new Tuple(key, value));
+		        return s;
+		    }
+			
+			/// <summary>
+			/// Gets whether the specified key exists in the map
+			/// </summary>
+			/// <param name="key">Key to check</param>
+			/// <returns>True if the entry exists, otherwise false</returns>
+			public bool ContainsKey(string key)
+			{
+				int s = this.entries.Count;
+		        for(int i = 0; i < s; i++ )
+		        {
+		            if (this.entries[i].Key == key)
+		            {
+		            	return true;
+		            }
+		        }
+		        return false;			
+			}
+			
+			/// <summary>
+			/// Removes all entries
+			/// </summary>
+			public void Clear()
+			{
+				this.entries.Clear();
+			}
+			
+			/// <summary>
+			/// Gets a list of key
+			/// </summary>
+			/// <returns>Keys of the map</returns>
+			public List<string> Keys()
+			{
+				List<string> output = new List<string>();
+				int s = this.entries.Count;
+		        for(int i = 0; i < s; i++ )
+		        {
+		        	output.Add(this.entries[i].Key);
+		        }
+		        return output;		
+			}
+			
+			/// <summary>
+			/// Gets a List of Values
+			/// </summary>
+			/// <returns>Values of the map</returns>
+			public List<string> Values()
+			{
+				List<string> output = new List<string>();
+				int s = this.entries.Count;
+		        for(int i = 0; i < s; i++ )
+		        {
+		        	output.Add(this.entries[i].Value);
+		        }
+		        return output;		
+			}
+
+			/// <summary>
+			/// Sub-Class to manage string/string tuples 
+			/// </summary>
+			public class Tuple
+			{
+				/// <summary>
+				/// Key of the tuple
+				/// </summary>
+				public string Key { get; set; }
+				/// <summary>
+				/// Value of the tuple
+				/// </summary>
+				public string Value { get; set; }
+				/// <summary>
+				/// Default constructor with parameters
+				/// </summary>
+				/// <param name="key">Key of the tuple</param>
+				/// <param name="value">Value of the tuple</param>
+				public Tuple(string key, string value)
+				{
+					this.Key = key;
+					this.Value = value;
+				}
+			}
+
+			#region IEnumerable implementation
+			public IEnumerator<SortedMap.Tuple> GetEnumerator()
+			{
+				return this.entries.GetEnumerator();
+			}
+			#endregion
+			#region IEnumerable implementation
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return this.GetEnumerator();
+			}
+			#endregion
+	}
 
         /// <summary>
         /// Class to manage XML document paths

@@ -632,6 +632,80 @@
             <param name="password">Password string in UTF-8 to encrypt</param>
             <returns>16 bit hash as hex string</returns>
         </member>
+        <member name="T:PicoXLSX.LowLevel.SortedMap">
+            <summary>
+            Class to manage key value pairs (string / string). The entries are ordered like they were added
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.SortedMap.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.SortedMap.Add(System.String,System.String)">
+            <summary>
+            Method to add a key value pair
+            </summary>
+            <param name="key">Key as string</param>
+            <param name="value">Value as string</param>
+            <returns>Returns the index of the inserted or replaced entry in the map</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.SortedMap.ContainsKey(System.String)">
+            <summary>
+            Gets whether the specified key exists in the map
+            </summary>
+            <param name="key">Key to check</param>
+            <returns>True if the entry exists, otherwise false</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.SortedMap.Clear">
+            <summary>
+            Removes all entries
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.SortedMap.Keys">
+            <summary>
+            Gets a list of key
+            </summary>
+            <returns>Keys of the map</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.SortedMap.Values">
+            <summary>
+            Gets a List of Values
+            </summary>
+            <returns>Values of the map</returns>
+        </member>
+        <member name="P:PicoXLSX.LowLevel.SortedMap.Count">
+            <summary>
+            Gets the number of entries in the map
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.LowLevel.SortedMap.Item(System.String)">
+            <summary>
+            Indexer to get the specific value by the key
+            </summary>
+        </member>
+        <member name="T:PicoXLSX.LowLevel.SortedMap.Tuple">
+            <summary>
+            Sub-Class to manage string/string tuples 
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.SortedMap.Tuple.#ctor(System.String,System.String)">
+            <summary>
+            Default constructor with parameters
+            </summary>
+            <param name="key">Key of the tuple</param>
+            <param name="value">Value of the tuple</param>
+        </member>
+        <member name="P:PicoXLSX.LowLevel.SortedMap.Tuple.Key">
+            <summary>
+            Key of the tuple
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.LowLevel.SortedMap.Tuple.Value">
+            <summary>
+            Value of the tuple
+            </summary>
+        </member>
         <member name="T:PicoXLSX.LowLevel.DocumentPath">
             <summary>
             Class to manage XML document paths
