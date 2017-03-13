@@ -9,12 +9,12 @@ PicoXLSX is a small .NET / C# library to create XLSX files (Microsoft Excel 2007
 # Requirements
 PicoXLSX was created with .NET version 4.5 and upgraded to **4.6.1**. But older versions like 3.5 and 4.0 may also work with minor or no changes. However, this was not tested yet.
 
-&ast;) The only requirement to compile the library besides .NET is the assembly **WindowsBase**. This assembly is a <b>standard component in all Microsoft Windows systems</b> (except Windows RT systems). If your IDE of choice supports referencing assemblies from the GLobal Assembly Cache (**GAC**) of Windows, select WindowsBase from there. Otherwise the dll can be found most likely under "c:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\WindowsBase.dll", according this [MSDN Blog entry](http://blogs.msdn.com/b/dmahugh/archive/2006/12/14/finding-windowsbase-dll.aspx) if you have installed Microsoft Visual Studio, respectiveley in the GAC, under "c:\Windows\Microsoft.NET\assembly\GAC_MSIL\WindowsBase".<br><br>
+&ast;) The only requirement to compile the library besides .NET is the assembly **WindowsBase**. This assembly is a <b>standard component in all Microsoft Windows systems</b> (except Windows RT systems). If your IDE of choice supports referencing assemblies from the Global Assembly Cache (**GAC**) of Windows, select WindowsBase from there. If you want so select the DLL manually and Microsoft Visual Studio is installed on your system, the DLL can be found most likely under "c:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\WindowsBase.dll", according to this [MSDN Blog entry](http://blogs.msdn.com/b/dmahugh/archive/2006/12/14/finding-windowsbase-dll.aspx). Otherwise you find it in the GAC, under "c:\Windows\Microsoft.NET\assembly\GAC_MSIL\WindowsBase".<br><br>
 If you want to compile the documentation project (folder: Documentation; project file: shfbproj), you need also the **[Sandcastle Help File Builder (SHFB)](https://github.com/EWSoftware/SHFB)**. It is also freely available. But you don't need the documentation project to build the PicoXLSX library.
 
 # Installation
 ## As DLL
-Simply place the PicoXLSX DLL into your .NET project and add a reference (in VS or SharpDevelop) to it. Please keep in mind that the .NET version of your solultion must match with the runtime version of the PicoXLSX dll (currently compiled with 4.6.1).
+Simply place the PicoXLSX DLL into your .NET project and add a reference (in VS or SharpDevelop) to it. Please keep in mind that the .NET version of your solution must match with the runtime version of the PicoXLSX DLL (currently compiled with 4.6.1).
 ## As source files
 Place all .CS files from the PicoXLSX source folder into your project. You can place them into a sub-folder if you wish. The files contains definitions for workbooks, worksheets, cells, styles, meta-data, low level methods and exceptions.
 
