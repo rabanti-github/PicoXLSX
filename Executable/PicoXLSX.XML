@@ -202,7 +202,7 @@
             <summary>Type for single characters and strings</summary>
         </member>
         <member name="F:PicoXLSX.Cell.CellType.NUMBER">
-            <summary>Type for all numeric types (integers and floats, respectively doubles)</summary>
+            <summary>Type for all numeric types (long, integer and float and double)</summary>
         </member>
         <member name="F:PicoXLSX.Cell.CellType.DATE">
             <summary>Type for dates and times</summary>
@@ -635,7 +635,7 @@
         </member>
         <member name="T:PicoXLSX.LowLevel.SortedMap">
             <summary>
-            Class to manage key value pairs (string / string). The entries are ordered like they were added
+            Class to manage key value pairs (string / string). The entries are in the order how they were added
             </summary>
         </member>
         <member name="M:PicoXLSX.LowLevel.SortedMap.#ctor">
@@ -1720,7 +1720,7 @@
         <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.underline">
             <summary>Format text with an underline</summary>
         </member>
-        <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.doubleUnderlien">
+        <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.doubleUnderline">
             <summary>Format text with a double underline</summary>
         </member>
         <member name="F:PicoXLSX.Style.BasicStyles.StyleEnum.strike">
@@ -2437,13 +2437,13 @@
             <summary>If selected, the user can edit scenarios if the worksheets is protected</summary>
         </member>
         <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.formatCells">
-            <summary>If selected, the user can Format cells if the worksheets is protected</summary>
+            <summary>If selected, the user can format cells if the worksheets is protected</summary>
         </member>
         <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.formatColumns">
-            <summary>If selected, the user can Format columns if the worksheets is protected</summary>
+            <summary>If selected, the user can format columns if the worksheets is protected</summary>
         </member>
         <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.formatRows">
-            <summary>If selected, the user can Format rows if the worksheets is protected</summary>
+            <summary>If selected, the user can format rows if the worksheets is protected</summary>
         </member>
         <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.insertColumns">
             <summary>If selected, the user can insert columns if the worksheets is protected</summary>

@@ -24,7 +24,7 @@ namespace PicoXLSX
         {
             /// <summary>Type for single characters and strings</summary>
             STRING,
-            /// <summary>Type for all numeric types (integers and floats, respectively doubles)</summary>
+            /// <summary>Type for all numeric types (long, integer and float and double)</summary>
             NUMBER,
             /// <summary>Type for dates and times</summary>
             DATE,

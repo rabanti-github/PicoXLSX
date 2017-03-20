@@ -1107,7 +1107,7 @@ namespace PicoXLSX
                 /// <summary>Format text with an underline</summary>
                 underline,
                 /// <summary>Format text with a double underline</summary>
-                doubleUnderlien,
+                doubleUnderline,
                 /// <summary>Format text with a strike-through</summary>
                 strike,
                 /// <summary>Format number as date</summary>
@@ -1140,7 +1140,7 @@ namespace PicoXLSX
             { get { return GetStyle(StyleEnum.underline); } }
             /// <summary>Gets the double underline style</summary>
             public static Style DoubleUnderline
-            { get { return GetStyle(StyleEnum.doubleUnderlien); } }
+            { get { return GetStyle(StyleEnum.doubleUnderline); } }
             /// <summary>Gets the strike style</summary>
             public static Style Strike
             { get { return GetStyle(StyleEnum.strike); } }
@@ -1206,7 +1206,7 @@ namespace PicoXLSX
                         }
                         s = underline;
                         break;
-                    case StyleEnum.doubleUnderlien:
+                    case StyleEnum.doubleUnderline:
                         if (doubleUnderline == null)
                         {
                             doubleUnderline = new Style();

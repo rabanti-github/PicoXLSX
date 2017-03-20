@@ -1383,7 +1383,7 @@ namespace PicoXLSX
 #endregion
 	
 	/// <summary>
-	/// Class to manage key value pairs (string / string). The entries are ordered like they were added
+	/// Class to manage key value pairs (string / string). The entries are in the order how they were added
 	/// </summary>
 	public class SortedMap : IEnumerable<SortedMap.Tuple>
 		{

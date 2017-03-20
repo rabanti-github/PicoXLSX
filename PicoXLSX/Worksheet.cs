@@ -46,11 +46,11 @@ namespace PicoXLSX
             objects,
             /// <summary>If selected, the user can edit scenarios if the worksheets is protected</summary>
             scenarios,
-            /// <summary>If selected, the user can Format cells if the worksheets is protected</summary>
+            /// <summary>If selected, the user can format cells if the worksheets is protected</summary>
             formatCells,
-            /// <summary>If selected, the user can Format columns if the worksheets is protected</summary>
+            /// <summary>If selected, the user can format columns if the worksheets is protected</summary>
             formatColumns,
-            /// <summary>If selected, the user can Format rows if the worksheets is protected</summary>
+            /// <summary>If selected, the user can format rows if the worksheets is protected</summary>
             formatRows,
             /// <summary>If selected, the user can insert columns if the worksheets is protected</summary>
             insertColumns,
