@@ -1,3 +1,7 @@
+v1.5.4 20.03.2017
+******************
+- Extended the sanitizing of allowed XML characters according XML specifications to avoid errors with illegal characters in passed strings
+
 v1.5.3 17.11.2016
 ******************
 - Fixed general bug in the handling of the sharedStrings table. Please update
