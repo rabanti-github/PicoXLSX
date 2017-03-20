@@ -1,6 +1,7 @@
 v1.5.4 20.03.2017
 ******************
-- Extended the sanitizing of allowed XML characters according XML specifications to avoid errors with illegal characters in passed strings
+- Extended the sanitizing of allowed XML characters according the XML specifications to avoid errors with illegal characters in passed strings
+- Updated project settings of the documentation solution
 
 v1.5.3 17.11.2016
 ******************
