@@ -8,7 +8,7 @@ namespace Demo
     class Program
     {
         /// <summary>
-        /// Method to run all demos 
+        /// Method to run all demos / testing scenarios (currently disabled)
         /// </summary>
         /// <param name="args">Not used</param>
         static void Main(string[] args)
@@ -22,6 +22,12 @@ namespace Demo
             Demo6();
             Demo7();
             Demo8();
+
+            /* ### PERFORMANCE TESTS ### */
+            // # Use tests in this section to test the performance of PicoXLSX
+            /* ######################### */
+         // Testing.Performance.StressTest("stressTest.xlsx", "worksheet", 15000, 100);
+            /* ######################### */
         }
 
         /// <summary>
@@ -31,8 +37,8 @@ namespace Demo
         {
             Workbook workbook = new Workbook("basic.xlsx", "Sheet1");   // Create new workbook
             workbook.CurrentWorksheet.AddNextCell("Test");              // Add cell A1
-            workbook.CurrentWorksheet.AddNextCell("Test2");              // Add cell B1
-            workbook.CurrentWorksheet.AddNextCell("Test3");              // Add cell C1
+            workbook.CurrentWorksheet.AddNextCell("Test2");             // Add cell B1
+            workbook.CurrentWorksheet.AddNextCell("Test3");             // Add cell C1
             workbook.Save();
         }
 

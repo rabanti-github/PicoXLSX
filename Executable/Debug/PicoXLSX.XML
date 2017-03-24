@@ -429,52 +429,52 @@
             <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the workbook cannot be referenced or is null</exception>
             <remarks>The UndefinedStyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
         </member>
+        <member name="M:PicoXLSX.LowLevel.CreateWorkbookDocument">
+            <summary>
+            Method to create a workbook as raw XML string
+            </summary>
+            <returns>Raw XML string</returns>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if an address was out of range</exception>
+        </member>
         <member name="M:PicoXLSX.LowLevel.CreateWorksheetPart(PicoXLSX.Worksheet)">
             <summary>
-            Method to create a worksheet part as XML document
+            Method to create a worksheet part as a raw XML string
             </summary>
             <param name="worksheet">worksheet object to process</param>
-            <returns>Formated XML document</returns>
+            <returns>Raw XML string</returns>
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateStyleSheetDocument">
             <summary>
-            Method to create a style sheet as XML document
+            Method to create a style sheet as raw XML string
             </summary>
-            <returns>Formated XML document</returns>
+            <returns>RAw XML string</returns>
             <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if one of the styles cannot be referenced or is null</exception>
             <remarks>The UndefinedStyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
         </member>
-        <member name="M:PicoXLSX.LowLevel.CreateAppPropertiesDocument">
+        <member name="M:PicoXLSX.LowLevel.CreateStyleSheetDocumentFallback">
             <summary>
-            Method to create the app-properties (part of meta data) as XML document
+            Method to create a style sheet as raw XML string (OBSOLETE / fall-back method)
             </summary>
             <returns>Formated XML document</returns>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateAppPropertiesDocument">
+            <summary>
+            Method to create the app-properties (part of meta data) as raw XML string
+            </summary>
+            <returns>Raw XML string</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateCorePropertiesDocument">
             <summary>
-            Method to create the core-properties (part of meta data) as XML document
+            Method to create the core-properties (part of meta data) as raw XML string
             </summary>
-            <returns>Formated XML document</returns>
-        </member>
-        <member name="M:PicoXLSX.LowLevel.CreateWorkbookDocument">
-            <summary>
-            Method to create a workbook as XML document
-            </summary>
-            <returns>Formated XML document</returns>
-            <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if an address was out of range</exception>
-        </member>
-        <member name="M:PicoXLSX.LowLevel.CreateStyleSheetDocumentFallback">
-            <summary>
-            Method to create a style sheet as XML document (OBSOLETE / fall-back method)
-            </summary>
-            <returns>Formated XML document</returns>
+            <returns>Raw XML string</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateSharedStringsDocument">
             <summary>
-            Method to create shared strings as XML document
+            Method to create shared strings as raw XML string
             </summary>
-            <returns>Formated XML document</returns>
+            <returns>Raw XML string</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.GetSortedSheetData(PicoXLSX.Worksheet)">
             <summary>
@@ -569,13 +569,6 @@
             <param name="counter">Out-parameter for the number of custom number formats</param>
             <returns>String with formated XML data</returns>
         </member>
-        <member name="M:PicoXLSX.LowLevel.CreateUniqueName(System.Int32)">
-            <summary>
-            Creates an unique, random string with the stated length
-            </summary>
-            <param name="length">Lenth of the name in characters</param>
-            <returns>Unique (random) name</returns>
-        </member>
         <member name="M:PicoXLSX.LowLevel.AppendXMLtag(System.Text.StringBuilder,System.String,System.String,System.String)">
             <summary>
             Method to append a simple XML tag with an enclosed value to the passed StringBuilder
@@ -586,12 +579,20 @@
             <param name="nameSpace">Optional XML name space. Can be empty or null</param>
             <returns>Returns false if no tag was appended, because the value or tag name was null or empty</returns>
         </member>
-        <member name="M:PicoXLSX.LowLevel.WriteXMLStream(System.IO.MemoryStream,System.Xml.XmlDocument)">
+        <member name="M:PicoXLSX.LowLevel.WriteXMLSteram2(System.String,System.IO.Packaging.PackagePart)">
             <summary>
-            Method to write an XML document to a MemoryStream
+            Writes raw XML strings into the passed Package Part
             </summary>
-            <param name="stream">Stream to write the XML document</param>
-            <param name="document">XML document to process</param>
+            <param name="doc">document as raw XML string</param>
+            <param name="pp">Package part to append the XML data</param>
+            <exception cref="T:PicoXLSX.IOException">Throws an IOException if the XML data could not be written into the Package Part</exception>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.CreateUniqueName(System.Int32)">
+            <summary>
+            Creates an unique, random string with the stated length
+            </summary>
+            <param name="length">Length of the name in characters</param>
+            <returns>Unique (random) name</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.EscapeXMLChars(System.String)">
             <summary>
@@ -607,14 +608,6 @@
             </summary>
             <param name="input">Input string to process</param>
             <returns>Escaped string</returns>
-        </member>
-        <member name="M:PicoXLSX.LowLevel.CopyStream(System.IO.MemoryStream,System.IO.Stream)">
-            <summary>
-            Method to copy a memory stream into another memory stream
-            </summary>
-            <param name="sourceStream">Source stream</param>
-            <param name="targetStream">Target stream</param>
-            <exception cref="T:PicoXLSX.IOException">Throws a IOException if the memory stream could not be copied</exception>
         </member>
         <member name="M:PicoXLSX.LowLevel.GetOADateTimeString(System.DateTime)">
             <summary>
@@ -645,11 +638,11 @@
         </member>
         <member name="M:PicoXLSX.LowLevel.SortedMap.Add(System.String,System.String)">
             <summary>
-            Method to add a key value pair
+            Adds a key value pair to the map. If the key already exists, only its index will be returned
             </summary>
-            <param name="key">Key as string</param>
-            <param name="value">Value as string</param>
-            <returns>Returns the index of the inserted or replaced entry in the map</returns>
+            <param name="key">Key of the tuple</param>
+            <param name="value">Value of the tuple</param>
+            <returns>Position of the tuple in the map as index (zero-based)</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.SortedMap.ContainsKey(System.String)">
             <summary>
@@ -658,54 +651,26 @@
             <param name="key">Key to check</param>
             <returns>True if the entry exists, otherwise false</returns>
         </member>
-        <member name="M:PicoXLSX.LowLevel.SortedMap.Clear">
-            <summary>
-            Removes all entries
-            </summary>
-        </member>
-        <member name="M:PicoXLSX.LowLevel.SortedMap.Keys">
-            <summary>
-            Gets a list of key
-            </summary>
-            <returns>Keys of the map</returns>
-        </member>
-        <member name="M:PicoXLSX.LowLevel.SortedMap.Values">
-            <summary>
-            Gets a List of Values
-            </summary>
-            <returns>Values of the map</returns>
-        </member>
         <member name="P:PicoXLSX.LowLevel.SortedMap.Count">
             <summary>
-            Gets the number of entries in the map
+            Number of map entries
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.LowLevel.SortedMap.Keys">
+            <summary>
+            Gets the keys of the map as list
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.LowLevel.SortedMap.Values">
+            <summary>
+            Gets the values of the map as values
             </summary>
         </member>
         <member name="P:PicoXLSX.LowLevel.SortedMap.Item(System.String)">
             <summary>
             Indexer to get the specific value by the key
             </summary>
-        </member>
-        <member name="T:PicoXLSX.LowLevel.SortedMap.Tuple">
-            <summary>
-            Sub-Class to manage string/string tuples 
-            </summary>
-        </member>
-        <member name="M:PicoXLSX.LowLevel.SortedMap.Tuple.#ctor(System.String,System.String)">
-            <summary>
-            Default constructor with parameters
-            </summary>
-            <param name="key">Key of the tuple</param>
-            <param name="value">Value of the tuple</param>
-        </member>
-        <member name="P:PicoXLSX.LowLevel.SortedMap.Tuple.Key">
-            <summary>
-            Key of the tuple
-            </summary>
-        </member>
-        <member name="P:PicoXLSX.LowLevel.SortedMap.Tuple.Value">
-            <summary>
-            Value of the tuple
-            </summary>
+            <param name="key">Key to corresponding value. Returns null if not found</param>
         </member>
         <member name="T:PicoXLSX.LowLevel.DocumentPath">
             <summary>

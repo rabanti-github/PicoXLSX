@@ -60,9 +60,6 @@ namespace PicoXLSX
         public void Save()
         {
             this.workbook.ResolveMergedCells();
-            XmlDocument workbookDocument = CreateWorkbookDocument();
-            XmlDocument stylesheetDocument = CreateStyleSheetDocument();
-            XmlDocument worksheetDocument;
             DocumentPath sheetPath;
             List<Uri> sheetURIs = new List<Uri>();
 
@@ -81,11 +78,7 @@ namespace PicoXLSX
                     p.CreateRelationship(corePropertiesUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties", "rId2"); //!
                     p.CreateRelationship(appPropertiesUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties", "rId3"); //!
 
-                    using (MemoryStream ms = new MemoryStream()) // Write workbook.xml
-                    {
-                        WriteXMLStream(ms, workbookDocument);
-                        LowLevel.CopyStream(ms, pp.GetStream());
-                    }
+                    WriteXMLSteram2(CreateWorkbookDocument(), pp);
                     int idCounter = this.workbook.Worksheets.Count + 1;
                     
                     pp.CreateRelationship(stylesheetUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", "rId" + idCounter.ToString());
@@ -102,43 +95,21 @@ namespace PicoXLSX
                     {
                         pp = p.CreatePart(sheetURIs[i], @"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", CompressionOption.Normal);
                         i++;
-                        worksheetDocument = CreateWorksheetPart(item);
-                        using (MemoryStream ms = new MemoryStream())
-                        {
-                            WriteXMLStream(ms, worksheetDocument);
-                            LowLevel.CopyStream(ms, pp.GetStream());
-                        }
+                        WriteXMLSteram2(CreateWorksheetPart(item), pp);
                     }
 
                     pp = p.CreatePart(sharedStringsUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", CompressionOption.Normal);
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        WriteXMLStream(ms, CreateSharedStringsDocument());
-                        LowLevel.CopyStream(ms, pp.GetStream());
-                    }
-                    
+                    WriteXMLSteram2(CreateSharedStringsDocument(), pp);
 
                     pp = p.CreatePart(stylesheetUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", CompressionOption.Normal);
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        WriteXMLStream(ms, stylesheetDocument);
-                        LowLevel.CopyStream(ms, pp.GetStream());
-                    }
+                    WriteXMLSteram2(CreateStyleSheetDocument(), pp);
 
                     if (workbook.WorkbookMetadata != null)
                     {
-                        pp = p.CreatePart(appPropertiesUri, @"application/vnd.openxmlformats-officedocument.extended-properties+xml", CompressionOption.Normal);                       
-                        using (MemoryStream ms = new MemoryStream())
-                        {
-                            WriteXMLStream(ms, CreateAppPropertiesDocument());
-                            LowLevel.CopyStream(ms, pp.GetStream());
-                        }
-                        pp = p.CreatePart(corePropertiesUri, @"application/vnd.openxmlformats-package.core-properties+xml", CompressionOption.Normal);                       
-                        using (MemoryStream ms = new MemoryStream())
-                        {
-                            WriteXMLStream(ms, CreateCorePropertiesDocument());
-                            LowLevel.CopyStream(ms, pp.GetStream());
-                        }
+                        pp = p.CreatePart(appPropertiesUri, @"application/vnd.openxmlformats-officedocument.extended-properties+xml", CompressionOption.Normal);
+                        WriteXMLSteram2(CreateAppPropertiesDocument(), pp);
+                        pp = p.CreatePart(corePropertiesUri, @"application/vnd.openxmlformats-package.core-properties+xml", CompressionOption.Normal);
+                        WriteXMLSteram2(CreateCorePropertiesDocument(), pp);
                     }
      
 
@@ -150,17 +121,67 @@ namespace PicoXLSX
             }
         }
 
+#region document creation
+
         /// <summary>
-        /// Method to create a worksheet part as XML document
+        /// Method to create a workbook as raw XML string
+        /// </summary>
+        /// <returns>Raw XML string</returns>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if an address was out of range</exception>
+        private string CreateWorkbookDocument()
+        {
+            if (this.workbook.Worksheets.Count == 0)
+            {
+                throw new OutOfRangeException("The workbook can not be created because no worksheet was defined.");
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<workbook xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">");
+            if (this.workbook.SelectedWorksheet > 0)
+            {
+                sb.Append("<bookViews><workbookView activeTab=\"");
+                sb.Append(this.workbook.SelectedWorksheet.ToString("G", culture));
+                sb.Append("\"/></bookViews>");
+            }
+            if (this.workbook.UseWorkbookProtection == true)
+            {
+                sb.Append("<workbookProtection");
+                if (this.workbook.LockWindowsIfProtected == true)
+                {
+                    sb.Append(" lockWindows=\"1\"");
+                }
+                if (this.workbook.LockStructureIfProtected == true)
+                {
+                    sb.Append(" lockStructure=\"1\"");
+                }
+                if (string.IsNullOrEmpty(this.workbook.WorkbookProtectionPassword) == false)
+                {
+                    sb.Append("workbookPassword=\"");
+                    sb.Append(GeneratePasswordHash(this.workbook.WorkbookProtectionPassword));
+                    sb.Append("\"");
+                }
+                sb.Append("/>");
+            }
+            sb.Append("<sheets>");
+            foreach (Worksheet item in this.workbook.Worksheets)
+            {
+                sb.Append("<sheet r:id=\"rId" + item.SheetID.ToString() + "\" sheetId=\"" + item.SheetID.ToString() + "\" name=\"" + LowLevel.EscapeXMLAttributeChars(item.SheetName) + "\"/>");
+            }
+            sb.Append("</sheets>");
+            sb.Append("</workbook>");
+            return sb.ToString();
+        }
+
+
+        /// <summary>
+        /// Method to create a worksheet part as a raw XML string
         /// </summary>
         /// <param name="worksheet">worksheet object to process</param>
-        /// <returns>Formated XML document</returns>
+        /// <returns>Raw XML string</returns>
         /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
-        private XmlDocument CreateWorksheetPart(Worksheet worksheet)
+        private string CreateWorksheetPart(Worksheet worksheet)
         {
             worksheet.RecalculateAutoFilter();
             worksheet.RecalculateColumns();
-            XmlDocument worksheetDocument = new XmlDocument();
             List<List<Cell>> celldata = GetSortedSheetData(worksheet);
             StringBuilder sb = new StringBuilder();
             string line;
@@ -196,7 +217,6 @@ namespace PicoXLSX
                 sb.Append(line);
             }
             sb.Append("</sheetData>");
-
             sb.Append(CreateMergedCellsString(worksheet));
             sb.Append(CreateSheetProtectionString(worksheet));
 
@@ -206,21 +226,17 @@ namespace PicoXLSX
             }
 
             sb.Append("</worksheet>");
-            worksheetDocument.LoadXml(sb.ToString());
-            XmlDeclaration dec = worksheetDocument.CreateXmlDeclaration("1.0", "UTF-8", "yes");
-            XmlElement root = worksheetDocument.DocumentElement;
-            worksheetDocument.InsertBefore(dec, root);
-            return worksheetDocument;
+            return sb.ToString();
         }
 
         /// <summary>
-        /// Method to create a style sheet as XML document
+        /// Method to create a style sheet as raw XML string
         /// </summary>
-        /// <returns>Formated XML document</returns>
+        /// <returns>RAw XML string</returns>
         /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the styles cannot be referenced or is null</exception>
         /// <remarks>The UndefinedStyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
         
-        private XmlDocument CreateStyleSheetDocument()
+        private string CreateStyleSheetDocument()
         {
             List<Style.Border> borders;
             List<Style.Fill> fills;
@@ -260,112 +276,16 @@ namespace PicoXLSX
                 }
             }
             sb.Append("</styleSheet>");
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(sb.ToString());
-            XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
-            XmlElement root = doc.DocumentElement;
-            doc.InsertBefore(dec, root);
-            return doc;
+            return sb.ToString();
         }
 
         /// <summary>
-        /// Method to create the app-properties (part of meta data) as XML document
-        /// </summary>
-        /// <returns>Formated XML document</returns>
-        private XmlDocument CreateAppPropertiesDocument()
-        {
-            XmlDocument doc = new XmlDocument();
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<Properties xmlns=\"http://schemas.openxmlformats.org/officeDocument/2006/extended-properties\" xmlns:vt=\"http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes\">");
-            sb.Append(CreateAppString());
-            sb.Append("</Properties>");
-            doc.LoadXml(sb.ToString());
-            XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
-            XmlElement root = doc.DocumentElement;
-            doc.InsertBefore(dec, root);
-            return doc;
-        }
-
-        /// <summary>
-        /// Method to create the core-properties (part of meta data) as XML document
-        /// </summary>
-        /// <returns>Formated XML document</returns>
-        private XmlDocument CreateCorePropertiesDocument()
-        {
-            XmlDocument doc = new XmlDocument();
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<cp:coreProperties xmlns:cp=\"http://schemas.openxmlformats.org/package/2006/metadata/core-properties\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dcterms=\"http://purl.org/dc/terms/\" xmlns:dcmitype=\"http://purl.org/dc/dcmitype/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
-            sb.Append(CreateCorePropertiesString());
-            sb.Append("</cp:coreProperties>");
-            doc.LoadXml(sb.ToString());
-            XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
-            XmlElement root = doc.DocumentElement;
-            doc.InsertBefore(dec, root);
-            return doc;
-        }
-
-        /// <summary>
-        /// Method to create a workbook as XML document
-        /// </summary>
-        /// <returns>Formated XML document</returns>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if an address was out of range</exception>
-        private XmlDocument CreateWorkbookDocument()
-        {
-            if (this.workbook.Worksheets.Count == 0)
-            {
-                throw new OutOfRangeException("The workbook can not be created because no worksheet was defined.");
-            }
-            XmlDocument doc = new XmlDocument();
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<workbook xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">");
-            if (this.workbook.SelectedWorksheet > 0)
-            {
-                sb.Append("<bookViews><workbookView activeTab=\"");
-                sb.Append(this.workbook.SelectedWorksheet.ToString("G", culture));
-                sb.Append("\"/></bookViews>");
-            }
-            if (this.workbook.UseWorkbookProtection == true)
-            {
-                sb.Append("<workbookProtection");
-                if (this.workbook.LockWindowsIfProtected == true)
-                {
-                    sb.Append(" lockWindows=\"1\"");
-                }
-                if (this.workbook.LockStructureIfProtected == true)
-                {
-                    sb.Append(" lockStructure=\"1\"");
-                }
-                if (string.IsNullOrEmpty(this.workbook.WorkbookProtectionPassword) == false)
-                {
-                    sb.Append("workbookPassword=\"");
-                    sb.Append(GeneratePasswordHash(this.workbook.WorkbookProtectionPassword));
-                    sb.Append("\"");
-                }
-                sb.Append("/>");
-            }
-            sb.Append("<sheets>");
-            foreach (Worksheet item in this.workbook.Worksheets)
-            {
-                sb.Append("<sheet r:id=\"rId" + item.SheetID.ToString() + "\" sheetId=\"" + item.SheetID.ToString() + "\" name=\"" + LowLevel.EscapeXMLAttributeChars(item.SheetName) + "\"/>");
-            }
-            sb.Append("</sheets>");
-            sb.Append("</workbook>");
-            doc.LoadXml(sb.ToString());
-            XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
-            XmlElement root = doc.DocumentElement;
-            doc.InsertBefore(dec, root);
-            //this.workbookDocument = doc;
-            return doc;
-        }
-
-        /// <summary>
-        /// Method to create a style sheet as XML document (OBSOLETE / fall-back method)
+        /// Method to create a style sheet as raw XML string (OBSOLETE / fall-back method)
         /// </summary>
         /// <returns>Formated XML document</returns>
         [Obsolete("This method was superseded by the method CreateStyleSheetDocument. Only use this as fall-back if the Style class became broken")]
-        private XmlDocument CreateStyleSheetDocumentFallback()
+        private string CreateStyleSheetDocumentFallback()
         {
-            XmlDocument doc = new XmlDocument();
             StringBuilder sb = new StringBuilder();
             sb.Append("<styleSheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14ac\" xmlns:x14ac=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac\">");
             sb.Append("<fonts x14ac:knownFonts=\"1\" count=\"4\">");
@@ -392,40 +312,60 @@ namespace PicoXLSX
             sb.Append("</cellXfs>");
 
             sb.Append("</styleSheet>");
-            doc.LoadXml(sb.ToString());
-            XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
-            XmlElement root = doc.DocumentElement;
-            doc.InsertBefore(dec, root);
-            return doc;
+            return sb.ToString();
         }
 
         /// <summary>
-        /// Method to create shared strings as XML document
+        /// Method to create the app-properties (part of meta data) as raw XML string
         /// </summary>
-        /// <returns>Formated XML document</returns>
-        private XmlDocument CreateSharedStringsDocument()
+        /// <returns>Raw XML string</returns>
+        private string CreateAppPropertiesDocument()
         {
-            XmlDocument doc = new XmlDocument();
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<Properties xmlns=\"http://schemas.openxmlformats.org/officeDocument/2006/extended-properties\" xmlns:vt=\"http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes\">");
+            sb.Append(CreateAppString());
+            sb.Append("</Properties>");
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Method to create the core-properties (part of meta data) as raw XML string
+        /// </summary>
+        /// <returns>Raw XML string</returns>
+        private string CreateCorePropertiesDocument()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<cp:coreProperties xmlns:cp=\"http://schemas.openxmlformats.org/package/2006/metadata/core-properties\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dcterms=\"http://purl.org/dc/terms/\" xmlns:dcmitype=\"http://purl.org/dc/dcmitype/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
+            sb.Append(CreateCorePropertiesString());
+            sb.Append("</cp:coreProperties>");
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Method to create shared strings as raw XML string
+        /// </summary>
+        /// <returns>Raw XML string</returns>
+        private string CreateSharedStringsDocument()
+        {
             StringBuilder sb = new StringBuilder();
             sb.Append("<sst xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" count=\"");
             sb.Append(this.sharedStringsTotalCount.ToString("G", culture));
             sb.Append("\" uniqueCount=\"");
             sb.Append(this.sharedStrings.Count.ToString("G", culture));
             sb.Append("\">");
-           // foreach(KeyValuePair<string,string>str in this.sharedStrings)
-           foreach(SortedMap.Tuple str in this.sharedStrings)
+           foreach(string str in this.sharedStrings.Keys)
             {
                 sb.Append("<si><t>");
-                sb.Append(EscapeXMLChars(str.Key));
+                sb.Append(EscapeXMLChars(str));
                 sb.Append("</t></si>");
             }
             sb.Append("</sst>");
-            doc.LoadXml(sb.ToString());
-            XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
-            XmlElement root = doc.DocumentElement;
-            doc.InsertBefore(dec, root);
-            return doc;
+            return sb.ToString();
         }
+
+#endregion
+
+#region document utils
 
         /// <summary>
         /// Method to sort the cells of a worksheet as preparation for the XML document
@@ -1157,38 +1097,6 @@ namespace PicoXLSX
         }
 
 
-
-#region utilMethods
-
-
-		/// <summary>
-		/// Creates an unique, random string with the stated length
-		/// </summary>
-		/// <param name="length">Lenth of the name in characters</param>
-		/// <returns>Unique (random) name</returns>
-        public static string CreateUniqueName(int length)
-        {
-            byte[] rndByte = new byte[4];
-            RNGcsp.GetBytes(rndByte);
-            int res = BitConverter.ToInt32(rndByte, 0);
-            int nds;
-            Random rnd = new Random(res);
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < length; i++)
-            {
-                nds = rnd.Next(0, 2);
-                if (nds == 0)
-                {
-                    sb.Append((char)rnd.Next(48, 57));
-                }
-                else
-                {
-                    sb.Append((char)rnd.Next(65, 90));
-                }
-            }
-            return sb.ToString();
-        }
-
         /// <summary>
         /// Method to append a simple XML tag with an enclosed value to the passed StringBuilder
         /// </summary>
@@ -1222,15 +1130,67 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method to write an XML document to a MemoryStream
+        /// Writes raw XML strings into the passed Package Part
         /// </summary>
-        /// <param name="stream">Stream to write the XML document</param>
-        /// <param name="document">XML document to process</param>
-        private void WriteXMLStream(MemoryStream stream, XmlDocument document)
+        /// <param name="doc">document as raw XML string</param>
+        /// <param name="pp">Package part to append the XML data</param>
+        /// <exception cref="IOException">Throws an IOException if the XML data could not be written into the Package Part</exception>
+        private void WriteXMLSteram2(string doc, PackagePart pp)
         {
-            if (stream == null) { return; }
-            if (stream.CanWrite == false) { return; }
-            document.Save(stream);
+            try
+            {
+                using (MemoryStream ms = new MemoryStream()) // Write workbook.xml
+                {
+                    if (ms.CanWrite == false) { return; }
+                    using (XmlWriter writer = XmlWriter.Create(ms))
+                    {
+                        //doc.WriteTo(writer);
+                        writer.WriteProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"");
+                        writer.WriteRaw(doc);
+                        writer.Flush();
+                        ms.Position = 0;
+                        ms.CopyTo(pp.GetStream());
+                        ms.Flush();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new IOException("The XML document could not be saved into the memory stream", e);
+            }
+        }
+
+#endregion
+
+#region static util methods
+
+
+        /// <summary>
+		/// Creates an unique, random string with the stated length
+		/// </summary>
+		/// <param name="length">Length of the name in characters</param>
+		/// <returns>Unique (random) name</returns>
+        public static string CreateUniqueName(int length)
+        {
+            byte[] rndByte = new byte[4];
+            RNGcsp.GetBytes(rndByte);
+            int res = BitConverter.ToInt32(rndByte, 0);
+            int nds;
+            Random rnd = new Random(res);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < length; i++)
+            {
+                nds = rnd.Next(0, 2);
+                if (nds == 0)
+                {
+                    sb.Append((char)rnd.Next(48, 57));
+                }
+                else
+                {
+                    sb.Append((char)rnd.Next(65, 90));
+                }
+            }
+            return sb.ToString();
         }
 
         /// <summary>
@@ -1241,6 +1201,7 @@ namespace PicoXLSX
         /// <remarks>Note: The XML specs allow characters up to the character value of 0x10FFFF. However, the C# char range is only up to 0xFFFF. PicoXLSX will neglect all values above this level in the sanitizing check. Illegal characters like 0x1 will be replaced with a white space (0x20)</remarks>
         public static string EscapeXMLChars(string input)
         {
+            if (input == null) { return ""; }
             int len = input.Length;
             List<int> illegalCharacters = new List<int>(len);
             List<byte> characterTypes = new List<byte>(len);
@@ -1314,28 +1275,6 @@ namespace PicoXLSX
             return input;
         }
 
-        /// <summary>
-        /// Method to copy a memory stream into another memory stream
-        /// </summary>
-        /// <param name="sourceStream">Source stream</param>
-        /// <param name="targetStream">Target stream</param>
-        /// <exception cref="IOException">Throws a IOException if the memory stream could not be copied</exception>
-        public static void CopyStream(System.IO.MemoryStream sourceStream, System.IO.Stream targetStream)
-        {
-            if (sourceStream == null || targetStream == null)
-            {
-                throw new IOException("The source or target memory stream to create a workbook part was not defined.");
-            }
-            try
-            {
-                byte[] buffer = sourceStream.GetBuffer();
-                targetStream.Write(buffer, 0, (int)sourceStream.Length);
-            }
-            catch (Exception e)
-            {
-                throw new IOException("The memory stream to create a workbook part could not be copied.", e);
-            }
-        }
 
         /// <summary>
         /// Method to convert a date or date and time into the Excel time format
@@ -1381,164 +1320,104 @@ namespace PicoXLSX
         }
 
 #endregion
-	
-	/// <summary>
-	/// Class to manage key value pairs (string / string). The entries are in the order how they were added
-	/// </summary>
-	public class SortedMap : IEnumerable<SortedMap.Tuple>
-		{
-			private List<Tuple> entries;
-			
-			/// <summary>
-			/// Gets the number of entries in the map
-			/// </summary>
-			public int Count {
-				get { return this.entries.Count; }
-			}
-			
-			/// <summary>
-			/// Indexer to get the specific value by the key
-			/// </summary>
-			public string this[string key]
-			{
-				get
-				{
-					int s = this.entries.Count;
-			        for(int i = 0; i < s; i++ )
-			        {
-			            if (this.entries[i].Key == key)
-			            {
-			            	return this.entries[i].Value;
-			            }
-			        }
-			        return null;
-				}
-			}
-			
-			/// <summary>
-			/// Default constructor
-			/// </summary>
-			public SortedMap()
-			{
-				this.entries = new List<Tuple>();
-			}
-			
-			
-			/// <summary>
-			/// Method to add a key value pair
-			/// </summary>
-			/// <param name="key">Key as string</param>
-			/// <param name="value">Value as string</param>
-			/// <returns>Returns the index of the inserted or replaced entry in the map</returns>
-			public int Add(string key, string value)
-		    {
-				int s = this.entries.Count;
-		        for(int i = 0; i < s; i++ )
-		        {
-		            if (this.entries[i].Key == key)
-		            {
-		            	this.entries[i] = new Tuple(key, value);
-		                return i;
-		            }
-		        }
-		        this.entries.Add(new Tuple(key, value));
-		        return s;
-		    }
-			
-			/// <summary>
-			/// Gets whether the specified key exists in the map
-			/// </summary>
-			/// <param name="key">Key to check</param>
-			/// <returns>True if the entry exists, otherwise false</returns>
-			public bool ContainsKey(string key)
-			{
-				int s = this.entries.Count;
-		        for(int i = 0; i < s; i++ )
-		        {
-		            if (this.entries[i].Key == key)
-		            {
-		            	return true;
-		            }
-		        }
-		        return false;			
-			}
-			
-			/// <summary>
-			/// Removes all entries
-			/// </summary>
-			public void Clear()
-			{
-				this.entries.Clear();
-			}
-			
-			/// <summary>
-			/// Gets a list of key
-			/// </summary>
-			/// <returns>Keys of the map</returns>
-			public List<string> Keys()
-			{
-				List<string> output = new List<string>();
-				int s = this.entries.Count;
-		        for(int i = 0; i < s; i++ )
-		        {
-		        	output.Add(this.entries[i].Key);
-		        }
-		        return output;		
-			}
-			
-			/// <summary>
-			/// Gets a List of Values
-			/// </summary>
-			/// <returns>Values of the map</returns>
-			public List<string> Values()
-			{
-				List<string> output = new List<string>();
-				int s = this.entries.Count;
-		        for(int i = 0; i < s; i++ )
-		        {
-		        	output.Add(this.entries[i].Value);
-		        }
-		        return output;		
-			}
 
-			/// <summary>
-			/// Sub-Class to manage string/string tuples 
-			/// </summary>
-			public class Tuple
-			{
-				/// <summary>
-				/// Key of the tuple
-				/// </summary>
-				public string Key { get; set; }
-				/// <summary>
-				/// Value of the tuple
-				/// </summary>
-				public string Value { get; set; }
-				/// <summary>
-				/// Default constructor with parameters
-				/// </summary>
-				/// <param name="key">Key of the tuple</param>
-				/// <param name="value">Value of the tuple</param>
-				public Tuple(string key, string value)
-				{
-					this.Key = key;
-					this.Value = value;
-				}
-			}
+#region sub classes
 
-			#region IEnumerable implementation
-			public IEnumerator<SortedMap.Tuple> GetEnumerator()
-			{
-				return this.entries.GetEnumerator();
-			}
-			#endregion
-			#region IEnumerable implementation
-			IEnumerator IEnumerable.GetEnumerator()
-			{
-				return this.GetEnumerator();
-			}
-			#endregion
-	}
+    /// <summary>
+    /// Class to manage key value pairs (string / string). The entries are in the order how they were added
+    /// </summary>
+    public class SortedMap
+    {
+        private int count;
+        private List<string> keyEntries;
+        private List<string> valueEntries;
+        private Dictionary<string, int> index;
+
+        /// <summary>
+        /// Number of map entries
+        /// </summary>
+        public int Count
+        {
+            get { return count; }
+        }
+
+        /// <summary>
+        /// Gets the keys of the map as list
+        /// </summary>
+        public List<string> Keys
+        {
+            get { return this.keyEntries;  }
+        }
+
+        /// <summary>
+        /// Gets the values of the map as values
+        /// </summary>
+        public List<string> Values
+        {
+            get { return this.valueEntries; }
+        }
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public SortedMap()
+        {
+            this.keyEntries = new List<string>();
+            this.valueEntries = new List<string>();
+            this.index = new Dictionary<string, int>();
+            this.count = 0;
+        }
+
+
+        /// <summary>
+        /// Indexer to get the specific value by the key
+        /// </summary>
+        /// <param name="key">Key to corresponding value. Returns null if not found</param>
+        public string this[string key]
+        {
+            get
+            {
+                if (index.ContainsKey(key))
+                {
+                    return valueEntries[index[key]];
+                }
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Adds a key value pair to the map. If the key already exists, only its index will be returned
+        /// </summary>
+        /// <param name="key">Key of the tuple</param>
+        /// <param name="value">Value of the tuple</param>
+        /// <returns>Position of the tuple in the map as index (zero-based)</returns>
+        public int Add(string key, string value)
+        {
+            if (index.ContainsKey(key))
+            {
+                return index[key];
+            }
+            else
+            {
+                index.Add(key, count);
+                keyEntries.Add(key);
+                valueEntries.Add(value);
+                count++;
+                return count - 1;
+            }
+        }
+
+        /// <summary>
+        /// Gets whether the specified key exists in the map
+        /// </summary>
+        /// <param name="key">Key to check</param>
+        /// <returns>True if the entry exists, otherwise false</returns>
+        public bool ContainsKey(string key)
+        {
+            return index.ContainsKey(key);
+        }
+        
+    }
 
         /// <summary>
         /// Class to manage XML document paths
@@ -1591,6 +1470,7 @@ namespace PicoXLSX
             }
 
         }
+#endregion
 
     }
 }

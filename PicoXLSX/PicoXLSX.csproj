@@ -62,8 +62,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)PicoXLSX.dll" "$(SolutionDir)Executable" /Y
-xcopy "$(TargetDir)PicoXLSX.XML" "$(SolutionDir)Executable" /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)PicoXLSX.dll" "$(SolutionDir)Executable\$(ConfigurationName)" /Y
+if "$(ConfigurationName)"=="Debug" xcopy "$(TargetDir)PicoXLSX.XML" "$(SolutionDir)Executable\$(ConfigurationName)" /Y</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>

@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicoXLSX", "PicoXLSX\PicoXL
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B02BD3FD-D442-49D4-870B-D59532568417}"
 	ProjectSection(SolutionItems) = preProject
+		bugs.txt = bugs.txt
 		Changelog.txt = Changelog.txt
 		LICENSE = LICENSE
 		README.md = README.md
@@ -32,9 +33,11 @@ Global
 		{724CB7BF-A98C-4A0C-855A-4CAC66231746}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DA885E7F-9583-4B8A-8D51-AD2B0DBAC1C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DA885E7F-9583-4B8A-8D51-AD2B0DBAC1C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA885E7F-9583-4B8A-8D51-AD2B0DBAC1C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
