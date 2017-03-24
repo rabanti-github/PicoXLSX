@@ -448,7 +448,7 @@
             <summary>
             Method to create a style sheet as raw XML string
             </summary>
-            <returns>RAw XML string</returns>
+            <returns>Raw XML string</returns>
             <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if one of the styles cannot be referenced or is null</exception>
             <remarks>The UndefinedStyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
         </member>
@@ -579,7 +579,7 @@
             <param name="nameSpace">Optional XML name space. Can be empty or null</param>
             <returns>Returns false if no tag was appended, because the value or tag name was null or empty</returns>
         </member>
-        <member name="M:PicoXLSX.LowLevel.WriteXMLSteram2(System.String,System.IO.Packaging.PackagePart)">
+        <member name="M:PicoXLSX.LowLevel.AppendXmlToPackagePart(System.String,System.IO.Packaging.PackagePart)">
             <summary>
             Writes raw XML strings into the passed Package Part
             </summary>

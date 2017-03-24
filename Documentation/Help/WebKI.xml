@@ -19,6 +19,7 @@
   <HelpKINode Title="AddWorksheet method" Url="html/c9d43c5b-02d7-5d72-6924-0447d36c0f16.htm" />
   <HelpKINode Title="Alignment property" Url="html/be0671ae-d0b7-f60f-219d-4da15ed60b11.htm" />
   <HelpKINode Title="AppendXMLtag method" Url="html/e9b26b07-bc13-f964-fe6d-41e489fc7af8.htm" />
+  <HelpKINode Title="AppendXmlToPackagePart method" Url="html/0160eca4-3813-e324-5610-ca5a5933ec3e.htm" />
   <HelpKINode Title="Application property" Url="html/d132ea68-37d5-15ac-4527-4277f96f4418.htm" />
   <HelpKINode Title="ApplicationVersion property" Url="html/e1e73db3-9c46-2186-c78f-176401825f81.htm" />
   <HelpKINode Title="autoFilter enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
@@ -367,6 +368,7 @@
     <HelpKINode Title="methods" Url="html/322b3913-e838-3a82-7cd5-10444749e661.htm" />
   </HelpKINode>
   <HelpKINode Title="LowLevel.AppendXMLtag method" Url="html/e9b26b07-bc13-f964-fe6d-41e489fc7af8.htm" />
+  <HelpKINode Title="LowLevel.AppendXmlToPackagePart method" Url="html/0160eca4-3813-e324-5610-ca5a5933ec3e.htm" />
   <HelpKINode Title="LowLevel.CreateAppPropertiesDocument method" Url="html/c228e594-052b-0fb4-e00f-d245b3a3b8dd.htm" />
   <HelpKINode Title="LowLevel.CreateAppString method" Url="html/bd00b284-a37e-943d-3ffb-8f9ee5848803.htm" />
   <HelpKINode Title="LowLevel.CreateColsString method" Url="html/10e6ee19-9bc4-ad8c-d8de-b73b583ef464.htm" />
@@ -402,8 +404,8 @@
   <HelpKINode Title="LowLevel.GetOADateTimeString method" Url="html/dd5bc4f9-de7a-cadf-6c67-fac183f3a131.htm" />
   <HelpKINode Title="LowLevel.GetSortedSheetData method" Url="html/d42cf5a8-5c66-c8f7-25de-4d48a7ff6d6d.htm" />
   <HelpKINode Title="LowLevel.LowLevel constructor">
-    <HelpKINode Title="LowLevel Constructor " Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
     <HelpKINode Title="LowLevel Constructor " Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
+    <HelpKINode Title="LowLevel Constructor " Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
   </HelpKINode>
   <HelpKINode Title="LowLevel.Save method" Url="html/29b7b40b-428d-c03f-9c7d-1d92119e2038.htm" />
   <HelpKINode Title="LowLevel.SortedMap class">
@@ -418,7 +420,6 @@
   <HelpKINode Title="LowLevel.SortedMap.Keys property" Url="html/d57708e2-3f02-4312-1c20-1b2c475e46f0.htm" />
   <HelpKINode Title="LowLevel.SortedMap.SortedMap constructor" Url="html/05eb9f51-893d-ff88-b31a-b6f169c18d9d.htm" />
   <HelpKINode Title="LowLevel.SortedMap.Values property" Url="html/870e75ae-ac9e-56ae-4073-5315f2c65435.htm" />
-  <HelpKINode Title="LowLevel.WriteXMLSteram2 method" Url="html/7e42943c-e700-7ba1-30e5-d580e0a60760.htm" />
   <HelpKINode Title="major enumeration member" Url="html/ef91bf2b-91e3-5d9b-22f1-77f39f2a3c68.htm" />
   <HelpKINode Title="Manager property" Url="html/5c0f2e3a-73c2-3318-e85c-22c3c23e5b6c.htm" />
   <HelpKINode Title="medium enumeration member" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
@@ -936,5 +937,4 @@
   <HelpKINode Title="WorksheetNameAlreadxExistsException.WorksheetNameAlreadxExistsException constructor" Url="html/f8fcd420-be9c-0c80-1ec8-1ac143d301fd.htm" />
   <HelpKINode Title="Worksheets property" Url="html/319790c2-ca89-aabc-c76c-693d7f153a6d.htm" />
   <HelpKINode Title="wrapText enumeration member" Url="html/567653c2-d633-6b90-f169-fae46fab93fc.htm" />
-  <HelpKINode Title="WriteXMLSteram2 method" Url="html/7e42943c-e700-7ba1-30e5-d580e0a60760.htm" />
 </HelpKI>

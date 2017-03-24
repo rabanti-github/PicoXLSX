@@ -78,7 +78,7 @@ namespace PicoXLSX
                     p.CreateRelationship(corePropertiesUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties", "rId2"); //!
                     p.CreateRelationship(appPropertiesUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties", "rId3"); //!
 
-                    WriteXMLSteram2(CreateWorkbookDocument(), pp);
+                    AppendXmlToPackagePart(CreateWorkbookDocument(), pp);
                     int idCounter = this.workbook.Worksheets.Count + 1;
                     
                     pp.CreateRelationship(stylesheetUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", "rId" + idCounter.ToString());
@@ -95,21 +95,21 @@ namespace PicoXLSX
                     {
                         pp = p.CreatePart(sheetURIs[i], @"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", CompressionOption.Normal);
                         i++;
-                        WriteXMLSteram2(CreateWorksheetPart(item), pp);
+                        AppendXmlToPackagePart(CreateWorksheetPart(item), pp);
                     }
 
                     pp = p.CreatePart(sharedStringsUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", CompressionOption.Normal);
-                    WriteXMLSteram2(CreateSharedStringsDocument(), pp);
+                    AppendXmlToPackagePart(CreateSharedStringsDocument(), pp);
 
                     pp = p.CreatePart(stylesheetUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", CompressionOption.Normal);
-                    WriteXMLSteram2(CreateStyleSheetDocument(), pp);
+                    AppendXmlToPackagePart(CreateStyleSheetDocument(), pp);
 
                     if (workbook.WorkbookMetadata != null)
                     {
                         pp = p.CreatePart(appPropertiesUri, @"application/vnd.openxmlformats-officedocument.extended-properties+xml", CompressionOption.Normal);
-                        WriteXMLSteram2(CreateAppPropertiesDocument(), pp);
+                        AppendXmlToPackagePart(CreateAppPropertiesDocument(), pp);
                         pp = p.CreatePart(corePropertiesUri, @"application/vnd.openxmlformats-package.core-properties+xml", CompressionOption.Normal);
-                        WriteXMLSteram2(CreateCorePropertiesDocument(), pp);
+                        AppendXmlToPackagePart(CreateCorePropertiesDocument(), pp);
                     }
      
 
@@ -232,7 +232,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create a style sheet as raw XML string
         /// </summary>
-        /// <returns>RAw XML string</returns>
+        /// <returns>Raw XML string</returns>
         /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the styles cannot be referenced or is null</exception>
         /// <remarks>The UndefinedStyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
         
@@ -1135,7 +1135,7 @@ namespace PicoXLSX
         /// <param name="doc">document as raw XML string</param>
         /// <param name="pp">Package part to append the XML data</param>
         /// <exception cref="IOException">Throws an IOException if the XML data could not be written into the Package Part</exception>
-        private void WriteXMLSteram2(string doc, PackagePart pp)
+        private void AppendXmlToPackagePart(string doc, PackagePart pp)
         {
             try
             {
