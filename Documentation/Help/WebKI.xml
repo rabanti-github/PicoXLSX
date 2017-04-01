@@ -300,7 +300,7 @@
   <HelpKINode Title="GetCellAddress method" Url="html/622599a3-b581-0fd5-aaae-ac6206be2798.htm" />
   <HelpKINode Title="GetCellRange method" Url="html/4754841d-02de-f678-0f7d-b5660f93c728.htm" />
   <HelpKINode Title="GetFullPath method" Url="html/23d5a7ee-4309-c5f4-548f-4e83a9250106.htm" />
-  <HelpKINode Title="GetOADateTimeString method" Url="html/dd5bc4f9-de7a-cadf-6c67-fac183f3a131.htm" />
+  <HelpKINode Title="GetOADateTimeString method" Url="html/71d04f52-320f-1afa-b1a3-926eadde6970.htm" />
   <HelpKINode Title="GetPatternName method" Url="html/7f1eb572-6e4c-8a83-5cdf-b7a16dbc9cef.htm" />
   <HelpKINode Title="GetSortedSheetData method" Url="html/d42cf5a8-5c66-c8f7-25de-4d48a7ff6d6d.htm" />
   <HelpKINode Title="GetStyle method" Url="html/9e3b9a1f-09aa-8d1d-c4cf-9e99f469232c.htm" />
@@ -401,11 +401,11 @@
   <HelpKINode Title="LowLevel.EscapeXMLAttributeChars method" Url="html/c073b424-3ed3-d26d-49a1-54f1e496af55.htm" />
   <HelpKINode Title="LowLevel.EscapeXMLChars method" Url="html/18a9638b-1ccc-7943-5189-6eb4e672a098.htm" />
   <HelpKINode Title="LowLevel.GeneratePasswordHash method" Url="html/ca5f9ef5-a6b0-49e1-297e-657479528c94.htm" />
-  <HelpKINode Title="LowLevel.GetOADateTimeString method" Url="html/dd5bc4f9-de7a-cadf-6c67-fac183f3a131.htm" />
+  <HelpKINode Title="LowLevel.GetOADateTimeString method" Url="html/71d04f52-320f-1afa-b1a3-926eadde6970.htm" />
   <HelpKINode Title="LowLevel.GetSortedSheetData method" Url="html/d42cf5a8-5c66-c8f7-25de-4d48a7ff6d6d.htm" />
   <HelpKINode Title="LowLevel.LowLevel constructor">
-    <HelpKINode Title="LowLevel Constructor " Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
     <HelpKINode Title="LowLevel Constructor " Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
+    <HelpKINode Title="LowLevel Constructor " Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
   </HelpKINode>
   <HelpKINode Title="LowLevel.Save method" Url="html/29b7b40b-428d-c03f-9c7d-1d92119e2038.htm" />
   <HelpKINode Title="LowLevel.SortedMap class">
@@ -422,6 +422,10 @@
   <HelpKINode Title="LowLevel.SortedMap.Values property" Url="html/870e75ae-ac9e-56ae-4073-5315f2c65435.htm" />
   <HelpKINode Title="major enumeration member" Url="html/ef91bf2b-91e3-5d9b-22f1-77f39f2a3c68.htm" />
   <HelpKINode Title="Manager property" Url="html/5c0f2e3a-73c2-3318-e85c-22c3c23e5b6c.htm" />
+  <HelpKINode Title="MAX_COLUMN_ADDRESS field" Url="html/7d8ed65d-083b-4adf-1f59-549034ea548b.htm" />
+  <HelpKINode Title="MAX_COLUMN_WIDTH field" Url="html/1428082b-1fdc-07c3-fa71-65005707bfbd.htm" />
+  <HelpKINode Title="MAX_ROW_ADDRESS field" Url="html/55f76e57-1eec-9603-9d8e-2462cc7c651d.htm" />
+  <HelpKINode Title="MAX_ROW_HEIGHT field" Url="html/13d92478-4138-d2b0-875f-dce269e874e9.htm" />
   <HelpKINode Title="medium enumeration member" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
   <HelpKINode Title="mediumDashDot enumeration member" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
   <HelpKINode Title="mediumDashDotDot enumeration member" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
@@ -455,6 +459,10 @@
   <HelpKINode Title="Metadata.Title property" Url="html/dd6300e7-f5c6-c7ec-340a-6d66c5642126.htm" />
   <HelpKINode Title="Metadata.UseColorMRU property" Url="html/21f8420d-7476-482f-9368-5caa3e65a5ed.htm" />
   <HelpKINode Title="minor enumeration member" Url="html/ef91bf2b-91e3-5d9b-22f1-77f39f2a3c68.htm" />
+  <HelpKINode Title="MIN_COLUMN_ADDRESS field" Url="html/c0c5841a-7417-b4e1-b03d-54505c5f0deb.htm" />
+  <HelpKINode Title="MIN_COLUMN_WIDTH field" Url="html/5a92a4e2-7059-667c-7062-b3d1682e1c9e.htm" />
+  <HelpKINode Title="MIN_ROW_ADDRESS field" Url="html/5f3894cb-9b79-24b4-29be-c4997dddd56b.htm" />
+  <HelpKINode Title="MIN_ROW_HEIGHT field" Url="html/a388357c-f059-30e0-b045-24df803f6687.htm" />
   <HelpKINode Title="Name property">
     <HelpKINode Title="Style.Font.Name Property " Url="html/3169ff3f-9672-29e4-29f9-8da56e53914e.htm" />
     <HelpKINode Title="Style.Name Property " Url="html/19014a80-7be3-71c8-5c04-41ba757108bd.htm" />
@@ -895,8 +903,16 @@
   <HelpKINode Title="Worksheet.GoToNextColumn method" Url="html/1b333d28-e538-1102-fbbd-342841bc06d0.htm" />
   <HelpKINode Title="Worksheet.GoToNextRow method" Url="html/0faaf09a-e42a-6557-2c14-5c0da367317c.htm" />
   <HelpKINode Title="Worksheet.HiddenRows property" Url="html/823be1a4-46ce-4c0f-3a34-75d27f085b4f.htm" />
+  <HelpKINode Title="Worksheet.MAX_COLUMN_ADDRESS field" Url="html/7d8ed65d-083b-4adf-1f59-549034ea548b.htm" />
+  <HelpKINode Title="Worksheet.MAX_COLUMN_WIDTH field" Url="html/1428082b-1fdc-07c3-fa71-65005707bfbd.htm" />
+  <HelpKINode Title="Worksheet.MAX_ROW_ADDRESS field" Url="html/55f76e57-1eec-9603-9d8e-2462cc7c651d.htm" />
+  <HelpKINode Title="Worksheet.MAX_ROW_HEIGHT field" Url="html/13d92478-4138-d2b0-875f-dce269e874e9.htm" />
   <HelpKINode Title="Worksheet.MergeCells method" Url="html/aa556474-fb5a-430c-6955-24c8f9a88870.htm" />
   <HelpKINode Title="Worksheet.MergedCells property" Url="html/c64b4077-a481-3286-3133-4e7d78cb8f7f.htm" />
+  <HelpKINode Title="Worksheet.MIN_COLUMN_ADDRESS field" Url="html/c0c5841a-7417-b4e1-b03d-54505c5f0deb.htm" />
+  <HelpKINode Title="Worksheet.MIN_COLUMN_WIDTH field" Url="html/5a92a4e2-7059-667c-7062-b3d1682e1c9e.htm" />
+  <HelpKINode Title="Worksheet.MIN_ROW_ADDRESS field" Url="html/5f3894cb-9b79-24b4-29be-c4997dddd56b.htm" />
+  <HelpKINode Title="Worksheet.MIN_ROW_HEIGHT field" Url="html/a388357c-f059-30e0-b045-24df803f6687.htm" />
   <HelpKINode Title="Worksheet.RecalculateAutoFilter method" Url="html/53b1a562-040c-bf09-21ce-1e855f0a5eb0.htm" />
   <HelpKINode Title="Worksheet.RecalculateColumns method" Url="html/cb42e501-93b6-0700-06c5-f1784968dfa0.htm" />
   <HelpKINode Title="Worksheet.RemoveAutoFilter method" Url="html/4c4c8223-0b2b-2e6c-8ad8-b1dcbeb6fbf8.htm" />

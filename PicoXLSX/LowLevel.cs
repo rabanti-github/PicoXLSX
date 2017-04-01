@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2016
+ * Copyright Raphael Stoeckli © 2017
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -498,7 +498,7 @@ namespace PicoXLSX
                 {
                     typeAttribute = "d";
                     dVal = (DateTime)item.Value;
-                    value = LowLevel.GetOADateTimeString(dVal);
+                    value = LowLevel.GetOADateTimeString(dVal, culture);
                 }
                 // String parsing
                 else
@@ -683,8 +683,7 @@ namespace PicoXLSX
             AppendXMLtag(sb, md.Creator, "lastModifiedBy", "cp");
             AppendXMLtag(sb, md.Keywords, "keywords", "cp");
             AppendXMLtag(sb, md.Description, "description", "dc");
-
-            string time = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ssZ");
+            string time = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ssZ", this.culture);
             sb.Append("<dcterms:created xsi:type=\"dcterms:W3CDTF\">" + time + "</dcterms:created>");
             sb.Append("<dcterms:modified xsi:type=\"dcterms:W3CDTF\">" + time + "</dcterms:modified>");
 
@@ -1277,17 +1276,23 @@ namespace PicoXLSX
 
 
         /// <summary>
-        /// Method to convert a date or date and time into the Excel time format
+        /// Method to convert a date or date and time into the internal Excel time format (OAdate)
         /// </summary>
         /// <param name="date">Date to process</param>
+        /// <param name="culture">CultureInfo for proper formatting of the decimal point</param>
         /// <returns>Date or date and time as Number</returns>
         /// <exception cref="FormatException">Throws a FormatException if the passed date cannot be translated to OADate format</exception>
         /// <remarks>OA Date format starts at January 1st 1900 (actually 00.01.1900). Dates beyond this date cannot be handled by Excel under normal circumstances</remarks>
-        public static string GetOADateTimeString(DateTime date)
+        public static string GetOADateTimeString(DateTime date, CultureInfo culture)
         {
             try
             {
-                return date.ToOADate().ToString();
+                double d = date.ToOADate();
+                if (d < 0)
+                {
+                    throw new FormatException("The date is not in a valid range for Excel. Dates before 1900-01-01 are not allowed.");
+                }
+                return d.ToString("G", culture); //worksheet.DefaultRowHeight.ToString("G", culture) 
             }
             catch (Exception e)
             {

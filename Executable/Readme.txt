@@ -1,4 +1,4 @@
-This folder contains the latest executable file as DLL library and a CHM help file with the full documentation.
+This folder contains the latest executable files as DLL libraries and a CHM help file with the full documentation.
 The folder 'Debug' contains the debug configuration and the XML file with the library documentation.
 The folder 'Release' contains the release configuration.
 

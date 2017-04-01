@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2016
+ * Copyright Raphael Stoeckli © 2017
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -38,10 +38,22 @@ namespace PicoXLSX
             DEFAULT
         }
 
-        private Style cellStyle;
 
-        /// <summary>Number of the row (zero-based)</summary>
-        public int RowAddress { get; set; }
+        private Style cellStyle;
+        private int rowAddress;
+
+        /// <summary>Number of the row (zero-based)</summary>        
+         public int RowAddress {
+         	get { return rowAddress; }
+         	set 
+         	{
+         		rowAddress = value;
+         	}
+         }
+
+        
+        
+        //public int RowAddress { get; set; }
         /// <summary>Number of the column (zero-based)</summary>
         public int ColumnAddress { get; set; }
         /// <summary>Value of the cell (generic object type)</summary>
@@ -354,9 +366,9 @@ namespace PicoXLSX
         /// <returns>Cell Address as string in the format A1 - XFD1048576</returns>
         public static string ResolveCellAddress(int column, int row)
         {
-            if (column >= 16384 || column < 0)
+            if (column > Worksheet.MAX_COLUMN_ADDRESS || column < Worksheet.MIN_COLUMN_ADDRESS)
             {
-                throw new OutOfRangeException("The column number (" + column.ToString() + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+                throw new OutOfRangeException("The column number (" + column.ToString() + ") is out of range. Range is from " +Worksheet.MIN_COLUMN_ADDRESS.ToString()+ " to " + Worksheet.MAX_COLUMN_ADDRESS.ToString() + " (" +(Worksheet.MAX_COLUMN_ADDRESS + 1).ToString()+ " columns).");
             }
             return ResolveColumnAddress(column) + (row + 1).ToString();
         }
@@ -385,13 +397,13 @@ namespace PicoXLSX
             int digits = int.Parse(mx.Groups[2].Value);
             column = ResolveColumn(mx.Groups[1].Value);
             row = digits - 1;
-            if (row >= 1048576 || row < 0)
+            if (row > Worksheet.MAX_ROW_ADDRESS || row < Worksheet.MIN_ROW_ADDRESS)
             {
-                throw new OutOfRangeException("The row number (" + row.ToString() + ") is out of range. Range is from 0 to 1048575 (1048576 rows).");
+                throw new OutOfRangeException("The row number (" + row.ToString() + ") is out of range. Range is from "+ Worksheet.MIN_ROW_ADDRESS.ToString()+" to " + Worksheet.MAX_ROW_ADDRESS.ToString() + " (" + (Worksheet.MAX_ROW_ADDRESS + 1).ToString() + " rows).");
             }
-            if (column >= 16384 || column < 0)
+            if (column > Worksheet.MAX_COLUMN_ADDRESS || column < Worksheet.MIN_COLUMN_ADDRESS)
             {
-                throw new OutOfRangeException("The column number (" + column.ToString() + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+                throw new OutOfRangeException("The column number (" + column.ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_ADDRESS.ToString() + " to " + Worksheet.MAX_COLUMN_ADDRESS.ToString() + " (" + (Worksheet.MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
             }
         }
 
@@ -413,9 +425,9 @@ namespace PicoXLSX
                 result = result + (temp * multiplicator);
                 multiplicator = multiplicator * 26;
             }
-            if (result - 1 >= 16384 || result - 1 < 0)
+            if (result - 1 > Worksheet.MAX_COLUMN_ADDRESS || result - 1 < Worksheet.MIN_COLUMN_ADDRESS)
             {
-                throw new OutOfRangeException("The column number (" + (result - 1).ToString() + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+                throw new OutOfRangeException("The column number (" + (result - 1).ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_ADDRESS.ToString() + " to " + Worksheet.MAX_COLUMN_ADDRESS.ToString() + " (" + (Worksheet.MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
             }
             return result - 1;
         }
@@ -428,9 +440,9 @@ namespace PicoXLSX
         /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed column number was out of range</exception>
         public static string ResolveColumnAddress(int columnNumber)
         {
-            if (columnNumber >= 16384 || columnNumber < 0)
+            if (columnNumber > Worksheet.MAX_COLUMN_ADDRESS || columnNumber < Worksheet.MIN_COLUMN_ADDRESS)
             {
-                throw new OutOfRangeException("The column number (" + columnNumber.ToString() + ") is out of range. Range is from 0 to 16383 (16384 columns).");
+                throw new OutOfRangeException("The column number (" + columnNumber.ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_ADDRESS.ToString() + " to " + Worksheet.MAX_COLUMN_ADDRESS.ToString() + " (" + (Worksheet.MAX_COLUMN_ADDRESS+1).ToString() + " columns).");
             }
             // A - XFD
             int j = 0;

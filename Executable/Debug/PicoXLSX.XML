@@ -174,7 +174,7 @@
             <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the value of the passed address is out of range (A-XFD and 1 to 1048576) </exception>
         </member>
         <member name="P:PicoXLSX.Cell.RowAddress">
-            <summary>Number of the row (zero-based)</summary>
+            <summary>Number of the row (zero-based)</summary>        
         </member>
         <member name="P:PicoXLSX.Cell.ColumnAddress">
             <summary>Number of the column (zero-based)</summary>
@@ -609,11 +609,12 @@
             <param name="input">Input string to process</param>
             <returns>Escaped string</returns>
         </member>
-        <member name="M:PicoXLSX.LowLevel.GetOADateTimeString(System.DateTime)">
+        <member name="M:PicoXLSX.LowLevel.GetOADateTimeString(System.DateTime,System.Globalization.CultureInfo)">
             <summary>
-            Method to convert a date or date and time into the Excel time format
+            Method to convert a date or date and time into the internal Excel time format (OAdate)
             </summary>
             <param name="date">Date to process</param>
+            <param name="culture">CultureInfo for proper formatting of the decimal point</param>
             <returns>Date or date and time as Number</returns>
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed date cannot be translated to OADate format</exception>
             <remarks>OA Date format starts at January 1st 1900 (actually 00.01.1900). Dates beyond this date cannot be handled by Excel under normal circumstances</remarks>
@@ -1915,6 +1916,26 @@
             Class representing a worksheet of a workbook
             </summary>
         </member>
+        <member name="F:PicoXLSX.Worksheet.MIN_ROW_ADDRESS">
+            <summary>
+            Minimum row address (zero-based) as constant
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.MAX_ROW_ADDRESS">
+            <summary>
+            Maximum row address (zero-based) as constant
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.MIN_COLUMN_ADDRESS">
+            <summary>
+            Minimum column address (zero-based) as constant
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.MAX_COLUMN_ADDRESS">
+            <summary>
+            Maximum column address (zero-based) as constant
+            </summary>
+        </member>
         <member name="F:PicoXLSX.Worksheet.DEFAULT_COLUMN_WIDTH">
             <summary>
             Default column width as constant
@@ -1923,6 +1944,26 @@
         <member name="F:PicoXLSX.Worksheet.DEFAULT_ROW_HEIGHT">
             <summary>
             Default row height as constant
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.MIN_COLUMN_WIDTH">
+            <summary>
+            Minimum column width as constant
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.MAX_COLUMN_WIDTH">
+            <summary>
+            Maximum column width as constant
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.MIN_ROW_HEIGHT">
+            <summary>
+            Minimum row height as constant
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.MAX_ROW_HEIGHT">
+            <summary>
+            Maximum row height as constant
             </summary>
         </member>
         <member name="M:PicoXLSX.Worksheet.#ctor">
@@ -2417,7 +2458,7 @@
             <summary>If selected, the user can insert rows if the worksheets is protected</summary>
         </member>
         <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.insertHyperlinks">
-            <summary>If selected, the user can insert hyperlinks if the worksheets is protected</summary>
+            <summary>If selected, the user can insert hyper links if the worksheets is protected</summary>
         </member>
         <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.deleteColumns">
             <summary>If selected, the user can delete columns if the worksheets is protected</summary>

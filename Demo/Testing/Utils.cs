@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
+ * Copyright Raphael Stoeckli © 2017
+ * This library is licensed under the MIT License.
+ * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -99,10 +106,7 @@ namespace Testing
         /// <returns>Randomly generated DateTime</returns>
         /// <remarks>Excel, respectively its OADate function does not support a dates before 30th December 1899. Such dates will cause an exception in PicoXLSX</remarks>
         public static DateTime PseduoRandomDate(DateTime min, DateTime max)
-        {
-        	int l = Utils.PseudoRandomInteger(0, int.MaxValue);
-        	int r = Utils.PseudoRandomInteger(0, int.MaxValue);
-        	
+        {       	
         	long ticks = PseudoRandomLong(min.Ticks, max.Ticks);
         	return new DateTime(ticks);	
         }

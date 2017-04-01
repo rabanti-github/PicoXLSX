@@ -7,7 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicoXLSX", "PicoXLSX\PicoXL
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B02BD3FD-D442-49D4-870B-D59532568417}"
 	ProjectSection(SolutionItems) = preProject
-		bugs.txt = bugs.txt
 		Changelog.txt = Changelog.txt
 		LICENSE = LICENSE
 		README.md = README.md
@@ -36,8 +35,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
