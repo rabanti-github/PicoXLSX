@@ -19,5 +19,17 @@ Simply place the PicoXLSX DLL into your .NET project and add a reference (in VS 
 Place all .CS files from the PicoXLSX source folder into your project. You can place them into a sub-folder if you wish. The files contains definitions for workbooks, worksheets, cells, styles, meta-data, low level methods and exceptions.
 
 # Usage
+## Quick Start
+```
+ Workbook workbook = new Workbook("myWorkbook.xlsx", "Sheet1");         // Create new workbook with a worksheet called Sheet1
+ workbook.CurrentWorksheet.AddNextCell("Some Data");                    // Add cell A1
+ workbook.CurrentWorksheet.AddNextCell(42);                             // Add cell B1
+ workbook.CurrentWorksheet.GoToNextRow();                               // Go to row 2
+ workbook.CurrentWorksheet.AddNextCell(DateTime.Now);                   // Add cell A2
+ workbook.Save();                                                       // Save the workbook as myWorkbook.xlsx
+```
+
+## Further References
 The [Demo project](https://github.com/rabanti-github/PicoXLSX/tree/master/Demo) contains nine simple use cases. You can find also the full documentation in the [Documentation-Folder](https://github.com/rabanti-github/PicoXLSX/tree/master/Documentation) or as C# documentation in the .CS files.<br>
 See also: [Getting started in the Wiki](https://github.com/rabanti-github/PicoXLSX/wiki/Getting-started)
+
