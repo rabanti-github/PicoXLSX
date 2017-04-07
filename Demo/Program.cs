@@ -122,9 +122,9 @@ namespace Demo
             Workbook workbook = new Workbook("test4.xlsx", "Sheet1");                                        // Create new workbook
             List<object> values = new List<object>() { "Header1", "Header2", "Header3" };                    // Create a List of values
             workbook.CurrentWorksheet.AddCellRange(values, new Cell.Address(0,0), new Cell.Address(2,0));    // Add a cell range to A4 - C4
-            workbook.CurrentWorksheet.Cells["A1"].SetStyle(Style.BasicStyles.Bold, workbook);                // Assign predefined basic style to cell
-            workbook.CurrentWorksheet.Cells["B1"].SetStyle(Style.BasicStyles.Bold, workbook);                // Assign predefined basic style to cell
-            workbook.CurrentWorksheet.Cells["C1"].SetStyle(Style.BasicStyles.Bold, workbook);                // Assign predefined basic style to cell
+            workbook.CurrentWorksheet.Cells["A1"].SetStyle(Style.BasicStyles.Bold);                          // Assign predefined basic style to cell
+            workbook.CurrentWorksheet.Cells["B1"].SetStyle(Style.BasicStyles.Bold);                          // Assign predefined basic style to cell
+            workbook.CurrentWorksheet.Cells["C1"].SetStyle(Style.BasicStyles.Bold);                          // Assign predefined basic style to cell
             workbook.CurrentWorksheet.GoToNextRow();                                                         // Go to Row 2
             workbook.CurrentWorksheet.AddNextCell(DateTime.Now);                                             // Add cell A2
             workbook.CurrentWorksheet.AddNextCell(2);                                                        // Add cell B2
@@ -139,18 +139,18 @@ namespace Demo
             s.CurrentFont.DoubleUnderline = true;                                                           // Set double underline
             s.CurrentCellXf.HorizontalAlign = Style.CellXf.HorizontalAlignValue.center;                     // Set alignment
 
-            workbook.CurrentWorksheet.Cells["B2"].SetStyle(s, workbook);                                    // Assign style to cell
+            workbook.CurrentWorksheet.Cells["B2"].SetStyle(s);                                              // Assign style to cell
             workbook.CurrentWorksheet.GoToNextRow();                                                        // Go to Row 3
             workbook.CurrentWorksheet.AddNextCell(DateTime.Now.AddDays(2));                                 // Add cell B1
             workbook.CurrentWorksheet.AddNextCell(true);                                                    // Add cell B2
             workbook.CurrentWorksheet.AddNextCell(false);                                                   // Add cell B3 
-            workbook.CurrentWorksheet.Cells["C2"].SetStyle(Style.BasicStyles.BorderFrame, workbook);        // Assign predefined basic style to cell
+            workbook.CurrentWorksheet.Cells["C2"].SetStyle(Style.BasicStyles.BorderFrame);                  // Assign predefined basic style to cell
 
             Style s2 = new Style();                                                                         // Create new style
             s2.CurrentCellXf.TextRotation = 45;                                                             // Set text rotation
             s2.CurrentCellXf.VerticalAlign = Style.CellXf.VerticallAlignValue.center;                       // Set alignment
 
-            workbook.CurrentWorksheet.Cells["B4"].SetStyle(s2, workbook);                                   // Assign style to cell
+            workbook.CurrentWorksheet.Cells["B4"].SetStyle(s2);                                             // Assign style to cell
 
             workbook.CurrentWorksheet.SetColumnWidth(0, 20f);                                               // Set column width
             workbook.CurrentWorksheet.SetColumnWidth(1, 15f);                                               // Set column width
@@ -168,19 +168,19 @@ namespace Demo
         {
             Workbook workbook = new Workbook("test5.xlsx", "Sheet1");                                   // Create new workbook
             List<object> values = new List<object>() { "Header1", "Header2", "Header3" };               // Create a List of values
-            workbook.CurrentWorksheet.SetActiveStyle(Style.BasicStyles.BorderFrameHeader, workbook);    // Assign predefined basic style as active style
+            workbook.CurrentWorksheet.SetActiveStyle(Style.BasicStyles.BorderFrameHeader);              // Assign predefined basic style as active style
             workbook.CurrentWorksheet.AddCellRange(values, "A1:C1");                                    // Add cell range
 
             values = new List<object>() { "Cell A2", "Cell B2", "Cell C2" };                            // Create a List of values
-            workbook.CurrentWorksheet.SetActiveStyle(Style.BasicStyles.BorderFrame, workbook);          // Assign predefined basic style as active style
-            workbook.CurrentWorksheet.AddCellRange(values, "A2:C2");                                    // Add cell range
+            workbook.CurrentWorksheet.SetActiveStyle(Style.BasicStyles.BorderFrame);                    // Assign predefined basic style as active style
+            workbook.CurrentWorksheet.AddCellRange(values, "A2:C2");                                    // Add cell range (using active style)
 
             values = new List<object>() { "Cell A3", "Cell B3", "Cell C3" };                            // Create a List of values
-            workbook.CurrentWorksheet.AddCellRange(values, "A3:C3");                                    // Add cell range
+            workbook.CurrentWorksheet.AddCellRange(values, "A3:C3");                                    // Add cell range (using active style)
 
             values = new List<object>() { "Cell A4", "Cell B4", "Cell C4" };                            // Create a List of values
             workbook.CurrentWorksheet.ClearActiveStyle();                                               // Clear the active style 
-            workbook.CurrentWorksheet.AddCellRange(values, "A4:C4");                                     // Add cell range
+            workbook.CurrentWorksheet.AddCellRange(values, "A4:C4");                                    // Add cell range (without style)
 
             workbook.WorkbookMetadata.Title = "Test 5";                                                 // Add meta data to workbook
             workbook.WorkbookMetadata.Subject = "This is the 5th PicoXLSX test";                        // Add meta data to workbook
@@ -210,7 +210,7 @@ namespace Demo
             workbook.CurrentWorksheet.AddAllowedActionOnSheetProtection(Worksheet.SheetProtectionValue.selectLockedCells);  // Allow to select cells (locked cells caused automatically to select unlocked cells)
             workbook.CurrentWorksheet.AddNextCell("Cell A1");                                           // Add cell A1
             workbook.CurrentWorksheet.AddNextCell("Cell B1");                                           // Add cell B1
-            workbook.CurrentWorksheet.Cells["A1"].SetCellLockedState(false, true, workbook);            // Set the locking state of cell A1 (not locked but value is hidden when cell selected)
+            workbook.CurrentWorksheet.Cells["A1"].SetCellLockedState(false, true);                      // Set the locking state of cell A1 (not locked but value is hidden when cell selected)
             workbook.AddWorksheet("PWD-Protected");                                                     // Add a new worksheet
             workbook.CurrentWorksheet.AddCell("This worksheet is password protected. The password is:",0,0);  // Add cell A1
             workbook.CurrentWorksheet.AddCell("test123", 0, 1);                                         // Add cell A2

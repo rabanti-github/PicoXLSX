@@ -90,6 +90,10 @@ namespace PicoXLSX
                         sheetURIs.Add(new Uri(sheetPath.GetFullPath(), UriKind.Relative));
                         pp.CreateRelationship(sheetURIs[sheetURIs.Count - 1], TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet", "rId" + item.SheetID.ToString());
                     }
+
+                    pp = p.CreatePart(stylesheetUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", CompressionOption.Normal);
+                    AppendXmlToPackagePart(CreateStyleSheetDocument(), pp);
+
                     int i = 0;
                     foreach (Worksheet item in this.workbook.Worksheets)
                     {
@@ -98,11 +102,12 @@ namespace PicoXLSX
                         AppendXmlToPackagePart(CreateWorksheetPart(item), pp);
                     }
 
+
+
                     pp = p.CreatePart(sharedStringsUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", CompressionOption.Normal);
                     AppendXmlToPackagePart(CreateSharedStringsDocument(), pp);
 
-                    pp = p.CreatePart(stylesheetUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", CompressionOption.Normal);
-                    AppendXmlToPackagePart(CreateStyleSheetDocument(), pp);
+
 
                     if (workbook.WorkbookMetadata != null)
                     {
@@ -531,7 +536,7 @@ namespace PicoXLSX
                 }
                 if (item.Fieldtype != Cell.CellType.EMPTY)
                 {
-                    sb.Append("<c" + tValue + "r=\"" + item.GetCellAddress() + "\"" + sValue + ">");
+                    sb.Append("<c" + tValue + "r=\"" + item.CellAddress + "\"" + sValue + ">");
                     if (item.Fieldtype == Cell.CellType.FORMULA)
                     {
                         sb.Append("<f>" + LowLevel.EscapeXMLChars(item.Value.ToString()) + "</f>");
@@ -544,7 +549,7 @@ namespace PicoXLSX
                 }
                 else // Empty cell
                 {
-                    sb.Append("<c" + tValue + "r=\"" + item.GetCellAddress() + "\"" + sValue + "/>");
+                    sb.Append("<c" + tValue + "r=\"" + item.CellAddress + "\"" + sValue + "/>");
                 }
                 col++;
             }
@@ -1281,8 +1286,8 @@ namespace PicoXLSX
         /// <param name="date">Date to process</param>
         /// <param name="culture">CultureInfo for proper formatting of the decimal point</param>
         /// <returns>Date or date and time as Number</returns>
-        /// <exception cref="FormatException">Throws a FormatException if the passed date cannot be translated to OADate format</exception>
-        /// <remarks>OA Date format starts at January 1st 1900 (actually 00.01.1900). Dates beyond this date cannot be handled by Excel under normal circumstances</remarks>
+        /// <exception cref="FormatException">Throws a FormatException if the passed date cannot be translated to the OADate format</exception>
+        /// <remarks>OA Date format starts at January 1st 1900 (actually 00.01.1900). Dates beyond this date cannot be handled by Excel under normal circumstances and will throw a FormatException</remarks>
         public static string GetOADateTimeString(DateTime date, CultureInfo culture)
         {
             try

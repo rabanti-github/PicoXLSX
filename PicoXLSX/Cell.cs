@@ -26,7 +26,7 @@ namespace PicoXLSX
             STRING,
             /// <summary>Type for all numeric types (long, integer and float and double)</summary>
             NUMBER,
-            /// <summary>Type for dates and times</summary>
+            /// <summary>Type for dates and times (Note: Dates before 1900-01-01 are not allowed)</summary>
             DATE,
             /// <summary>Type for boolean</summary>
             BOOL,
@@ -41,21 +41,36 @@ namespace PicoXLSX
 
         private Style cellStyle;
         private int rowAddress;
+        private int columnAddress;
+        
 
         /// <summary>Number of the row (zero-based)</summary>        
          public int RowAddress {
          	get { return rowAddress; }
          	set 
          	{
+                if (value < Worksheet.MIN_ROW_ADDRESS || value > Worksheet.MAX_ROW_ADDRESS)
+                {
+                    throw new OutOfRangeException("The passed row number (" + value.ToString() + ") is out of range. Range is from " + Worksheet.MIN_ROW_ADDRESS.ToString() + " to " + Worksheet.MAX_ROW_ADDRESS.ToString() + " (" + (Worksheet.MAX_ROW_ADDRESS + 1).ToString() + " rows).");
+                }
          		rowAddress = value;
          	}
          }
 
-        
-        
-        //public int RowAddress { get; set; }
-        /// <summary>Number of the column (zero-based)</summary>
-        public int ColumnAddress { get; set; }
+         /// <summary>Number of the column (zero-based)</summary>        
+         public int ColumnAddress
+         {
+             get { return columnAddress; }
+             set
+             {
+                 if (value < Worksheet.MIN_COLUMN_ADDRESS || value > Worksheet.MAX_COLUMN_ADDRESS)
+                 {
+                     throw new OutOfRangeException("The passed column number (" + value.ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_ADDRESS.ToString() + " to " + Worksheet.MAX_COLUMN_ADDRESS.ToString() + " (" + (Worksheet.MAX_COLUMN_ADDRESS + 1).ToString() + " rows).");
+                 }
+                 columnAddress = value;
+             }
+         }
+
         /// <summary>Value of the cell (generic object type)</summary>
         public object Value { get; set; }
         /// <summary>Type of the cell</summary>
@@ -68,16 +83,35 @@ namespace PicoXLSX
             get { return cellStyle; }
         }
 
-        /// <summary>Combined cell address as struct (read-only)</summary>
-        public Address CellAddress
+        /// <summary>
+        /// Gets or sets the combined cell Address as string in the format A1 - XFD1048576
+        /// </summary>
+        public string CellAddress
         {
-            get { return new Address(this.ColumnAddress, this.RowAddress); }
+            get { return Cell.ResolveCellAddress(this.ColumnAddress, this.RowAddress); }
+            set { Cell.ResolveCellCoordinate(value, out this.columnAddress, out this.rowAddress); }
         }
 
+        /// <summary>Gets or sets the cell address as struct (read-only)</summary>
+        public Address CellAddress2
+        {
+            get { return new Address(this.ColumnAddress, this.RowAddress); }
+            set 
+            {
+                this.ColumnAddress = value.Column;
+                this.RowAddress = value.Row;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the parent worksheet reference
+        /// </summary>
+        public Worksheet WorksheetReference { get; set; }
 
         /// <summary>Default constructor</summary>
         public Cell()
         {
+            this.WorksheetReference = null;
         }
 
         /// <summary>
@@ -99,10 +133,11 @@ namespace PicoXLSX
         /// <param name="type">Type of the cell</param>
         /// <param name="column">Column address of the cell (zero-based)</param>
         /// <param name="row">Row address of the cell (zero-based)</param>
-        public Cell(object value, CellType type, int column, int row) : this(value, type)
+        public Cell(object value, CellType type, int column, int row, Worksheet reference) : this(value, type)
         {
             this.ColumnAddress = column;
             this.RowAddress = row;
+            this.WorksheetReference = reference;
             if (type == CellType.DEFAULT)
             {
             	ResolveCellType();
@@ -131,33 +166,29 @@ namespace PicoXLSX
             else { this.Fieldtype = CellType.STRING; } // Default
         }
 
-        /// <summary>
-        /// Gets the cell Address as string in the format A1 - XFD1048576
-        /// </summary>
-        /// <returns>Cell address</returns>
-        public string GetCellAddress()
-        {
-            return Cell.ResolveCellAddress(this.ColumnAddress, this.RowAddress);
-        }
+
 
         /// <summary>
         /// Sets the style of the cell
         /// </summary>
         /// <param name="style">Style to assign</param>
-        /// <param name="workbookReference">Workbook reference. All styles will be managed in this workbook</param>
         /// <returns>If the passed style already exists in the workbook, the existing one will be returned, otherwise the passed one</returns>
         /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style cannot be referenced or no style was defined</exception>
-        public Style SetStyle(Style style, Workbook workbookReference)
+        public Style SetStyle(Style style)
         {
-            if (workbookReference == null)
+            if (this.WorksheetReference == null)
             {
-                throw new UndefinedStyleException("No workbook reference was defined while trying to set a style to a cell");
+                throw new UndefinedStyleException("No worksheet reference was defined while trying to set a style to a cell");
+            }
+            if (this.WorksheetReference.WorkbookReference == null)
+            {
+                throw new UndefinedStyleException("No workbook reference was defined on the worksheet while trying to set a style to a cell");
             }
             if (style == null)
             {
                 throw new UndefinedStyleException("No style to assign was defined");
             }
-            Style s = workbookReference.AddStyle(style, true);
+            Style s = this.WorksheetReference.WorkbookReference.AddStyle(style, true);
             this.cellStyle = s;
             return s;
         }
@@ -165,17 +196,20 @@ namespace PicoXLSX
         /// <summary>
         /// Removes the assigned style from the cell
         /// </summary>
-        /// <param name="workbookReference">Workbook reference. All styles will be managed in this workbook</param>
         /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style cannot be referenced</exception>
-        public void RemoveStyle(Workbook workbookReference)
+        public void RemoveStyle()
         {
-            if (workbookReference == null)
+            if (this.WorksheetReference == null)
             {
-                throw new UndefinedStyleException("No workbook reference was defined while trying to remove a style from a cell");
+                throw new UndefinedStyleException("No worksheet reference was defined while trying to remove a style from a cell");
+            }
+            if (this.WorksheetReference.WorkbookReference == null)
+            {
+                throw new UndefinedStyleException("No workbook reference was defined on the worksheet while trying to remove a style from a cell");
             }
             string styleName = this.cellStyle.Name;
             this.cellStyle = null;
-            workbookReference.RemoveStyle(styleName, true);
+            this.WorksheetReference.WorkbookReference.RemoveStyle(styleName, true);
         }
 
 
@@ -474,10 +508,9 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="isLocked">If true, the cell will be locked if the worksheet is protected</param>
         /// <param name="isHidden">If true, the value of the cell will be invisible if the worksheet is protected</param>
-        /// <param name="workbookReference">Workbook reference. Locking of cells uses styles which are managed in the workbook</param>
         /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style used to lock cells cannot be referenced</exception>
         /// <remarks>The listed exception should never happen because the mentioned style is internally generated</remarks>
-        public void SetCellLockedState(bool isLocked, bool isHidden, Workbook workbookReference)
+        public void SetCellLockedState(bool isLocked, bool isHidden)
         {
             Style lockStyle;
             if (this.cellStyle == null)
@@ -490,7 +523,7 @@ namespace PicoXLSX
             }
             lockStyle.CurrentCellXf.Locked = isLocked;
             lockStyle.CurrentCellXf.Hidden = isHidden;
-            this.SetStyle(lockStyle, workbookReference);
+            this.SetStyle(lockStyle);
         }
 
         /// <summary>

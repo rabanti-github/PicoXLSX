@@ -221,19 +221,35 @@ namespace PicoXLSX
         /// <summary>
         /// Default Row height
         /// </summary>
+        /// <exception cref="OutOfRangeException">Throws a OutOfRangeException exception if the passed height is out of range (set)</exception>
         public float DefaultRowHeight
         {
           get { return defaultRowHeight; }
-          set { defaultRowHeight = value; }
+          set 
+          { 
+              if (value < MIN_ROW_HEIGHT || value > MAX_ROW_HEIGHT)
+              {
+                  throw new OutOfRangeException("The passed default row height is out of range (" + MIN_ROW_HEIGHT.ToString() + " to " + MAX_ROW_HEIGHT.ToString() + ")");
+              }
+              defaultRowHeight = value;
+          }
         }
 
         /// <summary>
         /// Default column width
         /// </summary>
+        /// <exception cref="OutOfRangeException">Throws a OutOfRangeException exception if the passed width is out of range (set)</exception>
         public float DefaultColumnWidth
         {
           get { return defaultColumnWidth; }
-          set { defaultColumnWidth = value; }
+          set 
+          {
+              if (value < MIN_COLUMN_WIDTH || value > MAX_COLUMN_WIDTH)
+              {
+                  throw new OutOfRangeException("The passed default column width is out of range (" + MIN_COLUMN_WIDTH.ToString() + " to " + MAX_COLUMN_WIDTH.ToString() + ")");
+              }
+              defaultColumnWidth = value;
+          }
         }
 
         /// <summary>
@@ -251,6 +267,15 @@ namespace PicoXLSX
         public Dictionary<int, bool> HiddenRows
         {
             get { return hiddenRows; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Reference to the parent Workbook
+        /// </summary>
+        public Workbook WorkbookReference
+        {
+            get { return this.workbookReference; }
+            set { this.workbookReference = value; }
         }
 
 
@@ -279,10 +304,12 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="name">Name of the worksheet</param>
         /// <param name="id">ID of the worksheet (for internal use)</param>
-        public Worksheet(string name, int id) : this()
+        /// <param name="reference">Reference to the parent Workbook</param>
+        public Worksheet(string name, int id, Workbook reference) : this()
         {
             SetSheetname(name);
             this.SheetID = id;
+            this.workbookReference = reference;
         }
 
 #region AddNextCell
@@ -295,7 +322,7 @@ namespace PicoXLSX
         /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         public void AddNextCellFormula(string formula)
         {
-            Cell c = new Cell(formula, Cell.CellType.FORMULA, this.currentColumnNumber, this.currentRowNumber);
+            Cell c = new Cell(formula, Cell.CellType.FORMULA, this.currentColumnNumber, this.currentRowNumber, this);
             AddNextCell(c, true);
         }
 
@@ -306,7 +333,7 @@ namespace PicoXLSX
         /// <param name="value">Unspecified value to insert</param> 
         public void AddNextCell(object value)
         {
-            Cell c = new Cell(value, Cell.CellType.DEFAULT, this.currentColumnNumber, this.currentRowNumber);
+            Cell c = new Cell(value, Cell.CellType.DEFAULT, this.currentColumnNumber, this.currentRowNumber, this);
             AddNextCell(c, true);
         }
 
@@ -321,9 +348,9 @@ namespace PicoXLSX
         {
             if (this.activeStyle != null)
             {
-                cell.SetStyle(this.activeStyle, this.workbookReference);
+                cell.SetStyle(this.activeStyle);
             }
-            string address = cell.GetCellAddress();
+            string address = cell.CellAddress;
             if (this.cells.ContainsKey(address))
             {
                 this.cells[address] = cell;
@@ -373,7 +400,7 @@ namespace PicoXLSX
         /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
         public void AddCell(object value, int columnAddress, int rowAddress)
         {
-            Cell c = new Cell(value, Cell.CellType.DEFAULT, columnAddress, rowAddress);
+            Cell c = new Cell(value, Cell.CellType.DEFAULT, columnAddress, rowAddress, this);
             AddNextCell(c, false);
         }
 
@@ -418,7 +445,7 @@ namespace PicoXLSX
         {
             int column, row;
             Cell.ResolveCellCoordinate(address, out column, out row);
-            Cell c = new Cell(formula, Cell.CellType.FORMULA, column, row);
+            Cell c = new Cell(formula, Cell.CellType.FORMULA, column, row, this);
             AddNextCell(c, false);
         }
 
@@ -432,7 +459,7 @@ namespace PicoXLSX
         /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
         public void AddCellFormula(string formula, int columnAddress, int rowAddress)
         {
-            Cell c = new Cell(formula, Cell.CellType.FORMULA, columnAddress, rowAddress);
+            Cell c = new Cell(formula, Cell.CellType.FORMULA, columnAddress, rowAddress, this);
             AddNextCell(c, false);
         }
 #endregion
@@ -491,6 +518,7 @@ namespace PicoXLSX
             {
                 list[i].RowAddress = addresses[i].Row;
                 list[i].ColumnAddress = addresses[i].Column;
+                list[i].WorksheetReference = this;
                 AddNextCell(list[i], false);
             }
         }
@@ -698,11 +726,9 @@ namespace PicoXLSX
         /// Sets the active style of the worksheet. This style will be assigned to all later added cells
         /// </summary>
         /// <param name="style">Style to set as active style</param>
-        /// <param name="workbookReference">Reference to the workbook. All stiles are managed in this workbook</param>
-        public void SetActiveStyle(Style style, Workbook workbookReference)
+        public void SetActiveStyle(Style style)
         {
             this.activeStyle = style;
-            this.workbookReference = workbookReference;
         }
 
         /// <summary>
@@ -711,7 +737,6 @@ namespace PicoXLSX
         public void ClearActiveStyle()
         {
             this.activeStyle = null;
-            this.workbookReference = null;
         }
 
         /// <summary>

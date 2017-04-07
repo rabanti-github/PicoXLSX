@@ -131,6 +131,7 @@ namespace PicoXLSX
             if (createWorkSheet == true)
             {
                 AddWorksheet("Sheet1");
+               
             }
         }
 
@@ -161,8 +162,9 @@ namespace PicoXLSX
                 }
             }
             int number = this.worksheets.Count + 1;
-            this.currentWorksheet = new Worksheet(name, number);
-            this.worksheets.Add(this.currentWorksheet);
+            Worksheet newWs = new Worksheet(name, number, this);
+            this.currentWorksheet = newWs;
+            this.worksheets.Add(newWs);
         }
 
         /// <summary>
@@ -580,7 +582,7 @@ namespace PicoXLSX
                         {
                             combiation = cell.Value.CellStyle.Copy(dateStyle.CurrentNumberFormat);
                         }
-                        sheet.Cells[cell.Key].SetStyle(combiation, this);
+                        sheet.Cells[cell.Key].SetStyle(combiation);
                     }
                 }
             }
@@ -623,6 +625,7 @@ namespace PicoXLSX
                             cell.Fieldtype = Cell.CellType.EMPTY;
                             cell.RowAddress = address.Row;
                             cell.ColumnAddress = address.Column;
+                            cell.WorksheetReference = sheet;
                             sheet.AddCell(cell);
                         }
                         else
@@ -633,7 +636,7 @@ namespace PicoXLSX
                         {
                             cell.Fieldtype = Cell.CellType.EMPTY;
                         }
-                        cell.SetStyle(mergStyle, this);
+                        cell.SetStyle(mergStyle);
                         pos++;
                     }
 

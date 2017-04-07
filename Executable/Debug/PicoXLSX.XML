@@ -19,7 +19,7 @@
             <param name="value">Value of the cell</param>
             <param name="type">Type of the cell</param>
         </member>
-        <member name="M:PicoXLSX.Cell.#ctor(System.Object,PicoXLSX.Cell.CellType,System.Int32,System.Int32)">
+        <member name="M:PicoXLSX.Cell.#ctor(System.Object,PicoXLSX.Cell.CellType,System.Int32,System.Int32,PicoXLSX.Worksheet)">
             <summary>
             Constructor with value, cell type, row address and column address
             </summary>
@@ -33,26 +33,18 @@
             Method resets the Cell type an tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellTypes FORMULA and EMPTY will skip this method
             </summary>
         </member>
-        <member name="M:PicoXLSX.Cell.GetCellAddress">
-            <summary>
-            Gets the cell Address as string in the format A1 - XFD1048576
-            </summary>
-            <returns>Cell address</returns>
-        </member>
-        <member name="M:PicoXLSX.Cell.SetStyle(PicoXLSX.Style,PicoXLSX.Workbook)">
+        <member name="M:PicoXLSX.Cell.SetStyle(PicoXLSX.Style)">
             <summary>
             Sets the style of the cell
             </summary>
             <param name="style">Style to assign</param>
-            <param name="workbookReference">Workbook reference. All styles will be managed in this workbook</param>
             <returns>If the passed style already exists in the workbook, the existing one will be returned, otherwise the passed one</returns>
             <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the style cannot be referenced or no style was defined</exception>
         </member>
-        <member name="M:PicoXLSX.Cell.RemoveStyle(PicoXLSX.Workbook)">
+        <member name="M:PicoXLSX.Cell.RemoveStyle">
             <summary>
             Removes the assigned style from the cell
             </summary>
-            <param name="workbookReference">Workbook reference. All styles will be managed in this workbook</param>
             <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the style cannot be referenced</exception>
         </member>
         <member name="M:PicoXLSX.Cell.CompareTo(PicoXLSX.Cell)">
@@ -154,13 +146,12 @@
             <returns>Column address (A - XFD)</returns>
             <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException if the passed column number was out of range</exception>
         </member>
-        <member name="M:PicoXLSX.Cell.SetCellLockedState(System.Boolean,System.Boolean,PicoXLSX.Workbook)">
+        <member name="M:PicoXLSX.Cell.SetCellLockedState(System.Boolean,System.Boolean)">
             <summary>
             Sets the lock state of the cell
             </summary>
             <param name="isLocked">If true, the cell will be locked if the worksheet is protected</param>
             <param name="isHidden">If true, the value of the cell will be invisible if the worksheet is protected</param>
-            <param name="workbookReference">Workbook reference. Locking of cells uses styles which are managed in the workbook</param>
             <exception cref="T:PicoXLSX.UndefinedStyleException">Throws an UndefinedStyleException if the style used to lock cells cannot be referenced</exception>
             <remarks>The listed exception should never happen because the mentioned style is internally generated</remarks>
         </member>
@@ -177,7 +168,7 @@
             <summary>Number of the row (zero-based)</summary>        
         </member>
         <member name="P:PicoXLSX.Cell.ColumnAddress">
-            <summary>Number of the column (zero-based)</summary>
+            <summary>Number of the column (zero-based)</summary>        
         </member>
         <member name="P:PicoXLSX.Cell.Value">
             <summary>Value of the cell (generic object type)</summary>
@@ -191,7 +182,17 @@
             </summary>
         </member>
         <member name="P:PicoXLSX.Cell.CellAddress">
-            <summary>Combined cell address as struct (read-only)</summary>
+            <summary>
+            Gets or sets the combined cell Address as string in the format A1 - XFD1048576
+            </summary>
+        </member>
+        <member name="P:PicoXLSX.Cell.CellAddress2">
+            <summary>Gets or sets the cell address as struct (read-only)</summary>
+        </member>
+        <member name="P:PicoXLSX.Cell.WorksheetReference">
+            <summary>
+            Gets or sets the parent worksheet reference
+            </summary>
         </member>
         <member name="T:PicoXLSX.Cell.CellType">
             <summary>
@@ -205,7 +206,7 @@
             <summary>Type for all numeric types (long, integer and float and double)</summary>
         </member>
         <member name="F:PicoXLSX.Cell.CellType.DATE">
-            <summary>Type for dates and times</summary>
+            <summary>Type for dates and times (Note: Dates before 1900-01-01 are not allowed)</summary>
         </member>
         <member name="F:PicoXLSX.Cell.CellType.BOOL">
             <summary>Type for boolean</summary>
@@ -616,8 +617,8 @@
             <param name="date">Date to process</param>
             <param name="culture">CultureInfo for proper formatting of the decimal point</param>
             <returns>Date or date and time as Number</returns>
-            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed date cannot be translated to OADate format</exception>
-            <remarks>OA Date format starts at January 1st 1900 (actually 00.01.1900). Dates beyond this date cannot be handled by Excel under normal circumstances</remarks>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed date cannot be translated to the OADate format</exception>
+            <remarks>OA Date format starts at January 1st 1900 (actually 00.01.1900). Dates beyond this date cannot be handled by Excel under normal circumstances and will throw a FormatException</remarks>
         </member>
         <member name="M:PicoXLSX.LowLevel.GeneratePasswordHash(System.String)">
             <summary>
@@ -1971,12 +1972,13 @@
             Default Constructor
             </summary>
         </member>
-        <member name="M:PicoXLSX.Worksheet.#ctor(System.String,System.Int32)">
+        <member name="M:PicoXLSX.Worksheet.#ctor(System.String,System.Int32,PicoXLSX.Workbook)">
             <summary>
             Constructor with name and sheet ID
             </summary>
             <param name="name">Name of the worksheet</param>
             <param name="id">ID of the worksheet (for internal use)</param>
+            <param name="reference">Reference to the parent Workbook</param>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddNextCellFormula(System.String)">
             <summary>
@@ -2173,12 +2175,11 @@
             <param name="height">Height from 0 to 409.5</param>
             <exception cref="T:PicoXLSX.OutOfRangeException">Throws an OutOfRangeException:<br></br>a) If the passed row number is out of range<br></br>b) if the row height is out of range (0 - 409.5)</exception>
         </member>
-        <member name="M:PicoXLSX.Worksheet.SetActiveStyle(PicoXLSX.Style,PicoXLSX.Workbook)">
+        <member name="M:PicoXLSX.Worksheet.SetActiveStyle(PicoXLSX.Style)">
             <summary>
             Sets the active style of the worksheet. This style will be assigned to all later added cells
             </summary>
             <param name="style">Style to set as active style</param>
-            <param name="workbookReference">Reference to the workbook. All stiles are managed in this workbook</param>
         </member>
         <member name="M:PicoXLSX.Worksheet.ClearActiveStyle">
             <summary>
@@ -2403,11 +2404,13 @@
             <summary>
             Default Row height
             </summary>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws a OutOfRangeException exception if the passed height is out of range (set)</exception>
         </member>
         <member name="P:PicoXLSX.Worksheet.DefaultColumnWidth">
             <summary>
             Default column width
             </summary>
+            <exception cref="T:PicoXLSX.OutOfRangeException">Throws a OutOfRangeException exception if the passed width is out of range (set)</exception>
         </member>
         <member name="P:PicoXLSX.Worksheet.RowHeights">
             <summary>
@@ -2419,6 +2422,11 @@
             Dictionary of hidden rows.  Key is the row number (zero-based), value is a boolean. True indicates hidden, false visible.
             </summary>
             <remarks>Entries with the value false are not affecting the worksheet. These entries can be removed</remarks>
+        </member>
+        <member name="P:PicoXLSX.Worksheet.WorkbookReference">
+            <summary>
+            Gets or sets the Reference to the parent Workbook
+            </summary>
         </member>
         <member name="T:PicoXLSX.Worksheet.CellDirection">
             <summary>

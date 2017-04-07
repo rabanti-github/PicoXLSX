@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace PicoXLSX
 {
@@ -14,6 +15,7 @@ namespace PicoXLSX
     /// </summary>
     public class Style : IComparable<Style>, IEquatable<Style>
     {
+
         /// <summary>
         /// Current Font object of the style
         /// </summary>
