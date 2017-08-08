@@ -17,6 +17,8 @@ namespace PicoXLSX
     /// </summary>
     public class Cell : IComparable<Cell>
     {
+
+#region enums
         /// <summary>
         /// Enum defines the basic data types of a cell
         /// </summary>
@@ -37,51 +39,15 @@ namespace PicoXLSX
             /// <summary>Default Type, not specified</summary>
             DEFAULT
         }
+#endregion
 
-
+#region privateFileds
         private Style cellStyle;
-        private int rowAddress;
         private int columnAddress;
-        
+        private int rowAddress;
+#endregion
 
-        /// <summary>Number of the row (zero-based)</summary>        
-         public int RowAddress {
-         	get { return rowAddress; }
-         	set 
-         	{
-                if (value < Worksheet.MIN_ROW_ADDRESS || value > Worksheet.MAX_ROW_ADDRESS)
-                {
-                    throw new OutOfRangeException("The passed row number (" + value.ToString() + ") is out of range. Range is from " + Worksheet.MIN_ROW_ADDRESS.ToString() + " to " + Worksheet.MAX_ROW_ADDRESS.ToString() + " (" + (Worksheet.MAX_ROW_ADDRESS + 1).ToString() + " rows).");
-                }
-         		rowAddress = value;
-         	}
-         }
-
-         /// <summary>Number of the column (zero-based)</summary>        
-         public int ColumnAddress
-         {
-             get { return columnAddress; }
-             set
-             {
-                 if (value < Worksheet.MIN_COLUMN_ADDRESS || value > Worksheet.MAX_COLUMN_ADDRESS)
-                 {
-                     throw new OutOfRangeException("The passed column number (" + value.ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_ADDRESS.ToString() + " to " + Worksheet.MAX_COLUMN_ADDRESS.ToString() + " (" + (Worksheet.MAX_COLUMN_ADDRESS + 1).ToString() + " rows).");
-                 }
-                 columnAddress = value;
-             }
-         }
-
-        /// <summary>Value of the cell (generic object type)</summary>
-        public object Value { get; set; }
-        /// <summary>Type of the cell</summary>
-        public CellType Fieldtype { get; set; }
-        /// <summary>
-        /// Assigned style of the cell
-        /// </summary>
-        public Style CellStyle
-        {
-            get { return cellStyle; }
-        }
+#region properties
 
         /// <summary>
         /// Gets or sets the combined cell Address as string in the format A1 - XFD1048576
@@ -92,11 +58,11 @@ namespace PicoXLSX
             set { Cell.ResolveCellCoordinate(value, out this.columnAddress, out this.rowAddress); }
         }
 
-        /// <summary>Gets or sets the cell address as struct (read-only)</summary>
+        /// <summary>Gets or sets the combined cell Address as Address object</summary>
         public Address CellAddress2
         {
             get { return new Address(this.ColumnAddress, this.RowAddress); }
-            set 
+            set
             {
                 this.ColumnAddress = value.Column;
                 this.RowAddress = value.Row;
@@ -104,10 +70,56 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Assigned style of the cell
+        /// </summary>
+        public Style CellStyle
+        {
+            get { return cellStyle; }
+        }
+
+        /// <summary>Number of the column (zero-based)</summary>        
+        public int ColumnAddress
+        {
+            get { return columnAddress; }
+            set
+            {
+                if (value < Worksheet.MIN_COLUMN_ADDRESS || value > Worksheet.MAX_COLUMN_ADDRESS)
+                {
+                    throw new OutOfRangeException("The passed column number (" + value.ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_ADDRESS.ToString() + " to " + Worksheet.MAX_COLUMN_ADDRESS.ToString() + " (" + (Worksheet.MAX_COLUMN_ADDRESS + 1).ToString() + " rows).");
+                }
+                columnAddress = value;
+            }
+        }
+
+        /// <summary>Type of the cell</summary>
+        public CellType Fieldtype { get; set; }
+
+
+        /// <summary>Number of the row (zero-based)</summary>        
+        public int RowAddress
+        {
+            get { return rowAddress; }
+            set
+            {
+                if (value < Worksheet.MIN_ROW_ADDRESS || value > Worksheet.MAX_ROW_ADDRESS)
+                {
+                    throw new OutOfRangeException("The passed row number (" + value.ToString() + ") is out of range. Range is from " + Worksheet.MIN_ROW_ADDRESS.ToString() + " to " + Worksheet.MAX_ROW_ADDRESS.ToString() + " (" + (Worksheet.MAX_ROW_ADDRESS + 1).ToString() + " rows).");
+                }
+                rowAddress = value;
+            }
+        }
+
+        /// <summary>Value of the cell (generic object type)</summary>
+        public object Value { get; set; }
+
+        /// <summary>
         /// Gets or sets the parent worksheet reference
         /// </summary>
         public Worksheet WorksheetReference { get; set; }
 
+#endregion
+
+#region constructors
         /// <summary>Default constructor</summary>
         public Cell()
         {
@@ -133,6 +145,7 @@ namespace PicoXLSX
         /// <param name="type">Type of the cell</param>
         /// <param name="column">Column address of the cell (zero-based)</param>
         /// <param name="row">Row address of the cell (zero-based)</param>
+        /// <param name="reference">Referenced worksheet which contains the cell</param>
         public Cell(object value, CellType type, int column, int row, Worksheet reference) : this(value, type)
         {
             this.ColumnAddress = column;
@@ -143,18 +156,56 @@ namespace PicoXLSX
             	ResolveCellType();
             }
         }
+#endregion
+
+#region methods
+        /// <summary>
+        /// Implemented CompareTo method
+        /// </summary>
+        /// <param name="other">Object to compare</param>
+        /// <returns>0 if values are the same, -1 if this object is smaller, 1 if it is bigger</returns>
+        public int CompareTo(Cell other)
+        {
+            if (this.RowAddress == other.RowAddress)
+            {
+                return this.ColumnAddress.CompareTo(other.ColumnAddress);
+            }
+            else
+            {
+                return this.RowAddress.CompareTo(other.RowAddress);
+            }
+        }
+
+        /// <summary>
+        /// Removes the assigned style from the cell
+        /// </summary>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style cannot be referenced</exception>
+        public void RemoveStyle()
+        {
+            if (this.WorksheetReference == null)
+            {
+                throw new UndefinedStyleException("No worksheet reference was defined while trying to remove a style from a cell");
+            }
+            if (this.WorksheetReference.WorkbookReference == null)
+            {
+                throw new UndefinedStyleException("No workbook reference was defined on the worksheet while trying to remove a style from a cell");
+            }
+            string styleName = this.cellStyle.Name;
+            this.cellStyle = null;
+            this.WorksheetReference.WorkbookReference.RemoveStyle(styleName, true);
+        }
 
         /// <summary>
         /// Method resets the Cell type an tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellTypes FORMULA and EMPTY will skip this method
         /// </summary>
         public void ResolveCellType()
         {
-	        if(this.Value == null)
-	        {
-	            this.Fieldtype = CellType.EMPTY;
-	            this.Value = "";
-	            return;
-	        }          	
+            if (this.Value == null)
+            {
+                this.Fieldtype = CellType.EMPTY;
+                this.Value = "";
+                return;
+            }
             if (this.Fieldtype == CellType.FORMULA || this.Fieldtype == CellType.EMPTY) { return; }
             Type t = this.Value.GetType();
             if (t == typeof(int)) { this.Fieldtype = CellType.NUMBER; }
@@ -166,7 +217,28 @@ namespace PicoXLSX
             else { this.Fieldtype = CellType.STRING; } // Default
         }
 
-
+        /// <summary>
+        /// Sets the lock state of the cell
+        /// </summary>
+        /// <param name="isLocked">If true, the cell will be locked if the worksheet is protected</param>
+        /// <param name="isHidden">If true, the value of the cell will be invisible if the worksheet is protected</param>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style used to lock cells cannot be referenced</exception>
+        /// <remarks>The listed exception should never happen because the mentioned style is internally generated</remarks>
+        public void SetCellLockedState(bool isLocked, bool isHidden)
+        {
+            Style lockStyle;
+            if (this.cellStyle == null)
+            {
+                lockStyle = new Style();
+            }
+            else
+            {
+                lockStyle = this.cellStyle.Copy();
+            }
+            lockStyle.CurrentCellXf.Locked = isLocked;
+            lockStyle.CurrentCellXf.Hidden = isHidden;
+            this.SetStyle(lockStyle);
+        }
 
         /// <summary>
         /// Sets the style of the cell
@@ -192,44 +264,9 @@ namespace PicoXLSX
             this.cellStyle = s;
             return s;
         }
+#endregion
 
-        /// <summary>
-        /// Removes the assigned style from the cell
-        /// </summary>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style cannot be referenced</exception>
-        public void RemoveStyle()
-        {
-            if (this.WorksheetReference == null)
-            {
-                throw new UndefinedStyleException("No worksheet reference was defined while trying to remove a style from a cell");
-            }
-            if (this.WorksheetReference.WorkbookReference == null)
-            {
-                throw new UndefinedStyleException("No workbook reference was defined on the worksheet while trying to remove a style from a cell");
-            }
-            string styleName = this.cellStyle.Name;
-            this.cellStyle = null;
-            this.WorksheetReference.WorkbookReference.RemoveStyle(styleName, true);
-        }
-
-
-        /// <summary>
-        /// Implemented CompareTo method
-        /// </summary>
-        /// <param name="other">Object to compare</param>
-        /// <returns>0 if values are the same, -1 if this object is smaller, 1 if it is bigger</returns>
-        public int CompareTo(Cell other)
-        {
-            if (this.RowAddress == other.RowAddress)
-            {
-                return this.ColumnAddress.CompareTo(other.ColumnAddress);
-            }
-            else
-            {
-                return this.RowAddress.CompareTo(other.RowAddress);
-            }
-        }
-
+#region staticMethods
         /// <summary>
         /// Converts a List of supported objects into a list of cells
         /// </summary>
@@ -242,7 +279,7 @@ namespace PicoXLSX
             Cell c;
             object o;
             Type t;
-            foreach(T item in list)
+            foreach (T item in list)
             {
                 o = (object)item;
                 t = item.GetType();
@@ -368,27 +405,6 @@ namespace PicoXLSX
                 }
             }
             return output;
-        }     
-        
-        /// <summary>
-        /// Resolves a cell range from the format like  A1:B3 or AAD556:AAD1000
-        /// </summary>
-        /// <param name="range">Range to process</param>
-        /// <returns>Range object</returns>
-        /// <exception cref="FormatException">Throws a FormatException if the start or end address was malformed</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the range is out of range (A-XFD and 1 to 1048576) </exception>
-        public static Range ResolveCellRange(string range)
-        {
-            if (string.IsNullOrEmpty(range))
-            {
-                throw new FormatException("The cell range is null or empty and could not be resolved");
-            }
-            string[] split = range.Split(':');
-            if (split.Length != 2)
-            {
-                throw new FormatException("The cell range (" + range + ") is malformed and could not be resolved");
-            }
-            return new Range(ResolveCellCoordinate(split[0]), ResolveCellCoordinate(split[1]));
         }
 
         /// <summary>
@@ -402,9 +418,23 @@ namespace PicoXLSX
         {
             if (column > Worksheet.MAX_COLUMN_ADDRESS || column < Worksheet.MIN_COLUMN_ADDRESS)
             {
-                throw new OutOfRangeException("The column number (" + column.ToString() + ") is out of range. Range is from " +Worksheet.MIN_COLUMN_ADDRESS.ToString()+ " to " + Worksheet.MAX_COLUMN_ADDRESS.ToString() + " (" +(Worksheet.MAX_COLUMN_ADDRESS + 1).ToString()+ " columns).");
+                throw new OutOfRangeException("The column number (" + column.ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_ADDRESS.ToString() + " to " + Worksheet.MAX_COLUMN_ADDRESS.ToString() + " (" + (Worksheet.MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
             }
             return ResolveColumnAddress(column) + (row + 1).ToString();
+        }
+
+        /// <summary>
+        /// Gets the column and row number (zero based) of a cell by the address
+        /// </summary>
+        /// <param name="address">Address as string in the format A1 - XFD1048576</param>
+        /// <returns>Struct with row and column</returns>
+        /// <exception cref="FormatException">Throws a FormatException if the passed address is malformed</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the value of the passed address is out of range (A-XFD and 1 to 1048576) </exception>
+        public static Address ResolveCellCoordinate(string address)
+        {
+            int row, column;
+            ResolveCellCoordinate(address, out column, out row);
+            return new Address(column, row);
         }
 
         /// <summary>
@@ -433,12 +463,33 @@ namespace PicoXLSX
             row = digits - 1;
             if (row > Worksheet.MAX_ROW_ADDRESS || row < Worksheet.MIN_ROW_ADDRESS)
             {
-                throw new OutOfRangeException("The row number (" + row.ToString() + ") is out of range. Range is from "+ Worksheet.MIN_ROW_ADDRESS.ToString()+" to " + Worksheet.MAX_ROW_ADDRESS.ToString() + " (" + (Worksheet.MAX_ROW_ADDRESS + 1).ToString() + " rows).");
+                throw new OutOfRangeException("The row number (" + row.ToString() + ") is out of range. Range is from " + Worksheet.MIN_ROW_ADDRESS.ToString() + " to " + Worksheet.MAX_ROW_ADDRESS.ToString() + " (" + (Worksheet.MAX_ROW_ADDRESS + 1).ToString() + " rows).");
             }
             if (column > Worksheet.MAX_COLUMN_ADDRESS || column < Worksheet.MIN_COLUMN_ADDRESS)
             {
                 throw new OutOfRangeException("The column number (" + column.ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_ADDRESS.ToString() + " to " + Worksheet.MAX_COLUMN_ADDRESS.ToString() + " (" + (Worksheet.MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
             }
+        }
+
+        /// <summary>
+        /// Resolves a cell range from the format like  A1:B3 or AAD556:AAD1000
+        /// </summary>
+        /// <param name="range">Range to process</param>
+        /// <returns>Range object</returns>
+        /// <exception cref="FormatException">Throws a FormatException if the start or end address was malformed</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the range is out of range (A-XFD and 1 to 1048576) </exception>
+        public static Range ResolveCellRange(string range)
+        {
+            if (string.IsNullOrEmpty(range))
+            {
+                throw new FormatException("The cell range is null or empty and could not be resolved");
+            }
+            string[] split = range.Split(':');
+            if (split.Length != 2)
+            {
+                throw new FormatException("The cell range (" + range + ") is malformed and could not be resolved");
+            }
+            return new Range(ResolveCellCoordinate(split[0]), ResolveCellCoordinate(split[1]));
         }
 
         /// <summary>
@@ -476,7 +527,7 @@ namespace PicoXLSX
         {
             if (columnNumber > Worksheet.MAX_COLUMN_ADDRESS || columnNumber < Worksheet.MIN_COLUMN_ADDRESS)
             {
-                throw new OutOfRangeException("The column number (" + columnNumber.ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_ADDRESS.ToString() + " to " + Worksheet.MAX_COLUMN_ADDRESS.ToString() + " (" + (Worksheet.MAX_COLUMN_ADDRESS+1).ToString() + " columns).");
+                throw new OutOfRangeException("The column number (" + columnNumber.ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_ADDRESS.ToString() + " to " + Worksheet.MAX_COLUMN_ADDRESS.ToString() + " (" + (Worksheet.MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
             }
             // A - XFD
             int j = 0;
@@ -502,43 +553,9 @@ namespace PicoXLSX
             sb.Append((char)(j + 64));
             return sb.ToString();
         }
+#endregion
 
-        /// <summary>
-        /// Sets the lock state of the cell
-        /// </summary>
-        /// <param name="isLocked">If true, the cell will be locked if the worksheet is protected</param>
-        /// <param name="isHidden">If true, the value of the cell will be invisible if the worksheet is protected</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style used to lock cells cannot be referenced</exception>
-        /// <remarks>The listed exception should never happen because the mentioned style is internally generated</remarks>
-        public void SetCellLockedState(bool isLocked, bool isHidden)
-        {
-            Style lockStyle;
-            if (this.cellStyle == null)
-            {
-                lockStyle = new Style();
-            }
-            else
-            {
-                lockStyle = this.cellStyle.Copy();
-            }
-            lockStyle.CurrentCellXf.Locked = isLocked;
-            lockStyle.CurrentCellXf.Hidden = isHidden;
-            this.SetStyle(lockStyle);
-        }
-
-        /// <summary>
-        /// Gets the column and row number (zero based) of a cell by the address
-        /// </summary>
-        /// <param name="address">Address as string in the format A1 - XFD1048576</param>
-        /// <returns>Struct with row and column</returns>
-        /// <exception cref="FormatException">Throws a FormatException if the passed address is malformed</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the value of the passed address is out of range (A-XFD and 1 to 1048576) </exception>
-        public static Address ResolveCellCoordinate(string address)
-        {
-            int row, column;
-            ResolveCellCoordinate(address, out column, out row);
-            return new Address(column, row);
-        }
+#region subClasses
 
         /// <summary>
         /// Struct representing the cell address as column and row (zero based)
@@ -546,14 +563,14 @@ namespace PicoXLSX
         public struct Address
         {
             /// <summary>
-            /// Row number (zero based)
-            /// </summary>
-            public int Row;
-            /// <summary>
             /// Column number (zero based)
             /// </summary>
             public int Column;
-
+            /// <summary>
+            /// Row number (zero based)
+            /// </summary>
+            public int Row;
+            
             /// <summary>
             /// Constructor with arguments
             /// </summary>
@@ -591,13 +608,13 @@ namespace PicoXLSX
         public struct Range
         {
             /// <summary>
-            /// Start address of the range
-            /// </summary>
-            public Address StartAddress;
-            /// <summary>
             /// End address of the range
             /// </summary>
             public Address EndAddress;
+            /// <summary>
+            /// Start address of the range
+            /// </summary>
+            public Address StartAddress;
 
             /// <summary>
             /// Constructor with arguments
@@ -619,6 +636,8 @@ namespace PicoXLSX
             }
 
         }
+
+#endregion
 
     }
 }

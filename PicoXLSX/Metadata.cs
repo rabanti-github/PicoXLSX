@@ -16,29 +16,11 @@ namespace PicoXLSX
     public class Metadata
     {
 
+#region privateFields
         private string applicationVersion;
+#endregion
 
-
-        /// <summary>
-        /// If true, custom defined colors (in styles) will be added as recent colors (MRU)
-        /// </summary>
-        public bool UseColorMRU { get; set; }
-        /// <summary>
-        /// Title of the workbook
-        /// </summary>
-        public string Title { get; set; }
-        /// <summary>
-        /// Subject of the workbook
-        /// </summary>
-        public string Subject { get; set; }
-        /// <summary>
-        /// Creator of the workbook. Add more than one creator by using the semicolon (;) between the authors
-        /// </summary>
-        public string Creator { get; set; }
-        /// <summary>
-        /// Keywords for the workbook. Separate the keywords with semicolons (;)
-        /// </summary>
-        public string Keywords { get; set; }
+#region properties
         /// <summary>
         /// Application which created the workbook. Default is PicoXLSX
         /// </summary>
@@ -50,36 +32,58 @@ namespace PicoXLSX
         {
             get { return applicationVersion; }
             set
-            { 
+            {
                 applicationVersion = value;
                 CheckVersion();
             }
         }
         /// <summary>
-        /// Description of the document or comment about it
-        /// </summary>
-        public string Description { get; set; }
-        /// <summary>
         /// Category of the document. There are no predefined values or restrictions about the content of this field
         /// </summary>
         public string Category { get; set; }
-        /// <summary>
-        /// Status of the document. There are no predefined values or restrictions about the content of this field
-        /// </summary>
-        public string ContentStatus { get; set; }
-        /// <summary>
-        /// Responsible manager of the document. This value is for organizational purpose.
-        /// </summary>
-        public string Manager { get; set; }
         /// <summary>
         /// Company owning the document. This value is for organizational purpose. Add more than one manager by using the semicolon (;) between the words
         /// </summary>
         public string Company { get; set; }
         /// <summary>
+        /// Status of the document. There are no predefined values or restrictions about the content of this field
+        /// </summary>
+        public string ContentStatus { get; set; }
+        /// <summary>
+        /// Creator of the workbook. Add more than one creator by using the semicolon (;) between the authors
+        /// </summary>	
+        public string Creator { get; set; }
+        /// <summary>
+        /// Description of the document or comment about it
+        /// </summary>
+        public string Description { get; set; }
+        /// <summary>
         /// Hyper-link base of the document.
         /// </summary>
         public string HyperlinkBase { get; set; }
+        /// <summary>
+        /// Keywords for the workbook. Separate the keywords with semicolons (;)
+        /// </summary>
+        public string Keywords { get; set; }
+        /// <summary>
+        /// Responsible manager of the document. This value is for organizational purpose.
+        /// </summary>
+        public string Manager { get; set; }
+        /// <summary>
+        /// Subject of the workbook
+        /// </summary>
+        public string Subject { get; set; }
+        /// <summary>
+        /// Title of the workbook
+        /// </summary>
+        public string Title { get; set; }
+        /// <summary>
+        /// If true, custom defined colors (in styles) will be added as recent colors (MRU)
+        /// </summary>
+        public bool UseColorMRU { get; set; }
+#endregion
 
+#region constructors
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -91,7 +95,32 @@ namespace PicoXLSX
             Version vi = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             this.ApplicationVersion = ParseVersion(vi.Major, vi.Minor, vi.Revision, vi.Build);
         }
+#endregion
 
+#region methods
+        /// <summary>
+        /// Checks the format of the passed version string
+        /// </summary>
+        /// <exception cref="FormatException">Throws a FormatException if the version string is malformed</exception>
+        private void CheckVersion()
+        {
+            if (string.IsNullOrEmpty(this.applicationVersion)) { return; }
+            string[] split = this.applicationVersion.Split('.');
+            bool state = true;
+            if (split.Length != 2) { state = false; }
+            else
+            {
+                if (split[1].Length < 1 || split[1].Length > 5) { state = false; }
+                if (split[0].Length < 1 || split[0].Length > 5) { state = false; }
+            }
+            if (state == false)
+            {
+                throw new FormatException("The format of the version in the meta data is wrong (" + this.applicationVersion + "). Should be in the format and a range from '0.0' to '99999.99999'");
+            }
+        }
+#endregion
+
+#region staticMethods
         /// <summary>
         /// Method to parse a common version (major.minor.revision.build) into the compatible format (major.minor). The minimum value is 0.0 and the maximum value is 99999.99999<br></br>
         /// The minor, revision and build number are joined if possible. If the number is to long, the additional characters will be removed from the right side down to five characters (e.g. 785563 will be 78556)
@@ -126,27 +155,6 @@ namespace PicoXLSX
             }
             return leftPart + "." + rightPart;
         }
-
-        /// <summary>
-        /// Checks the format of the passed version string
-        /// </summary>
-        /// <exception cref="FormatException">Throws a FormatException if the version string is malformed</exception>
-        private void CheckVersion()
-        {
-            if (string.IsNullOrEmpty(this.applicationVersion)) { return; }
-            string[] split = this.applicationVersion.Split('.');
-            bool state = true;
-            if (split.Length != 2) { state = false; }
-            else
-            {
-                if (split[1].Length < 1 || split[1].Length > 5) { state = false; }
-                if (split[0].Length < 1 || split[0].Length > 5) { state = false; }
-            }
-            if (state == false)
-            {
-                throw new FormatException("The format of the version in the meta data is wrong (" + this.applicationVersion + "). Should be in the format and a range from '0.0' to '99999.99999'");
-            }
-        }
-
+#endregion
     }
 }

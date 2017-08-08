@@ -1,9 +1,17 @@
+v1.6.1 08.08.2017
+******************
+Note: Due to a (now fixed) typo in a public parameter name, it is possible that some function calls on existing code must be fixed too (just renaming).
+- Fixed typos (parameters and text)
+- Minor optimization
+- Complete reformatting of code (alphabetical order & regions)
+- HTML documentation moved to folder 'docs' to provide an automatic API documentation on the hosting platform
+
 v1.6.0 07.04.2017
 ******************
 Note: Using this version of the library with old code can cause compatibility issues due to the simplification of some methods (see below).
 - Simplified all style assignment methods. Referencing of the workbook is not necessary anymore (can cause compatibility issues with existing code; just remove the workbook references)
-- Removed SetCellAddress Method. Replaced with Getters and Setters
-- Due to the impossibility of overloading getters and setters, two getters and setters "CellAddress"(string-based) and "CellAddress2" (number based) are introduces
+- Removed SetCellAddress Method. Replaced by Getters and Setters
+- Due to the impossibility of overloading getters and setters, two getters and setters "CellAddress"(string-based) and "CellAddress2" (number based) are introduced
 - Fixed a bug in the handling of style assignment
 - Additional checks in the assignment methods for columns and rows
 - Minor changes (code and documentation)

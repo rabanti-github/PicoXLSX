@@ -19,23 +19,6 @@ namespace PicoXLSX
 
 #region constants
         /// <summary>
-        /// Minimum row address (zero-based) as constant
-        /// </summary>
-        public const int MIN_ROW_ADDRESS = 0;
-        /// <summary>
-        /// Maximum row address (zero-based) as constant
-        /// </summary>
-        public const int MAX_ROW_ADDRESS = 1048575;
-        /// <summary>
-        /// Minimum column address (zero-based) as constant
-        /// </summary>
-        public const int MIN_COLUMN_ADDRESS = 0;
-        /// <summary>
-        /// Maximum column address (zero-based) as constant
-        /// </summary>
-        public const int MAX_COLUMN_ADDRESS = 16383;
-
-        /// <summary>
         /// Default column width as constant
         /// </summary>
         public const float DEFAULT_COLUMN_WIDTH = 10f;
@@ -43,19 +26,34 @@ namespace PicoXLSX
         /// Default row height as constant
         /// </summary>
         public const float DEFAULT_ROW_HEIGHT = 15f;
-
+        /// <summary>
+        /// Maximum column address (zero-based) as constant
+        /// </summary>
+        public const int MAX_COLUMN_ADDRESS = 16383;
+        /// <summary>
+        /// Minimum column address (zero-based) as constant
+        /// </summary>
+        public const int MIN_COLUMN_ADDRESS = 0;
         /// <summary>
         /// Minimum column width as constant
         /// </summary>
         public const float MIN_COLUMN_WIDTH = 0f;
         /// <summary>
+        /// Minimum row height as constant
+        /// </summary>
+        public const float MIN_ROW_HEIGHT = 0f;
+        /// <summary>
         /// Maximum column width as constant
         /// </summary>
         public const float MAX_COLUMN_WIDTH = 255f;
         /// <summary>
-        /// Minimum row height as constant
+        /// Maximum row address (zero-based) as constant
         /// </summary>
-        public const float MIN_ROW_HEIGHT = 0f;
+        public const int MAX_ROW_ADDRESS = 1048575;
+        /// <summary>
+        /// Minimum row address (zero-based) as constant
+        /// </summary>
+        public const int MIN_ROW_ADDRESS = 0;
         /// <summary>
         /// Maximum row height as constant
         /// </summary>
@@ -69,7 +67,7 @@ namespace PicoXLSX
         public enum CellDirection
         {
             /// <summary>The next cell will be on the same row (A1,B1,C1...)</summary>
-            ColumnToColum,
+            ColumnToColumn,
             /// <summary>The next cell will be on the same column (A1,A2,A3...)</summary>
             RowToRow
         }
@@ -113,8 +111,8 @@ namespace PicoXLSX
         }
 #endregion
 
+#region privateFields
         private Style activeStyle;
-        private Workbook workbookReference;
         private string sheetName;
         private int currentRowNumber;
         private int currentColumnNumber;
@@ -125,29 +123,13 @@ namespace PicoXLSX
         private Dictionary<int, float> rowHeights;
         private Dictionary<int, bool> hiddenRows;
         private Dictionary<string, Cell.Range> mergedCells;
-        private bool useSheetProtection;
         private List<SheetProtectionValue> sheetProtectionValues;
         private string sheetProtectionPassword;
         private Nullable<Cell.Range> autoFilterRange;
         private Nullable<Cell.Range> selectedCells;
+#endregion
 
-        /// <summary>
-        /// Cell range of selected cells of this worksheet. Null if no cells are selected
-        /// </summary>
-        public Nullable<Cell.Range> SelectedCells
-        {
-            get { return selectedCells; }
-        }
-        
-
-        /// <summary>
-        /// Dictionary of all columns with non-standard properties, like auto filter applied or a special width
-        /// </summary>
-        public Dictionary<int, Column> Columns
-        {
-            get { return columns; }
-        }
-
+#region properties
         /// <summary>
         /// Range of the auto-filter. Wrapped to Nullable to provide null as value. If null, no auto-filter is applied
         /// </summary>
@@ -155,52 +137,6 @@ namespace PicoXLSX
         {
             get { return autoFilterRange; }
         }
-         
-
-        /// <summary>
-        /// Direction when using AddNextCell method
-        /// </summary>
-        public CellDirection CurrentCellDirection { get; set; }
-
-        /// <summary>
-        /// List of SheetProtectionValue. These values defines the allowed actions if the worksheet is protected
-        /// </summary>
-        public List<SheetProtectionValue> SheetProtectionValues
-        {
-            get { return sheetProtectionValues; }
-        }
-
-        /// <summary>
-        /// If true, the worksheet is protected
-        /// </summary>
-        public bool UseSheetProtection
-        {
-            get { return useSheetProtection; }
-            set { useSheetProtection = value; }
-        }
-
-        /// <summary>
-        /// Gets the password used for sheet protection
-        /// </summary>
-        /// <see cref="SetSheetProtectionPassword"/>
-        public string SheetProtectionPassword
-        {
-            get { return sheetProtectionPassword; }
-        }
-
-        /// <summary>
-        /// Name of the worksheet
-        /// </summary>
-        public string SheetName
-        {
-            get { return sheetName; }
-            set { SetSheetname(value); }
-        }
-        
-        /// <summary>
-        /// Internal ID of the sheet
-        /// </summary>
-        public int SheetID { get; set; }
 
         /// <summary>
         /// Cells of the worksheet
@@ -211,11 +147,33 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Dictionary with merged cells (only references)
+        /// Dictionary of all columns with non-standard properties, like auto filter applied or a special width
         /// </summary>
-        public Dictionary<string, Cell.Range> MergedCells
+        public Dictionary<int, Column> Columns
         {
-            get { return mergedCells; }
+            get { return columns; }
+        }
+
+        /// <summary>
+        /// Direction when using AddNextCell method
+        /// </summary>
+        public CellDirection CurrentCellDirection { get; set; }
+
+        /// <summary>
+        /// Default column width
+        /// </summary>
+        /// <exception cref="OutOfRangeException">Throws a OutOfRangeException exception if the passed width is out of range (set)</exception>
+        public float DefaultColumnWidth
+        {
+            get { return defaultColumnWidth; }
+            set
+            {
+                if (value < MIN_COLUMN_WIDTH || value > MAX_COLUMN_WIDTH)
+                {
+                    throw new OutOfRangeException("The passed default column width is out of range (" + MIN_COLUMN_WIDTH.ToString() + " to " + MAX_COLUMN_WIDTH.ToString() + ")");
+                }
+                defaultColumnWidth = value;
+            }
         }
 
         /// <summary>
@@ -224,40 +182,15 @@ namespace PicoXLSX
         /// <exception cref="OutOfRangeException">Throws a OutOfRangeException exception if the passed height is out of range (set)</exception>
         public float DefaultRowHeight
         {
-          get { return defaultRowHeight; }
-          set 
-          { 
-              if (value < MIN_ROW_HEIGHT || value > MAX_ROW_HEIGHT)
-              {
-                  throw new OutOfRangeException("The passed default row height is out of range (" + MIN_ROW_HEIGHT.ToString() + " to " + MAX_ROW_HEIGHT.ToString() + ")");
-              }
-              defaultRowHeight = value;
-          }
-        }
-
-        /// <summary>
-        /// Default column width
-        /// </summary>
-        /// <exception cref="OutOfRangeException">Throws a OutOfRangeException exception if the passed width is out of range (set)</exception>
-        public float DefaultColumnWidth
-        {
-          get { return defaultColumnWidth; }
-          set 
-          {
-              if (value < MIN_COLUMN_WIDTH || value > MAX_COLUMN_WIDTH)
-              {
-                  throw new OutOfRangeException("The passed default column width is out of range (" + MIN_COLUMN_WIDTH.ToString() + " to " + MAX_COLUMN_WIDTH.ToString() + ")");
-              }
-              defaultColumnWidth = value;
-          }
-        }
-
-        /// <summary>
-        /// Dictionary of row heights. Key is the row number (zero-based), value is a float from 0 to 409.5
-        /// </summary>
-        public Dictionary<int, float> RowHeights
-        {
-            get { return rowHeights; }
+            get { return defaultRowHeight; }
+            set
+            {
+                if (value < MIN_ROW_HEIGHT || value > MAX_ROW_HEIGHT)
+                {
+                    throw new OutOfRangeException("The passed default row height is out of range (" + MIN_ROW_HEIGHT.ToString() + " to " + MAX_ROW_HEIGHT.ToString() + ")");
+                }
+                defaultRowHeight = value;
+            }
         }
 
         /// <summary>
@@ -270,33 +203,91 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets or sets the Reference to the parent Workbook
+        /// Dictionary with merged cells (only references)
         /// </summary>
-        public Workbook WorkbookReference
+        public Dictionary<string, Cell.Range> MergedCells
         {
-            get { return this.workbookReference; }
-            set { this.workbookReference = value; }
+            get { return mergedCells; }
         }
 
+        /// <summary>
+        /// Dictionary of row heights. Key is the row number (zero-based), value is a float from 0 to 409.5
+        /// </summary>
+        public Dictionary<int, float> RowHeights
+        {
+            get { return rowHeights; }
+        }
 
+        /// <summary>
+        /// Cell range of selected cells of this worksheet. Null if no cells are selected
+        /// </summary>
+        public Nullable<Cell.Range> SelectedCells
+        {
+            get { return selectedCells; }
+        }
+
+        /// <summary>
+        /// Internal ID of the sheet
+        /// </summary>
+        public int SheetID { get; set; }
+
+        /// <summary>
+        /// Name of the worksheet
+        /// </summary>
+        public string SheetName
+        {
+            get { return sheetName; }
+            set { SetSheetname(value); }
+        }
+
+        /// <summary>
+        /// Gets the password used for sheet protection
+        /// </summary>
+        /// <see cref="SetSheetProtectionPassword"/>
+        public string SheetProtectionPassword
+        {
+            get { return sheetProtectionPassword; }
+        }
+
+        /// <summary>
+        /// List of SheetProtectionValue. These values defines the allowed actions if the worksheet is protected
+        /// </summary>
+        public List<SheetProtectionValue> SheetProtectionValues
+        {
+            get { return sheetProtectionValues; }
+        }
+
+        /// <summary>
+        /// If true, the worksheet is protected
+        /// </summary>
+        public bool UseSheetProtection { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Reference to the parent Workbook
+        /// </summary>
+        public Workbook WorkbookReference { get; set; } 
+#endregion
+
+
+#region constructors
         /// <summary>
         /// Default Constructor
         /// </summary>
         public Worksheet()
         {
-            this.CurrentCellDirection = CellDirection.ColumnToColum;
+            this.CurrentCellDirection = CellDirection.ColumnToColumn;
             this.cells = new Dictionary<string, Cell>();
             this.currentRowNumber = 0;
             this.currentColumnNumber = 0;
             this.defaultColumnWidth = DEFAULT_COLUMN_WIDTH;
             this.defaultRowHeight = DEFAULT_ROW_HEIGHT;
             this.rowHeights = new Dictionary<int, float>();
-            this.mergedCells = new Dictionary<string,Cell.Range>();
+            this.mergedCells = new Dictionary<string, Cell.Range>();
             this.sheetProtectionValues = new List<SheetProtectionValue>();
             this.hiddenRows = new Dictionary<int, bool>();
             this.columns = new Dictionary<int, Column>();
             this.activeStyle = null;
-            this.workbookReference = null;
+            this.WorkbookReference = null;
         }
 
         /// <summary>
@@ -305,26 +296,18 @@ namespace PicoXLSX
         /// <param name="name">Name of the worksheet</param>
         /// <param name="id">ID of the worksheet (for internal use)</param>
         /// <param name="reference">Reference to the parent Workbook</param>
-        public Worksheet(string name, int id, Workbook reference) : this()
+        public Worksheet(string name, int id, Workbook reference)
+            : this()
         {
             SetSheetname(name);
             this.SheetID = id;
-            this.workbookReference = reference;
+            this.WorkbookReference = reference;
         }
+#endregion
 
-#region AddNextCell
 
-        
-        /// <summary>
-        /// Adds a formula as string to the next cell position
-        /// </summary>
-        /// <param name="formula">Formula to insert</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        public void AddNextCellFormula(string formula)
-        {
-            Cell c = new Cell(formula, Cell.CellType.FORMULA, this.currentColumnNumber, this.currentRowNumber, this);
-            AddNextCell(c, true);
-        }
+
+#region methods_AddNextCell
 
         /// <summary>
         /// Adds a object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String
@@ -361,7 +344,7 @@ namespace PicoXLSX
             }
             if (incremental == true)
             {
-                if (this.CurrentCellDirection == CellDirection.ColumnToColum)
+                if (this.CurrentCellDirection == CellDirection.ColumnToColumn)
                 {
                     this.currentColumnNumber++;
                 }
@@ -372,7 +355,7 @@ namespace PicoXLSX
             }
             else
             {
-                if (this.CurrentCellDirection == CellDirection.ColumnToColum)
+                if (this.CurrentCellDirection == CellDirection.ColumnToColumn)
                 {
                     this.currentColumnNumber = cell.ColumnAddress + 1;
                     this.currentRowNumber = cell.RowAddress;
@@ -383,11 +366,21 @@ namespace PicoXLSX
                     this.currentRowNumber = cell.RowAddress + 1;
                 }
             }
-        }
+        }        
 
+        /// <summary>
+        /// Adds a formula as string to the next cell position
+        /// </summary>
+        /// <param name="formula">Formula to insert</param>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
+        public void AddNextCellFormula(string formula)
+        {
+            Cell c = new Cell(formula, Cell.CellType.FORMULA, this.currentColumnNumber, this.currentRowNumber, this);
+            AddNextCell(c, true);
+        }
 #endregion
 
-#region AddCell
+#region methods_AddCell
 
         /// <summary>
         /// Adds a object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
@@ -432,7 +425,7 @@ namespace PicoXLSX
 
 #endregion
 
-#region AddCellFormula
+#region methods_AddCellFormula
         /// <summary>
         /// Adds a cell formula as string to the defined cell address
         /// </summary>
@@ -464,7 +457,7 @@ namespace PicoXLSX
         }
 #endregion
 
-#region AddCellRange
+#region methods_AddCellRange
 
         /// <summary>
         /// Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
@@ -524,7 +517,7 @@ namespace PicoXLSX
         }
 #endregion
 
-#region RemoveCell
+#region methods_RemoveCell
         /// <summary>
         /// Removes a previous inserted cell at the defined address
         /// </summary>
@@ -535,15 +528,7 @@ namespace PicoXLSX
         public bool RemoveCell(int columnAddress, int rowAddress)
         {
             string address = Cell.ResolveCellAddress(columnAddress, rowAddress);
-            if (this.cells.ContainsKey(address))
-            {
-                this.cells.Remove(address);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return this.cells.Remove(address);
         }
 
         /// <summary>
@@ -561,6 +546,64 @@ namespace PicoXLSX
         }
 #endregion
 
+#region common_methods
+
+        /// <summary>
+        /// Method to add allowed actions if the worksheet is protected. If one or more values are added, UseSheetProtection will be set to true
+        /// </summary>
+        /// <param name="typeOfProtection">Allowed action on the worksheet or cells</param>
+        public void AddAllowedActionOnSheetProtection(SheetProtectionValue typeOfProtection)
+        {
+            if (this.sheetProtectionValues.Contains(typeOfProtection) == false)
+            {
+                if (typeOfProtection == SheetProtectionValue.selectLockedCells && this.sheetProtectionValues.Contains(SheetProtectionValue.selectUnlockedCells) == false)
+                {
+                    this.sheetProtectionValues.Add(SheetProtectionValue.selectUnlockedCells);
+                }
+                this.sheetProtectionValues.Add(typeOfProtection);
+                this.UseSheetProtection = true;
+            }
+        }
+
+        /// <summary>
+        /// Sets the defined column as hidden
+        /// </summary>
+        /// <param name="columnNumber">Column number to hide on the worksheet</param>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRange if the passed column number is out of range</exception>
+        public void AddHiddenColumn(int columnNumber)
+        {
+            SetColumnHiddenState(columnNumber, true);
+        }
+
+        /// <summary>
+        /// Sets the defined column as hidden
+        /// </summary>
+        /// <param name="columnAddress">Column address to hide on the worksheet</param>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRange if the passed column address is out of range</exception>
+        public void AddHiddenColumn(string columnAddress)
+        {
+            int columnNumber = Cell.ResolveColumn(columnAddress);
+            SetColumnHiddenState(columnNumber, true);
+        }
+
+        /// <summary>
+        /// Sets the defined row as hidden
+        /// </summary>
+        /// <param name="rowNumber">Row number to hide on the worksheet</param>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRange if the passed row number is out of range</exception>
+        public void AddHiddenRow(int rowNumber)
+        {
+            SetRowHiddenState(rowNumber, true);
+        }
+
+        /// <summary>
+        /// Clears the active style of the worksheet. All later added calls will contain no style unless another active style is set
+        /// </summary>
+        public void ClearActiveStyle()
+        {
+            this.activeStyle = null;
+        }
+
         /// <summary>
         /// Moves the current position to the next column
         /// </summary>
@@ -577,166 +620,6 @@ namespace PicoXLSX
         {
             this.currentRowNumber++;
             this.currentColumnNumber = 0;
-        }
-
-        /// <summary>
-        /// Sets the current row address (row number, zero based)
-        /// </summary>
-        /// <param name="rowAddress">Row number (zero based)</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the address is out of the valid range. Range is from 0 to 1048575 (1048576 rows)</exception>
-        public void SetCurrentRowAddress(int rowAddress)
-        {
-            if (rowAddress > MAX_ROW_ADDRESS || rowAddress < 0)
-            {
-                throw new OutOfRangeException("The row number (" + rowAddress.ToString() + ") is out of range. Range is from 0 to " + MAX_ROW_ADDRESS.ToString() + " (" + (MAX_ROW_ADDRESS + 1).ToString() +" rows).");
-            }
-            this.currentRowNumber = rowAddress;
-        }
-
-        /// <summary>
-        /// Sets the current column address (column number, zero based)
-        /// </summary>
-        /// <param name="columnAddress">Column number (zero based)</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the address is out of the valid range. Range is from 0 to 16383 (16384 columns)</exception>
-        public void SetCurrentColumnAddress(int columnAddress)
-        {
-            if (columnAddress > MAX_COLUMN_ADDRESS || columnAddress < MIN_COLUMN_ADDRESS)
-            {
-                throw new OutOfRangeException("The column number (" + columnAddress.ToString() + ") is out of range. Range is from " + MIN_COLUMN_ADDRESS.ToString() + " to " + MAX_COLUMN_ADDRESS.ToString() + " (" + (MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
-            }
-            this.currentColumnNumber = columnAddress;
-        }
-
-        /// <summary>
-        /// Set the current cell address
-        /// </summary>
-        /// <param name="address">Cell address in the format A1 - XFD1048576</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
-        public void SetCurentCellAddress(string address)
-        {
-            int row, column;
-            Cell.ResolveCellCoordinate(address, out column, out row);
-            SetCurentCellAddress(column, row);
-        }
-
-        /// <summary>
-        /// Set the current cell address
-        /// </summary>
-        /// <param name="columnAddress">Column number (zero based)</param>
-        /// <param name="rowAddress">Row number (zero based)</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if one of the passed cell addresses is out of range</exception>
-        public void SetCurentCellAddress(int columnAddress, int rowAddress)
-        {
-            SetCurrentColumnAddress(columnAddress);
-            SetCurrentRowAddress(rowAddress);
-        }
-
-        /// <summary>
-        /// Validates and sets the worksheet name
-        /// </summary>
-        /// <param name="name">Name to set</param>
-        /// <exception cref="FormatException">Throws a FormatException if the sheet name is to long (max. 31) or contains illegal characters [  ]  * ? / \</exception>
-        public void SetSheetname(string name)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new FormatException("The sheet name must be between 1 and 31 characters");
-            }
-            if (name.Length > 31)
-            {
-                throw new FormatException("The sheet name must be between 1 and 31 characters");
-            }
-            Regex rx = new Regex(@"[\[\]\*\?/\\]");
-            Match mx = rx.Match(name);
-            if (mx.Captures.Count > 0)
-            {
-                throw new FormatException(@"The sheet name must not contain the characters [  ]  * ? / \ ");
-            }
-            this.sheetName = name;
-        }
-
-        /// <summary>
-        /// Sets the width of the passed column address
-        /// </summary>
-        /// <param name="columnAddress">Column address (A - XFD)</param>
-        /// <param name="width">Width from 0 to 255.0</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException:<br></br>a) If the passed column address is out of range<br></br>b) if the column width is out of range (0 - 255.0)</exception>
-        public void SetColumnWidth(string columnAddress, float width)
-        {
-            int columnNumber = Cell.ResolveColumn(columnAddress);
-            SetColumnWidth(columnNumber, width);
-        }
-
-        /// <summary>
-        /// Sets the width of the passed column number (zero-based)
-        /// </summary>
-        /// <param name="columnNumber">Column number (zero-based, from 0 to 16383)</param>
-        /// <param name="width">Width from 0 to 255.0</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException:<br></br>a) If the passed column number is out of range<br></br>b) if the column width is out of range (0 - 255.0)</exception>
-        public void SetColumnWidth(int columnNumber, float width)
-        {
-            if (columnNumber > MAX_COLUMN_ADDRESS || columnNumber < MIN_COLUMN_ADDRESS)
-            {
-                throw new OutOfRangeException("The column number (" + columnNumber.ToString() + ") is out of range. Range is from " + MIN_COLUMN_ADDRESS.ToString() + " to " + MAX_COLUMN_ADDRESS.ToString() + " (" + (MAX_COLUMN_ADDRESS+1).ToString() + " columns).");
-            }
-            if (width < MIN_COLUMN_WIDTH || width > MAX_COLUMN_WIDTH)
-            {
-                throw new OutOfRangeException("The column width (" + width.ToString() + ") is out of range. Range is from "+ MIN_COLUMN_WIDTH.ToString() +" to "+ MAX_COLUMN_WIDTH.ToString() +" (chars).");
-            }
-            if (this.columns.ContainsKey(columnNumber))
-            {
-                this.columns[columnNumber].Width = width;
-            }
-            else
-            {
-                Column c = new Column(columnNumber);
-                c.Width = width;
-                this.columns.Add(columnNumber, c);
-            }
-        }
-
-        /// <summary>
-        /// Sets the height of the passed row number (zero-based)
-        /// </summary>
-        /// <param name="rowNumber">Row number (zero-based, 0 to 1048575)</param>
-        /// <param name="height">Height from 0 to 409.5</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException:<br></br>a) If the passed row number is out of range<br></br>b) if the row height is out of range (0 - 409.5)</exception>
-        public void SetRowHeight(int rowNumber, float height)
-        {
-            if (rowNumber > MAX_ROW_ADDRESS || rowNumber < MIN_ROW_ADDRESS)
-            {
-                throw new OutOfRangeException("The row number (" + rowNumber.ToString() + ") is out of range. Range is from " + MIN_ROW_ADDRESS.ToString() + " to " + MAX_ROW_ADDRESS.ToString() + " (" + (MAX_ROW_ADDRESS + 1) + " rows).");
-            }
-            if (height < MIN_ROW_HEIGHT || height > MAX_ROW_HEIGHT)
-            {
-                throw new OutOfRangeException("The row height (" + height.ToString() + ") is out of range. Range is from "+ MIN_ROW_HEIGHT.ToString() +" to "+MAX_ROW_HEIGHT.ToString()+" (equals 546px).");
-            }
-            if (this.rowHeights.ContainsKey(rowNumber))
-            {
-                this.rowHeights[rowNumber] = height;
-            }
-            else
-            {
-                this.rowHeights.Add(rowNumber, height);
-            }
-        }
-
-        /// <summary>
-        /// Sets the active style of the worksheet. This style will be assigned to all later added cells
-        /// </summary>
-        /// <param name="style">Style to set as active style</param>
-        public void SetActiveStyle(Style style)
-        {
-            this.activeStyle = style;
-        }
-
-        /// <summary>
-        /// Clears the active style of the worksheet. All later added calls will contain no style unless another active style is set
-        /// </summary>
-        public void ClearActiveStyle()
-        {
-            this.activeStyle = null;
         }
 
         /// <summary>
@@ -772,7 +655,7 @@ namespace PicoXLSX
         /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if one of the passed cell addresses is out of range</exception>
         public string MergeCells(Cell.Address startAddress, Cell.Address endAddress)
         {
-            
+
             List<Cell.Address> addresses = Cell.GetCellRange(startAddress, endAddress);
             string key = startAddress.ToString() + ":" + endAddress.ToString();
             Cell.Range value = new Cell.Range(startAddress, endAddress);
@@ -784,141 +667,64 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Removes the defined merged cell range
+        /// Method to recalculate the auto filter (columns) of this worksheet. This is an internal method. There is no need to use it. It must be public to require access from the LowLevel class
         /// </summary>
-        /// <param name="range">Cell range to remove the merging</param>
-        /// <exception cref="UnknownRangeException">Throws a UnkownRangeException if the passed cell range was not merged earlier</exception>
-        public void RemoveMergedCells(string range)
+        public void RecalculateAutoFilter()
         {
-            range = range.ToUpper();
-            if (this.mergedCells.ContainsKey(range) == false)
+            if (this.autoFilterRange == null) { return; }
+            int start = this.autoFilterRange.Value.StartAddress.Column;
+            int end = this.autoFilterRange.Value.EndAddress.Column;
+            int endRow = 0;
+            foreach (KeyValuePair<string, Cell> item in this.Cells)
             {
-                throw new UnknownRangeException("The cell range " + range + " was not found in the list of merged cell ranges");
+                if (item.Value.ColumnAddress < start || item.Value.ColumnAddress > end) { continue; }
+                if (item.Value.RowAddress > endRow) { endRow = item.Value.RowAddress; }
             }
-            else
+            Column c;
+            for (int i = start; i <= end; i++)
             {
-                List<Cell.Address> addresses = Cell.GetCellRange(range);
-                Cell cell;
-                foreach(Cell.Address address in addresses)
+                if (this.columns.ContainsKey(i) == false)
                 {
-                    if (this.cells.ContainsKey(addresses.ToString()))
-                    {
-                        cell = this.cells[address.ToString()]; 
-                        cell.Fieldtype = Cell.CellType.DEFAULT; // resets the type
-                        if (cell.Value == null)
-                        {
-                            cell.Value = string.Empty;
-                        }
-                    }
-                }
-                this.mergedCells.Remove(range);
-            }
-        }
-
-
-        /// <summary>
-        /// Method to add allowed actions if the worksheet is protected. If one or more values are added, UseSheetProtection will be set to true
-        /// </summary>
-        /// <param name="typeOfProtection">Allowed action on the worksheet or cells</param>
-        public void AddAllowedActionOnSheetProtection(SheetProtectionValue typeOfProtection)
-        {
-            if (this.sheetProtectionValues.Contains(typeOfProtection) == false)
-            {
-                if (typeOfProtection == SheetProtectionValue.selectLockedCells && this.sheetProtectionValues.Contains(SheetProtectionValue.selectUnlockedCells) == false)
-                {
-                    this.sheetProtectionValues.Add(SheetProtectionValue.selectUnlockedCells);
-                }
-                this.sheetProtectionValues.Add(typeOfProtection);
-                this.UseSheetProtection = true;
-            }
-        }
-
-        /// <summary>
-        /// Sets or removes the password for worksheet protection. If set, UseSheetProtection will be also set to true
-        /// </summary>
-        /// <param name="password">Password (UTF-8) to protect the worksheet. If the password is null or empty, no password will be used</param>
-        public void SetSheetProtectionPassword(string password)
-        {
-            if (string.IsNullOrEmpty(password) == true)
-            {
-                this.sheetProtectionPassword = null;
-                return;
-            }
-            else
-            {
-                this.sheetProtectionPassword = password;
-                this.UseSheetProtection = true;
-            }
-        }
-
-        /// <summary>
-        /// Sets the defined row as hidden
-        /// </summary>
-        /// <param name="rowNumber">Row number to hide on the worksheet</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRange if the passed row number is out of range</exception>
-        public void AddHiddenRow(int rowNumber)
-        {
-            SetRowHiddenState(rowNumber, true);
-        }
-
-        /// <summary>
-        /// Sets a previously defined, hidden row as visible again
-        /// </summary>
-        /// <param name="rowNumber">Row number to hide on the worksheet</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRange if the passed row number is out of range</exception>
-        public void RemoveHiddenRow(int rowNumber)
-        {
-            SetRowHiddenState(rowNumber, false);
-        }
-
-        /// <summary>
-        /// Sets the defined row as hidden or visible
-        /// </summary>
-        /// <param name="rowNumber">Row number to make visible again</param>
-        /// <param name="state">If true, the row will be hidden, otherwise visible</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed row number was out of range</exception>
-        private void SetRowHiddenState(int rowNumber, bool state)
-        {
-            if (rowNumber > MAX_ROW_ADDRESS || rowNumber < MIN_ROW_ADDRESS)
-            {
-                throw new OutOfRangeException("The row number (" + rowNumber.ToString() + ") is out of range. Range is from " + MIN_ROW_ADDRESS + " to " + MAX_ROW_ADDRESS + " (" + (MAX_ROW_ADDRESS + 1).ToString() + " rows).");
-            }
-            if (this.hiddenRows.ContainsKey(rowNumber))
-            {
-                if (state == true)
-                {
-                    this.hiddenRows.Add(rowNumber, state);
+                    c = new Column(i);
+                    c.HasAutoFilter = true;
+                    this.columns.Add(i, c);
                 }
                 else
                 {
-                    this.hiddenRows.Remove(rowNumber);
+                    this.columns[i].HasAutoFilter = true;
                 }
             }
-            else if (state == true)
+            Cell.Range temp = new Cell.Range();
+            temp.StartAddress = new Cell.Address(start, 0);
+            temp.EndAddress = new Cell.Address(end, endRow);
+            this.autoFilterRange = temp;
+        }
+
+        /// <summary>
+        /// Method to recalculate the collection of columns of this worksheet. This is an internal method. There is no need to use it. It must be public to require access from the LowLevel class
+        /// </summary>
+        public void RecalculateColumns()
+        {
+            List<int> columnsToDelete = new List<int>();
+            foreach (KeyValuePair<int, Column> col in this.columns)
             {
-                this.hiddenRows.Add(rowNumber, state);
+                if (col.Value.HasAutoFilter == false && col.Value.IsHidden == false && col.Value.Width != Worksheet.DEFAULT_COLUMN_WIDTH)
+                {
+                    columnsToDelete.Add(col.Key);
+                }
+            }
+            foreach (int index in columnsToDelete)
+            {
+                this.columns.Remove(index);
             }
         }
 
         /// <summary>
-        /// Sets the defined column as hidden
+        /// Removes auto filters from the worksheet
         /// </summary>
-        /// <param name="columnNumber">Column number to hide on the worksheet</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRange if the passed column number is out of range</exception>
-        public void AddHiddenColumn(int columnNumber)
+        public void RemoveAutoFilter()
         {
-            SetColumnHiddenState(columnNumber, true);
-        }
-
-        /// <summary>
-        /// Sets the defined column as hidden
-        /// </summary>
-        /// <param name="columnAddress">Column address to hide on the worksheet</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRange if the passed column address is out of range</exception>
-        public void AddHiddenColumn(string columnAddress)
-        {
-            int columnNumber = Cell.ResolveColumn(columnAddress);
-            SetColumnHiddenState(columnNumber, true);
+            this.autoFilterRange = null;
         }
 
         /// <summary>
@@ -943,27 +749,62 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Sets the defined column as hidden or visible
+        /// Sets a previously defined, hidden row as visible again
         /// </summary>
-        /// <param name="columnNumber">Column number to hide on the worksheet</param>
-        /// <param name="state">If true, the column will be hidden, otherwise be visible</param>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the column address out of range</exception>
-        private void SetColumnHiddenState(int columnNumber, bool state)
+        /// <param name="rowNumber">Row number to hide on the worksheet</param>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRange if the passed row number is out of range</exception>
+        public void RemoveHiddenRow(int rowNumber)
         {
-            if (columnNumber > MAX_COLUMN_ADDRESS || columnNumber < MIN_COLUMN_ADDRESS)
+            SetRowHiddenState(rowNumber, false);
+        }
+
+        /// <summary>
+        /// Removes the defined merged cell range
+        /// </summary>
+        /// <param name="range">Cell range to remove the merging</param>
+        /// <exception cref="UnknownRangeException">Throws a UnkownRangeException if the passed cell range was not merged earlier</exception>
+        public void RemoveMergedCells(string range)
+        {
+            range = range.ToUpper();
+            if (this.mergedCells.ContainsKey(range) == false)
             {
-                throw new OutOfRangeException("The column number (" + columnNumber.ToString() + ") is out of range. Range is from " + MIN_COLUMN_ADDRESS.ToString() + " to " + MAX_COLUMN_ADDRESS.ToString() + " (" + (MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
+                throw new UnknownRangeException("The cell range " + range + " was not found in the list of merged cell ranges");
             }
-            if (this.columns.ContainsKey(columnNumber) && state == true)
+            else
             {
-                this.columns[columnNumber].IsHidden = state;
+                List<Cell.Address> addresses = Cell.GetCellRange(range);
+                Cell cell;
+                foreach (Cell.Address address in addresses)
+                {
+                    if (this.cells.ContainsKey(addresses.ToString()))
+                    {
+                        cell = this.cells[address.ToString()];
+                        cell.Fieldtype = Cell.CellType.DEFAULT; // resets the type
+                        if (cell.Value == null)
+                        {
+                            cell.Value = string.Empty;
+                        }
+                    }
+                }
+                this.mergedCells.Remove(range);
             }
-            else if (state == true)
-            {
-                Column c = new Column(columnNumber);
-                c.IsHidden = state;
-                this.columns.Add(columnNumber, c);
-            }
+        }
+
+        /// <summary>
+        /// Removes the cell selection of this worksheet
+        /// </summary>
+        public void RemoveSelectedCells()
+        {
+            this.selectedCells = null;
+        }
+
+        /// <summary>
+        /// Sets the active style of the worksheet. This style will be assigned to all later added cells
+        /// </summary>
+        /// <param name="style">Style to set as active style</param>
+        public void SetActiveStyle(Style style)
+        {
+            this.activeStyle = style;
         }
 
         /// <summary>
@@ -1008,75 +849,131 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Removes auto filters from the worksheet
+        /// Sets the defined column as hidden or visible
         /// </summary>
-        public void RemoveAutoFilter()
+        /// <param name="columnNumber">Column number to hide on the worksheet</param>
+        /// <param name="state">If true, the column will be hidden, otherwise be visible</param>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the column address out of range</exception>
+        private void SetColumnHiddenState(int columnNumber, bool state)
         {
-            this.autoFilterRange = null;
+            if (columnNumber > MAX_COLUMN_ADDRESS || columnNumber < MIN_COLUMN_ADDRESS)
+            {
+                throw new OutOfRangeException("The column number (" + columnNumber.ToString() + ") is out of range. Range is from " + MIN_COLUMN_ADDRESS.ToString() + " to " + MAX_COLUMN_ADDRESS.ToString() + " (" + (MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
+            }
+            if (this.columns.ContainsKey(columnNumber) && state == true)
+            {
+                this.columns[columnNumber].IsHidden = state;
+            }
+            else if (state == true)
+            {
+                Column c = new Column(columnNumber);
+                c.IsHidden = state;
+                this.columns.Add(columnNumber, c);
+            }
         }
 
         /// <summary>
-        /// Method to recalculate the auto filter (columns) of this worksheet. This is an internal method. There is no need to use it. It must be public to require access from the LowLevel class
+        /// Sets the width of the passed column address
         /// </summary>
-        public void RecalculateAutoFilter()
+        /// <param name="columnAddress">Column address (A - XFD)</param>
+        /// <param name="width">Width from 0 to 255.0</param>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException:<br></br>a) If the passed column address is out of range<br></br>b) if the column width is out of range (0 - 255.0)</exception>
+        public void SetColumnWidth(string columnAddress, float width)
         {
-            if (this.autoFilterRange == null) { return; }
-            int start = this.autoFilterRange.Value.StartAddress.Column;
-            int end = this.autoFilterRange.Value.EndAddress.Column;
-            int endRow = 0;
-            foreach(KeyValuePair<string, Cell> item in this.Cells)
-            {
-                if (item.Value.ColumnAddress < start || item.Value.ColumnAddress > end) { continue; }
-                if (item.Value.RowAddress > endRow) {endRow = item.Value.RowAddress;}
-            }
-            Column c;
-            for(int i = start; i <= end; i++)
-            {
-                if (this.columns.ContainsKey(i) == false)
-                {
-                    c = new Column(i);
-                    c.HasAutoFilter = true;
-                    this.columns.Add(i, c);
-                }
-                else
-                {
-                    this.columns[i].HasAutoFilter = true;
-                }
-            }
-            Cell.Range temp = new Cell.Range();
-            temp.StartAddress = new Cell.Address(start, 0);
-            temp.EndAddress = new Cell.Address(end, endRow);
-            this.autoFilterRange = temp;
+            int columnNumber = Cell.ResolveColumn(columnAddress);
+            SetColumnWidth(columnNumber, width);
         }
 
         /// <summary>
-        /// Method to recalculate the collection of columns of this worksheet. This is an internal method. There is no need to use it. It must be public to require access from the LowLevel class
+        /// Sets the width of the passed column number (zero-based)
         /// </summary>
-        public void RecalculateColumns()
+        /// <param name="columnNumber">Column number (zero-based, from 0 to 16383)</param>
+        /// <param name="width">Width from 0 to 255.0</param>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException:<br></br>a) If the passed column number is out of range<br></br>b) if the column width is out of range (0 - 255.0)</exception>
+        public void SetColumnWidth(int columnNumber, float width)
         {
-            List<int> columnsToDelete = new List<int>();
-            foreach(KeyValuePair<int,Column> col in this.columns)
+            if (columnNumber > MAX_COLUMN_ADDRESS || columnNumber < MIN_COLUMN_ADDRESS)
             {
-                if (col.Value.HasAutoFilter == false && col.Value.IsHidden == false && col.Value.Width != Worksheet.DEFAULT_COLUMN_WIDTH)
-                {
-                    columnsToDelete.Add(col.Key);
-                }
+                throw new OutOfRangeException("The column number (" + columnNumber.ToString() + ") is out of range. Range is from " + MIN_COLUMN_ADDRESS.ToString() + " to " + MAX_COLUMN_ADDRESS.ToString() + " (" + (MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
             }
-            foreach (int index in columnsToDelete)
+            if (width < MIN_COLUMN_WIDTH || width > MAX_COLUMN_WIDTH)
             {
-                this.columns.Remove(index);
+                throw new OutOfRangeException("The column width (" + width.ToString() + ") is out of range. Range is from " + MIN_COLUMN_WIDTH.ToString() + " to " + MAX_COLUMN_WIDTH.ToString() + " (chars).");
+            }
+            if (this.columns.ContainsKey(columnNumber))
+            {
+                this.columns[columnNumber].Width = width;
+            }
+            else
+            {
+                Column c = new Column(columnNumber);
+                c.Width = width;
+                this.columns.Add(columnNumber, c);
             }
         }
-        
+
+        /// <summary>
+        /// Set the current cell address
+        /// </summary>
+        /// <param name="columnAddress">Column number (zero based)</param>
+        /// <param name="rowAddress">Row number (zero based)</param>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if one of the passed cell addresses is out of range</exception>
+        public void SetCurrentCellAddress(int columnAddress, int rowAddress)
+        {
+            SetCurrentColumnAddress(columnAddress);
+            SetCurrentRowAddress(rowAddress);
+        }
+
+        /// <summary>
+        /// Set the current cell address
+        /// </summary>
+        /// <param name="address">Cell address in the format A1 - XFD1048576</param>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed cell address is out of range</exception>
+        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
+        public void SetCurrentCellAddress(string address)
+        {
+            int row, column;
+            Cell.ResolveCellCoordinate(address, out column, out row);
+            SetCurrentCellAddress(column, row);
+        }
+
+        /// <summary>
+        /// Sets the current column address (column number, zero based)
+        /// </summary>
+        /// <param name="columnAddress">Column number (zero based)</param>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the address is out of the valid range. Range is from 0 to 16383 (16384 columns)</exception>
+        public void SetCurrentColumnAddress(int columnAddress)
+        {
+            if (columnAddress > MAX_COLUMN_ADDRESS || columnAddress < MIN_COLUMN_ADDRESS)
+            {
+                throw new OutOfRangeException("The column number (" + columnAddress.ToString() + ") is out of range. Range is from " + MIN_COLUMN_ADDRESS.ToString() + " to " + MAX_COLUMN_ADDRESS.ToString() + " (" + (MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
+            }
+            this.currentColumnNumber = columnAddress;
+        }
+
+        /// <summary>
+        /// Sets the current row address (row number, zero based)
+        /// </summary>
+        /// <param name="rowAddress">Row number (zero based)</param>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the address is out of the valid range. Range is from 0 to 1048575 (1048576 rows)</exception>
+        public void SetCurrentRowAddress(int rowAddress)
+        {
+            if (rowAddress > MAX_ROW_ADDRESS || rowAddress < 0)
+            {
+                throw new OutOfRangeException("The row number (" + rowAddress.ToString() + ") is out of range. Range is from 0 to " + MAX_ROW_ADDRESS.ToString() + " (" + (MAX_ROW_ADDRESS + 1).ToString() + " rows).");
+            }
+            this.currentRowNumber = rowAddress;
+        }
+
         /// <summary>
         /// Sets the selected cells on this worksheet
         /// </summary>
         /// <param name="range">Cell range to select</param>
         public void SetSelectedCells(Cell.Range range)
         {
-        	this.selectedCells = range;
+            this.selectedCells = range;
         }
-        
+
         /// <summary>
         /// Sets the selected cells on this worksheet
         /// </summary>
@@ -1084,7 +981,7 @@ namespace PicoXLSX
         /// <param name="endAddress">End address of the range</param>
         public void SetSelectedCells(Cell.Address startAddress, Cell.Address endAddress)
         {
-        	this.selectedCells = new Cell.Range(startAddress, endAddress);
+            this.selectedCells = new Cell.Range(startAddress, endAddress);
         }
 
         /// <summary>
@@ -1097,13 +994,106 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Removes the cell selection of this worksheet
+        /// Sets or removes the password for worksheet protection. If set, UseSheetProtection will be also set to true
         /// </summary>
-        public void RemoveSelectedCells()
+        /// <param name="password">Password (UTF-8) to protect the worksheet. If the password is null or empty, no password will be used</param>
+        public void SetSheetProtectionPassword(string password)
         {
-            this.selectedCells = null;
+            if (string.IsNullOrEmpty(password) == true)
+            {
+                this.sheetProtectionPassword = null;
+                return;
+            }
+            else
+            {
+                this.sheetProtectionPassword = password;
+                this.UseSheetProtection = true;
+            }
         }
-        
+
+        /// <summary>
+        /// Sets the height of the passed row number (zero-based)
+        /// </summary>
+        /// <param name="rowNumber">Row number (zero-based, 0 to 1048575)</param>
+        /// <param name="height">Height from 0 to 409.5</param>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException:<br></br>a) If the passed row number is out of range<br></br>b) if the row height is out of range (0 - 409.5)</exception>
+        public void SetRowHeight(int rowNumber, float height)
+        {
+            if (rowNumber > MAX_ROW_ADDRESS || rowNumber < MIN_ROW_ADDRESS)
+            {
+                throw new OutOfRangeException("The row number (" + rowNumber.ToString() + ") is out of range. Range is from " + MIN_ROW_ADDRESS.ToString() + " to " + MAX_ROW_ADDRESS.ToString() + " (" + (MAX_ROW_ADDRESS + 1) + " rows).");
+            }
+            if (height < MIN_ROW_HEIGHT || height > MAX_ROW_HEIGHT)
+            {
+                throw new OutOfRangeException("The row height (" + height.ToString() + ") is out of range. Range is from " + MIN_ROW_HEIGHT.ToString() + " to " + MAX_ROW_HEIGHT.ToString() + " (equals 546px).");
+            }
+            if (this.rowHeights.ContainsKey(rowNumber))
+            {
+                this.rowHeights[rowNumber] = height;
+            }
+            else
+            {
+                this.rowHeights.Add(rowNumber, height);
+            }
+        }
+
+        /// <summary>
+        /// Sets the defined row as hidden or visible
+        /// </summary>
+        /// <param name="rowNumber">Row number to make visible again</param>
+        /// <param name="state">If true, the row will be hidden, otherwise visible</param>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the passed row number was out of range</exception>
+        private void SetRowHiddenState(int rowNumber, bool state)
+        {
+            if (rowNumber > MAX_ROW_ADDRESS || rowNumber < MIN_ROW_ADDRESS)
+            {
+                throw new OutOfRangeException("The row number (" + rowNumber.ToString() + ") is out of range. Range is from " + MIN_ROW_ADDRESS + " to " + MAX_ROW_ADDRESS + " (" + (MAX_ROW_ADDRESS + 1).ToString() + " rows).");
+            }
+            if (this.hiddenRows.ContainsKey(rowNumber))
+            {
+                if (state == true)
+                {
+                    this.hiddenRows.Add(rowNumber, state);
+                }
+                else
+                {
+                    this.hiddenRows.Remove(rowNumber);
+                }
+            }
+            else if (state == true)
+            {
+                this.hiddenRows.Add(rowNumber, state);
+            }
+        }
+
+        /// <summary>
+        /// Validates and sets the worksheet name
+        /// </summary>
+        /// <param name="name">Name to set</param>
+        /// <exception cref="FormatException">Throws a FormatException if the sheet name is to long (max. 31) or contains illegal characters [  ]  * ? / \</exception>
+        public void SetSheetname(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new FormatException("The sheet name must be between 1 and 31 characters");
+            }
+            if (name.Length > 31)
+            {
+                throw new FormatException("The sheet name must be between 1 and 31 characters");
+            }
+            Regex rx = new Regex(@"[\[\]\*\?/\\]");
+            Match mx = rx.Match(name);
+            if (mx.Captures.Count > 0)
+            {
+                throw new FormatException(@"The sheet name must not contain the characters [  ]  * ? / \ ");
+            }
+            this.sheetName = name;
+        }
+
+
+#endregion
+
+#region subClasses
         /// <summary>
         /// Class representing a column of a worksheet
         /// </summary>
@@ -1111,7 +1101,29 @@ namespace PicoXLSX
         {
             private int number;
             private string columnAddress;
-            
+
+            /// <summary>
+            /// Column address (A to XFD)
+            /// </summary>
+            public string ColumnAddress
+            {
+                get { return columnAddress; }
+                set
+                {
+                    this.number = Cell.ResolveColumn(value);
+                    this.columnAddress = value;
+                }
+            }
+
+            /// <summary>
+            /// If true, the column has auto filter applied, otherwise not
+            /// </summary>
+            public bool HasAutoFilter { get; set; }
+            /// <summary>
+            /// If true, the column is hidden, otherwise visible
+            /// </summary>
+            public bool IsHidden { get; set; }
+
             /// <summary>
             /// Column number (0 to 16383)
             /// </summary>
@@ -1126,31 +1138,10 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Column address (A to XFD)
-            /// </summary>
-            public string ColumnAddress
-            {
-                get { return columnAddress; }
-                set
-                {
-                    this.number = Cell.ResolveColumn(value);
-                    this.columnAddress = value;
-                }
-            }
-            
-            /// <summary>
             /// Width of the column
             /// </summary>
             public float Width { get; set; }
-            /// <summary>
-            /// If true, the column is hidden, otherwise visible
-            /// </summary>
-            public bool IsHidden { get; set; }
-            /// <summary>
-            /// If true, the column has auto filter applied, otherwise not
-            /// </summary>
-            public bool HasAutoFilter { get; set; }
-            
+
             /// <summary>
             /// Default constructor
             /// </summary>
@@ -1178,7 +1169,7 @@ namespace PicoXLSX
             }
 
         }
-        
-        
+
+#endregion
     }
 }

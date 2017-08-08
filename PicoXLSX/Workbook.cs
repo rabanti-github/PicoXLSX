@@ -24,6 +24,7 @@ namespace PicoXLSX
     /// 
     public class Workbook
     {
+#region privateFields
         private string filename;
         private List<Worksheet> worksheets;
         private Worksheet currentWorksheet;
@@ -33,29 +34,15 @@ namespace PicoXLSX
         private bool lockWindowsIfProtected;
         private bool lockStructureIfProtected;
         private int selectedWorksheet;
+#endregion
 
-        /// <summary>
-        /// Gets the selected worksheet. The selected worksheet is not the current worksheet while design time but the selected sheet in the output file
-        /// </summary>
-        public int SelectedWorksheet
-        {
-            get { return selectedWorksheet; }
-        }
-
+#region properties
         /// <summary>
         /// Gets the current worksheet
         /// </summary>
         public Worksheet CurrentWorksheet
         {
             get { return currentWorksheet; }
-        }
-
-        /// <summary>
-        /// Gets the list of worksheets in the workbook
-        /// </summary>
-        public List<Worksheet> Worksheets
-        {
-            get { return worksheets; }
         }
 
         /// <summary>
@@ -68,11 +55,21 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets the list of Styles of the workbook
+        /// Gets whether the structure are locked if workbook is protected
         /// </summary>
-        public List<Style> Styles
+        /// <see cref="SetWorkbookProtection"/>
+        public bool LockStructureIfProtected
         {
-            get { return styles; }
+            get { return lockStructureIfProtected; }
+        }
+
+        /// <summary>
+        /// Gets whether the windows are locked if workbook is protected
+        /// </summary>
+        /// <see cref="SetWorkbookProtection"/> 
+        public bool LockWindowsIfProtected
+        {
+            get { return lockWindowsIfProtected; }
         }
 
         /// <summary>
@@ -84,6 +81,21 @@ namespace PicoXLSX
             set { workbookMetadata = value; }
         }
 
+        /// <summary>
+        /// Gets the selected worksheet. The selected worksheet is not the current worksheet while design time but the selected sheet in the output file
+        /// </summary>
+        public int SelectedWorksheet
+        {
+            get { return selectedWorksheet; }
+        }
+
+        /// <summary>
+        /// Gets the list of Styles of the workbook
+        /// </summary>
+        public List<Style> Styles
+        {
+            get { return styles; }
+        }
 
         /// <summary>
         /// Gets or sets whether the workbook is protected
@@ -100,29 +112,21 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets whether the windows are locked if workbook is protected
+        /// Gets the list of worksheets in the workbook
         /// </summary>
-        /// <see cref="SetWorkbookProtection"/> 
-        public bool LockWindowsIfProtected
+        public List<Worksheet> Worksheets
         {
-            get { return lockWindowsIfProtected; }
+            get { return worksheets; }
         }
+#endregion
 
-        /// <summary>
-        /// Gets whether the structure are locked if workbook is protected
-        /// </summary>
-        /// <see cref="SetWorkbookProtection"/>
-        public bool LockStructureIfProtected
-        {
-            get { return lockStructureIfProtected; }
-        }
-        
+#region constructors
         /// <summary>
         /// Default Constructor with additional parameter to create a default worksheet
         /// </summary>
         /// <param name="createWorkSheet">If true, a default worksheet will be crated and set as default worksheet</param>
         public Workbook(bool createWorkSheet)
-        { 
+        {
             this.worksheets = new List<Worksheet>();
             this.styles = new List<Style>();
             this.styles.Add(new Style("default")); // Do not remove this (Default style)
@@ -131,7 +135,7 @@ namespace PicoXLSX
             if (createWorkSheet == true)
             {
                 AddWorksheet("Sheet1");
-               
+
             }
         }
 
@@ -140,167 +144,15 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="filename">Filename of the workbook</param>
         /// <param name="sheetName">Name of the first worksheet</param>
-        public Workbook(string filename, string sheetName) : this(false)
+        public Workbook(string filename, string sheetName)
+            : this(false)
         {
             this.filename = filename;
             AddWorksheet(sheetName);
         }
+#endregion
 
-        /// <summary>
-        /// Adding a new Worksheet
-        /// </summary>
-        /// <param name="name">Name of the new worksheet</param>
-        /// <exception cref="WorksheetNameAlreadxExistsException">Throws a WorksheetNameAlreadxExistsException if the name of the worksheet already exists</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the name contains illegal characters or is out of range (length between 1 an 31 characters)</exception>
-        public void AddWorksheet(string name)
-        {
-            foreach(Worksheet item in this.worksheets)
-            {
-                if (item.SheetName == name)
-                {
-                    throw new WorksheetNameAlreadxExistsException("The worksheet with the name '" + name + "' already exists.");
-                }
-            }
-            int number = this.worksheets.Count + 1;
-            Worksheet newWs = new Worksheet(name, number, this);
-            this.currentWorksheet = newWs;
-            this.worksheets.Add(newWs);
-        }
-
-        /// <summary>
-        /// Sets the current worksheet
-        /// </summary>
-        /// <param name="name">Name of the worksheet</param>
-        /// <returns>Returns the current worksheet</returns>
-        /// <exception cref="UnknownWorksheetException">Throws a UnknownWorksheetException if the name of the worksheet is unknown</exception>
-        public Worksheet SetCurrentWorksheet(string name)
-        {
-            bool exists = false;
-            foreach (Worksheet item in this.worksheets)
-            {
-                if (item.SheetName == name)
-                {
-                    this.currentWorksheet = item;
-                    exists = true;
-                    break;
-                }
-            }
-            if (exists == false)
-            {
-                throw new UnknownWorksheetException("The worksheet with the name '" + name + "' does not exist.");
-            }
-            return this.currentWorksheet;
-        }
-
-        /// <summary>
-        /// Sets the selected worksheet in the output workbook
-        /// </summary>
-        /// <remarks>This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this</remarks>
-        /// <param name="worksheetIndex">Zero-based worksheet index</param>
-        /// <exception cref="OutOfRangeException">Throws a OutOfRangeException if the index of the worksheet is out of range</exception>
-        public void SetSelectedWorksheet(int worksheetIndex)
-        {
-            if (worksheetIndex < 0 || worksheetIndex > this.worksheets.Count - 1)
-            {
-                throw new OutOfRangeException("The worksheet index " + worksheetIndex.ToString() + " is out of range");
-            }
-            this.selectedWorksheet = worksheetIndex;
-        }
-        
-		/// <summary>
-		/// Sets the selected worksheet in the output workbook
-		/// </summary>
-		/// <remarks>This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this</remarks>
-		/// <param name="worksheet">Worksheet object (must be in the collection of worksheets)</param>
-		/// <exception cref="UnknownWorksheetException">Throws a UnknownWorksheetException if the worksheet was not found in the worksheet collection</exception>
-        public void SetSelectedWorksheet(Worksheet worksheet)
-        {
-        	bool check = false;
-            for(int i = 0; i < this.worksheets.Count; i++)
-            {
-                if (this.worksheets[i].Equals(worksheet))
-                {
-                    this.selectedWorksheet = i;
-                    check = true;
-                    break;
-                }
-            }
-            if (check == false)
-            {
-            	throw new UnknownWorksheetException("The passed worksheet object is not in the worksheet collection.");
-            }
-        }
-
-        /// <summary>
-        /// Removes the defined worksheet
-        /// </summary>
-        /// <param name="name">Name of the worksheet</param>
-        /// <exception cref="UnknownWorksheetException">Throws a UnknownWorksheetException if the name of the worksheet is unknown</exception>
-        public void RemoveWorksheet(string name)
-        {
-            bool exists = false;
-            bool resetCurrent = false;
-            int index = 0;
-            for (int i = 0; i < this.worksheets.Count; i++)
-            {
-                if (this.worksheets[i].SheetName == name)
-                {
-                    index = i;
-                    exists = true;
-                    break;
-                }
-            }
-            if (exists == false)
-            {
-                throw new UnknownWorksheetException("The worksheet with the name '" + name + "' does not exist.");
-            }
-            if (this.worksheets[index].SheetName == this.currentWorksheet.SheetName )
-            {
-                resetCurrent = true;
-            }
-            this.worksheets.RemoveAt(index);
-            if (this.worksheets.Count > 0)
-            {
-                for (int i = 0; i < this.worksheets.Count; i++)
-                {
-                    this.worksheets[i].SheetID = i + 1;
-                    if (resetCurrent == true && i == 0)
-                    {
-                        this.currentWorksheet = this.worksheets[i];
-                    }
-                }
-            }
-            else
-            {
-                this.currentWorksheet = null;
-            }
-            if (this.selectedWorksheet > this.worksheets.Count - 1)
-            {
-                this.selectedWorksheet = this.worksheets.Count - 1;
-            }
-        }
-
-        /// <summary>
-        /// Sets or removes the workbook protection. If protectWindows and protectStructure are both false, the workbook will not be protected
-        /// </summary>
-        /// <param name="state">If true, the workbook will be protected, otherwise not</param>
-        /// <param name="protectWindows">If true, the windows will be locked if the workbook is protected</param>
-        /// <param name="protectStructure">If true, the structure will be locked if the workbook is protected</param>
-        /// <param name="password">Optional password. If null or empty, no password will be set in case of protection</param>
-        public void SetWorkbookProtection(bool state, bool protectWindows, bool protectStructure, string password)
-        {
-            this.lockWindowsIfProtected = protectWindows;
-            this.lockStructureIfProtected = protectStructure;
-            this.workbookProtectionPassword = password;
-            if (protectWindows == false && protectStructure == false)
-            {
-                this.UseWorkbookProtection = false;
-            }
-            else
-            {
-                this.UseWorkbookProtection = state;
-            }
-        }
+#region methods
 
         /// <summary>
         /// Adds a style to the style sheet of the workbook
@@ -344,6 +196,27 @@ namespace PicoXLSX
                 this.styles.Add(style);
             }
             return s;
+        }
+
+        /// <summary>
+        /// Adding a new Worksheet
+        /// </summary>
+        /// <param name="name">Name of the new worksheet</param>
+        /// <exception cref="WorksheetNameAlreadxExistsException">Throws a WorksheetNameAlreadxExistsException if the name of the worksheet already exists</exception>
+        /// <exception cref="FormatException">Throws a FormatException if the name contains illegal characters or is out of range (length between 1 an 31 characters)</exception>
+        public void AddWorksheet(string name)
+        {
+            foreach (Worksheet item in this.worksheets)
+            {
+                if (item.SheetName == name)
+                {
+                    throw new WorksheetNameAlreadxExistsException("The worksheet with the name '" + name + "' already exists.");
+                }
+            }
+            int number = this.worksheets.Count + 1;
+            Worksheet newWs = new Worksheet(name, number, this);
+            this.currentWorksheet = newWs;
+            this.worksheets.Add(newWs);
         }
 
         /// <summary>
@@ -394,7 +267,7 @@ namespace PicoXLSX
                 throw new UndefinedStyleException("The style to remove is not defined (no name specified)");
             }
             int index = -1;
-            for(int i = 0; i < this.styles.Count; i++)
+            for (int i = 0; i < this.styles.Count; i++)
             {
                 if (this.styles[i].Name == styleName)
                 {
@@ -415,9 +288,9 @@ namespace PicoXLSX
                 if (onlyIfUnused == true)
                 {
                     bool styleInUse = false;
-                    foreach(Worksheet sheet in this.worksheets)
+                    foreach (Worksheet sheet in this.worksheets)
                     {
-                        foreach(KeyValuePair<string,Cell> cell in sheet.Cells)
+                        foreach (KeyValuePair<string, Cell> cell in sheet.Cells)
                         {
                             if (cell.Value.CellStyle.Name == styleName)
                             {
@@ -443,6 +316,55 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Removes the defined worksheet
+        /// </summary>
+        /// <param name="name">Name of the worksheet</param>
+        /// <exception cref="UnknownWorksheetException">Throws a UnknownWorksheetException if the name of the worksheet is unknown</exception>
+        public void RemoveWorksheet(string name)
+        {
+            bool exists = false;
+            bool resetCurrent = false;
+            int index = 0;
+            for (int i = 0; i < this.worksheets.Count; i++)
+            {
+                if (this.worksheets[i].SheetName == name)
+                {
+                    index = i;
+                    exists = true;
+                    break;
+                }
+            }
+            if (exists == false)
+            {
+                throw new UnknownWorksheetException("The worksheet with the name '" + name + "' does not exist.");
+            }
+            if (this.worksheets[index].SheetName == this.currentWorksheet.SheetName)
+            {
+                resetCurrent = true;
+            }
+            this.worksheets.RemoveAt(index);
+            if (this.worksheets.Count > 0)
+            {
+                for (int i = 0; i < this.worksheets.Count; i++)
+                {
+                    this.worksheets[i].SheetID = i + 1;
+                    if (resetCurrent == true && i == 0)
+                    {
+                        this.currentWorksheet = this.worksheets[i];
+                    }
+                }
+            }
+            else
+            {
+                this.currentWorksheet = null;
+            }
+            if (this.selectedWorksheet > this.worksheets.Count - 1)
+            {
+                this.selectedWorksheet = this.worksheets.Count - 1;
+            }
+        }
+
+        /// <summary>
         /// Method to prepare the styles before saving the workbook. Don't use the method otherwise. Styles will be reordered and probably removed from the style sheet
         /// </summary>
         /// <param name="borders">Out parameter for a sorted list of Style.Border objects</param>
@@ -463,14 +385,14 @@ namespace PicoXLSX
             int existingIndex = 0;
             bool existing;
             int customNumberFormat = Style.NumberFormat.CUSTOMFORMAT_START_NUMBER;
-            for(int i = 0; i < this.styles.Count; i++)
+            for (int i = 0; i < this.styles.Count; i++)
             {
                 this.styles[i].InternalID = i;
                 existing = false;
-                foreach(Style.Border item in tempBorders)
+                foreach (Style.Border item in tempBorders)
                 {
                     if (item.Equals(this.styles[i].CurrentBorder) == true)
-                    { 
+                    {
                         existing = true;
                         existingIndex = item.InternalID;
                         break;
@@ -567,22 +489,22 @@ namespace PicoXLSX
                     this.styles[i].CurrentCellXf.InternalID = existingIndex;
                 }
             }
-            Style combiation;
-            foreach(Worksheet sheet in this.worksheets)
+            Style combination;
+            foreach (Worksheet sheet in this.worksheets)
             {
-                foreach(KeyValuePair<string, Cell> cell in sheet.Cells)
+                foreach (KeyValuePair<string, Cell> cell in sheet.Cells)
                 {
                     if (cell.Value.Fieldtype == PicoXLSX.Cell.CellType.DATE)
                     {
                         if (cell.Value.CellStyle == null)
                         {
-                            combiation = dateStyle;
+                            combination = dateStyle;
                         }
                         else
                         {
-                            combiation = cell.Value.CellStyle.Copy(dateStyle.CurrentNumberFormat);
+                            combination = cell.Value.CellStyle.Copy(dateStyle.CurrentNumberFormat);
                         }
-                        sheet.Cells[cell.Key].SetStyle(combiation);
+                        sheet.Cells[cell.Key].SetStyle(combination);
                     }
                 }
             }
@@ -607,17 +529,17 @@ namespace PicoXLSX
         /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the merged cells cannot be referenced or is null</exception>
         public void ResolveMergedCells()
         {
-            Style mergStyle = Style.BasicStyles.MergeCellStyle;
+            Style mergeStyle = Style.BasicStyles.MergeCellStyle;
             int pos;
             List<Cell.Address> addresses;
             Cell cell;
-            foreach(Worksheet sheet in this.worksheets)
+            foreach (Worksheet sheet in this.worksheets)
             {
-                foreach(KeyValuePair<string, Cell.Range> range in sheet.MergedCells)
+                foreach (KeyValuePair<string, Cell.Range> range in sheet.MergedCells)
                 {
                     pos = 0;
                     addresses = Cell.GetCellRange(range.Value.StartAddress, range.Value.EndAddress);
-                    foreach(Cell.Address address in addresses)
+                    foreach (Cell.Address address in addresses)
                     {
                         if (sheet.Cells.ContainsKey(address.ToString()) == false)
                         {
@@ -636,7 +558,7 @@ namespace PicoXLSX
                         {
                             cell.Fieldtype = Cell.CellType.EMPTY;
                         }
-                        cell.SetStyle(mergStyle);
+                        cell.SetStyle(mergeStyle);
                         pos++;
                     }
 
@@ -644,7 +566,6 @@ namespace PicoXLSX
             }
         }
 
-        
         /// <summary>
         /// Saves the workbook
         /// </summary>
@@ -675,5 +596,92 @@ namespace PicoXLSX
             this.filename = backup;
         }
 
+        /// <summary>
+        /// Sets the current worksheet
+        /// </summary>
+        /// <param name="name">Name of the worksheet</param>
+        /// <returns>Returns the current worksheet</returns>
+        /// <exception cref="UnknownWorksheetException">Throws a UnknownWorksheetException if the name of the worksheet is unknown</exception>
+        public Worksheet SetCurrentWorksheet(string name)
+        {
+            bool exists = false;
+            foreach (Worksheet item in this.worksheets)
+            {
+                if (item.SheetName == name)
+                {
+                    this.currentWorksheet = item;
+                    exists = true;
+                    break;
+                }
+            }
+            if (exists == false)
+            {
+                throw new UnknownWorksheetException("The worksheet with the name '" + name + "' does not exist.");
+            }
+            return this.currentWorksheet;
+        }
+
+        /// <summary>
+        /// Sets the selected worksheet in the output workbook
+        /// </summary>
+        /// <remarks>This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this</remarks>
+        /// <param name="worksheetIndex">Zero-based worksheet index</param>
+        /// <exception cref="OutOfRangeException">Throws a OutOfRangeException if the index of the worksheet is out of range</exception>
+        public void SetSelectedWorksheet(int worksheetIndex)
+        {
+            if (worksheetIndex < 0 || worksheetIndex > this.worksheets.Count - 1)
+            {
+                throw new OutOfRangeException("The worksheet index " + worksheetIndex.ToString() + " is out of range");
+            }
+            this.selectedWorksheet = worksheetIndex;
+        }
+
+        /// <summary>
+        /// Sets or removes the workbook protection. If protectWindows and protectStructure are both false, the workbook will not be protected
+        /// </summary>
+        /// <param name="state">If true, the workbook will be protected, otherwise not</param>
+        /// <param name="protectWindows">If true, the windows will be locked if the workbook is protected</param>
+        /// <param name="protectStructure">If true, the structure will be locked if the workbook is protected</param>
+        /// <param name="password">Optional password. If null or empty, no password will be set in case of protection</param>
+        public void SetWorkbookProtection(bool state, bool protectWindows, bool protectStructure, string password)
+        {
+            this.lockWindowsIfProtected = protectWindows;
+            this.lockStructureIfProtected = protectStructure;
+            this.workbookProtectionPassword = password;
+            if (protectWindows == false && protectStructure == false)
+            {
+                this.UseWorkbookProtection = false;
+            }
+            else
+            {
+                this.UseWorkbookProtection = state;
+            }
+        }
+
+        /// <summary>
+        /// Sets the selected worksheet in the output workbook
+        /// </summary>
+        /// <remarks>This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this</remarks>
+        /// <param name="worksheet">Worksheet object (must be in the collection of worksheets)</param>
+        /// <exception cref="UnknownWorksheetException">Throws a UnknownWorksheetException if the worksheet was not found in the worksheet collection</exception>
+        public void SetSelectedWorksheet(Worksheet worksheet)
+        {
+            bool check = false;
+            for (int i = 0; i < this.worksheets.Count; i++)
+            {
+                if (this.worksheets[i].Equals(worksheet))
+                {
+                    this.selectedWorksheet = i;
+                    check = true;
+                    break;
+                }
+            }
+            if (check == false)
+            {
+                throw new UnknownWorksheetException("The passed worksheet object is not in the worksheet collection.");
+            }
+        }
+
+#endregion
     }
 }

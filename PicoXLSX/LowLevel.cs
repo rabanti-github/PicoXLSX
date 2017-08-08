@@ -23,6 +23,8 @@ namespace PicoXLSX
     /// <remarks>This class is only for internal use. Use the high level API (e.g. class Workbook) to manipulate data and create Excel files</remarks>
     class LowLevel
     {
+
+#region staticFields
         private static DocumentPath WORKBOOK = new DocumentPath("workbook.xml", "xl/");
         private static DocumentPath STYLES = new DocumentPath("styles.xml", "xl/");
         private static DocumentPath APP_PROPERTIES = new DocumentPath("app.xml", "docProps/");
@@ -32,10 +34,11 @@ namespace PicoXLSX
 
         private CultureInfo culture;
         private Workbook workbook;
-        //private Dictionary<string, string> sharedStrings;
         private SortedMap sharedStrings;
         private int sharedStringsTotalCount;
+#endregion
 
+#region constructors
         /// <summary>
         /// Constructor with defined workbook object
         /// </summary>
@@ -48,189 +51,58 @@ namespace PicoXLSX
             this.sharedStrings = new SortedMap();
             this.sharedStringsTotalCount = 0;
         }
+#endregion
+
+
+
+
+#region documentCreation_methods
 
         /// <summary>
-        /// Method to save the workbook
-        /// </summary>
-        /// <exception cref="IOException">Throws IOException in case of an error</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the workbook cannot be referenced or is null</exception>
-        /// <remarks>The UndefinedStyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
-        public void Save()
-        {
-            this.workbook.ResolveMergedCells();
-            DocumentPath sheetPath;
-            List<Uri> sheetURIs = new List<Uri>();
-
-            try
-            {
-                using (System.IO.Packaging.Package p = Package.Open(this.workbook.Filename, FileMode.Create))
-                {
-                    Uri workbookUri = new Uri(WORKBOOK.GetFullPath(), UriKind.Relative);
-                    Uri stylesheetUri = new Uri(STYLES.GetFullPath(), UriKind.Relative);
-                    Uri appPropertiesUri = new Uri(APP_PROPERTIES.GetFullPath(), UriKind.Relative);
-                    Uri corePropertiesUri = new Uri(CORE_PROPERTIES.GetFullPath(), UriKind.Relative);
-                    Uri sharedStringsUri = new Uri(SHARED_STRINGS.GetFullPath(), UriKind.Relative);
-
-                    PackagePart pp = p.CreatePart(workbookUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", CompressionOption.Normal);
-                    p.CreateRelationship(pp.Uri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument", "rId1");
-                    p.CreateRelationship(corePropertiesUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties", "rId2"); //!
-                    p.CreateRelationship(appPropertiesUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties", "rId3"); //!
-
-                    AppendXmlToPackagePart(CreateWorkbookDocument(), pp);
-                    int idCounter = this.workbook.Worksheets.Count + 1;
-                    
-                    pp.CreateRelationship(stylesheetUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", "rId" + idCounter.ToString());
-                    pp.CreateRelationship(sharedStringsUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings", "rId" + (idCounter + 1).ToString());
-
-                    foreach (Worksheet item in this.workbook.Worksheets)
-                    {
-                        sheetPath = new DocumentPath("sheet" + item.SheetID.ToString() + ".xml", "xl/worksheets");
-                        sheetURIs.Add(new Uri(sheetPath.GetFullPath(), UriKind.Relative));
-                        pp.CreateRelationship(sheetURIs[sheetURIs.Count - 1], TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet", "rId" + item.SheetID.ToString());
-                    }
-
-                    pp = p.CreatePart(stylesheetUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", CompressionOption.Normal);
-                    AppendXmlToPackagePart(CreateStyleSheetDocument(), pp);
-
-                    int i = 0;
-                    foreach (Worksheet item in this.workbook.Worksheets)
-                    {
-                        pp = p.CreatePart(sheetURIs[i], @"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", CompressionOption.Normal);
-                        i++;
-                        AppendXmlToPackagePart(CreateWorksheetPart(item), pp);
-                    }
-
-
-
-                    pp = p.CreatePart(sharedStringsUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", CompressionOption.Normal);
-                    AppendXmlToPackagePart(CreateSharedStringsDocument(), pp);
-
-
-
-                    if (workbook.WorkbookMetadata != null)
-                    {
-                        pp = p.CreatePart(appPropertiesUri, @"application/vnd.openxmlformats-officedocument.extended-properties+xml", CompressionOption.Normal);
-                        AppendXmlToPackagePart(CreateAppPropertiesDocument(), pp);
-                        pp = p.CreatePart(corePropertiesUri, @"application/vnd.openxmlformats-package.core-properties+xml", CompressionOption.Normal);
-                        AppendXmlToPackagePart(CreateCorePropertiesDocument(), pp);
-                    }
-     
-
-                }
-            }
-            catch (Exception e)
-            {
-                throw new IOException("An error occurred while saving. See inner exception for details.", e);
-            }
-        }
-
-#region document creation
-
-        /// <summary>
-        /// Method to create a workbook as raw XML string
+        /// Method to create the app-properties (part of meta data) as raw XML string
         /// </summary>
         /// <returns>Raw XML string</returns>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if an address was out of range</exception>
-        private string CreateWorkbookDocument()
+        private string CreateAppPropertiesDocument()
         {
-            if (this.workbook.Worksheets.Count == 0)
-            {
-                throw new OutOfRangeException("The workbook can not be created because no worksheet was defined.");
-            }
             StringBuilder sb = new StringBuilder();
-            sb.Append("<workbook xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">");
-            if (this.workbook.SelectedWorksheet > 0)
-            {
-                sb.Append("<bookViews><workbookView activeTab=\"");
-                sb.Append(this.workbook.SelectedWorksheet.ToString("G", culture));
-                sb.Append("\"/></bookViews>");
-            }
-            if (this.workbook.UseWorkbookProtection == true)
-            {
-                sb.Append("<workbookProtection");
-                if (this.workbook.LockWindowsIfProtected == true)
-                {
-                    sb.Append(" lockWindows=\"1\"");
-                }
-                if (this.workbook.LockStructureIfProtected == true)
-                {
-                    sb.Append(" lockStructure=\"1\"");
-                }
-                if (string.IsNullOrEmpty(this.workbook.WorkbookProtectionPassword) == false)
-                {
-                    sb.Append("workbookPassword=\"");
-                    sb.Append(GeneratePasswordHash(this.workbook.WorkbookProtectionPassword));
-                    sb.Append("\"");
-                }
-                sb.Append("/>");
-            }
-            sb.Append("<sheets>");
-            foreach (Worksheet item in this.workbook.Worksheets)
-            {
-                sb.Append("<sheet r:id=\"rId" + item.SheetID.ToString() + "\" sheetId=\"" + item.SheetID.ToString() + "\" name=\"" + LowLevel.EscapeXMLAttributeChars(item.SheetName) + "\"/>");
-            }
-            sb.Append("</sheets>");
-            sb.Append("</workbook>");
+            sb.Append("<Properties xmlns=\"http://schemas.openxmlformats.org/officeDocument/2006/extended-properties\" xmlns:vt=\"http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes\">");
+            sb.Append(CreateAppString());
+            sb.Append("</Properties>");
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Method to create the core-properties (part of meta data) as raw XML string
+        /// </summary>
+        /// <returns>Raw XML string</returns>
+        private string CreateCorePropertiesDocument()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<cp:coreProperties xmlns:cp=\"http://schemas.openxmlformats.org/package/2006/metadata/core-properties\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dcterms=\"http://purl.org/dc/terms/\" xmlns:dcmitype=\"http://purl.org/dc/dcmitype/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
+            sb.Append(CreateCorePropertiesString());
+            sb.Append("</cp:coreProperties>");
+            return sb.ToString();
+        }
 
         /// <summary>
-        /// Method to create a worksheet part as a raw XML string
+        /// Method to create shared strings as raw XML string
         /// </summary>
-        /// <param name="worksheet">worksheet object to process</param>
         /// <returns>Raw XML string</returns>
-        /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
-        private string CreateWorksheetPart(Worksheet worksheet)
+        private string CreateSharedStringsDocument()
         {
-            worksheet.RecalculateAutoFilter();
-            worksheet.RecalculateColumns();
-            List<List<Cell>> celldata = GetSortedSheetData(worksheet);
             StringBuilder sb = new StringBuilder();
-            string line;
-            sb.Append("<worksheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14ac\" xmlns:x14ac=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac\">");
-            
-            if (worksheet.SelectedCells != null)
+            sb.Append("<sst xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" count=\"");
+            sb.Append(this.sharedStringsTotalCount.ToString("G", culture));
+            sb.Append("\" uniqueCount=\"");
+            sb.Append(this.sharedStrings.Count.ToString("G", culture));
+            sb.Append("\">");
+            foreach (string str in this.sharedStrings.Keys)
             {
-            	sb.Append("<sheetViews><sheetView workbookViewId=\"0\"");
-            	if (this.workbook.SelectedWorksheet == worksheet.SheetID - 1)
-            	{
-            		sb.Append(" tabSelected=\"1\"");
-            	}
-            	sb.Append("><selection sqref=\"");
-            	sb.Append(worksheet.SelectedCells.ToString());
-            	sb.Append("\" activeCell=\"");
-            	sb.Append(worksheet.SelectedCells.Value.StartAddress.ToString());
-            	sb.Append("\"/></sheetView></sheetViews>");
+                sb.Append("<si><t>");
+                sb.Append(EscapeXMLChars(str));
+                sb.Append("</t></si>");
             }
-            
-            sb.Append("<sheetFormatPr x14ac:dyDescent=\"0.25\" defaultRowHeight=\"" + worksheet.DefaultRowHeight.ToString("G", culture) + "\" baseColWidth=\"" + worksheet.DefaultColumnWidth.ToString("G", culture) + "\"/>");
-            
-            string colWidths = CreateColsString(worksheet);
-            if (string.IsNullOrEmpty(colWidths) == false)
-            {
-                sb.Append("<cols>");
-                sb.Append(colWidths);
-                sb.Append("</cols>");
-            }
-            sb.Append("<sheetData>");
-            foreach(List<Cell> item in celldata)
-            {
-                line = CreateRowString(item, worksheet);
-                sb.Append(line);
-            }
-            sb.Append("</sheetData>");
-            sb.Append(CreateMergedCellsString(worksheet));
-            sb.Append(CreateSheetProtectionString(worksheet));
-
-            if (worksheet.AutoFilterRange != null)
-            {
-                sb.Append("<autoFilter ref=\"" + worksheet.AutoFilterRange.Value.ToString() + "\"/>");
-            }
-
-            sb.Append("</worksheet>");
+            sb.Append("</sst>");
             return sb.ToString();
         }
 
@@ -240,7 +112,6 @@ namespace PicoXLSX
         /// <returns>Raw XML string</returns>
         /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the styles cannot be referenced or is null</exception>
         /// <remarks>The UndefinedStyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
-        
         private string CreateStyleSheetDocument()
         {
             List<Style.Border> borders;
@@ -321,91 +192,363 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method to create the app-properties (part of meta data) as raw XML string
+        /// Method to create a workbook as raw XML string
         /// </summary>
         /// <returns>Raw XML string</returns>
-        private string CreateAppPropertiesDocument()
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if an address was out of range</exception>
+        private string CreateWorkbookDocument()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<Properties xmlns=\"http://schemas.openxmlformats.org/officeDocument/2006/extended-properties\" xmlns:vt=\"http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes\">");
-            sb.Append(CreateAppString());
-            sb.Append("</Properties>");
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Method to create the core-properties (part of meta data) as raw XML string
-        /// </summary>
-        /// <returns>Raw XML string</returns>
-        private string CreateCorePropertiesDocument()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<cp:coreProperties xmlns:cp=\"http://schemas.openxmlformats.org/package/2006/metadata/core-properties\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dcterms=\"http://purl.org/dc/terms/\" xmlns:dcmitype=\"http://purl.org/dc/dcmitype/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
-            sb.Append(CreateCorePropertiesString());
-            sb.Append("</cp:coreProperties>");
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Method to create shared strings as raw XML string
-        /// </summary>
-        /// <returns>Raw XML string</returns>
-        private string CreateSharedStringsDocument()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<sst xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" count=\"");
-            sb.Append(this.sharedStringsTotalCount.ToString("G", culture));
-            sb.Append("\" uniqueCount=\"");
-            sb.Append(this.sharedStrings.Count.ToString("G", culture));
-            sb.Append("\">");
-           foreach(string str in this.sharedStrings.Keys)
+            if (this.workbook.Worksheets.Count == 0)
             {
-                sb.Append("<si><t>");
-                sb.Append(EscapeXMLChars(str));
-                sb.Append("</t></si>");
+                throw new OutOfRangeException("The workbook can not be created because no worksheet was defined.");
             }
-            sb.Append("</sst>");
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<workbook xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">");
+            if (this.workbook.SelectedWorksheet > 0)
+            {
+                sb.Append("<bookViews><workbookView activeTab=\"");
+                sb.Append(this.workbook.SelectedWorksheet.ToString("G", culture));
+                sb.Append("\"/></bookViews>");
+            }
+            if (this.workbook.UseWorkbookProtection == true)
+            {
+                sb.Append("<workbookProtection");
+                if (this.workbook.LockWindowsIfProtected == true)
+                {
+                    sb.Append(" lockWindows=\"1\"");
+                }
+                if (this.workbook.LockStructureIfProtected == true)
+                {
+                    sb.Append(" lockStructure=\"1\"");
+                }
+                if (string.IsNullOrEmpty(this.workbook.WorkbookProtectionPassword) == false)
+                {
+                    sb.Append("workbookPassword=\"");
+                    sb.Append(GeneratePasswordHash(this.workbook.WorkbookProtectionPassword));
+                    sb.Append("\"");
+                }
+                sb.Append("/>");
+            }
+            sb.Append("<sheets>");
+            foreach (Worksheet item in this.workbook.Worksheets)
+            {
+                sb.Append("<sheet r:id=\"rId" + item.SheetID.ToString() + "\" sheetId=\"" + item.SheetID.ToString() + "\" name=\"" + LowLevel.EscapeXMLAttributeChars(item.SheetName) + "\"/>");
+            }
+            sb.Append("</sheets>");
+            sb.Append("</workbook>");
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Method to create a worksheet part as a raw XML string
+        /// </summary>
+        /// <param name="worksheet">worksheet object to process</param>
+        /// <returns>Raw XML string</returns>
+        /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
+        private string CreateWorksheetPart(Worksheet worksheet)
+        {
+            worksheet.RecalculateAutoFilter();
+            worksheet.RecalculateColumns();
+            List<List<Cell>> celldata = GetSortedSheetData(worksheet);
+            StringBuilder sb = new StringBuilder();
+            string line;
+            sb.Append("<worksheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14ac\" xmlns:x14ac=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac\">");
+            
+            if (worksheet.SelectedCells != null)
+            {
+            	sb.Append("<sheetViews><sheetView workbookViewId=\"0\"");
+            	if (this.workbook.SelectedWorksheet == worksheet.SheetID - 1)
+            	{
+            		sb.Append(" tabSelected=\"1\"");
+            	}
+            	sb.Append("><selection sqref=\"");
+            	sb.Append(worksheet.SelectedCells.ToString());
+            	sb.Append("\" activeCell=\"");
+            	sb.Append(worksheet.SelectedCells.Value.StartAddress.ToString());
+            	sb.Append("\"/></sheetView></sheetViews>");
+            }
+            
+            sb.Append("<sheetFormatPr x14ac:dyDescent=\"0.25\" defaultRowHeight=\"" + worksheet.DefaultRowHeight.ToString("G", culture) + "\" baseColWidth=\"" + worksheet.DefaultColumnWidth.ToString("G", culture) + "\"/>");
+            
+            string colWidths = CreateColsString(worksheet);
+            if (string.IsNullOrEmpty(colWidths) == false)
+            {
+                sb.Append("<cols>");
+                sb.Append(colWidths);
+                sb.Append("</cols>");
+            }
+            sb.Append("<sheetData>");
+            foreach(List<Cell> item in celldata)
+            {
+                line = CreateRowString(item, worksheet);
+                sb.Append(line);
+            }
+            sb.Append("</sheetData>");
+            sb.Append(CreateMergedCellsString(worksheet));
+            sb.Append(CreateSheetProtectionString(worksheet));
+
+            if (worksheet.AutoFilterRange != null)
+            {
+                sb.Append("<autoFilter ref=\"" + worksheet.AutoFilterRange.Value.ToString() + "\"/>");
+            }
+
+            sb.Append("</worksheet>");
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Method to save the workbook
+        /// </summary>
+        /// <exception cref="IOException">Throws IOException in case of an error</exception>
+        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
+        /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
+        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+        /// <remarks>The UndefinedStyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
+        public void Save()
+        {
+            this.workbook.ResolveMergedCells();
+            DocumentPath sheetPath;
+            List<Uri> sheetURIs = new List<Uri>();
+
+            try
+            {
+                using (System.IO.Packaging.Package p = Package.Open(this.workbook.Filename, FileMode.Create))
+                {
+                    Uri workbookUri = new Uri(WORKBOOK.GetFullPath(), UriKind.Relative);
+                    Uri stylesheetUri = new Uri(STYLES.GetFullPath(), UriKind.Relative);
+                    Uri appPropertiesUri = new Uri(APP_PROPERTIES.GetFullPath(), UriKind.Relative);
+                    Uri corePropertiesUri = new Uri(CORE_PROPERTIES.GetFullPath(), UriKind.Relative);
+                    Uri sharedStringsUri = new Uri(SHARED_STRINGS.GetFullPath(), UriKind.Relative);
+
+                    PackagePart pp = p.CreatePart(workbookUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", CompressionOption.Normal);
+                    p.CreateRelationship(pp.Uri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument", "rId1");
+                    p.CreateRelationship(corePropertiesUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties", "rId2"); //!
+                    p.CreateRelationship(appPropertiesUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties", "rId3"); //!
+
+                    AppendXmlToPackagePart(CreateWorkbookDocument(), pp);
+                    int idCounter = this.workbook.Worksheets.Count + 1;
+
+                    pp.CreateRelationship(stylesheetUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", "rId" + idCounter.ToString());
+                    pp.CreateRelationship(sharedStringsUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings", "rId" + (idCounter + 1).ToString());
+
+                    foreach (Worksheet item in this.workbook.Worksheets)
+                    {
+                        sheetPath = new DocumentPath("sheet" + item.SheetID.ToString() + ".xml", "xl/worksheets");
+                        sheetURIs.Add(new Uri(sheetPath.GetFullPath(), UriKind.Relative));
+                        pp.CreateRelationship(sheetURIs[sheetURIs.Count - 1], TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet", "rId" + item.SheetID.ToString());
+                    }
+
+                    pp = p.CreatePart(stylesheetUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", CompressionOption.Normal);
+                    AppendXmlToPackagePart(CreateStyleSheetDocument(), pp);
+
+                    int i = 0;
+                    foreach (Worksheet item in this.workbook.Worksheets)
+                    {
+                        pp = p.CreatePart(sheetURIs[i], @"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", CompressionOption.Normal);
+                        i++;
+                        AppendXmlToPackagePart(CreateWorksheetPart(item), pp);
+                    }
+
+
+
+                    pp = p.CreatePart(sharedStringsUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", CompressionOption.Normal);
+                    AppendXmlToPackagePart(CreateSharedStringsDocument(), pp);
+
+
+
+                    if (workbook.WorkbookMetadata != null)
+                    {
+                        pp = p.CreatePart(appPropertiesUri, @"application/vnd.openxmlformats-officedocument.extended-properties+xml", CompressionOption.Normal);
+                        AppendXmlToPackagePart(CreateAppPropertiesDocument(), pp);
+                        pp = p.CreatePart(corePropertiesUri, @"application/vnd.openxmlformats-package.core-properties+xml", CompressionOption.Normal);
+                        AppendXmlToPackagePart(CreateCorePropertiesDocument(), pp);
+                    }
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                throw new IOException("An error occurred while saving. See inner exception for details.", e);
+            }
+        }
+
 
 #endregion
 
-#region document utils
+#region documentUtil_methods
 
         /// <summary>
-        /// Method to sort the cells of a worksheet as preparation for the XML document
+        /// Method to append a simple XML tag with an enclosed value to the passed StringBuilder
+        /// </summary>
+        /// <param name="sb">StringBuilder to append</param>
+        /// <param name="value">Value of the XML element</param>
+        /// <param name="tagName">Tag name of the XML element</param>
+        /// <param name="nameSpace">Optional XML name space. Can be empty or null</param>
+        /// <returns>Returns false if no tag was appended, because the value or tag name was null or empty</returns>
+        private bool AppendXMLtag(StringBuilder sb, string value, string tagName, string nameSpace)
+        {
+            if (string.IsNullOrEmpty(value)) { return false; }
+            if (sb == null || string.IsNullOrEmpty(tagName)) { return false; }
+            bool hasNoNs = string.IsNullOrEmpty(nameSpace);
+            sb.Append('<');
+            if (hasNoNs == false)
+            {
+                sb.Append(nameSpace);
+                sb.Append(':');
+            }
+            sb.Append(tagName + ">");
+            sb.Append(EscapeXMLChars(value));
+            sb.Append("</");
+            if (hasNoNs == false)
+            {
+                sb.Append(nameSpace);
+                sb.Append(':');
+            }
+            sb.Append(tagName);
+            sb.Append(">");
+            return true;
+        }
+
+        /// <summary>
+        /// Writes raw XML strings into the passed Package Part
+        /// </summary>
+        /// <param name="doc">document as raw XML string</param>
+        /// <param name="pp">Package part to append the XML data</param>
+        /// <exception cref="IOException">Throws an IOException if the XML data could not be written into the Package Part</exception>
+        private void AppendXmlToPackagePart(string doc, PackagePart pp)
+        {
+            try
+            {
+                using (MemoryStream ms = new MemoryStream()) // Write workbook.xml
+                {
+                    if (ms.CanWrite == false) { return; }
+                    using (XmlWriter writer = XmlWriter.Create(ms))
+                    {
+                        //doc.WriteTo(writer);
+                        writer.WriteProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"");
+                        writer.WriteRaw(doc);
+                        writer.Flush();
+                        ms.Position = 0;
+                        ms.CopyTo(pp.GetStream());
+                        ms.Flush();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new IOException("The XML document could not be saved into the memory stream", e);
+            }
+        }
+
+        /// <summary>
+        /// Method to create the XML string for the app-properties document
+        /// </summary>
+        /// <returns>String with formated XML data</returns>
+        private string CreateAppString()
+        {
+            if (this.workbook.WorkbookMetadata == null) { return string.Empty; }
+            Metadata md = this.workbook.WorkbookMetadata;
+            StringBuilder sb = new StringBuilder();
+            AppendXMLtag(sb, "0", "TotalTime", null);
+            AppendXMLtag(sb, md.Application, "Application", null);
+            AppendXMLtag(sb, "0", "DocSecurity", null);
+            AppendXMLtag(sb, "false", "ScaleCrop", null);
+            AppendXMLtag(sb, md.Manager, "Manager", null);
+            AppendXMLtag(sb, md.Company, "Company", null);
+            AppendXMLtag(sb, "false", "LinksUpToDate", null);
+            AppendXMLtag(sb, "false", "SharedDoc", null);
+            AppendXMLtag(sb, md.HyperlinkBase, "HyperlinkBase", null);
+            AppendXMLtag(sb, "false", "HyperlinksChanged", null);
+            AppendXMLtag(sb, md.ApplicationVersion, "AppVersion", null);
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Method to create the columns as XML string. This is used to define the width of columns
+        /// </summary>
+        /// <param name="worksheet">Worksheet to process</param>
+        /// <returns>String with formated XML data</returns>
+        private string CreateColsString(Worksheet worksheet)
+        {
+            if (worksheet.Columns.Count > 0)
+            {
+                string col;
+                string hidden = "";
+                StringBuilder sb = new StringBuilder();
+                foreach (KeyValuePair<int, Worksheet.Column> column in worksheet.Columns)
+                {
+                    if (column.Value.Width == worksheet.DefaultColumnWidth && column.Value.IsHidden == false) { continue; }
+                    if (worksheet.Columns.ContainsKey(column.Key))
+                    {
+                        if (worksheet.Columns[column.Key].IsHidden == true)
+                        {
+                            hidden = " hidden=\"1\"";
+                        }
+                    }
+                    col = (column.Key + 1).ToString("G", culture); // Add 1 for Address
+                    sb.Append("<col customWidth=\"1\" width=\"" + column.Value.Width.ToString("G", culture) + "\" max=\"" + col + "\" min=\"" + col + "\"" + hidden + "/>");
+                }
+                string value = sb.ToString();
+                if (value.Length > 0)
+                {
+                    return value;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Method to create the XML string for the core-properties document
+        /// </summary>
+        /// <returns>String with formated XML data</returns>
+        private string CreateCorePropertiesString()
+        {
+            if (this.workbook.WorkbookMetadata == null) { return string.Empty; }
+            Metadata md = this.workbook.WorkbookMetadata;
+            StringBuilder sb = new StringBuilder();
+            AppendXMLtag(sb, md.Title, "title", "dc");
+            AppendXMLtag(sb, md.Subject, "subject", "dc");
+            AppendXMLtag(sb, md.Creator, "creator", "dc");
+            AppendXMLtag(sb, md.Creator, "lastModifiedBy", "cp");
+            AppendXMLtag(sb, md.Keywords, "keywords", "cp");
+            AppendXMLtag(sb, md.Description, "description", "dc");
+            string time = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ssZ", this.culture);
+            sb.Append("<dcterms:created xsi:type=\"dcterms:W3CDTF\">" + time + "</dcterms:created>");
+            sb.Append("<dcterms:modified xsi:type=\"dcterms:W3CDTF\">" + time + "</dcterms:modified>");
+
+            AppendXMLtag(sb, md.Category, "category", "cp");
+            AppendXMLtag(sb, md.ContentStatus, "contentStatus", "cp");
+
+            return sb.ToString();
+        }
+        
+        /// <summary>
+        /// Method to create the merged cells string of the passed worksheet
         /// </summary>
         /// <param name="sheet">Worksheet to process</param>
-        /// <returns>Two dimensional array of Cell objects</returns>
-        private List<List<Cell>> GetSortedSheetData(Worksheet sheet)
+        /// <returns>Formated string with merged cell ranges</returns>
+        private string CreateMergedCellsString(Worksheet sheet)
         {
-            List<Cell> temp = new List<Cell>();
-            foreach(KeyValuePair<string, Cell> item in sheet.Cells)
+            if (sheet.MergedCells.Count < 1)
             {
-                temp.Add(item.Value);
+                return string.Empty;
             }
-            temp.Sort();
-            List<Cell> line = new List<Cell>();
-            List<List<Cell>> output = new List<List<Cell>>();
-            if (temp.Count > 0)
-            {
-                int rowNumber = temp[0].RowAddress;
-                foreach (Cell item in temp)
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<mergeCells count=\"" + sheet.MergedCells.Count.ToString("G", culture) + "\">");
+                foreach (KeyValuePair<string, Cell.Range> item in sheet.MergedCells)
                 {
-                    if (item.RowAddress != rowNumber)
-                    {
-                        output.Add(line);
-                        line = new List<Cell>();
-                        rowNumber = item.RowAddress;
-                    }
-                    line.Add(item);
+                    sb.Append("<mergeCell ref=\"" + item.Value.ToString() + "\"/>");
                 }
-                if (line.Count > 0)
-                {
-                    output.Add(line);
-                }
-            }
-            return output;
+            sb.Append("</mergeCells>");
+            return sb.ToString();
         }
 
         /// <summary>
@@ -470,7 +613,7 @@ namespace PicoXLSX
                     bVal = (bool)item.Value;
                     if (bVal == true) { value = "1"; }
                     else { value = "0"; }
-                    
+
                 }
                 // Number casting
                 else if (item.Fieldtype == Cell.CellType.NUMBER)
@@ -488,11 +631,11 @@ namespace PicoXLSX
                     {
                         value = ((long)item.Value).ToString("G", culture);
                     }
-                    else if(t == typeof(double))
+                    else if (t == typeof(double))
                     {
                         value = ((double)item.Value).ToString("G", culture);
                     }
-                    else if(t == typeof(float))
+                    else if (t == typeof(float))
                     {
                         value = ((float)item.Value).ToString("G", culture);
                     }
@@ -554,27 +697,6 @@ namespace PicoXLSX
                 col++;
             }
             sb.Append("</row>");
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Method to create the merged cells string of the passed worksheet
-        /// </summary>
-        /// <param name="sheet">Worksheet to process</param>
-        /// <returns>Formated string with merged cell ranges</returns>
-        private string CreateMergedCellsString(Worksheet sheet)
-        {
-            if (sheet.MergedCells.Count < 1)
-            {
-                return string.Empty;
-            }
-                StringBuilder sb = new StringBuilder();
-                sb.Append("<mergeCells count=\"" + sheet.MergedCells.Count.ToString("G", culture) + "\">");
-                foreach (KeyValuePair<string, Cell.Range> item in sheet.MergedCells)
-                {
-                    sb.Append("<mergeCell ref=\"" + item.Value.ToString() + "\"/>");
-                }
-            sb.Append("</mergeCells>");
             return sb.ToString();
         }
 
@@ -649,100 +771,6 @@ namespace PicoXLSX
            return sb.ToString();
         }
 
-
-        /// <summary>
-        /// Method to create the XML string for the app-properties document
-        /// </summary>
-        /// <returns>String with formated XML data</returns>
-        private string CreateAppString()
-        {
-            if (this.workbook.WorkbookMetadata == null) { return string.Empty; }
-            Metadata md = this.workbook.WorkbookMetadata;
-            StringBuilder sb = new StringBuilder();
-            AppendXMLtag(sb, "0", "TotalTime", null);
-            AppendXMLtag(sb, md.Application, "Application", null);
-            AppendXMLtag(sb, "0", "DocSecurity", null);
-            AppendXMLtag(sb, "false", "ScaleCrop", null);
-            AppendXMLtag(sb, md.Manager, "Manager", null);
-            AppendXMLtag(sb, md.Company, "Company", null);
-            AppendXMLtag(sb, "false", "LinksUpToDate", null);
-            AppendXMLtag(sb, "false", "SharedDoc", null);
-            AppendXMLtag(sb, md.HyperlinkBase, "HyperlinkBase", null);
-            AppendXMLtag(sb, "false", "HyperlinksChanged", null);
-            AppendXMLtag(sb, md.ApplicationVersion, "AppVersion", null);
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Method to create the XML string for the core-properties document
-        /// </summary>
-        /// <returns>String with formated XML data</returns>
-        private string CreateCorePropertiesString()
-        {
-            if (this.workbook.WorkbookMetadata == null) { return string.Empty; }
-            Metadata md = this.workbook.WorkbookMetadata;
-            StringBuilder sb = new StringBuilder();
-            AppendXMLtag(sb, md.Title, "title", "dc");
-            AppendXMLtag(sb, md.Subject, "subject", "dc");
-            AppendXMLtag(sb, md.Creator, "creator", "dc");
-            AppendXMLtag(sb, md.Creator, "lastModifiedBy", "cp");
-            AppendXMLtag(sb, md.Keywords, "keywords", "cp");
-            AppendXMLtag(sb, md.Description, "description", "dc");
-            string time = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ssZ", this.culture);
-            sb.Append("<dcterms:created xsi:type=\"dcterms:W3CDTF\">" + time + "</dcterms:created>");
-            sb.Append("<dcterms:modified xsi:type=\"dcterms:W3CDTF\">" + time + "</dcterms:modified>");
-
-            AppendXMLtag(sb, md.Category, "category", "cp");
-            AppendXMLtag(sb, md.ContentStatus, "contentStatus", "cp");
-
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Method to create the XML string for the font part of the style sheet document
-        /// </summary>
-        /// <param name="fontStyles">List of Style.Font objects</param>
-        /// <returns>String with formated XML data</returns>
-        private string CreateStyleFontString(List<Style.Font> fontStyles)
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach(Style.Font item in fontStyles)
-            {
-                sb.Append("<font>");
-                if (item.Bold == true) { sb.Append("<b/>"); }
-                if (item.Italic == true) { sb.Append("<i/>"); }
-                if (item.Underline == true) { sb.Append("<u/>"); }
-                if (item.DoubleUnderline == true) { sb.Append("<u val=\"double\"/>"); }
-                if (item.Strike == true) { sb.Append("<strike/>"); }
-                if (item.VerticalAlign == Style.Font.VerticalAlignValue.subscript) { sb.Append("<vertAlign val=\"subscript\"/>"); }
-                else if (item.VerticalAlign == Style.Font.VerticalAlignValue.superscript) { sb.Append("<vertAlign val=\"superscript\"/>"); }
-                sb.Append("<sz val=\"" + item.Size.ToString("G", culture) + "\"/>");
-                if (string.IsNullOrEmpty(item.ColorValue))
-                {
-                    sb.Append("<color theme=\"" + item.ColorTheme.ToString("G", culture) + "\"/>");
-                }
-                else
-                {
-                    sb.Append("<color rgb=\"" + item.ColorValue + "\"/>");
-                }
-                sb.Append("<name val=\"" + item.Name + "\"/>");
-                sb.Append("<family val=\"" + item.Family + "\"/>");
-                if (item.Scheme != Style.Font.SchemeValue.none)
-                {
-                    if (item.Scheme == Style.Font.SchemeValue.major)
-                    { sb.Append("<scheme val=\"major\"/>"); }
-                    else if (item.Scheme == Style.Font.SchemeValue.minor)
-                    { sb.Append("<scheme val=\"minor\"/>"); }
-                }
-                if (string.IsNullOrEmpty(item.Charset) == false)
-                {
-                    sb.Append("<charset val=\"" + item.Charset + "\"/>");
-                }
-                sb.Append("</font>");
-            }
-            return sb.ToString();
-        }
-
         /// <summary>
         /// Method to create the XML string for the border part of the style sheet document
         /// </summary>
@@ -757,7 +785,7 @@ namespace PicoXLSX
                 else if (item.DiagonalDown == false && item.DiagonalUp == true) { sb.Append("<border diagonalUp=\"1\">"); }
                 else if (item.DiagonalDown == true && item.DiagonalUp == true) { sb.Append("<border diagonalDown=\"1\" diagonalUp=\"1\">"); }
                 else { sb.Append("<border>"); }
-                
+
                 if (item.LeftStyle != Style.Border.StyleValue.none)
                 {
                     sb.Append("<left style=\"" + Style.Border.GetStyleName(item.LeftStyle) + "\">");
@@ -820,6 +848,51 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Method to create the XML string for the font part of the style sheet document
+        /// </summary>
+        /// <param name="fontStyles">List of Style.Font objects</param>
+        /// <returns>String with formated XML data</returns>
+        private string CreateStyleFontString(List<Style.Font> fontStyles)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach(Style.Font item in fontStyles)
+            {
+                sb.Append("<font>");
+                if (item.Bold == true) { sb.Append("<b/>"); }
+                if (item.Italic == true) { sb.Append("<i/>"); }
+                if (item.Underline == true) { sb.Append("<u/>"); }
+                if (item.DoubleUnderline == true) { sb.Append("<u val=\"double\"/>"); }
+                if (item.Strike == true) { sb.Append("<strike/>"); }
+                if (item.VerticalAlign == Style.Font.VerticalAlignValue.subscript) { sb.Append("<vertAlign val=\"subscript\"/>"); }
+                else if (item.VerticalAlign == Style.Font.VerticalAlignValue.superscript) { sb.Append("<vertAlign val=\"superscript\"/>"); }
+                sb.Append("<sz val=\"" + item.Size.ToString("G", culture) + "\"/>");
+                if (string.IsNullOrEmpty(item.ColorValue))
+                {
+                    sb.Append("<color theme=\"" + item.ColorTheme.ToString("G", culture) + "\"/>");
+                }
+                else
+                {
+                    sb.Append("<color rgb=\"" + item.ColorValue + "\"/>");
+                }
+                sb.Append("<name val=\"" + item.Name + "\"/>");
+                sb.Append("<family val=\"" + item.Family + "\"/>");
+                if (item.Scheme != Style.Font.SchemeValue.none)
+                {
+                    if (item.Scheme == Style.Font.SchemeValue.major)
+                    { sb.Append("<scheme val=\"major\"/>"); }
+                    else if (item.Scheme == Style.Font.SchemeValue.minor)
+                    { sb.Append("<scheme val=\"minor\"/>"); }
+                }
+                if (string.IsNullOrEmpty(item.Charset) == false)
+                {
+                    sb.Append("<charset val=\"" + item.Charset + "\"/>");
+                }
+                sb.Append("</font>");
+            }
+            return sb.ToString();
+        }
+
+        /// <summary>
         /// Method to create the XML string for the fill part of the style sheet document
         /// </summary>
         /// <param name="fillStyles">List of Style.Fill objects</param>
@@ -858,52 +931,24 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method to create the XML string for the color-MRU part of the style sheet document (recent colors)
+        /// Method to create the XML string for the number format part of the style sheet document 
         /// </summary>
-        /// <param name="fills">List of Style.Fill objects</param>
-        /// <param name="fonts">List of Style.Font objects</param>
+        /// <param name="numberFormatStyles">List of Style.NumberFormat objects</param>
+        /// <param name="counter">Out-parameter for the number of custom number formats</param>
         /// <returns>String with formated XML data</returns>
-        private string CreateMruColorsString(List<Style.Font> fonts, List<Style.Fill> fills)
+        private string CreateStyleNumberFormatString(List<Style.NumberFormat> numberFormatStyles, out int counter)
         {
+            counter = 0;
             StringBuilder sb = new StringBuilder();
-            List<string> tempColors = new List<string>();
-            foreach (Style.Font item in fonts)
+            foreach (Style.NumberFormat item in numberFormatStyles)
             {
-                if (string.IsNullOrEmpty(item.ColorValue) == true) { continue; }
-                if (item.ColorValue == Style.Fill.DEFAULTCOLOR) { continue; }
-                if (tempColors.Contains(item.ColorValue) == false) { tempColors.Add(item.ColorValue); }
-            }
-            foreach (Style.Fill item in fills)
-            {
-                if (string.IsNullOrEmpty(item.BackgroundColor) == false)
+                if (item.IsCustomFormat == true)
                 {
-                    if (item.BackgroundColor != Style.Fill.DEFAULTCOLOR)
-                    {
-                        if (tempColors.Contains(item.BackgroundColor) == false) { tempColors.Add(item.BackgroundColor); }
-                    }
-                }
-                if (string.IsNullOrEmpty(item.ForegroundColor) == false)
-                {
-                    if (item.ForegroundColor != Style.Fill.DEFAULTCOLOR)
-                    {
-                        if (tempColors.Contains(item.ForegroundColor) == false) { tempColors.Add(item.ForegroundColor); }
-                    }
+                    sb.Append("<numFmt formatCode=\"" + item.CustomFormatCode + "\" numFmtId=\"" + item.CustomFormatID.ToString("G", culture) + "\"/>");
+                    counter++;
                 }
             }
-            if (tempColors.Count > 0)
-            {
-                sb.Append("<mruColors>");
-                foreach(string item in tempColors)
-                {
-                    sb.Append("<color rgb=\"" + item + "\"/>");
-                }
-                sb.Append("</mruColors>");
-                return sb.ToString();
-            }
-            else
-            {
-                return string.Empty;
-            }
+            return sb.ToString();
         }
 
         /// <summary>
@@ -949,7 +994,7 @@ namespace PicoXLSX
                         else { sb2.Append("bottom"); }
                         sb2.Append("\"");
                     }
-                    
+
                     if (item.CurrentCellXf.Alignment != Style.CellXf.TextBreakValue.none)
                     {
                         if (item.CurrentCellXf.Alignment == Style.CellXf.TextBreakValue.shrinkToFit) { sb2.Append(" shrinkToFit=\"1"); }
@@ -1021,7 +1066,7 @@ namespace PicoXLSX
                 }
                 else
                 {
-                    sb.Append("\""); 
+                    sb.Append("\"");
                 }
                 if (alignmentString != string.Empty || protectionString != string.Empty)
                 {
@@ -1039,39 +1084,47 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method to create the columns as XML string. This is used to define the width of columns
+        /// Method to create the XML string for the color-MRU part of the style sheet document (recent colors)
         /// </summary>
-        /// <param name="worksheet">Worksheet to process</param>
+        /// <param name="fills">List of Style.Fill objects</param>
+        /// <param name="fonts">List of Style.Font objects</param>
         /// <returns>String with formated XML data</returns>
-        private string CreateColsString(Worksheet worksheet)
+        private string CreateMruColorsString(List<Style.Font> fonts, List<Style.Fill> fills)
         {
-            if (worksheet.Columns.Count > 0)
+            StringBuilder sb = new StringBuilder();
+            List<string> tempColors = new List<string>();
+            foreach (Style.Font item in fonts)
             {
-                string col;
-                string hidden = "";
-                StringBuilder sb = new StringBuilder();
-                foreach(KeyValuePair<int, Worksheet.Column> column in worksheet.Columns)
-                { 
-                    if (column.Value.Width == worksheet.DefaultColumnWidth && column.Value.IsHidden == false) { continue; }
-                    if (worksheet.Columns.ContainsKey(column.Key))
+                if (string.IsNullOrEmpty(item.ColorValue) == true) { continue; }
+                if (item.ColorValue == Style.Fill.DEFAULTCOLOR) { continue; }
+                if (tempColors.Contains(item.ColorValue) == false) { tempColors.Add(item.ColorValue); }
+            }
+            foreach (Style.Fill item in fills)
+            {
+                if (string.IsNullOrEmpty(item.BackgroundColor) == false)
+                {
+                    if (item.BackgroundColor != Style.Fill.DEFAULTCOLOR)
                     {
-                        if (worksheet.Columns[column.Key].IsHidden == true)
-                        {
-                            hidden = " hidden=\"1\"";
-                        }
+                        if (tempColors.Contains(item.BackgroundColor) == false) { tempColors.Add(item.BackgroundColor); }
                     }
-                    col = (column.Key + 1).ToString("G", culture); // Add 1 for Address
-                    sb.Append("<col customWidth=\"1\" width=\"" + column.Value.Width.ToString("G", culture) + "\" max=\"" + col + "\" min=\"" + col + "\"" + hidden + "/>");
                 }
-                string value = sb.ToString();
-                if (value.Length > 0)
+                if (string.IsNullOrEmpty(item.ForegroundColor) == false)
                 {
-                    return value;
+                    if (item.ForegroundColor != Style.Fill.DEFAULTCOLOR)
+                    {
+                        if (tempColors.Contains(item.ForegroundColor) == false) { tempColors.Add(item.ForegroundColor); }
+                    }
                 }
-                else
+            }
+            if (tempColors.Count > 0)
+            {
+                sb.Append("<mruColors>");
+                foreach(string item in tempColors)
                 {
-                    return string.Empty;
+                    sb.Append("<color rgb=\"" + item + "\"/>");
                 }
+                sb.Append("</mruColors>");
+                return sb.ToString();
             }
             else
             {
@@ -1080,94 +1133,45 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method to create the XML string for the number format part of the style sheet document 
+        /// Method to sort the cells of a worksheet as preparation for the XML document
         /// </summary>
-        /// <param name="numberFormatStyles">List of Style.NumberFormat objects</param>
-        /// <param name="counter">Out-parameter for the number of custom number formats</param>
-        /// <returns>String with formated XML data</returns>
-        private string CreateStyleNumberFormatString(List<Style.NumberFormat> numberFormatStyles, out int counter)
+        /// <param name="sheet">Worksheet to process</param>
+        /// <returns>Two dimensional array of Cell objects</returns>
+        private List<List<Cell>> GetSortedSheetData(Worksheet sheet)
         {
-            counter = 0;
-            StringBuilder sb = new StringBuilder();
-            foreach (Style.NumberFormat item in numberFormatStyles)
+            List<Cell> temp = new List<Cell>();
+            foreach (KeyValuePair<string, Cell> item in sheet.Cells)
             {
-                if (item.IsCustomFormat == true)
+                temp.Add(item.Value);
+            }
+            temp.Sort();
+            List<Cell> line = new List<Cell>();
+            List<List<Cell>> output = new List<List<Cell>>();
+            if (temp.Count > 0)
+            {
+                int rowNumber = temp[0].RowAddress;
+                foreach (Cell item in temp)
                 {
-                    sb.Append("<numFmt formatCode=\"" + item.CustomFormatCode + "\" numFmtId=\"" + item.CustomFormatID.ToString("G", culture) + "\"/>");
-                    counter++;
-                }
-            }
-            return sb.ToString();
-        }
-
-
-        /// <summary>
-        /// Method to append a simple XML tag with an enclosed value to the passed StringBuilder
-        /// </summary>
-        /// <param name="sb">StringBuilder to append</param>
-        /// <param name="value">Value of the XML element</param>
-        /// <param name="tagName">Tag name of the XML element</param>
-        /// <param name="nameSpace">Optional XML name space. Can be empty or null</param>
-        /// <returns>Returns false if no tag was appended, because the value or tag name was null or empty</returns>
-        private bool AppendXMLtag(StringBuilder sb, string value, string tagName, string nameSpace)
-        {
-            if (string.IsNullOrEmpty(value)) { return false; }
-            if (sb == null || string.IsNullOrEmpty(tagName)) { return false; }
-            bool hasNoNs = string.IsNullOrEmpty(nameSpace);
-            sb.Append('<');
-            if (hasNoNs == false)
-            {
-                sb.Append(nameSpace);
-                sb.Append(':');
-            }
-            sb.Append(tagName + ">");
-            sb.Append(EscapeXMLChars(value));
-            sb.Append("</");
-            if (hasNoNs == false)
-            {
-                sb.Append(nameSpace);
-                sb.Append(':');
-            }
-            sb.Append(tagName);
-            sb.Append(">");
-            return true;
-        }
-
-        /// <summary>
-        /// Writes raw XML strings into the passed Package Part
-        /// </summary>
-        /// <param name="doc">document as raw XML string</param>
-        /// <param name="pp">Package part to append the XML data</param>
-        /// <exception cref="IOException">Throws an IOException if the XML data could not be written into the Package Part</exception>
-        private void AppendXmlToPackagePart(string doc, PackagePart pp)
-        {
-            try
-            {
-                using (MemoryStream ms = new MemoryStream()) // Write workbook.xml
-                {
-                    if (ms.CanWrite == false) { return; }
-                    using (XmlWriter writer = XmlWriter.Create(ms))
+                    if (item.RowAddress != rowNumber)
                     {
-                        //doc.WriteTo(writer);
-                        writer.WriteProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"");
-                        writer.WriteRaw(doc);
-                        writer.Flush();
-                        ms.Position = 0;
-                        ms.CopyTo(pp.GetStream());
-                        ms.Flush();
+                        output.Add(line);
+                        line = new List<Cell>();
+                        rowNumber = item.RowAddress;
                     }
+                    line.Add(item);
+                }
+                if (line.Count > 0)
+                {
+                    output.Add(line);
                 }
             }
-            catch (Exception e)
-            {
-                throw new IOException("The XML document could not be saved into the memory stream", e);
-            }
+            return output;
         }
+
 
 #endregion
 
-#region static util methods
-
+#region staticMethods
 
         /// <summary>
 		/// Creates an unique, random string with the stated length
@@ -1279,6 +1283,29 @@ namespace PicoXLSX
             return input;
         }
 
+        /// <summary>
+        /// Method to generate an Excel internal password hash to protect workbooks or worksheets<br></br>This method is derived from the c++ implementation by Kohei Yoshida (<a href="http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/">http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/</a>)
+        /// </summary>
+        /// <remarks>WARNING! Do not use this method to encrypt 'real' passwords or data outside from PicoXLSX. This is only a minor security feature. Use a proper cryptography method instead.</remarks>
+        /// <param name="password">Password string in UTF-8 to encrypt</param>
+        /// <returns>16 bit hash as hex string</returns>
+        public static string GeneratePasswordHash(string password)
+        {
+            if (string.IsNullOrEmpty(password)) { return string.Empty; }
+            int PasswordLength = password.Length;
+            int passwordHash = 0;
+            char character;
+            for (int i = PasswordLength; i > 0; i--)
+            {
+                character = password[i - 1];
+                passwordHash = ((passwordHash >> 14) & 0x01) | ((passwordHash << 1) & 0x7fff);
+                passwordHash ^= character;
+            }
+            passwordHash = ((passwordHash >> 14) & 0x01) | ((passwordHash << 1) & 0x7fff);
+            passwordHash ^= (0x8000 | ('N' << 8) | 'K');
+            passwordHash ^= PasswordLength;
+            return passwordHash.ToString("X");
+        }
 
         /// <summary>
         /// Method to convert a date or date and time into the internal Excel time format (OAdate)
@@ -1305,33 +1332,9 @@ namespace PicoXLSX
             }
         }
 
-        /// <summary>
-        /// Method to generate an Excel internal password hash to protect workbooks or worksheets<br></br>This method is derived from the c++ implementation by Kohei Yoshida (<a href="http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/">http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/</a>)
-        /// </summary>
-        /// <remarks>WARNING! Do not use this method to encrypt 'real' passwords or data outside from PicoXLSX. This is only a minor security feature. Use a proper cryptography method instead.</remarks>
-        /// <param name="password">Password string in UTF-8 to encrypt</param>
-        /// <returns>16 bit hash as hex string</returns>
-        public static string GeneratePasswordHash(string password)
-        {
-            if (string.IsNullOrEmpty(password)) { return string.Empty; }
-            int PasswordLength = password.Length;
-            int passwordHash = 0;
-            char character;
-            for (int i = PasswordLength; i > 0; i--)
-            {
-                character = password[i - 1];
-                passwordHash = ((passwordHash >> 14) & 0x01) | ((passwordHash << 1) & 0x7fff);
-                passwordHash ^= character;
-            }
-            passwordHash = ((passwordHash >> 14) & 0x01) | ((passwordHash << 1) & 0x7fff);
-            passwordHash ^= (0x8000 | ('N' << 8) | 'K');
-            passwordHash ^= PasswordLength;
-            return passwordHash.ToString("X");
-        }
-
 #endregion
 
-#region sub classes
+#region subClasses
 
     /// <summary>
     /// Class to manage key value pairs (string / string). The entries are in the order how they were added

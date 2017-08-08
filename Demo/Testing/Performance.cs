@@ -56,7 +56,7 @@ namespace Testing
         	System.Console.WriteLine("Writing cells...");
         	PicoXLSX.Workbook b = new PicoXLSX.Workbook(filename, sheetname);
         	PicoXLSX.Worksheet s = b.CurrentWorksheet;
-        	s.CurrentCellDirection = PicoXLSX.Worksheet.CellDirection.ColumnToColum;
+        	s.CurrentCellDirection = PicoXLSX.Worksheet.CellDirection.ColumnToColumn;
         	for (int i = 0; i < rows; i++)
         	{
         		for(j = 0; j < cols; j++)
