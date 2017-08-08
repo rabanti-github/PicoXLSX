@@ -30,7 +30,7 @@ Place all .CS files from the PicoXLSX source folder into your project. You can p
 ```
 
 ## Further References
-See the full <b>API-Documentation</b> at: [https://rabanti-github.github.io/PicoXLSX/](https://rabanti-github.github.io/PicoXLSX/) 
+See the full <b>API-Documentation</b> at: [https://rabanti-github.github.io/PicoXLSX/](https://rabanti-github.github.io/PicoXLSX/).<br>
 The [Demo project](https://github.com/rabanti-github/PicoXLSX/tree/master/Demo) contains nine simple use cases. You can find also the full documentation in the [Documentation-Folder](https://github.com/rabanti-github/PicoXLSX/tree/master/Documentation) or as C# documentation in the .CS files.<br>
 See also: [Getting started in the Wiki](https://github.com/rabanti-github/PicoXLSX/wiki/Getting-started)
 
