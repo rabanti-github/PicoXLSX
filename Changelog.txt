@@ -1,3 +1,8 @@
+v1.6.2 12.08.2017
+******************
+- fixed a bug in the function to remove merged cells (Worksheet class)
+- Fixed typos
+
 v1.6.1 08.08.2017
 ******************
 Note: Due to a (now fixed) typo in a public parameter name, it is possible that some function calls on existing code must be fixed too (just renaming).

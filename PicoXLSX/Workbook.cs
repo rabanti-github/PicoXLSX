@@ -12,7 +12,7 @@ namespace PicoXLSX
 {
 
     /// <summary>
-    /// PicoXLSX is a library to generate XLSX files in a easy and native way
+    /// PicoXLSX is a library to generate XLSX files in an easy and native way
     /// </summary>
     [System.Runtime.CompilerServices.CompilerGenerated]
     class NamespaceDoc // This class is only for documentation purpose (Sandcastle)
@@ -367,11 +367,11 @@ namespace PicoXLSX
         /// <summary>
         /// Method to prepare the styles before saving the workbook. Don't use the method otherwise. Styles will be reordered and probably removed from the style sheet
         /// </summary>
-        /// <param name="borders">Out parameter for a sorted list of Style.Border objects</param>
-        /// <param name="fills">Out parameter for a sorted list of Style.Fill objects</param>
-        /// <param name="fonts">Out parameter for a sorted list of Style.Font objects</param>
-        /// <param name="numberFormats">Out parameter for a sorted list of Style.NumberFormat objects</param>
-        /// <param name="cellXfs">Out parameter for a sorted list of Style.CellXf objects</param>
+        /// <param name="borders">Out parameter for a sorted list of Style. Border objects</param>
+        /// <param name="fills">Out parameter for a sorted list of Style. Fill objects</param>
+        /// <param name="fonts">Out parameter for a sorted list of Style. Font objects</param>
+        /// <param name="numberFormats">Out parameter for a sorted list of Style. NumberFormat objects</param>
+        /// <param name="cellXfs">Out parameter for a sorted list of Style. CellXf objects</param>
         /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the passed style components cannot be referenced or is null</exception>
         /// <remarks>This method is for internal use but must be public. Otherwise it's not possible to access it from low level methods. Don't use it</remarks>
         public void ReorganizeStyles(out  List<Style.Border> borders, out List<Style.Fill> fills, out List<Style.Font> fonts, out List<Style.NumberFormat> numberFormats, out List<Style.CellXf> cellXfs)

@@ -196,7 +196,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method resets the Cell type an tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellTypes FORMULA and EMPTY will skip this method
+        /// Method resets the Cell type and tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellTypes FORMULA and EMPTY will skip this method
         /// </summary>
         public void ResolveCellType()
         {
@@ -472,7 +472,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Resolves a cell range from the format like  A1:B3 or AAD556:AAD1000
+        /// Resolves a cell range from the format like A1:B3 or AAD556:AAD1000
         /// </summary>
         /// <param name="range">Range to process</param>
         /// <returns>Range object</returns>

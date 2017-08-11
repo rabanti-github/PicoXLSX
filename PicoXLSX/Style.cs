@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace PicoXLSX
 {
     /// <summary>
-    /// Class representing a Style with sub classes within a style sheet. An instance of this class is only a container for the different sub-classes. These sub-classes contains the actual styling information.
+    /// Class representing a Style with sub classes within a style sheet. An instance of this class is only a container for the different sub-classes. These sub-classes contain the actual styling information.
     /// </summary>
     public class Style : IComparable<Style>, IEquatable<Style>
     {
@@ -165,7 +165,7 @@ namespace PicoXLSX
 
 #region subClass_CellXF
     /// <summary>
-    /// Class representing an XF entry. The XF entry is used to make reference to other style instances like Border oder Fill and for the positioning of the cell content
+    /// Class representing an XF entry. The XF entry is used to make reference to other style instances like Border or Fill and for the positioning of the cell content
     /// </summary>
     public class CellXf : IComparable<CellXf>, IEquatable<CellXf>
     {
@@ -677,12 +677,12 @@ namespace PicoXLSX
         /// <summary>
         /// Constructor with foreground and background color
         /// </summary>
-        /// <param name="forground">Foreground color of the fill</param>
+        /// <param name="foreground">Foreground color of the fill</param>
         /// <param name="background">Background color of the fill</param>
-        public Fill(string forground, string background)
+        public Fill(string foreground, string background)
         {
             this.BackgroundColor = background;
-            this.ForegroundColor = forground;
+            this.ForegroundColor = foreground;
             this.IndexedColor = 64;
             this.PatternFill = PatternValue.solid;
         }
@@ -748,7 +748,7 @@ namespace PicoXLSX
             else { return true; }
         }
         /// <summary>
-        /// Seth the color an the depending fill type
+        /// Set the color and the depending fill type
         /// </summary>
         /// <param name="value">color value</param>
         /// <param name="filltype">fill type (fill or pattern)</param>

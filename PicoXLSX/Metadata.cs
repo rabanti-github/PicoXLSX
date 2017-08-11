@@ -123,14 +123,14 @@ namespace PicoXLSX
 #region staticMethods
         /// <summary>
         /// Method to parse a common version (major.minor.revision.build) into the compatible format (major.minor). The minimum value is 0.0 and the maximum value is 99999.99999<br></br>
-        /// The minor, revision and build number are joined if possible. If the number is to long, the additional characters will be removed from the right side down to five characters (e.g. 785563 will be 78556)
+        /// The minor, revision and build number are joined if possible. If the number is too long, the additional characters will be removed from the right side down to five characters (e.g. 785563 will be 78556)
         /// </summary>
         /// <param name="major">Major number from 0 to 99999</param>
         /// <param name="minor">Minor number</param>
         /// <param name="build">Build number</param>
         /// <param name="revision">Revision number</param>
         /// <returns>Formated version number (e.g. 1.0 or 55.987)</returns>
-        /// <exception cref="FormatException">Throws a FormatException if the major number is to long or one of the numbers is negative</exception>
+        /// <exception cref="FormatException">Throws a FormatException if the major number is too long or one of the numbers is negative</exception>
         public static string ParseVersion(int major, int minor, int build, int revision)
         {
             if (major < 0 || minor < 0 || build < 0 || revision < 0)

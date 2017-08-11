@@ -92,7 +92,7 @@ namespace PicoXLSX
             insertColumns,
             /// <summary>If selected, the user can insert rows if the worksheets is protected</summary>
             insertRows,
-            /// <summary>If selected, the user can insert hyper links if the worksheets is protected</summary>
+            /// <summary>If selected, the user can insert hyperlinks if the worksheets is protected</summary>
             insertHyperlinks,
             /// <summary>If selected, the user can delete columns if the worksheets is protected</summary>
             deleteColumns,
@@ -310,7 +310,7 @@ namespace PicoXLSX
 #region methods_AddNextCell
 
         /// <summary>
-        /// Adds a object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String
+        /// Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String
         /// </summary>
         /// <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <param name="value">Unspecified value to insert</param> 
@@ -383,7 +383,7 @@ namespace PicoXLSX
 #region methods_AddCell
 
         /// <summary>
-        /// Adds a object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
+        /// Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
         /// </summary>
         /// <param name="value">Unspecified value to insert</param>
         /// <param name="columnAddress">Column number (zero based)</param>
@@ -398,7 +398,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Adds a object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
+        /// Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
         /// </summary>
         /// <param name="value">Unspecified value to insert</param>
         /// <param name="address">Cell address in the format A1 - XFD1048576</param>
@@ -776,7 +776,7 @@ namespace PicoXLSX
                 Cell cell;
                 foreach (Cell.Address address in addresses)
                 {
-                    if (this.cells.ContainsKey(addresses.ToString()))
+                    if (this.cells.ContainsKey(address.ToString()))
                     {
                         cell = this.cells[address.ToString()];
                         cell.Fieldtype = Cell.CellType.DEFAULT; // resets the type
@@ -810,8 +810,8 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the column auto filter within the defined column range
         /// </summary>
-        /// <param name="startColumn">Column number with the first appearance of a auto filter drop down</param>
-        /// <param name="endColumn">Column number with the last appearance of a auto filter drop down</param>
+        /// <param name="startColumn">Column number with the first appearance of an auto filter drop down</param>
+        /// <param name="endColumn">Column number with the last appearance of an auto filter drop down</param>
         /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address out of range</exception>
         public void SetAutoFilter(int startColumn, int endColumn)
         {
@@ -1070,7 +1070,7 @@ namespace PicoXLSX
         /// Validates and sets the worksheet name
         /// </summary>
         /// <param name="name">Name to set</param>
-        /// <exception cref="FormatException">Throws a FormatException if the sheet name is to long (max. 31) or contains illegal characters [  ]  * ? / \</exception>
+        /// <exception cref="FormatException">Throws a FormatException if the sheet name is too long (max. 31) or contains illegal characters [  ]  * ? / \</exception>
         public void SetSheetname(string name)
         {
             if (string.IsNullOrEmpty(name))
