@@ -45,7 +45,7 @@
   <HelpKINode Title="BorderFrame property" Url="html/daad8014-65bd-8327-cc6c-503b60ae7653.htm" />
   <HelpKINode Title="borderFrameHeader enumeration member" Url="html/34686cde-ba88-a4db-d64e-d3f544c9367a.htm" />
   <HelpKINode Title="BorderFrameHeader property" Url="html/96649a63-1d5b-fb7f-cdb0-2932e7e6cdd0.htm" />
-  <HelpKINode Title="bottom enumeration member" Url="html/422563e9-6272-264a-49f2-6d101f353cec.htm" />
+  <HelpKINode Title="bottom enumeration member" Url="html/9aff105d-3f3c-209e-6b7d-b851c6490690.htm" />
   <HelpKINode Title="BottomColor property" Url="html/44ad0056-fc9b-dc19-a110-670e9d9fda12.htm" />
   <HelpKINode Title="BottomStyle property" Url="html/6dfe6c9a-85d1-34fa-cca8-b5bfb25eea6a.htm" />
   <HelpKINode Title="CalculateInternalRotation method" Url="html/c533f83c-5d21-6f4b-6cb2-56c362a0c86d.htm" />
@@ -109,7 +109,7 @@
   </HelpKINode>
   <HelpKINode Title="center enumeration member">
     <HelpKINode Title="Style.CellXf.HorizontalAlignValue Enumeration" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
-    <HelpKINode Title="Style.CellXf.VerticallAlignValue Enumeration" Url="html/422563e9-6272-264a-49f2-6d101f353cec.htm" />
+    <HelpKINode Title="Style.CellXf.VerticalAlignValue Enumeration" Url="html/9aff105d-3f3c-209e-6b7d-b851c6490690.htm" />
   </HelpKINode>
   <HelpKINode Title="centerContinuous enumeration member" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
   <HelpKINode Title="Charset property" Url="html/048ce452-128b-2c67-6de7-cc4d26274f16.htm" />
@@ -206,7 +206,7 @@
   <HelpKINode Title="DiagonalUp property" Url="html/d2453b06-63f4-359b-db4d-bd098a2fbf4f.htm" />
   <HelpKINode Title="distributed enumeration member">
     <HelpKINode Title="Style.CellXf.HorizontalAlignValue Enumeration" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
-    <HelpKINode Title="Style.CellXf.VerticallAlignValue Enumeration" Url="html/422563e9-6272-264a-49f2-6d101f353cec.htm" />
+    <HelpKINode Title="Style.CellXf.VerticalAlignValue Enumeration" Url="html/9aff105d-3f3c-209e-6b7d-b851c6490690.htm" />
   </HelpKINode>
   <HelpKINode Title="DocumentPath class">
     <HelpKINode Title="methods" Url="html/db8cab22-25bb-7d90-ebb4-976ed27ebda1.htm" />
@@ -350,7 +350,7 @@
   <HelpKINode Title="Item property" Url="html/7a3728ee-2984-ba4d-1dee-df36a51aa702.htm" />
   <HelpKINode Title="justify enumeration member">
     <HelpKINode Title="Style.CellXf.HorizontalAlignValue Enumeration" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
-    <HelpKINode Title="Style.CellXf.VerticallAlignValue Enumeration" Url="html/422563e9-6272-264a-49f2-6d101f353cec.htm" />
+    <HelpKINode Title="Style.CellXf.VerticalAlignValue Enumeration" Url="html/9aff105d-3f3c-209e-6b7d-b851c6490690.htm" />
   </HelpKINode>
   <HelpKINode Title="Keys property" Url="html/d57708e2-3f02-4312-1c20-1b2c475e46f0.htm" />
   <HelpKINode Title="Keywords property" Url="html/7db682c7-ca52-df8b-2638-6b126412efae.htm" />
@@ -472,7 +472,7 @@
     <HelpKINode Title="Style.Border.StyleValue Enumeration" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
     <HelpKINode Title="Style.CellXf.HorizontalAlignValue Enumeration" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
     <HelpKINode Title="Style.CellXf.TextBreakValue Enumeration" Url="html/567653c2-d633-6b90-f169-fae46fab93fc.htm" />
-    <HelpKINode Title="Style.CellXf.VerticallAlignValue Enumeration" Url="html/422563e9-6272-264a-49f2-6d101f353cec.htm" />
+    <HelpKINode Title="Style.CellXf.VerticalAlignValue Enumeration" Url="html/9aff105d-3f3c-209e-6b7d-b851c6490690.htm" />
     <HelpKINode Title="Style.Fill.PatternValue Enumeration" Url="html/8eb3aaa5-5ec9-f14b-0857-a910d0101c88.htm" />
     <HelpKINode Title="Style.Font.SchemeValue Enumeration" Url="html/ef91bf2b-91e3-5d9b-22f1-77f39f2a3c68.htm" />
     <HelpKINode Title="Style.Font.VerticalAlignValue Enumeration" Url="html/a1869e04-b523-eae9-eb43-c71978e39369.htm" />
@@ -523,7 +523,7 @@
   <HelpKINode Title="PicoXLSX.Style.CellXf.HorizontalAlignValue enumeration" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
   <HelpKINode Title="PicoXLSX.Style.CellXf.TextBreakValue enumeration" Url="html/567653c2-d633-6b90-f169-fae46fab93fc.htm" />
   <HelpKINode Title="PicoXLSX.Style.CellXf.TextDirectionValue enumeration" Url="html/f49f234c-2222-24d5-d9f7-0eb0e53bffbe.htm" />
-  <HelpKINode Title="PicoXLSX.Style.CellXf.VerticallAlignValue enumeration" Url="html/422563e9-6272-264a-49f2-6d101f353cec.htm" />
+  <HelpKINode Title="PicoXLSX.Style.CellXf.VerticalAlignValue enumeration" Url="html/9aff105d-3f3c-209e-6b7d-b851c6490690.htm" />
   <HelpKINode Title="PicoXLSX.Style.Fill class" Url="html/4889f551-d9e8-98f5-4928-be808ecb71f8.htm" />
   <HelpKINode Title="PicoXLSX.Style.Fill.FillType enumeration" Url="html/d25639c7-0640-0ae4-1ce1-86f0069e7f10.htm" />
   <HelpKINode Title="PicoXLSX.Style.Fill.PatternValue enumeration" Url="html/8eb3aaa5-5ec9-f14b-0857-a910d0101c88.htm" />
@@ -697,7 +697,7 @@
   <HelpKINode Title="Style.CellXf.TextDirectionValue enumeration" Url="html/f49f234c-2222-24d5-d9f7-0eb0e53bffbe.htm" />
   <HelpKINode Title="Style.CellXf.TextRotation property" Url="html/4514e108-5d60-5f10-b1e6-e06168734b72.htm" />
   <HelpKINode Title="Style.CellXf.VerticalAlign property" Url="html/fec17d64-b1a4-2df6-edbe-ed3d0b06e485.htm" />
-  <HelpKINode Title="Style.CellXf.VerticallAlignValue enumeration" Url="html/422563e9-6272-264a-49f2-6d101f353cec.htm" />
+  <HelpKINode Title="Style.CellXf.VerticalAlignValue enumeration" Url="html/9aff105d-3f3c-209e-6b7d-b851c6490690.htm" />
   <HelpKINode Title="Style.CompareTo method" Url="html/a69523ec-9400-5ff5-c3e1-daabc404735a.htm" />
   <HelpKINode Title="Style.Copy method" Url="html/ba35aabb-c668-5ece-b3ee-8ffdaebe8e03.htm" />
   <HelpKINode Title="Style.CurrentBorder property" Url="html/985ca533-d5e5-3d56-4365-cd00df47dcbe.htm" />
@@ -781,7 +781,7 @@
   <HelpKINode Title="thick enumeration member" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
   <HelpKINode Title="thin enumeration member" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
   <HelpKINode Title="Title property" Url="html/dd6300e7-f5c6-c7ec-340a-6d66c5642126.htm" />
-  <HelpKINode Title="top enumeration member" Url="html/422563e9-6272-264a-49f2-6d101f353cec.htm" />
+  <HelpKINode Title="top enumeration member" Url="html/9aff105d-3f3c-209e-6b7d-b851c6490690.htm" />
   <HelpKINode Title="TopColor property" Url="html/2597f4c5-cb46-154c-3377-3ee1ffd9d8b2.htm" />
   <HelpKINode Title="TopStyle property" Url="html/2a0ab15b-9ede-c6ae-62f7-55954ca7318f.htm" />
   <HelpKINode Title="ToString method">

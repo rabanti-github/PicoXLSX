@@ -1018,27 +1018,27 @@
         <member name="F:PicoXLSX.Style.CellXf.TextDirectionValue.vertical">
             <summary>Text direction is vertical</summary>
         </member>
-        <member name="T:PicoXLSX.Style.CellXf.VerticallAlignValue">
+        <member name="T:PicoXLSX.Style.CellXf.VerticalAlignValue">
             <summary>
             Enum for the vertical alignment of a cell 
             </summary>
         </member>
-        <member name="F:PicoXLSX.Style.CellXf.VerticallAlignValue.bottom">
+        <member name="F:PicoXLSX.Style.CellXf.VerticalAlignValue.bottom">
             <summary>Content will be aligned on the bottom (default)</summary>
         </member>
-        <member name="F:PicoXLSX.Style.CellXf.VerticallAlignValue.top">
+        <member name="F:PicoXLSX.Style.CellXf.VerticalAlignValue.top">
             <summary>Content will be aligned on the top</summary>
         </member>
-        <member name="F:PicoXLSX.Style.CellXf.VerticallAlignValue.center">
+        <member name="F:PicoXLSX.Style.CellXf.VerticalAlignValue.center">
             <summary>Content will be aligned in the center</summary>
         </member>
-        <member name="F:PicoXLSX.Style.CellXf.VerticallAlignValue.justify">
+        <member name="F:PicoXLSX.Style.CellXf.VerticalAlignValue.justify">
             <summary>justify alignment</summary>
         </member>
-        <member name="F:PicoXLSX.Style.CellXf.VerticallAlignValue.distributed">
+        <member name="F:PicoXLSX.Style.CellXf.VerticalAlignValue.distributed">
             <summary>Distributed alignment</summary>
         </member>
-        <member name="F:PicoXLSX.Style.CellXf.VerticallAlignValue.none">
+        <member name="F:PicoXLSX.Style.CellXf.VerticalAlignValue.none">
             <summary>No alignment. The alignment will not be used in a style</summary>
         </member>
         <member name="T:PicoXLSX.Style.Font">

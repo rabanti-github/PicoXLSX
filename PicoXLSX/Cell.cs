@@ -190,9 +190,12 @@ namespace PicoXLSX
             {
                 throw new UndefinedStyleException("No workbook reference was defined on the worksheet while trying to remove a style from a cell");
             }
-            string styleName = this.cellStyle.Name;
-            this.cellStyle = null;
-            this.WorksheetReference.WorkbookReference.RemoveStyle(styleName, true);
+            if (this.cellStyle != null)
+            {
+                string styleName = this.cellStyle.Name;
+                this.cellStyle = null;
+                this.WorksheetReference.WorkbookReference.RemoveStyle(styleName, true);
+            }
         }
 
         /// <summary>

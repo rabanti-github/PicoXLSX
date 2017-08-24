@@ -561,13 +561,13 @@ namespace PicoXLSX
         private string CreateRowString(List<Cell> columnFields, Worksheet worksheet)
         {
             int rowNumber = columnFields[0].RowAddress;
-            string heigth = "";
+            string height = "";
             string hidden = "";
             if (worksheet.RowHeights.ContainsKey(rowNumber))
             {
                 if (worksheet.RowHeights[rowNumber] != worksheet.DefaultRowHeight)
                 {
-                    heigth = " x14ac:dyDescent=\"0.25\" customHeight=\"1\" ht=\"" + worksheet.RowHeights[rowNumber].ToString("G", culture) + "\"";
+                    height = " x14ac:dyDescent=\"0.25\" customHeight=\"1\" ht=\"" + worksheet.RowHeights[rowNumber].ToString("G", culture) + "\"";
                 }
             }
             if (worksheet.HiddenRows.ContainsKey(rowNumber))
@@ -580,11 +580,11 @@ namespace PicoXLSX
             StringBuilder sb = new StringBuilder();
             if (columnFields.Count > 0)
             {
-                sb.Append("<row r=\"" + (rowNumber + 1).ToString() + "\"" + heigth + hidden + ">");
+                sb.Append("<row r=\"" + (rowNumber + 1).ToString() + "\"" + height + hidden + ">");
             }
             else
             {
-                sb.Append("<row" + heigth + ">");
+                sb.Append("<row" + height + ">");
             }
             string typeAttribute;
             string sValue = "";
@@ -967,7 +967,7 @@ namespace PicoXLSX
                 textRotation = item.CurrentCellXf.CalculateInternalRotation();
                 alignmentString = string.Empty;
                 protectionString = string.Empty;
-                if (item.CurrentCellXf.HorizontalAlign != Style.CellXf.HorizontalAlignValue.none || item.CurrentCellXf.VerticalAlign != Style.CellXf.VerticallAlignValue.none || item.CurrentCellXf.Alignment != Style.CellXf.TextBreakValue.none || textRotation != 0)
+                if (item.CurrentCellXf.HorizontalAlign != Style.CellXf.HorizontalAlignValue.none || item.CurrentCellXf.VerticalAlign != Style.CellXf.VerticalAlignValue.none || item.CurrentCellXf.Alignment != Style.CellXf.TextBreakValue.none || textRotation != 0)
                 {
                     sb2.Clear();
                     sb2.Append("<alignment");
@@ -984,13 +984,13 @@ namespace PicoXLSX
                         else { sb2.Append("left"); }
                         sb2.Append("\"");
                     }
-                    if (item.CurrentCellXf.VerticalAlign != Style.CellXf.VerticallAlignValue.none)
+                    if (item.CurrentCellXf.VerticalAlign != Style.CellXf.VerticalAlignValue.none)
                     {
                         sb2.Append(" vertical=\"");
-                        if (item.CurrentCellXf.VerticalAlign == Style.CellXf.VerticallAlignValue.center) { sb2.Append("center"); }
-                        else if (item.CurrentCellXf.VerticalAlign == Style.CellXf.VerticallAlignValue.distributed) { sb2.Append("distributed"); }
-                        else if (item.CurrentCellXf.VerticalAlign == Style.CellXf.VerticallAlignValue.justify) { sb2.Append("justify"); }
-                        else if (item.CurrentCellXf.VerticalAlign == Style.CellXf.VerticallAlignValue.top) { sb2.Append("top"); }
+                        if (item.CurrentCellXf.VerticalAlign == Style.CellXf.VerticalAlignValue.center) { sb2.Append("center"); }
+                        else if (item.CurrentCellXf.VerticalAlign == Style.CellXf.VerticalAlignValue.distributed) { sb2.Append("distributed"); }
+                        else if (item.CurrentCellXf.VerticalAlign == Style.CellXf.VerticalAlignValue.justify) { sb2.Append("justify"); }
+                        else if (item.CurrentCellXf.VerticalAlign == Style.CellXf.VerticalAlignValue.top) { sb2.Append("top"); }
                         else { sb2.Append("bottom"); }
                         sb2.Append("\"");
                     }
@@ -1292,10 +1292,10 @@ namespace PicoXLSX
         public static string GeneratePasswordHash(string password)
         {
             if (string.IsNullOrEmpty(password)) { return string.Empty; }
-            int PasswordLength = password.Length;
+            int passwordLength = password.Length;
             int passwordHash = 0;
             char character;
-            for (int i = PasswordLength; i > 0; i--)
+            for (int i = passwordLength; i > 0; i--)
             {
                 character = password[i - 1];
                 passwordHash = ((passwordHash >> 14) & 0x01) | ((passwordHash << 1) & 0x7fff);
@@ -1303,7 +1303,7 @@ namespace PicoXLSX
             }
             passwordHash = ((passwordHash >> 14) & 0x01) | ((passwordHash << 1) & 0x7fff);
             passwordHash ^= (0x8000 | ('N' << 8) | 'K');
-            passwordHash ^= PasswordLength;
+            passwordHash ^= passwordLength;
             return passwordHash.ToString("X");
         }
 

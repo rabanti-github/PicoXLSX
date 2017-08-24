@@ -148,7 +148,7 @@ namespace Demo
 
             Style s2 = new Style();                                                                         // Create new style
             s2.CurrentCellXf.TextRotation = 45;                                                             // Set text rotation
-            s2.CurrentCellXf.VerticalAlign = Style.CellXf.VerticallAlignValue.center;                       // Set alignment
+            s2.CurrentCellXf.VerticalAlign = Style.CellXf.VerticalAlignValue.center;                       // Set alignment
 
             workbook.CurrentWorksheet.Cells["B4"].SetStyle(s2);                                             // Assign style to cell
 

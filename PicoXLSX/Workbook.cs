@@ -292,6 +292,7 @@ namespace PicoXLSX
                     {
                         foreach (KeyValuePair<string, Cell> cell in sheet.Cells)
                         {
+                            if (cell.Value.CellStyle == null) { continue; }
                             if (cell.Value.CellStyle.Name == styleName)
                             {
                                 styleInUse = true;

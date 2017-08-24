@@ -16,10 +16,6 @@ namespace PicoXLSX
     public class Style : IComparable<Style>, IEquatable<Style>
     {
 
-#region enums
-
-#endregion
-
 #region privateFields
         private string name;
 #endregion
@@ -223,7 +219,7 @@ namespace PicoXLSX
         /// <summary>
         /// Enum for the vertical alignment of a cell 
         /// </summary>
-        public enum VerticallAlignValue
+        public enum VerticalAlignValue
         {
             /// <summary>Content will be aligned on the bottom (default)</summary>
             bottom,
@@ -298,7 +294,7 @@ namespace PicoXLSX
         /// <summary>
         /// Vertical alignment of the style
         /// </summary>
-        public VerticallAlignValue VerticalAlign { get; set; }
+        public VerticalAlignValue VerticalAlign { get; set; }
 #endregion
 
 #region constructors
@@ -310,7 +306,7 @@ namespace PicoXLSX
             this.HorizontalAlign = HorizontalAlignValue.none;
             this.Alignment = TextBreakValue.none;
             this.textDirection = TextDirectionValue.horizontal;
-            this.VerticalAlign = VerticallAlignValue.none;
+            this.VerticalAlign = VerticalAlignValue.none;
             this.textRotation = 0;
         }
 #endregion
@@ -634,10 +630,6 @@ namespace PicoXLSX
             /// <summary>12.5% gray fill</summary>
             gray125,
         }
-    #endregion
-
-    #region privateFields
-
     #endregion
 
     #region properties

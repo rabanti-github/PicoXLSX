@@ -815,14 +815,6 @@ namespace PicoXLSX
         /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address out of range</exception>
         public void SetAutoFilter(int startColumn, int endColumn)
         {
-            if (startColumn > MAX_COLUMN_ADDRESS || startColumn < MIN_COLUMN_ADDRESS)
-            {
-                throw new OutOfRangeException("The start column number (" + startColumn.ToString() + ") is out of range. Range is from " + MIN_COLUMN_ADDRESS.ToString() + " to " + MAX_COLUMN_ADDRESS.ToString() + " (" + (MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
-            }
-            if (endColumn > MAX_COLUMN_ADDRESS || endColumn < MIN_COLUMN_ADDRESS)
-            {
-                throw new OutOfRangeException("The end column number (" + startColumn.ToString() + ") is out of range. Range is from " + MIN_COLUMN_ADDRESS.ToString() + " to " + MAX_COLUMN_ADDRESS.ToString() + " (" + (MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
-            }
             string start = Cell.ResolveCellAddress(startColumn, 0);
             string end = Cell.ResolveCellAddress(endColumn, 0);
             if (endColumn < startColumn)
