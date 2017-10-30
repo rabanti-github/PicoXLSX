@@ -135,9 +135,9 @@ namespace Demo
             workbook.CurrentWorksheet.AddNextCell("C");                                                      // Add cell B3
 
             Style s = new Style();                                                                          // Create new style
-            s.CurrentFill.SetColor("FF22FF11", Style.Fill.FillType.fillColor);                              // Set fill color
-            s.CurrentFont.DoubleUnderline = true;                                                           // Set double underline
-            s.CurrentCellXf.HorizontalAlign = Style.CellXf.HorizontalAlignValue.center;                     // Set alignment
+            s.FillStyle.SetColor("FF22FF11", Style.Fill.FillType.fillColor);                              // Set fill color
+            s.FontStyle.DoubleUnderline = true;                                                           // Set double underline
+            s.CellXfStyle.HorizontalAlign = Style.CellXf.HorizontalAlignValue.center;                     // Set alignment
 
             workbook.CurrentWorksheet.Cells["B2"].SetStyle(s);                                              // Assign style to cell
             workbook.CurrentWorksheet.GoToNextRow();                                                        // Go to Row 3
@@ -147,8 +147,8 @@ namespace Demo
             workbook.CurrentWorksheet.Cells["C2"].SetStyle(Style.BasicStyles.BorderFrame);                  // Assign predefined basic style to cell
 
             Style s2 = new Style();                                                                         // Create new style
-            s2.CurrentCellXf.TextRotation = 45;                                                             // Set text rotation
-            s2.CurrentCellXf.VerticalAlign = Style.CellXf.VerticalAlignValue.center;                       // Set alignment
+            s2.CellXfStyle.TextRotation = 45;                                                             // Set text rotation
+            s2.CellXfStyle.VerticalAlign = Style.CellXf.VerticalAlignValue.center;                       // Set alignment
 
             workbook.CurrentWorksheet.Cells["B4"].SetStyle(s2);                                             // Assign style to cell
 

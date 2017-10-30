@@ -28,7 +28,7 @@ namespace PicoXLSX
         private string filename;
         private List<Worksheet> worksheets;
         private Worksheet currentWorksheet;
-        private List<Style> styles;
+        private StyleManager styleManager;
         private Metadata workbookMetadata;
         private string workbookProtectionPassword;
         private bool lockWindowsIfProtected;
@@ -90,11 +90,11 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets the list of Styles of the workbook
+        /// Gets the style manager of this workbook
         /// </summary>
-        public List<Style> Styles
+        public StyleManager Styles
         {
-            get { return styles; }
+            get { return styleManager; }
         }
 
         /// <summary>
@@ -127,15 +127,10 @@ namespace PicoXLSX
         /// <param name="createWorkSheet">If true, a default worksheet will be crated and set as default worksheet</param>
         public Workbook(bool createWorkSheet)
         {
-            this.worksheets = new List<Worksheet>();
-            this.styles = new List<Style>();
-            this.styles.Add(new Style("default")); // Do not remove this (Default style)
-            this.styles.Add(Style.BasicStyles.DottedFill_0_125);
-            this.workbookMetadata = new Metadata();
+            Init();
             if (createWorkSheet == true)
             {
                 AddWorksheet("Sheet1");
-
             }
         }
 
@@ -145,64 +140,81 @@ namespace PicoXLSX
         /// <param name="filename">Filename of the workbook</param>
         /// <param name="sheetName">Name of the first worksheet</param>
         public Workbook(string filename, string sheetName)
-            : this(false)
         {
+            Init();
             this.filename = filename;
             AddWorksheet(sheetName);
         }
+
+        /// <summary>
+        /// Constructor with filename ant the name of the first worksheet
+        /// </summary>
+        /// <param name="filename">Filename of the workbook</param>
+        /// <param name="sheetName">Name of the first worksheet</param>
+        /// <param name="sanitizeSheetName">If true, the name of the worksheet will be sanitized automatically according to the specifications of Excel</param>
+        public Workbook(string filename, string sheetName, bool sanitizeSheetName)
+        {
+            Init();
+            this.filename = filename;
+            AddWorksheet(Worksheet.SanitizeWorksheetName(sheetName, this));
+        }
+
+
 #endregion
 
 #region methods
 
+
+
         /// <summary>
-        /// Adds a style to the style sheet of the workbook
+        /// Adds a style to the style manager
         /// </summary>
         /// <param name="style">Style to add</param>
-        /// <param name="distinct">If true, the passed style will be replaced by an identical style if existing. Otherwise an exception will be thrown in case of a duplicate</param>
-        /// <returns>Returns the added style. In case of an existing style, the distinct style will be returned</returns>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style already exists and parameter 'distinct' is set to false</exception>
-        public Style AddStyle(Style style, bool distinct)
+        /// <returns>Returns the managed style of the style manager</returns>
+        
+        public Style AddStyle(Style style)
         {
-            bool styleExits = false;
-            bool identicalStyle = false;
-            Style s;
-            for (int i = 0; i < this.styles.Count; i++)
-            {
-                if (this.styles[i].Name == style.Name)
-                {
-                    if (this.styles[i].Equals(style) && distinct == true)
-                    {
-                        identicalStyle = true;
-                        s = this.styles[i];
-                    }
-                    styleExits = true;
-                    break;
-                }
-            }
-            if (styleExits == true)
-            {
-                if (distinct == false && identicalStyle == false)
-                {
-                    throw new UndefinedStyleException("The style with the name '" + style.Name + "' already exits");
-                }
-                else
-                {
-                    s = style;
-                }
-            }
-            else
-            {
-                s = style;
-                this.styles.Add(style);
-            }
-            return s;
+            return this.styleManager.AddStyle(style);
         }
+
+        /// <summary>
+        /// Adds a style component to a style
+        /// </summary>
+        /// <param name="baseStyle">Style to append a component</param>
+        /// <param name="newComponent">Component to add to the baseStyle</param>
+        /// <returns>Returns the managed style of the style manager</returns>
+        public Style addStyleComponent(Style baseStyle, AbstractStyle newComponent)
+        {
+        
+            if (newComponent.GetType() == typeof(Style.Border))
+            {
+                baseStyle.BorderStyle = (Style.Border)newComponent;
+            }
+            else if (newComponent.GetType() == typeof(Style.CellXf))
+            {
+                baseStyle.CellXfStyle = (Style.CellXf)newComponent;
+            }
+            else if (newComponent.GetType() == typeof(Style.Fill))
+            {
+                baseStyle.FillStyle = (Style.Fill)newComponent;
+            }
+            else if (newComponent.GetType() == typeof(Style.Font))
+            {
+                baseStyle.FontStyle = (Style.Font)newComponent;
+            }
+            else if (newComponent.GetType() == typeof(Style.NumberFormat))
+            {
+                baseStyle.NumberFormatStyle = (Style.NumberFormat)newComponent;
+            }
+            return this.styleManager.AddStyle(baseStyle);
+        }
+
 
         /// <summary>
         /// Adding a new Worksheet
         /// </summary>
         /// <param name="name">Name of the new worksheet</param>
-        /// <exception cref="WorksheetNameAlreadxExistsException">Throws a WorksheetNameAlreadxExistsException if the name of the worksheet already exists</exception>
+        /// <exception cref="WorksheetException">Throws a WorksheetNameAlreadxExistsException if the name of the worksheet already exists</exception>
         /// <exception cref="FormatException">Throws a FormatException if the name contains illegal characters or is out of range (length between 1 an 31 characters)</exception>
         public void AddWorksheet(string name)
         {
@@ -210,7 +222,7 @@ namespace PicoXLSX
             {
                 if (item.SheetName == name)
                 {
-                    throw new WorksheetNameAlreadxExistsException("The worksheet with the name '" + name + "' already exists.");
+                    throw new WorksheetException("WorksheetNameAlreadxExistsException", "The worksheet with the name '" + name + "' already exists.");
                 }
             }
             int number = this.worksheets.Count + 1;
@@ -218,6 +230,64 @@ namespace PicoXLSX
             this.currentWorksheet = newWs;
             this.worksheets.Add(newWs);
         }
+
+        /// <summary>
+        /// Adding a new Worksheet with a sanitizing option
+        /// </summary>
+        /// <param name="name">Name of the new worksheet</param>
+        /// <param name="sanitizeSheetName">If true, the name of the worksheet will be sanitized automatically according to the specifications of Excel</param>
+        /// <exception cref="WorksheetException">WorksheetException is thrown if the name of the worksheet already exists and sanitizeSheetName is false</exception>
+        /// <exception cref="FormatException">FormatException is thrown if the worksheet name contains illegal characters or is out of range (length between 1 an 31) and sanitizeSheetName is false</exception>
+        public void AddWorksheet(String name, bool sanitizeSheetName)
+        {
+            if (sanitizeSheetName == true)
+            {
+                String sanitized = Worksheet.SanitizeWorksheetName(name, this);
+                AddWorksheet(sanitized);
+            }
+            else
+            {
+                AddWorksheet(name);
+            }
+        }
+
+        /// <summary>
+        /// Adding a new Worksheet
+        /// </summary>
+        /// <param name="worksheet">Prepared worksheet object</param>
+        /// <exception cref="WorksheetException">WorksheetException is thrown if the name of the worksheet already exists</exception>
+        /// <exception cref="FormatException">FormatException is thrown if the worksheet name contains illegal characters or is out of range (length between 1 an 31</exception>
+        public void AddWorksheet(Worksheet worksheet)
+        {
+            for (int i = 0; i < this.worksheets.Count; i++)
+            {
+                if (this.worksheets[i].SheetName == worksheet.SheetName)
+                {
+                    throw new WorksheetException("WorksheetNameAlreadxExistsException", "The worksheet with the name '" + worksheet.SheetName + "' already exists.");
+                }
+            }
+            int number = this.worksheets.Count+ 1;
+            worksheet.SheetID = number;
+            worksheet.WorkbookReference = this;
+            this.currentWorksheet = worksheet;
+            this.worksheets.Add(worksheet);
+        }
+
+        /// <summary>
+        /// Init method called in the constructors
+        /// </summary>
+        private void Init()
+        {
+            this.worksheets = new List<Worksheet>();
+            this.styleManager = new StyleManager();
+            this.styleManager.AddStyle(new Style("default", 0, true));
+            Style borderStyle = new Style("default_border_style", 1, true);
+            borderStyle.BorderStyle = Style.BasicStyles.DottedFill_0_125.BorderStyle;
+            borderStyle.FillStyle = Style.BasicStyles.DottedFill_0_125.FillStyle;
+            this.styleManager.AddStyle(borderStyle);
+            this.workbookMetadata = new Metadata();
+        }
+
 
         /// <summary>
         /// Removes the passed style from the style sheet
@@ -244,14 +314,14 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="style">Style to remove</param>
         /// <param name="onlyIfUnused">If true, the style will only be removed if not used in any cell</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
+        /// <exception cref="StyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
         public void RemoveStyle(Style style, bool onlyIfUnused)
         {
             if (style == null)
             {
-                throw new UndefinedStyleException("The style to remove is not defined");
+                throw new StyleException("UndefinedStyleException", "The style to remove is not defined");
             }
-            RemoveStyle(style.Name, false);
+            RemoveStyle(style.Name, onlyIfUnused);
         }
 
         /// <summary>
@@ -259,38 +329,19 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="styleName">Name of the style to be removed</param>
         /// <param name="onlyIfUnused">If true, the style will only be removed if not used in any cell</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
+        /// <exception cref="StyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
         public void RemoveStyle(string styleName, bool onlyIfUnused)
         {
             if (string.IsNullOrEmpty(styleName))
             {
-                throw new UndefinedStyleException("The style to remove is not defined (no name specified)");
+                throw new StyleException("MissingReferenceException", "The style to remove is not defined (no name specified)");
             }
-            int index = -1;
-            for (int i = 0; i < this.styles.Count; i++)
+            if (onlyIfUnused == true)
             {
-                if (this.styles[i].Name == styleName)
-                {
-                    index = i;
-                    break;
-                }
-            }
-            if (index < 0)
-            {
-                throw new UndefinedStyleException("The style with the name '" + styleName + "' to remove was not found in the list of styles");
-            }
-            else if (this.styles[index].Name == "default" || index == 0)
-            {
-                throw new UndefinedStyleException("The default style can not be removed");
-            }
-            else
-            {
-                if (onlyIfUnused == true)
-                {
                     bool styleInUse = false;
-                    foreach (Worksheet sheet in this.worksheets)
+                    for(int i = 0; i < this.worksheets.Count; i++)
                     {
-                        foreach (KeyValuePair<string, Cell> cell in sheet.Cells)
+                        foreach(KeyValuePair<string,Cell> cell in this.worksheets[i].Cells)
                         {
                             if (cell.Value.CellStyle == null) { continue; }
                             if (cell.Value.CellStyle.Name == styleName)
@@ -306,13 +357,12 @@ namespace PicoXLSX
                     }
                     if (styleInUse == false)
                     {
-                        this.styles.RemoveAt(index);
+                        this.styleManager.RemoveStyle(styleName);
                     }
-                }
-                else
-                {
-                    this.styles.RemoveAt(index);
-                }
+            }
+            else
+            {
+                this.styleManager.RemoveStyle(styleName);
             }
         }
 
@@ -320,7 +370,7 @@ namespace PicoXLSX
         /// Removes the defined worksheet
         /// </summary>
         /// <param name="name">Name of the worksheet</param>
-        /// <exception cref="UnknownWorksheetException">Throws a UnknownWorksheetException if the name of the worksheet is unknown</exception>
+        /// <exception cref="WorksheetException">Throws a UnknownWorksheetException if the name of the worksheet is unknown</exception>
         public void RemoveWorksheet(string name)
         {
             bool exists = false;
@@ -337,7 +387,7 @@ namespace PicoXLSX
             }
             if (exists == false)
             {
-                throw new UnknownWorksheetException("The worksheet with the name '" + name + "' does not exist.");
+                throw new WorksheetException("UnknownWorksheetException", "The worksheet with the name '" + name + "' does not exist.");
             }
             if (this.worksheets[index].SheetName == this.currentWorksheet.SheetName)
             {
@@ -366,165 +416,6 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method to prepare the styles before saving the workbook. Don't use the method otherwise. Styles will be reordered and probably removed from the style sheet
-        /// </summary>
-        /// <param name="borders">Out parameter for a sorted list of Style. Border objects</param>
-        /// <param name="fills">Out parameter for a sorted list of Style. Fill objects</param>
-        /// <param name="fonts">Out parameter for a sorted list of Style. Font objects</param>
-        /// <param name="numberFormats">Out parameter for a sorted list of Style. NumberFormat objects</param>
-        /// <param name="cellXfs">Out parameter for a sorted list of Style. CellXf objects</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the passed style components cannot be referenced or is null</exception>
-        /// <remarks>This method is for internal use but must be public. Otherwise it's not possible to access it from low level methods. Don't use it</remarks>
-        public void ReorganizeStyles(out  List<Style.Border> borders, out List<Style.Fill> fills, out List<Style.Font> fonts, out List<Style.NumberFormat> numberFormats, out List<Style.CellXf> cellXfs)
-        {
-            List<Style.Border> tempBorders = new List<Style.Border>();
-            List<Style.Fill> tempFills = new List<Style.Fill>();
-            List<Style.Font> tempFonts = new List<Style.Font>();
-            List<Style.NumberFormat> tempNumberFormats = new List<Style.NumberFormat>();
-            List<Style.CellXf> tempCellXfs = new List<Style.CellXf>();
-            Style dateStyle = AddStyle(Style.BasicStyles.DateFormat, true);
-            int existingIndex = 0;
-            bool existing;
-            int customNumberFormat = Style.NumberFormat.CUSTOMFORMAT_START_NUMBER;
-            for (int i = 0; i < this.styles.Count; i++)
-            {
-                this.styles[i].InternalID = i;
-                existing = false;
-                foreach (Style.Border item in tempBorders)
-                {
-                    if (item.Equals(this.styles[i].CurrentBorder) == true)
-                    {
-                        existing = true;
-                        existingIndex = item.InternalID;
-                        break;
-                    }
-                }
-                if (existing == false)
-                {
-                    this.styles[i].CurrentBorder.InternalID = tempBorders.Count;
-                    tempBorders.Add(this.styles[i].CurrentBorder);
-                }
-                else
-                {
-                    this.styles[i].CurrentBorder.InternalID = existingIndex;
-                }
-                existing = false;
-                foreach (Style.Fill item in tempFills)
-                {
-                    if (item.Equals(this.styles[i].CurrentFill) == true)
-                    {
-                        existing = true;
-                        existingIndex = item.InternalID;
-                        break;
-                    }
-                }
-                if (existing == false)
-                {
-                    this.styles[i].CurrentFill.InternalID = tempFills.Count;
-                    tempFills.Add(this.styles[i].CurrentFill);
-                }
-                else
-                {
-                    this.styles[i].CurrentFill.InternalID = existingIndex;
-                }
-                existing = false;
-                foreach (Style.Font item in tempFonts)
-                {
-                    if (item.Equals(this.styles[i].CurrentFont) == true)
-                    {
-                        existing = true;
-                        existingIndex = item.InternalID;
-                        break;
-                    }
-                }
-                if (existing == false)
-                {
-                    this.styles[i].CurrentFont.InternalID = tempFonts.Count;
-                    tempFonts.Add(this.styles[i].CurrentFont);
-                }
-                else
-                {
-                    this.styles[i].CurrentFont.InternalID = existingIndex;
-                }
-                existing = false;
-                foreach (Style.NumberFormat item in tempNumberFormats)
-                {
-                    if (item.Equals(this.styles[i].CurrentNumberFormat) == true)
-                    {
-                        existing = true;
-                        existingIndex = item.InternalID;
-                        break;
-                    }
-                }
-                if (existing == false)
-                {
-                    this.styles[i].CurrentNumberFormat.InternalID = tempNumberFormats.Count;
-                    tempNumberFormats.Add(this.styles[i].CurrentNumberFormat);
-                }
-                else
-                {
-                    this.styles[i].CurrentNumberFormat.InternalID = existingIndex;
-                }
-                if (this.styles[i].CurrentNumberFormat.IsCustomFormat == true)
-                {
-                    this.styles[i].CurrentNumberFormat.CustomFormatID = customNumberFormat;
-                    customNumberFormat++;
-                }
-                existing = false;
-                foreach (Style.CellXf item in tempCellXfs)
-                {
-                    if (item.Equals(this.styles[i].CurrentCellXf) == true)
-                    {
-                        existing = true;
-                        existingIndex = item.InternalID;
-                        break;
-                    }
-                }
-                if (existing == false)
-                {
-                    this.styles[i].CurrentCellXf.InternalID = tempCellXfs.Count;
-                    tempCellXfs.Add(this.styles[i].CurrentCellXf);
-                }
-                else
-                {
-                    this.styles[i].CurrentCellXf.InternalID = existingIndex;
-                }
-            }
-            Style combination;
-            foreach (Worksheet sheet in this.worksheets)
-            {
-                foreach (KeyValuePair<string, Cell> cell in sheet.Cells)
-                {
-                    if (cell.Value.Fieldtype == PicoXLSX.Cell.CellType.DATE)
-                    {
-                        if (cell.Value.CellStyle == null)
-                        {
-                            combination = dateStyle;
-                        }
-                        else
-                        {
-                            combination = cell.Value.CellStyle.Copy(dateStyle.CurrentNumberFormat);
-                        }
-                        sheet.Cells[cell.Key].SetStyle(combination);
-                    }
-                }
-            }
-
-            this.styles.Sort();
-            tempBorders.Sort();
-            tempFills.Sort();
-            tempFonts.Sort();
-            tempNumberFormats.Sort();
-            tempCellXfs.Sort();
-            borders = tempBorders;
-            fonts = tempFonts;
-            fills = tempFills;
-            cellXfs = tempCellXfs;
-            numberFormats = tempNumberFormats;
-
-        }
-
-        /// <summary>
         /// Method to resolve all merged cells in all worksheets. Only the value of the very first cell of the locked cells range will be visible. The other values are still present (set to EMPTY) but will not be stored in the worksheet.
         /// </summary>
         /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the merged cells cannot be referenced or is null</exception>
@@ -545,7 +436,7 @@ namespace PicoXLSX
                         if (sheet.Cells.ContainsKey(address.ToString()) == false)
                         {
                             cell = new Cell();
-                            cell.Fieldtype = Cell.CellType.EMPTY;
+                            cell.DataType = Cell.CellType.EMPTY;
                             cell.RowAddress = address.Row;
                             cell.ColumnAddress = address.Column;
                             cell.WorksheetReference = sheet;
@@ -557,7 +448,7 @@ namespace PicoXLSX
                         }
                         if (pos != 0)
                         {
-                            cell.Fieldtype = Cell.CellType.EMPTY;
+                            cell.DataType = Cell.CellType.EMPTY;
                         }
                         cell.SetStyle(mergeStyle);
                         pos++;
@@ -602,7 +493,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="name">Name of the worksheet</param>
         /// <returns>Returns the current worksheet</returns>
-        /// <exception cref="UnknownWorksheetException">Throws a UnknownWorksheetException if the name of the worksheet is unknown</exception>
+        /// <exception cref="WorksheetException">Throws a MissingReferenceException if the name of the worksheet is unknown</exception>
         public Worksheet SetCurrentWorksheet(string name)
         {
             bool exists = false;
@@ -617,7 +508,7 @@ namespace PicoXLSX
             }
             if (exists == false)
             {
-                throw new UnknownWorksheetException("The worksheet with the name '" + name + "' does not exist.");
+                throw new WorksheetException("MissingReferenceException", "The worksheet with the name '" + name + "' does not exist.");
             }
             return this.currentWorksheet;
         }
@@ -627,12 +518,12 @@ namespace PicoXLSX
         /// </summary>
         /// <remarks>This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this</remarks>
         /// <param name="worksheetIndex">Zero-based worksheet index</param>
-        /// <exception cref="OutOfRangeException">Throws a OutOfRangeException if the index of the worksheet is out of range</exception>
+        /// <exception cref="RangeException">Throws a OutOfRangeException if the index of the worksheet is out of range</exception>
         public void SetSelectedWorksheet(int worksheetIndex)
         {
             if (worksheetIndex < 0 || worksheetIndex > this.worksheets.Count - 1)
             {
-                throw new OutOfRangeException("The worksheet index " + worksheetIndex.ToString() + " is out of range");
+                throw new RangeException("OutOfRangeException","The worksheet index " + worksheetIndex.ToString() + " is out of range");
             }
             this.selectedWorksheet = worksheetIndex;
         }
@@ -664,7 +555,7 @@ namespace PicoXLSX
         /// </summary>
         /// <remarks>This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this</remarks>
         /// <param name="worksheet">Worksheet object (must be in the collection of worksheets)</param>
-        /// <exception cref="UnknownWorksheetException">Throws a UnknownWorksheetException if the worksheet was not found in the worksheet collection</exception>
+        /// <exception cref="WorksheetException">Throws a UnknownWorksheetException if the worksheet was not found in the worksheet collection</exception>
         public void SetSelectedWorksheet(Worksheet worksheet)
         {
             bool check = false;
@@ -679,7 +570,7 @@ namespace PicoXLSX
             }
             if (check == false)
             {
-                throw new UnknownWorksheetException("The passed worksheet object is not in the worksheet collection.");
+                throw new WorksheetException("UnknownWorksheetException", "The passed worksheet object is not in the worksheet collection.");
             }
         }
 

@@ -10,23 +10,29 @@ using System;
 namespace PicoXLSX
 {
     /// <summary>
-    /// Class for exceptions regarding out-of-range incidents
+    /// Class for exceptions regarding range incidents (e.g. out-of-range)
     /// </summary>
     [Serializable]
-    public class OutOfRangeException : Exception
+    public class RangeException : Exception
     {
+        /// <summary>
+        /// Title of the exception
+        /// </summary>
+        public string ExceptionTitle { get; set; }
+
         /// <summary>
         /// Default constructor
         /// </summary>
-        public OutOfRangeException() : base()
+        public RangeException() : base()
         { }
         /// <summary>
         /// Constructor with passed message
         /// </summary>
         /// <param name="message">Message of the exception</param>
-        public OutOfRangeException(string message)
-            : base(message)
-        { }
+        /// <param name="title">Title of the exception</param>
+        public RangeException(string title, string message)
+            : base(title + ": " + message)
+        { this.ExceptionTitle = title; }
     }
 
     /// <summary>
@@ -35,6 +41,11 @@ namespace PicoXLSX
     [Serializable]
     public class FormatException : Exception
     {
+        /// <summary>
+        /// Title of the exception
+        /// </summary>
+        public string ExceptionTitle { get; set; }
+
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -48,13 +59,22 @@ namespace PicoXLSX
             : base(message)
         { }
         /// <summary>
+        /// Constructor with passed message
+        /// </summary>
+        /// <param name="message">Message of the exception</param>
+        /// <param name="title">Title of the exception</param>
+        public FormatException(string title, string message)
+            : base(title + ": " + message)
+        { this.ExceptionTitle = title; }
+                /// <summary>
         /// Constructor with passed message and inner exception
         /// </summary>
         /// <param name="message">Message of the exception</param>
         /// <param name="inner">Inner exception</param>
-        public FormatException(string message, Exception inner)
+        /// <param name="title">Title of the exception</param>
+        public FormatException(string title, string message, Exception inner)
             : base(message, inner)
-        { }
+        { this.ExceptionTitle = title; }
     }
 
     /// <summary>
@@ -64,6 +84,11 @@ namespace PicoXLSX
     public class IOException : Exception
     {
         /// <summary>
+        /// Title of the exception
+        /// </summary>
+        public string ExceptionTitle { get; set; }
+
+        /// <summary>
         /// Default constructor
         /// </summary>
         public IOException() : base()
@@ -72,98 +97,71 @@ namespace PicoXLSX
         /// Constructor with passed message
         /// </summary>
         /// <param name="message">Message of the exception</param>
-        public IOException(string message)
-            : base(message)
-        { }
+        /// <param name="title">Title of the exception</param>
+        public IOException(string title, string message)
+            : base(title + ": " + message)
+        { this.ExceptionTitle = title; }
         /// <summary>
         /// Constructor with passed message and inner exception
         /// </summary>
         /// <param name="message">Message of the exception</param>
         /// <param name="inner">Inner exception</param>
-        public IOException(string message, Exception inner)
+        /// <param name="title">Title of the exception</param>
+        public IOException(string title, string message, Exception inner)
             : base(message, inner)
-        { }
+        { this.ExceptionTitle = title; }
     }
 
     /// <summary>
-    /// Class for exceptions regarding an already existing worksheet (same name)
+    /// Class for exceptions regarding worksheet incidents
     /// </summary>
     [Serializable]
-    public class WorksheetNameAlreadxExistsException : Exception
+    public class WorksheetException : Exception
     {
+        /// <summary>
+        /// Title of the exception
+        /// </summary>
+        public string ExceptionTitle { get; set; }
+
         /// <summary>
         /// Default constructor
         /// </summary>
-        public WorksheetNameAlreadxExistsException() : base()
+        public WorksheetException() : base()
         { }
         /// <summary>
         /// Constructor with passed message
         /// </summary>
         /// <param name="message">Message of the exception</param>
-        public WorksheetNameAlreadxExistsException(string message)
-            : base(message)
-        { }
+        /// <param name="title">Title of the exception</param>
+        public WorksheetException(string title, string message)
+            : base(title + ": " + message)
+        { this.ExceptionTitle = title; }
     }
 
     /// <summary>
-    /// Class for exceptions regarding an unknown worksheet (name not found)
+    /// Class for exceptions regarding Style incidents
     /// </summary>
     [Serializable]
-    public class UnknownWorksheetException : Exception
+    public class StyleException : Exception
     {
+        /// <summary>
+        /// Title of the exception
+        /// </summary>
+        public string ExceptionTitle { get; set; }
+
         /// <summary>
         /// Default constructor
         /// </summary>
-        public UnknownWorksheetException() : base()
+        public StyleException() : base()
         { }
         /// <summary>
         /// Constructor with passed message
         /// </summary>
         /// <param name="message">Message of the exception</param>
-        public UnknownWorksheetException(string message)
-            : base(message)
-        { }
-    }
-
-    /// <summary>
-    /// Class for exceptions regarding undefined Styles
-    /// </summary>
-    [Serializable]
-    public class UndefinedStyleException : Exception
-    {
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public UndefinedStyleException() : base()
-        { }
-        /// <summary>
-        /// Constructor with passed message
-        /// </summary>
-        /// <param name="message">Message of the exception</param>
-        public UndefinedStyleException(string message)
-            : base(message)
-        { }
-    }
-
-    /// <summary>
-    /// Class for exceptions regarding unknown cell ranges
-    /// </summary>
-    [Serializable]
-    public class UnknownRangeException : Exception
-    {
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public UnknownRangeException()
-            : base()
-        { }
-        /// <summary>
-        /// Constructor with passed message
-        /// </summary>
-        /// <param name="message">Message of the exception</param>
-        public UnknownRangeException(string message)
-            : base(message)
-        { }
+        /// <param name="title">Title of the exception</param>
+        public StyleException(string title, string message)
+            : base(title + ": " + message)
+        { this.ExceptionTitle = title; }
     }
 
 }
