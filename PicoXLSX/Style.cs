@@ -22,27 +22,23 @@ namespace PicoXLSX
         /// <summary>
         /// Current Border object of the style
         /// </summary>
-        public Style.Border BorderStyle { get; set; }
+        public Style.Border CurrentBorder { get; set; }
         /// <summary>
         /// Current CellXf object of the style
         /// </summary>
-        public CellXf CellXfStyle { get; set; }
+        public CellXf CurrentCellXf { get; set; }
         /// <summary>
         /// Current Fill object of the style
         /// </summary>
-        public Fill FillStyle { get; set; }
+        public Fill CurrentFill { get; set; }
         /// <summary>
         /// Current Font object of the style
         /// </summary>
-        public Font FontStyle { get; set; }
+        public Font CurrentFont { get; set; }
         /// <summary>
         /// Current NumberFormat object of the style
         /// </summary>
-        public NumberFormat NumberFormatStyle { get; set; }
-        /// <summary>
-        /// Internal ID for sorting purpose (nullable)
-        /// </summary>
-        public int? InternalID { get; set; }
+        public NumberFormat CurrentNumberFormat { get; set; }
         /// <summary>
         /// Name of the style. If not defined, the hash will be used as name
         /// </summary>
@@ -56,6 +52,9 @@ namespace PicoXLSX
             }
         }
 
+        /// <summary>
+        /// Sets the reference of the style manager
+        /// </summary>
         public StyleManager StyleManagerReference
         {
             set
@@ -81,11 +80,11 @@ namespace PicoXLSX
         /// </summary>
         public Style()
         {
-            this.BorderStyle = new Border();
-            this.CellXfStyle = new CellXf();
-            this.FillStyle = new Fill();
-            this.FontStyle = new Font();
-            this.NumberFormatStyle = new NumberFormat();
+            this.CurrentBorder = new Border();
+            this.CurrentCellXf = new CellXf();
+            this.CurrentFill = new Fill();
+            this.CurrentFont = new Font();
+            this.CurrentNumberFormat = new NumberFormat();
             this.styleNameDefined = false;
             this.name = this.CalculateHash();
         }
@@ -96,11 +95,11 @@ namespace PicoXLSX
         /// <param name="name">Name of the style</param>
         public Style(string name)
         {
-            this.BorderStyle = new Border();
-            this.CellXfStyle = new CellXf();
-            this.FillStyle = new Fill();
-            this.FontStyle = new Font();
-            this.NumberFormatStyle = new NumberFormat();
+            this.CurrentBorder = new Border();
+            this.CurrentCellXf = new CellXf();
+            this.CurrentFill = new Fill();
+            this.CurrentFont = new Font();
+            this.CurrentNumberFormat = new NumberFormat();
             this.styleNameDefined = false;
             this.name = name;
         }
@@ -113,11 +112,11 @@ namespace PicoXLSX
         /// <param name="internalStyle">If true, the style is marked as internal</param>
         public Style(string name, int forcedOrder, bool internalStyle)
         {
-            this.BorderStyle = new Border();
-            this.CellXfStyle = new CellXf();
-            this.FillStyle = new Fill();
-            this.FontStyle = new Font();
-            this.NumberFormatStyle = new NumberFormat();
+            this.CurrentBorder = new Border();
+            this.CurrentCellXf = new CellXf();
+            this.CurrentFill = new Fill();
+            this.CurrentFont = new Font();
+            this.CurrentNumberFormat = new NumberFormat();
             this.name = name;
             this.InternalID = forcedOrder;
             this.internalStyle = internalStyle;
@@ -135,11 +134,11 @@ namespace PicoXLSX
             else
             {
                 Style newStyle = this.styleManagerReference.AddStyle(this);
-                this.BorderStyle = newStyle.BorderStyle;
-                this.CellXfStyle = newStyle.CellXfStyle;
-                this.FillStyle = newStyle.FillStyle;
-                this.FontStyle = newStyle.FontStyle;
-                this.NumberFormatStyle = newStyle.NumberFormatStyle;
+                this.CurrentBorder = newStyle.CurrentBorder;
+                this.CurrentCellXf = newStyle.CurrentCellXf;
+                this.CurrentFill = newStyle.CurrentFill;
+                this.CurrentFont = newStyle.CurrentFont;
+                this.CurrentNumberFormat = newStyle.CurrentNumberFormat;
             }
             if (this.styleNameDefined == false)
             {
@@ -163,7 +162,7 @@ namespace PicoXLSX
         public override string CalculateHash()
         {
             StringBuilder sb = new StringBuilder();
-            if (BorderStyle == null || CellXfStyle == null || FillStyle == null || FontStyle == null || NumberFormatStyle == null)
+            if (CurrentBorder == null || CurrentCellXf == null || CurrentFill == null || CurrentFont == null || CurrentNumberFormat == null)
             {
                 throw new StyleException("MissingReferenceException", "The hash of the style could not be created because one or more components are missing as references");
             }
@@ -173,32 +172,42 @@ namespace PicoXLSX
                 sb.Append(this.InternalID.Value);
                 sb.Append(':');
             }
-            sb.Append(BorderStyle.CalculateHash());
-            sb.Append(CellXfStyle.CalculateHash());
-            sb.Append(FillStyle.CalculateHash());
-            sb.Append(FontStyle.CalculateHash());
-            sb.Append(NumberFormatStyle.CalculateHash());
+            sb.Append(CurrentBorder.CalculateHash());
+            sb.Append(CurrentCellXf.CalculateHash());
+            sb.Append(CurrentFill.CalculateHash());
+            sb.Append(CurrentFont.CalculateHash());
+            sb.Append(CurrentNumberFormat.CalculateHash());
             return sb.ToString();
         }
 
         /// <summary>
-        /// Method to copy the current object to a new one
+        /// Method to copy the current object to a new one without casting
         /// </summary>
         /// <returns>Copy of the current object without the internal ID</returns>
-        public override Style Copy()
+        public override AbstractStyle Copy()
         {
-            if (BorderStyle == null || CellXfStyle == null || FillStyle == null || FontStyle == null || NumberFormatStyle == null)
+            if (CurrentBorder == null || CurrentCellXf == null || CurrentFill == null || CurrentFont == null || CurrentNumberFormat == null)
             {
                 throw new StyleException("MissingReferenceException", "The style could not be copied because one or more components are missing as references");
             }
             Style copy = new Style();
-            copy.BorderStyle = this.BorderStyle.Copy();
-            copy.CellXfStyle = this.CellXfStyle.Copy();
-            copy.FillStyle = this.FillStyle.Copy();
-            copy.FontStyle = this.FontStyle.Copy();
-            copy.NumberFormatStyle = this.NumberFormatStyle.Copy(); 
+            copy.CurrentBorder = this.CurrentBorder.CopyBorder();
+            copy.CurrentCellXf = this.CurrentCellXf.CopyCellXf();
+            copy.CurrentFill = this.CurrentFill.CopyFill();
+            copy.CurrentFont = this.CurrentFont.CopyFont();
+            copy.CurrentNumberFormat = this.CurrentNumberFormat.CopyNumberFormat(); 
             return copy;
         }
+
+        /// <summary>
+        /// Method to copy the current object to a new one with casting
+        /// </summary>
+        /// <returns>Copy of the current object without the internal ID</returns>
+        public Style CopyStyle()
+        {
+            return (Style)this.Copy();
+        }
+
         #endregion
 
         /*  ************************************************************************************  */
@@ -271,10 +280,6 @@ namespace PicoXLSX
             /// </summary>
             public StyleValue DiagonalStyle { get; set; }
             /// <summary>
-            /// Internal ID for sorting purpose
-            /// </summary>
-            public int InternalID { get; set; }
-            /// <summary>
             /// Color code (ARGB) of the left border
             /// </summary>
             public string LeftColor { get; set; }
@@ -323,16 +328,6 @@ namespace PicoXLSX
 
             #region methods
             /// <summary>
-            /// Method to compare two objects for sorting purpose
-            /// </summary>
-            /// <param name="other">Other object to compare with this object</param>
-            /// <returns>-1 if the other object is bigger. 0 if both objects are equal. 1 if the other object is smaller.</returns>
-            public int CompareTo(Border other)
-            {
-                return this.InternalID.CompareTo(other.InternalID);
-            }
-
-            /// <summary>
             /// Override method to calculate the hash of this component (internal method)
             /// </summary>
             /// <returns>Calculated hash as string</returns>
@@ -356,10 +351,10 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Method to copy the current object to a new one
+            /// Method to copy the current object to a new one without casting
             /// </summary>
             /// <returns>Copy of the current object without the internal ID</returns>
-            public override Border Copy()
+            public override AbstractStyle Copy()
             {
                 Border copy = new Border();
                 copy.BottomColor = this.BottomColor;
@@ -375,6 +370,15 @@ namespace PicoXLSX
                 copy.TopColor = this.TopColor;
                 copy.TopStyle = this.TopStyle;
                 return copy;
+            }
+
+            /// <summary>
+            /// Method to copy the current object to a new one with casting
+            /// </summary>
+            /// <returns>Copy of the current object without the internal ID</returns>
+            public Border CopyBorder()
+            {
+                return (Style.Border)this.Copy();
             }
 
             /// <summary>
@@ -569,10 +573,6 @@ namespace PicoXLSX
             /// </summary>
             public HorizontalAlignValue HorizontalAlign { get; set; }
             /// <summary>
-            /// Internal ID for sorting purpose
-            /// </summary>
-            public int InternalID { get; set; }
-            /// <summary>
             /// If true, the style is used for locking / protection of cells or worksheets
             /// </summary>
             public bool Locked { get; set; }
@@ -653,15 +653,6 @@ namespace PicoXLSX
                     }
                 }
             }
-            /// <summary>
-            /// method to compare two objects for sorting purpose
-            /// </summary>
-            /// <param name="other">Other object to compare with this object</param>
-            /// <returns>-1 if the other object is bigger. 0 if both objects are equal. 1 if the other object is smaller.</returns>
-            public int CompareTo(CellXf other)
-            {
-                return this.InternalID.CompareTo(other.InternalID);
-            }
 
             /// <summary>
             /// Override toString method
@@ -672,6 +663,10 @@ namespace PicoXLSX
                 return this.Hash;
             }
 
+            /// <summary>
+            /// Override method to calculate the hash of this component (internal method)
+            /// </summary>
+            /// <returns>Calculated hash as string</returns>
             public override string CalculateHash()
             {
                 StringBuilder sb = new StringBuilder();
@@ -688,10 +683,10 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Method to copy the current object to a new one
+            /// Method to copy the current object to a new one without casting
             /// </summary>
             /// <returns>Copy of the current object without the internal ID</returns>
-            public override CellXf Copy()
+            public override AbstractStyle Copy()
             {
                 CellXf copy = new CellXf();
                 copy.HorizontalAlign = this.HorizontalAlign;
@@ -705,6 +700,14 @@ namespace PicoXLSX
                 return copy;
             }
 
+            /// <summary>
+            /// Method to copy the current object to a new one with casting
+            /// </summary>
+            /// <returns>Copy of the current object without the internal ID</returns>
+            public CellXf CopyCellXf()
+            {
+                return (Style.CellXf)this.Copy();
+            }
 
 
             #endregion
@@ -773,10 +776,6 @@ namespace PicoXLSX
             /// Indexed color (Default is 64)
             /// </summary>
             public int IndexedColor { get; set; }
-            /// <summary>
-            /// Internal ID for sorting purpose
-            /// </summary>
-            public int InternalID { get; set; }
             /// <summary>
             /// Pattern type of the fill (Default is none)
             /// </summary>
@@ -855,10 +854,10 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Method to copy the current object to a new one
+            /// Method to copy the current object to a new one without casting
             /// </summary>
             /// <returns>Copy of the current object without the internal ID</returns>
-            public override Fill Copy()
+            public override AbstractStyle Copy()
             {
                 Fill copy = new Fill();
                 copy.BackgroundColor = this.BackgroundColor;
@@ -866,6 +865,15 @@ namespace PicoXLSX
                 copy.IndexedColor = this.IndexedColor;
                 copy.PatternFill = this.PatternFill;
                 return copy;
+            }
+
+            /// <summary>
+            /// Method to copy the current object to a new one with casting
+            /// </summary>
+            /// <returns>Copy of the current object without the internal ID</returns>
+            public Fill CopyFill()
+            {
+                return (Style.Fill)this.Copy();
             }
 
             /// <summary>
@@ -1004,10 +1012,6 @@ namespace PicoXLSX
             /// </summary>
             public string Family { get; set; }
             /// <summary>
-            /// Internal ID for sorting purpose
-            /// </summary>
-            public int InternalID { get; set; }
-            /// <summary>
             /// In true the font is equals the default font
             /// </summary>
             public bool IsDefaultFont
@@ -1108,10 +1112,10 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Method to copy the current object to a new one
+            /// Method to copy the current object to a new one without casting
             /// </summary>
             /// <returns>Copy of the current object without the internal ID</returns>
-            public override Font Copy()
+            public override AbstractStyle Copy()
             {
                 Font copy = new Font();
                 copy.Bold = this.Bold;
@@ -1128,6 +1132,16 @@ namespace PicoXLSX
                 copy.Underline = this.Underline;
                 return copy;
             }
+
+            /// <summary>
+            /// Method to copy the current object to a new one with casting
+            /// </summary>
+            /// <returns>Copy of the current object without the internal ID</returns>
+            public Font CopyFont()
+            {
+                return (Style.Font)this.Copy();
+            }
+
             #endregion
         }
 #endregion
@@ -1230,10 +1244,6 @@ namespace PicoXLSX
             /// </summary>
             public int CustomFormatID { get; set; }
             /// <summary>
-            /// Internal ID for sorting purpose
-            /// </summary>
-            public int InternalID { get; set; }
-            /// <summary>
             /// Returns true in case of a custom format (higher or equals 164)
             /// </summary>
             public bool IsCustomFormat
@@ -1288,10 +1298,10 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Method to copy the current object to a new one
+            /// Method to copy the current object to a new one without casting
             /// </summary>
             /// <returns>Copy of the current object without the internal ID</returns>
-            public override NumberFormat Copy()
+            public override AbstractStyle Copy()
             {
                 NumberFormat copy = new NumberFormat();
                 copy.CustomFormatCode = this.CustomFormatCode;
@@ -1299,6 +1309,16 @@ namespace PicoXLSX
                 copy.Number = this.Number;
                 return copy;
             }
+
+            /// <summary>
+            /// Method to copy the current object to a new one with casting
+            /// </summary>
+            /// <returns>Copy of the current object without the internal ID</returns>
+           public NumberFormat CopyNumberFormat()
+            {
+                return (Style.NumberFormat)this.Copy();
+            }
+
             #endregion
         }
 #endregion
@@ -1400,7 +1420,7 @@ namespace PicoXLSX
                         if (bold == null)
                         {
                             bold = new Style();
-                            bold.FontStyle.Bold = true;
+                            bold.CurrentFont.Bold = true;
                         }
                         s = bold;
                         break;
@@ -1408,7 +1428,7 @@ namespace PicoXLSX
                         if (italic == null)
                         {
                             italic = new Style();
-                            italic.FontStyle.Italic = true;
+                            italic.CurrentFont.Italic = true;
                         }
                         s = italic;
                         break;
@@ -1416,8 +1436,8 @@ namespace PicoXLSX
                         if (boldItalic == null)
                         {
                             boldItalic = new Style();
-                            boldItalic.FontStyle.Italic = true;
-                            boldItalic.FontStyle.Bold = true;
+                            boldItalic.CurrentFont.Italic = true;
+                            boldItalic.CurrentFont.Bold = true;
                         }
                         s = boldItalic;
                         break;
@@ -1425,7 +1445,7 @@ namespace PicoXLSX
                         if (underline == null)
                         {
                             underline = new Style();
-                            underline.FontStyle.Underline = true;
+                            underline.CurrentFont.Underline = true;
                         }
                         s = underline;
                         break;
@@ -1433,7 +1453,7 @@ namespace PicoXLSX
                         if (doubleUnderline == null)
                         {
                             doubleUnderline = new Style();
-                            doubleUnderline.FontStyle.DoubleUnderline = true;
+                            doubleUnderline.CurrentFont.DoubleUnderline = true;
                         }
                         s = doubleUnderline;
                         break;
@@ -1441,7 +1461,7 @@ namespace PicoXLSX
                         if (strike == null)
                         {
                             strike = new Style();
-                            strike.FontStyle.Strike = true;
+                            strike.CurrentFont.Strike = true;
                         }
                         s = strike;
                         break;
@@ -1449,7 +1469,7 @@ namespace PicoXLSX
                         if (dateFormat == null)
                         {
                             dateFormat = new Style();
-                            dateFormat.NumberFormatStyle.Number = NumberFormat.FormatNumber.format_14;
+                            dateFormat.CurrentNumberFormat.Number = NumberFormat.FormatNumber.format_14;
                         }
                         s = dateFormat;
                         break;
@@ -1457,7 +1477,7 @@ namespace PicoXLSX
                         if (roundFormat == null)
                         {
                             roundFormat = new Style();
-                            roundFormat.NumberFormatStyle.Number = NumberFormat.FormatNumber.format_1;
+                            roundFormat.CurrentNumberFormat.Number = NumberFormat.FormatNumber.format_1;
                         }
                         s = roundFormat;
                         break;
@@ -1465,10 +1485,10 @@ namespace PicoXLSX
                         if (borderFrame == null)
                         {
                             borderFrame = new Style();
-                            borderFrame.BorderStyle.TopStyle = Border.StyleValue.thin;
-                            borderFrame.BorderStyle.BottomStyle = Border.StyleValue.thin;
-                            borderFrame.BorderStyle.LeftStyle = Border.StyleValue.thin;
-                            borderFrame.BorderStyle.RightStyle = Border.StyleValue.thin;
+                            borderFrame.CurrentBorder.TopStyle = Border.StyleValue.thin;
+                            borderFrame.CurrentBorder.BottomStyle = Border.StyleValue.thin;
+                            borderFrame.CurrentBorder.LeftStyle = Border.StyleValue.thin;
+                            borderFrame.CurrentBorder.RightStyle = Border.StyleValue.thin;
                         }
                         s = borderFrame;
                         break;
@@ -1476,11 +1496,11 @@ namespace PicoXLSX
                         if (borderFrameHeader == null)
                         {
                             borderFrameHeader = new Style();
-                            borderFrameHeader.BorderStyle.TopStyle = Border.StyleValue.thin;
-                            borderFrameHeader.BorderStyle.BottomStyle = Border.StyleValue.medium;
-                            borderFrameHeader.BorderStyle.LeftStyle = Border.StyleValue.thin;
-                            borderFrameHeader.BorderStyle.RightStyle = Border.StyleValue.thin;
-                            borderFrameHeader.FontStyle.Bold = true;
+                            borderFrameHeader.CurrentBorder.TopStyle = Border.StyleValue.thin;
+                            borderFrameHeader.CurrentBorder.BottomStyle = Border.StyleValue.medium;
+                            borderFrameHeader.CurrentBorder.LeftStyle = Border.StyleValue.thin;
+                            borderFrameHeader.CurrentBorder.RightStyle = Border.StyleValue.thin;
+                            borderFrameHeader.CurrentFont.Bold = true;
                         }
                         s = borderFrameHeader;
                         break;
@@ -1488,7 +1508,7 @@ namespace PicoXLSX
                         if (dottedFill_0_125 == null)
                         {
                             dottedFill_0_125 = new Style();
-                            dottedFill_0_125.FillStyle.PatternFill = Fill.PatternValue.gray125;
+                            dottedFill_0_125.CurrentFill.PatternFill = Fill.PatternValue.gray125;
                         }
                         s = dottedFill_0_125;
                         break;
@@ -1496,14 +1516,14 @@ namespace PicoXLSX
                         if (mergeCellStyle == null)
                         {
                             mergeCellStyle = new Style();
-                            mergeCellStyle.CellXfStyle.ForceApplyAlignment = true;
+                            mergeCellStyle.CurrentCellXf.ForceApplyAlignment = true;
                         }
                         s = mergeCellStyle;
                         break;
                     default:
                         break;
                 }
-                return s.Copy(); // Copy makes basic styles immutable
+                return s.CopyStyle(); // Copy makes basic styles immutable
             }
             #endregion
         }
@@ -1516,14 +1536,12 @@ namespace PicoXLSX
     /// </summary>
     public abstract class AbstractStyle: IComparable<AbstractStyle>, IEquatable<AbstractStyle>
     {
-        private string hash;
-
         /// <summary>
         /// Gets the unique hash of the object
         /// </summary>
         public string Hash
         {
-            get { return this.CalculateHash(); }
+            get { return CalculateHash(); }
         }
         
         /// <summary>

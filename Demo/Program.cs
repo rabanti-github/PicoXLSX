@@ -94,7 +94,7 @@ namespace Demo
         }
 
         /// <summary>
-        /// This demo shows the usage of flipped direction when using AddnextCell
+        /// This demo shows the usage of flipped direction when using AddnextCell, reading of the current cell address, and retrieving of cell values
         /// </summary>
         private static void Demo3()
         {
@@ -104,6 +104,9 @@ namespace Demo
             workbook.CurrentWorksheet.AddNextCell(2);                   // Add cell A2
             workbook.CurrentWorksheet.AddNextCell(3);                   // Add cell A3
             workbook.CurrentWorksheet.AddNextCell(4);                   // Add cell A4
+            int row = workbook.CurrentWorksheet.GetCurrentRowAddress(); // Get the row number (will be 4 = row 5)
+            int col = workbook.CurrentWorksheet.GetCurrentColumnAddress(); // Get the column number (will be 0 = column A)
+            workbook.CurrentWorksheet.AddNextCell("This cell has the row number " + (row+1) + " and column number " + (col+1));
             workbook.CurrentWorksheet.GoToNextColumn();                 // Go to Column B
             workbook.CurrentWorksheet.AddNextCell("A");                 // Add cell B1
             workbook.CurrentWorksheet.AddNextCell("B");                 // Add cell B2
@@ -111,6 +114,9 @@ namespace Demo
             workbook.CurrentWorksheet.AddNextCell("D");                 // Add cell B4
             workbook.CurrentWorksheet.RemoveCell("A2");                 // Delete cell A2
             workbook.CurrentWorksheet.RemoveCell(1,1);                  // Delete cell B2
+            workbook.CurrentWorksheet.GoToNextRow(3);                   // Move 3 rows down
+            object value = workbook.CurrentWorksheet.GetCell(1, 2).Value;  // Gets the value of cell B3
+            workbook.CurrentWorksheet.AddNextCell("Value of B3 is: " + value);
             workbook.Save();                                            // Save the workbook
         }
 
@@ -135,22 +141,25 @@ namespace Demo
             workbook.CurrentWorksheet.AddNextCell("C");                                                      // Add cell B3
 
             Style s = new Style();                                                                          // Create new style
-            s.FillStyle.SetColor("FF22FF11", Style.Fill.FillType.fillColor);                              // Set fill color
-            s.FontStyle.DoubleUnderline = true;                                                           // Set double underline
-            s.CellXfStyle.HorizontalAlign = Style.CellXf.HorizontalAlignValue.center;                     // Set alignment
+            s.CurrentFill.SetColor("FF22FF11", Style.Fill.FillType.fillColor);                              // Set fill color
+            s.CurrentFont.DoubleUnderline = true;                                                           // Set double underline
+            s.CurrentCellXf.HorizontalAlign = Style.CellXf.HorizontalAlignValue.center;                     // Set alignment
+
+            Style s2 = s.CopyStyle();                                                                       // Copy the previously defined style
+            s2.CurrentFont.Italic = true;                                                                   // Change an attribute of the copied style
 
             workbook.CurrentWorksheet.Cells["B2"].SetStyle(s);                                              // Assign style to cell
             workbook.CurrentWorksheet.GoToNextRow();                                                        // Go to Row 3
             workbook.CurrentWorksheet.AddNextCell(DateTime.Now.AddDays(2));                                 // Add cell B1
             workbook.CurrentWorksheet.AddNextCell(true);                                                    // Add cell B2
-            workbook.CurrentWorksheet.AddNextCell(false);                                                   // Add cell B3 
+            workbook.CurrentWorksheet.AddNextCell(false, s2);                                               // Add cell B3 with style in the same step 
             workbook.CurrentWorksheet.Cells["C2"].SetStyle(Style.BasicStyles.BorderFrame);                  // Assign predefined basic style to cell
 
-            Style s2 = new Style();                                                                         // Create new style
-            s2.CellXfStyle.TextRotation = 45;                                                             // Set text rotation
-            s2.CellXfStyle.VerticalAlign = Style.CellXf.VerticalAlignValue.center;                       // Set alignment
+            Style s3 = Style.BasicStyles.Strike;                                                            // Create a style from a predefined style
+            s3.CurrentCellXf.TextRotation = 45;                                                             // Set text rotation
+            s3.CurrentCellXf.VerticalAlign = Style.CellXf.VerticalAlignValue.center;                        // Set alignment
 
-            workbook.CurrentWorksheet.Cells["B4"].SetStyle(s2);                                             // Assign style to cell
+            workbook.CurrentWorksheet.Cells["B4"].SetStyle(s3);                                             // Assign style to cell
 
             workbook.CurrentWorksheet.SetColumnWidth(0, 20f);                                               // Set column width
             workbook.CurrentWorksheet.SetColumnWidth(1, 15f);                                               // Set column width
@@ -220,11 +229,14 @@ namespace Demo
         }
 
         /// <summary>
-        /// This demo shows the usage of hiding rows and columns, and auto-filter
+        /// This demo shows the usage of hiding rows and columns, auto-filter and worksheet name sanitizing
         /// </summary>
         private static void Demo7()
         {
-            Workbook workbook = new Workbook("test7.xlsx", "Sheet1");                                   // Create new workbook
+            Workbook workbook = new Workbook(false);                                                    // Create new workbook without worksheet
+            String invalidSheetName = "Sheet?1";                                                        // ? is not allowed in the names of worksheets
+            String sanitizedSheetName = Worksheet.SanitizeWorksheetName(invalidSheetName, workbook);    // Method to sanitize a worksheet name (replaces ? with _)
+            workbook.AddWorksheet(sanitizedSheetName);                                                  // Add new worksheet
             Worksheet ws = workbook.CurrentWorksheet;                                                   // Create reference (shortening)
             List<object> values = new List<object>() { "Cell A1", "Cell B1", "Cell C1", "Cell D1" };    // Create a List of values
             ws.AddCellRange(values, "A1:D1");                                                           // Insert cell range
@@ -235,22 +247,22 @@ namespace Demo
             ws.AddHiddenColumn("C");                                                                    // Hide column C
             ws.AddHiddenRow(1);                                                                         // Hider row 2 (zero-based: 1)
             ws.SetAutoFilter(1, 3);                                                                     // Set auto-filter for column B to D
-            workbook.Save();                                                                            // Save the workbook
+            workbook.SaveAs("test7.xlsx");                                                              // Save the workbook
         }
         
         /// <summary>
-        /// This demo shows the usage of cell and worksheet selection
+        /// This demo shows the usage of cell and worksheet selection, auto-sanitizing of worksheet names
         /// </summary>
         private static void Demo8()
         {
-            Workbook workbook = new Workbook("test8.xlsx", "Sheet1");  									// Create new workbook
+            Workbook workbook = new Workbook("test8.xlsx", "Sheet*1", true);  				            // Create new workbook with invalid sheet name (*); Auto-Sanitizing will replace * with _
             workbook.CurrentWorksheet.AddNextCell("Test");              								// Add cell A1
             workbook.CurrentWorksheet.SetSelectedCells("A5:B10");										// Set the selection to the range A5:B10
             workbook.AddWorksheet("Sheet2");															// Create new worksheet
             workbook.CurrentWorksheet.AddNextCell("Test2");              								// Add cell A1
             Cell.Range range = new Cell.Range(new Cell.Address(1,1), new Cell.Address(3,3));			// Create a cell range for the selection B2:D4
             workbook.CurrentWorksheet.SetSelectedCells(range);											// Set the selection to the range
-            workbook.AddWorksheet("Sheet3");															// Create new worksheet
+            workbook.AddWorksheet("Sheet2", true);							// Create new worksheet with already existing name; The name will be changed to Sheet21 due to auto-sanitizing (appending of 1)
             workbook.CurrentWorksheet.AddNextCell("Test3");              								// Add cell A1
             workbook.CurrentWorksheet.SetSelectedCells(new Cell.Address(2,2), new Cell.Address(4,4));	// Set the selection to the range C3:E5
             workbook.SetSelectedWorksheet(1);															// Set the second Tab as selected (zero-based: 1)

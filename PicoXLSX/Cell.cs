@@ -75,7 +75,6 @@ namespace PicoXLSX
         public Style CellStyle
         {
             get { return cellStyle; }
-            set { cellStyle = value; }
         }
 
         /// <summary>Number of the column (zero-based)</summary>  
@@ -228,7 +227,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="isLocked">If true, the cell will be locked if the worksheet is protected</param>
         /// <param name="isHidden">If true, the value of the cell will be invisible if the worksheet is protected</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style used to lock cells cannot be referenced</exception>
+        /// <exception cref="StyleException">Throws an UndefinedStyleException if the style used to lock cells cannot be referenced</exception>
         /// <remarks>The listed exception should never happen because the mentioned style is internally generated</remarks>
         public void SetCellLockedState(bool isLocked, bool isHidden)
         {
@@ -239,10 +238,10 @@ namespace PicoXLSX
             }
             else
             {
-                lockStyle = this.cellStyle.Copy();
+                lockStyle = this.cellStyle.CopyStyle();
             }
-            lockStyle.CellXfStyle.Locked = isLocked;
-            lockStyle.CellXfStyle.Hidden = isHidden;
+            lockStyle.CurrentCellXf.Locked = isLocked;
+            lockStyle.CurrentCellXf.Hidden = isHidden;
             this.SetStyle(lockStyle);
         }
 
@@ -266,7 +265,7 @@ namespace PicoXLSX
             {
                 throw new StyleException("UndefinedStyleException", "No style to assign was defined");
             }
-            Style s = this.WorksheetReference.WorkbookReference.AddStyle(style, true);
+            Style s = this.WorksheetReference.WorkbookReference.AddStyle(style);
             this.cellStyle = s;
             return s;
         }

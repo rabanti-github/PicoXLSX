@@ -1,25 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HelpKI>
+  <HelpKINode Title="AbstractStyle class">
+    <HelpKINode Title="AbstractStyle Class" Url="html/d3bf283d-a5e7-07f8-2030-53138bc0238a.htm" />
+    <HelpKINode Title="about AbstractStyle class" Url="html/d3bf283d-a5e7-07f8-2030-53138bc0238a.htm" />
+    <HelpKINode Title="constructor" Url="html/a4ba859f-38c0-812b-a406-b7fd73f46fbd.htm" />
+    <HelpKINode Title="methods" Url="html/a1398213-d314-6377-7a0a-9db70e25f10b.htm" />
+    <HelpKINode Title="properties" Url="html/e8cc4830-bd75-21d1-8983-b9746c22a0f9.htm" />
+  </HelpKINode>
+  <HelpKINode Title="AbstractStyle.AbstractStyle constructor" Url="html/a4ba859f-38c0-812b-a406-b7fd73f46fbd.htm" />
+  <HelpKINode Title="AbstractStyle.CalculateHash method" Url="html/2bcb995e-931b-fd2f-21e6-9d71f82d931b.htm" />
+  <HelpKINode Title="AbstractStyle.CastValue method" Url="html/52a60108-9724-09b2-8287-69fabae1bab7.htm" />
+  <HelpKINode Title="AbstractStyle.CompareTo method" Url="html/bb138535-ce8b-f492-0565-3780944f4f7a.htm" />
+  <HelpKINode Title="AbstractStyle.Copy method" Url="html/b4a49ced-cc7b-3be3-e043-7187e0386ddb.htm" />
+  <HelpKINode Title="AbstractStyle.Equals method" Url="html/fc5bcebc-2de0-88d4-aaa4-d1745c41f396.htm" />
+  <HelpKINode Title="AbstractStyle.Hash property" Url="html/0df581b5-e044-df5d-f893-0a76ed05583f.htm" />
+  <HelpKINode Title="AbstractStyle.InternalID property" Url="html/fa218416-797a-c9bc-c820-0b71b2955ddd.htm" />
   <HelpKINode Title="Add method" Url="html/ad4a1d25-c830-1640-1a77-cf1f7a6154e6.htm" />
   <HelpKINode Title="AddAllowedActionOnSheetProtection method" Url="html/13589b86-1dee-c3b7-90e6-06131497a6ff.htm" />
   <HelpKINode Title="AddCell method" Url="html/858e777d-4b39-d54c-be05-4c5ee2ee5983.htm" />
   <HelpKINode Title="AddCellFormula method" Url="html/cedb2473-d34f-c63b-b1f1-0a1cdc1a7d5d.htm" />
   <HelpKINode Title="AddCellRange method" Url="html/dca5a3f2-ba67-25ba-ed41-94be48006488.htm" />
-  <HelpKINode Title="AddCellRangeInternal(Of T) method" Url="html/59608dce-d119-240e-b0b1-895c008d425f.htm" />
-  <HelpKINode Title="AddCellRangeInternal&lt;T&gt; method" Url="html/59608dce-d119-240e-b0b1-895c008d425f.htm" />
+  <HelpKINode Title="AddCellRangeInternal(Of T) method" Url="html/f894adcd-1db4-4e50-7858-894c808eab4b.htm" />
+  <HelpKINode Title="AddCellRangeInternal&lt;T&gt; method" Url="html/f894adcd-1db4-4e50-7858-894c808eab4b.htm" />
   <HelpKINode Title="AddHiddenColumn method" Url="html/6253efe0-b403-2fd9-3e11-7ddd3f0b66f0.htm" />
   <HelpKINode Title="AddHiddenRow method" Url="html/77045f88-0564-498f-38c0-408b73d64cf0.htm" />
   <HelpKINode Title="AddNextCell method" Url="html/16026592-80e7-006a-99b6-3f4d1defdd53.htm" />
-  <HelpKINode Title="AddNextCellFormula method" Url="html/dda63afd-08f6-a669-89b5-4dc939f623c8.htm" />
+  <HelpKINode Title="AddNextCellFormula method" Url="html/0e61398a-7c1d-0f11-532d-9640f72744bf.htm" />
   <HelpKINode Title="Address structure">
     <HelpKINode Title="fields" Url="html/d5af4ef2-fe4f-d61a-e5fb-05e27c1e61cc.htm" />
     <HelpKINode Title="methods" Url="html/0ec3da5d-5044-7eec-f40b-42bef45d5bbf.htm" />
   </HelpKINode>
-  <HelpKINode Title="AddStyle method" Url="html/49264892-0905-da02-fce5-505bf8047e36.htm" />
-  <HelpKINode Title="AddWorksheet method" Url="html/c9d43c5b-02d7-5d72-6924-0447d36c0f16.htm" />
+  <HelpKINode Title="AddStyle method">
+    <HelpKINode Title="StyleManager.AddStyle Method " Url="html/7e87b332-f94d-566e-db81-79c888998270.htm" />
+    <HelpKINode Title="Workbook.AddStyle Method " Url="html/2fd49619-71db-f773-179f-de2134bb4a73.htm" />
+  </HelpKINode>
+  <HelpKINode Title="addStyleComponent method" Url="html/78c90321-1246-e7db-2875-4fa5b9500ebc.htm" />
+  <HelpKINode Title="AddStyleComponent method" Url="html/4117ee42-59f9-94ca-20cc-95eb6b6df1fb.htm" />
+  <HelpKINode Title="AddWorksheet method" Url="html/cf2d6283-ee19-74c7-4e67-8e86545164f3.htm" />
   <HelpKINode Title="Alignment property" Url="html/be0671ae-d0b7-f60f-219d-4da15ed60b11.htm" />
   <HelpKINode Title="AppendXMLtag method" Url="html/e9b26b07-bc13-f964-fe6d-41e489fc7af8.htm" />
-  <HelpKINode Title="AppendXmlToPackagePart method" Url="html/0160eca4-3813-e324-5610-ca5a5933ec3e.htm" />
+  <HelpKINode Title="AppendXmlToPackagePart method" Url="html/8dab927a-795a-ab25-f6d4-4b92e8976f67.htm" />
   <HelpKINode Title="Application property" Url="html/d132ea68-37d5-15ac-4527-4277f96f4418.htm" />
   <HelpKINode Title="ApplicationVersion property" Url="html/e1e73db3-9c46-2186-c78f-176401825f81.htm" />
   <HelpKINode Title="autoFilter enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
@@ -45,10 +65,21 @@
   <HelpKINode Title="BorderFrame property" Url="html/daad8014-65bd-8327-cc6c-503b60ae7653.htm" />
   <HelpKINode Title="borderFrameHeader enumeration member" Url="html/34686cde-ba88-a4db-d64e-d3f544c9367a.htm" />
   <HelpKINode Title="BorderFrameHeader property" Url="html/96649a63-1d5b-fb7f-cdb0-2932e7e6cdd0.htm" />
+  <HelpKINode Title="BORDERPREFIX field" Url="html/a8e1e79a-193c-17ca-76ab-8534069d0c34.htm" />
   <HelpKINode Title="bottom enumeration member" Url="html/9aff105d-3f3c-209e-6b7d-b851c6490690.htm" />
   <HelpKINode Title="BottomColor property" Url="html/44ad0056-fc9b-dc19-a110-670e9d9fda12.htm" />
   <HelpKINode Title="BottomStyle property" Url="html/6dfe6c9a-85d1-34fa-cca8-b5bfb25eea6a.htm" />
+  <HelpKINode Title="CalculateHash method">
+    <HelpKINode Title="AbstractStyle.CalculateHash Method " Url="html/2bcb995e-931b-fd2f-21e6-9d71f82d931b.htm" />
+    <HelpKINode Title="Style.Border.CalculateHash Method " Url="html/3677575f-f93b-ef11-06e2-6b1c1837bc7d.htm" />
+    <HelpKINode Title="Style.CalculateHash Method " Url="html/238ac67a-1c7e-ec97-1450-8fceab94cc4a.htm" />
+    <HelpKINode Title="Style.CellXf.CalculateHash Method " Url="html/6e1bace2-a052-df93-68ad-3ea9cf50cde1.htm" />
+    <HelpKINode Title="Style.Fill.CalculateHash Method " Url="html/e40a05f6-d88d-e9ab-63b5-582c61284c4e.htm" />
+    <HelpKINode Title="Style.Font.CalculateHash Method " Url="html/34ebbcc9-0e62-8c1a-7ebd-1deb7f424cc7.htm" />
+    <HelpKINode Title="Style.NumberFormat.CalculateHash Method " Url="html/26bc7b9a-0197-4a0f-55eb-4fe3755f1328.htm" />
+  </HelpKINode>
   <HelpKINode Title="CalculateInternalRotation method" Url="html/c533f83c-5d21-6f4b-6cb2-56c362a0c86d.htm" />
+  <HelpKINode Title="CastValue method" Url="html/52a60108-9724-09b2-8287-69fabae1bab7.htm" />
   <HelpKINode Title="Category property" Url="html/b07e9aea-da87-89ee-7c00-19b82a240010.htm" />
   <HelpKINode Title="Cell class">
     <HelpKINode Title="Cell Class" Url="html/95b17deb-1e82-18db-5872-214ebb9e4cdd.htm" />
@@ -76,7 +107,7 @@
   <HelpKINode Title="Cell.CompareTo method" Url="html/39d45d3d-624f-96dc-a82d-7e509303776d.htm" />
   <HelpKINode Title="Cell.ConvertArray(Of T) method" Url="html/d8bbe442-2ac8-fffb-d854-08bff7d57fc3.htm" />
   <HelpKINode Title="Cell.ConvertArray&lt;T&gt; method" Url="html/d8bbe442-2ac8-fffb-d854-08bff7d57fc3.htm" />
-  <HelpKINode Title="Cell.Fieldtype property" Url="html/c0b8df9a-558f-e5e7-0147-ef02d2d8f7c2.htm" />
+  <HelpKINode Title="Cell.DataType property" Url="html/e28f396b-0ffd-5922-ec22-9ee2c0c28c2b.htm" />
   <HelpKINode Title="Cell.GetCellRange method" Url="html/4754841d-02de-f678-0f7d-b5660f93c728.htm" />
   <HelpKINode Title="Cell.Range structure">
     <HelpKINode Title="Cell.Range Structure" Url="html/a7a13882-14d0-cf93-78d8-9fe6cd71f414.htm" />
@@ -107,6 +138,7 @@
     <HelpKINode Title="methods" Url="html/4f0ee5fe-8288-7594-3f8d-91f3696fc5a9.htm" />
     <HelpKINode Title="properties" Url="html/680b91b5-d1d8-51a0-7c5a-de55dfca82cf.htm" />
   </HelpKINode>
+  <HelpKINode Title="CELLXFPREFIX field" Url="html/a52987dd-d71d-62f4-ead6-b23e8ddd714c.htm" />
   <HelpKINode Title="center enumeration member">
     <HelpKINode Title="Style.CellXf.HorizontalAlignValue Enumeration" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
     <HelpKINode Title="Style.CellXf.VerticalAlignValue Enumeration" Url="html/9aff105d-3f3c-209e-6b7d-b851c6490690.htm" />
@@ -114,6 +146,7 @@
   <HelpKINode Title="centerContinuous enumeration member" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
   <HelpKINode Title="Charset property" Url="html/048ce452-128b-2c67-6de7-cc4d26274f16.htm" />
   <HelpKINode Title="CheckVersion method" Url="html/d3f75b3c-69d0-8570-e49a-580559609b38.htm" />
+  <HelpKINode Title="CleanupStyleComponents method" Url="html/97b3be13-8d01-a364-b95d-e9f42faeb451.htm" />
   <HelpKINode Title="ClearActiveStyle method" Url="html/5276e7c9-cd0c-a3de-4387-9cd639a65fe0.htm" />
   <HelpKINode Title="ColorTheme property" Url="html/e0274656-f7ce-7be3-5ca5-18ae62359bd7.htm" />
   <HelpKINode Title="ColorValue property" Url="html/98020337-f8b4-b4df-3ed9-a02ca281e020.htm" />
@@ -130,26 +163,28 @@
   <HelpKINode Title="ColumnToColumn enumeration member" Url="html/357d67a9-19c3-3a83-17db-cc2b8c442940.htm" />
   <HelpKINode Title="Company property" Url="html/a90811d5-078d-cd38-4c75-39d2fa27ad7e.htm" />
   <HelpKINode Title="CompareTo method">
+    <HelpKINode Title="AbstractStyle.CompareTo Method " Url="html/bb138535-ce8b-f492-0565-3780944f4f7a.htm" />
     <HelpKINode Title="Cell.CompareTo Method " Url="html/39d45d3d-624f-96dc-a82d-7e509303776d.htm" />
-    <HelpKINode Title="Style.Border.CompareTo Method " Url="html/d1e5c221-c883-3b95-a952-26df03ecad8e.htm" />
-    <HelpKINode Title="Style.CellXf.CompareTo Method " Url="html/822c78d2-5616-d0ef-e0d4-b41a8cd45d45.htm" />
-    <HelpKINode Title="Style.CompareTo Method " Url="html/a69523ec-9400-5ff5-c3e1-daabc404735a.htm" />
-    <HelpKINode Title="Style.Fill.CompareTo Method " Url="html/8565f899-9c6b-cfaa-2b68-d7c1b45c72a9.htm" />
-    <HelpKINode Title="Style.Font.CompareTo Method " Url="html/6e5fedbb-9486-5b52-c553-2d86c4e1eff1.htm" />
-    <HelpKINode Title="Style.NumberFormat.CompareTo Method " Url="html/0de12c8d-a029-a521-04ad-b1423dc66e24.htm" />
   </HelpKINode>
   <HelpKINode Title="ContainsKey method" Url="html/236cd3fb-69f1-349e-8321-9e43a3f046f5.htm" />
   <HelpKINode Title="ContentStatus property" Url="html/b6754615-b0db-4811-ad92-27fc7183f1b4.htm" />
   <HelpKINode Title="ConvertArray(Of T) method" Url="html/d8bbe442-2ac8-fffb-d854-08bff7d57fc3.htm" />
   <HelpKINode Title="ConvertArray&lt;T&gt; method" Url="html/d8bbe442-2ac8-fffb-d854-08bff7d57fc3.htm" />
   <HelpKINode Title="Copy method">
+    <HelpKINode Title="AbstractStyle.Copy Method " Url="html/b4a49ced-cc7b-3be3-e043-7187e0386ddb.htm" />
     <HelpKINode Title="Style.Border.Copy Method " Url="html/db226416-5f4f-be89-ec01-3f30ec362326.htm" />
     <HelpKINode Title="Style.CellXf.Copy Method " Url="html/9b2381ac-3ab2-59e1-17ec-5e105bd941c9.htm" />
-    <HelpKINode Title="Style.Copy Method " Url="html/ba35aabb-c668-5ece-b3ee-8ffdaebe8e03.htm" />
+    <HelpKINode Title="Style.Copy Method " Url="html/2bcc8a60-59df-f901-cf0c-49903cf207d2.htm" />
     <HelpKINode Title="Style.Fill.Copy Method " Url="html/bf332b60-5b82-d506-84b9-acce3b3b92bd.htm" />
     <HelpKINode Title="Style.Font.Copy Method " Url="html/23d3c06f-6899-ca99-41ab-96de83a2075e.htm" />
     <HelpKINode Title="Style.NumberFormat.Copy Method " Url="html/ec67a3c2-73ca-3c5d-2f28-45a6f06450ff.htm" />
   </HelpKINode>
+  <HelpKINode Title="CopyBorder method" Url="html/da1ca41a-7815-401d-c9c8-3d5f4a47e3b6.htm" />
+  <HelpKINode Title="CopyCellXf method" Url="html/5e49c821-63a7-9530-d119-98d4d6dc1bbf.htm" />
+  <HelpKINode Title="CopyFill method" Url="html/698166e4-5212-5f71-01a7-ede457bf61ee.htm" />
+  <HelpKINode Title="CopyFont method" Url="html/87bb0c2b-8daa-f4a7-4098-b902d4a81024.htm" />
+  <HelpKINode Title="CopyNumberFormat method" Url="html/4bac8213-363b-0986-393f-82ff3a0ab87e.htm" />
+  <HelpKINode Title="CopyStyle method" Url="html/6ae35113-6bc8-4ef2-d2b6-d3c6cc250ffa.htm" />
   <HelpKINode Title="Count property" Url="html/ba02022c-9a38-811b-deec-af177eeaaa9d.htm" />
   <HelpKINode Title="CreateAppPropertiesDocument method" Url="html/c228e594-052b-0fb4-e00f-d245b3a3b8dd.htm" />
   <HelpKINode Title="CreateAppString method" Url="html/bd00b284-a37e-943d-3ffb-8f9ee5848803.htm" />
@@ -157,18 +192,16 @@
   <HelpKINode Title="CreateCorePropertiesDocument method" Url="html/a2b9282c-47eb-f4f4-d3b3-538101b1ac7f.htm" />
   <HelpKINode Title="CreateCorePropertiesString method" Url="html/52611d9b-09d1-c386-da0f-497f9607ac7f.htm" />
   <HelpKINode Title="CreateMergedCellsString method" Url="html/d94dbae6-3dd1-54a6-b2e8-7b5446407fe6.htm" />
-  <HelpKINode Title="CreateMruColorsString method" Url="html/20872158-7107-9d5a-f01c-cd131de0e892.htm" />
+  <HelpKINode Title="CreateMruColorsString method" Url="html/efe7859f-43ce-2149-871a-123294e587b5.htm" />
   <HelpKINode Title="CreateRowString method" Url="html/0ae9bb98-c41c-16f7-9c24-aafa823879f4.htm" />
   <HelpKINode Title="CreateSharedStringsDocument method" Url="html/0a605960-8bbf-4723-7ef4-ce17ef1adef8.htm" />
   <HelpKINode Title="CreateSheetProtectionString method" Url="html/2bb304a6-d92b-54cc-6b64-2a7fdb6ba8e8.htm" />
-  <HelpKINode Title="CreateStyleBorderString method" Url="html/2a25fab1-cc87-e380-78a9-9f81ee662898.htm" />
-  <HelpKINode Title="CreateStyleFillString method" Url="html/f1f95d60-a38e-b0c7-c8ee-c86a8ca13067.htm" />
-  <HelpKINode Title="CreateStyleFontString method" Url="html/5e566cd0-8934-a46d-a8b8-74c12e633957.htm" />
-  <HelpKINode Title="CreateStyleNumberFormatString method" Url="html/80810a5a-7957-8543-d62a-a8395301c6ab.htm" />
+  <HelpKINode Title="CreateStyleBorderString method" Url="html/af61d1db-e7dd-4644-5d97-051fb36062b9.htm" />
+  <HelpKINode Title="CreateStyleFillString method" Url="html/b6f71718-5cda-8002-7d5a-ca947ff7b644.htm" />
+  <HelpKINode Title="CreateStyleFontString method" Url="html/3e5ed9ed-f58d-24e1-df0c-ca167ff7ab31.htm" />
+  <HelpKINode Title="CreateStyleNumberFormatString method" Url="html/e245a7c1-6c43-995c-7ac1-def2abe6afaa.htm" />
   <HelpKINode Title="CreateStyleSheetDocument method" Url="html/756143ee-7a59-3a22-93fd-391aee75860f.htm" />
-  <HelpKINode Title="CreateStyleSheetDocumentFallback method" Url="html/db39294a-2c0b-1a0d-1647-8d34d5368356.htm" />
-  <HelpKINode Title="CreateStyleXfsString method" Url="html/e0cfc7ea-0fb6-f8b3-67af-15fe69c82f5d.htm" />
-  <HelpKINode Title="CreateUniqueName method" Url="html/97ab4dcb-d600-364a-e9a8-e0dc201c1e8d.htm" />
+  <HelpKINode Title="CreateStyleXfsString method" Url="html/2617b459-5408-93e5-c897-62eb07f96ed2.htm" />
   <HelpKINode Title="CreateWorkbookDocument method" Url="html/3bda8d92-b877-13f2-1243-1a18c4354f38.htm" />
   <HelpKINode Title="CreateWorksheetPart method" Url="html/973de249-9e90-32a0-9058-115f2fb8eee9.htm" />
   <HelpKINode Title="Creator property" Url="html/7d892715-fa5e-9073-b3f0-85c63ec2d63d.htm" />
@@ -187,6 +220,7 @@
   <HelpKINode Title="dashDot enumeration member" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
   <HelpKINode Title="dashDotDot enumeration member" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
   <HelpKINode Title="dashed enumeration member" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
+  <HelpKINode Title="DataType property" Url="html/e28f396b-0ffd-5922-ec22-9ee2c0c28c2b.htm" />
   <HelpKINode Title="DATE enumeration member" Url="html/869e4b32-cce1-41ab-bb92-a93de8fb392c.htm" />
   <HelpKINode Title="dateFormat enumeration member" Url="html/34686cde-ba88-a4db-d64e-d3f544c9367a.htm" />
   <HelpKINode Title="DateFormat property" Url="html/de49e825-7876-1f38-8efe-d9f1198114b9.htm" />
@@ -222,18 +256,17 @@
   </HelpKINode>
   <HelpKINode Title="EMPTY enumeration member" Url="html/869e4b32-cce1-41ab-bb92-a93de8fb392c.htm" />
   <HelpKINode Title="EndAddress field" Url="html/52cd39a1-7088-c920-47ec-e074f52560d0.htm" />
-  <HelpKINode Title="Equals method">
-    <HelpKINode Title="Border.Equals Method " Url="html/a31a7658-bdd6-83b2-c580-f75825b8563d.htm" />
-    <HelpKINode Title="CellXf.Equals Method " Url="html/74704010-4ba3-7100-4376-7eda59c5cc78.htm" />
-    <HelpKINode Title="Fill.Equals Method " Url="html/c39788d1-1460-0e00-90c1-1665abb32068.htm" />
-    <HelpKINode Title="Font.Equals Method " Url="html/aa8f2faf-698f-dece-554e-60b9995968ed.htm" />
-    <HelpKINode Title="NumberFormat.Equals Method " Url="html/61644fa2-225a-8c98-025d-2ac1e209cf49.htm" />
-    <HelpKINode Title="Style.Equals Method " Url="html/021a4e4b-95c5-f0a5-ab36-7527c4e3b433.htm" />
-  </HelpKINode>
+  <HelpKINode Title="Equals method" Url="html/fc5bcebc-2de0-88d4-aaa4-d1745c41f396.htm" />
   <HelpKINode Title="EscapeXMLAttributeChars method" Url="html/c073b424-3ed3-d26d-49a1-54f1e496af55.htm" />
   <HelpKINode Title="EscapeXMLChars method" Url="html/18a9638b-1ccc-7943-5189-6eb4e672a098.htm" />
+  <HelpKINode Title="ExceptionTitle property">
+    <HelpKINode Title="FormatException.ExceptionTitle Property " Url="html/fdb38572-b51f-6304-e278-6e9ccb21ede3.htm" />
+    <HelpKINode Title="IOException.ExceptionTitle Property " Url="html/7443137d-0b5a-37ec-19ae-03343c64cc1b.htm" />
+    <HelpKINode Title="RangeException.ExceptionTitle Property " Url="html/ed52a666-29bb-cca0-309a-a7fdf790217e.htm" />
+    <HelpKINode Title="StyleException.ExceptionTitle Property " Url="html/56601e93-55af-267b-00e6-a88c1681b831.htm" />
+    <HelpKINode Title="WorksheetException.ExceptionTitle Property " Url="html/c19610d3-972f-c6ec-b2bc-ded39e0fab2f.htm" />
+  </HelpKINode>
   <HelpKINode Title="Family property" Url="html/cfacdb92-0bd0-b0e1-171e-5c6c14ca980b.htm" />
-  <HelpKINode Title="Fieldtype property" Url="html/c0b8df9a-558f-e5e7-0147-ef02d2d8f7c2.htm" />
   <HelpKINode Title="Filename property">
     <HelpKINode Title="LowLevel.DocumentPath.Filename Property " Url="html/aa727f9a-47c0-013d-781e-1ac9ebcf45e1.htm" />
     <HelpKINode Title="Workbook.Filename Property " Url="html/de09893a-83f8-c50b-6d62-400e723bbefe.htm" />
@@ -245,11 +278,13 @@
   </HelpKINode>
   <HelpKINode Title="fill enumeration member" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
   <HelpKINode Title="fillColor enumeration member" Url="html/d25639c7-0640-0ae4-1ce1-86f0069e7f10.htm" />
+  <HelpKINode Title="FILLPREFIX field" Url="html/3c33f149-7d15-d90a-5218-cd298f0a3bde.htm" />
   <HelpKINode Title="Font class">
     <HelpKINode Title="fields" Url="html/e56c6604-2625-3a66-6388-c7e268278bae.htm" />
     <HelpKINode Title="methods" Url="html/f8c32df5-62c0-0f94-ab3a-c55c70b181a4.htm" />
     <HelpKINode Title="properties" Url="html/feb34171-9dba-71a1-cdfa-e0f7f02f35ce.htm" />
   </HelpKINode>
+  <HelpKINode Title="FONTPREFIX field" Url="html/576e272c-3478-5ba8-5bf4-9f2e1b8cc65f.htm" />
   <HelpKINode Title="ForceApplyAlignment property" Url="html/9b93abcd-46c9-bd1e-6aa1-3dc3d2277137.htm" />
   <HelpKINode Title="ForegroundColor property" Url="html/e422690a-a3f5-bf19-943e-97f7f4bb7024.htm" />
   <HelpKINode Title="formatCells enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
@@ -262,6 +297,7 @@
     <HelpKINode Title="methods" Url="html/a095d7f7-a4fa-390a-5917-71113778c8d2.htm" />
     <HelpKINode Title="properties" Url="html/41f48091-ef2f-8eea-d4c6-7d2cc8e4bee5.htm" />
   </HelpKINode>
+  <HelpKINode Title="FormatException.ExceptionTitle property" Url="html/fdb38572-b51f-6304-e278-6e9ccb21ede3.htm" />
   <HelpKINode Title="FormatException.FormatException constructor" Url="html/b5a99a41-809b-7242-8e0e-3c460cb123a7.htm" />
   <HelpKINode Title="formatRows enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
   <HelpKINode Title="format_1 enumeration member" Url="html/551f78ab-758c-cbe9-8e7c-1cef0a87f040.htm" />
@@ -299,36 +335,56 @@
   <HelpKINode Title="general enumeration member" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
   <HelpKINode Title="GeneratePasswordHash method" Url="html/ca5f9ef5-a6b0-49e1-297e-657479528c94.htm" />
   <HelpKINode Title="GetAddress method" Url="html/ff73b209-092a-f6a6-f7c9-6280d97b3367.htm" />
+  <HelpKINode Title="GetBorderByHash method" Url="html/9028066d-fa07-7844-e77f-501058835170.htm" />
+  <HelpKINode Title="GetBorders method" Url="html/e5e24456-c423-ff2c-f018-963d34c5e97c.htm" />
+  <HelpKINode Title="GetBorderStyleNumber method" Url="html/443ceec6-19f4-8375-cb1c-f921475f6b31.htm" />
+  <HelpKINode Title="GetCell method" Url="html/e34cc41e-2be8-c908-d45b-d078b1d62d9e.htm" />
   <HelpKINode Title="GetCellRange method" Url="html/4754841d-02de-f678-0f7d-b5660f93c728.htm" />
+  <HelpKINode Title="GetCellXfByHash method" Url="html/7126ab77-063d-50c9-bd0b-a58d2d464cd1.htm" />
+  <HelpKINode Title="GetCellXfs method" Url="html/4b355c36-79c8-fee3-0f5a-2c599edaa64c.htm" />
+  <HelpKINode Title="GetCellXfStyleNumber method" Url="html/4961eab3-9166-412c-60eb-62f24313646b.htm" />
+  <HelpKINode Title="GetComponentByHash method" Url="html/29eab1c8-0c1d-0567-4603-a88e1a737364.htm" />
+  <HelpKINode Title="GetCurrentColumnAddress method" Url="html/ca75fd21-90dd-fdc0-648a-39e3c1e3d83e.htm" />
+  <HelpKINode Title="GetCurrentRowAddress method" Url="html/a1b0dc99-3b3b-2662-7d2a-ef682e68016e.htm" />
+  <HelpKINode Title="GetFillByHash method" Url="html/084b2b5e-6998-100e-dbdc-543b83991110.htm" />
+  <HelpKINode Title="GetFills method" Url="html/3abc9a74-d3b4-b6c2-d75e-df7ac333a874.htm" />
+  <HelpKINode Title="GetFillStyleNumber method" Url="html/d8d3892f-ed7d-a2a6-e021-a28fe50d1fcf.htm" />
+  <HelpKINode Title="GetFontByHash method" Url="html/462b2ea6-3501-93dc-5250-97146f7dd0c6.htm" />
+  <HelpKINode Title="GetFonts method" Url="html/9ac39089-ac5d-4465-5119-1d8a5a283cf1.htm" />
+  <HelpKINode Title="GetFontStyleNumber method" Url="html/047210f8-f6ab-4cc5-2a35-26358eb87dae.htm" />
   <HelpKINode Title="GetFullPath method" Url="html/23d5a7ee-4309-c5f4-548f-4e83a9250106.htm" />
+  <HelpKINode Title="GetNumberFormatByHash method" Url="html/833d01a8-e29f-53be-b79c-674fda11b8f1.htm" />
+  <HelpKINode Title="GetNumberFormats method" Url="html/ca220f7b-5ea4-177c-1f88-2ecc12f969f4.htm" />
+  <HelpKINode Title="GetNumberFormatStyleNumber method" Url="html/736de83b-c64a-67e9-fcae-f9c48ddf23ec.htm" />
   <HelpKINode Title="GetOADateTimeString method" Url="html/71d04f52-320f-1afa-b1a3-926eadde6970.htm" />
   <HelpKINode Title="GetPatternName method" Url="html/7f1eb572-6e4c-8a83-5cdf-b7a16dbc9cef.htm" />
   <HelpKINode Title="GetSortedSheetData method" Url="html/d42cf5a8-5c66-c8f7-25de-4d48a7ff6d6d.htm" />
   <HelpKINode Title="GetStyle method" Url="html/9e3b9a1f-09aa-8d1d-c4cf-9e99f469232c.htm" />
+  <HelpKINode Title="GetStyleByHash method" Url="html/b52ccb29-0615-fba9-1e78-83b46c99fdd6.htm" />
+  <HelpKINode Title="GetStyleByName method" Url="html/138ef339-a0d9-4aff-baaa-ef60dac55e49.htm" />
   <HelpKINode Title="GetStyleName method" Url="html/8670d93c-fb8a-8ea9-ccfa-819bf4b5759c.htm" />
-  <HelpKINode Title="GoToNextColumn method" Url="html/1b333d28-e538-1102-fbbd-342841bc06d0.htm" />
-  <HelpKINode Title="GoToNextRow method" Url="html/0faaf09a-e42a-6557-2c14-5c0da367317c.htm" />
+  <HelpKINode Title="GetStyleNumber method" Url="html/d89e4c8b-3e52-80f5-f51e-d0de236acc7e.htm" />
+  <HelpKINode Title="GetStyles method" Url="html/1305beb0-d896-e2bb-56be-80beac92ffbc.htm" />
+  <HelpKINode Title="GoToNextColumn method" Url="html/d1386a71-038d-70df-5fba-60e4089784bc.htm" />
+  <HelpKINode Title="GoToNextRow method" Url="html/0e0670a0-2ca2-b370-1804-868a286b3d0e.htm" />
   <HelpKINode Title="gray0625 enumeration member" Url="html/8eb3aaa5-5ec9-f14b-0857-a910d0101c88.htm" />
   <HelpKINode Title="gray125 enumeration member" Url="html/8eb3aaa5-5ec9-f14b-0857-a910d0101c88.htm" />
   <HelpKINode Title="hair enumeration member" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
   <HelpKINode Title="HasAutoFilter property" Url="html/9f68da3f-a411-67bd-a607-ff47c2b81cf5.htm" />
+  <HelpKINode Title="Hash property" Url="html/0df581b5-e044-df5d-f893-0a76ed05583f.htm" />
   <HelpKINode Title="Hidden property" Url="html/6e71f31d-a3ed-0ef5-b22d-26ff073aaf82.htm" />
   <HelpKINode Title="HiddenRows property" Url="html/823be1a4-46ce-4c0f-3a34-75d27f085b4f.htm" />
   <HelpKINode Title="horizontal enumeration member" Url="html/f49f234c-2222-24d5-d9f7-0eb0e53bffbe.htm" />
   <HelpKINode Title="HorizontalAlign property" Url="html/00ac2c39-ba99-39d1-a30b-a86c1521ac03.htm" />
   <HelpKINode Title="HyperlinkBase property" Url="html/abce5c44-7a07-50d5-4f8e-e07a51b7dd03.htm" />
   <HelpKINode Title="IndexedColor property" Url="html/82f6f5ca-88ba-75b4-1a41-fdd916bc23f4.htm" />
+  <HelpKINode Title="Init method" Url="html/c9d3b337-c432-c22c-4f58-d2347695aeae.htm" />
   <HelpKINode Title="insertColumns enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
   <HelpKINode Title="insertHyperlinks enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
   <HelpKINode Title="insertRows enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
-  <HelpKINode Title="InternalID property">
-    <HelpKINode Title="Style.Border.InternalID Property " Url="html/bdc59ac0-79da-d546-7119-09ca07eb9ff8.htm" />
-    <HelpKINode Title="Style.CellXf.InternalID Property " Url="html/ca5d97c4-0628-3e33-3dec-034cdf9ee2c3.htm" />
-    <HelpKINode Title="Style.Fill.InternalID Property " Url="html/89d0948c-2146-0043-3ae7-7df635849025.htm" />
-    <HelpKINode Title="Style.Font.InternalID Property " Url="html/ff199ca3-3269-f0ba-22d5-a8a4e955a71a.htm" />
-    <HelpKINode Title="Style.InternalID Property " Url="html/a80432f8-c2a7-cdfc-2b9c-b594f1df039d.htm" />
-    <HelpKINode Title="Style.NumberFormat.InternalID Property " Url="html/df64978e-46df-797c-5805-8c12a453e833.htm" />
-  </HelpKINode>
+  <HelpKINode Title="InterceptDocuments property" Url="html/fda1c7b3-f244-461f-cdc9-c90bc8ecfd1f.htm" />
+  <HelpKINode Title="InterceptedDocuments property" Url="html/7275496a-b99f-0183-9847-4f47258f69fe.htm" />
+  <HelpKINode Title="InternalID property" Url="html/fa218416-797a-c9bc-c820-0b71b2955ddd.htm" />
   <HelpKINode Title="IOException class">
     <HelpKINode Title="IOException Class" Url="html/7b910ab5-f3a7-99fe-4c3b-89a7e971d96b.htm" />
     <HelpKINode Title="about IOException class" Url="html/7b910ab5-f3a7-99fe-4c3b-89a7e971d96b.htm" />
@@ -337,11 +393,14 @@
     <HelpKINode Title="methods" Url="html/37355d75-32f4-e16c-b984-81b8ed3854c7.htm" />
     <HelpKINode Title="properties" Url="html/806dce4a-998f-8e0d-cba1-711ebb4459fa.htm" />
   </HelpKINode>
+  <HelpKINode Title="IOException.ExceptionTitle property" Url="html/7443137d-0b5a-37ec-19ae-03343c64cc1b.htm" />
   <HelpKINode Title="IOException.IOException constructor" Url="html/46d9d936-78ba-eb1f-96c0-769285dbad7e.htm" />
   <HelpKINode Title="IsCustomFormat property" Url="html/241da745-2318-b976-a750-85d0c3263142.htm" />
   <HelpKINode Title="IsDefaultFont property" Url="html/5e91fe81-5bd6-8aa7-ca94-e8d6c6295045.htm" />
   <HelpKINode Title="IsEmpty method" Url="html/4142b996-501f-d2fd-a676-83b9ae8f4649.htm" />
   <HelpKINode Title="IsHidden property" Url="html/719f71ed-9cf4-a938-7ffb-b9d74240bc76.htm" />
+  <HelpKINode Title="IsInternalStyle property" Url="html/44ff8add-980c-ea58-e83b-52e5dd05189c.htm" />
+  <HelpKINode Title="IsUsedByStyle method" Url="html/514d6338-eec3-e3d8-a00f-4d20ef0778df.htm" />
   <HelpKINode Title="italic enumeration member" Url="html/34686cde-ba88-a4db-d64e-d3f544c9367a.htm" />
   <HelpKINode Title="Italic property">
     <HelpKINode Title="Style.BasicStyles.Italic Property " Url="html/6babfc3d-b80b-f881-82c5-d5965a4dbda7.htm" />
@@ -367,27 +426,26 @@
     <HelpKINode Title="constructor" Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
     <HelpKINode Title="constructor" Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
     <HelpKINode Title="methods" Url="html/322b3913-e838-3a82-7cd5-10444749e661.htm" />
+    <HelpKINode Title="properties" Url="html/e8abb7d0-cd71-6f50-8803-cca034581033.htm" />
   </HelpKINode>
   <HelpKINode Title="LowLevel.AppendXMLtag method" Url="html/e9b26b07-bc13-f964-fe6d-41e489fc7af8.htm" />
-  <HelpKINode Title="LowLevel.AppendXmlToPackagePart method" Url="html/0160eca4-3813-e324-5610-ca5a5933ec3e.htm" />
+  <HelpKINode Title="LowLevel.AppendXmlToPackagePart method" Url="html/8dab927a-795a-ab25-f6d4-4b92e8976f67.htm" />
   <HelpKINode Title="LowLevel.CreateAppPropertiesDocument method" Url="html/c228e594-052b-0fb4-e00f-d245b3a3b8dd.htm" />
   <HelpKINode Title="LowLevel.CreateAppString method" Url="html/bd00b284-a37e-943d-3ffb-8f9ee5848803.htm" />
   <HelpKINode Title="LowLevel.CreateColsString method" Url="html/10e6ee19-9bc4-ad8c-d8de-b73b583ef464.htm" />
   <HelpKINode Title="LowLevel.CreateCorePropertiesDocument method" Url="html/a2b9282c-47eb-f4f4-d3b3-538101b1ac7f.htm" />
   <HelpKINode Title="LowLevel.CreateCorePropertiesString method" Url="html/52611d9b-09d1-c386-da0f-497f9607ac7f.htm" />
   <HelpKINode Title="LowLevel.CreateMergedCellsString method" Url="html/d94dbae6-3dd1-54a6-b2e8-7b5446407fe6.htm" />
-  <HelpKINode Title="LowLevel.CreateMruColorsString method" Url="html/20872158-7107-9d5a-f01c-cd131de0e892.htm" />
+  <HelpKINode Title="LowLevel.CreateMruColorsString method" Url="html/efe7859f-43ce-2149-871a-123294e587b5.htm" />
   <HelpKINode Title="LowLevel.CreateRowString method" Url="html/0ae9bb98-c41c-16f7-9c24-aafa823879f4.htm" />
   <HelpKINode Title="LowLevel.CreateSharedStringsDocument method" Url="html/0a605960-8bbf-4723-7ef4-ce17ef1adef8.htm" />
   <HelpKINode Title="LowLevel.CreateSheetProtectionString method" Url="html/2bb304a6-d92b-54cc-6b64-2a7fdb6ba8e8.htm" />
-  <HelpKINode Title="LowLevel.CreateStyleBorderString method" Url="html/2a25fab1-cc87-e380-78a9-9f81ee662898.htm" />
-  <HelpKINode Title="LowLevel.CreateStyleFillString method" Url="html/f1f95d60-a38e-b0c7-c8ee-c86a8ca13067.htm" />
-  <HelpKINode Title="LowLevel.CreateStyleFontString method" Url="html/5e566cd0-8934-a46d-a8b8-74c12e633957.htm" />
-  <HelpKINode Title="LowLevel.CreateStyleNumberFormatString method" Url="html/80810a5a-7957-8543-d62a-a8395301c6ab.htm" />
+  <HelpKINode Title="LowLevel.CreateStyleBorderString method" Url="html/af61d1db-e7dd-4644-5d97-051fb36062b9.htm" />
+  <HelpKINode Title="LowLevel.CreateStyleFillString method" Url="html/b6f71718-5cda-8002-7d5a-ca947ff7b644.htm" />
+  <HelpKINode Title="LowLevel.CreateStyleFontString method" Url="html/3e5ed9ed-f58d-24e1-df0c-ca167ff7ab31.htm" />
+  <HelpKINode Title="LowLevel.CreateStyleNumberFormatString method" Url="html/e245a7c1-6c43-995c-7ac1-def2abe6afaa.htm" />
   <HelpKINode Title="LowLevel.CreateStyleSheetDocument method" Url="html/756143ee-7a59-3a22-93fd-391aee75860f.htm" />
-  <HelpKINode Title="LowLevel.CreateStyleSheetDocumentFallback method" Url="html/db39294a-2c0b-1a0d-1647-8d34d5368356.htm" />
-  <HelpKINode Title="LowLevel.CreateStyleXfsString method" Url="html/e0cfc7ea-0fb6-f8b3-67af-15fe69c82f5d.htm" />
-  <HelpKINode Title="LowLevel.CreateUniqueName method" Url="html/97ab4dcb-d600-364a-e9a8-e0dc201c1e8d.htm" />
+  <HelpKINode Title="LowLevel.CreateStyleXfsString method" Url="html/2617b459-5408-93e5-c897-62eb07f96ed2.htm" />
   <HelpKINode Title="LowLevel.CreateWorkbookDocument method" Url="html/3bda8d92-b877-13f2-1243-1a18c4354f38.htm" />
   <HelpKINode Title="LowLevel.CreateWorksheetPart method" Url="html/973de249-9e90-32a0-9058-115f2fb8eee9.htm" />
   <HelpKINode Title="LowLevel.DocumentPath class">
@@ -404,9 +462,11 @@
   <HelpKINode Title="LowLevel.GeneratePasswordHash method" Url="html/ca5f9ef5-a6b0-49e1-297e-657479528c94.htm" />
   <HelpKINode Title="LowLevel.GetOADateTimeString method" Url="html/71d04f52-320f-1afa-b1a3-926eadde6970.htm" />
   <HelpKINode Title="LowLevel.GetSortedSheetData method" Url="html/d42cf5a8-5c66-c8f7-25de-4d48a7ff6d6d.htm" />
+  <HelpKINode Title="LowLevel.InterceptDocuments property" Url="html/fda1c7b3-f244-461f-cdc9-c90bc8ecfd1f.htm" />
+  <HelpKINode Title="LowLevel.InterceptedDocuments property" Url="html/7275496a-b99f-0183-9847-4f47258f69fe.htm" />
   <HelpKINode Title="LowLevel.LowLevel constructor">
-    <HelpKINode Title="LowLevel Constructor " Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
     <HelpKINode Title="LowLevel Constructor " Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
+    <HelpKINode Title="LowLevel Constructor " Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
   </HelpKINode>
   <HelpKINode Title="LowLevel.Save method" Url="html/29b7b40b-428d-c03f-9c7d-1d92119e2038.htm" />
   <HelpKINode Title="LowLevel.SortedMap class">
@@ -488,21 +548,14 @@
     <HelpKINode Title="methods" Url="html/81d81349-d841-6541-3c60-54b44712ad7f.htm" />
     <HelpKINode Title="properties" Url="html/69c42a7f-e8cd-8f7d-e0cd-02b8b802b6b5.htm" />
   </HelpKINode>
+  <HelpKINode Title="NUMBERFORMATPREFIX field" Url="html/842a5020-233d-6f85-7656-6c8017a628f7.htm" />
   <HelpKINode Title="objects enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
-  <HelpKINode Title="OutOfRangeException class">
-    <HelpKINode Title="OutOfRangeException Class" Url="html/4479a75f-b13c-e56d-a228-624f23c7a2d8.htm" />
-    <HelpKINode Title="about OutOfRangeException class" Url="html/4479a75f-b13c-e56d-a228-624f23c7a2d8.htm" />
-    <HelpKINode Title="constructor" Url="html/1a5f4b09-78e0-7628-c33f-dde032f478dd.htm" />
-    <HelpKINode Title="events" Url="html/ffaa38ca-c65d-7409-271b-fd0bd42ca0b7.htm" />
-    <HelpKINode Title="methods" Url="html/9e20fd02-3cdb-8fc5-acea-81d784f47ca8.htm" />
-    <HelpKINode Title="properties" Url="html/b2dd21d3-ec1e-6f36-7133-ce047e9d5acb.htm" />
-  </HelpKINode>
-  <HelpKINode Title="OutOfRangeException.OutOfRangeException constructor" Url="html/1a5f4b09-78e0-7628-c33f-dde032f478dd.htm" />
   <HelpKINode Title="ParseVersion method" Url="html/90d5d6ec-4d0d-3430-aeb8-bfaf82b926fc.htm" />
   <HelpKINode Title="Path property" Url="html/ecba9ebd-84b2-4ffc-344f-aacf201a6618.htm" />
   <HelpKINode Title="patternColor enumeration member" Url="html/d25639c7-0640-0ae4-1ce1-86f0069e7f10.htm" />
   <HelpKINode Title="PatternFill property" Url="html/c1362af1-475b-cfc6-9871-7fe2e34ecca8.htm" />
   <HelpKINode Title="PicoXLSX namespace" Url="html/545ed039-1119-7deb-75d0-067dd8f97878.htm" />
+  <HelpKINode Title="PicoXLSX.AbstractStyle class" Url="html/d3bf283d-a5e7-07f8-2030-53138bc0238a.htm" />
   <HelpKINode Title="PicoXLSX.Cell class" Url="html/95b17deb-1e82-18db-5872-214ebb9e4cdd.htm" />
   <HelpKINode Title="PicoXLSX.Cell.Address structure" Url="html/f3c06937-89c5-74cb-adc7-3c0b462a61a1.htm" />
   <HelpKINode Title="PicoXLSX.Cell.CellType enumeration" Url="html/869e4b32-cce1-41ab-bb92-a93de8fb392c.htm" />
@@ -513,7 +566,7 @@
   <HelpKINode Title="PicoXLSX.LowLevel.DocumentPath class" Url="html/24f892e1-28e9-a6f1-3416-b27c2162d10e.htm" />
   <HelpKINode Title="PicoXLSX.LowLevel.SortedMap class" Url="html/c3d56b3f-c248-ae19-08d5-1d32e7116e42.htm" />
   <HelpKINode Title="PicoXLSX.Metadata class" Url="html/05218a85-e20c-fc60-d57e-343ae5621845.htm" />
-  <HelpKINode Title="PicoXLSX.OutOfRangeException class" Url="html/4479a75f-b13c-e56d-a228-624f23c7a2d8.htm" />
+  <HelpKINode Title="PicoXLSX.RangeException class" Url="html/69542d1d-cdc9-8fbd-90ac-969014805c72.htm" />
   <HelpKINode Title="PicoXLSX.Style class" Url="html/d39b4a51-0a49-7a9b-bcd1-bac433145294.htm" />
   <HelpKINode Title="PicoXLSX.Style.BasicStyles class" Url="html/eb0d74aa-d42a-8fa3-39a6-166e9ab92349.htm" />
   <HelpKINode Title="PicoXLSX.Style.BasicStyles.StyleEnum enumeration" Url="html/34686cde-ba88-a4db-d64e-d3f544c9367a.htm" />
@@ -532,20 +585,29 @@
   <HelpKINode Title="PicoXLSX.Style.Font.VerticalAlignValue enumeration" Url="html/a1869e04-b523-eae9-eb43-c71978e39369.htm" />
   <HelpKINode Title="PicoXLSX.Style.NumberFormat class" Url="html/383cdbae-d857-dd99-c4eb-f62fa557ff6b.htm" />
   <HelpKINode Title="PicoXLSX.Style.NumberFormat.FormatNumber enumeration" Url="html/551f78ab-758c-cbe9-8e7c-1cef0a87f040.htm" />
-  <HelpKINode Title="PicoXLSX.UndefinedStyleException class" Url="html/0237edc9-e952-28db-b2de-7c636f8b66f4.htm" />
-  <HelpKINode Title="PicoXLSX.UnknownRangeException class" Url="html/a01ab593-f2f4-9cd8-fd89-de92ccc5972e.htm" />
-  <HelpKINode Title="PicoXLSX.UnknownWorksheetException class" Url="html/e597a296-884d-feed-c910-90ddc8fea36f.htm" />
+  <HelpKINode Title="PicoXLSX.StyleException class" Url="html/7f8b9d97-afe2-deeb-cc7e-d63814e68af3.htm" />
+  <HelpKINode Title="PicoXLSX.StyleManager class" Url="html/e336754a-88ee-c522-085c-f51bd92ea79e.htm" />
   <HelpKINode Title="PicoXLSX.Workbook class" Url="html/aa9e6490-6a12-3b26-bd7a-6a6f3317ba31.htm" />
   <HelpKINode Title="PicoXLSX.Worksheet class" Url="html/c3b3c4d1-7f62-b7df-bb0a-76cecc18fef3.htm" />
   <HelpKINode Title="PicoXLSX.Worksheet.CellDirection enumeration" Url="html/357d67a9-19c3-3a83-17db-cc2b8c442940.htm" />
   <HelpKINode Title="PicoXLSX.Worksheet.Column class" Url="html/e949ab0d-da0d-d5a5-0a83-d6e9ac92d8b7.htm" />
   <HelpKINode Title="PicoXLSX.Worksheet.SheetProtectionValue enumeration" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
-  <HelpKINode Title="PicoXLSX.WorksheetNameAlreadxExistsException class" Url="html/83a6bc22-0c09-b42f-a6d2-364c1913149d.htm" />
+  <HelpKINode Title="PicoXLSX.WorksheetException class" Url="html/f9f7f510-1df7-f64b-3916-7b88f0ef5946.htm" />
   <HelpKINode Title="pivotTables enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
   <HelpKINode Title="Range structure">
     <HelpKINode Title="fields" Url="html/54620a7e-7acb-7c81-c46a-7103da47cccf.htm" />
     <HelpKINode Title="methods" Url="html/795766a5-9ac3-d594-bb74-89413d0646cc.htm" />
   </HelpKINode>
+  <HelpKINode Title="RangeException class">
+    <HelpKINode Title="RangeException Class" Url="html/69542d1d-cdc9-8fbd-90ac-969014805c72.htm" />
+    <HelpKINode Title="about RangeException class" Url="html/69542d1d-cdc9-8fbd-90ac-969014805c72.htm" />
+    <HelpKINode Title="constructor" Url="html/9a2a14a4-e509-285e-520f-9431429ec030.htm" />
+    <HelpKINode Title="events" Url="html/a500f8b3-86a3-84ab-61b7-67fc841e7a49.htm" />
+    <HelpKINode Title="methods" Url="html/2c5f720c-51cd-a57c-ecd6-c2b44ec7c673.htm" />
+    <HelpKINode Title="properties" Url="html/4dc4db9e-0ab9-acab-5d75-1a34dcca3fff.htm" />
+  </HelpKINode>
+  <HelpKINode Title="RangeException.ExceptionTitle property" Url="html/ed52a666-29bb-cca0-309a-a7fdf790217e.htm" />
+  <HelpKINode Title="RangeException.RangeException constructor" Url="html/9a2a14a4-e509-285e-520f-9431429ec030.htm" />
   <HelpKINode Title="RecalculateAutoFilter method" Url="html/53b1a562-040c-bf09-21ce-1e855f0a5eb0.htm" />
   <HelpKINode Title="RecalculateColumns method" Url="html/cb42e501-93b6-0700-06c5-f1784968dfa0.htm" />
   <HelpKINode Title="RemoveAutoFilter method" Url="html/4c4c8223-0b2b-2e6c-8ad8-b1dcbeb6fbf8.htm" />
@@ -556,10 +618,12 @@
   <HelpKINode Title="RemoveSelectedCells method" Url="html/1808a9f3-a853-5e65-77e8-553a081ebf7e.htm" />
   <HelpKINode Title="RemoveStyle method">
     <HelpKINode Title="Cell.RemoveStyle Method " Url="html/a2cf7667-588f-6e84-eee9-d954f7f9adc9.htm" />
+    <HelpKINode Title="StyleManager.RemoveStyle Method " Url="html/bf6efbb8-22e8-46c6-58a1-8526fb7d7797.htm" />
     <HelpKINode Title="Workbook.RemoveStyle Method " Url="html/19317dcc-6e19-445a-06e8-70576bf768eb.htm" />
   </HelpKINode>
   <HelpKINode Title="RemoveWorksheet method" Url="html/88c9d7f5-4dce-91ea-a532-5f8e5fc6021d.htm" />
-  <HelpKINode Title="ReorganizeStyles method" Url="html/87f7c317-346a-83a0-7179-2570abaa10bb.htm" />
+  <HelpKINode Title="Reorganize method" Url="html/6d7c208d-9b34-a51a-4ebc-6288058547c1.htm" />
+  <HelpKINode Title="ReorganizeStyle method" Url="html/b953d06c-6eba-9f95-f868-ba7f7d939639.htm" />
   <HelpKINode Title="ResolveCellAddress method" Url="html/598acf19-afab-5474-a1d1-bdf48960229f.htm" />
   <HelpKINode Title="ResolveCellCoordinate method" Url="html/06819873-4ff5-87af-b49f-f28b719fcdd7.htm" />
   <HelpKINode Title="ResolveCellRange method" Url="html/14140ff3-d77d-dd71-6843-a7a7bd105368.htm" />
@@ -576,6 +640,7 @@
   <HelpKINode Title="RowAddress property" Url="html/ced55538-78ae-5ce6-2069-8c4a8bfac755.htm" />
   <HelpKINode Title="RowHeights property" Url="html/7cbe68af-b70c-331b-76be-40a7e910b532.htm" />
   <HelpKINode Title="RowToRow enumeration member" Url="html/357d67a9-19c3-3a83-17db-cc2b8c442940.htm" />
+  <HelpKINode Title="SanitizeWorksheetName method" Url="html/6e13912d-c57e-6d1f-3c65-ac9ebdd7a831.htm" />
   <HelpKINode Title="Save method">
     <HelpKINode Title="LowLevel.Save Method " Url="html/29b7b40b-428d-c03f-9c7d-1d92119e2038.htm" />
     <HelpKINode Title="Workbook.Save Method " Url="html/b09ca737-6c33-0b13-bcf4-1920572075d0.htm" />
@@ -601,6 +666,7 @@
   <HelpKINode Title="SetRowHiddenState method" Url="html/c49f088a-d58d-680f-4d6a-b45d554cf7fa.htm" />
   <HelpKINode Title="SetSelectedCells method" Url="html/e642e906-3de8-5d92-f498-13d2f703628a.htm" />
   <HelpKINode Title="SetSelectedWorksheet method" Url="html/29b0d50b-54b9-ade1-8f89-55ef8b4c9705.htm" />
+  <HelpKINode Title="SetSheetName method" Url="html/0dfb2d1a-1318-91b6-4ebb-a7bc6e4f4665.htm" />
   <HelpKINode Title="SetSheetname method" Url="html/26ed859f-c126-d114-a95b-d6a7bed349c7.htm" />
   <HelpKINode Title="SetSheetProtectionPassword method" Url="html/425b6b66-0ccf-ec1f-8520-2c08807ea3cd.htm" />
   <HelpKINode Title="SetStyle method" Url="html/4c8dce52-9e1e-2231-320b-19c48ba64aac.htm" />
@@ -658,15 +724,14 @@
   <HelpKINode Title="Style.Border.Border constructor" Url="html/35d8ae0c-d71c-9090-3488-ee82b27d3442.htm" />
   <HelpKINode Title="Style.Border.BottomColor property" Url="html/44ad0056-fc9b-dc19-a110-670e9d9fda12.htm" />
   <HelpKINode Title="Style.Border.BottomStyle property" Url="html/6dfe6c9a-85d1-34fa-cca8-b5bfb25eea6a.htm" />
-  <HelpKINode Title="Style.Border.CompareTo method" Url="html/d1e5c221-c883-3b95-a952-26df03ecad8e.htm" />
+  <HelpKINode Title="Style.Border.CalculateHash method" Url="html/3677575f-f93b-ef11-06e2-6b1c1837bc7d.htm" />
   <HelpKINode Title="Style.Border.Copy method" Url="html/db226416-5f4f-be89-ec01-3f30ec362326.htm" />
+  <HelpKINode Title="Style.Border.CopyBorder method" Url="html/da1ca41a-7815-401d-c9c8-3d5f4a47e3b6.htm" />
   <HelpKINode Title="Style.Border.DiagonalColor property" Url="html/171c8de0-8c0e-5de5-9275-89340865bb3c.htm" />
   <HelpKINode Title="Style.Border.DiagonalDown property" Url="html/76fd75ef-3b9c-6e83-2130-351970221961.htm" />
   <HelpKINode Title="Style.Border.DiagonalStyle property" Url="html/de861aba-4b91-462b-3194-75ad3508162e.htm" />
   <HelpKINode Title="Style.Border.DiagonalUp property" Url="html/d2453b06-63f4-359b-db4d-bd098a2fbf4f.htm" />
-  <HelpKINode Title="Style.Border.Equals method" Url="html/a31a7658-bdd6-83b2-c580-f75825b8563d.htm" />
   <HelpKINode Title="Style.Border.GetStyleName method" Url="html/8670d93c-fb8a-8ea9-ccfa-819bf4b5759c.htm" />
-  <HelpKINode Title="Style.Border.InternalID property" Url="html/bdc59ac0-79da-d546-7119-09ca07eb9ff8.htm" />
   <HelpKINode Title="Style.Border.IsEmpty method" Url="html/4142b996-501f-d2fd-a676-83b9ae8f4649.htm" />
   <HelpKINode Title="Style.Border.LeftColor property" Url="html/66049dfa-276c-78c0-dc6d-1cba661d95d3.htm" />
   <HelpKINode Title="Style.Border.LeftStyle property" Url="html/87acab3f-4416-0b36-ba86-b3f03567c43d.htm" />
@@ -675,73 +740,73 @@
   <HelpKINode Title="Style.Border.StyleValue enumeration" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
   <HelpKINode Title="Style.Border.TopColor property" Url="html/2597f4c5-cb46-154c-3377-3ee1ffd9d8b2.htm" />
   <HelpKINode Title="Style.Border.TopStyle property" Url="html/2a0ab15b-9ede-c6ae-62f7-55954ca7318f.htm" />
+  <HelpKINode Title="Style.Border.ToString method" Url="html/48b82667-2f26-6ab0-b07d-9678447d30e9.htm" />
+  <HelpKINode Title="Style.CalculateHash method" Url="html/238ac67a-1c7e-ec97-1450-8fceab94cc4a.htm" />
   <HelpKINode Title="Style.CellXf class">
     <HelpKINode Title="Style.CellXf Class" Url="html/1cea405c-b47e-ee50-0614-4894cbd9ab25.htm" />
     <HelpKINode Title="about Style.CellXf class" Url="html/1cea405c-b47e-ee50-0614-4894cbd9ab25.htm" />
     <HelpKINode Title="constructor" Url="html/4c26c15f-a878-15fb-9399-291d227b1375.htm" />
   </HelpKINode>
   <HelpKINode Title="Style.CellXf.Alignment property" Url="html/be0671ae-d0b7-f60f-219d-4da15ed60b11.htm" />
+  <HelpKINode Title="Style.CellXf.CalculateHash method" Url="html/6e1bace2-a052-df93-68ad-3ea9cf50cde1.htm" />
   <HelpKINode Title="Style.CellXf.CalculateInternalRotation method" Url="html/c533f83c-5d21-6f4b-6cb2-56c362a0c86d.htm" />
   <HelpKINode Title="Style.CellXf.CellXf constructor" Url="html/4c26c15f-a878-15fb-9399-291d227b1375.htm" />
-  <HelpKINode Title="Style.CellXf.CompareTo method" Url="html/822c78d2-5616-d0ef-e0d4-b41a8cd45d45.htm" />
   <HelpKINode Title="Style.CellXf.Copy method" Url="html/9b2381ac-3ab2-59e1-17ec-5e105bd941c9.htm" />
-  <HelpKINode Title="Style.CellXf.Equals method" Url="html/74704010-4ba3-7100-4376-7eda59c5cc78.htm" />
+  <HelpKINode Title="Style.CellXf.CopyCellXf method" Url="html/5e49c821-63a7-9530-d119-98d4d6dc1bbf.htm" />
   <HelpKINode Title="Style.CellXf.ForceApplyAlignment property" Url="html/9b93abcd-46c9-bd1e-6aa1-3dc3d2277137.htm" />
   <HelpKINode Title="Style.CellXf.Hidden property" Url="html/6e71f31d-a3ed-0ef5-b22d-26ff073aaf82.htm" />
   <HelpKINode Title="Style.CellXf.HorizontalAlign property" Url="html/00ac2c39-ba99-39d1-a30b-a86c1521ac03.htm" />
   <HelpKINode Title="Style.CellXf.HorizontalAlignValue enumeration" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
-  <HelpKINode Title="Style.CellXf.InternalID property" Url="html/ca5d97c4-0628-3e33-3dec-034cdf9ee2c3.htm" />
   <HelpKINode Title="Style.CellXf.Locked property" Url="html/9486e72e-42e1-a25b-27a3-ae0d2cd86564.htm" />
   <HelpKINode Title="Style.CellXf.TextBreakValue enumeration" Url="html/567653c2-d633-6b90-f169-fae46fab93fc.htm" />
   <HelpKINode Title="Style.CellXf.TextDirection property" Url="html/fb793c66-ef2f-d7f5-e309-4d63db2a2e05.htm" />
   <HelpKINode Title="Style.CellXf.TextDirectionValue enumeration" Url="html/f49f234c-2222-24d5-d9f7-0eb0e53bffbe.htm" />
   <HelpKINode Title="Style.CellXf.TextRotation property" Url="html/4514e108-5d60-5f10-b1e6-e06168734b72.htm" />
+  <HelpKINode Title="Style.CellXf.ToString method" Url="html/eae28692-535d-e29b-b862-a2234cea716f.htm" />
   <HelpKINode Title="Style.CellXf.VerticalAlign property" Url="html/fec17d64-b1a4-2df6-edbe-ed3d0b06e485.htm" />
   <HelpKINode Title="Style.CellXf.VerticalAlignValue enumeration" Url="html/9aff105d-3f3c-209e-6b7d-b851c6490690.htm" />
-  <HelpKINode Title="Style.CompareTo method" Url="html/a69523ec-9400-5ff5-c3e1-daabc404735a.htm" />
-  <HelpKINode Title="Style.Copy method" Url="html/ba35aabb-c668-5ece-b3ee-8ffdaebe8e03.htm" />
+  <HelpKINode Title="Style.Copy method" Url="html/2bcc8a60-59df-f901-cf0c-49903cf207d2.htm" />
+  <HelpKINode Title="Style.CopyStyle method" Url="html/6ae35113-6bc8-4ef2-d2b6-d3c6cc250ffa.htm" />
   <HelpKINode Title="Style.CurrentBorder property" Url="html/985ca533-d5e5-3d56-4365-cd00df47dcbe.htm" />
   <HelpKINode Title="Style.CurrentCellXf property" Url="html/98f0424c-73c9-8ac3-677b-1e21cfaae015.htm" />
   <HelpKINode Title="Style.CurrentFill property" Url="html/19857227-c764-1c6b-8c2a-03752e346229.htm" />
   <HelpKINode Title="Style.CurrentFont property" Url="html/1dd2153d-0c5c-2c43-3f59-ce649703ecab.htm" />
   <HelpKINode Title="Style.CurrentNumberFormat property" Url="html/6df54f2d-b68b-216c-a440-acad14bcdca6.htm" />
-  <HelpKINode Title="Style.Equals method" Url="html/021a4e4b-95c5-f0a5-ab36-7527c4e3b433.htm" />
   <HelpKINode Title="Style.Fill class">
     <HelpKINode Title="Style.Fill Class" Url="html/4889f551-d9e8-98f5-4928-be808ecb71f8.htm" />
     <HelpKINode Title="about Style.Fill class" Url="html/4889f551-d9e8-98f5-4928-be808ecb71f8.htm" />
     <HelpKINode Title="constructor" Url="html/8daa79c4-a1fa-2020-b84b-fb290ece1a13.htm" />
   </HelpKINode>
   <HelpKINode Title="Style.Fill.BackgroundColor property" Url="html/262c885b-c545-0c33-a5c5-45d6a0cfea92.htm" />
-  <HelpKINode Title="Style.Fill.CompareTo method" Url="html/8565f899-9c6b-cfaa-2b68-d7c1b45c72a9.htm" />
+  <HelpKINode Title="Style.Fill.CalculateHash method" Url="html/e40a05f6-d88d-e9ab-63b5-582c61284c4e.htm" />
   <HelpKINode Title="Style.Fill.Copy method" Url="html/bf332b60-5b82-d506-84b9-acce3b3b92bd.htm" />
+  <HelpKINode Title="Style.Fill.CopyFill method" Url="html/698166e4-5212-5f71-01a7-ede457bf61ee.htm" />
   <HelpKINode Title="Style.Fill.DEFAULTCOLOR field" Url="html/0e746481-09a9-80ed-3243-53123c0ac1b1.htm" />
-  <HelpKINode Title="Style.Fill.Equals method" Url="html/c39788d1-1460-0e00-90c1-1665abb32068.htm" />
   <HelpKINode Title="Style.Fill.Fill constructor" Url="html/8daa79c4-a1fa-2020-b84b-fb290ece1a13.htm" />
   <HelpKINode Title="Style.Fill.FillType enumeration" Url="html/d25639c7-0640-0ae4-1ce1-86f0069e7f10.htm" />
   <HelpKINode Title="Style.Fill.ForegroundColor property" Url="html/e422690a-a3f5-bf19-943e-97f7f4bb7024.htm" />
   <HelpKINode Title="Style.Fill.GetPatternName method" Url="html/7f1eb572-6e4c-8a83-5cdf-b7a16dbc9cef.htm" />
   <HelpKINode Title="Style.Fill.IndexedColor property" Url="html/82f6f5ca-88ba-75b4-1a41-fdd916bc23f4.htm" />
-  <HelpKINode Title="Style.Fill.InternalID property" Url="html/89d0948c-2146-0043-3ae7-7df635849025.htm" />
   <HelpKINode Title="Style.Fill.PatternFill property" Url="html/c1362af1-475b-cfc6-9871-7fe2e34ecca8.htm" />
   <HelpKINode Title="Style.Fill.PatternValue enumeration" Url="html/8eb3aaa5-5ec9-f14b-0857-a910d0101c88.htm" />
   <HelpKINode Title="Style.Fill.SetColor method" Url="html/9133e3b7-f5af-7022-665e-da6033328e75.htm" />
+  <HelpKINode Title="Style.Fill.ToString method" Url="html/f8e86040-2f65-e48f-6e60-9175cb332c79.htm" />
   <HelpKINode Title="Style.Font class">
     <HelpKINode Title="Style.Font Class" Url="html/781509fe-fd0c-f65d-ab2d-c825a259bbfa.htm" />
     <HelpKINode Title="about Style.Font class" Url="html/781509fe-fd0c-f65d-ab2d-c825a259bbfa.htm" />
     <HelpKINode Title="constructor" Url="html/dfd57e48-bd6b-02a7-f764-8fb65b569ee2.htm" />
   </HelpKINode>
   <HelpKINode Title="Style.Font.Bold property" Url="html/f80efe30-749f-1110-e464-3da1eb4dd6a2.htm" />
+  <HelpKINode Title="Style.Font.CalculateHash method" Url="html/34ebbcc9-0e62-8c1a-7ebd-1deb7f424cc7.htm" />
   <HelpKINode Title="Style.Font.Charset property" Url="html/048ce452-128b-2c67-6de7-cc4d26274f16.htm" />
   <HelpKINode Title="Style.Font.ColorTheme property" Url="html/e0274656-f7ce-7be3-5ca5-18ae62359bd7.htm" />
   <HelpKINode Title="Style.Font.ColorValue property" Url="html/98020337-f8b4-b4df-3ed9-a02ca281e020.htm" />
-  <HelpKINode Title="Style.Font.CompareTo method" Url="html/6e5fedbb-9486-5b52-c553-2d86c4e1eff1.htm" />
   <HelpKINode Title="Style.Font.Copy method" Url="html/23d3c06f-6899-ca99-41ab-96de83a2075e.htm" />
+  <HelpKINode Title="Style.Font.CopyFont method" Url="html/87bb0c2b-8daa-f4a7-4098-b902d4a81024.htm" />
   <HelpKINode Title="Style.Font.DEFAULTFONT field" Url="html/86194439-344c-6442-bdbf-21c9e9d3304b.htm" />
   <HelpKINode Title="Style.Font.DoubleUnderline property" Url="html/672e97a3-da19-c726-22cc-fe6b2b69dd32.htm" />
-  <HelpKINode Title="Style.Font.Equals method" Url="html/aa8f2faf-698f-dece-554e-60b9995968ed.htm" />
   <HelpKINode Title="Style.Font.Family property" Url="html/cfacdb92-0bd0-b0e1-171e-5c6c14ca980b.htm" />
   <HelpKINode Title="Style.Font.Font constructor" Url="html/dfd57e48-bd6b-02a7-f764-8fb65b569ee2.htm" />
-  <HelpKINode Title="Style.Font.InternalID property" Url="html/ff199ca3-3269-f0ba-22d5-a8a4e955a71a.htm" />
   <HelpKINode Title="Style.Font.IsDefaultFont property" Url="html/5e91fe81-5bd6-8aa7-ca94-e8d6c6295045.htm" />
   <HelpKINode Title="Style.Font.Italic property" Url="html/01202bb7-d463-e723-9c6d-1eb47c3e06d3.htm" />
   <HelpKINode Title="Style.Font.Name property" Url="html/3169ff3f-9672-29e4-29f9-8da56e53914e.htm" />
@@ -749,28 +814,84 @@
   <HelpKINode Title="Style.Font.SchemeValue enumeration" Url="html/ef91bf2b-91e3-5d9b-22f1-77f39f2a3c68.htm" />
   <HelpKINode Title="Style.Font.Size property" Url="html/c52dc5fd-efa1-ad21-34f5-7342a648a85b.htm" />
   <HelpKINode Title="Style.Font.Strike property" Url="html/95b6f710-9868-9f87-488a-40ea717c38dd.htm" />
+  <HelpKINode Title="Style.Font.ToString method" Url="html/2eaa6de0-4510-c9d8-4af1-65c39612e0fd.htm" />
   <HelpKINode Title="Style.Font.Underline property" Url="html/618e0bd3-75a6-69a1-71ed-465a6d72ee83.htm" />
   <HelpKINode Title="Style.Font.VerticalAlign property" Url="html/ebbb3821-4b72-12e3-15c4-0bb0b8f0e2a1.htm" />
   <HelpKINode Title="Style.Font.VerticalAlignValue enumeration" Url="html/a1869e04-b523-eae9-eb43-c71978e39369.htm" />
-  <HelpKINode Title="Style.InternalID property" Url="html/a80432f8-c2a7-cdfc-2b9c-b594f1df039d.htm" />
+  <HelpKINode Title="Style.IsInternalStyle property" Url="html/44ff8add-980c-ea58-e83b-52e5dd05189c.htm" />
   <HelpKINode Title="Style.Name property" Url="html/19014a80-7be3-71c8-5c04-41ba757108bd.htm" />
   <HelpKINode Title="Style.NumberFormat class">
     <HelpKINode Title="Style.NumberFormat Class" Url="html/383cdbae-d857-dd99-c4eb-f62fa557ff6b.htm" />
     <HelpKINode Title="about Style.NumberFormat class" Url="html/383cdbae-d857-dd99-c4eb-f62fa557ff6b.htm" />
     <HelpKINode Title="constructor" Url="html/60a35a6a-7d41-5823-9ebc-87c47d6dd1ad.htm" />
   </HelpKINode>
-  <HelpKINode Title="Style.NumberFormat.CompareTo method" Url="html/0de12c8d-a029-a521-04ad-b1423dc66e24.htm" />
+  <HelpKINode Title="Style.NumberFormat.CalculateHash method" Url="html/26bc7b9a-0197-4a0f-55eb-4fe3755f1328.htm" />
   <HelpKINode Title="Style.NumberFormat.Copy method" Url="html/ec67a3c2-73ca-3c5d-2f28-45a6f06450ff.htm" />
+  <HelpKINode Title="Style.NumberFormat.CopyNumberFormat method" Url="html/4bac8213-363b-0986-393f-82ff3a0ab87e.htm" />
   <HelpKINode Title="Style.NumberFormat.CustomFormatCode property" Url="html/c533caf7-918b-c223-0044-5606b946a474.htm" />
   <HelpKINode Title="Style.NumberFormat.CustomFormatID property" Url="html/b5ce5d3d-618f-aa0c-f565-1908056bd14a.htm" />
   <HelpKINode Title="Style.NumberFormat.CUSTOMFORMAT_START_NUMBER field" Url="html/12faf6c9-9e57-61a7-29ac-e2b8fafaf1d7.htm" />
-  <HelpKINode Title="Style.NumberFormat.Equals method" Url="html/61644fa2-225a-8c98-025d-2ac1e209cf49.htm" />
   <HelpKINode Title="Style.NumberFormat.FormatNumber enumeration" Url="html/551f78ab-758c-cbe9-8e7c-1cef0a87f040.htm" />
-  <HelpKINode Title="Style.NumberFormat.InternalID property" Url="html/df64978e-46df-797c-5805-8c12a453e833.htm" />
   <HelpKINode Title="Style.NumberFormat.IsCustomFormat property" Url="html/241da745-2318-b976-a750-85d0c3263142.htm" />
   <HelpKINode Title="Style.NumberFormat.Number property" Url="html/06026975-7c50-7830-0791-44c7d353f653.htm" />
   <HelpKINode Title="Style.NumberFormat.NumberFormat constructor" Url="html/60a35a6a-7d41-5823-9ebc-87c47d6dd1ad.htm" />
+  <HelpKINode Title="Style.NumberFormat.ToString method" Url="html/c55dfd14-c102-4211-d74f-fe34c307f9f0.htm" />
+  <HelpKINode Title="Style.ReorganizeStyle method" Url="html/b953d06c-6eba-9f95-f868-ba7f7d939639.htm" />
   <HelpKINode Title="Style.Style constructor" Url="html/77978064-4924-b5de-216e-befac1d59766.htm" />
+  <HelpKINode Title="Style.StyleManagerReference property" Url="html/1f1d7a67-26eb-1e56-2787-8b4f1c0ab8f6.htm" />
+  <HelpKINode Title="Style.ToString method" Url="html/b0082835-f648-f886-39e1-7bc703fea443.htm" />
+  <HelpKINode Title="StyleException class">
+    <HelpKINode Title="StyleException Class" Url="html/7f8b9d97-afe2-deeb-cc7e-d63814e68af3.htm" />
+    <HelpKINode Title="about StyleException class" Url="html/7f8b9d97-afe2-deeb-cc7e-d63814e68af3.htm" />
+    <HelpKINode Title="constructor" Url="html/f81397de-8a52-e6d1-15f6-0f16bc0da36d.htm" />
+    <HelpKINode Title="events" Url="html/0ea8f1e2-cb3c-fcd8-339a-2fc23c865db5.htm" />
+    <HelpKINode Title="methods" Url="html/d58587c7-d602-f57e-2b6c-c59509cb359f.htm" />
+    <HelpKINode Title="properties" Url="html/3a10e3e2-6676-8141-5272-10755cd75b22.htm" />
+  </HelpKINode>
+  <HelpKINode Title="StyleException.ExceptionTitle property" Url="html/56601e93-55af-267b-00e6-a88c1681b831.htm" />
+  <HelpKINode Title="StyleException.StyleException constructor" Url="html/f81397de-8a52-e6d1-15f6-0f16bc0da36d.htm" />
+  <HelpKINode Title="StyleManager class">
+    <HelpKINode Title="StyleManager Class" Url="html/e336754a-88ee-c522-085c-f51bd92ea79e.htm" />
+    <HelpKINode Title="about StyleManager class" Url="html/e336754a-88ee-c522-085c-f51bd92ea79e.htm" />
+    <HelpKINode Title="constructor" Url="html/16c840de-10c6-0a54-f130-45f43690548c.htm" />
+    <HelpKINode Title="fields" Url="html/5dd5a134-6e49-c7b3-68c4-754cde5e9ea0.htm" />
+    <HelpKINode Title="methods" Url="html/3cab4393-15c2-2cf9-23d5-bb7e8b710490.htm" />
+  </HelpKINode>
+  <HelpKINode Title="StyleManager.AddStyle method" Url="html/7e87b332-f94d-566e-db81-79c888998270.htm" />
+  <HelpKINode Title="StyleManager.AddStyleComponent method" Url="html/4117ee42-59f9-94ca-20cc-95eb6b6df1fb.htm" />
+  <HelpKINode Title="StyleManager.BORDERPREFIX field" Url="html/a8e1e79a-193c-17ca-76ab-8534069d0c34.htm" />
+  <HelpKINode Title="StyleManager.CELLXFPREFIX field" Url="html/a52987dd-d71d-62f4-ead6-b23e8ddd714c.htm" />
+  <HelpKINode Title="StyleManager.CleanupStyleComponents method" Url="html/97b3be13-8d01-a364-b95d-e9f42faeb451.htm" />
+  <HelpKINode Title="StyleManager.FILLPREFIX field" Url="html/3c33f149-7d15-d90a-5218-cd298f0a3bde.htm" />
+  <HelpKINode Title="StyleManager.FONTPREFIX field" Url="html/576e272c-3478-5ba8-5bf4-9f2e1b8cc65f.htm" />
+  <HelpKINode Title="StyleManager.GetBorderByHash method" Url="html/9028066d-fa07-7844-e77f-501058835170.htm" />
+  <HelpKINode Title="StyleManager.GetBorders method" Url="html/e5e24456-c423-ff2c-f018-963d34c5e97c.htm" />
+  <HelpKINode Title="StyleManager.GetBorderStyleNumber method" Url="html/443ceec6-19f4-8375-cb1c-f921475f6b31.htm" />
+  <HelpKINode Title="StyleManager.GetCellXfByHash method" Url="html/7126ab77-063d-50c9-bd0b-a58d2d464cd1.htm" />
+  <HelpKINode Title="StyleManager.GetCellXfs method" Url="html/4b355c36-79c8-fee3-0f5a-2c599edaa64c.htm" />
+  <HelpKINode Title="StyleManager.GetCellXfStyleNumber method" Url="html/4961eab3-9166-412c-60eb-62f24313646b.htm" />
+  <HelpKINode Title="StyleManager.GetComponentByHash method" Url="html/29eab1c8-0c1d-0567-4603-a88e1a737364.htm" />
+  <HelpKINode Title="StyleManager.GetFillByHash method" Url="html/084b2b5e-6998-100e-dbdc-543b83991110.htm" />
+  <HelpKINode Title="StyleManager.GetFills method" Url="html/3abc9a74-d3b4-b6c2-d75e-df7ac333a874.htm" />
+  <HelpKINode Title="StyleManager.GetFillStyleNumber method" Url="html/d8d3892f-ed7d-a2a6-e021-a28fe50d1fcf.htm" />
+  <HelpKINode Title="StyleManager.GetFontByHash method" Url="html/462b2ea6-3501-93dc-5250-97146f7dd0c6.htm" />
+  <HelpKINode Title="StyleManager.GetFonts method" Url="html/9ac39089-ac5d-4465-5119-1d8a5a283cf1.htm" />
+  <HelpKINode Title="StyleManager.GetFontStyleNumber method" Url="html/047210f8-f6ab-4cc5-2a35-26358eb87dae.htm" />
+  <HelpKINode Title="StyleManager.GetNumberFormatByHash method" Url="html/833d01a8-e29f-53be-b79c-674fda11b8f1.htm" />
+  <HelpKINode Title="StyleManager.GetNumberFormats method" Url="html/ca220f7b-5ea4-177c-1f88-2ecc12f969f4.htm" />
+  <HelpKINode Title="StyleManager.GetNumberFormatStyleNumber method" Url="html/736de83b-c64a-67e9-fcae-f9c48ddf23ec.htm" />
+  <HelpKINode Title="StyleManager.GetStyleByHash method" Url="html/b52ccb29-0615-fba9-1e78-83b46c99fdd6.htm" />
+  <HelpKINode Title="StyleManager.GetStyleByName method" Url="html/138ef339-a0d9-4aff-baaa-ef60dac55e49.htm" />
+  <HelpKINode Title="StyleManager.GetStyleNumber method" Url="html/d89e4c8b-3e52-80f5-f51e-d0de236acc7e.htm" />
+  <HelpKINode Title="StyleManager.GetStyles method" Url="html/1305beb0-d896-e2bb-56be-80beac92ffbc.htm" />
+  <HelpKINode Title="StyleManager.IsUsedByStyle method" Url="html/514d6338-eec3-e3d8-a00f-4d20ef0778df.htm" />
+  <HelpKINode Title="StyleManager.NUMBERFORMATPREFIX field" Url="html/842a5020-233d-6f85-7656-6c8017a628f7.htm" />
+  <HelpKINode Title="StyleManager.RemoveStyle method" Url="html/bf6efbb8-22e8-46c6-58a1-8526fb7d7797.htm" />
+  <HelpKINode Title="StyleManager.Reorganize method" Url="html/6d7c208d-9b34-a51a-4ebc-6288058547c1.htm" />
+  <HelpKINode Title="StyleManager.StyleManager constructor" Url="html/16c840de-10c6-0a54-f130-45f43690548c.htm" />
+  <HelpKINode Title="StyleManager.STYLEPREFIX field" Url="html/f914dee1-d9aa-89db-d4b8-96e0dc62bc70.htm" />
+  <HelpKINode Title="StyleManagerReference property" Url="html/1f1d7a67-26eb-1e56-2787-8b4f1c0ab8f6.htm" />
+  <HelpKINode Title="STYLEPREFIX field" Url="html/f914dee1-d9aa-89db-d4b8-96e0dc62bc70.htm" />
   <HelpKINode Title="Styles property" Url="html/804d7cdc-a478-aca4-d470-667a1ec98101.htm" />
   <HelpKINode Title="Subject property" Url="html/50ef6b0c-7c04-dd50-7bc5-871f0c7b0bcd.htm" />
   <HelpKINode Title="subscript enumeration member" Url="html/a1869e04-b523-eae9-eb43-c71978e39369.htm" />
@@ -787,39 +908,18 @@
   <HelpKINode Title="ToString method">
     <HelpKINode Title="Cell.Address.ToString Method " Url="html/019dc6d7-0b33-e1dc-9e6c-b2ed6145cc4a.htm" />
     <HelpKINode Title="Cell.Range.ToString Method " Url="html/6cdb4cfb-ccfd-5a52-9856-2f31c69d2cd2.htm" />
+    <HelpKINode Title="Style.Border.ToString Method " Url="html/48b82667-2f26-6ab0-b07d-9678447d30e9.htm" />
+    <HelpKINode Title="Style.CellXf.ToString Method " Url="html/eae28692-535d-e29b-b862-a2234cea716f.htm" />
+    <HelpKINode Title="Style.Fill.ToString Method " Url="html/f8e86040-2f65-e48f-6e60-9175cb332c79.htm" />
+    <HelpKINode Title="Style.Font.ToString Method " Url="html/2eaa6de0-4510-c9d8-4af1-65c39612e0fd.htm" />
+    <HelpKINode Title="Style.NumberFormat.ToString Method " Url="html/c55dfd14-c102-4211-d74f-fe34c307f9f0.htm" />
+    <HelpKINode Title="Style.ToString Method " Url="html/b0082835-f648-f886-39e1-7bc703fea443.htm" />
   </HelpKINode>
-  <HelpKINode Title="UndefinedStyleException class">
-    <HelpKINode Title="UndefinedStyleException Class" Url="html/0237edc9-e952-28db-b2de-7c636f8b66f4.htm" />
-    <HelpKINode Title="about UndefinedStyleException class" Url="html/0237edc9-e952-28db-b2de-7c636f8b66f4.htm" />
-    <HelpKINode Title="constructor" Url="html/68ba882b-cd2d-cddd-5b2a-e3c88ad1f31d.htm" />
-    <HelpKINode Title="events" Url="html/a7449ec5-07ad-fa4f-9400-efe8cd4fd840.htm" />
-    <HelpKINode Title="methods" Url="html/01b27bcc-7ba7-3130-8834-982ba5b9ece0.htm" />
-    <HelpKINode Title="properties" Url="html/20754624-b9a5-c63b-688b-2d673669c025.htm" />
-  </HelpKINode>
-  <HelpKINode Title="UndefinedStyleException.UndefinedStyleException constructor" Url="html/68ba882b-cd2d-cddd-5b2a-e3c88ad1f31d.htm" />
   <HelpKINode Title="underline enumeration member" Url="html/34686cde-ba88-a4db-d64e-d3f544c9367a.htm" />
   <HelpKINode Title="Underline property">
     <HelpKINode Title="Style.BasicStyles.Underline Property " Url="html/5df19794-1527-b038-6daf-a76a85dc7cd2.htm" />
     <HelpKINode Title="Style.Font.Underline Property " Url="html/618e0bd3-75a6-69a1-71ed-465a6d72ee83.htm" />
   </HelpKINode>
-  <HelpKINode Title="UnknownRangeException class">
-    <HelpKINode Title="UnknownRangeException Class" Url="html/a01ab593-f2f4-9cd8-fd89-de92ccc5972e.htm" />
-    <HelpKINode Title="about UnknownRangeException class" Url="html/a01ab593-f2f4-9cd8-fd89-de92ccc5972e.htm" />
-    <HelpKINode Title="constructor" Url="html/0b8b71c0-adce-a60d-52cf-8d5abc370c53.htm" />
-    <HelpKINode Title="events" Url="html/03b6dc6d-b87b-c025-c018-db3d2276c79f.htm" />
-    <HelpKINode Title="methods" Url="html/01e2eebf-5e65-f60f-a8ff-dd0ca4ccdd28.htm" />
-    <HelpKINode Title="properties" Url="html/d4cb50c5-47ef-81e2-6086-01bad8a6efb5.htm" />
-  </HelpKINode>
-  <HelpKINode Title="UnknownRangeException.UnknownRangeException constructor" Url="html/0b8b71c0-adce-a60d-52cf-8d5abc370c53.htm" />
-  <HelpKINode Title="UnknownWorksheetException class">
-    <HelpKINode Title="UnknownWorksheetException Class" Url="html/e597a296-884d-feed-c910-90ddc8fea36f.htm" />
-    <HelpKINode Title="about UnknownWorksheetException class" Url="html/e597a296-884d-feed-c910-90ddc8fea36f.htm" />
-    <HelpKINode Title="constructor" Url="html/eaa9a4f8-daa2-573d-b97c-c76c63dd6ae3.htm" />
-    <HelpKINode Title="events" Url="html/48a3977d-d7ae-3bc8-5239-c1dcfe3c8652.htm" />
-    <HelpKINode Title="methods" Url="html/0ab9ac53-2c20-1163-9d32-ad144935c05a.htm" />
-    <HelpKINode Title="properties" Url="html/f99c5e54-d732-ddac-51d8-cab236984925.htm" />
-  </HelpKINode>
-  <HelpKINode Title="UnknownWorksheetException.UnknownWorksheetException constructor" Url="html/eaa9a4f8-daa2-573d-b97c-c76c63dd6ae3.htm" />
   <HelpKINode Title="UseColorMRU property" Url="html/21f8420d-7476-482f-9368-5caa3e65a5ed.htm" />
   <HelpKINode Title="UseSheetProtection property" Url="html/4274e257-3677-f178-81ae-67bf9a9d1d8c.htm" />
   <HelpKINode Title="UseWorkbookProtection property" Url="html/7f634903-104d-f78b-cf4c-26747316452c.htm" />
@@ -838,15 +938,16 @@
     <HelpKINode Title="methods" Url="html/afb90f60-b5f1-ad6e-ccf9-52539f9ff97c.htm" />
     <HelpKINode Title="properties" Url="html/9e95cd7a-1a3d-8c83-2f97-1bc53c7f5178.htm" />
   </HelpKINode>
-  <HelpKINode Title="Workbook.AddStyle method" Url="html/49264892-0905-da02-fce5-505bf8047e36.htm" />
-  <HelpKINode Title="Workbook.AddWorksheet method" Url="html/c9d43c5b-02d7-5d72-6924-0447d36c0f16.htm" />
+  <HelpKINode Title="Workbook.AddStyle method" Url="html/2fd49619-71db-f773-179f-de2134bb4a73.htm" />
+  <HelpKINode Title="Workbook.addStyleComponent method" Url="html/78c90321-1246-e7db-2875-4fa5b9500ebc.htm" />
+  <HelpKINode Title="Workbook.AddWorksheet method" Url="html/cf2d6283-ee19-74c7-4e67-8e86545164f3.htm" />
   <HelpKINode Title="Workbook.CurrentWorksheet property" Url="html/e7139d93-2ac2-e819-98ab-2c16ac9c096f.htm" />
   <HelpKINode Title="Workbook.Filename property" Url="html/de09893a-83f8-c50b-6d62-400e723bbefe.htm" />
+  <HelpKINode Title="Workbook.Init method" Url="html/c9d3b337-c432-c22c-4f58-d2347695aeae.htm" />
   <HelpKINode Title="Workbook.LockStructureIfProtected property" Url="html/fd0814b5-e62e-f46c-8eda-4de2c553dbfa.htm" />
   <HelpKINode Title="Workbook.LockWindowsIfProtected property" Url="html/ef8f758a-e442-70b6-604f-51cbdcf200f6.htm" />
   <HelpKINode Title="Workbook.RemoveStyle method" Url="html/19317dcc-6e19-445a-06e8-70576bf768eb.htm" />
   <HelpKINode Title="Workbook.RemoveWorksheet method" Url="html/88c9d7f5-4dce-91ea-a532-5f8e5fc6021d.htm" />
-  <HelpKINode Title="Workbook.ReorganizeStyles method" Url="html/87f7c317-346a-83a0-7179-2570abaa10bb.htm" />
   <HelpKINode Title="Workbook.ResolveMergedCells method" Url="html/c2b87dda-bc97-54cf-5716-befe2066b99b.htm" />
   <HelpKINode Title="Workbook.Save method" Url="html/b09ca737-6c33-0b13-bcf4-1920572075d0.htm" />
   <HelpKINode Title="Workbook.SaveAs method" Url="html/d61bb20a-797e-3e5d-ae87-a00b7af77d12.htm" />
@@ -875,12 +976,12 @@
   <HelpKINode Title="Worksheet.AddCell method" Url="html/858e777d-4b39-d54c-be05-4c5ee2ee5983.htm" />
   <HelpKINode Title="Worksheet.AddCellFormula method" Url="html/cedb2473-d34f-c63b-b1f1-0a1cdc1a7d5d.htm" />
   <HelpKINode Title="Worksheet.AddCellRange method" Url="html/dca5a3f2-ba67-25ba-ed41-94be48006488.htm" />
-  <HelpKINode Title="Worksheet.AddCellRangeInternal(Of T) method" Url="html/59608dce-d119-240e-b0b1-895c008d425f.htm" />
-  <HelpKINode Title="Worksheet.AddCellRangeInternal&lt;T&gt; method" Url="html/59608dce-d119-240e-b0b1-895c008d425f.htm" />
+  <HelpKINode Title="Worksheet.AddCellRangeInternal(Of T) method" Url="html/f894adcd-1db4-4e50-7858-894c808eab4b.htm" />
+  <HelpKINode Title="Worksheet.AddCellRangeInternal&lt;T&gt; method" Url="html/f894adcd-1db4-4e50-7858-894c808eab4b.htm" />
   <HelpKINode Title="Worksheet.AddHiddenColumn method" Url="html/6253efe0-b403-2fd9-3e11-7ddd3f0b66f0.htm" />
   <HelpKINode Title="Worksheet.AddHiddenRow method" Url="html/77045f88-0564-498f-38c0-408b73d64cf0.htm" />
   <HelpKINode Title="Worksheet.AddNextCell method" Url="html/16026592-80e7-006a-99b6-3f4d1defdd53.htm" />
-  <HelpKINode Title="Worksheet.AddNextCellFormula method" Url="html/dda63afd-08f6-a669-89b5-4dc939f623c8.htm" />
+  <HelpKINode Title="Worksheet.AddNextCellFormula method" Url="html/0e61398a-7c1d-0f11-532d-9640f72744bf.htm" />
   <HelpKINode Title="Worksheet.AutoFilterRange property" Url="html/9d3ffb1d-453a-864c-8be6-916881113798.htm" />
   <HelpKINode Title="Worksheet.CellDirection enumeration" Url="html/357d67a9-19c3-3a83-17db-cc2b8c442940.htm" />
   <HelpKINode Title="Worksheet.Cells property" Url="html/3819289d-71f3-d482-10da-f1e04dcf87fe.htm" />
@@ -902,8 +1003,11 @@
   <HelpKINode Title="Worksheet.DefaultRowHeight property" Url="html/317d056d-600e-09e9-3b46-3e225c8c0894.htm" />
   <HelpKINode Title="Worksheet.DEFAULT_COLUMN_WIDTH field" Url="html/e34ba8a3-e09b-5adc-4425-88cf17ed3e38.htm" />
   <HelpKINode Title="Worksheet.DEFAULT_ROW_HEIGHT field" Url="html/a30e0a33-9530-dfb6-e9a5-91c303a0e762.htm" />
-  <HelpKINode Title="Worksheet.GoToNextColumn method" Url="html/1b333d28-e538-1102-fbbd-342841bc06d0.htm" />
-  <HelpKINode Title="Worksheet.GoToNextRow method" Url="html/0faaf09a-e42a-6557-2c14-5c0da367317c.htm" />
+  <HelpKINode Title="Worksheet.GetCell method" Url="html/e34cc41e-2be8-c908-d45b-d078b1d62d9e.htm" />
+  <HelpKINode Title="Worksheet.GetCurrentColumnAddress method" Url="html/ca75fd21-90dd-fdc0-648a-39e3c1e3d83e.htm" />
+  <HelpKINode Title="Worksheet.GetCurrentRowAddress method" Url="html/a1b0dc99-3b3b-2662-7d2a-ef682e68016e.htm" />
+  <HelpKINode Title="Worksheet.GoToNextColumn method" Url="html/d1386a71-038d-70df-5fba-60e4089784bc.htm" />
+  <HelpKINode Title="Worksheet.GoToNextRow method" Url="html/0e0670a0-2ca2-b370-1804-868a286b3d0e.htm" />
   <HelpKINode Title="Worksheet.HiddenRows property" Url="html/823be1a4-46ce-4c0f-3a34-75d27f085b4f.htm" />
   <HelpKINode Title="Worksheet.MAX_COLUMN_ADDRESS field" Url="html/7d8ed65d-083b-4adf-1f59-549034ea548b.htm" />
   <HelpKINode Title="Worksheet.MAX_COLUMN_WIDTH field" Url="html/1428082b-1fdc-07c3-fa71-65005707bfbd.htm" />
@@ -924,6 +1028,7 @@
   <HelpKINode Title="Worksheet.RemoveMergedCells method" Url="html/5280699f-56a4-6e1c-98af-32396e7c35cd.htm" />
   <HelpKINode Title="Worksheet.RemoveSelectedCells method" Url="html/1808a9f3-a853-5e65-77e8-553a081ebf7e.htm" />
   <HelpKINode Title="Worksheet.RowHeights property" Url="html/7cbe68af-b70c-331b-76be-40a7e910b532.htm" />
+  <HelpKINode Title="Worksheet.SanitizeWorksheetName method" Url="html/6e13912d-c57e-6d1f-3c65-ac9ebdd7a831.htm" />
   <HelpKINode Title="Worksheet.SelectedCells property" Url="html/52f77cc1-0e55-7d17-7fea-05cd10309df3.htm" />
   <HelpKINode Title="Worksheet.SetActiveStyle method" Url="html/b94defd3-271e-5206-c564-1043865fe8f8.htm" />
   <HelpKINode Title="Worksheet.SetAutoFilter method" Url="html/b0ecd4c4-3355-86d9-e955-154e78a058cb.htm" />
@@ -936,6 +1041,7 @@
   <HelpKINode Title="Worksheet.SetRowHiddenState method" Url="html/c49f088a-d58d-680f-4d6a-b45d554cf7fa.htm" />
   <HelpKINode Title="Worksheet.SetSelectedCells method" Url="html/e642e906-3de8-5d92-f498-13d2f703628a.htm" />
   <HelpKINode Title="Worksheet.SetSheetname method" Url="html/26ed859f-c126-d114-a95b-d6a7bed349c7.htm" />
+  <HelpKINode Title="Worksheet.SetSheetName method" Url="html/0dfb2d1a-1318-91b6-4ebb-a7bc6e4f4665.htm" />
   <HelpKINode Title="Worksheet.SetSheetProtectionPassword method" Url="html/425b6b66-0ccf-ec1f-8520-2c08807ea3cd.htm" />
   <HelpKINode Title="Worksheet.SheetID property" Url="html/c68bed38-8567-4dc9-2738-57e87139f3cc.htm" />
   <HelpKINode Title="Worksheet.SheetName property" Url="html/56ee77e1-7c21-416d-4f24-aa16ae01b141.htm" />
@@ -945,15 +1051,18 @@
   <HelpKINode Title="Worksheet.UseSheetProtection property" Url="html/4274e257-3677-f178-81ae-67bf9a9d1d8c.htm" />
   <HelpKINode Title="Worksheet.WorkbookReference property" Url="html/b4d37c83-50bf-5f7d-353a-f0b24fb25a75.htm" />
   <HelpKINode Title="Worksheet.Worksheet constructor" Url="html/648c8cb8-c40d-d174-ccf7-205cf8c9f427.htm" />
-  <HelpKINode Title="WorksheetNameAlreadxExistsException class">
-    <HelpKINode Title="WorksheetNameAlreadxExistsException Class" Url="html/83a6bc22-0c09-b42f-a6d2-364c1913149d.htm" />
-    <HelpKINode Title="about WorksheetNameAlreadxExistsException class" Url="html/83a6bc22-0c09-b42f-a6d2-364c1913149d.htm" />
-    <HelpKINode Title="constructor" Url="html/f8fcd420-be9c-0c80-1ec8-1ac143d301fd.htm" />
-    <HelpKINode Title="events" Url="html/5ad7c1fc-7fd1-c205-bb43-9594e5e59ceb.htm" />
-    <HelpKINode Title="methods" Url="html/2fc1770d-614f-8cd6-e2b9-2d23cd9f9baa.htm" />
-    <HelpKINode Title="properties" Url="html/b4b207da-52b5-65de-29ad-5dc4252e5d6e.htm" />
+  <HelpKINode Title="Worksheet.worksheetExists method" Url="html/07391d8e-226c-6fc8-1aea-ec4daf6f6c4a.htm" />
+  <HelpKINode Title="WorksheetException class">
+    <HelpKINode Title="WorksheetException Class" Url="html/f9f7f510-1df7-f64b-3916-7b88f0ef5946.htm" />
+    <HelpKINode Title="about WorksheetException class" Url="html/f9f7f510-1df7-f64b-3916-7b88f0ef5946.htm" />
+    <HelpKINode Title="constructor" Url="html/5d2e5e1a-d710-05cc-78cc-26704ca04f7f.htm" />
+    <HelpKINode Title="events" Url="html/a962a7ad-5e93-ff67-83c6-5712a1b18e6a.htm" />
+    <HelpKINode Title="methods" Url="html/6f06ea22-1ddb-ce88-fd1a-f8bb6ffe2abe.htm" />
+    <HelpKINode Title="properties" Url="html/859b9574-b99a-e207-54d2-2278db14c379.htm" />
   </HelpKINode>
-  <HelpKINode Title="WorksheetNameAlreadxExistsException.WorksheetNameAlreadxExistsException constructor" Url="html/f8fcd420-be9c-0c80-1ec8-1ac143d301fd.htm" />
+  <HelpKINode Title="WorksheetException.ExceptionTitle property" Url="html/c19610d3-972f-c6ec-b2bc-ded39e0fab2f.htm" />
+  <HelpKINode Title="WorksheetException.WorksheetException constructor" Url="html/5d2e5e1a-d710-05cc-78cc-26704ca04f7f.htm" />
+  <HelpKINode Title="worksheetExists method" Url="html/07391d8e-226c-6fc8-1aea-ec4daf6f6c4a.htm" />
   <HelpKINode Title="WorksheetReference property" Url="html/27f62c08-7b21-8ff3-0984-6c3ecf1fccd7.htm" />
   <HelpKINode Title="Worksheets property" Url="html/319790c2-ca89-aabc-c76c-693d7f153a6d.htm" />
   <HelpKINode Title="wrapText enumeration member" Url="html/567653c2-d633-6b90-f169-fae46fab93fc.htm" />

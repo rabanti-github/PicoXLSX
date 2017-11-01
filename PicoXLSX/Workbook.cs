@@ -188,23 +188,23 @@ namespace PicoXLSX
         
             if (newComponent.GetType() == typeof(Style.Border))
             {
-                baseStyle.BorderStyle = (Style.Border)newComponent;
+                baseStyle.CurrentBorder = (Style.Border)newComponent;
             }
             else if (newComponent.GetType() == typeof(Style.CellXf))
             {
-                baseStyle.CellXfStyle = (Style.CellXf)newComponent;
+                baseStyle.CurrentCellXf = (Style.CellXf)newComponent;
             }
             else if (newComponent.GetType() == typeof(Style.Fill))
             {
-                baseStyle.FillStyle = (Style.Fill)newComponent;
+                baseStyle.CurrentFill = (Style.Fill)newComponent;
             }
             else if (newComponent.GetType() == typeof(Style.Font))
             {
-                baseStyle.FontStyle = (Style.Font)newComponent;
+                baseStyle.CurrentFont = (Style.Font)newComponent;
             }
             else if (newComponent.GetType() == typeof(Style.NumberFormat))
             {
-                baseStyle.NumberFormatStyle = (Style.NumberFormat)newComponent;
+                baseStyle.CurrentNumberFormat = (Style.NumberFormat)newComponent;
             }
             return this.styleManager.AddStyle(baseStyle);
         }
@@ -282,8 +282,8 @@ namespace PicoXLSX
             this.styleManager = new StyleManager();
             this.styleManager.AddStyle(new Style("default", 0, true));
             Style borderStyle = new Style("default_border_style", 1, true);
-            borderStyle.BorderStyle = Style.BasicStyles.DottedFill_0_125.BorderStyle;
-            borderStyle.FillStyle = Style.BasicStyles.DottedFill_0_125.FillStyle;
+            borderStyle.CurrentBorder = Style.BasicStyles.DottedFill_0_125.CurrentBorder;
+            borderStyle.CurrentFill = Style.BasicStyles.DottedFill_0_125.CurrentFill;
             this.styleManager.AddStyle(borderStyle);
             this.workbookMetadata = new Metadata();
         }
@@ -293,7 +293,7 @@ namespace PicoXLSX
         /// Removes the passed style from the style sheet
         /// </summary>
         /// <param name="style">Style to remove</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
+        /// <exception cref="StyleException">Throws an StyleException if the style was not found in the style collection (could not be referenced)</exception>
         public void RemoveStyle(Style style)
         {
             RemoveStyle(style, false);
@@ -303,7 +303,7 @@ namespace PicoXLSX
         /// Removes the defined style from the style sheet of the workbook
         /// </summary>
         /// <param name="styleName">Name of the style to be removed</param>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
+        /// <exception cref="StyleException">Throws an StyleException if the style was not found in the style collection (could not be referenced)</exception>
         public void RemoveStyle(string styleName)
         {
             RemoveStyle(styleName, false);
@@ -314,7 +314,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="style">Style to remove</param>
         /// <param name="onlyIfUnused">If true, the style will only be removed if not used in any cell</param>
-        /// <exception cref="StyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
+        /// <exception cref="StyleException">Throws an StyleException if the style was not found in the style collection (could not be referenced)</exception>
         public void RemoveStyle(Style style, bool onlyIfUnused)
         {
             if (style == null)
@@ -418,7 +418,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to resolve all merged cells in all worksheets. Only the value of the very first cell of the locked cells range will be visible. The other values are still present (set to EMPTY) but will not be stored in the worksheet.
         /// </summary>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the merged cells cannot be referenced or is null</exception>
+        /// <exception cref="StyleException">Throws an StyleException if one of the styles of the merged cells cannot be referenced or is null</exception>
         public void ResolveMergedCells()
         {
             Style mergeStyle = Style.BasicStyles.MergeCellStyle;
@@ -462,9 +462,9 @@ namespace PicoXLSX
         /// Saves the workbook
         /// </summary>
         /// <exception cref="IOException">Throws IOException in case of an error</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
+        /// <exception cref="RangeException">Throws an RangeException if the start or end address of a handled cell range was out of range</exception>
         /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+        /// <exception cref="StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
         public void Save()
         {
             LowLevel l = new LowLevel(this);
@@ -476,9 +476,9 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="filename">filename of the saved workbook</param>
         /// <exception cref="IOException">Throws IOException in case of an error</exception>
-        /// <exception cref="OutOfRangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
+        /// <exception cref="RangeException">Throws an RangeException if the start or end address of a handled cell range was out of range</exception>
         /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
-        /// <exception cref="UndefinedStyleException">Throws an UndefinedStyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+        /// <exception cref="StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
         public void SaveAs(string filename)
         {
             string backup = this.filename;

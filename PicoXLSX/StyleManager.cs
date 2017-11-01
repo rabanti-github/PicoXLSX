@@ -19,11 +19,29 @@ namespace PicoXLSX
     public class StyleManager
     {
         #region constants
+        /// <summary>
+        /// Prefix for the hash calculation of border styles
+        /// </summary>
         public const string BORDERPREFIX = "borders@";
+        /// <summary>
+        /// Prefix for the hash calculation of cellXf styles
+        /// </summary>
         public const string CELLXFPREFIX = "/cellXf@";
+        /// <summary>
+        /// Prefix for the hash calculation of fill styles
+        /// </summary>
         public const string FILLPREFIX = "/fill@";
+        /// <summary>
+        /// Prefix for the hash calculation of font styles
+        /// </summary>
         public const string FONTPREFIX = "/font@";
+        /// <summary>
+        /// Prefix for the hash calculation of number format styles
+        /// </summary>
         public const string NUMBERFORMATPREFIX = "/numberFormat@";
+        /// <summary>
+        /// Prefix for the hash calculation of styles
+        /// </summary>
         public const string STYLEPREFIX = "style=";
         #endregion
 
@@ -385,16 +403,16 @@ namespace PicoXLSX
                     {
                         id = s.InternalID.Value;
                     }
-                    string temp = this.AddStyleComponent(s.BorderStyle, id);
-                    s.BorderStyle = (Style.Border)this.GetComponentByHash(ref this.borders, temp);
-                    temp = this.AddStyleComponent(s.CellXfStyle, id);
-                    s.CellXfStyle = (Style.CellXf)this.GetComponentByHash(ref this.cellXfs, temp);
-                    temp = this.AddStyleComponent(s.FillStyle, id);
-                    s.FillStyle = (Style.Fill)this.GetComponentByHash(ref this.fills, temp);
-                    temp = this.AddStyleComponent(s.FontStyle, id);
-                    s.FontStyle = (Style.Font)this.GetComponentByHash(ref this.fonts, temp);
-                    temp = this.AddStyleComponent(s.NumberFormatStyle, id);
-                    s.NumberFormatStyle = (Style.NumberFormat)this.GetComponentByHash(ref this.numberFormats, temp);
+                    string temp = this.AddStyleComponent(s.CurrentBorder, id);
+                    s.CurrentBorder = (Style.Border)this.GetComponentByHash(ref this.borders, temp);
+                    temp = this.AddStyleComponent(s.CurrentCellXf, id);
+                    s.CurrentCellXf = (Style.CellXf)this.GetComponentByHash(ref this.cellXfs, temp);
+                    temp = this.AddStyleComponent(s.CurrentFill, id);
+                    s.CurrentFill = (Style.Fill)this.GetComponentByHash(ref this.fills, temp);
+                    temp = this.AddStyleComponent(s.CurrentFont, id);
+                    s.CurrentFont = (Style.Font)this.GetComponentByHash(ref this.fonts, temp);
+                    temp = this.AddStyleComponent(s.CurrentNumberFormat, id);
+                    s.CurrentNumberFormat = (Style.NumberFormat)this.GetComponentByHash(ref this.numberFormats, temp);
                     this.styles.Add(s);
                 }
                 Reorganize(ref this.styles);
@@ -505,11 +523,11 @@ namespace PicoXLSX
             for(int i = 0; i < len; i++)
             {
                 s = (Style)this.styles[i];
-                if (component.GetType() == typeof(Style.Border)) { if (s.BorderStyle.Hash == hash) { match = true; break; } }
-                else if (component.GetType() == typeof(Style.CellXf)) { if (s.CellXfStyle.Hash == hash) { match = true; break; } }
-                if (component.GetType() == typeof(Style.Fill)) { if (s.FillStyle.Hash == hash) { match = true; break; } }
-                if (component.GetType() == typeof(Style.Font)) { if (s.FontStyle.Hash == hash) { match = true; break; } }
-                if (component.GetType() == typeof(Style.NumberFormat)) { if (s.NumberFormatStyle.Hash == hash) { match = true; break; } }
+                if (component.GetType() == typeof(Style.Border)) { if (s.CurrentBorder.Hash == hash) { match = true; break; } }
+                else if (component.GetType() == typeof(Style.CellXf)) { if (s.CurrentCellXf.Hash == hash) { match = true; break; } }
+                if (component.GetType() == typeof(Style.Fill)) { if (s.CurrentFill.Hash == hash) { match = true; break; } }
+                if (component.GetType() == typeof(Style.Font)) { if (s.CurrentFont.Hash == hash) { match = true; break; } }
+                if (component.GetType() == typeof(Style.NumberFormat)) { if (s.CurrentNumberFormat.Hash == hash) { match = true; break; } }
             }
             return match;
         }

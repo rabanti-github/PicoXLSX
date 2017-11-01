@@ -5,6 +5,14 @@ PicoXLSX is a small .NET / C# library to create XLSX files (Microsoft Excel 2007
  * No need for Office interop libraries
  * No need for 3rd party libraries
  * No need for an installation of the Microsoft Open Office XML SDK (OOXML)
+ 
+ # What's new in version 2.x
+* Complete replacement of the old style handling
+* Added more options to assign styles to cells
+* Added an option for sanitizing of worksheet names
+* Replaced specific exception classes with general exceptions (e.g. StyleException, FormatException or WorksheetException)
+* Added functions to retrieve stored data and the current cell address
+* Many internal optimizations and additional documentation
 
 # Requirements
 PicoXLSX was created with .NET version 4.5 and upgraded to **4.6.1**. But older versions like 3.5 and 4.0 may also work with minor or no changes. However, this was not tested yet.
