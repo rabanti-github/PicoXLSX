@@ -3,6 +3,7 @@
 ## v2.1.0
 ---
 Release Date: **03.12.2017**
+
 - Pushed back to .NET 4.5 due to platform compatibility reasons (multi platform architecture is planned)
 - Added SaveToStearm method in Workbook class
 - Added demo for the new stream save method
@@ -11,6 +12,7 @@ Release Date: **03.12.2017**
 ## v2.0.0
 ---
 Release Date: **01.11.2017**
+
 **Note**: This major version is not compatible with code of v1.x. However, porting is feasible with moderate effort
 - Complete replacement of style handling
 - Added an option to add styles with the cell values in one step
@@ -25,6 +27,7 @@ Release Date: **01.11.2017**
 ## v1.6.3
 ---
 Release Date: **24.08.2017**
+
 - Added further null checks
 - Minor optimizations
 - Fixed typos
@@ -32,12 +35,14 @@ Release Date: **24.08.2017**
 ## v1.6.2
 ---
 Release Date: **12.08.2017**
+
 - fixed a bug in the function to remove merged cells (Worksheet class)
 - Fixed typos
 
 ## v1.6.1
 ---
 Release Date: **08.08.2017**
+
 **Note**: Due to a (now fixed) typo in a public parameter name, it is possible that some function calls on existing code must be fixed too (just renaming).
 - Fixed typos (parameters and text)
 - Minor optimization
@@ -47,6 +52,7 @@ Release Date: **08.08.2017**
 ## v1.6.0 
 ---
 Release Date: **07.04.2017**
+
 **Note**: Using this version of the library with old code can cause compatibility issues due to the simplification of some methods (see below).
 - Simplified all style assignment methods. Referencing of the workbook is not necessary anymore (can cause compatibility issues with existing code; just remove the workbook references)
 - Removed SetCellAddress Method. Replaced by Getters and Setters
@@ -58,6 +64,7 @@ Release Date: **07.04.2017**
 ## v1.5.6 
 ---
 Release Date: **01.04.2017**
+
 - Fixed a bug induced by non-Gregorian calendars (e.g Minguo, Heisei period, Hebrew) on the host system
 - Code cleanup
 - Minor bug fixes
@@ -66,6 +73,7 @@ Release Date: **01.04.2017**
 ## v1.5.5 
 ---
 Release Date: **24.03.2017**
+
 - Fixed a Out-of-Memory bug when saving very big files
 - Improved the performance of the save() method (reduction of processing time from minutes to second when handling big amount of data)
 - Added a debug and release version of the executable
@@ -74,6 +82,7 @@ Release Date: **24.03.2017**
 ## v1.5.4 
 ---
 Release Date: **20.03.2017**
+
 - Extended the sanitizing of allowed XML characters according the XML specifications to avoid errors with illegal characters in passed strings
 - Updated project settings of the documentation solution
 - Fixed typos
@@ -81,22 +90,26 @@ Release Date: **20.03.2017**
 ## v1.5.3 
 ---
 Release Date: **17.11.2016**
+
 - Fixed general bug in the handling of the sharedStrings table. Please update
 - Passed null values to cells are now interpreted as empty values. Caused an exception until now
 
 ## v1.5.2 
 ---
 Release Date: **15.11.2016**
+
 - Fixed a bug in the sharedStrings table
 
 ## v1.5.1 
 ---
 Release Date: **16.08.2016**
+
 - Fixed a bug in the cell type resolution / formatting assignment
 
 ## v1.5.0 
 ---
 Release Date: **12.08.2016**
+
 **Note**: Using this version of the library with old code can cause compatibility issues due to the removal of some methods (see below).
 - Removed all overloaded methods with various input values for adding cells. Object is sufficient
 - Added sharedStrings table to manage strings more efficient (Excel standard)
@@ -109,6 +122,7 @@ Release Date: **12.08.2016**
 ## v1.4.0
 ---
 Release Date: **11.08.2016**
+
 - Added support for Cell selection
 - Added support for worksheet selection
 - Removed XML namespace 'x' as prefix in OOXML output. No use for this at the moment
@@ -118,6 +132,7 @@ Release Date: **11.08.2016**
 ## v1.3.1
 ---
 Release Date: **18.01.2016**
+
 - Fixed a bug in the auto filter section
 - Code cleanup
 - Fixed some documentation issues
@@ -125,6 +140,7 @@ Release Date: **18.01.2016**
 ## v1.3.0 
 ---
 Release Date: **17.01.2016**
+
 - Added support for auto filter (columns)
 - Added support for hiding columns and rows
 - Added new Column class (sub-class of Worksheet) to manage column based properties more efficiently
@@ -136,18 +152,21 @@ Release Date: **17.01.2016**
 ## v1.2.4
 ---
 Release Date: **08.11.2015**
+
 - Fixed a bug in the meta data section
 
 
 ## v1.2.3
 ---
 Release Date: **02.11.2015**
+
 - Added support for protecting workbooks
 - Minor bug fixes
 
 ## v1.2.2
 ---
 Release Date: **01.11.2015**
+
 - Added support to protect worksheets with a password
 - Minor bug fixes
 - Fixed some code formatting issues
@@ -156,11 +175,13 @@ Release Date: **01.11.2015**
 ## v1.2.1
 ---
 Release Date: **31.10.2015**
+
 - Fixed typos (in parameter names)
 
 ## v1.2.0	
 ---
 Release Date: **29.10.2015**
+
 - Added support for merging cells
 - Added support for Protecting worksheets (no support for passwords yet)
 - Minor bug fixes
@@ -171,6 +192,7 @@ Release Date: **29.10.2015**
 ## v1.1.2	
 ---
 Release Date: **12.10.2015**
+
 - Added a method to generate random style names using a Crypto Service Provider. Fixed a problem of identical style names due to too fast processing when using a standard RNG
 - Minor bug fixes
 - Fixed typos
@@ -178,11 +200,13 @@ Release Date: **12.10.2015**
 ## v1.1.1	
 ---
 Release Date: **06.10.2015**
+
 - Minor bug fixes
 
 ## v1.1.0	
 ---
 Release Date: **29.09.2015**
+
 - Added extensive support for styling
 - Added support for meta data (title, subject etc.)
 - Added support for cell width and cell height
@@ -197,9 +221,11 @@ Release Date: **29.09.2015**
 ## v.1.0.1 
 ---
 Release Date: **22.08.2015**
+
 - Fixed uncritical / silent casting exception
 
 ## v1.0.0
 ---
 Release Date: **21.08.2015**
+
 - Initial release
