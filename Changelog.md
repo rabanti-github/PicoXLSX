@@ -114,10 +114,10 @@ Release Date: **12.08.2016**
 - Removed all overloaded methods with various input values for adding cells. Object is sufficient
 - Added sharedStrings table to manage strings more efficient (Excel standard)
 - Pushed solution to .NET 4.6.1 (no changes necessary)
-- Changed demos according to removed overloaded methods (List<string> is now List<object>)
+- Changed demos according to removed overloaded methods (List&lt;string&gt; is now List&lt;object&gt;)
 - Added support for long (64bit) data type
 - Fixed a bug in the type recognition of cells
-
+  
 
 ## v1.4.0
 ---
@@ -137,7 +137,7 @@ Release Date: **18.01.2016**
 - Code cleanup
 - Fixed some documentation issues
 
-## v1.3.0 
+## v1.3.0
 ---
 Release Date: **17.01.2016**
 
@@ -178,7 +178,7 @@ Release Date: **31.10.2015**
 
 - Fixed typos (in parameter names)
 
-## v1.2.0	
+## v1.2.0
 ---
 Release Date: **29.10.2015**
 
@@ -189,7 +189,7 @@ Release Date: **29.10.2015**
 - Added more documentation
 - Added further demo for the new features
 
-## v1.1.2	
+## v1.1.2
 ---
 Release Date: **12.10.2015**
 
@@ -197,13 +197,13 @@ Release Date: **12.10.2015**
 - Minor bug fixes
 - Fixed typos
 
-## v1.1.1	
+## v1.1.1
 ---
 Release Date: **06.10.2015**
 
 - Minor bug fixes
 
-## v1.1.0	
+## v1.1.0
 ---
 Release Date: **29.09.2015**
 
