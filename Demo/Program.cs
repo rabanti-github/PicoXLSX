@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using PicoXLSX;
 
 
@@ -20,7 +21,8 @@ namespace Demo
         /// <param name="args">Not used</param>
         static void Main(string[] args)
         {
-            basicDemo();
+            BasicDemo();
+            StreamDemo();
             Demo1();
             Demo2();
             Demo3();
@@ -37,10 +39,11 @@ namespace Demo
             /* ######################### */
         }
 
+
         /// <summary>
         /// This is a very basic demo (adding three values and save the workbook)
         /// </summary>
-        private static void basicDemo()
+        private static void BasicDemo()
         {
             Workbook workbook = new Workbook("basic.xlsx", "Sheet1");   // Create new workbook
             workbook.CurrentWorksheet.AddNextCell("Test");              // Add cell A1
@@ -48,6 +51,20 @@ namespace Demo
             workbook.CurrentWorksheet.AddNextCell("Test3");             // Add cell C1
             workbook.Save();
         }
+
+        /// <summary>
+        /// This method shows how to save a workbook as stream 
+        /// </summary>
+        private static void StreamDemo()
+        {
+            Workbook workbook = new Workbook(true);                         // Create new workbook without file name
+            workbook.CurrentWorksheet.AddNextCell("This is an example");    // Add cell A1
+            workbook.CurrentWorksheet.AddNextCellFormula("=A1");            // Add formula in cell B1
+            workbook.CurrentWorksheet.AddNextCell(123456789);               // Add cell C1
+            FileStream fs = new FileStream("stream.xlsx", FileMode.Create); // Create a file stream (could also be a memory stream or whatever writable stream you want)
+            workbook.SaveAsStream(fs);                                      // Save the workbook into the stream
+        }
+
 
         /// <summary>
         /// This method shows the usage of AddNextCell with several data types and formulas

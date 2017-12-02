@@ -302,13 +302,36 @@ namespace PicoXLSX
         /// <remarks>The StyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
         public void Save()
         {
+            try
+            {
+                FileStream fs = new FileStream(this.workbook.Filename, FileMode.Create);
+                SaveAsStream(fs);
+            }
+            catch (Exception e)
+            {
+                throw new IOException("SaveException", "An error occurred while saving. See inner exception for details: " + e.Message, e);
+            }
+        }
+
+        /// <summary>
+        /// Method to save the workbook as stream
+        /// </summary>
+        /// <param name="stream">Writable stream as target</param>
+        /// <exception cref="IOException">Throws IOException in case of an error</exception>
+        /// <exception cref="RangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
+        /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
+        /// <exception cref="StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+        /// <remarks>The StyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
+        public void SaveAsStream(Stream stream)
+        {
             this.workbook.ResolveMergedCells();
             DocumentPath sheetPath;
             List<Uri> sheetURIs = new List<Uri>();
 
             try
             {
-                using (System.IO.Packaging.Package p = Package.Open(this.workbook.Filename, FileMode.Create))
+                //using (System.IO.Packaging.Package p = Package.Open(this.workbook.Filename, FileMode.Create))
+                using (System.IO.Packaging.Package p = Package.Open(stream, FileMode.Create))
                 {
                     Uri workbookUri = new Uri(WORKBOOK.GetFullPath(), UriKind.Relative);
                     Uri stylesheetUri = new Uri(STYLES.GetFullPath(), UriKind.Relative);
@@ -342,7 +365,7 @@ namespace PicoXLSX
                     {
                         pp = p.CreatePart(sheetURIs[i], @"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", CompressionOption.Normal);
                         i++;
-                        AppendXmlToPackagePart(CreateWorksheetPart(item), pp, "WORKSHEET:"  + item.SheetName);
+                        AppendXmlToPackagePart(CreateWorksheetPart(item), pp, "WORKSHEET:" + item.SheetName);
                     }
 
 
@@ -360,15 +383,15 @@ namespace PicoXLSX
                         AppendXmlToPackagePart(CreateCorePropertiesDocument(), pp, "COREPROPERTIES");
                     }
 
-
+                    p.Flush();
+                    p.Close();
                 }
             }
             catch (Exception e)
             {
-                throw new IOException("SaveException","An error occurred while saving. See inner exception for details.", e);
+                throw new IOException("SaveException", "An error occurred while saving. See inner exception for details: " + e.Message, e);
             }
         }
-
 
 #endregion
 

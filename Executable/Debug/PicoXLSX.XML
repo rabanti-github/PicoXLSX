@@ -480,6 +480,17 @@
             <exception cref="T:PicoXLSX.StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
             <remarks>The StyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
         </member>
+        <member name="M:PicoXLSX.LowLevel.SaveAsStream(System.IO.Stream)">
+            <summary>
+            Method to save the workbook as stream
+            </summary>
+            <param name="stream">Writable stream as target</param>
+            <exception cref="T:PicoXLSX.IOException">Throws IOException in case of an error</exception>
+            <exception cref="T:PicoXLSX.RangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
+            <exception cref="T:PicoXLSX.StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+            <remarks>The StyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
+        </member>
         <member name="M:PicoXLSX.LowLevel.AppendXMLtag(System.Text.StringBuilder,System.String,System.String,System.String)">
             <summary>
             Method to append a simple XML tag with an enclosed value to the passed StringBuilder
@@ -2126,6 +2137,16 @@
             Saves the workbook with the defined name
             </summary>
             <param name="filename">filename of the saved workbook</param>
+            <exception cref="T:PicoXLSX.IOException">Throws IOException in case of an error</exception>
+            <exception cref="T:PicoXLSX.RangeException">Throws an RangeException if the start or end address of a handled cell range was out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
+            <exception cref="T:PicoXLSX.StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+        </member>
+        <member name="M:PicoXLSX.Workbook.SaveAsStream(System.IO.Stream)">
+            <summary>
+            Save the workbook to a writable stream
+            </summary>
+            <param name="stream">Writable stream</param>
             <exception cref="T:PicoXLSX.IOException">Throws IOException in case of an error</exception>
             <exception cref="T:PicoXLSX.RangeException">Throws an RangeException if the start or end address of a handled cell range was out of range</exception>
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>

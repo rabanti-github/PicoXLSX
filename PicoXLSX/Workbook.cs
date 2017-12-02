@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace PicoXLSX
 {
@@ -486,6 +487,20 @@ namespace PicoXLSX
             LowLevel l = new LowLevel(this);
             l.Save();
             this.filename = backup;
+        }
+
+        /// <summary>
+        /// Save the workbook to a writable stream
+        /// </summary>
+        /// <param name="stream">Writable stream</param>
+        /// <exception cref="IOException">Throws IOException in case of an error</exception>
+        /// <exception cref="RangeException">Throws an RangeException if the start or end address of a handled cell range was out of range</exception>
+        /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
+        /// <exception cref="StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+        public void SaveAsStream(Stream stream)
+        {
+            LowLevel l = new LowLevel(this);
+            l.SaveAsStream(stream);
         }
 
         /// <summary>
