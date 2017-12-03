@@ -5,7 +5,7 @@
 Release Date: **03.12.2017**
 
 - Pushed back to .NET 4.5 due to platform compatibility reasons (multi platform architecture is planned)
-- Added SaveToStearm method in Workbook class
+- Added SaveToStream method in Workbook class
 - Added demo for the new stream save method
 - Changed log to MD format
 
