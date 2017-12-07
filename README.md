@@ -1,5 +1,5 @@
 # PicoXLSX
-[!PicoXLSX(https://rabanti-github.github.io/PicoXLSX/icons/PicoXLSX.png "PicoXLSX")]
+![PicoXLSX](https://rabanti-github.github.io/PicoXLSX/icons/PicoXLSX.png)
 
 
 PicoXLSX is a small .NET / C# library to create XLSX files (Microsoft Excel 2007 or newer) in an easy and native way
