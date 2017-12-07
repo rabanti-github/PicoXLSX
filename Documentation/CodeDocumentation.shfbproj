@@ -44,6 +44,59 @@
     <CopyrightText>Copyright Raphael Stoeckli &amp;#169%3b 2017</CopyrightText>
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
     <WarnOnMissingSourceContext>False</WarnOnMissingSourceContext>
+    <ProjectSummary>&amp;lt%3bp&amp;gt%3bPicoXLSX is a small .NET / C# library to create XLSX files %28Microsoft Excel 2007 or newer%29 in an easy and native way&amp;lt%3b/p&amp;gt%3b
+&amp;lt%3bul&amp;gt%3b
+&amp;lt%3bli&amp;gt%3b&amp;lt%3bstrong&amp;gt%3bNo dependencies&amp;lt%3b/strong&amp;gt%3b %28%2a&amp;lt%3b/li&amp;gt%3b
+&amp;lt%3bli&amp;gt%3bNo need for an installation of Microsoft Office&amp;lt%3b/li&amp;gt%3b
+&amp;lt%3bli&amp;gt%3bNo need for Office interop libraries&amp;lt%3b/li&amp;gt%3b
+&amp;lt%3bli&amp;gt%3bNo need for 3rd party libraries&amp;lt%3b/li&amp;gt%3b
+&amp;lt%3bli&amp;gt%3bNo need for an installation of the Microsoft Open Office XML SDK %28OOXML%29&amp;lt%3b/li&amp;gt%3b
+&amp;lt%3b/ul&amp;gt%3b
+&amp;lt%3bp&amp;gt%3bSee the &amp;lt%3bstrong&amp;gt%3b&amp;lt%3ba href=&amp;quot%3bhttps://github.com/rabanti-github/PicoXLSX/blob/master/Changelog.md&amp;quot%3b&amp;gt%3bChange Log&amp;lt%3b/a&amp;gt%3b&amp;lt%3b/strong&amp;gt%3b for recent updates.&amp;lt%3b/p&amp;gt%3b
+&amp;lt%3bh2&amp;gt%3bRequirements&amp;lt%3b/h2&amp;gt%3b
+
+PicoXLSX was created with .NET version 4.5. Newer versions like 4.6.1 are working and tested. Older versions like 3.5 and 4.0 may also work with minor or no changes. However, this was not tested yet.
+&amp;lt%3bbr/&amp;gt%3b&amp;lt%3bbr/&amp;gt%3b%2a%29The only requirement to compile the library besides .NET is the assembly &amp;lt%3bb&amp;gt%3bWindowsBase&amp;lt%3b/b&amp;gt%3b. This assembly is a &amp;lt%3bb&amp;gt%3bstandard component in all Microsoft Windows systems&amp;lt%3b/b&amp;gt%3b %28except Windows RT systems%29. If your IDE of choice supports referencing assemblies from the Global Assembly Cache %28&amp;lt%3bb&amp;gt%3bGAC&amp;lt%3b/b&amp;gt%3b%29 of Windows, select WindowsBase from there. If you want so select the DLL manually and Microsoft Visual Studio is installed on your system, the DLL can be found most likely under “c:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\WindowsBase.dll”, according to this &amp;lt%3ba href=&amp;quot%3bhttps://blogs.msdn.com/b/dmahugh/archive/2006/12/14/finding-windowsbase-dll.aspx&amp;quot%3b&amp;gt%3bMSDN Blog entry&amp;lt%3b/a&amp;gt%3b. Otherwise you find it in the GAC, under “c:\Windows\Microsoft.NET\assembly\GAC_MSIL\WindowsBase”
+&amp;lt%3bbr/&amp;gt%3b&amp;lt%3bbr/&amp;gt%3b
+
+If you want to compile the documentation project %28folder: Documentation%3b project file: shfbproj%29, you need also the &amp;lt%3bstrong&amp;gt%3b&amp;lt%3ba href=&amp;quot%3bhttps://github.com/EWSoftware/SHFB&amp;quot%3b&amp;gt%3bSandcastle Help File Builder %28SHFB%29&amp;lt%3b/a&amp;gt%3b&amp;lt%3b/strong&amp;gt%3b. It is also freely available. But you don’t need the documentation project to build the PicoXLSX library.
+&amp;lt%3bbr/&amp;gt%3b
+&amp;lt%3bh2&amp;gt%3bInstallation&amp;lt%3b/h2&amp;gt%3b
+
+&amp;lt%3bh3&amp;gt%3bAs DLL&amp;lt%3b/h3&amp;gt%3b
+
+Simply place the PicoXLSX DLL into your .NET project and add a reference %28in VS or SharpDevelop%29 to it. Please keep in mind that the .NET version of your solution must match with the runtime version of the PicoXLSX DLL %28currently compiled with 4.5%29.
+&amp;lt%3bh3&amp;gt%3bAs source files&amp;lt%3b/h3&amp;gt%3b
+
+Place all .CS files from the PicoXLSX source folder into your project. You can place them into a sub-folder if you wish. The files contains definitions for workbooks, worksheets, cells, styles, meta-data, low level methods and exceptions.
+
+
+&amp;lt%3bh2&amp;gt%3bUsage %28Quick Start%29&amp;lt%3b/h2&amp;gt%3b
+
+&amp;lt%3bpre&amp;gt%3b&amp;lt%3bcode&amp;gt%3b Workbook workbook = new Workbook%28&amp;amp%3bquot%3bmyWorkbook.xlsx&amp;amp%3bquot%3b, &amp;amp%3bquot%3bSheet1&amp;amp%3bquot%3b%29%3b         // Create new workbook with a worksheet called Sheet1
+ workbook.CurrentWorksheet.AddNextCell%28&amp;amp%3bquot%3bSome Data&amp;amp%3bquot%3b%29%3b                    // Add cell A1
+ workbook.CurrentWorksheet.AddNextCell%2842%29%3b                             // Add cell B1
+ workbook.CurrentWorksheet.GoToNextRow%28%29%3b                               // Go to row 2
+ workbook.CurrentWorksheet.AddNextCell%28DateTime.Now%29%3b                   // Add cell A2
+ workbook.Save%28%29%3b                                                       // Save the workbook as myWorkbook.xlsx
+&amp;lt%3b/code&amp;gt%3b&amp;lt%3b/pre&amp;gt%3b</ProjectSummary>
+    <TransformComponentArguments>
+      <Argument Key="logoFile" Value="PicoXLSX.png" />
+      <Argument Key="logoHeight" Value="72" />
+      <Argument Key="logoWidth" Value="70" />
+      <Argument Key="logoAltText" Value="PicoXLSX" />
+      <Argument Key="logoPlacement" Value="left" />
+      <Argument Key="logoAlignment" Value="left" />
+      <Argument Key="maxVersionParts" Value="" />
+      <Argument Key="defaultLanguage" Value="cs" />
+      <Argument Key="includeEnumValues" Value="true" />
+      <Argument Key="baseSourceCodeUrl" Value="" />
+      <Argument Key="requestExampleUrl" Value="" />
+    </TransformComponentArguments>
+    <NamespaceSummaries>
+      <NamespaceSummaryItem name="PicoXLSX" isDocumented="True" xmlns="" />
+    </NamespaceSummaries>
+    <RootNamespaceTitle>PicoXLSX</RootNamespaceTitle>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->
@@ -70,7 +123,21 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>xcopy "$(OutputPath)Documentation.chm" "$(SolutionDir)Executable" /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(OutputPath)Documentation.chm" "$(SolutionDir)Executable" /Y
+xcopy "$(ProjectDir)icons\PicoXLSX.png" "$(OutputPath)icons" /Y /r /h /c
+xcopy "$(ProjectDir)icons\favicon.ico" "$(OutputPath)icons" /Y /r /h /c</PostBuildEvent>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="icons" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icons\PicoXLSX.png">
+      <ImageId>PicoXLSX</ImageId>
+      <AlternateText>PicoXLSX</AlternateText>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icons\favicon.ico" />
+  </ItemGroup>
 </Project>

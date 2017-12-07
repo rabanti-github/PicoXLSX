@@ -1,5 +1,13 @@
 # Change Log
 
+## v2.1.1
+---
+Release Date: **07.12.2017**
+
+- Documentation Update
+- Fixed version number of the assembly
+- Preparation for Nuget release
+
 ## v2.1.0
 ---
 Release Date: **03.12.2017**

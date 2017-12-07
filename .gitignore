@@ -200,3 +200,5 @@ bugs\.txt
 UnitTest/
 
 Executable/Executable\.zip
+
+*.nuspec
