@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle ("PicoXLSX")]
 [assembly: AssemblyDescription ("PicoXLSX is a library to generate XLSX files in an easy and native way")]
 [assembly: AssemblyConfiguration ("")]
-[assembly: AssemblyCompany ("")]
+[assembly: AssemblyCompany("Raphael Stoeckli")]
 [assembly: AssemblyProduct ("PicoXLSX")]
 [assembly: AssemblyCopyright("Copyright Raphael Stoeckli © 2017")]
 [assembly: AssemblyTrademark ("")]
