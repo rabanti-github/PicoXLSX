@@ -2,7 +2,7 @@
 ![PicoXLSX](https://rabanti-github.github.io/PicoXLSX/icons/PicoXLSX.png)
 
 
-PicoXLSX is a small .NET / C# library to create XLSX files (Microsoft Excel 2007 or newer) in an easy and native way
+PicoXLSX is a small .NET library written in C#, to create Microsoft Excel files in the XLSX format (Microsoft Excel 2007 or newer) in an easy and native way
 * **No dependencies** (\*
  * No need for an installation of Microsoft Office
  * No need for Office interop libraries
@@ -44,7 +44,17 @@ Simply place the PicoXLSX DLL into your .NET project and add a reference (in VS 
 Place all .CS files from the PicoXLSX source folder into your project. You can place them into a sub-folder if you wish. The files contains definitions for workbooks, worksheets, cells, styles, meta-data, low level methods and exceptions.
 
 # Usage
-## Quick Start
+## Quick Start (shortened syntax)
+```
+ Workbook workbook = new Workbook("myWorkbook.xlsx", "Sheet1");         // Create new workbook with a worksheet called Sheet1
+ workbook.WS.Value("Some Data");                                        // Add cell A1
+ workbook.WS.Formula("=A1");                                            // Add formula to cell B1
+ workbook.WS.Down();                                                    // Go to row 2
+ workbook.WS.Value(DateTime.Now, Style.BasicStyles.Bold);               // Add formated value to cell A2
+ workbook.Save();                                                       // Save the workbook as myWorkbook.xlsx
+```
+
+## Quick Start (regular syntax)
 ```
  Workbook workbook = new Workbook("myWorkbook.xlsx", "Sheet1");         // Create new workbook with a worksheet called Sheet1
  workbook.CurrentWorksheet.AddNextCell("Some Data");                    // Add cell A1
@@ -58,6 +68,6 @@ Place all .CS files from the PicoXLSX source folder into your project. You can p
 See the full **API-Documentation** at: [https://rabanti-github.github.io/PicoXLSX/](https://rabanti-github.github.io/PicoXLSX/).
 
 
-The [Demo project](https://github.com/rabanti-github/PicoXLSX/tree/master/Demo) contains ten simple use cases. You can find also the full documentation in the [Documentation-Folder](https://github.com/rabanti-github/PicoXLSX/tree/master/Documentation) or as C# documentation in the .CS files.
+The [Demo project](https://github.com/rabanti-github/PicoXLSX/tree/master/Demo) contains eleven simple use cases. You can find also the full documentation in the [Documentation-Folder](https://github.com/rabanti-github/PicoXLSX/tree/master/Documentation) or as C# documentation in the .CS files.
 
 See also: [Getting started in the Wiki](https://github.com/rabanti-github/PicoXLSX/wiki/Getting-started)

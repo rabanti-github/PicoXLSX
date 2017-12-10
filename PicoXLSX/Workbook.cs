@@ -35,9 +35,21 @@ namespace PicoXLSX
         private bool lockWindowsIfProtected;
         private bool lockStructureIfProtected;
         private int selectedWorksheet;
+        private Shortener shortener;
 #endregion
 
 #region properties
+
+
+        /// <summary>
+        /// Shortener object for the current worksheet
+        /// </summary>
+        public Shortener WS
+        {
+            get { return shortener; }
+        }
+        
+
         /// <summary>
         /// Gets the current worksheet
         /// </summary>
@@ -230,6 +242,7 @@ namespace PicoXLSX
             Worksheet newWs = new Worksheet(name, number, this);
             this.currentWorksheet = newWs;
             this.worksheets.Add(newWs);
+            this.shortener.SetCurrentWorksheet(this.currentWorksheet);
         }
 
         /// <summary>
@@ -287,6 +300,7 @@ namespace PicoXLSX
             borderStyle.CurrentFill = Style.BasicStyles.DottedFill_0_125.CurrentFill;
             this.styleManager.AddStyle(borderStyle);
             this.workbookMetadata = new Metadata();
+            this.shortener = new Shortener();
         }
 
 
@@ -590,5 +604,130 @@ namespace PicoXLSX
         }
 
 #endregion
+
+#region sub-classes
+
+/// <summary>
+/// Class to provide access to the current worksheet with a shortened syntax
+/// </summary>
+public class Shortener
+{
+    private Worksheet currentWorksheet;
+
+    /// <summary>
+    /// Default constructor
+    /// </summary>
+    public Shortener()
+    { }
+
+    /// <summary>
+    /// Sets the worksheet accessed by the shortener
+    /// </summary>
+    /// <param name="worksheet"></param>
+    public void SetCurrentWorksheet(Worksheet worksheet)
+    {
+        this.currentWorksheet = worksheet;
+    }
+
+    /// <summary>
+    /// Sets a value into the current cell and moves the cursor to the next cell (column or row depending on the defined cell direction)
+    /// </summary>
+    /// <exception cref="WorksheetException">Throws a WorksheetException if no worksheet was defined</exception>
+    /// <param name="value">Value to set</param>
+    public void Value(object value)
+    {
+        NullCheck();
+        this.currentWorksheet.AddNextCell(value);
+    }
+
+    /// <summary>
+    /// Sets a value with style into the current cell and moves the cursor to the next cell (column or row depending on the defined cell direction)
+    /// </summary>
+    /// <exception cref="WorksheetException">Throws a WorksheetException if no worksheet was defined</exception>
+    /// <param name="value">Value to set</param>
+    /// <param name="style">Style to apply</param>
+    public void Value(object value, Style style)
+    {
+        NullCheck();
+        this.currentWorksheet.AddNextCell(value, style);
+    }
+
+    /// <summary>
+    /// Sets a formula into the current cell and moves the cursor to the next cell (column or row depending on the defined cell direction)
+    /// </summary>
+    /// <exception cref="WorksheetException">Throws a WorksheetException if no worksheet was defined</exception>
+    /// <param name="formula">Formula to set</param>
+    public void Formula(string formula)
+    {
+        NullCheck();
+        this.currentWorksheet.AddNextCellFormula(formula);
+    }
+
+    /// <summary>
+    /// Sets a formula with style into the current cell and moves the cursor to the next cell (column or row depending on the defined cell direction)
+    /// </summary>
+    /// <exception cref="WorksheetException">Throws a WorksheetException if no worksheet was defined</exception>
+    /// <param name="formula">Formula to set</param>
+    /// <param name="style">Style to apply</param>
+    public void Formula(string formula, Style style)
+    {
+        NullCheck();
+        this.currentWorksheet.AddNextCellFormula(formula, style);
+    }
+
+    /// <summary>
+    /// Moves the cursor one row down
+    /// </summary>
+    public void Down()
+    {
+        NullCheck();
+        this.currentWorksheet.GoToNextRow();
+    }
+
+    /// <summary>
+    /// Moves the cursor the number of defined rows down
+    /// </summary>
+    /// <param name="numberOfRows">Number of rows to move</param>
+    public void Down(int numberOfRows)
+    {
+        NullCheck();
+        this.currentWorksheet.GoToNextRow(numberOfRows);
+    }
+
+    /// <summary>
+    /// Moves the cursor one column to the right
+    /// </summary>
+    public void Right()
+    {
+        NullCheck();
+        this.currentWorksheet.GoToNextColumn();
+    }
+
+    /// <summary>
+    /// Moves the cursor the number of defined columns to the right
+    /// </summary>
+    /// <param name="numberOfColumns">Number of columns to move</param>
+    public void Right(int numberOfColumns)
+    {
+        NullCheck();
+        this.currentWorksheet.GoToNextColumn(numberOfColumns);
+    }
+
+    /// <summary>
+    /// Internal method to check whether the worksheet is null
+    /// </summary>
+    private void NullCheck()
+    {
+        if (this.currentWorksheet == null)
+        {
+            throw new WorksheetException("UndefinedWorksheetException", "No worksheet was defined");
+        }
+    }
+
+
+}
+
+#endregion
+
     }
 }

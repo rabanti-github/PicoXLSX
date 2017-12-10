@@ -1,12 +1,20 @@
 # Change Log
 
+## v2.2.0
+---
+Release Date: **10.12.2017**
+
+- Added Shortener class (WS) in workbook for quicker writing of data / formulas
+- Updated descriptions
+- Added full NuGet support
+
 ## v2.1.1
 ---
 Release Date: **07.12.2017**
 
 - Documentation Update
 - Fixed version number of the assembly
-- Preparation for Nuget release
+- Preparation for NuGet release
 
 ## v2.1.0
 ---

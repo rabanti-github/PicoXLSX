@@ -22,6 +22,7 @@ namespace Demo
         static void Main(string[] args)
         {
             BasicDemo();
+            ShortenerDemo();
             StreamDemo();
             Demo1();
             Demo2();
@@ -50,6 +51,25 @@ namespace Demo
             workbook.CurrentWorksheet.AddNextCell("Test2");             // Add cell B1
             workbook.CurrentWorksheet.AddNextCell("Test3");             // Add cell C1
             workbook.Save();
+        }
+
+        /// <summary>
+        /// This method show the shortened style of writing cells
+        /// </summary>
+        private static void ShortenerDemo()
+        {
+            Workbook wb = new Workbook("shortenerDemo.xlsx", "Sheet1"); // Create a workbook (important: A worksheet must be created as well) 
+            wb.WS.Value("Some Text");                                   // Add cell A1
+            wb.WS.Value(58.55, Style.BasicStyles.DoubleUnderline);      // Add a formated value to cell B1
+            wb.WS.Right(2);                                             // Move to cell E1   
+            wb.WS.Value(true);                                          // Add cell E1
+            wb.AddWorksheet("Sheet2");                                  // Add a new worksheet
+            wb.CurrentWorksheet.CurrentCellDirection = Worksheet.CellDirection.RowToRow;    // Change the cell direction
+            wb.WS.Value("This is another text");                        // Add cell A1
+            wb.WS.Formula("=A1");                                       // Add a formula in Cell A2
+            wb.WS.Down();                                               // Go to cell A4
+            wb.WS.Value("Formated Text", Style.BasicStyles.Bold);       // Add a formated value to cell A4
+            wb.Save();                                                  // Save the workbook
         }
 
         /// <summary>
