@@ -14,6 +14,8 @@ See the **[Change Log](https://github.com/rabanti-github/PicoXLSX/blob/master/Ch
 # What's new in version 2.x
 * Complete replacement of the old style handling
 * Added more options to assign styles to cells
+* Added Shortner (property WS) to reduce the code overhead
+* Added Save option to save the XLSX file as stream
 * Added an option for sanitizing of worksheet names
 * Replaced specific exception classes with general exceptions (e.g. StyleException, FormatException or WorksheetException)
 * Added functions to retrieve stored data and the current cell address
