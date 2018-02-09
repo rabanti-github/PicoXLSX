@@ -1,5 +1,17 @@
 # Change Log
 
+## v2.3.0
+---
+Release Date: **09.02.2018**
+
+- Added most important formulas as static method calls in the sub-class Cell.BasicFormulas (round, floor, ceil, min, max, average, median, sum, vlookup)
+- Removed overloaded methods to add cells as type Cell. This can be done now with the overloading of the type object (no code changes necessary)
+- Added new constructors for Address and Range
+- Added demo for the new static formula methods
+- Fixed a bug that kept the stream of the saved file open as long as the program was running 
+- Minor bug fixes
+- Documentation update
+
 ## v2.2.0
 ---
 Release Date: **10.12.2017**

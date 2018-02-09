@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2017
+ * Copyright Raphael Stoeckli © 2018
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -455,7 +455,7 @@ namespace PicoXLSX
                             cell.RowAddress = address.Row;
                             cell.ColumnAddress = address.Column;
                             cell.WorksheetReference = sheet;
-                            sheet.AddCell(cell);
+                            sheet.AddCell(cell, cell.ColumnAddress, cell.RowAddress);
                         }
                         else
                         {
@@ -539,6 +539,7 @@ namespace PicoXLSX
             {
                 throw new WorksheetException("MissingReferenceException", "The worksheet with the name '" + name + "' does not exist.");
             }
+            this.shortener.SetCurrentWorksheet(this.currentWorksheet);
             return this.currentWorksheet;
         }
 
@@ -623,7 +624,7 @@ public class Shortener
     /// <summary>
     /// Sets the worksheet accessed by the shortener
     /// </summary>
-    /// <param name="worksheet"></param>
+    /// <param name="worksheet">Current worksheet</param>
     public void SetCurrentWorksheet(Worksheet worksheet)
     {
         this.currentWorksheet = worksheet;

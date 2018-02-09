@@ -15,6 +15,7 @@ See the **[Change Log](https://github.com/rabanti-github/PicoXLSX/blob/master/Ch
 * Complete replacement of the old style handling
 * Added more options to assign styles to cells
 * Added Shortner (property WS) to reduce the code overhead
+* Added static methods for the most important formulas (round, floor, ceil, min, max, average, median, sum, vlookup)
 * Added Save option to save the XLSX file as stream
 * Added an option for sanitizing of worksheet names
 * Replaced specific exception classes with general exceptions (e.g. StyleException, FormatException or WorksheetException)
@@ -70,6 +71,6 @@ Place all .CS files from the PicoXLSX source folder into your project. You can p
 See the full **API-Documentation** at: [https://rabanti-github.github.io/PicoXLSX/](https://rabanti-github.github.io/PicoXLSX/).
 
 
-The [Demo project](https://github.com/rabanti-github/PicoXLSX/tree/master/Demo) contains eleven simple use cases. You can find also the full documentation in the [Documentation-Folder](https://github.com/rabanti-github/PicoXLSX/tree/master/Documentation) or as C# documentation in the .CS files.
+The [Demo project](https://github.com/rabanti-github/PicoXLSX/tree/master/Demo) contains twelve simple use cases. You can find also the full documentation in the [Documentation-Folder](https://github.com/rabanti-github/PicoXLSX/tree/master/Documentation) or as C# documentation in the .CS files.
 
 See also: [Getting started in the Wiki](https://github.com/rabanti-github/PicoXLSX/wiki/Getting-started)

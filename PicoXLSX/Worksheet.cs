@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2017
+ * Copyright Raphael Stoeckli © 2018
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -307,37 +307,35 @@ namespace PicoXLSX
             this.WorkbookReference = reference;
         }
 
-#endregion
+        #endregion
 
 
 
-#region methods_AddNextCell
+        #region methods_AddNextCell
 
         /// <summary>
-        /// Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String
+        /// Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         /// </summary>
-        /// <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <param name="value">Unspecified value to insert</param>
         /// <exception cref="RangeException">Throws a RangeException if the next cell is out of range (on row or column)</exception>
         public void AddNextCell(object value)
         {
-            Cell c = new Cell(value, Cell.CellType.DEFAULT, this.currentColumnNumber, this.currentRowNumber, this);
-            AddNextCell(c, true, null);
+            AddNextCell(CastValue(value, this.currentColumnNumber, this.currentRowNumber), true, null);
         }
 
-        
+
         /// <summary>
-        /// Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String
+        /// Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         /// </summary>
-        /// <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <param name="value">Unspecified value to insert</param>
         /// <param name="style">Style object to apply on this cell</param>
         /// <exception cref="RangeException">Throws a RangeException if the next cell is out of range (on row or column)</exception>
         /// <exception cref="StyleException">Throws a StyleException if the default style was malformed</exception>
         public void AddNextCell(object value, Style style)
         {
-            Cell c = new Cell(value, Cell.CellType.DEFAULT, this.currentColumnNumber, this.currentRowNumber, this);
-            AddNextCell(c, true, style);
+            AddNextCell(CastValue(value, this.currentColumnNumber, this.currentRowNumber), true, style);
         }
 
 
@@ -365,7 +363,14 @@ namespace PicoXLSX
                 cell.SetStyle(Style.BasicStyles.DateFormat);
             }
             string address = cell.CellAddress;
-            this.cells.Add(address, cell);
+            if (this.cells.ContainsKey(address))
+            {
+                this.cells[address] = cell;
+            }
+            else
+            {
+                this.cells.Add(address, cell);
+            }
             if (incremental == true)
             {
                 if (this.CurrentCellDirection == CellDirection.ColumnToColumn)
@@ -390,51 +395,72 @@ namespace PicoXLSX
                     this.currentRowNumber = cell.RowAddress + 1;
                 }
             }
-        }        
-
-
-#endregion
-
-#region methods_AddCell
+        }
 
         /// <summary>
-        /// Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
+        /// Method to cast a value or align an object of the type Cell to the context of the worksheet
+        /// </summary>
+        /// <param name="value">Unspecified value or object of the type Cell</param>
+        /// <param name="column">Column index</param>
+        /// <param name="row">Row index</param>
+        /// <returns>Cell object</returns>
+        private Cell CastValue(object value, int column, int row)
+        {
+            Cell c;
+            if (value.GetType() == typeof(Cell))
+            {
+                c = (Cell)value;
+                c.WorksheetReference = this;
+                c.CellAddress2 = new Cell.Address(column, row);
+            }
+            else
+            {
+                c = new Cell(value, Cell.CellType.DEFAULT, column, row, this);
+            }
+            return c;
+        }
+
+
+        #endregion
+
+        #region methods_AddCell
+
+        /// <summary>
+        /// Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         /// </summary>
         /// <param name="value">Unspecified value to insert</param>
         /// <param name="columnAddress">Column number (zero based)</param>
         /// <param name="rowAddress">Row number (zero based)</param>
-        /// <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         /// <exception cref="RangeException">Throws an RangeException if the passed cell address is out of range</exception>
         public void AddCell(object value, int columnAddress, int rowAddress)
         {
-            Cell c = new Cell(value, Cell.CellType.DEFAULT, columnAddress, rowAddress, this);
-            AddNextCell(c, false, null);
+            AddNextCell(CastValue(value, columnAddress, rowAddress), false, null);
         }
 
         /// <summary>
-        /// Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
+        /// Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         /// </summary>
         /// <param name="value">Unspecified value to insert</param>
         /// <param name="columnAddress">Column number (zero based)</param>
         /// <param name="rowAddress">Row number (zero based)</param>
         /// <param name="style">Style to apply on the cell</param>
-        /// <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
         /// <exception cref="RangeException">Throws an RangeException if the passed cell address is out of range</exception>
         public void AddCell(object value, int columnAddress, int rowAddress, Style style)
         {
-            Cell c = new Cell(value, Cell.CellType.DEFAULT, columnAddress, rowAddress, this);
-            AddNextCell(c, false, style);
+            AddNextCell(CastValue(value, columnAddress, rowAddress), false, style);
         }
 
 
         /// <summary>
-        /// Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
+        /// Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         /// </summary>
         /// <param name="value">Unspecified value to insert</param>
         /// <param name="address">Cell address in the format A1 - XFD1048576</param>
-        /// <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         /// <exception cref="RangeException">Throws an RangeException if the passed cell address is out of range</exception>
         /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
@@ -446,12 +472,12 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
+        /// Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         /// </summary>
         /// <param name="value">Unspecified value to insert</param>
         /// <param name="address">Cell address in the format A1 - XFD1048576</param>
         /// <param name="style">Style to apply on the cell</param>
-        /// <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
         /// <exception cref="RangeException">Throws an RangeException if the passed cell address is out of range</exception>
         /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
@@ -460,29 +486,6 @@ namespace PicoXLSX
             int column, row;
             Cell.ResolveCellCoordinate(address, out column, out row);
             AddCell(value, column, row, style);
-        }
-
-        /// <summary>
-        /// Adds a cell object. This object must contain a valid row and column address
-        /// </summary>
-        /// <param name="cell">Cell object to insert</param>
-        /// <exception cref="StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="RangeException">Throws an RangeException if the passed cell address is out of range</exception>
-        public void AddCell(Cell cell)
-        {
-            AddNextCell(cell, false, null);
-        }
-
-        /// <summary>
-        /// Adds a cell object. This object must contain a valid row and column address
-        /// </summary>
-        /// <param name="cell">Cell object to insert</param>
-        /// <param name="style">Style to apply on the cell</param>
-        /// <exception cref="StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
-        /// <exception cref="RangeException">Throws an RangeException if the passed cell address is out of range</exception>
-        public void AddCell(Cell cell, Style style)
-        {
-            AddNextCell(cell, false, style);
         }
 
 #endregion
@@ -576,12 +579,12 @@ namespace PicoXLSX
             AddNextCell(c, true, null);
         }
 
-#endregion
+        #endregion
 
-#region methods_AddCellRange
+        #region methods_AddCellRange
 
         /// <summary>
-        /// Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
+        /// Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. Prepared objects of the type Cell will not be casted but adjusted
         /// </summary>
         /// <param name="values">List of unspecified objects to insert</param>
         /// <param name="startAddress">Start address</param>
@@ -595,13 +598,13 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
+        /// Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. Prepared objects of the type Cell will not be casted but adjusted
         /// </summary>
         /// <param name="values">List of unspecified objects to insert</param>
         /// <param name="startAddress">Start address</param>
         /// <param name="endAddress">End address</param>
         /// <param name="style">Style to apply on the all cells of the range</param>
-        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="RangeException">Throws an RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
         public void AddCellRange(List<object> values, Cell.Address startAddress, Cell.Address endAddress, Style style)
@@ -610,11 +613,11 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
+        /// Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. Prepared objects of the type Cell will not be casted but adjusted
         /// </summary>
         /// <param name="values">List of unspecified objects to insert</param>
         /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
-        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="RangeException">Throws an RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
         /// <exception cref="FormatException">Throws a FormatException if the passed cell range is malformed</exception>
@@ -625,12 +628,12 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
+        /// Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. Prepared objects of the type Cell will not be casted but adjusted
         /// </summary>
         /// <param name="values">List of unspecified objects to insert</param>
         /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
         /// <param name="style">Style to apply on the all cells of the range</param>
-        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="RangeException">Throws an RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
         /// <exception cref="FormatException">Throws a FormatException if the passed cell range is malformed</exception>
@@ -639,7 +642,7 @@ namespace PicoXLSX
             Cell.Range range = Cell.ResolveCellRange(cellRange);
             AddCellRangeInternal(values, range.StartAddress, range.EndAddress, style);
         }
-        
+
         /// <summary>
         /// Internal function to add a generic list of value to the defined cell range
         /// </summary>
@@ -648,7 +651,7 @@ namespace PicoXLSX
         /// <param name="startAddress">Start address</param>
         /// <param name="endAddress">End address</param>
         /// <param name="style">Style to apply on the all cells of the range</param>
-        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="RangeException">Throws an RangeException if the number of cells differs from the number of passed values</exception>
         /// <exception cref="StyleException">Throws an StyleException if the active style cannot be referenced while creating the cells</exception>
         private void AddCellRangeInternal<T>(List<T> values, Cell.Address startAddress, Cell.Address endAddress, Style style)
