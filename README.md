@@ -51,7 +51,7 @@ Place all .CS files from the PicoXLSX source folder into your project. You can p
 
 # Usage
 ## Quick Start (shortened syntax)
-```
+```c#
  Workbook workbook = new Workbook("myWorkbook.xlsx", "Sheet1");         // Create new workbook with a worksheet called Sheet1
  workbook.WS.Value("Some Data");                                        // Add cell A1
  workbook.WS.Formula("=A1");                                            // Add formula to cell B1
@@ -61,7 +61,7 @@ Place all .CS files from the PicoXLSX source folder into your project. You can p
 ```
 
 ## Quick Start (regular syntax)
-```
+```c#
  Workbook workbook = new Workbook("myWorkbook.xlsx", "Sheet1");         // Create new workbook with a worksheet called Sheet1
  workbook.CurrentWorksheet.AddNextCell("Some Data");                    // Add cell A1
  workbook.CurrentWorksheet.AddNextCell(42);                             // Add cell B1
