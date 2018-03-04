@@ -55,18 +55,18 @@ namespace PicoXLSX
         /// </summary>
         public string CellAddress
         {
-            get { return Cell.ResolveCellAddress(this.ColumnAddress, this.RowAddress); }
-            set { Cell.ResolveCellCoordinate(value, out this.columnAddress, out this.rowAddress); }
+            get { return ResolveCellAddress(ColumnAddress, RowAddress); }
+            set { ResolveCellCoordinate(value, out columnAddress, out rowAddress); }
         }
 
         /// <summary>Gets or sets the combined cell Address as Address object</summary>
         public Address CellAddress2
         {
-            get { return new Address(this.ColumnAddress, this.RowAddress); }
+            get { return new Address(ColumnAddress, RowAddress); }
             set
             {
-                this.ColumnAddress = value.Column;
-                this.RowAddress = value.Row;
+                ColumnAddress = value.Column;
+                RowAddress = value.Row;
             }
         }
 
@@ -126,7 +126,7 @@ namespace PicoXLSX
         /// <summary>Default constructor</summary>
         public Cell()
         {
-            this.WorksheetReference = null;
+            WorksheetReference = null;
         }
 
         /// <summary>
@@ -136,8 +136,8 @@ namespace PicoXLSX
         /// <param name="type">Type of the cell</param>
         public Cell(object value, CellType type)
         {
-            this.Value = value;
-            this.DataType = type;
+            Value = value;
+            DataType = type;
             ResolveCellType();
         }
 
@@ -151,9 +151,9 @@ namespace PicoXLSX
         /// <param name="reference">Referenced worksheet which contains the cell</param>
         public Cell(object value, CellType type, int column, int row, Worksheet reference) : this(value, type)
         {
-            this.ColumnAddress = column;
-            this.RowAddress = row;
-            this.WorksheetReference = reference;
+            ColumnAddress = column;
+            RowAddress = row;
+            WorksheetReference = reference;
             if (type == CellType.DEFAULT)
             {
             	ResolveCellType();
@@ -169,13 +169,13 @@ namespace PicoXLSX
         /// <returns>0 if values are the same, -1 if this object is smaller, 1 if it is bigger</returns>
         public int CompareTo(Cell other)
         {
-            if (this.RowAddress == other.RowAddress)
+            if (RowAddress == other.RowAddress)
             {
-                return this.ColumnAddress.CompareTo(other.ColumnAddress);
+                return ColumnAddress.CompareTo(other.ColumnAddress);
             }
             else
             {
-                return this.RowAddress.CompareTo(other.RowAddress);
+                return RowAddress.CompareTo(other.RowAddress);
             }
         }
 
@@ -185,19 +185,19 @@ namespace PicoXLSX
         /// <exception cref="StyleException">Throws an StyleException if the style cannot be referenced</exception>
         public void RemoveStyle()
         {
-            if (this.WorksheetReference == null)
+            if (WorksheetReference == null)
             {
                 throw new StyleException("UndefinedStyleException", "No worksheet reference was defined while trying to remove a style from a cell");
             }
-            if (this.WorksheetReference.WorkbookReference == null)
+            if (WorksheetReference.WorkbookReference == null)
             {
                 throw new StyleException("UndefinedStyleException", "No workbook reference was defined on the worksheet while trying to remove a style from a cell");
             }
-            if (this.cellStyle != null)
+            if (cellStyle != null)
             {
-                string styleName = this.cellStyle.Name;
-                this.cellStyle = null;
-                this.WorksheetReference.WorkbookReference.RemoveStyle(styleName, true);
+                string styleName = cellStyle.Name;
+                cellStyle = null;
+                WorksheetReference.WorkbookReference.RemoveStyle(styleName, true);
             }
         }
 
@@ -206,21 +206,21 @@ namespace PicoXLSX
         /// </summary>
         public void ResolveCellType()
         {
-            if (this.Value == null)
+            if (Value == null)
             {
-                this.DataType = CellType.EMPTY;
-                this.Value = "";
+                DataType = CellType.EMPTY;
+                Value = "";
                 return;
             }
-            if (this.DataType == CellType.FORMULA || this.DataType == CellType.EMPTY) { return; }
-            Type t = this.Value.GetType();
-            if (t == typeof(int)) { this.DataType = CellType.NUMBER; }
-            else if (t == typeof(float)) { this.DataType = CellType.NUMBER; }
-            else if (t == typeof(double)) { this.DataType = CellType.NUMBER; }
-            else if (t == typeof(long)) { this.DataType = CellType.NUMBER; }
-            else if (t == typeof(bool)) { this.DataType = CellType.BOOL; }
-            else if (t == typeof(DateTime)) { this.DataType = CellType.DATE; }
-            else { this.DataType = CellType.STRING; } // Default
+            if (DataType == CellType.FORMULA || DataType == CellType.EMPTY) { return; }
+            Type t = Value.GetType();
+            if (t == typeof(int)) { DataType = CellType.NUMBER; }
+            else if (t == typeof(float)) { DataType = CellType.NUMBER; }
+            else if (t == typeof(double)) { DataType = CellType.NUMBER; }
+            else if (t == typeof(long)) { DataType = CellType.NUMBER; }
+            else if (t == typeof(bool)) { DataType = CellType.BOOL; }
+            else if (t == typeof(DateTime)) { DataType = CellType.DATE; }
+            else { DataType = CellType.STRING; } // Default
         }
 
         /// <summary>
@@ -233,17 +233,17 @@ namespace PicoXLSX
         public void SetCellLockedState(bool isLocked, bool isHidden)
         {
             Style lockStyle;
-            if (this.cellStyle == null)
+            if (cellStyle == null)
             {
                 lockStyle = new Style();
             }
             else
             {
-                lockStyle = this.cellStyle.CopyStyle();
+                lockStyle = cellStyle.CopyStyle();
             }
             lockStyle.CurrentCellXf.Locked = isLocked;
             lockStyle.CurrentCellXf.Hidden = isHidden;
-            this.SetStyle(lockStyle);
+            SetStyle(lockStyle);
         }
 
         /// <summary>
@@ -254,11 +254,11 @@ namespace PicoXLSX
         /// <exception cref="StyleException">Throws an StyleException if the style cannot be referenced or no style was defined</exception>
         public Style SetStyle(Style style)
         {
-            if (this.WorksheetReference == null)
+            if (WorksheetReference == null)
             {
                 throw new StyleException("UndefinedStyleException", "No worksheet reference was defined while trying to set a style to a cell");
             }
-            if (this.WorksheetReference.WorkbookReference == null)
+            if (WorksheetReference.WorkbookReference == null)
             {
                 throw new StyleException("UndefinedStyleException", "No workbook reference was defined on the worksheet while trying to set a style to a cell");
             }
@@ -266,8 +266,8 @@ namespace PicoXLSX
             {
                 throw new StyleException("UndefinedStyleException", "No style to assign was defined");
             }
-            Style s = this.WorksheetReference.WorkbookReference.AddStyle(style);
-            this.cellStyle = s;
+            Style s = WorksheetReference.WorkbookReference.AddStyle(style);
+            cellStyle = s;
             return s;
         }
 #endregion
@@ -287,7 +287,7 @@ namespace PicoXLSX
             Type t;
             foreach (T item in list)
             {
-                o = (object)item;
+                o = item; // intermediate object is necessary to cast the types below
                 t = item.GetType();
 
                 if (t == typeof(int))
@@ -506,15 +506,15 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws an RangeException if the passed address was out of range</exception>
         public static int ResolveColumn(string columnAddress)
         {
-            int temp;
+            int chr;
             int result = 0;
-            int multiplicator = 1;
+            int multiplier = 1;
             for (int i = columnAddress.Length - 1; i >= 0; i--)
             {
-                temp = (int)columnAddress[i];
-                temp = temp - 64;
-                result = result + (temp * multiplicator);
-                multiplicator = multiplicator * 26;
+                chr = columnAddress[i];
+                chr = chr - 64;
+                result = result + (chr * multiplier);
+                multiplier = multiplier * 26;
             }
             if (result - 1 > Worksheet.MAX_COLUMN_ADDRESS || result - 1 < Worksheet.MIN_COLUMN_ADDRESS)
             {
@@ -622,7 +622,7 @@ namespace PicoXLSX
             /// <returns>True if equal</returns>
             public bool Equals(Address o)
             {
-                if (this.Row == o.Row && this.Column == o.Column) { return true; }
+                if (Row == o.Row && Column == o.Column) { return true; }
                 else { return false; }
             }
 
@@ -909,7 +909,7 @@ namespace PicoXLSX
                     }
                     else
                     {
-                        throw new FormatException("InvalidLookupType", "The lookup variable can only be a cell address or a numeric value. The value '" + number.ToString() + "' is invalid.");
+                        throw new FormatException("InvalidLookupType", "The lookup variable can only be a cell address or a numeric value. The value '" + number + "' is invalid.");
                     }
                 }
                 else

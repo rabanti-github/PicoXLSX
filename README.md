@@ -17,7 +17,7 @@ See the **[Change Log](https://github.com/rabanti-github/PicoXLSX/blob/master/Ch
 # What's new in version 2.x
 * Complete replacement of the old style handling
 * Added more options to assign styles to cells
-* Added Shortner (property WS) to reduce the code overhead
+* Added Shortener (property WS) to reduce the code overhead
 * Added static methods for the most important formulas (round, floor, ceil, min, max, average, median, sum, vlookup)
 * Added Save option to save the XLSX file as stream
 * Added an option for sanitizing of worksheet names
@@ -56,7 +56,7 @@ Place all .CS files from the PicoXLSX source folder into your project. You can p
  workbook.WS.Value("Some Data");                                        // Add cell A1
  workbook.WS.Formula("=A1");                                            // Add formula to cell B1
  workbook.WS.Down();                                                    // Go to row 2
- workbook.WS.Value(DateTime.Now, Style.BasicStyles.Bold);               // Add formated value to cell A2
+ workbook.WS.Value(DateTime.Now, Style.BasicStyles.Bold);               // Add formatted value to cell A2
  workbook.Save();                                                       // Save the workbook as myWorkbook.xlsx
 ```
 

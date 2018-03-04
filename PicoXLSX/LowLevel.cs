@@ -6,7 +6,6 @@
  */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -386,7 +385,7 @@ namespace PicoXLSX
 
                     p.Flush();
                     p.Close();
-                    stream.Flush();
+                    //stream.Flush();
                     stream.Close();
                 }
             }
@@ -428,7 +427,7 @@ namespace PicoXLSX
                 sb.Append(':');
             }
             sb.Append(tagName);
-            sb.Append(">");
+            sb.Append('>');
             return true;
         }
 
@@ -473,7 +472,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the XML string for the app-properties document
         /// </summary>
-        /// <returns>String with formated XML data</returns>
+        /// <returns>String with formatted XML data</returns>
         private string CreateAppString()
         {
             if (this.workbook.WorkbookMetadata == null) { return string.Empty; }
@@ -497,7 +496,7 @@ namespace PicoXLSX
         /// Method to create the columns as XML string. This is used to define the width of columns
         /// </summary>
         /// <param name="worksheet">Worksheet to process</param>
-        /// <returns>String with formated XML data</returns>
+        /// <returns>String with formatted XML data</returns>
         private string CreateColsString(Worksheet worksheet)
         {
             if (worksheet.Columns.Count > 0)
@@ -537,7 +536,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the XML string for the core-properties document
         /// </summary>
-        /// <returns>String with formated XML data</returns>
+        /// <returns>String with formatted XML data</returns>
         private string CreateCorePropertiesString()
         {
             if (this.workbook.WorkbookMetadata == null) { return string.Empty; }
@@ -563,7 +562,7 @@ namespace PicoXLSX
         /// Method to create the merged cells string of the passed worksheet
         /// </summary>
         /// <param name="sheet">Worksheet to process</param>
-        /// <returns>Formated string with merged cell ranges</returns>
+        /// <returns>Formatted string with merged cell ranges</returns>
         private string CreateMergedCellsString(Worksheet sheet)
         {
             if (sheet.MergedCells.Count < 1)
@@ -585,7 +584,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="columnFields">List of cells</param>
         /// <param name="worksheet">Worksheet to process</param>
-        /// <returns>Formated row string</returns>
+        /// <returns>Formatted row string</returns>
         /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
         private string CreateRowString(List<Cell> columnFields, Worksheet worksheet)
         {
@@ -733,7 +732,7 @@ namespace PicoXLSX
         /// Method to create the protection string of the passed worksheet
         /// </summary>
         /// <param name="sheet">Worksheet to process</param>
-        /// <returns>Formated string with protection statement of the worksheet</returns>
+        /// <returns>Formatted string with protection statement of the worksheet</returns>
         private string CreateSheetProtectionString(Worksheet sheet)
         {
             if (sheet.UseSheetProtection == false)
@@ -803,7 +802,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the XML string for the border part of the style sheet document
         /// </summary>
-        /// <returns>String with formated XML data</returns>
+        /// <returns>String with formatted XML data</returns>
         private string CreateStyleBorderString()
         {
             Style.Border[] borderStyles = this.workbook.Styles.GetBorders();
@@ -879,7 +878,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the XML string for the font part of the style sheet document
         /// </summary>
-        /// <returns>String with formated XML data</returns>
+        /// <returns>String with formatted XML data</returns>
         private string CreateStyleFontString()
         {
             Style.Font[] fontStyles = this.workbook.Styles.GetFonts();
@@ -924,7 +923,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the XML string for the fill part of the style sheet document
         /// </summary>
-        /// <returns>String with formated XML data</returns>
+        /// <returns>String with formatted XML data</returns>
         private string CreateStyleFillString()
         {
             Style.Fill[] fillStyles = this.workbook.Styles.GetFills();
@@ -962,7 +961,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the XML string for the number format part of the style sheet document 
         /// </summary>
-        /// <returns>String with formated XML data</returns>
+        /// <returns>String with formatted XML data</returns>
         private string CreateStyleNumberFormatString()
         {
             Style.NumberFormat[] numberFormatStyles = this.workbook.Styles.GetNumberFormats();
@@ -980,7 +979,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the XML string for the Xf part of the style sheet document
         /// </summary>
-        /// <returns>String with formated XML data</returns>
+        /// <returns>String with formatted XML data</returns>
         private string CreateStyleXfsString()
         {
             Style[] styles = this.workbook.Styles.GetStyles();
@@ -1112,7 +1111,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the XML string for the color-MRU part of the style sheet document (recent colors)
         /// </summary>
-        /// <returns>String with formated XML data</returns>
+        /// <returns>String with formatted XML data</returns>
         private string CreateMruColorsString()
         {
             Style.Font[] fonts = this.workbook.Styles.GetFonts();

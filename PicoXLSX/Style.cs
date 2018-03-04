@@ -6,10 +6,7 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PicoXLSX
 {
@@ -29,7 +26,7 @@ namespace PicoXLSX
         /// <summary>
         /// Current Border object of the style
         /// </summary>
-        public Style.Border CurrentBorder { get; set; }
+        public Border CurrentBorder { get; set; }
         /// <summary>
         /// Current CellXf object of the style
         /// </summary>
@@ -55,7 +52,7 @@ namespace PicoXLSX
             set 
             { 
                 name = value;
-                this.styleNameDefined = true;
+                styleNameDefined = true;
             }
         }
 
@@ -66,7 +63,7 @@ namespace PicoXLSX
         {
             set
             {
-                this.styleManagerReference = value;
+                styleManagerReference = value;
                 ReorganizeStyle();
             }
         }
@@ -87,13 +84,13 @@ namespace PicoXLSX
         /// </summary>
         public Style()
         {
-            this.CurrentBorder = new Border();
-            this.CurrentCellXf = new CellXf();
-            this.CurrentFill = new Fill();
-            this.CurrentFont = new Font();
-            this.CurrentNumberFormat = new NumberFormat();
-            this.styleNameDefined = false;
-            this.name = this.CalculateHash();
+            CurrentBorder = new Border();
+            CurrentCellXf = new CellXf();
+            CurrentFill = new Fill();
+            CurrentFont = new Font();
+            CurrentNumberFormat = new NumberFormat();
+            styleNameDefined = false;
+            name = CalculateHash();
         }
 
         /// <summary>
@@ -102,12 +99,12 @@ namespace PicoXLSX
         /// <param name="name">Name of the style</param>
         public Style(string name)
         {
-            this.CurrentBorder = new Border();
-            this.CurrentCellXf = new CellXf();
-            this.CurrentFill = new Fill();
-            this.CurrentFont = new Font();
-            this.CurrentNumberFormat = new NumberFormat();
-            this.styleNameDefined = false;
+            CurrentBorder = new Border();
+            CurrentCellXf = new CellXf();
+            CurrentFill = new Fill();
+            CurrentFont = new Font();
+            CurrentNumberFormat = new NumberFormat();
+            styleNameDefined = false;
             this.name = name;
         }
 
@@ -119,15 +116,15 @@ namespace PicoXLSX
         /// <param name="internalStyle">If true, the style is marked as internal</param>
         public Style(string name, int forcedOrder, bool internalStyle)
         {
-            this.CurrentBorder = new Border();
-            this.CurrentCellXf = new CellXf();
-            this.CurrentFill = new Fill();
-            this.CurrentFont = new Font();
-            this.CurrentNumberFormat = new NumberFormat();
+            CurrentBorder = new Border();
+            CurrentCellXf = new CellXf();
+            CurrentFill = new Fill();
+            CurrentFont = new Font();
+            CurrentNumberFormat = new NumberFormat();
             this.name = name;
-            this.InternalID = forcedOrder;
+            InternalID = forcedOrder;
             this.internalStyle = internalStyle;
-            this.styleNameDefined = true;
+            styleNameDefined = true;
         }
         #endregion
 
@@ -137,19 +134,18 @@ namespace PicoXLSX
         /// </summary>
         private void ReorganizeStyle()
         {
-            if (this.styleManagerReference == null) { return; }
-            else
+            if (styleManagerReference == null) { return; }
+
+            Style newStyle = styleManagerReference.AddStyle(this);
+            CurrentBorder = newStyle.CurrentBorder;
+            CurrentCellXf = newStyle.CurrentCellXf;
+            CurrentFill = newStyle.CurrentFill;
+            CurrentFont = newStyle.CurrentFont;
+            CurrentNumberFormat = newStyle.CurrentNumberFormat;
+            
+            if (styleNameDefined == false)
             {
-                Style newStyle = this.styleManagerReference.AddStyle(this);
-                this.CurrentBorder = newStyle.CurrentBorder;
-                this.CurrentCellXf = newStyle.CurrentCellXf;
-                this.CurrentFill = newStyle.CurrentFill;
-                this.CurrentFont = newStyle.CurrentFont;
-                this.CurrentNumberFormat = newStyle.CurrentNumberFormat;
-            }
-            if (this.styleNameDefined == false)
-            {
-                this.name = this.CalculateHash();
+                name = CalculateHash();
             }
         }
 
@@ -159,14 +155,14 @@ namespace PicoXLSX
         /// <returns>String of a class instance</returns>
         public override string ToString()
         {
-            return this.InternalID.ToString() + "->" + this.Hash;
+            return InternalID.ToString() + "->" + Hash;
         }
 
         /// <summary>
         /// Override method to calculate the hash of this component
         /// </summary>
         /// <returns>Calculated hash as string</returns>
-        public override string CalculateHash()
+        public sealed override string CalculateHash()
         {
             StringBuilder sb = new StringBuilder();
             if (CurrentBorder == null || CurrentCellXf == null || CurrentFill == null || CurrentFont == null || CurrentNumberFormat == null)
@@ -174,9 +170,9 @@ namespace PicoXLSX
                 throw new StyleException("MissingReferenceException", "The hash of the style could not be created because one or more components are missing as references");
             }
             sb.Append(StyleManager.STYLEPREFIX);
-            if (this.InternalID.HasValue == true)
+            if (InternalID.HasValue == true)
             {
-                sb.Append(this.InternalID.Value);
+                sb.Append(InternalID.Value);
                 sb.Append(':');
             }
             sb.Append(CurrentBorder.CalculateHash());
@@ -198,11 +194,11 @@ namespace PicoXLSX
                 throw new StyleException("MissingReferenceException", "The style could not be copied because one or more components are missing as references");
             }
             Style copy = new Style();
-            copy.CurrentBorder = this.CurrentBorder.CopyBorder();
-            copy.CurrentCellXf = this.CurrentCellXf.CopyCellXf();
-            copy.CurrentFill = this.CurrentFill.CopyFill();
-            copy.CurrentFont = this.CurrentFont.CopyFont();
-            copy.CurrentNumberFormat = this.CurrentNumberFormat.CopyNumberFormat(); 
+            copy.CurrentBorder = CurrentBorder.CopyBorder();
+            copy.CurrentCellXf = CurrentCellXf.CopyCellXf();
+            copy.CurrentFill = CurrentFill.CopyFill();
+            copy.CurrentFont = CurrentFont.CopyFont();
+            copy.CurrentNumberFormat = CurrentNumberFormat.CopyNumberFormat(); 
             return copy;
         }
 
@@ -212,7 +208,7 @@ namespace PicoXLSX
         /// <returns>Copy of the current object without the internal ID</returns>
         public Style CopyStyle()
         {
-            return (Style)this.Copy();
+            return (Style)Copy();
         }
 
         #endregion
@@ -263,7 +259,7 @@ namespace PicoXLSX
 
             #region properties
             /// <summary>
-            /// Color code (ARGB) of the bottom border
+            /// Color code of the bottom border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
             public string BottomColor { get; set; }
             /// <summary>
@@ -271,7 +267,7 @@ namespace PicoXLSX
             /// </summary>
             public StyleValue BottomStyle { get; set; }
             /// <summary>
-            /// Color code (ARGB) of the diagonal lines
+            /// Color code of the diagonal lines. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
             public string DiagonalColor { get; set; }
             /// <summary>
@@ -287,7 +283,7 @@ namespace PicoXLSX
             /// </summary>
             public StyleValue DiagonalStyle { get; set; }
             /// <summary>
-            /// Color code (ARGB) of the left border
+            /// Color code of the left border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
             public string LeftColor { get; set; }
             /// <summary>
@@ -295,7 +291,7 @@ namespace PicoXLSX
             /// </summary>
             public StyleValue LeftStyle { get; set; }
             /// <summary>
-            /// Color code (ARGB) of the right border
+            /// Color code of the right border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
             public string RightColor { get; set; }
             /// <summary>
@@ -303,7 +299,7 @@ namespace PicoXLSX
             /// </summary>
             public StyleValue RightStyle { get; set; }
             /// <summary>
-            /// Color code (ARGB) of the top border
+            /// Color code of the top border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
             public string TopColor { get; set; }
             /// <summary>
@@ -318,18 +314,18 @@ namespace PicoXLSX
             /// </summary>
             public Border()
             {
-                this.BottomColor = string.Empty;
-                this.TopColor = string.Empty;
-                this.LeftColor = string.Empty;
-                this.RightColor = string.Empty;
-                this.DiagonalColor = string.Empty;
-                this.LeftStyle = StyleValue.none;
-                this.RightStyle = StyleValue.none;
-                this.TopStyle = StyleValue.none;
-                this.BottomStyle = StyleValue.none;
-                this.DiagonalStyle = StyleValue.none;
-                this.DiagonalDown = false;
-                this.DiagonalUp = false;
+                BottomColor = string.Empty;
+                TopColor = string.Empty;
+                LeftColor = string.Empty;
+                RightColor = string.Empty;
+                DiagonalColor = string.Empty;
+                LeftStyle = StyleValue.none;
+                RightStyle = StyleValue.none;
+                TopStyle = StyleValue.none;
+                BottomStyle = StyleValue.none;
+                DiagonalStyle = StyleValue.none;
+                DiagonalDown = false;
+                DiagonalUp = false;
             }
             #endregion
 
@@ -342,18 +338,18 @@ namespace PicoXLSX
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append(StyleManager.BORDERPREFIX);
-                CastValue(this.BottomColor, ref sb, ':');
-                CastValue(this.BottomStyle, ref sb, ':');
-                CastValue(this.DiagonalColor, ref sb, ':');
-                CastValue(this.DiagonalDown, ref sb, ':');
-                CastValue(this.DiagonalStyle, ref sb, ':');
-                CastValue(this.DiagonalUp, ref sb, ':');
-                CastValue(this.LeftColor, ref sb, ':');
-                CastValue(this.LeftStyle, ref sb, ':');
-                CastValue(this.RightColor, ref sb, ':');
-                CastValue(this.RightStyle, ref sb, ':');
-                CastValue(this.TopColor, ref sb, ':');
-                CastValue(this.TopStyle, ref sb, null);
+                CastValue(BottomColor, ref sb, ':');
+                CastValue(BottomStyle, ref sb, ':');
+                CastValue(DiagonalColor, ref sb, ':');
+                CastValue(DiagonalDown, ref sb, ':');
+                CastValue(DiagonalStyle, ref sb, ':');
+                CastValue(DiagonalUp, ref sb, ':');
+                CastValue(LeftColor, ref sb, ':');
+                CastValue(LeftStyle, ref sb, ':');
+                CastValue(RightColor, ref sb, ':');
+                CastValue(RightStyle, ref sb, ':');
+                CastValue(TopColor, ref sb, ':');
+                CastValue(TopStyle, ref sb, null);
                 return sb.ToString();
             }
 
@@ -364,18 +360,18 @@ namespace PicoXLSX
             public override AbstractStyle Copy()
             {
                 Border copy = new Border();
-                copy.BottomColor = this.BottomColor;
-                copy.BottomStyle = this.BottomStyle;
-                copy.DiagonalColor = this.DiagonalColor;
-                copy.DiagonalDown = this.DiagonalDown;
-                copy.DiagonalStyle = this.DiagonalStyle;
-                copy.DiagonalUp = this.DiagonalUp;
-                copy.LeftColor = this.LeftColor;
-                copy.LeftStyle = this.LeftStyle;
-                copy.RightColor = this.RightColor;
-                copy.RightStyle = this.RightStyle;
-                copy.TopColor = this.TopColor;
-                copy.TopStyle = this.TopStyle;
+                copy.BottomColor = BottomColor;
+                copy.BottomStyle = BottomStyle;
+                copy.DiagonalColor = DiagonalColor;
+                copy.DiagonalDown = DiagonalDown;
+                copy.DiagonalStyle = DiagonalStyle;
+                copy.DiagonalUp = DiagonalUp;
+                copy.LeftColor = LeftColor;
+                copy.LeftStyle = LeftStyle;
+                copy.RightColor = RightColor;
+                copy.RightStyle = RightStyle;
+                copy.TopColor = TopColor;
+                copy.TopStyle = TopStyle;
                 return copy;
             }
 
@@ -385,7 +381,7 @@ namespace PicoXLSX
             /// <returns>Copy of the current object without the internal ID</returns>
             public Border CopyBorder()
             {
-                return (Style.Border)this.Copy();
+                return (Border)Copy();
             }
 
             /// <summary>
@@ -394,7 +390,7 @@ namespace PicoXLSX
             /// <returns>String of a class</returns>
             public override string ToString()
             {
-                return this.Hash;
+                return Hash;
             }
 
             /// <summary>
@@ -404,18 +400,18 @@ namespace PicoXLSX
             public bool IsEmpty()
             {
                 bool state = true;
-                if (this.BottomColor != string.Empty) { state = false; }
-                if (this.TopColor != string.Empty) { state = false; }
-                if (this.LeftColor != string.Empty) { state = false; }
-                if (this.RightColor != string.Empty) { state = false; }
-                if (this.DiagonalColor != string.Empty) { state = false; }
-                if (this.LeftStyle != StyleValue.none) { state = false; }
-                if (this.RightStyle != StyleValue.none) { state = false; }
-                if (this.TopStyle != StyleValue.none) { state = false; }
-                if (this.BottomStyle != StyleValue.none) { state = false; }
-                if (this.DiagonalStyle != StyleValue.none) { state = false; }
-                if (this.DiagonalDown != false) { state = false; }
-                if (this.DiagonalUp != false) { state = false; }
+                if (BottomColor != string.Empty) { state = false; }
+                if (TopColor != string.Empty) { state = false; }
+                if (LeftColor != string.Empty) { state = false; }
+                if (RightColor != string.Empty) { state = false; }
+                if (DiagonalColor != string.Empty) { state = false; }
+                if (LeftStyle != StyleValue.none) { state = false; }
+                if (RightStyle != StyleValue.none) { state = false; }
+                if (TopStyle != StyleValue.none) { state = false; }
+                if (BottomStyle != StyleValue.none) { state = false; }
+                if (DiagonalStyle != StyleValue.none) { state = false; }
+                if (DiagonalDown != false) { state = false; }
+                if (DiagonalUp != false) { state = false; }
                 return state;
             }
             #endregion
@@ -479,8 +475,6 @@ namespace PicoXLSX
                 return output;
             }
             #endregion
-
-
 
         }
 #endregion
@@ -608,7 +602,7 @@ namespace PicoXLSX
                 set
                 {
                     textRotation = value;
-                    this.TextDirection = TextDirectionValue.horizontal;
+                    TextDirection = TextDirectionValue.horizontal;
                     CalculateInternalRotation();
                 }
             }
@@ -624,11 +618,11 @@ namespace PicoXLSX
             /// </summary>
             public CellXf()
             {
-                this.HorizontalAlign = HorizontalAlignValue.none;
-                this.Alignment = TextBreakValue.none;
-                this.textDirection = TextDirectionValue.horizontal;
-                this.VerticalAlign = VerticalAlignValue.none;
-                this.textRotation = 0;
+                HorizontalAlign = HorizontalAlignValue.none;
+                Alignment = TextBreakValue.none;
+                textDirection = TextDirectionValue.horizontal;
+                VerticalAlign = VerticalAlignValue.none;
+                textRotation = 0;
             }
             #endregion
 
@@ -640,23 +634,23 @@ namespace PicoXLSX
             /// <exception cref="FormatException">Throws a FormatException if the rotation angle (-90 to 90) is out of range</exception>
             public int CalculateInternalRotation()
             {
-                if (this.textRotation < -90 || this.textRotation > 90)
+                if (textRotation < -90 || textRotation > 90)
                 {
-                    throw new FormatException("The rotation value (" + this.textRotation.ToString() + "°) is out of range. Range is form -90° to +90°");
+                    throw new FormatException("The rotation value (" + textRotation.ToString() + "°) is out of range. Range is form -90° to +90°");
                 }
-                if (this.textDirection == TextDirectionValue.vertical)
+                if (textDirection == TextDirectionValue.vertical)
                 {
                     return 255;
                 }
                 else
                 {
-                    if (this.textRotation >= 0)
+                    if (textRotation >= 0)
                     {
-                        return this.textRotation;
+                        return textRotation;
                     }
                     else
                     {
-                        return (90 - this.textRotation);
+                        return (90 - textRotation);
                     }
                 }
             }
@@ -667,7 +661,7 @@ namespace PicoXLSX
             /// <returns>String of a class instance</returns>
             public override string ToString()
             {
-                return this.Hash;
+                return Hash;
             }
 
             /// <summary>
@@ -678,14 +672,14 @@ namespace PicoXLSX
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append(StyleManager.CELLXFPREFIX);
-                CastValue(this.HorizontalAlign, ref sb, ':');
-                CastValue(this.VerticalAlign, ref sb, ':');
-                CastValue(this.Alignment, ref sb, ':');
-                CastValue(this.TextDirection, ref sb, ':');
-                CastValue(this.TextRotation, ref sb, ':');
-                CastValue(this.ForceApplyAlignment, ref sb, ':');
-                CastValue(this.Locked, ref sb, ':');
-                CastValue(this.Hidden, ref sb, null);
+                CastValue(HorizontalAlign, ref sb, ':');
+                CastValue(VerticalAlign, ref sb, ':');
+                CastValue(Alignment, ref sb, ':');
+                CastValue(TextDirection, ref sb, ':');
+                CastValue(TextRotation, ref sb, ':');
+                CastValue(ForceApplyAlignment, ref sb, ':');
+                CastValue(Locked, ref sb, ':');
+                CastValue(Hidden, ref sb, null);
                 return sb.ToString();
             }
 
@@ -696,14 +690,14 @@ namespace PicoXLSX
             public override AbstractStyle Copy()
             {
                 CellXf copy = new CellXf();
-                copy.HorizontalAlign = this.HorizontalAlign;
-                copy.Alignment = this.Alignment;
-                copy.TextDirection = this.TextDirection;
-                copy.TextRotation = this.TextRotation;
-                copy.VerticalAlign = this.VerticalAlign;
-                copy.ForceApplyAlignment = this.ForceApplyAlignment;
-                copy.Locked = this.Locked;
-                copy.Hidden = this.Hidden;
+                copy.HorizontalAlign = HorizontalAlign;
+                copy.Alignment = Alignment;
+                copy.TextDirection = TextDirection;
+                copy.TextRotation = TextRotation;
+                copy.VerticalAlign = VerticalAlign;
+                copy.ForceApplyAlignment = ForceApplyAlignment;
+                copy.Locked = Locked;
+                copy.Hidden = Hidden;
                 return copy;
             }
 
@@ -713,7 +707,7 @@ namespace PicoXLSX
             /// <returns>Copy of the current object without the internal ID</returns>
             public CellXf CopyCellXf()
             {
-                return (Style.CellXf)this.Copy();
+                return (CellXf)Copy();
             }
 
 
@@ -772,11 +766,11 @@ namespace PicoXLSX
 
             #region properties
             /// <summary>
-            /// Background color of the fill
+            /// Background color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
             public string BackgroundColor { get; set; }
             /// <summary>
-            /// Foreground color of the fill
+            /// Foreground color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
             public string ForegroundColor { get; set; }
             /// <summary>
@@ -795,10 +789,10 @@ namespace PicoXLSX
             /// </summary>
             public Fill()
             {
-                this.IndexedColor = 64;
-                this.PatternFill = PatternValue.none;
-                this.ForegroundColor = DEFAULTCOLOR;
-                this.BackgroundColor = DEFAULTCOLOR;
+                IndexedColor = 64;
+                PatternFill = PatternValue.none;
+                ForegroundColor = DEFAULTCOLOR;
+                BackgroundColor = DEFAULTCOLOR;
             }
             /// <summary>
             /// Constructor with foreground and background color
@@ -807,10 +801,10 @@ namespace PicoXLSX
             /// <param name="background">Background color of the fill</param>
             public Fill(string foreground, string background)
             {
-                this.BackgroundColor = background;
-                this.ForegroundColor = foreground;
-                this.IndexedColor = 64;
-                this.PatternFill = PatternValue.solid;
+                BackgroundColor = background;
+                ForegroundColor = foreground;
+                IndexedColor = 64;
+                PatternFill = PatternValue.solid;
             }
 
             /// <summary>
@@ -822,16 +816,16 @@ namespace PicoXLSX
             {
                 if (filltype == FillType.fillColor)
                 {
-                    this.BackgroundColor = value;
-                    this.ForegroundColor = DEFAULTCOLOR;
+                    BackgroundColor = value;
+                    ForegroundColor = DEFAULTCOLOR;
                 }
                 else
                 {
-                    this.BackgroundColor = DEFAULTCOLOR;
-                    this.ForegroundColor = value;
+                    BackgroundColor = DEFAULTCOLOR;
+                    ForegroundColor = value;
                 }
-                this.IndexedColor = 64;
-                this.PatternFill = PatternValue.solid;
+                IndexedColor = 64;
+                PatternFill = PatternValue.solid;
             }
             #endregion
 
@@ -844,10 +838,10 @@ namespace PicoXLSX
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append(StyleManager.FILLPREFIX);        
-                CastValue(this.IndexedColor, ref sb, ':');
-                CastValue(this.PatternFill, ref sb, ':');
-                CastValue(this.ForegroundColor, ref sb, ':');
-                CastValue(this.BackgroundColor, ref sb, null);
+                CastValue(IndexedColor, ref sb, ':');
+                CastValue(PatternFill, ref sb, ':');
+                CastValue(ForegroundColor, ref sb, ':');
+                CastValue(BackgroundColor, ref sb, null);
                 return sb.ToString();                
             }
 
@@ -857,7 +851,7 @@ namespace PicoXLSX
             /// <returns>String of a class</returns>
             public override string ToString()
             {
-                return this.Hash;
+                return Hash;
             }
 
             /// <summary>
@@ -867,10 +861,10 @@ namespace PicoXLSX
             public override AbstractStyle Copy()
             {
                 Fill copy = new Fill();
-                copy.BackgroundColor = this.BackgroundColor;
-                copy.ForegroundColor = this.ForegroundColor;
-                copy.IndexedColor = this.IndexedColor;
-                copy.PatternFill = this.PatternFill;
+                copy.BackgroundColor = BackgroundColor;
+                copy.ForegroundColor = ForegroundColor;
+                copy.IndexedColor = IndexedColor;
+                copy.PatternFill = PatternFill;
                 return copy;
             }
 
@@ -880,7 +874,7 @@ namespace PicoXLSX
             /// <returns>Copy of the current object without the internal ID</returns>
             public Fill CopyFill()
             {
-                return (Style.Fill)this.Copy();
+                return (Fill)Copy();
             }
 
             /// <summary>
@@ -892,15 +886,15 @@ namespace PicoXLSX
             {
                 if (filltype == FillType.fillColor)
                 {
-                    this.ForegroundColor = value;
-                    this.BackgroundColor = DEFAULTCOLOR;
+                    ForegroundColor = value;
+                    BackgroundColor = DEFAULTCOLOR;
                 }
                 else
                 {
-                    this.ForegroundColor = DEFAULTCOLOR;
-                    this.BackgroundColor = value;
+                    ForegroundColor = DEFAULTCOLOR;
+                    BackgroundColor = value;
                 }
-                this.PatternFill = PatternValue.solid;
+                PatternFill = PatternValue.solid;
             }
             #endregion
 
@@ -912,7 +906,7 @@ namespace PicoXLSX
             /// <returns>The valid value of the pattern as String</returns>
             public static string GetPatternName(PatternValue pattern)
             {
-                string output = "";
+                string output;
                 switch (pattern)
                 {
                     case PatternValue.none:
@@ -1026,7 +1020,7 @@ namespace PicoXLSX
                 get
                 {
                     Font temp = new Font();
-                    return this.Equals(temp);
+                    return Equals(temp);
                 }
             }
             /// <summary>
@@ -1074,14 +1068,14 @@ namespace PicoXLSX
             /// </summary>
             public Font()
             {
-                this.size = 11;
-                this.Name = DEFAULTFONT;
-                this.Family = "2";
-                this.ColorTheme = 1;
-                this.ColorValue = string.Empty;
-                this.Charset = string.Empty;
-                this.Scheme = SchemeValue.minor;
-                this.VerticalAlign = VerticalAlignValue.none;
+                size = 11;
+                Name = DEFAULTFONT;
+                Family = "2";
+                ColorTheme = 1;
+                ColorValue = string.Empty;
+                Charset = string.Empty;
+                Scheme = SchemeValue.minor;
+                VerticalAlign = VerticalAlignValue.none;
             }
             #endregion
 
@@ -1092,7 +1086,7 @@ namespace PicoXLSX
             /// <returns>String of a class</returns>
             public override string ToString()
             {
-                return this.Hash;
+                return Hash;
             }
 
             /// <summary>
@@ -1103,18 +1097,18 @@ namespace PicoXLSX
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append(StyleManager.FONTPREFIX);
-                CastValue(this.Bold, ref sb, ':');
-                CastValue(this.Italic, ref sb, ':');
-                CastValue(this.Underline, ref sb, ':');
-                CastValue(this.DoubleUnderline, ref sb, ':');
-                CastValue(this.Strike, ref sb, ':');
-                CastValue(this.ColorTheme, ref sb, ':');
-                CastValue(this.Family, ref sb, ':');
-                CastValue(this.Name, ref sb, ':');
-                CastValue(this.Scheme, ref sb, ':');
-                CastValue(this.VerticalAlign, ref sb, ':');
-                CastValue(this.Charset, ref sb, ':');
-                CastValue(this.size, ref sb, null);
+                CastValue(Bold, ref sb, ':');
+                CastValue(Italic, ref sb, ':');
+                CastValue(Underline, ref sb, ':');
+                CastValue(DoubleUnderline, ref sb, ':');
+                CastValue(Strike, ref sb, ':');
+                CastValue(ColorTheme, ref sb, ':');
+                CastValue(Family, ref sb, ':');
+                CastValue(Name, ref sb, ':');
+                CastValue(Scheme, ref sb, ':');
+                CastValue(VerticalAlign, ref sb, ':');
+                CastValue(Charset, ref sb, ':');
+                CastValue(size, ref sb, null);
                 return sb.ToString();
             }
 
@@ -1125,18 +1119,18 @@ namespace PicoXLSX
             public override AbstractStyle Copy()
             {
                 Font copy = new Font();
-                copy.Bold = this.Bold;
-                copy.Charset = this.Charset;
-                copy.ColorTheme = this.ColorTheme;
-                copy.VerticalAlign = this.VerticalAlign;
-                copy.DoubleUnderline = this.DoubleUnderline;
-                copy.Family = this.Family;
-                copy.Italic = this.Italic;
-                copy.Name = this.Name;
-                copy.Scheme = this.Scheme;
-                copy.Size = this.Size;
-                copy.Strike = this.Strike;
-                copy.Underline = this.Underline;
+                copy.Bold = Bold;
+                copy.Charset = Charset;
+                copy.ColorTheme = ColorTheme;
+                copy.VerticalAlign = VerticalAlign;
+                copy.DoubleUnderline = DoubleUnderline;
+                copy.Family = Family;
+                copy.Italic = Italic;
+                copy.Name = Name;
+                copy.Scheme = Scheme;
+                copy.Size = Size;
+                copy.Strike = Strike;
+                copy.Underline = Underline;
                 return copy;
             }
 
@@ -1146,7 +1140,7 @@ namespace PicoXLSX
             /// <returns>Copy of the current object without the internal ID</returns>
             public Font CopyFont()
             {
-                return (Style.Font)this.Copy();
+                return (Style.Font)Copy();
             }
 
             #endregion
@@ -1273,9 +1267,9 @@ namespace PicoXLSX
             /// </summary>
             public NumberFormat()
             {
-                this.Number = FormatNumber.none;
-                this.CustomFormatCode = string.Empty;
-                this.CustomFormatID = CUSTOMFORMAT_START_NUMBER;
+                Number = FormatNumber.none;
+                CustomFormatCode = string.Empty;
+                CustomFormatID = CUSTOMFORMAT_START_NUMBER;
             }
             #endregion
 
@@ -1287,7 +1281,7 @@ namespace PicoXLSX
             /// <returns>String of a class</returns>
             public override string ToString()
             {
-                return this.Hash;
+                return Hash;
             }
 
             /// <summary>
@@ -1298,9 +1292,9 @@ namespace PicoXLSX
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append(StyleManager.NUMBERFORMATPREFIX);
-                CastValue(this.CustomFormatCode, ref sb, ':');
-                CastValue(this.CustomFormatID, ref sb, ':');
-                CastValue(this.Number, ref sb, null);
+                CastValue(CustomFormatCode, ref sb, ':');
+                CastValue(CustomFormatID, ref sb, ':');
+                CastValue(Number, ref sb, null);
                 return sb.ToString();
             }
 
@@ -1311,9 +1305,9 @@ namespace PicoXLSX
             public override AbstractStyle Copy()
             {
                 NumberFormat copy = new NumberFormat();
-                copy.CustomFormatCode = this.CustomFormatCode;
-                copy.CustomFormatID = this.CustomFormatID;
-                copy.Number = this.Number;
+                copy.CustomFormatCode = CustomFormatCode;
+                copy.CustomFormatID = CustomFormatID;
+                copy.Number = Number;
                 return copy;
             }
 
@@ -1323,7 +1317,7 @@ namespace PicoXLSX
             /// <returns>Copy of the current object without the internal ID</returns>
            public NumberFormat CopyNumberFormat()
             {
-                return (Style.NumberFormat)this.Copy();
+                return (Style.NumberFormat)Copy();
             }
 
             #endregion
@@ -1575,9 +1569,9 @@ namespace PicoXLSX
         /// <returns>-1 if the other object is bigger. 0 if both objects are equal. 1 if the other object is smaller.</returns>
         public int CompareTo(AbstractStyle other)
         {
-            if (this.InternalID.HasValue == false) { return -1; }
+            if (InternalID.HasValue == false) { return -1; }
             else if (other.InternalID.HasValue == false) { return 1; }
-            else { return this.InternalID.Value.CompareTo(other.InternalID.Value); }
+            else { return InternalID.Value.CompareTo(other.InternalID.Value); }
         }
 
         /// <summary>
@@ -1587,7 +1581,7 @@ namespace PicoXLSX
         /// <returns>True if both objects are equal, otherwise false</returns>
         public bool Equals(AbstractStyle other)
         {
-            return this.Hash.Equals(other.Hash);
+            return Hash.Equals(other.Hash);
         }
 
         /// <summary>

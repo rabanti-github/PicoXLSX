@@ -78,7 +78,7 @@ namespace PicoXLSX
         /// </summary>
         public enum SheetProtectionValue
         {
-           // sheet, // Is alway on 1 if protected
+           // sheet, // Is always on 1 if protected
             /// <summary>If selected, the user can edit objects if the worksheets is protected</summary>
             objects,
             /// <summary>If selected, the user can edit scenarios if the worksheets is protected</summary>
@@ -93,7 +93,7 @@ namespace PicoXLSX
             insertColumns,
             /// <summary>If selected, the user can insert rows if the worksheets is protected</summary>
             insertRows,
-            /// <summary>If selected, the user can insert hyperlinks if the worksheets is protected</summary>
+            /// <summary>If selected, the user can insert hyper links if the worksheets is protected</summary>
             insertHyperlinks,
             /// <summary>If selected, the user can delete columns if the worksheets is protected</summary>
             deleteColumns,
@@ -173,7 +173,7 @@ namespace PicoXLSX
             {
                 if (value < MIN_COLUMN_WIDTH || value > MAX_COLUMN_WIDTH)
                 {
-                    throw new RangeException("OutOfRangeException", "The passed default column width is out of range (" + MIN_COLUMN_WIDTH.ToString() + " to " + MAX_COLUMN_WIDTH.ToString() + ")");
+                    throw new RangeException("OutOfRangeException", "The passed default column width is out of range (" + MIN_COLUMN_WIDTH + " to " + MAX_COLUMN_WIDTH + ")");
                 }
                 defaultColumnWidth = value;
             }
@@ -190,7 +190,7 @@ namespace PicoXLSX
             {
                 if (value < MIN_ROW_HEIGHT || value > MAX_ROW_HEIGHT)
                 {
-                    throw new RangeException("OutOfRangeException", "The passed default row height is out of range (" + MIN_ROW_HEIGHT.ToString() + " to " + MAX_ROW_HEIGHT.ToString() + ")");
+                    throw new RangeException("OutOfRangeException", "The passed default row height is out of range (" + MIN_ROW_HEIGHT + " to " + MAX_ROW_HEIGHT + ")");
                 }
                 defaultRowHeight = value;
             }
@@ -278,19 +278,19 @@ namespace PicoXLSX
         /// </summary>
         public Worksheet()
         {
-            this.CurrentCellDirection = CellDirection.ColumnToColumn;
-            this.cells = new Dictionary<string, Cell>();
-            this.currentRowNumber = 0;
-            this.currentColumnNumber = 0;
-            this.defaultColumnWidth = DEFAULT_COLUMN_WIDTH;
-            this.defaultRowHeight = DEFAULT_ROW_HEIGHT;
-            this.rowHeights = new Dictionary<int, float>();
-            this.mergedCells = new Dictionary<string, Cell.Range>();
-            this.sheetProtectionValues = new List<SheetProtectionValue>();
-            this.hiddenRows = new Dictionary<int, bool>();
-            this.columns = new Dictionary<int, Column>();
-            this.activeStyle = null;
-            this.WorkbookReference = null;
+            CurrentCellDirection = CellDirection.ColumnToColumn;
+            cells = new Dictionary<string, Cell>();
+            currentRowNumber = 0;
+            currentColumnNumber = 0;
+            defaultColumnWidth = DEFAULT_COLUMN_WIDTH;
+            defaultRowHeight = DEFAULT_ROW_HEIGHT;
+            rowHeights = new Dictionary<int, float>();
+            mergedCells = new Dictionary<string, Cell.Range>();
+            sheetProtectionValues = new List<SheetProtectionValue>();
+            hiddenRows = new Dictionary<int, bool>();
+            columns = new Dictionary<int, Column>();
+            activeStyle = null;
+            WorkbookReference = null;
         }
 
         /// <summary>
@@ -303,8 +303,8 @@ namespace PicoXLSX
             : this()
         {
             SetSheetname(name);
-            this.SheetID = id;
-            this.WorkbookReference = reference;
+            SheetID = id;
+            WorkbookReference = reference;
         }
 
         #endregion
@@ -321,7 +321,7 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws a RangeException if the next cell is out of range (on row or column)</exception>
         public void AddNextCell(object value)
         {
-            AddNextCell(CastValue(value, this.currentColumnNumber, this.currentRowNumber), true, null);
+            AddNextCell(CastValue(value, currentColumnNumber, currentRowNumber), true, null);
         }
 
 
@@ -335,7 +335,7 @@ namespace PicoXLSX
         /// <exception cref="StyleException">Throws a StyleException if the default style was malformed</exception>
         public void AddNextCell(object value, Style style)
         {
-            AddNextCell(CastValue(value, this.currentColumnNumber, this.currentRowNumber), true, style);
+            AddNextCell(CastValue(value, currentColumnNumber, currentRowNumber), true, style);
         }
 
 
@@ -350,9 +350,9 @@ namespace PicoXLSX
         private void AddNextCell(Cell cell, bool incremental, Style style)
         {
             cell.WorksheetReference = this;
-            if (this.activeStyle != null && this.useActiveStyle == true && style == null)
+            if (activeStyle != null && useActiveStyle == true && style == null)
             {
-                cell.SetStyle(this.activeStyle);
+                cell.SetStyle(activeStyle);
             }
             else if (style != null)
             {
@@ -363,36 +363,36 @@ namespace PicoXLSX
                 cell.SetStyle(Style.BasicStyles.DateFormat);
             }
             string address = cell.CellAddress;
-            if (this.cells.ContainsKey(address))
+            if (cells.ContainsKey(address))
             {
-                this.cells[address] = cell;
+                cells[address] = cell;
             }
             else
             {
-                this.cells.Add(address, cell);
+                cells.Add(address, cell);
             }
             if (incremental == true)
             {
-                if (this.CurrentCellDirection == CellDirection.ColumnToColumn)
+                if (CurrentCellDirection == CellDirection.ColumnToColumn)
                 {
-                    this.currentColumnNumber++;
+                    currentColumnNumber++;
                 }
                 else
                 {
-                    this.currentRowNumber++;
+                    currentRowNumber++;
                 }
             }
             else
             {
-                if (this.CurrentCellDirection == CellDirection.ColumnToColumn)
+                if (CurrentCellDirection == CellDirection.ColumnToColumn)
                 {
-                    this.currentColumnNumber = cell.ColumnAddress + 1;
-                    this.currentRowNumber = cell.RowAddress;
+                    currentColumnNumber = cell.ColumnAddress + 1;
+                    currentRowNumber = cell.RowAddress;
                 }
                 else
                 {
-                    this.currentColumnNumber = cell.ColumnAddress;
-                    this.currentRowNumber = cell.RowAddress + 1;
+                    currentColumnNumber = cell.ColumnAddress;
+                    currentRowNumber = cell.RowAddress + 1;
                 }
             }
         }
@@ -562,7 +562,7 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Trows a RangeException if the next cell is out of range (on row or column)</exception>
         public void AddNextCellFormula(string formula)
         {
-            Cell c = new Cell(formula, Cell.CellType.FORMULA, this.currentColumnNumber, this.currentRowNumber, this);
+            Cell c = new Cell(formula, Cell.CellType.FORMULA, currentColumnNumber, currentRowNumber, this);
             AddNextCell(c, true, null);
         }
 
@@ -575,7 +575,7 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Trows a RangeException if the next cell is out of range (on row or column)</exception>
         public void AddNextCellFormula(string formula, Style style)
         {
-            Cell c = new Cell(formula, Cell.CellType.FORMULA, this.currentColumnNumber, this.currentRowNumber, this);
+            Cell c = new Cell(formula, Cell.CellType.FORMULA, currentColumnNumber, currentRowNumber, this);
             AddNextCell(c, true, null);
         }
 
@@ -684,7 +684,7 @@ namespace PicoXLSX
         public bool RemoveCell(int columnAddress, int rowAddress)
         {
             string address = Cell.ResolveCellAddress(columnAddress, rowAddress);
-            return this.cells.Remove(address);
+            return cells.Remove(address);
         }
 
         /// <summary>
@@ -710,14 +710,14 @@ namespace PicoXLSX
         /// <param name="typeOfProtection">Allowed action on the worksheet or cells</param>
         public void AddAllowedActionOnSheetProtection(SheetProtectionValue typeOfProtection)
         {
-            if (this.sheetProtectionValues.Contains(typeOfProtection) == false)
+            if (sheetProtectionValues.Contains(typeOfProtection) == false)
             {
-                if (typeOfProtection == SheetProtectionValue.selectLockedCells && this.sheetProtectionValues.Contains(SheetProtectionValue.selectUnlockedCells) == false)
+                if (typeOfProtection == SheetProtectionValue.selectLockedCells && sheetProtectionValues.Contains(SheetProtectionValue.selectUnlockedCells) == false)
                 {
-                    this.sheetProtectionValues.Add(SheetProtectionValue.selectUnlockedCells);
+                    sheetProtectionValues.Add(SheetProtectionValue.selectUnlockedCells);
                 }
-                this.sheetProtectionValues.Add(typeOfProtection);
-                this.UseSheetProtection = true;
+                sheetProtectionValues.Add(typeOfProtection);
+                UseSheetProtection = true;
             }
         }
 
@@ -757,7 +757,7 @@ namespace PicoXLSX
         /// </summary>
         public void ClearActiveStyle()
         {
-            this.useActiveStyle = false;
+            useActiveStyle = false;
         }
 
         /// <summary>
@@ -768,11 +768,11 @@ namespace PicoXLSX
         /// <exception cref="WorksheetException">Trows a WorksheetException if the cell was not found on the cell table of this worksheet</exception>
         public Cell GetCell(Cell.Address address)
         {
-            if (this.cells.ContainsKey(address.GetAddress()) == false)
+            if (cells.ContainsKey(address.GetAddress()) == false)
             {
                 throw new WorksheetException("CellNotFoundException", "The cell with the address " + address.GetAddress() + " does not exist in this worksheet");
             }
-            return this.cells[address.GetAddress()];
+            return cells[address.GetAddress()];
         }
 
         /// <summary>
@@ -793,7 +793,7 @@ namespace PicoXLSX
         /// <returns>Column address (zero-based)</returns>
         public int GetCurrentColumnAddress()
         {
-            return this.currentColumnNumber;
+            return currentColumnNumber;
         }
 
         /// <summary>
@@ -802,7 +802,7 @@ namespace PicoXLSX
         /// <returns>Row address (zero-based)</returns>
         public int GetCurrentRowAddress()
         {
-            return this.currentRowNumber;
+            return currentRowNumber;
         }
 
 
@@ -811,8 +811,8 @@ namespace PicoXLSX
         /// </summary>
         public void GoToNextColumn()
         {
-            this.currentColumnNumber++;
-            this.currentRowNumber = 0;
+            currentColumnNumber++;
+            currentRowNumber = 0;
         }
 
         /// <summary>
@@ -832,8 +832,8 @@ namespace PicoXLSX
         /// </summary>
         public void GoToNextRow()
         {
-            this.currentRowNumber++;
-            this.currentColumnNumber = 0;
+            currentRowNumber++;
+            currentColumnNumber = 0;
         }
 
         /// <summary>
@@ -885,9 +885,9 @@ namespace PicoXLSX
             //List<Cell.Address> addresses = Cell.GetCellRange(startAddress, endAddress);
             string key = startAddress.ToString() + ":" + endAddress.ToString();
             Cell.Range value = new Cell.Range(startAddress, endAddress);
-            if (this.mergedCells.ContainsKey(key) == false)
+            if (mergedCells.ContainsKey(key) == false)
             {
-                this.mergedCells.Add(key, value);
+                mergedCells.Add(key, value);
             }
             return key;
         }
@@ -897,11 +897,11 @@ namespace PicoXLSX
         /// </summary>
         public void RecalculateAutoFilter()
         {
-            if (this.autoFilterRange == null) { return; }
-            int start = this.autoFilterRange.Value.StartAddress.Column;
-            int end = this.autoFilterRange.Value.EndAddress.Column;
+            if (autoFilterRange == null) { return; }
+            int start = autoFilterRange.Value.StartAddress.Column;
+            int end = autoFilterRange.Value.EndAddress.Column;
             int endRow = 0;
-            foreach (KeyValuePair<string, Cell> item in this.Cells)
+            foreach (KeyValuePair<string, Cell> item in Cells)
             {
                 if (item.Value.ColumnAddress < start || item.Value.ColumnAddress > end) { continue; }
                 if (item.Value.RowAddress > endRow) { endRow = item.Value.RowAddress; }
@@ -909,21 +909,21 @@ namespace PicoXLSX
             Column c;
             for (int i = start; i <= end; i++)
             {
-                if (this.columns.ContainsKey(i) == false)
+                if (columns.ContainsKey(i) == false)
                 {
                     c = new Column(i);
                     c.HasAutoFilter = true;
-                    this.columns.Add(i, c);
+                    columns.Add(i, c);
                 }
                 else
                 {
-                    this.columns[i].HasAutoFilter = true;
+                    columns[i].HasAutoFilter = true;
                 }
             }
             Cell.Range temp = new Cell.Range();
             temp.StartAddress = new Cell.Address(start, 0);
             temp.EndAddress = new Cell.Address(end, endRow);
-            this.autoFilterRange = temp;
+            autoFilterRange = temp;
         }
 
         /// <summary>
@@ -932,7 +932,7 @@ namespace PicoXLSX
         public void RecalculateColumns()
         {
             List<int> columnsToDelete = new List<int>();
-            foreach (KeyValuePair<int, Column> col in this.columns)
+            foreach (KeyValuePair<int, Column> col in columns)
             {
                 if (col.Value.HasAutoFilter == false && col.Value.IsHidden == false && col.Value.Width != Worksheet.DEFAULT_COLUMN_WIDTH)
                 {
@@ -941,7 +941,7 @@ namespace PicoXLSX
             }
             foreach (int index in columnsToDelete)
             {
-                this.columns.Remove(index);
+                columns.Remove(index);
             }
         }
 
@@ -950,7 +950,7 @@ namespace PicoXLSX
         /// </summary>
         public void RemoveAutoFilter()
         {
-            this.autoFilterRange = null;
+            autoFilterRange = null;
         }
 
         /// <summary>
@@ -992,7 +992,7 @@ namespace PicoXLSX
         public void RemoveMergedCells(string range)
         {
             range = range.ToUpper();
-            if (this.mergedCells.ContainsKey(range) == false)
+            if (mergedCells.ContainsKey(range) == false)
             {
                 throw new RangeException("UnknownRangeException", "The cell range " + range + " was not found in the list of merged cell ranges");
             }
@@ -1002,9 +1002,9 @@ namespace PicoXLSX
                 Cell cell;
                 foreach (Cell.Address address in addresses)
                 {
-                    if (this.cells.ContainsKey(address.ToString()))
+                    if (cells.ContainsKey(address.ToString()))
                     {
-                        cell = this.cells[address.ToString()];
+                        cell = cells[address.ToString()];
                         cell.DataType = Cell.CellType.DEFAULT; // resets the type
                         if (cell.Value == null)
                         {
@@ -1012,7 +1012,7 @@ namespace PicoXLSX
                         }
                     }
                 }
-                this.mergedCells.Remove(range);
+                mergedCells.Remove(range);
             }
         }
 
@@ -1021,7 +1021,7 @@ namespace PicoXLSX
         /// </summary>
         public void RemoveSelectedCells()
         {
-            this.selectedCells = null;
+            selectedCells = null;
         }
 
         /// <summary>
@@ -1030,8 +1030,8 @@ namespace PicoXLSX
         /// <param name="style">Style to set as active style</param>
         public void SetActiveStyle(Style style)
         {
-            this.useActiveStyle = true;
-            this.activeStyle = style;
+            useActiveStyle = true;
+            activeStyle = style;
         }
 
         /// <summary>
@@ -1062,7 +1062,7 @@ namespace PicoXLSX
         /// <exception cref="FormatException">Throws an FormatException if the passed range is malformed</exception>
         public void SetAutoFilter(string range)
         {
-            this.autoFilterRange = Cell.ResolveCellRange(range);
+            autoFilterRange = Cell.ResolveCellRange(range);
             RecalculateAutoFilter();
             RecalculateColumns();
         }
@@ -1079,15 +1079,15 @@ namespace PicoXLSX
             {
                 throw new RangeException("OutOfRangeException", "The column number (" + columnNumber.ToString() + ") is out of range. Range is from " + MIN_COLUMN_ADDRESS.ToString() + " to " + MAX_COLUMN_ADDRESS.ToString() + " (" + (MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
             }
-            if (this.columns.ContainsKey(columnNumber) && state == true)
+            if (columns.ContainsKey(columnNumber) && state == true)
             {
-                this.columns[columnNumber].IsHidden = state;
+                columns[columnNumber].IsHidden = true;
             }
             else if (state == true)
             {
                 Column c = new Column(columnNumber);
-                c.IsHidden = state;
-                this.columns.Add(columnNumber, c);
+                c.IsHidden = true;
+                columns.Add(columnNumber, c);
             }
         }
 
@@ -1113,21 +1113,21 @@ namespace PicoXLSX
         {
             if (columnNumber > MAX_COLUMN_ADDRESS || columnNumber < MIN_COLUMN_ADDRESS)
             {
-                throw new RangeException("OutOfRangeException", "The column number (" + columnNumber.ToString() + ") is out of range. Range is from " + MIN_COLUMN_ADDRESS.ToString() + " to " + MAX_COLUMN_ADDRESS.ToString() + " (" + (MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
+                throw new RangeException("OutOfRangeException", "The column number (" + columnNumber + ") is out of range. Range is from " + MIN_COLUMN_ADDRESS + " to " + MAX_COLUMN_ADDRESS + " (" + (MAX_COLUMN_ADDRESS + 1) + " columns).");
             }
             if (width < MIN_COLUMN_WIDTH || width > MAX_COLUMN_WIDTH)
             {
-                throw new RangeException("OutOfRangeException", "The column width (" + width.ToString() + ") is out of range. Range is from " + MIN_COLUMN_WIDTH.ToString() + " to " + MAX_COLUMN_WIDTH.ToString() + " (chars).");
+                throw new RangeException("OutOfRangeException", "The column width (" + width + ") is out of range. Range is from " + MIN_COLUMN_WIDTH + " to " + MAX_COLUMN_WIDTH + " (chars).");
             }
-            if (this.columns.ContainsKey(columnNumber))
+            if (columns.ContainsKey(columnNumber))
             {
-                this.columns[columnNumber].Width = width;
+                columns[columnNumber].Width = width;
             }
             else
             {
                 Column c = new Column(columnNumber);
                 c.Width = width;
-                this.columns.Add(columnNumber, c);
+                columns.Add(columnNumber, c);
             }
         }
 
@@ -1167,7 +1167,7 @@ namespace PicoXLSX
             {
                 throw new RangeException("OutOfRangeException", "The column number (" + columnAddress.ToString() + ") is out of range. Range is from " + MIN_COLUMN_ADDRESS.ToString() + " to " + MAX_COLUMN_ADDRESS.ToString() + " (" + (MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
             }
-            this.currentColumnNumber = columnAddress;
+            currentColumnNumber = columnAddress;
         }
 
         /// <summary>
@@ -1181,7 +1181,7 @@ namespace PicoXLSX
             {
                 throw new RangeException("OutOfRangeException", "The row number (" + rowAddress.ToString() + ") is out of range. Range is from 0 to " + MAX_ROW_ADDRESS.ToString() + " (" + (MAX_ROW_ADDRESS + 1).ToString() + " rows).");
             }
-            this.currentRowNumber = rowAddress;
+            currentRowNumber = rowAddress;
         }
 
         /// <summary>
@@ -1190,7 +1190,7 @@ namespace PicoXLSX
         /// <param name="range">Cell range to select</param>
         public void SetSelectedCells(Cell.Range range)
         {
-            this.selectedCells = range;
+            selectedCells = range;
         }
 
         /// <summary>
@@ -1200,7 +1200,7 @@ namespace PicoXLSX
         /// <param name="endAddress">End address of the range</param>
         public void SetSelectedCells(Cell.Address startAddress, Cell.Address endAddress)
         {
-            this.selectedCells = new Cell.Range(startAddress, endAddress);
+            selectedCells = new Cell.Range(startAddress, endAddress);
         }
 
         /// <summary>
@@ -1209,7 +1209,7 @@ namespace PicoXLSX
         /// <param name="range">Cell range to select</param>
         public void SetSelectedCells(string range)
         {
-            this.selectedCells = Cell.ResolveCellRange(range);
+            selectedCells = Cell.ResolveCellRange(range);
         }
 
         /// <summary>
@@ -1220,13 +1220,12 @@ namespace PicoXLSX
         {
             if (string.IsNullOrEmpty(password) == true)
             {
-                this.sheetProtectionPassword = null;
-                return;
+                sheetProtectionPassword = null;
             }
             else
             {
-                this.sheetProtectionPassword = password;
-                this.UseSheetProtection = true;
+                sheetProtectionPassword = password;
+                UseSheetProtection = true;
             }
         }
 
@@ -1240,19 +1239,19 @@ namespace PicoXLSX
         {
             if (rowNumber > MAX_ROW_ADDRESS || rowNumber < MIN_ROW_ADDRESS)
             {
-                throw new RangeException("OutOfRangeException", "The row number (" + rowNumber.ToString() + ") is out of range. Range is from " + MIN_ROW_ADDRESS.ToString() + " to " + MAX_ROW_ADDRESS.ToString() + " (" + (MAX_ROW_ADDRESS + 1) + " rows).");
+                throw new RangeException("OutOfRangeException", "The row number (" + rowNumber + ") is out of range. Range is from " + MIN_ROW_ADDRESS + " to " + MAX_ROW_ADDRESS + " (" + (MAX_ROW_ADDRESS + 1) + " rows).");
             }
             if (height < MIN_ROW_HEIGHT || height > MAX_ROW_HEIGHT)
             {
-                throw new RangeException("OutOfRangeException", "The row height (" + height.ToString() + ") is out of range. Range is from " + MIN_ROW_HEIGHT.ToString() + " to " + MAX_ROW_HEIGHT.ToString() + " (equals 546px).");
+                throw new RangeException("OutOfRangeException", "The row height (" + height + ") is out of range. Range is from " + MIN_ROW_HEIGHT + " to " + MAX_ROW_HEIGHT + " (equals 546px).");
             }
-            if (this.rowHeights.ContainsKey(rowNumber))
+            if (rowHeights.ContainsKey(rowNumber))
             {
-                this.rowHeights[rowNumber] = height;
+                rowHeights[rowNumber] = height;
             }
             else
             {
-                this.rowHeights.Add(rowNumber, height);
+                rowHeights.Add(rowNumber, height);
             }
         }
 
@@ -1268,20 +1267,20 @@ namespace PicoXLSX
             {
                 throw new RangeException("OutOfRangeException", "The row number (" + rowNumber.ToString() + ") is out of range. Range is from " + MIN_ROW_ADDRESS + " to " + MAX_ROW_ADDRESS + " (" + (MAX_ROW_ADDRESS + 1).ToString() + " rows).");
             }
-            if (this.hiddenRows.ContainsKey(rowNumber))
+            if (hiddenRows.ContainsKey(rowNumber))
             {
                 if (state == true)
                 {
-                    this.hiddenRows.Add(rowNumber, state);
+                    hiddenRows.Add(rowNumber, true);
                 }
                 else
                 {
-                    this.hiddenRows.Remove(rowNumber);
+                    hiddenRows.Remove(rowNumber);
                 }
             }
             else if (state == true)
             {
-                this.hiddenRows.Add(rowNumber, state);
+                hiddenRows.Add(rowNumber, true);
             }
         }
 
@@ -1306,22 +1305,22 @@ namespace PicoXLSX
             {
                 throw new FormatException(@"The sheet name must not contain the characters [  ]  * ? / \ ");
             }
-            this.sheetName = name;
+            sheetName = name;
         }
 
         /// <summary>
         /// Sets the name of the sheet
         /// </summary>
-        /// <param name="sheetName">Name of the sheet</param>
+        /// <param name="name">Name of the sheet</param>
         /// <param name="sanitize">If true, the filename will be sanitized automatically according to the specifications of Excel</param>
         /// <exception cref="WorksheetException">WorksheetException Thrown if no workbook is referenced. This information is necessary to determine whether the name already exists</exception>
-        public void SetSheetName(String sheetName, bool sanitize)
+        public void SetSheetName(string name, bool sanitize)
         {
-            if (this.WorkbookReference == null)
+            if (WorkbookReference == null)
             {
                 throw new WorksheetException("MissingReferenceException", "The worksheet name cannot be sanitized because no workbook is referenced");
             }
-            this.sheetName = Worksheet.SanitizeWorksheetName(sheetName, this.WorkbookReference);
+            sheetName = SanitizeWorksheetName(name, WorkbookReference);
         }
 
 #region static_methods
@@ -1356,7 +1355,7 @@ namespace PicoXLSX
             int number = 1;
             while (true)
             {
-                if (Worksheet.worksheetExists(name, workbook) == false) { break; } // OK
+                if (WorksheetExists(name, workbook) == false) { break; } // OK
                 if (originalName.Length + (number / 10) >= 31)
                 {
                     name = originalName.Substring(0, 30 - number / 10) +  number.ToString();
@@ -1376,7 +1375,7 @@ namespace PicoXLSX
         /// <param name="name">Name to check</param>
         /// <param name="workbook">Workbook reference</param>
         /// <returns>True if the name exits, otherwise false</returns>
-        private static bool worksheetExists(String name, Workbook workbook)
+        private static bool WorksheetExists(String name, Workbook workbook)
         {
             int len = workbook.Worksheets.Count;
             for (int i = 0; i < len; i++)
@@ -1411,8 +1410,8 @@ namespace PicoXLSX
                 get { return columnAddress; }
                 set
                 {
-                    this.number = Cell.ResolveColumn(value);
-                    this.columnAddress = value;
+                    number = Cell.ResolveColumn(value);
+                    columnAddress = value;
                 }
             }
 
@@ -1433,7 +1432,7 @@ namespace PicoXLSX
                 get { return number; }
                 set
                 {
-                    this.columnAddress = Cell.ResolveColumnAddress(value);
+                    columnAddress = Cell.ResolveColumnAddress(value);
                     number = value; 
                 }
             }
@@ -1448,7 +1447,7 @@ namespace PicoXLSX
             /// </summary>
             public Column()
             {
-                this.Width = Worksheet.DEFAULT_COLUMN_WIDTH;
+                Width = DEFAULT_COLUMN_WIDTH;
             }
 
             /// <summary>
@@ -1457,7 +1456,7 @@ namespace PicoXLSX
             /// <param name="columnCoordinate">Column number (zero-based, 0 to 16383)</param>
             public Column(int columnCoordinate) : this()
             {
-                this.Number = columnCoordinate;
+                Number = columnCoordinate;
             }
 
             /// <summary>
@@ -1466,7 +1465,7 @@ namespace PicoXLSX
             /// <param name="columnAddress">Column address (A to XFD)</param>
             public Column (string columnAddress) : this()
             {
-                this.ColumnAddress = columnAddress; 
+                ColumnAddress = columnAddress; 
             }
 
         }
