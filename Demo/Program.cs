@@ -61,7 +61,7 @@ namespace Demo
         {
             Workbook wb = new Workbook("shortenerDemo.xlsx", "Sheet1"); // Create a workbook (important: A worksheet must be created as well) 
             wb.WS.Value("Some Text");                                   // Add cell A1
-            wb.WS.Value(58.55, Style.BasicStyles.DoubleUnderline);      // Add a formated value to cell B1
+            wb.WS.Value(58.55, Style.BasicStyles.DoubleUnderline);      // Add a formatted value to cell B1
             wb.WS.Right(2);                                             // Move to cell E1   
             wb.WS.Value(true);                                          // Add cell E1
             wb.AddWorksheet("Sheet2");                                  // Add a new worksheet
@@ -69,7 +69,7 @@ namespace Demo
             wb.WS.Value("This is another text");                        // Add cell A1
             wb.WS.Formula("=A1");                                       // Add a formula in Cell A2
             wb.WS.Down();                                               // Go to cell A4
-            wb.WS.Value("Formated Text", Style.BasicStyles.Bold);       // Add a formated value to cell A4
+            wb.WS.Value("Formatted Text", Style.BasicStyles.Bold);       // Add a formatted value to cell A4
             wb.Save();                                                  // Save the workbook
         }
 
@@ -243,7 +243,7 @@ namespace Demo
         private static void Demo6()
         {
             Workbook workbook = new Workbook("test6.xlsx", "Sheet1");                                   // Create new workbook
-            workbook.CurrentWorksheet.AddNextCell("Mergerd1");                                          // Add cell A1
+            workbook.CurrentWorksheet.AddNextCell("Merged1");                                           // Add cell A1
             workbook.CurrentWorksheet.MergeCells("A1:C1");                                              // Merge cells from A1 to C1
             workbook.CurrentWorksheet.GoToNextRow();                                                    // Go to next row
             workbook.CurrentWorksheet.AddNextCell(false);                                               // Add cell A2

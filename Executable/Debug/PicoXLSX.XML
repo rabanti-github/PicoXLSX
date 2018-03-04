@@ -731,27 +731,27 @@
             <summary>
             Method to create the XML string for the app-properties document
             </summary>
-            <returns>String with formated XML data</returns>
+            <returns>String with formatted XML data</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateColsString(PicoXLSX.Worksheet)">
             <summary>
             Method to create the columns as XML string. This is used to define the width of columns
             </summary>
             <param name="worksheet">Worksheet to process</param>
-            <returns>String with formated XML data</returns>
+            <returns>String with formatted XML data</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateCorePropertiesString">
             <summary>
             Method to create the XML string for the core-properties document
             </summary>
-            <returns>String with formated XML data</returns>
+            <returns>String with formatted XML data</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateMergedCellsString(PicoXLSX.Worksheet)">
             <summary>
             Method to create the merged cells string of the passed worksheet
             </summary>
             <param name="sheet">Worksheet to process</param>
-            <returns>Formated string with merged cell ranges</returns>
+            <returns>Formatted string with merged cell ranges</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateRowString(System.Collections.Generic.List{PicoXLSX.Cell},PicoXLSX.Worksheet)">
             <summary>
@@ -759,7 +759,7 @@
             </summary>
             <param name="columnFields">List of cells</param>
             <param name="worksheet">Worksheet to process</param>
-            <returns>Formated row string</returns>
+            <returns>Formatted row string</returns>
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateSheetProtectionString(PicoXLSX.Worksheet)">
@@ -767,43 +767,43 @@
             Method to create the protection string of the passed worksheet
             </summary>
             <param name="sheet">Worksheet to process</param>
-            <returns>Formated string with protection statement of the worksheet</returns>
+            <returns>Formatted string with protection statement of the worksheet</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateStyleBorderString">
             <summary>
             Method to create the XML string for the border part of the style sheet document
             </summary>
-            <returns>String with formated XML data</returns>
+            <returns>String with formatted XML data</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateStyleFontString">
             <summary>
             Method to create the XML string for the font part of the style sheet document
             </summary>
-            <returns>String with formated XML data</returns>
+            <returns>String with formatted XML data</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateStyleFillString">
             <summary>
             Method to create the XML string for the fill part of the style sheet document
             </summary>
-            <returns>String with formated XML data</returns>
+            <returns>String with formatted XML data</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateStyleNumberFormatString">
             <summary>
             Method to create the XML string for the number format part of the style sheet document 
             </summary>
-            <returns>String with formated XML data</returns>
+            <returns>String with formatted XML data</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateStyleXfsString">
             <summary>
             Method to create the XML string for the Xf part of the style sheet document
             </summary>
-            <returns>String with formated XML data</returns>
+            <returns>String with formatted XML data</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.CreateMruColorsString">
             <summary>
             Method to create the XML string for the color-MRU part of the style sheet document (recent colors)
             </summary>
-            <returns>String with formated XML data</returns>
+            <returns>String with formatted XML data</returns>
         </member>
         <member name="M:PicoXLSX.LowLevel.GetSortedSheetData(PicoXLSX.Worksheet)">
             <summary>
@@ -959,7 +959,7 @@
             <param name="minor">Minor number</param>
             <param name="build">Build number</param>
             <param name="revision">Revision number</param>
-            <returns>Formated version number (e.g. 1.0 or 55.987)</returns>
+            <returns>Formatted version number (e.g. 1.0 or 55.987)</returns>
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the major number is too long or one of the numbers is negative</exception>
         </member>
         <member name="P:PicoXLSX.Metadata.Application">
@@ -1218,7 +1218,7 @@
         </member>
         <member name="P:PicoXLSX.Style.Border.BottomColor">
             <summary>
-            Color code (ARGB) of the bottom border
+            Color code of the bottom border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             </summary>
         </member>
         <member name="P:PicoXLSX.Style.Border.BottomStyle">
@@ -1228,7 +1228,7 @@
         </member>
         <member name="P:PicoXLSX.Style.Border.DiagonalColor">
             <summary>
-            Color code (ARGB) of the diagonal lines
+            Color code of the diagonal lines. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             </summary>
         </member>
         <member name="P:PicoXLSX.Style.Border.DiagonalDown">
@@ -1248,7 +1248,7 @@
         </member>
         <member name="P:PicoXLSX.Style.Border.LeftColor">
             <summary>
-            Color code (ARGB) of the left border
+            Color code of the left border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             </summary>
         </member>
         <member name="P:PicoXLSX.Style.Border.LeftStyle">
@@ -1258,7 +1258,7 @@
         </member>
         <member name="P:PicoXLSX.Style.Border.RightColor">
             <summary>
-            Color code (ARGB) of the right border
+            Color code of the right border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             </summary>
         </member>
         <member name="P:PicoXLSX.Style.Border.RightStyle">
@@ -1268,7 +1268,7 @@
         </member>
         <member name="P:PicoXLSX.Style.Border.TopColor">
             <summary>
-            Color code (ARGB) of the top border
+            Color code of the top border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             </summary>
         </member>
         <member name="P:PicoXLSX.Style.Border.TopStyle">
@@ -1553,12 +1553,12 @@
         </member>
         <member name="P:PicoXLSX.Style.Fill.BackgroundColor">
             <summary>
-            Background color of the fill
+            Background color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             </summary>
         </member>
         <member name="P:PicoXLSX.Style.Fill.ForegroundColor">
             <summary>
-            Foreground color of the fill
+            Foreground color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             </summary>
         </member>
         <member name="P:PicoXLSX.Style.Fill.IndexedColor">
@@ -2259,7 +2259,7 @@
             <param name="style">Style to add</param>
             <returns>Returns the managed style of the style manager</returns>
         </member>
-        <member name="M:PicoXLSX.Workbook.addStyleComponent(PicoXLSX.Style,PicoXLSX.AbstractStyle)">
+        <member name="M:PicoXLSX.Workbook.AddStyleComponent(PicoXLSX.Style,PicoXLSX.AbstractStyle)">
             <summary>
             Adds a style component to a style
             </summary>
@@ -2269,7 +2269,7 @@
         </member>
         <member name="M:PicoXLSX.Workbook.AddWorksheet(System.String)">
             <summary>
-            Adding a new Worksheet
+            Adding a new Worksheet. The new worksheet will be defined as current worksheet
             </summary>
             <param name="name">Name of the new worksheet</param>
             <exception cref="T:PicoXLSX.WorksheetException">Throws a WorksheetNameAlreadxExistsException if the name of the worksheet already exists</exception>
@@ -2277,7 +2277,7 @@
         </member>
         <member name="M:PicoXLSX.Workbook.AddWorksheet(System.String,System.Boolean)">
             <summary>
-            Adding a new Worksheet with a sanitizing option
+            Adding a new Worksheet with a sanitizing option. The new worksheet will be defined as current worksheet
             </summary>
             <param name="name">Name of the new worksheet</param>
             <param name="sanitizeSheetName">If true, the name of the worksheet will be sanitized automatically according to the specifications of Excel</param>
@@ -2286,7 +2286,7 @@
         </member>
         <member name="M:PicoXLSX.Workbook.AddWorksheet(PicoXLSX.Worksheet)">
             <summary>
-            Adding a new Worksheet
+            Adding a new Worksheet. The new worksheet will be defined as current worksheet
             </summary>
             <param name="worksheet">Prepared worksheet object</param>
             <exception cref="T:PicoXLSX.WorksheetException">WorksheetException is thrown if the name of the worksheet already exists</exception>
@@ -3105,7 +3105,7 @@
             <summary>
             Sets the name of the sheet
             </summary>
-            <param name="sheetName">Name of the sheet</param>
+            <param name="name">Name of the sheet</param>
             <param name="sanitize">If true, the filename will be sanitized automatically according to the specifications of Excel</param>
             <exception cref="T:PicoXLSX.WorksheetException">WorksheetException Thrown if no workbook is referenced. This information is necessary to determine whether the name already exists</exception>
         </member>
@@ -3117,7 +3117,7 @@
             <param name="workbook">Workbook reference</param>
             <returns>Name of the sanitized worksheet</returns>
         </member>
-        <member name="M:PicoXLSX.Worksheet.worksheetExists(System.String,PicoXLSX.Workbook)">
+        <member name="M:PicoXLSX.Worksheet.WorksheetExists(System.String,PicoXLSX.Workbook)">
             <summary>
             Checks whether a worksheet with the given name exists
             </summary>
@@ -3247,7 +3247,7 @@
             <summary>If selected, the user can insert rows if the worksheets is protected</summary>
         </member>
         <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.insertHyperlinks">
-            <summary>If selected, the user can insert hyperlinks if the worksheets is protected</summary>
+            <summary>If selected, the user can insert hyper links if the worksheets is protected</summary>
         </member>
         <member name="F:PicoXLSX.Worksheet.SheetProtectionValue.deleteColumns">
             <summary>If selected, the user can delete columns if the worksheets is protected</summary>

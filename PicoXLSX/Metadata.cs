@@ -89,11 +89,10 @@ namespace PicoXLSX
         /// </summary>
         public Metadata()
         {
-            this.UseColorMRU = false;
-            this.Application = "PicoXLSX";
-            //this.ApplicationVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            UseColorMRU = false;
+            Application = "PicoXLSX";
             Version vi = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            this.ApplicationVersion = ParseVersion(vi.Major, vi.Minor, vi.Revision, vi.Build);
+            ApplicationVersion = ParseVersion(vi.Major, vi.Minor, vi.Revision, vi.Build);
         }
 #endregion
 
@@ -104,8 +103,8 @@ namespace PicoXLSX
         /// <exception cref="FormatException">Throws a FormatException if the version string is malformed</exception>
         private void CheckVersion()
         {
-            if (string.IsNullOrEmpty(this.applicationVersion)) { return; }
-            string[] split = this.applicationVersion.Split('.');
+            if (string.IsNullOrEmpty(applicationVersion)) { return; }
+            string[] split = applicationVersion.Split('.');
             bool state = true;
             if (split.Length != 2) { state = false; }
             else
@@ -115,7 +114,7 @@ namespace PicoXLSX
             }
             if (state == false)
             {
-                throw new FormatException("The format of the version in the meta data is wrong (" + this.applicationVersion + "). Should be in the format and a range from '0.0' to '99999.99999'");
+                throw new FormatException("The format of the version in the meta data is wrong (" + applicationVersion + "). Should be in the format and a range from '0.0' to '99999.99999'");
             }
         }
 #endregion
@@ -129,7 +128,7 @@ namespace PicoXLSX
         /// <param name="minor">Minor number</param>
         /// <param name="build">Build number</param>
         /// <param name="revision">Revision number</param>
-        /// <returns>Formated version number (e.g. 1.0 or 55.987)</returns>
+        /// <returns>Formatted version number (e.g. 1.0 or 55.987)</returns>
         /// <exception cref="FormatException">Throws a FormatException if the major number is too long or one of the numbers is negative</exception>
         public static string ParseVersion(int major, int minor, int build, int revision)
         {

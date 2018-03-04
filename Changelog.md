@@ -1,5 +1,15 @@
 # Change Log
 
+## v2.3.1
+---
+Release Date: **xx.xx.2018**
+
+- Changed the method name addStyleComponent (Workbook) to AddStyleComponent, to follow conventions (minor updates of code may necessary)
+- Many optimizations
+- Fixed typos
+- Documentation update
+
+
 ## v2.3.0
 ---
 Release Date: **09.02.2018**

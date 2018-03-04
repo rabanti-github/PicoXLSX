@@ -37,11 +37,11 @@
     <Preliminary>False</Preliminary>
     <NamingMethod>Guid</NamingMethod>
     <HelpTitle>PicoXLSX Library Documentation</HelpTitle>
-    <ContentPlacement>AboveNamespaces</ContentPlacement>
+    <ContentPlacement>BelowNamespaces</ContentPlacement>
     <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Internals, Privates, Protected, SealedProtected, ProtectedInternalAsProtected</VisibleItems>
     <FeedbackEMailAddress>
     </FeedbackEMailAddress>
-    <CopyrightText>Copyright Raphael Stoeckli &amp;#169%3b 2017</CopyrightText>
+    <CopyrightText>Copyright Raphael Stoeckli &amp;#169%3b 2018</CopyrightText>
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
     <WarnOnMissingSourceContext>False</WarnOnMissingSourceContext>
     <ProjectSummary>&amp;lt%3bp&amp;gt%3bPicoXLSX is a small .NET / C# library to create XLSX files %28Microsoft Excel 2007 or newer%29 in an easy and native way&amp;lt%3b/p&amp;gt%3b
@@ -78,7 +78,7 @@ Place all .CS files from the PicoXLSX source folder into your project. You can p
  workbook.WS.Value%28&amp;amp%3bquot%3bSome Data&amp;amp%3bquot%3b%29%3b                                        // Add cell A1
  workbook.WS.Formula%28&amp;amp%3bquot%3b=A1&amp;amp%3bquot%3b%29%3b                                            // Add formula to cell B1
  workbook.WS.Down%28%29%3b                                                    // Go to row 2
- workbook.WS.Value%28DateTime.Now, Style.BasicStyles.Bold%29%3b               // Add formated value to cell A2
+ workbook.WS.Value%28DateTime.Now, Style.BasicStyles.Bold%29%3b               // Add formatted value to cell A2
  workbook.Save%28%29%3b                                                       // Save the workbook as myWorkbook.xlsx
 &amp;lt%3b/code&amp;gt%3b&amp;lt%3b/pre&amp;gt%3b
 &amp;lt%3bh2&amp;gt%3b&amp;lt%3ba id=&amp;quot%3bQuick_Start_regular_syntax_56&amp;quot%3b&amp;gt%3b&amp;lt%3b/a&amp;gt%3bQuick Start %28regular syntax%29&amp;lt%3b/h2&amp;gt%3b

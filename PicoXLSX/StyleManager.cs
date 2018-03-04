@@ -7,9 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PicoXLSX
 {
@@ -61,13 +58,13 @@ namespace PicoXLSX
         /// </summary>
         public StyleManager()
         {
-            this.borders = new List<AbstractStyle>();
-            this.cellXfs = new List<AbstractStyle>();
-            this.fills = new List<AbstractStyle>();
-            this.fonts = new List<AbstractStyle>();
-            this.numberFormats = new List<AbstractStyle>();
-            this.styles = new List<AbstractStyle>();
-            this.styleNames = new List<string>();
+            borders = new List<AbstractStyle>();
+            cellXfs = new List<AbstractStyle>();
+            fills = new List<AbstractStyle>();
+            fonts = new List<AbstractStyle>();
+            numberFormats = new List<AbstractStyle>();
+            styles = new List<AbstractStyle>();
+            styleNames = new List<string>();
         }
         #endregion
 
@@ -100,7 +97,7 @@ namespace PicoXLSX
         /// <exception cref="StyleException">Throws a StyleException if the border was not found in the style manager</exception>
         public Style.Border GetBorderByHash(String hash)
         {
-            AbstractStyle component = GetComponentByHash(ref this.borders, hash);
+            AbstractStyle component = GetComponentByHash(ref borders, hash);
             if (component == null)
             {
                 throw new StyleException("MissingReferenceException", "The style component with the hash '" + hash + "' was not found");
@@ -114,7 +111,7 @@ namespace PicoXLSX
         /// <returns>Array of borders</returns>
         public Style.Border[] GetBorders()
         {
-            return Array.ConvertAll(this.borders.ToArray(), x => (Style.Border)x);
+            return Array.ConvertAll(borders.ToArray(), x => (Style.Border)x);
         }
 
         /// <summary>
@@ -123,7 +120,7 @@ namespace PicoXLSX
         /// <returns>Number of stored borders</returns>
         public int GetBorderStyleNumber()
         {
-            return this.borders.Count;
+            return borders.Count;
         }
 
         /* ****************************** */
@@ -136,7 +133,7 @@ namespace PicoXLSX
         /// <exception cref="StyleException">Throws a StyleException if the cellXf was not found in the style manager</exception>
         public Style.CellXf GetCellXfByHash(String hash)
         {
-            AbstractStyle component = GetComponentByHash(ref this.cellXfs, hash);
+            AbstractStyle component = GetComponentByHash(ref cellXfs, hash);
             if (component == null)
             {
                 throw new StyleException("MissingReferenceException", "The style component with the hash '" + hash + "' was not found");
@@ -150,7 +147,7 @@ namespace PicoXLSX
         /// <returns>Array of cellXfs</returns>
         public Style.CellXf[] GetCellXfs()
         {
-            return Array.ConvertAll(this.cellXfs.ToArray(), x => (Style.CellXf)x);
+            return Array.ConvertAll(cellXfs.ToArray(), x => (Style.CellXf)x);
         }
 
         /// <summary>
@@ -159,7 +156,7 @@ namespace PicoXLSX
         /// <returns>Number of stored cellXfs</returns>
         public int GetCellXfStyleNumber()
         {
-            return this.cellXfs.Count;
+            return cellXfs.Count;
         }
 
         /* ****************************** */
@@ -172,7 +169,7 @@ namespace PicoXLSX
         /// <exception cref="StyleException">Throws a StyleException if the fill was not found in the style manager</exception>
         public Style.Fill GetFillByHash(String hash)
         {
-            AbstractStyle component = GetComponentByHash(ref this.fills, hash);
+            AbstractStyle component = GetComponentByHash(ref fills, hash);
             if (component == null)
             {
                 throw new StyleException("MissingReferenceException", "The style component with the hash '" + hash + "' was not found");
@@ -186,7 +183,7 @@ namespace PicoXLSX
         /// <returns>Array of fills</returns>
         public Style.Fill[] GetFills()
         {
-            return Array.ConvertAll(this.fills.ToArray(), x => (Style.Fill)x);
+            return Array.ConvertAll(fills.ToArray(), x => (Style.Fill)x);
         }
 
         /// <summary>
@@ -195,7 +192,7 @@ namespace PicoXLSX
         /// <returns>Number of stored fills</returns>
         public int GetFillStyleNumber()
         {
-            return this.fills.Count;
+            return fills.Count;
         }
 
         /* ****************************** */
@@ -208,7 +205,7 @@ namespace PicoXLSX
         /// <exception cref="StyleException">Throws a StyleException if the font was not found in the style manager</exception>
         public Style.Font GetFontByHash(String hash)
         {
-            AbstractStyle component = GetComponentByHash(ref this.fonts, hash);
+            AbstractStyle component = GetComponentByHash(ref fonts, hash);
             if (component == null)
             {
                 throw new StyleException("MissingReferenceException", "The style component with the hash '" + hash + "' was not found");
@@ -222,7 +219,7 @@ namespace PicoXLSX
         /// <returns>Array of fonts</returns>
         public Style.Font[] GetFonts()
         {
-            return Array.ConvertAll(this.fonts.ToArray(), x => (Style.Font)x);
+            return Array.ConvertAll(fonts.ToArray(), x => (Style.Font)x);
         }
 
         /// <summary>
@@ -231,7 +228,7 @@ namespace PicoXLSX
         /// <returns>Number of stored fonts</returns>
         public int GetFontStyleNumber()
         {
-            return this.fonts.Count;
+            return fonts.Count;
         }
 
         /* ****************************** */
@@ -244,7 +241,7 @@ namespace PicoXLSX
         /// <exception cref="StyleException">Throws a StyleException if the numberFormat was not found in the style manager</exception>
         public Style.NumberFormat GetNumberFormatByHash(String hash)
         {
-            AbstractStyle component = GetComponentByHash(ref this.numberFormats, hash);
+            AbstractStyle component = GetComponentByHash(ref numberFormats, hash);
             if (component == null)
             {
                 throw new StyleException("MissingReferenceException", "The style component with the hash '" + hash + "' was not found");
@@ -258,7 +255,7 @@ namespace PicoXLSX
         /// <returns>Array of numberFormats</returns>
         public Style.NumberFormat[] GetNumberFormats()
         {
-            return Array.ConvertAll(this.numberFormats.ToArray(), x => (Style.NumberFormat)x);
+            return Array.ConvertAll(numberFormats.ToArray(), x => (Style.NumberFormat)x);
         }
 
         /// <summary>
@@ -267,7 +264,7 @@ namespace PicoXLSX
         /// <returns>Number of stored numberFormats</returns>
         public int GetNumberFormatStyleNumber()
         {
-            return this.numberFormats.Count;
+            return numberFormats.Count;
         }
 
         /* ****************************** */
@@ -280,12 +277,12 @@ namespace PicoXLSX
         /// <exception cref="StyleException">Throws a StyleException if the style was not found in the style manager</exception>
         public Style GetStyleByName(string name)
         {
-            int len = this.styles.Count;
+            int len = styles.Count;
             for (int i = 0; i < len; i++)
             {
-                if (((Style)this.styles[i]).Name == name)
+                if (((Style)styles[i]).Name == name)
                 {
-                    return (Style)this.styles[i];
+                    return (Style)styles[i];
                 }
             }
             throw new StyleException("MissingReferenceException", "The style with the name '" + name + "' was not found");
@@ -299,7 +296,7 @@ namespace PicoXLSX
         /// <exception cref="StyleException">Throws a StyleException if the style was not found in the style manager</exception>
         public Style GetStyleByHash(String hash)
         {
-            AbstractStyle component = GetComponentByHash(ref this.styles, hash);
+            AbstractStyle component = GetComponentByHash(ref styles, hash);
             if (component == null)
             {
                 throw new StyleException("MissingReferenceException", "The style component with the hash '" + hash + "' was not found");
@@ -313,7 +310,7 @@ namespace PicoXLSX
         /// <returns>Array of styles</returns>
         public Style[] GetStyles()
         {
-            return Array.ConvertAll(this.styles.ToArray(), x => (Style)x);
+            return Array.ConvertAll(styles.ToArray(), x => (Style)x);
         }
 
         /// <summary>
@@ -322,7 +319,7 @@ namespace PicoXLSX
         /// <returns>Number of stored styles</returns>
         public int GetStyleNumber()
         {
-            return this.styles.Count;
+            return styles.Count;
         }
 
         /* ****************************** */
@@ -336,7 +333,7 @@ namespace PicoXLSX
         public Style AddStyle(Style style)
         {
             string hash = AddStyleComponent(style);
-            return (Style)this.GetComponentByHash(ref this.styles, hash);
+            return (Style)GetComponentByHash(ref styles, hash);
         }
 
         /// <summary>
@@ -361,37 +358,37 @@ namespace PicoXLSX
             string hash = style.Hash;
             if (style.GetType() == typeof(Style.Border))
             {
-                if (this.GetComponentByHash(ref this.borders, hash) == null) { this.borders.Add(style); }
+                if (GetComponentByHash(ref borders, hash) == null) { borders.Add(style); }
                 Reorganize(ref borders);
             }
             else if (style.GetType() == typeof(Style.CellXf))
             {
-                if (this.GetComponentByHash(ref this.cellXfs, hash) == null) { this.cellXfs.Add(style); }
+                if (GetComponentByHash(ref cellXfs, hash) == null) { cellXfs.Add(style); }
                 Reorganize(ref cellXfs);
             }
             else if (style.GetType() == typeof(Style.Fill))
             {
-                if (this.GetComponentByHash(ref this.fills, hash) == null) { this.fills.Add(style); }
+                if (GetComponentByHash(ref fills, hash) == null) { fills.Add(style); }
                 Reorganize(ref fills);
             }
             else if (style.GetType() == typeof(Style.Font))
             {
-                if (this.GetComponentByHash(ref this.fonts, hash) == null) { this.fonts.Add(style); }
+                if (GetComponentByHash(ref fonts, hash) == null) { fonts.Add(style); }
                 Reorganize(ref fonts);
             }
             else if (style.GetType() == typeof(Style.NumberFormat))
             {
-                if (this.GetComponentByHash(ref this.numberFormats, hash) == null) { this.numberFormats.Add(style); }
+                if (GetComponentByHash(ref numberFormats, hash) == null) { numberFormats.Add(style); }
                 Reorganize(ref numberFormats);
             }
             else if (style.GetType() == typeof(Style))
             {
                 Style s = (Style)style;
-                if (this.styleNames.Contains(s.Name) == true)
+                if (styleNames.Contains(s.Name) == true)
                 {
-                    throw new StyleException("StyleArleadyExistsException", "The style with the name '" + s.Name + "' already exists");
+                    throw new StyleException("StyleAlreadyExistsException", "The style with the name '" + s.Name + "' already exists");
                 }
-                if (this.GetComponentByHash(ref this.styles, hash) == null)
+                if (GetComponentByHash(ref styles, hash) == null)
                 {
                     int? id;
                     if (s.InternalID.HasValue == false)
@@ -403,19 +400,19 @@ namespace PicoXLSX
                     {
                         id = s.InternalID.Value;
                     }
-                    string temp = this.AddStyleComponent(s.CurrentBorder, id);
-                    s.CurrentBorder = (Style.Border)this.GetComponentByHash(ref this.borders, temp);
-                    temp = this.AddStyleComponent(s.CurrentCellXf, id);
-                    s.CurrentCellXf = (Style.CellXf)this.GetComponentByHash(ref this.cellXfs, temp);
-                    temp = this.AddStyleComponent(s.CurrentFill, id);
-                    s.CurrentFill = (Style.Fill)this.GetComponentByHash(ref this.fills, temp);
-                    temp = this.AddStyleComponent(s.CurrentFont, id);
-                    s.CurrentFont = (Style.Font)this.GetComponentByHash(ref this.fonts, temp);
-                    temp = this.AddStyleComponent(s.CurrentNumberFormat, id);
-                    s.CurrentNumberFormat = (Style.NumberFormat)this.GetComponentByHash(ref this.numberFormats, temp);
-                    this.styles.Add(s);
+                    string temp = AddStyleComponent(s.CurrentBorder, id);
+                    s.CurrentBorder = (Style.Border)GetComponentByHash(ref borders, temp);
+                    temp = AddStyleComponent(s.CurrentCellXf, id);
+                    s.CurrentCellXf = (Style.CellXf)GetComponentByHash(ref cellXfs, temp);
+                    temp = AddStyleComponent(s.CurrentFill, id);
+                    s.CurrentFill = (Style.Fill)GetComponentByHash(ref fills, temp);
+                    temp = AddStyleComponent(s.CurrentFont, id);
+                    s.CurrentFont = (Style.Font)GetComponentByHash(ref fonts, temp);
+                    temp = AddStyleComponent(s.CurrentNumberFormat, id);
+                    s.CurrentNumberFormat = (Style.NumberFormat)GetComponentByHash(ref numberFormats, temp);
+                    styles.Add(s);
                 }
-                Reorganize(ref this.styles);
+                Reorganize(ref styles);
                 hash = s.CalculateHash();
             }
             return hash;
@@ -428,16 +425,16 @@ namespace PicoXLSX
         /// <exception cref="StyleException">Throws a StyleException if the style was not found in the style manager</exception>
         public void RemoveStyle(string styleName)
         {
-            string hash = null;
+//            string hash = null;
             bool match = false;
-            int len = this.styles.Count;
+            int len = styles.Count;
             int index = -1;
             for (int i = 0; i < len; i++)
             {
-                if (((Style)this.styles[i]).Name == styleName)
+                if (((Style)styles[i]).Name == styleName)
                 {
                     match = true;
-                    hash = ((Style)this.styles[i]).Hash;
+//                    hash = ((Style)styles[i]).Hash;
                     index = i;
                     break;
                 }
@@ -446,7 +443,7 @@ namespace PicoXLSX
             {
                 throw new StyleException("MissingReferenceException", "The style with the name '" + styleName + "' was not found in the style manager");
             }
-            this.styles.RemoveAt(index);
+            styles.RemoveAt(index);
             CleanupStyleComponents();
         }
 
@@ -476,36 +473,36 @@ namespace PicoXLSX
             Style.Fill fill;
             Style.Font font;
             Style.NumberFormat numberFormat;
-            int len = this.borders.Count;
+            int len = borders.Count;
             int i;
             for (i = len; i >= 0; i--)
             {
-                border = (Style.Border)this.borders[i];
-                if (IsUsedByStyle(border) == false) { this.borders.RemoveAt(i); }
+                border = (Style.Border)borders[i];
+                if (IsUsedByStyle(border) == false) { borders.RemoveAt(i); }
             }
-            len = this.cellXfs.Count;
+            len = cellXfs.Count;
             for (i = len; i >= 0; i--)
             {
-                cellXf = (Style.CellXf)this.cellXfs[i];
-                if (IsUsedByStyle(cellXf) == false) { this.cellXfs.RemoveAt(i); }
+                cellXf = (Style.CellXf)cellXfs[i];
+                if (IsUsedByStyle(cellXf) == false) { cellXfs.RemoveAt(i); }
             }
-            len = this.fills.Count;
+            len = fills.Count;
             for (i = len; i >= 0; i--)
             {
-                fill = (Style.Fill)this.fills[i];
-                if (IsUsedByStyle(fill) == false) { this.fills.RemoveAt(i); }
+                fill = (Style.Fill)fills[i];
+                if (IsUsedByStyle(fill) == false) { fills.RemoveAt(i); }
             }
-            len = this.fonts.Count;
+            len = fonts.Count;
             for (i = len; i >= 0; i--)
             {
-                font = (Style.Font)this.fonts[i];
-                if (IsUsedByStyle(font) == false) { this.fonts.RemoveAt(i); }
+                font = (Style.Font)fonts[i];
+                if (IsUsedByStyle(font) == false) { fonts.RemoveAt(i); }
             }
-            len = this.numberFormats.Count;
+            len = numberFormats.Count;
             for (i = len; i >= 0; i--)
             {
-                numberFormat = (Style.NumberFormat)this.numberFormats[i];
-                if (IsUsedByStyle(numberFormat) == false) { this.numberFormats.RemoveAt(i); }
+                numberFormat = (Style.NumberFormat)numberFormats[i];
+                if (IsUsedByStyle(numberFormat) == false) { numberFormats.RemoveAt(i); }
             }
         }
    
@@ -519,10 +516,10 @@ namespace PicoXLSX
             Style s;
             bool match = false;
             String hash = component.Hash;
-            int len = this.styles.Count;
+            int len = styles.Count;
             for(int i = 0; i < len; i++)
             {
-                s = (Style)this.styles[i];
+                s = (Style)styles[i];
                 if (component.GetType() == typeof(Style.Border)) { if (s.CurrentBorder.Hash == hash) { match = true; break; } }
                 else if (component.GetType() == typeof(Style.CellXf)) { if (s.CurrentCellXf.Hash == hash) { match = true; break; } }
                 if (component.GetType() == typeof(Style.Fill)) { if (s.CurrentFill.Hash == hash) { match = true; break; } }

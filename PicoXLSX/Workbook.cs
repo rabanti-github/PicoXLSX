@@ -187,7 +187,7 @@ namespace PicoXLSX
         
         public Style AddStyle(Style style)
         {
-            return this.styleManager.AddStyle(style);
+            return styleManager.AddStyle(style);
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace PicoXLSX
         /// <param name="baseStyle">Style to append a component</param>
         /// <param name="newComponent">Component to add to the baseStyle</param>
         /// <returns>Returns the managed style of the style manager</returns>
-        public Style addStyleComponent(Style baseStyle, AbstractStyle newComponent)
+        public Style AddStyleComponent(Style baseStyle, AbstractStyle newComponent)
         {
         
             if (newComponent.GetType() == typeof(Style.Border))
@@ -219,34 +219,34 @@ namespace PicoXLSX
             {
                 baseStyle.CurrentNumberFormat = (Style.NumberFormat)newComponent;
             }
-            return this.styleManager.AddStyle(baseStyle);
+            return styleManager.AddStyle(baseStyle);
         }
 
 
         /// <summary>
-        /// Adding a new Worksheet
+        /// Adding a new Worksheet. The new worksheet will be defined as current worksheet
         /// </summary>
         /// <param name="name">Name of the new worksheet</param>
         /// <exception cref="WorksheetException">Throws a WorksheetNameAlreadxExistsException if the name of the worksheet already exists</exception>
         /// <exception cref="FormatException">Throws a FormatException if the name contains illegal characters or is out of range (length between 1 an 31 characters)</exception>
         public void AddWorksheet(string name)
         {
-            foreach (Worksheet item in this.worksheets)
+            foreach (Worksheet item in worksheets)
             {
                 if (item.SheetName == name)
                 {
                     throw new WorksheetException("WorksheetNameAlreadxExistsException", "The worksheet with the name '" + name + "' already exists.");
                 }
             }
-            int number = this.worksheets.Count + 1;
+            int number = worksheets.Count + 1;
             Worksheet newWs = new Worksheet(name, number, this);
-            this.currentWorksheet = newWs;
-            this.worksheets.Add(newWs);
-            this.shortener.SetCurrentWorksheet(this.currentWorksheet);
+            currentWorksheet = newWs;
+            worksheets.Add(newWs);
+            shortener.SetCurrentWorksheet(currentWorksheet);
         }
 
         /// <summary>
-        /// Adding a new Worksheet with a sanitizing option
+        /// Adding a new Worksheet with a sanitizing option. The new worksheet will be defined as current worksheet
         /// </summary>
         /// <param name="name">Name of the new worksheet</param>
         /// <param name="sanitizeSheetName">If true, the name of the worksheet will be sanitized automatically according to the specifications of Excel</param>
@@ -266,25 +266,25 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Adding a new Worksheet
+        /// Adding a new Worksheet. The new worksheet will be defined as current worksheet
         /// </summary>
         /// <param name="worksheet">Prepared worksheet object</param>
         /// <exception cref="WorksheetException">WorksheetException is thrown if the name of the worksheet already exists</exception>
         /// <exception cref="FormatException">FormatException is thrown if the worksheet name contains illegal characters or is out of range (length between 1 an 31</exception>
         public void AddWorksheet(Worksheet worksheet)
         {
-            for (int i = 0; i < this.worksheets.Count; i++)
+            for (int i = 0; i < worksheets.Count; i++)
             {
-                if (this.worksheets[i].SheetName == worksheet.SheetName)
+                if (worksheets[i].SheetName == worksheet.SheetName)
                 {
-                    throw new WorksheetException("WorksheetNameAlreadxExistsException", "The worksheet with the name '" + worksheet.SheetName + "' already exists.");
+                    throw new WorksheetException("WorksheetNameAlreadyExistsException", "The worksheet with the name '" + worksheet.SheetName + "' already exists.");
                 }
             }
-            int number = this.worksheets.Count+ 1;
+            int number = worksheets.Count+ 1;
             worksheet.SheetID = number;
             worksheet.WorkbookReference = this;
-            this.currentWorksheet = worksheet;
-            this.worksheets.Add(worksheet);
+            currentWorksheet = worksheet;
+            worksheets.Add(worksheet);
         }
 
         /// <summary>
@@ -292,15 +292,15 @@ namespace PicoXLSX
         /// </summary>
         private void Init()
         {
-            this.worksheets = new List<Worksheet>();
-            this.styleManager = new StyleManager();
-            this.styleManager.AddStyle(new Style("default", 0, true));
+            worksheets = new List<Worksheet>();
+            styleManager = new StyleManager();
+            styleManager.AddStyle(new Style("default", 0, true));
             Style borderStyle = new Style("default_border_style", 1, true);
             borderStyle.CurrentBorder = Style.BasicStyles.DottedFill_0_125.CurrentBorder;
             borderStyle.CurrentFill = Style.BasicStyles.DottedFill_0_125.CurrentFill;
-            this.styleManager.AddStyle(borderStyle);
-            this.workbookMetadata = new Metadata();
-            this.shortener = new Shortener();
+            styleManager.AddStyle(borderStyle);
+            workbookMetadata = new Metadata();
+            shortener = new Shortener();
         }
 
 
@@ -354,9 +354,9 @@ namespace PicoXLSX
             if (onlyIfUnused == true)
             {
                     bool styleInUse = false;
-                    for(int i = 0; i < this.worksheets.Count; i++)
+                    for(int i = 0; i < worksheets.Count; i++)
                     {
-                        foreach(KeyValuePair<string,Cell> cell in this.worksheets[i].Cells)
+                        foreach(KeyValuePair<string,Cell> cell in worksheets[i].Cells)
                         {
                             if (cell.Value.CellStyle == null) { continue; }
                             if (cell.Value.CellStyle.Name == styleName)
@@ -372,12 +372,12 @@ namespace PicoXLSX
                     }
                     if (styleInUse == false)
                     {
-                        this.styleManager.RemoveStyle(styleName);
+                        styleManager.RemoveStyle(styleName);
                     }
             }
             else
             {
-                this.styleManager.RemoveStyle(styleName);
+                styleManager.RemoveStyle(styleName);
             }
         }
 
@@ -391,9 +391,9 @@ namespace PicoXLSX
             bool exists = false;
             bool resetCurrent = false;
             int index = 0;
-            for (int i = 0; i < this.worksheets.Count; i++)
+            for (int i = 0; i < worksheets.Count; i++)
             {
-                if (this.worksheets[i].SheetName == name)
+                if (worksheets[i].SheetName == name)
                 {
                     index = i;
                     exists = true;
@@ -404,29 +404,29 @@ namespace PicoXLSX
             {
                 throw new WorksheetException("UnknownWorksheetException", "The worksheet with the name '" + name + "' does not exist.");
             }
-            if (this.worksheets[index].SheetName == this.currentWorksheet.SheetName)
+            if (worksheets[index].SheetName == currentWorksheet.SheetName)
             {
                 resetCurrent = true;
             }
-            this.worksheets.RemoveAt(index);
-            if (this.worksheets.Count > 0)
+            worksheets.RemoveAt(index);
+            if (worksheets.Count > 0)
             {
-                for (int i = 0; i < this.worksheets.Count; i++)
+                for (int i = 0; i < worksheets.Count; i++)
                 {
-                    this.worksheets[i].SheetID = i + 1;
+                    worksheets[i].SheetID = i + 1;
                     if (resetCurrent == true && i == 0)
                     {
-                        this.currentWorksheet = this.worksheets[i];
+                        currentWorksheet = worksheets[i];
                     }
                 }
             }
             else
             {
-                this.currentWorksheet = null;
+                currentWorksheet = null;
             }
-            if (this.selectedWorksheet > this.worksheets.Count - 1)
+            if (selectedWorksheet > worksheets.Count - 1)
             {
-                this.selectedWorksheet = this.worksheets.Count - 1;
+                selectedWorksheet = worksheets.Count - 1;
             }
         }
 
@@ -440,7 +440,7 @@ namespace PicoXLSX
             int pos;
             List<Cell.Address> addresses;
             Cell cell;
-            foreach (Worksheet sheet in this.worksheets)
+            foreach (Worksheet sheet in worksheets)
             {
                 foreach (KeyValuePair<string, Cell.Range> range in sheet.MergedCells)
                 {
@@ -496,7 +496,7 @@ namespace PicoXLSX
         /// <exception cref="StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
         public void SaveAs(string filename)
         {
-            string backup = this.filename;
+            string backup = filename;
             this.filename = filename;
             LowLevel l = new LowLevel(this);
             l.Save();
@@ -526,11 +526,11 @@ namespace PicoXLSX
         public Worksheet SetCurrentWorksheet(string name)
         {
             bool exists = false;
-            foreach (Worksheet item in this.worksheets)
+            foreach (Worksheet item in worksheets)
             {
                 if (item.SheetName == name)
                 {
-                    this.currentWorksheet = item;
+                    currentWorksheet = item;
                     exists = true;
                     break;
                 }
@@ -539,8 +539,8 @@ namespace PicoXLSX
             {
                 throw new WorksheetException("MissingReferenceException", "The worksheet with the name '" + name + "' does not exist.");
             }
-            this.shortener.SetCurrentWorksheet(this.currentWorksheet);
-            return this.currentWorksheet;
+            shortener.SetCurrentWorksheet(currentWorksheet);
+            return currentWorksheet;
         }
 
         /// <summary>
@@ -551,11 +551,11 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws a OutOfRangeException if the index of the worksheet is out of range</exception>
         public void SetSelectedWorksheet(int worksheetIndex)
         {
-            if (worksheetIndex < 0 || worksheetIndex > this.worksheets.Count - 1)
+            if (worksheetIndex < 0 || worksheetIndex > worksheets.Count - 1)
             {
                 throw new RangeException("OutOfRangeException","The worksheet index " + worksheetIndex.ToString() + " is out of range");
             }
-            this.selectedWorksheet = worksheetIndex;
+            selectedWorksheet = worksheetIndex;
         }
 
         /// <summary>
@@ -567,16 +567,16 @@ namespace PicoXLSX
         /// <param name="password">Optional password. If null or empty, no password will be set in case of protection</param>
         public void SetWorkbookProtection(bool state, bool protectWindows, bool protectStructure, string password)
         {
-            this.lockWindowsIfProtected = protectWindows;
-            this.lockStructureIfProtected = protectStructure;
-            this.workbookProtectionPassword = password;
+            lockWindowsIfProtected = protectWindows;
+            lockStructureIfProtected = protectStructure;
+            workbookProtectionPassword = password;
             if (protectWindows == false && protectStructure == false)
             {
-                this.UseWorkbookProtection = false;
+                UseWorkbookProtection = false;
             }
             else
             {
-                this.UseWorkbookProtection = state;
+                UseWorkbookProtection = state;
             }
         }
 
@@ -589,11 +589,11 @@ namespace PicoXLSX
         public void SetSelectedWorksheet(Worksheet worksheet)
         {
             bool check = false;
-            for (int i = 0; i < this.worksheets.Count; i++)
+            for (int i = 0; i < worksheets.Count; i++)
             {
-                if (this.worksheets[i].Equals(worksheet))
+                if (worksheets[i].Equals(worksheet))
                 {
-                    this.selectedWorksheet = i;
+                    selectedWorksheet = i;
                     check = true;
                     break;
                 }
@@ -627,7 +627,7 @@ public class Shortener
     /// <param name="worksheet">Current worksheet</param>
     public void SetCurrentWorksheet(Worksheet worksheet)
     {
-        this.currentWorksheet = worksheet;
+        currentWorksheet = worksheet;
     }
 
     /// <summary>
@@ -638,7 +638,7 @@ public class Shortener
     public void Value(object value)
     {
         NullCheck();
-        this.currentWorksheet.AddNextCell(value);
+        currentWorksheet.AddNextCell(value);
     }
 
     /// <summary>
@@ -650,7 +650,7 @@ public class Shortener
     public void Value(object value, Style style)
     {
         NullCheck();
-        this.currentWorksheet.AddNextCell(value, style);
+        currentWorksheet.AddNextCell(value, style);
     }
 
     /// <summary>
@@ -661,7 +661,7 @@ public class Shortener
     public void Formula(string formula)
     {
         NullCheck();
-        this.currentWorksheet.AddNextCellFormula(formula);
+        currentWorksheet.AddNextCellFormula(formula);
     }
 
     /// <summary>
@@ -673,7 +673,7 @@ public class Shortener
     public void Formula(string formula, Style style)
     {
         NullCheck();
-        this.currentWorksheet.AddNextCellFormula(formula, style);
+        currentWorksheet.AddNextCellFormula(formula, style);
     }
 
     /// <summary>
@@ -682,7 +682,7 @@ public class Shortener
     public void Down()
     {
         NullCheck();
-        this.currentWorksheet.GoToNextRow();
+        currentWorksheet.GoToNextRow();
     }
 
     /// <summary>
@@ -692,7 +692,7 @@ public class Shortener
     public void Down(int numberOfRows)
     {
         NullCheck();
-        this.currentWorksheet.GoToNextRow(numberOfRows);
+        currentWorksheet.GoToNextRow(numberOfRows);
     }
 
     /// <summary>
@@ -701,7 +701,7 @@ public class Shortener
     public void Right()
     {
         NullCheck();
-        this.currentWorksheet.GoToNextColumn();
+        currentWorksheet.GoToNextColumn();
     }
 
     /// <summary>
@@ -711,7 +711,7 @@ public class Shortener
     public void Right(int numberOfColumns)
     {
         NullCheck();
-        this.currentWorksheet.GoToNextColumn(numberOfColumns);
+        currentWorksheet.GoToNextColumn(numberOfColumns);
     }
 
     /// <summary>
@@ -719,7 +719,7 @@ public class Shortener
     /// </summary>
     private void NullCheck()
     {
-        if (this.currentWorksheet == null)
+        if (currentWorksheet == null)
         {
             throw new WorksheetException("UndefinedWorksheetException", "No worksheet was defined");
         }
