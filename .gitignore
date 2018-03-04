@@ -194,3 +194,11 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+
+bugs\.txt
+
+UnitTest/
+
+Executable/Executable\.zip
+
+*.nuspec

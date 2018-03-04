@@ -240,10 +240,16 @@
         </member>
         <member name="M:PicoXLSX.Cell.Address.#ctor(System.Int32,System.Int32)">
             <summary>
-            Constructor with arguments
+            Constructor with row and column as arguments
             </summary>
             <param name="column">Column number (zero based)</param>
             <param name="row">Row number (zero based)</param>
+        </member>
+        <member name="M:PicoXLSX.Cell.Address.#ctor(System.String)">
+            <summary>
+            Constructor with address as string
+            </summary>
+            <param name="address">Address string (e.g. 'A1:B12')</param>
         </member>
         <member name="M:PicoXLSX.Cell.Address.GetAddress">
             <summary>
@@ -256,6 +262,13 @@
             Overwritten ToString method
             </summary>
             <returns>Returns the cell address (e.g. 'A15')</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.Address.Equals(PicoXLSX.Cell.Address)">
+            <summary>
+            Compares two addresses whether they are equal
+            </summary>
+            <param name="o"> Other address</param>
+            <returns>True if equal</returns>
         </member>
         <member name="T:PicoXLSX.Cell.Range">
             <summary>
@@ -274,16 +287,220 @@
         </member>
         <member name="M:PicoXLSX.Cell.Range.#ctor(PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
             <summary>
-            Constructor with arguments
+            Constructor with addresses as arguments
             </summary>
             <param name="start">Start address of the range</param>
             <param name="end">End address of the range</param>
+        </member>
+        <member name="M:PicoXLSX.Cell.Range.#ctor(System.String)">
+            <summary>
+            Constructor with a range string as argument
+            </summary>
+            <param name="range">Address range (e.g. 'A1:B12')</param>
         </member>
         <member name="M:PicoXLSX.Cell.Range.ToString">
             <summary>
             Overwritten ToString method
             </summary>
             <returns>Returns the range (e.g. 'A1:B12')</returns>
+        </member>
+        <member name="T:PicoXLSX.Cell.BasicFormulas">
+            <summary>
+            Class for handling of basic Excel formulas
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.Average(PicoXLSX.Cell.Range)">
+            <summary>
+            Returns a cell with a average formula
+            </summary>
+            <param name="range">Cell range to apply the average operation to</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.Average(PicoXLSX.Worksheet,PicoXLSX.Cell.Range)">
+            <summary>
+            Returns a cell with a average formula
+            </summary>
+            <param name="target">Target worksheet of the average operation. Can be null if on the same worksheet</param>
+            <param name="range">Cell range to apply the average operation to</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.Ceil(PicoXLSX.Cell.Address,System.Int32)">
+            <summary>
+            Returns a cell with a ceil formula
+            </summary>
+            <param name="address">Address to apply the ceil operation to</param>
+            <param name="decimals">Number of decimals (digits)</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.Ceil(PicoXLSX.Worksheet,PicoXLSX.Cell.Address,System.Int32)">
+            <summary>
+            Returns a cell with a ceil formula
+            </summary>
+            <param name="target">Target worksheet of the ceil operation. Can be null if on the same worksheet</param>
+            <param name="address">Address to apply the ceil operation to</param>
+            <param name="decimals">Number of decimals (digits)</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.Floor(PicoXLSX.Cell.Address,System.Int32)">
+            <summary>
+            Returns a cell with a floor formula
+            </summary>
+            <param name="address">Address to apply the floor operation to</param>
+            <param name="decimals">Number of decimals (digits)</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.Floor(PicoXLSX.Worksheet,PicoXLSX.Cell.Address,System.Int32)">
+            <summary>
+            Returns a cell with a floor formula
+            </summary>
+            <param name="target">Target worksheet of the floor operation. Can be null if on the same worksheet</param>
+            <param name="address">Address to apply the floor operation to</param>
+            <param name="decimals">Number of decimals (digits)</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.Max(PicoXLSX.Cell.Range)">
+            <summary>
+            Returns a cell with a max formula
+            </summary>
+            <param name="range">Cell range to apply the max operation to</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.Max(PicoXLSX.Worksheet,PicoXLSX.Cell.Range)">
+            <summary>
+            Returns a cell with a max formula
+            </summary>
+            <param name="target">Target worksheet of the max operation. Can be null if on the same worksheet</param>
+            <param name="range">Cell range to apply the max operation to</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.Median(PicoXLSX.Cell.Range)">
+            <summary>
+            Returns a cell with a median formula
+            </summary>
+            <param name="range">Cell range to apply the median operation to</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.Median(PicoXLSX.Worksheet,PicoXLSX.Cell.Range)">
+            <summary>
+            Returns a cell with a median formula
+            </summary>
+            <param name="target">Target worksheet of the median operation. Can be null if on the same worksheet</param>
+            <param name="range">Cell range to apply the median operation to</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.Min(PicoXLSX.Cell.Range)">
+            <summary>
+            Returns a cell with a min formula
+            </summary>
+            <param name="range">Cell range to apply the min operation to</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.Min(PicoXLSX.Worksheet,PicoXLSX.Cell.Range)">
+            <summary>
+            Returns a cell with a min formula
+            </summary>
+            <param name="target">Target worksheet of the min operation. Can be null if on the same worksheet</param>
+            <param name="range">Cell range to apply the median operation to</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.Round(PicoXLSX.Cell.Address,System.Int32)">
+            <summary>
+            Returns a cell with a round formula
+            </summary>
+            <param name="address">Address to apply the round operation to</param>
+            <param name="decimals">Number of decimals (digits)</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.Round(PicoXLSX.Worksheet,PicoXLSX.Cell.Address,System.Int32)">
+            <summary>
+            Returns a cell with a round formula
+            </summary>
+            <param name="target">Target worksheet of the round operation. Can be null if on the same worksheet</param>
+            <param name="address">Address to apply the round operation to</param>
+            <param name="decimals">Number of decimals (digits)</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.Sum(PicoXLSX.Cell.Range)">
+            <summary>
+            Returns a cell with a sum formula
+            </summary>
+            <param name="range">Cell range to get a sum of</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.Sum(PicoXLSX.Worksheet,PicoXLSX.Cell.Range)">
+            <summary>
+            Returns a cell with a sum formula
+            </summary>
+            <param name="target">Target worksheet of the sum operation. Can be null if on the same worksheet</param>
+            <param name="range">Cell range to get a sum of</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.VLookup(System.Object,PicoXLSX.Cell.Range,System.Int32,System.Boolean)">
+            <summary>
+            Function to generate a Vlookup as Excel function
+            </summary>
+            <param name="number">Numeric value for the lookup. Valid types are int, long, float and double</param>
+            <param name="range">Matrix of the lookup</param>
+            <param name="columnIndex">Column index of the target column (1 based)</param>
+            <param name="exactMatch">If true, an exact match is applied to the lookup</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.VLookup(System.Object,PicoXLSX.Worksheet,PicoXLSX.Cell.Range,System.Int32,System.Boolean)">
+            <summary>
+            Function to generate a Vlookup as Excel function
+            </summary>
+            <param name="number">Numeric value for the lookup. Valid types are int, long, float and double</param>
+            <param name="rangeTarget">Target worksheet of the matrix. Can be null if on the same worksheet</param>
+            <param name="range">Matrix of the lookup</param>
+            <param name="columnIndex">Column index of the target column (1 based)</param>
+            <param name="exactMatch">If true, an exact match is applied to the lookup</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.VLookup(PicoXLSX.Cell.Address,PicoXLSX.Cell.Range,System.Int32,System.Boolean)">
+            <summary>
+            Function to generate a Vlookup as Excel function
+            </summary>
+            <param name="address">Query address of a cell as string as source of the lookup</param>
+            <param name="range">Matrix of the lookup</param>
+            <param name="columnIndex">Column index of the target column (1 based)</param>
+            <param name="exactMatch">If true, an exact match is applied to the lookup</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.VLookup(PicoXLSX.Worksheet,PicoXLSX.Cell.Address,PicoXLSX.Worksheet,PicoXLSX.Cell.Range,System.Int32,System.Boolean)">
+            <summary>
+            Function to generate a Vlookup as Excel function
+            </summary>
+            <param name="queryTarget">Target worksheet of the query argument. Can be null if on the same worksheet</param>
+            <param name="address">Query address of a cell as string as source of the lookup</param>
+            <param name="rangeTarget">Target worksheet of the matrix. Can be null if on the same worksheet</param>
+            <param name="range">Matrix of the lookup</param>
+            <param name="columnIndex">Column index of the target column (1 based)</param>
+            <param name="exactMatch">If true, an exact match is applied to the lookup</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.GetVLookup(PicoXLSX.Worksheet,PicoXLSX.Cell.Address,System.Object,PicoXLSX.Worksheet,PicoXLSX.Cell.Range,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Function to generate a Vlookup as Excel function
+            </summary>
+            <param name="queryTarget">Target worksheet of the query argument. Can be null if on the same worksheet</param>
+            <param name="address">In case of a reference lookup, query address of a cell as string</param>
+            <param name="number">In case of a numeric lookup, number for the lookup</param>
+            <param name="rangeTarget">Target worksheet of the matrix. Can be null if on the same worksheet</param>
+            <param name="range">Matrix of the lookup</param>
+            <param name="columnIndex">Column index of the target column (1 based)</param>
+            <param name="exactMatch">If true, an exact match is applied to the lookup</param>
+            <param name="numericLookup">If true, the lookup is a numeric lookup, otherwise a reference lookup</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.BasicFormulas.GetBasicFormula(PicoXLSX.Worksheet,PicoXLSX.Cell.Range,System.String,System.String)">
+            <summary>
+            Function to generate a basic Excel function with one cell range as parameter and an optional post argument
+            </summary>
+            <param name="target">Target worksheet of the cell reference. Can be null if on the same worksheet</param>
+            <param name="range">Main argument as cell range. If applied on one cell, the start and end address are identical</param>
+            <param name="functionName">Internal Excel function name</param>
+            <param name="postArg">Optional argument</param>
+            <returns>Prepared Cell object, ready to added to a worksheet</returns>
         </member>
         <member name="T:PicoXLSX.RangeException">
             <summary>
@@ -474,6 +691,17 @@
             <summary>
             Method to save the workbook
             </summary>
+            <exception cref="T:PicoXLSX.IOException">Throws IOException in case of an error</exception>
+            <exception cref="T:PicoXLSX.RangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
+            <exception cref="T:PicoXLSX.StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+            <remarks>The StyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
+        </member>
+        <member name="M:PicoXLSX.LowLevel.SaveAsStream(System.IO.Stream)">
+            <summary>
+            Method to save the workbook as stream
+            </summary>
+            <param name="stream">Writable stream as target</param>
             <exception cref="T:PicoXLSX.IOException">Throws IOException in case of an error</exception>
             <exception cref="T:PicoXLSX.RangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
@@ -2131,6 +2359,16 @@
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
             <exception cref="T:PicoXLSX.StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
         </member>
+        <member name="M:PicoXLSX.Workbook.SaveAsStream(System.IO.Stream)">
+            <summary>
+            Save the workbook to a writable stream
+            </summary>
+            <param name="stream">Writable stream</param>
+            <exception cref="T:PicoXLSX.IOException">Throws IOException in case of an error</exception>
+            <exception cref="T:PicoXLSX.RangeException">Throws an RangeException if the start or end address of a handled cell range was out of range</exception>
+            <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
+            <exception cref="T:PicoXLSX.StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+        </member>
         <member name="M:PicoXLSX.Workbook.SetCurrentWorksheet(System.String)">
             <summary>
             Sets the current worksheet
@@ -2163,6 +2401,11 @@
             <remarks>This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this</remarks>
             <param name="worksheet">Worksheet object (must be in the collection of worksheets)</param>
             <exception cref="T:PicoXLSX.WorksheetException">Throws a UnknownWorksheetException if the worksheet was not found in the worksheet collection</exception>
+        </member>
+        <member name="P:PicoXLSX.Workbook.WS">
+            <summary>
+            Shortener object for the current worksheet
+            </summary>
         </member>
         <member name="P:PicoXLSX.Workbook.CurrentWorksheet">
             <summary>
@@ -2215,6 +2458,79 @@
         <member name="P:PicoXLSX.Workbook.Worksheets">
             <summary>
             Gets the list of worksheets in the workbook
+            </summary>
+        </member>
+        <member name="T:PicoXLSX.Workbook.Shortener">
+            <summary>
+            Class to provide access to the current worksheet with a shortened syntax
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Workbook.Shortener.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Workbook.Shortener.SetCurrentWorksheet(PicoXLSX.Worksheet)">
+            <summary>
+            Sets the worksheet accessed by the shortener
+            </summary>
+            <param name="worksheet">Current worksheet</param>
+        </member>
+        <member name="M:PicoXLSX.Workbook.Shortener.Value(System.Object)">
+            <summary>
+            Sets a value into the current cell and moves the cursor to the next cell (column or row depending on the defined cell direction)
+            </summary>
+            <exception cref="T:PicoXLSX.WorksheetException">Throws a WorksheetException if no worksheet was defined</exception>
+            <param name="value">Value to set</param>
+        </member>
+        <member name="M:PicoXLSX.Workbook.Shortener.Value(System.Object,PicoXLSX.Style)">
+            <summary>
+            Sets a value with style into the current cell and moves the cursor to the next cell (column or row depending on the defined cell direction)
+            </summary>
+            <exception cref="T:PicoXLSX.WorksheetException">Throws a WorksheetException if no worksheet was defined</exception>
+            <param name="value">Value to set</param>
+            <param name="style">Style to apply</param>
+        </member>
+        <member name="M:PicoXLSX.Workbook.Shortener.Formula(System.String)">
+            <summary>
+            Sets a formula into the current cell and moves the cursor to the next cell (column or row depending on the defined cell direction)
+            </summary>
+            <exception cref="T:PicoXLSX.WorksheetException">Throws a WorksheetException if no worksheet was defined</exception>
+            <param name="formula">Formula to set</param>
+        </member>
+        <member name="M:PicoXLSX.Workbook.Shortener.Formula(System.String,PicoXLSX.Style)">
+            <summary>
+            Sets a formula with style into the current cell and moves the cursor to the next cell (column or row depending on the defined cell direction)
+            </summary>
+            <exception cref="T:PicoXLSX.WorksheetException">Throws a WorksheetException if no worksheet was defined</exception>
+            <param name="formula">Formula to set</param>
+            <param name="style">Style to apply</param>
+        </member>
+        <member name="M:PicoXLSX.Workbook.Shortener.Down">
+            <summary>
+            Moves the cursor one row down
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Workbook.Shortener.Down(System.Int32)">
+            <summary>
+            Moves the cursor the number of defined rows down
+            </summary>
+            <param name="numberOfRows">Number of rows to move</param>
+        </member>
+        <member name="M:PicoXLSX.Workbook.Shortener.Right">
+            <summary>
+            Moves the cursor one column to the right
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Workbook.Shortener.Right(System.Int32)">
+            <summary>
+            Moves the cursor the number of defined columns to the right
+            </summary>
+            <param name="numberOfColumns">Number of columns to move</param>
+        </member>
+        <member name="M:PicoXLSX.Workbook.Shortener.NullCheck">
+            <summary>
+            Internal method to check whether the worksheet is null
             </summary>
         </member>
         <member name="T:PicoXLSX.Worksheet">
@@ -2287,17 +2603,17 @@
         </member>
         <member name="M:PicoXLSX.Worksheet.AddNextCell(System.Object)">
             <summary>
-            Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String
+            Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
             </summary>
-            <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+            <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
             <param name="value">Unspecified value to insert</param>
             <exception cref="T:PicoXLSX.RangeException">Throws a RangeException if the next cell is out of range (on row or column)</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddNextCell(System.Object,PicoXLSX.Style)">
             <summary>
-            Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String
+            Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
             </summary>
-            <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+            <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
             <param name="value">Unspecified value to insert</param>
             <param name="style">Style object to apply on this cell</param>
             <exception cref="T:PicoXLSX.RangeException">Throws a RangeException if the next cell is out of range (on row or column)</exception>
@@ -2313,68 +2629,60 @@
             <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
             <exception cref="T:PicoXLSX.StyleException">Throws a StyleException if the default style was malformed or if the active style cannot be referenced</exception>
         </member>
+        <member name="M:PicoXLSX.Worksheet.CastValue(System.Object,System.Int32,System.Int32)">
+            <summary>
+            Method to cast a value or align an object of the type Cell to the context of the worksheet
+            </summary>
+            <param name="value">Unspecified value or object of the type Cell</param>
+            <param name="column">Column index</param>
+            <param name="row">Row index</param>
+            <returns>Cell object</returns>
+        </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.Object,System.Int32,System.Int32)">
             <summary>
-            Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
+            Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
             </summary>
             <param name="value">Unspecified value to insert</param>
             <param name="columnAddress">Column number (zero based)</param>
             <param name="rowAddress">Row number (zero based)</param>
-            <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+            <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
             <exception cref="T:PicoXLSX.StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
             <exception cref="T:PicoXLSX.RangeException">Throws an RangeException if the passed cell address is out of range</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.Object,System.Int32,System.Int32,PicoXLSX.Style)">
             <summary>
-            Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
+            Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
             </summary>
             <param name="value">Unspecified value to insert</param>
             <param name="columnAddress">Column number (zero based)</param>
             <param name="rowAddress">Row number (zero based)</param>
             <param name="style">Style to apply on the cell</param>
-            <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+            <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
             <exception cref="T:PicoXLSX.StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
             <exception cref="T:PicoXLSX.RangeException">Throws an RangeException if the passed cell address is out of range</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.Object,System.String)">
             <summary>
-            Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
+            Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
             </summary>
             <param name="value">Unspecified value to insert</param>
             <param name="address">Cell address in the format A1 - XFD1048576</param>
-            <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+            <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
             <exception cref="T:PicoXLSX.StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
             <exception cref="T:PicoXLSX.RangeException">Throws an RangeException if the passed cell address is out of range</exception>
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell address is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCell(System.Object,System.String,PicoXLSX.Style)">
             <summary>
-            Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String
+            Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
             </summary>
             <param name="value">Unspecified value to insert</param>
             <param name="address">Cell address in the format A1 - XFD1048576</param>
             <param name="style">Style to apply on the cell</param>
-            <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+            <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
             <exception cref="T:PicoXLSX.StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
             <exception cref="T:PicoXLSX.RangeException">Throws an RangeException if the passed cell address is out of range</exception>
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell address is malformed</exception>
-        </member>
-        <member name="M:PicoXLSX.Worksheet.AddCell(PicoXLSX.Cell)">
-            <summary>
-            Adds a cell object. This object must contain a valid row and column address
-            </summary>
-            <param name="cell">Cell object to insert</param>
-            <exception cref="T:PicoXLSX.StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
-            <exception cref="T:PicoXLSX.RangeException">Throws an RangeException if the passed cell address is out of range</exception>
-        </member>
-        <member name="M:PicoXLSX.Worksheet.AddCell(PicoXLSX.Cell,PicoXLSX.Style)">
-            <summary>
-            Adds a cell object. This object must contain a valid row and column address
-            </summary>
-            <param name="cell">Cell object to insert</param>
-            <param name="style">Style to apply on the cell</param>
-            <exception cref="T:PicoXLSX.StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
-            <exception cref="T:PicoXLSX.RangeException">Throws an RangeException if the passed cell address is out of range</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellFormula(System.String,System.String)">
             <summary>
@@ -2437,7 +2745,7 @@
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Object},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)">
             <summary>
-            Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
+            Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. Prepared objects of the type Cell will not be casted but adjusted
             </summary>
             <param name="values">List of unspecified objects to insert</param>
             <param name="startAddress">Start address</param>
@@ -2448,35 +2756,35 @@
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Object},PicoXLSX.Cell.Address,PicoXLSX.Cell.Address,PicoXLSX.Style)">
             <summary>
-            Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
+            Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. Prepared objects of the type Cell will not be casted but adjusted
             </summary>
             <param name="values">List of unspecified objects to insert</param>
             <param name="startAddress">Start address</param>
             <param name="endAddress">End address</param>
             <param name="style">Style to apply on the all cells of the range</param>
-            <remarks>The data types in the passed list can be mixed. Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+            <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
             <exception cref="T:PicoXLSX.RangeException">Throws an RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
             <exception cref="T:PicoXLSX.StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Object},System.String)">
             <summary>
-            Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
+            Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. Prepared objects of the type Cell will not be casted but adjusted
             </summary>
             <param name="values">List of unspecified objects to insert</param>
             <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
-            <remarks>The data types in the passed list can be mixed. Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+            <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
             <exception cref="T:PicoXLSX.RangeException">Throws an RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
             <exception cref="T:PicoXLSX.StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell range is malformed</exception>
         </member>
         <member name="M:PicoXLSX.Worksheet.AddCellRange(System.Collections.Generic.List{System.Object},System.String,PicoXLSX.Style)">
             <summary>
-            Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String
+            Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. Prepared objects of the type Cell will not be casted but adjusted
             </summary>
             <param name="values">List of unspecified objects to insert</param>
             <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
             <param name="style">Style to apply on the all cells of the range</param>
-            <remarks>The data types in the passed list can be mixed. Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+            <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
             <exception cref="T:PicoXLSX.RangeException">Throws an RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
             <exception cref="T:PicoXLSX.StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if the passed cell range is malformed</exception>
@@ -2490,7 +2798,7 @@
             <param name="startAddress">Start address</param>
             <param name="endAddress">End address</param>
             <param name="style">Style to apply on the all cells of the range</param>
-            <remarks>The data types in the passed list can be mixed. Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+            <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
             <exception cref="T:PicoXLSX.RangeException">Throws an RangeException if the number of cells differs from the number of passed values</exception>
             <exception cref="T:PicoXLSX.StyleException">Throws an StyleException if the active style cannot be referenced while creating the cells</exception>
         </member>

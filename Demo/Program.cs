@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using PicoXLSX;
 
 
@@ -20,7 +21,9 @@ namespace Demo
         /// <param name="args">Not used</param>
         static void Main(string[] args)
         {
-            basicDemo();
+            BasicDemo();
+            ShortenerDemo();
+            StreamDemo();
             Demo1();
             Demo2();
             Demo3();
@@ -29,6 +32,7 @@ namespace Demo
             Demo6();
             Demo7();
             Demo8();
+            Demo9();
 
             /* ### PERFORMANCE TESTS ### */
             // # Use tests in this section to test the performance of PicoXLSX
@@ -37,10 +41,11 @@ namespace Demo
             /* ######################### */
         }
 
+
         /// <summary>
         /// This is a very basic demo (adding three values and save the workbook)
         /// </summary>
-        private static void basicDemo()
+        private static void BasicDemo()
         {
             Workbook workbook = new Workbook("basic.xlsx", "Sheet1");   // Create new workbook
             workbook.CurrentWorksheet.AddNextCell("Test");              // Add cell A1
@@ -48,6 +53,39 @@ namespace Demo
             workbook.CurrentWorksheet.AddNextCell("Test3");             // Add cell C1
             workbook.Save();
         }
+
+        /// <summary>
+        /// This method show the shortened style of writing cells
+        /// </summary>
+        private static void ShortenerDemo()
+        {
+            Workbook wb = new Workbook("shortenerDemo.xlsx", "Sheet1"); // Create a workbook (important: A worksheet must be created as well) 
+            wb.WS.Value("Some Text");                                   // Add cell A1
+            wb.WS.Value(58.55, Style.BasicStyles.DoubleUnderline);      // Add a formated value to cell B1
+            wb.WS.Right(2);                                             // Move to cell E1   
+            wb.WS.Value(true);                                          // Add cell E1
+            wb.AddWorksheet("Sheet2");                                  // Add a new worksheet
+            wb.CurrentWorksheet.CurrentCellDirection = Worksheet.CellDirection.RowToRow;    // Change the cell direction
+            wb.WS.Value("This is another text");                        // Add cell A1
+            wb.WS.Formula("=A1");                                       // Add a formula in Cell A2
+            wb.WS.Down();                                               // Go to cell A4
+            wb.WS.Value("Formated Text", Style.BasicStyles.Bold);       // Add a formated value to cell A4
+            wb.Save();                                                  // Save the workbook
+        }
+
+        /// <summary>
+        /// This method shows how to save a workbook as stream 
+        /// </summary>
+        private static void StreamDemo()
+        {
+            Workbook workbook = new Workbook(true);                         // Create new workbook without file name
+            workbook.CurrentWorksheet.AddNextCell("This is an example");    // Add cell A1
+            workbook.CurrentWorksheet.AddNextCellFormula("=A1");            // Add formula in cell B1
+            workbook.CurrentWorksheet.AddNextCell(123456789);               // Add cell C1
+            FileStream fs = new FileStream("stream.xlsx", FileMode.Create); // Create a file stream (could also be a memory stream or whatever writable stream you want)
+            workbook.SaveAsStream(fs);                                      // Save the workbook into the stream
+        }
+
 
         /// <summary>
         /// This method shows the usage of AddNextCell with several data types and formulas
@@ -269,5 +307,69 @@ namespace Demo
             workbook.Save();                                            								// Save the workbook
         }
 
+        /// <summary>
+        /// This demo shows the usage of basic Excel formulas
+        /// </summary>
+        private static void Demo9()
+        {
+            Workbook workbook = new Workbook("test9.xlsx", "sheet1");                                   // Create a new workbook 
+            List<object> numbers = new List<object> {1.15d, 2.225d, 13.8d, 15d, 15.1d, 17.22d, 22d, 107.5d, 128d }; // Create a list of numbers
+            List<object> texts = new List<object>() { "value 1", "value 2", "value 3", "value 4", "value 5", "value 6", "value 7", "value 8", "value 9" }; // Create a list of strings (for vlookup)
+            workbook.WS.Value("Numbers", Style.BasicStyles.Bold);                                       // Add a header with a basic style
+            workbook.WS.Value("Values", Style.BasicStyles.Bold);                                        // Add a header with a basic style
+            workbook.WS.Value("Formula type", Style.BasicStyles.Bold);                                  // Add a header with a basic style
+            workbook.WS.Value("Formula value", Style.BasicStyles.Bold);                                 // Add a header with a basic style
+            workbook.WS.Value("(See also worksheet2)");                                                 // Add a note
+            workbook.CurrentWorksheet.AddCellRange(numbers, "A2:A10");                                  // Add the numbers as range
+            workbook.CurrentWorksheet.AddCellRange(texts, "B2:B10");                                    // Add the values as range
+
+            workbook.CurrentWorksheet.SetCurrentCellAddress("D2");                                      // Set the "cursor" to D2
+            Cell c;                                                                                     // Create an empty cell object (reusable)
+            c = Cell.BasicFormulas.Average(new Cell.Range("A2:A10"));                                   // Define an average formula
+            workbook.CurrentWorksheet.AddCell("Average", "C2");                                         // Add the description of the formula to the worksheet
+            workbook.CurrentWorksheet.AddCell(c, "D2");                                                 // Add the formula to the worksheet
+
+            c = Cell.BasicFormulas.Ceil(new Cell.Address("A2"), 0);                                     // Define a ceil formula
+            workbook.CurrentWorksheet.AddCell("Ceil", "C3");                                           // Add the description of the formula to the worksheet
+            workbook.CurrentWorksheet.AddCell(c, "D3");                                                 // Add the formula to the worksheet
+
+            c = Cell.BasicFormulas.Floor(new Cell.Address("A2"), 0);                                    // Define a floor formula
+            workbook.CurrentWorksheet.AddCell("Floor", "C4");                                           // Add the description of the formula to the worksheet
+            workbook.CurrentWorksheet.AddCell(c, "D4");                                                 // Add the formula to the worksheet
+
+            c = Cell.BasicFormulas.Round(new Cell.Address("A3"), 1);                                    // Define a round formula with one digit after the comma
+            workbook.CurrentWorksheet.AddCell("Round", "C5");                                           // Add the description of the formula to the worksheet
+            workbook.CurrentWorksheet.AddCell(c, "D5");                                                 // Add the formula to the worksheet
+
+            c = Cell.BasicFormulas.Max(new Cell.Range("A2:A10"));                                       // Define a max formula
+            workbook.CurrentWorksheet.AddCell("Max", "C6");                                             // Add the description of the formula to the worksheet
+            workbook.CurrentWorksheet.AddCell(c, "D6");                                                 // Add the formula to the worksheet
+
+            c = Cell.BasicFormulas.Min(new Cell.Range("A2:A10"));                                       // Define a min formula
+            workbook.CurrentWorksheet.AddCell("Min", "C7");                                             // Add the description of the formula to the worksheet
+            workbook.CurrentWorksheet.AddCell(c, "D7");                                                 // Add the formula to the worksheet
+
+            c = Cell.BasicFormulas.Median(new Cell.Range("A2:A10"));                                    // Define a median formula
+            workbook.CurrentWorksheet.AddCell("Median", "C8");                                          // Add the description of the formula to the worksheet
+            workbook.CurrentWorksheet.AddCell(c, "D8");                                                 // Add the formula to the worksheet
+
+            c = Cell.BasicFormulas.Sum(new Cell.Range("A2:A10"));                                       // Define a sum formula
+            workbook.CurrentWorksheet.AddCell("Sum", "C9");                                             // Add the description of the formula to the worksheet
+            workbook.CurrentWorksheet.AddCell(c, "D9");                                                 // Add the formula to the worksheet
+
+            c = Cell.BasicFormulas.VLookup(13.8d, new Cell.Range("A2:B10"), 2, true);                   // Define a vlookup formula (look for the value of the number 13.8) 
+            workbook.CurrentWorksheet.AddCell("Vlookup", "C10");                                        // Add the description of the formula to the worksheet
+            workbook.CurrentWorksheet.AddCell(c, "D10");                                                // Add the formula to the worksheet
+
+            workbook.AddWorksheet("sheet2");                                                            // Create a new worksheet
+            c = Cell.BasicFormulas.VLookup(workbook.Worksheets[0], new Cell.Address("B4"), workbook.Worksheets[0], new Cell.Range("B2:C10"), 2, true); // Define a vlookup formula in worksheet1 (look for the text right of the (value of) cell B4) 
+            workbook.WS.Value(c);                                                                       // Add the formula to the worksheet
+
+            c = Cell.BasicFormulas.Median(workbook.Worksheets[0], new Cell.Range("A2:A10"));            // Define a median formula in worksheet1
+            workbook.WS.Value(c);                                                                       // Add the formula to the worksheet
+
+            workbook.Save();                                                                            // Save the workbook
+        }
+
     }
-}
+} 

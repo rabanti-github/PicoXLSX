@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicoXLSX", "PicoXLSX\PicoXLSX.csproj", "{A70E40AA-98C1-453A-8030-B4798A89EBFC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B02BD3FD-D442-49D4-870B-D59532568417}"
 	ProjectSection(SolutionItems) = preProject
-		Changelog.txt = Changelog.txt
+		Changelog.md = Changelog.md
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
