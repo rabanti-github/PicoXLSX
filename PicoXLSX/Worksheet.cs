@@ -134,7 +134,7 @@ namespace PicoXLSX
 
 #region properties
         /// <summary>
-        /// Range of the auto-filter. Wrapped to Nullable to provide null as value. If null, no auto-filter is applied
+        /// Gets the range of the auto-filter. Wrapped to Nullable to provide null as value. If null, no auto-filter is applied
         /// </summary>
         public Nullable<Cell.Range> AutoFilterRange
         {
@@ -142,7 +142,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Cells of the worksheet
+        /// Gets the cells of the worksheet as dictionary with the cell address as key and the cell object as value
         /// </summary>
         public Dictionary<string, Cell> Cells
         {
@@ -150,7 +150,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Dictionary of all columns with non-standard properties, like auto filter applied or a special width
+        /// Gets all columns with non-standard properties, like auto filter applied or a special width as dictionary with the zero-based column index as key and the column object as value
         /// </summary>
         public Dictionary<int, Column> Columns
         {
@@ -158,12 +158,12 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Direction when using AddNextCell method
+        /// Gets or sets the direction when using AddNextCell method
         /// </summary>
         public CellDirection CurrentCellDirection { get; set; }
 
         /// <summary>
-        /// Default column width
+        /// Gets or sets the default column width
         /// </summary>
         /// <exception cref="RangeException">Throws a RangeException exception if the passed width is out of range (set)</exception>
         public float DefaultColumnWidth
@@ -180,7 +180,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Default Row height
+        /// Gets or sets the default Row height
         /// </summary>
         /// <exception cref="RangeException">Throws a RangeException exception if the passed height is out of range (set)</exception>
         public float DefaultRowHeight
@@ -197,7 +197,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Dictionary of hidden rows.  Key is the row number (zero-based), value is a boolean. True indicates hidden, false visible.
+        /// Gets the hidden rows as dictionary with the zero-based row number as key and a boolean as value. True indicates hidden, false visible.
         /// </summary>
         /// <remarks>Entries with the value false are not affecting the worksheet. These entries can be removed</remarks>
         public Dictionary<int, bool> HiddenRows
@@ -206,7 +206,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Dictionary with merged cells (only references)
+        /// Gets the merged cells (only references) as dictionary with the cell address as key and the range object as value
         /// </summary>
         public Dictionary<string, Cell.Range> MergedCells
         {
@@ -214,7 +214,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Dictionary of row heights. Key is the row number (zero-based), value is a float from 0 to 409.5
+        /// Gets defined row heights as dictionary with the zero-based row number as key and the height (float from 0 to 409.5) as value
         /// </summary>
         public Dictionary<int, float> RowHeights
         {
@@ -222,7 +222,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Cell range of selected cells of this worksheet. Null if no cells are selected
+        /// Gets the cell range of selected cells of this worksheet. Null if no cells are selected
         /// </summary>
         public Nullable<Cell.Range> SelectedCells
         {
@@ -230,12 +230,12 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Internal ID of the sheet
+        /// Gets or sets the internal ID of the sheet
         /// </summary>
         public int SheetID { get; set; }
 
         /// <summary>
-        /// Name of the worksheet
+        /// Gets or sets the name of the worksheet
         /// </summary>
         public string SheetName
         {
@@ -253,7 +253,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// List of SheetProtectionValue. These values defines the allowed actions if the worksheet is protected
+        /// Gets the list of SheetProtectionValues. These values define the allowed actions if the worksheet is protected
         /// </summary>
         public List<SheetProtectionValue> SheetProtectionValues
         {
@@ -261,7 +261,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// If true, the worksheet is protected
+        /// Gets or sets whether the worksheet is protected. If true, protection is enabled
         /// </summary>
         public bool UseSheetProtection { get; set; }
 

@@ -71,14 +71,14 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Assigned style of the cell
+        /// Gets the assigned style of the cell
         /// </summary>
         public Style CellStyle
         {
             get { return cellStyle; }
         }
 
-        /// <summary>Number of the column (zero-based)</summary>  
+        /// <summary>Gets or sets the number of the column (zero-based)</summary>  
         /// <exception cref="RangeException">Throws a RangeException if the column address is out of range</exception>
         public int ColumnAddress
         {
@@ -93,11 +93,11 @@ namespace PicoXLSX
             }
         }
 
-        /// <summary>Type of the cell</summary>
+        /// <summary>Gets or sets the type of the cell</summary>
         public CellType DataType { get; set; }
 
 
-        /// <summary>Number of the row (zero-based)</summary>
+        /// <summary>Gets or sets the number of the row (zero-based)</summary>
         /// <exception cref="RangeException">Throws a RangeException if the row address is out of range</exception>
         public int RowAddress
         {
@@ -112,7 +112,7 @@ namespace PicoXLSX
             }
         }
 
-        /// <summary>Value of the cell (generic object type)</summary>
+        /// <summary>Gets or sets the value of the cell (generic object type)</summary>
         public object Value { get; set; }
 
         /// <summary>

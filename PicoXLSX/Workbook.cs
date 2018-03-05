@@ -42,7 +42,7 @@ namespace PicoXLSX
 
 
         /// <summary>
-        /// Shortener object for the current worksheet
+        /// Gets the shortener object for the current worksheet
         /// </summary>
         public Shortener WS
         {

@@ -24,27 +24,27 @@ namespace PicoXLSX
 
         #region properties
         /// <summary>
-        /// Current Border object of the style
+        /// Gets or sets the current Border object of the style
         /// </summary>
         public Border CurrentBorder { get; set; }
         /// <summary>
-        /// Current CellXf object of the style
+        /// Gets or sets the  current CellXf object of the style
         /// </summary>
         public CellXf CurrentCellXf { get; set; }
         /// <summary>
-        /// Current Fill object of the style
+        /// Gets or sets the current Fill object of the style
         /// </summary>
         public Fill CurrentFill { get; set; }
         /// <summary>
-        /// Current Font object of the style
+        /// Gets or sets the  current Font object of the style
         /// </summary>
         public Font CurrentFont { get; set; }
         /// <summary>
-        /// Current NumberFormat object of the style
+        /// Gets or sets the  current NumberFormat object of the style
         /// </summary>
         public NumberFormat CurrentNumberFormat { get; set; }
         /// <summary>
-        /// Name of the style. If not defined, the hash will be used as name
+        /// Gets or sets the name of the style. If not defined, the automatically calculated hash will be used as name
         /// </summary>
         public string Name
         {
@@ -69,7 +69,7 @@ namespace PicoXLSX
         }
         
         /// <summary>
-        /// Gets whether the style is system internal
+        /// Gets whether the style is system internal. Such styles are not meant to be altered
         /// </summary>
         public bool IsInternalStyle
         {
@@ -259,51 +259,51 @@ namespace PicoXLSX
 
             #region properties
             /// <summary>
-            /// Color code of the bottom border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+            /// Gets or sets the color code of the bottom border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
             public string BottomColor { get; set; }
             /// <summary>
-            /// Style of bottom cell border
+            /// Gets or sets the  style of bottom cell border
             /// </summary>
             public StyleValue BottomStyle { get; set; }
             /// <summary>
-            /// Color code of the diagonal lines. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+            /// Gets or sets the color code of the diagonal lines. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
             public string DiagonalColor { get; set; }
             /// <summary>
-            /// If true, the downwards diagonal line is used
+            /// Gets or sets whether the downwards diagonal line is used. If true, the line is used
             /// </summary>
             public bool DiagonalDown { get; set; }
             /// <summary>
-            /// If true, the upwards diagonal line is used
+            /// Gets or sets whether the upwards diagonal line is used. If true, the line is used
             /// </summary>
             public bool DiagonalUp { get; set; }
             /// <summary>
-            /// Style of the diagonal lines
+            /// Gets or sets the style of the diagonal lines
             /// </summary>
             public StyleValue DiagonalStyle { get; set; }
             /// <summary>
-            /// Color code of the left border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+            /// Gets or sets the color code of the left border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
             public string LeftColor { get; set; }
             /// <summary>
-            /// Style of left cell border
+            /// Gets or sets the style of left cell border
             /// </summary>
             public StyleValue LeftStyle { get; set; }
             /// <summary>
-            /// Color code of the right border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+            /// Gets or sets the color code of the right border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
             public string RightColor { get; set; }
             /// <summary>
-            /// Style of right cell border
+            /// Gets or sets the style of right cell border
             /// </summary>
             public StyleValue RightStyle { get; set; }
             /// <summary>
-            /// Color code of the top border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+            /// Gets or sets the color code of the top border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
             public string TopColor { get; set; }
             /// <summary>
-            /// Style of top cell border
+            /// Gets or sets the style of top cell border
             /// </summary>
             public StyleValue TopStyle { get; set; }
             #endregion
@@ -562,27 +562,27 @@ namespace PicoXLSX
 
             #region properties
             /// <summary>
-            /// If true, the applyAlignment value of the style will be set to true (used to merge cells)
+            /// Gets or sets whether the applyAlignment property (used to merge cells) will be defined in the XF entry of the style. If true, applyAlignment will be defined
             /// </summary>
             public bool ForceApplyAlignment { get; set; }
             /// <summary>
-            /// If true, the style is used for hiding cell values / protection of cells
+            /// Gets or sets whether the hidden property (used for protection or hiding of cells) will be defined in the XF entry of the style. If true, hidden will be defined
             /// </summary>
             public bool Hidden { get; set; }
             /// <summary>
-            /// Horizontal alignment of the style
+            /// Gets or sets the horizontal alignment of the style
             /// </summary>
             public HorizontalAlignValue HorizontalAlign { get; set; }
             /// <summary>
-            /// If true, the style is used for locking / protection of cells or worksheets
+            /// Gets or sets whether the locked property (used for locking / protection of cells or worksheets) will be defined in the XF entry of the style. If true, locked will be defined
             /// </summary>
             public bool Locked { get; set; }
             /// <summary>
-            /// Text break options of the style
+            /// Gets or sets the text break options of the style
             /// </summary>
             public TextBreakValue Alignment { get; set; }
             /// <summary>
-            /// Direction of the text within the cell
+            /// Gets or sets the direction of the text within the cell
             /// </summary>
             public TextDirectionValue TextDirection
             {
@@ -594,7 +594,7 @@ namespace PicoXLSX
                 }
             }
             /// <summary>
-            /// Text rotation in degrees (from +90 to -90)
+            /// Gets or sets the text rotation in degrees (from +90 to -90)
             /// </summary>
             public int TextRotation
             {
@@ -607,7 +607,7 @@ namespace PicoXLSX
                 }
             }
             /// <summary>
-            /// Vertical alignment of the style
+            /// Gets or sets the vertical alignment of the style
             /// </summary>
             public VerticalAlignValue VerticalAlign { get; set; }
             #endregion
@@ -766,19 +766,19 @@ namespace PicoXLSX
 
             #region properties
             /// <summary>
-            /// Background color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+            /// Gets or sets the background color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
             public string BackgroundColor { get; set; }
             /// <summary>
-            /// Foreground color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+            /// Gets or sets the foreground color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
             public string ForegroundColor { get; set; }
             /// <summary>
-            /// Indexed color (Default is 64)
+            /// Gets or sets the indexed color (Default is 64)
             /// </summary>
             public int IndexedColor { get; set; }
             /// <summary>
-            /// Pattern type of the fill (Default is none)
+            /// Gets or sets the pattern type of the fill (Default is none)
             /// </summary>
             public PatternValue PatternFill { get; set; }
             #endregion
@@ -878,7 +878,7 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Set the color and the depending fill type
+            /// Sets the color and the depending fill type
             /// </summary>
             /// <param name="value">color value</param>
             /// <param name="filltype">fill type (fill or pattern)</param>
@@ -989,31 +989,31 @@ namespace PicoXLSX
 
             #region properties
             /// <summary>
-            /// If true, the font is bold
+            /// Gets or sets whether the font is bold. If true, the font is declared as bold
             /// </summary>
             public bool Bold { get; set; }
             /// <summary>
-            /// Charset of the Font (Default is empty)
+            /// Gets or sets the char set of the Font (Default is empty)
             /// </summary>
             public string Charset { get; set; }
             /// <summary>
-            /// Font color theme (Default is 1)
+            /// Gets or sets the font color theme (Default is 1)
             /// </summary>
             public int ColorTheme { get; set; }
             /// <summary>
-            /// Font color (default is empty)
+            /// Gets or sets the font color (default is empty)
             /// </summary>
             public string ColorValue { get; set; }
             /// <summary>
-            /// If true, the font has a double underline
+            /// Gets or sets whether the font has a double underline. If true, the font is declared with a double underline
             /// </summary>
             public bool DoubleUnderline { get; set; }
             /// <summary>
-            ///  Font family (Default is 2)
+            ///  Gets or sets the font family (Default is 2)
             /// </summary>
             public string Family { get; set; }
             /// <summary>
-            /// In true the font is equals the default font
+            /// Gets whether the font is equals the default font
             /// </summary>
             public bool IsDefaultFont
             {
@@ -1024,19 +1024,19 @@ namespace PicoXLSX
                 }
             }
             /// <summary>
-            /// If true, the font is italic
+            /// Gets or sets whether the font is italic. If true, the font is declared as italic
             /// </summary>
             public bool Italic { get; set; }
             /// <summary>
-            /// Font name (Default is Calibri)
+            /// Gets or sets the font name (Default is Calibri)
             /// </summary>
             public string Name { get; set; }
             /// <summary>
-            /// Font scheme (Default is minor)
+            /// Gets or sets the font scheme (Default is minor)
             /// </summary>
             public SchemeValue Scheme { get; set; }
             /// <summary>
-            /// Font size. Valid range is from 8 to 75
+            /// Gets or sets the font size. Valid range is from 8 to 75
             /// </summary>
             public int Size
             {
@@ -1049,15 +1049,15 @@ namespace PicoXLSX
                 }
             }
             /// <summary>
-            /// If true, the font is stroked through
+            /// Gets or sets whether the font is struck through. If true, the font is declared as strike-through
             /// </summary>
             public bool Strike { get; set; }
             /// <summary>
-            /// If true, the font has one underline
+            /// Gets or sets whether the font is underlined. If true, the font is declared as underlined
             /// </summary>
             public bool Underline { get; set; }
             /// <summary>
-            /// Alignment of the font (Default is none)
+            /// Gets or sets the alignment of the font (Default is none)
             /// </summary>
             public VerticalAlignValue VerticalAlign { get; set; }
             #endregion
@@ -1237,15 +1237,15 @@ namespace PicoXLSX
 
             #region properties
             /// <summary>
-            /// Custom format code in the notation of Excel
+            /// Gets or sets the custom format code in the notation of Excel
             /// </summary>
             public string CustomFormatCode { get; set; }
             /// <summary>
-            /// Format number of the custom format. Must be higher or equal then predefined custom number (164) 
+            /// Gets or sets the format number of the custom format. Must be higher or equal then predefined custom number (164) 
             /// </summary>
             public int CustomFormatID { get; set; }
             /// <summary>
-            /// Returns true in case of a custom format (higher or equals 164)
+            /// Gets whether the number format is a custom format (higher or equals 164). If true, the format is custom
             /// </summary>
             public bool IsCustomFormat
             {
@@ -1256,7 +1256,7 @@ namespace PicoXLSX
                 }
             }
             /// <summary>
-            /// Format number. Set this to custom (164) in case of custom number formats
+            /// Gets or sets the format number. Set this to custom (164) in case of custom number formats
             /// </summary>
             public FormatNumber Number { get; set; }
             #endregion
