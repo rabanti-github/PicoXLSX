@@ -137,7 +137,7 @@ namespace PicoXLSX
         /// <summary>
         /// Default Constructor with additional parameter to create a default worksheet
         /// </summary>
-        /// <param name="createWorkSheet">If true, a default worksheet will be crated and set as default worksheet</param>
+        /// <param name="createWorkSheet">If true, a default worksheet with the name 'Sheet1' will be crated and set as current worksheet</param>
         public Workbook(bool createWorkSheet)
         {
             Init();
@@ -172,12 +172,9 @@ namespace PicoXLSX
             AddWorksheet(Worksheet.SanitizeWorksheetName(sheetName, this));
         }
 
-
 #endregion
 
 #region methods
-
-
 
         /// <summary>
         /// Adds a style to the style manager
@@ -452,10 +449,10 @@ namespace PicoXLSX
                         {
                             cell = new Cell();
                             cell.DataType = Cell.CellType.EMPTY;
-                            cell.RowAddress = address.Row;
-                            cell.ColumnAddress = address.Column;
+                            cell.RowNumber = address.Row;
+                            cell.ColumnNumber = address.Column;
                             cell.WorksheetReference = sheet;
-                            sheet.AddCell(cell, cell.ColumnAddress, cell.RowAddress);
+                            sheet.AddCell(cell, cell.ColumnNumber, cell.RowNumber);
                         }
                         else
                         {
@@ -609,7 +606,7 @@ namespace PicoXLSX
 #region sub-classes
 
 /// <summary>
-/// Class to provide access to the current worksheet with a shortened syntax
+/// Class to provide access to the current worksheet with a shortened syntax. Note: The WS object can be null if the workbook was created without a worksheet. The object will be available as soon as the current worksheet is defined
 /// </summary>
 public class Shortener
 {

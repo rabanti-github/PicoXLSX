@@ -28,13 +28,13 @@ namespace PicoXLSX
         /// </summary>
         public const float DEFAULT_ROW_HEIGHT = 15f;
         /// <summary>
-        /// Maximum column address (zero-based) as constant
+        /// Maximum column number (zero-based) as constant
         /// </summary>
-        public const int MAX_COLUMN_ADDRESS = 16383;
+        public const int MAX_COLUMN_NUMBER = 16383;
         /// <summary>
-        /// Minimum column address (zero-based) as constant
+        /// Minimum column number (zero-based) as constant
         /// </summary>
-        public const int MIN_COLUMN_ADDRESS = 0;
+        public const int MIN_COLUMN_NUMBER = 0;
         /// <summary>
         /// Minimum column width as constant
         /// </summary>
@@ -48,13 +48,13 @@ namespace PicoXLSX
         /// </summary>
         public const float MAX_COLUMN_WIDTH = 255f;
         /// <summary>
-        /// Maximum row address (zero-based) as constant
+        /// Maximum row number (zero-based) as constant
         /// </summary>
-        public const int MAX_ROW_ADDRESS = 1048575;
+        public const int MAX_ROW_NUMBER = 1048575;
         /// <summary>
-        /// Minimum row address (zero-based) as constant
+        /// Minimum row number (zero-based) as constant
         /// </summary>
-        public const int MIN_ROW_ADDRESS = 0;
+        public const int MIN_ROW_NUMBER = 0;
         /// <summary>
         /// Maximum row height as constant
         /// </summary>
@@ -386,13 +386,13 @@ namespace PicoXLSX
             {
                 if (CurrentCellDirection == CellDirection.ColumnToColumn)
                 {
-                    currentColumnNumber = cell.ColumnAddress + 1;
-                    currentRowNumber = cell.RowAddress;
+                    currentColumnNumber = cell.ColumnNumber + 1;
+                    currentRowNumber = cell.RowNumber;
                 }
                 else
                 {
-                    currentColumnNumber = cell.ColumnAddress;
-                    currentRowNumber = cell.RowAddress + 1;
+                    currentColumnNumber = cell.ColumnNumber;
+                    currentRowNumber = cell.RowNumber + 1;
                 }
             }
         }
@@ -665,8 +665,8 @@ namespace PicoXLSX
             int len = values.Count;
             for(int i = 0; i < len; i++)
             {
-                list[i].RowAddress = addresses[i].Row;
-                list[i].ColumnAddress = addresses[i].Column;
+                list[i].RowNumber = addresses[i].Row;
+                list[i].ColumnNumber = addresses[i].Column;
                 list[i].WorksheetReference = this;
                 AddNextCell(list[i], false, style);
             }
@@ -776,31 +776,31 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets the cell of the specified column and row address (zero-based)
+        /// Gets the cell of the specified column and row number (zero-based)
         /// </summary>
-        /// <param name="columnAddress">Column address of the cell</param>
-        /// <param name="rowAddress">Row address of the cell</param>
+        /// <param name="columnNumber">Column number of the cell</param>
+        /// <param name="rowNumber">Row number of the cell</param>
         /// <returns>Cell object</returns>
         /// <exception cref="WorksheetException">Trows a WorksheetException if the cell was not found on the cell table of this worksheet</exception>
-        public Cell GetCell(int columnAddress, int rowAddress)
+        public Cell GetCell(int columnNumber, int rowNumber)
         {
-            return GetCell(new Cell.Address(columnAddress, rowAddress));
+            return GetCell(new Cell.Address(columnNumber, rowNumber));
         }
 
         /// <summary>
-        /// Gets the current column address (column number, zero based)
+        /// Gets the current column number (zero based)
         /// </summary>
-        /// <returns>Column address (zero-based)</returns>
-        public int GetCurrentColumnAddress()
+        /// <returns>Column number (zero-based)</returns>
+        public int GetCurrentColumnNumber()
         {
             return currentColumnNumber;
         }
 
         /// <summary>
-        /// Gets the current row address (row number, zero based)
+        /// Gets the current row number (zero based)
         /// </summary>
-        /// <returns>Row address (zero-based)</returns>
-        public int GetCurrentRowAddress()
+        /// <returns>Row number (zero-based)</returns>
+        public int GetCurrentRowNumber()
         {
             return currentRowNumber;
         }
@@ -903,8 +903,8 @@ namespace PicoXLSX
             int endRow = 0;
             foreach (KeyValuePair<string, Cell> item in Cells)
             {
-                if (item.Value.ColumnAddress < start || item.Value.ColumnAddress > end) { continue; }
-                if (item.Value.RowAddress > endRow) { endRow = item.Value.RowAddress; }
+                if (item.Value.ColumnNumber < start || item.Value.ColumnNumber > end) { continue; }
+                if (item.Value.RowNumber > endRow) { endRow = item.Value.RowNumber; }
             }
             Column c;
             for (int i = start; i <= end; i++)
@@ -1072,12 +1072,12 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="columnNumber">Column number to hide on the worksheet</param>
         /// <param name="state">If true, the column will be hidden, otherwise be visible</param>
-        /// <exception cref="RangeException">Throws an RangeException if the column address out of range</exception>
+        /// <exception cref="RangeException">Throws an RangeException if the column number out of range</exception>
         private void SetColumnHiddenState(int columnNumber, bool state)
         {
-            if (columnNumber > MAX_COLUMN_ADDRESS || columnNumber < MIN_COLUMN_ADDRESS)
+            if (columnNumber > MAX_COLUMN_NUMBER || columnNumber < MIN_COLUMN_NUMBER)
             {
-                throw new RangeException("OutOfRangeException", "The column number (" + columnNumber.ToString() + ") is out of range. Range is from " + MIN_COLUMN_ADDRESS.ToString() + " to " + MAX_COLUMN_ADDRESS.ToString() + " (" + (MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
+                throw new RangeException("OutOfRangeException", "The column number (" + columnNumber.ToString() + ") is out of range. Range is from " + MIN_COLUMN_NUMBER.ToString() + " to " + MAX_COLUMN_NUMBER.ToString() + " (" + (MAX_COLUMN_NUMBER + 1).ToString() + " columns).");
             }
             if (columns.ContainsKey(columnNumber) && state == true)
             {
@@ -1111,9 +1111,9 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws an RangeException:<br></br>a) If the passed column number is out of range<br></br>b) if the column width is out of range (0 - 255.0)</exception>
         public void SetColumnWidth(int columnNumber, float width)
         {
-            if (columnNumber > MAX_COLUMN_ADDRESS || columnNumber < MIN_COLUMN_ADDRESS)
+            if (columnNumber > MAX_COLUMN_NUMBER || columnNumber < MIN_COLUMN_NUMBER)
             {
-                throw new RangeException("OutOfRangeException", "The column number (" + columnNumber + ") is out of range. Range is from " + MIN_COLUMN_ADDRESS + " to " + MAX_COLUMN_ADDRESS + " (" + (MAX_COLUMN_ADDRESS + 1) + " columns).");
+                throw new RangeException("OutOfRangeException", "The column number (" + columnNumber + ") is out of range. Range is from " + MIN_COLUMN_NUMBER + " to " + MAX_COLUMN_NUMBER + " (" + (MAX_COLUMN_NUMBER + 1) + " columns).");
             }
             if (width < MIN_COLUMN_WIDTH || width > MAX_COLUMN_WIDTH)
             {
@@ -1139,8 +1139,8 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws an RangeException if one of the passed cell addresses is out of range</exception>
         public void SetCurrentCellAddress(int columnAddress, int rowAddress)
         {
-            SetCurrentColumnAddress(columnAddress);
-            SetCurrentRowAddress(rowAddress);
+            SetCurrentColumnNumber(columnAddress);
+            SetCurrentRowNumber(rowAddress);
         }
 
         /// <summary>
@@ -1157,31 +1157,31 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Sets the current column address (column number, zero based)
+        /// Sets the current column number (zero based)
         /// </summary>
-        /// <param name="columnAddress">Column number (zero based)</param>
-        /// <exception cref="RangeException">Throws an RangeException if the address is out of the valid range. Range is from 0 to 16383 (16384 columns)</exception>
-        public void SetCurrentColumnAddress(int columnAddress)
+        /// <param name="columnNumber">Column number (zero based)</param>
+        /// <exception cref="RangeException">Throws an RangeException if the number is out of the valid range. Range is from 0 to 16383 (16384 columns)</exception>
+        public void SetCurrentColumnNumber(int columnNumber)
         {
-            if (columnAddress > MAX_COLUMN_ADDRESS || columnAddress < MIN_COLUMN_ADDRESS)
+            if (columnNumber > MAX_COLUMN_NUMBER || columnNumber < MIN_COLUMN_NUMBER)
             {
-                throw new RangeException("OutOfRangeException", "The column number (" + columnAddress.ToString() + ") is out of range. Range is from " + MIN_COLUMN_ADDRESS.ToString() + " to " + MAX_COLUMN_ADDRESS.ToString() + " (" + (MAX_COLUMN_ADDRESS + 1).ToString() + " columns).");
+                throw new RangeException("OutOfRangeException", "The column number (" + columnNumber.ToString() + ") is out of range. Range is from " + MIN_COLUMN_NUMBER.ToString() + " to " + MAX_COLUMN_NUMBER.ToString() + " (" + (MAX_COLUMN_NUMBER + 1).ToString() + " columns).");
             }
-            currentColumnNumber = columnAddress;
+            currentColumnNumber = columnNumber;
         }
 
         /// <summary>
-        /// Sets the current row address (row number, zero based)
+        /// Sets the current row number (zero based)
         /// </summary>
-        /// <param name="rowAddress">Row number (zero based)</param>
-        /// <exception cref="RangeException">Throws an RangeException if the address is out of the valid range. Range is from 0 to 1048575 (1048576 rows)</exception>
-        public void SetCurrentRowAddress(int rowAddress)
+        /// <param name="rowNumber">Row number (zero based)</param>
+        /// <exception cref="RangeException">Throws an RangeException if the number is out of the valid range. Range is from 0 to 1048575 (1048576 rows)</exception>
+        public void SetCurrentRowNumber(int rowNumber)
         {
-            if (rowAddress > MAX_ROW_ADDRESS || rowAddress < 0)
+            if (rowNumber > MAX_ROW_NUMBER || rowNumber < 0)
             {
-                throw new RangeException("OutOfRangeException", "The row number (" + rowAddress.ToString() + ") is out of range. Range is from 0 to " + MAX_ROW_ADDRESS.ToString() + " (" + (MAX_ROW_ADDRESS + 1).ToString() + " rows).");
+                throw new RangeException("OutOfRangeException", "The row number (" + rowNumber.ToString() + ") is out of range. Range is from 0 to " + MAX_ROW_NUMBER.ToString() + " (" + (MAX_ROW_NUMBER + 1).ToString() + " rows).");
             }
-            currentRowNumber = rowAddress;
+            currentRowNumber = rowNumber;
         }
 
         /// <summary>
@@ -1237,9 +1237,9 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws an RangeException:<br></br>a) If the passed row number is out of range<br></br>b) if the row height is out of range (0 - 409.5)</exception>
         public void SetRowHeight(int rowNumber, float height)
         {
-            if (rowNumber > MAX_ROW_ADDRESS || rowNumber < MIN_ROW_ADDRESS)
+            if (rowNumber > MAX_ROW_NUMBER || rowNumber < MIN_ROW_NUMBER)
             {
-                throw new RangeException("OutOfRangeException", "The row number (" + rowNumber + ") is out of range. Range is from " + MIN_ROW_ADDRESS + " to " + MAX_ROW_ADDRESS + " (" + (MAX_ROW_ADDRESS + 1) + " rows).");
+                throw new RangeException("OutOfRangeException", "The row number (" + rowNumber + ") is out of range. Range is from " + MIN_ROW_NUMBER + " to " + MAX_ROW_NUMBER + " (" + (MAX_ROW_NUMBER + 1) + " rows).");
             }
             if (height < MIN_ROW_HEIGHT || height > MAX_ROW_HEIGHT)
             {
@@ -1263,9 +1263,9 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws an RangeException if the passed row number was out of range</exception>
         private void SetRowHiddenState(int rowNumber, bool state)
         {
-            if (rowNumber > MAX_ROW_ADDRESS || rowNumber < MIN_ROW_ADDRESS)
+            if (rowNumber > MAX_ROW_NUMBER || rowNumber < MIN_ROW_NUMBER)
             {
-                throw new RangeException("OutOfRangeException", "The row number (" + rowNumber.ToString() + ") is out of range. Range is from " + MIN_ROW_ADDRESS + " to " + MAX_ROW_ADDRESS + " (" + (MAX_ROW_ADDRESS + 1).ToString() + " rows).");
+                throw new RangeException("OutOfRangeException", "The row number (" + rowNumber.ToString() + ") is out of range. Range is from " + MIN_ROW_NUMBER + " to " + MAX_ROW_NUMBER + " (" + (MAX_ROW_NUMBER + 1).ToString() + " rows).");
             }
             if (hiddenRows.ContainsKey(rowNumber))
             {
