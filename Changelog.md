@@ -2,12 +2,16 @@
 
 ## v2.3.1
 ---
-Release Date: **xx.xx.2018**
+Release Date: **12.03.2018**
+**Note**: Due to some refactoring (see below) in this version, changes of existing code may be necessary. However, most introduced changes are on a rather low level and probably only used internally although publicly accessible
 
-- Changed the method name addStyleComponent (Workbook) to AddStyleComponent, to follow conventions (minor updates of code may necessary)
+- Renamed the method addStyleComponent  in the class Workbook to AddStyleComponent, to follow conventions
+- Renamed the Properties RowAddress and ColumnAddress to RowNumber and ColumnNumber in the class Cell for clarity
+- Renamed the methods GetCurrentColumnAddress, GetCurrentRowAddress, SetCurrentColumnAddress and SetCurrentRowAddress in the class Worksheet to GetCurrentColumnNumber, GetCurrentRowNumber, SetCurrentColumnNumber and SetCurrentRowNumber for clarity
+- Renamed the constants MIN_ROW_ADDRESS, MAX_ROW_ADDRESS, MIN_COLUMN_ADDRESS, MAX_COLUMN_ADDRESS in the class Worksheet to MIN_ROW_NUMBER, MAX_ROW_NUMBER, MIN_COLUMN_NUMBER, MAX_COLUMN_NUMBER for clarity
 - Many optimizations
 - Fixed typos
-- Documentation update
+- Extensive documentation update
 
 
 ## v2.3.0

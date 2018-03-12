@@ -142,8 +142,8 @@ namespace Demo
             workbook.CurrentWorksheet.AddNextCell(2);                   // Add cell A2
             workbook.CurrentWorksheet.AddNextCell(3);                   // Add cell A3
             workbook.CurrentWorksheet.AddNextCell(4);                   // Add cell A4
-            int row = workbook.CurrentWorksheet.GetCurrentRowAddress(); // Get the row number (will be 4 = row 5)
-            int col = workbook.CurrentWorksheet.GetCurrentColumnAddress(); // Get the column number (will be 0 = column A)
+            int row = workbook.CurrentWorksheet.GetCurrentRowNumber(); // Get the row number (will be 4 = row 5)
+            int col = workbook.CurrentWorksheet.GetCurrentColumnNumber(); // Get the column number (will be 0 = column A)
             workbook.CurrentWorksheet.AddNextCell("This cell has the row number " + (row+1) + " and column number " + (col+1));
             workbook.CurrentWorksheet.GoToNextColumn();                 // Go to Column B
             workbook.CurrentWorksheet.AddNextCell("A");                 // Add cell B1

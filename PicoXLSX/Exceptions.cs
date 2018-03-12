@@ -16,7 +16,7 @@ namespace PicoXLSX
     public class RangeException : Exception
     {
         /// <summary>
-        /// Title of the exception
+        /// Gets or sets the title of the exception
         /// </summary>
         public string ExceptionTitle { get; set; }
 
@@ -42,7 +42,7 @@ namespace PicoXLSX
     public class FormatException : Exception
     {
         /// <summary>
-        /// Title of the exception
+        /// Gets or sets the title of the exception
         /// </summary>
         public string ExceptionTitle { get; set; }
 
@@ -84,7 +84,7 @@ namespace PicoXLSX
     public class IOException : Exception
     {
         /// <summary>
-        /// Title of the exception
+        /// Gets or sets the title of the exception
         /// </summary>
         public string ExceptionTitle { get; set; }
 
@@ -119,7 +119,7 @@ namespace PicoXLSX
     public class WorksheetException : Exception
     {
         /// <summary>
-        /// Title of the exception
+        /// Gets or sets the title of the exception
         /// </summary>
         public string ExceptionTitle { get; set; }
 
@@ -145,7 +145,7 @@ namespace PicoXLSX
     public class StyleException : Exception
     {
         /// <summary>
-        /// Title of the exception
+        /// Gets or sets the title of the exception
         /// </summary>
         public string ExceptionTitle { get; set; }
 

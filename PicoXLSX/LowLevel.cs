@@ -588,7 +588,7 @@ namespace PicoXLSX
         /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
         private string CreateRowString(List<Cell> columnFields, Worksheet worksheet)
         {
-            int rowNumber = columnFields[0].RowAddress;
+            int rowNumber = columnFields[0].RowNumber;
             string height = "";
             string hidden = "";
             if (worksheet.RowHeights.ContainsKey(rowNumber))
@@ -1174,14 +1174,14 @@ namespace PicoXLSX
             List<List<Cell>> output = new List<List<Cell>>();
             if (temp.Count > 0)
             {
-                int rowNumber = temp[0].RowAddress;
+                int rowNumber = temp[0].RowNumber;
                 foreach (Cell item in temp)
                 {
-                    if (item.RowAddress != rowNumber)
+                    if (item.RowNumber != rowNumber)
                     {
                         output.Add(line);
                         line = new List<Cell>();
-                        rowNumber = item.RowAddress;
+                        rowNumber = item.RowNumber;
                     }
                     line.Add(item);
                 }

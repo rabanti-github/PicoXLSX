@@ -22,11 +22,11 @@ namespace PicoXLSX
 
 #region properties
         /// <summary>
-        /// Application which created the workbook. Default is PicoXLSX
+        /// Gets or sets the application which created the workbook. Default is PicoXLSX
         /// </summary>
         public string Application { get; set; }
         /// <summary>
-        /// Version of the creation application. Default is the library version of PicoXLSX. Use the format xxxxx.yyyyy (e.g. 1.0 or 55.9875) in case of a custom value.
+        /// Gets or sets the version of the creation application. Default is the library version of PicoXLSX. Use the format xxxxx.yyyyy (e.g. 1.0 or 55.9875) in case of a custom value.
         /// </summary>
         public string ApplicationVersion
         {
@@ -38,47 +38,47 @@ namespace PicoXLSX
             }
         }
         /// <summary>
-        /// Category of the document. There are no predefined values or restrictions about the content of this field
+        /// Gets or sets the category of the document. There are no predefined values or restrictions about the content of this field
         /// </summary>
         public string Category { get; set; }
         /// <summary>
-        /// Company owning the document. This value is for organizational purpose. Add more than one manager by using the semicolon (;) between the words
+        /// Gets or sets the company owning the document. This value is for organizational purpose. Add more than one manager by using the semicolon (;) between the words
         /// </summary>
         public string Company { get; set; }
         /// <summary>
-        /// Status of the document. There are no predefined values or restrictions about the content of this field
+        /// Gets or sets the status of the document. There are no predefined values or restrictions about the content of this field
         /// </summary>
         public string ContentStatus { get; set; }
         /// <summary>
-        /// Creator of the workbook. Add more than one creator by using the semicolon (;) between the authors
+        /// Gets or sets the creator of the workbook. Add more than one creator by using the semicolon (;) between the authors
         /// </summary>	
         public string Creator { get; set; }
         /// <summary>
-        /// Description of the document or comment about it
+        /// Gets or sets the description of the document or comment about it
         /// </summary>
         public string Description { get; set; }
         /// <summary>
-        /// Hyper-link base of the document.
+        /// Gets or sets the hyper-link base of the document.
         /// </summary>
         public string HyperlinkBase { get; set; }
         /// <summary>
-        /// Keywords for the workbook. Separate the keywords with semicolons (;)
+        /// Gets or sets the keywords of the workbook. Separate particular keywords with semicolons (;)
         /// </summary>
         public string Keywords { get; set; }
         /// <summary>
-        /// Responsible manager of the document. This value is for organizational purpose.
+        /// Gets or sets the responsible manager of the document. This value is for organizational purpose.
         /// </summary>
         public string Manager { get; set; }
         /// <summary>
-        /// Subject of the workbook
+        /// Gets or sets the subject of the workbook
         /// </summary>
         public string Subject { get; set; }
         /// <summary>
-        /// Title of the workbook
+        /// Gets or sets the title of the workbook
         /// </summary>
         public string Title { get; set; }
         /// <summary>
-        /// If true, custom defined colors (in styles) will be added as recent colors (MRU)
+        /// Gets or sets the whether custom defined colors (in styles) will be added as recent colors (MRU). If true. MRU information will be added
         /// </summary>
         public bool UseColorMRU { get; set; }
 #endregion
