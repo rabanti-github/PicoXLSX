@@ -3,6 +3,7 @@
 ## v2.3.1
 ---
 Release Date: **12.03.2018**
+
 **Note**: Due to some refactoring (see below) in this version, changes of existing code may be necessary. However, most introduced changes are on a rather low level and probably only used internally although publicly accessible
 
 - Renamed the method addStyleComponent  in the class Workbook to AddStyleComponent, to follow conventions
