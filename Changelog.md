@@ -5,6 +5,8 @@
 Release Date: **30.05.2018**
 
 - Fixed a bug in the processing of column widths. Bug fix provided by Johan Lindvall
+- Added numeric data types byte, sbyte, decimal, uint, ulong and short and ushort (proposal by Johan Lindvall)
+- Changed the behavior of cell type casting. User defined cell types will now only be overwritten if the type is DEFAULT (proposal by Johan Lindvall)
 
 
 ## v2.3.1

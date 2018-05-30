@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{da885e7f-9583-4b8a-8d51-ad2b0dbac1c0}</ProjectGuid>
-    <SHFBSchemaVersion>2015.6.5.0</SHFBSchemaVersion>
+    <SHFBSchemaVersion>2017.9.26.0</SHFBSchemaVersion>
     <!-- AssemblyName, Name, and RootNamespace are not used by SHFB but Visual Studio adds them anyway -->
     <AssemblyName>Documentation</AssemblyName>
     <RootNamespace>Documentation</RootNamespace>
@@ -38,7 +38,7 @@
     <NamingMethod>Guid</NamingMethod>
     <HelpTitle>PicoXLSX Library Documentation</HelpTitle>
     <ContentPlacement>BelowNamespaces</ContentPlacement>
-    <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Internals, Privates, Protected, SealedProtected, ProtectedInternalAsProtected</VisibleItems>
+    <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Internals, Privates, Protected, SealedProtected, ProtectedInternalAsProtected, EditorBrowsableNever, NonBrowsable</VisibleItems>
     <FeedbackEMailAddress>
     </FeedbackEMailAddress>
     <CopyrightText>Copyright Raphael Stoeckli &amp;#169%3b 2018</CopyrightText>

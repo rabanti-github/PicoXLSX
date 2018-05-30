@@ -140,7 +140,7 @@ namespace PicoXLSX
             {
                 throw new FormatException("The major number may not be bigger than 99999. The passed value is " + major.ToString());
             }
-            CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
+            CultureInfo culture = CultureInfo.InvariantCulture;
             string leftPart = major.ToString("G", culture);
             string rightPart = minor.ToString("G", culture) + build.ToString("G", culture) + revision.ToString("G", culture);
             rightPart = rightPart.TrimEnd('0');
