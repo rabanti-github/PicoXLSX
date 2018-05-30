@@ -127,6 +127,7 @@ namespace PicoXLSX
         public Cell()
         {
             WorksheetReference = null;
+            DataType = Cell.CellType.DEFAULT;
         }
 
         /// <summary>
@@ -138,7 +139,10 @@ namespace PicoXLSX
         {
             Value = value;
             DataType = type;
-            ResolveCellType();
+            if (type == CellType.DEFAULT)
+            {
+                ResolveCellType();
+            }
         }
 
         /// <summary>
@@ -214,13 +218,16 @@ namespace PicoXLSX
             }
             if (DataType == CellType.FORMULA || DataType == CellType.EMPTY) { return; }
             Type t = Value.GetType();
-            if (t == typeof(int)) { DataType = CellType.NUMBER; }
-            else if (t == typeof(float)) { DataType = CellType.NUMBER; }
+            if (t == typeof(bool)) { DataType = CellType.BOOL; }
+            else if (t == typeof(byte) || t == typeof(sbyte)) { DataType = CellType.NUMBER; }
+            else if (t == typeof(decimal)) { DataType = CellType.NUMBER; }
             else if (t == typeof(double)) { DataType = CellType.NUMBER; }
-            else if (t == typeof(long)) { DataType = CellType.NUMBER; }
-            else if (t == typeof(bool)) { DataType = CellType.BOOL; }
-            else if (t == typeof(DateTime)) { DataType = CellType.DATE; }
-            else { DataType = CellType.STRING; } // Default
+            else if (t == typeof(float)) { DataType = CellType.NUMBER; }
+            else if (t == typeof(int) || t == typeof(uint)) { DataType = CellType.NUMBER; }
+            else if (t == typeof(long) || t == typeof(ulong)) { DataType = CellType.NUMBER; }
+            else if (t == typeof(short) || t == typeof(ushort)) { DataType = CellType.NUMBER; }
+            else if (t == typeof(DateTime)) { DataType = CellType.DATE; } // Not native but standard
+            else { DataType = CellType.STRING; } // Default (char, string, object)
         }
 
         /// <summary>
@@ -290,34 +297,20 @@ namespace PicoXLSX
                 o = item; // intermediate object is necessary to cast the types below
                 t = item.GetType();
 
-                if (t == typeof(int))
-                {
-                    c = new Cell((int)o, CellType.NUMBER);
-                }
-                else if (t == typeof(float))
-                {
-                    c = new Cell((float)o, CellType.NUMBER);
-                }
-                else if (t == typeof(double))
-                {
-                    c = new Cell((double)o, CellType.NUMBER);
-                }
-                else if (t == typeof(long))
-                {
-                    c = new Cell((long)o, CellType.NUMBER);
-                }
-                else if (t == typeof(bool))
-                {
-                    c = new Cell((bool)o, CellType.BOOL);
-                }
-                else if (t == typeof(DateTime))
-                {
-                    c = new Cell((DateTime)o, CellType.DATE);
-                }
-                else if (t == typeof(string))
-                {
-                    c = new Cell((string)o, CellType.STRING);
-                }
+                if (t == typeof(bool))         {c = new Cell((bool)o, CellType.BOOL); }
+                else if (t == typeof(byte))    { c = new Cell((byte)o, CellType.NUMBER); }
+                else if (t == typeof(sbyte))   { c = new Cell((sbyte)o, CellType.NUMBER); }
+                else if (t == typeof(decimal)) { c = new Cell((decimal)o, CellType.NUMBER); }
+                else if (t == typeof(double))  { c = new Cell((double)o, CellType.NUMBER); }
+                else if (t == typeof(float))   { c = new Cell((float)o, CellType.NUMBER); }
+                else if (t == typeof(int))     { c = new Cell((int)o, CellType.NUMBER); }
+                else if (t == typeof(uint))    { c = new Cell((uint)o, CellType.NUMBER); }
+                else if (t == typeof(long))    { c = new Cell((long)o, CellType.NUMBER); }
+                else if (t == typeof(ulong))   { c = new Cell((ulong)o, CellType.NUMBER); }
+                else if (t == typeof(short))   { c = new Cell((short)o, CellType.NUMBER); }
+                else if (t == typeof(ushort))  { c = new Cell((ushort)o, CellType.NUMBER); }
+                else if (t == typeof(DateTime)){ c = new Cell((DateTime)o, CellType.DATE); }
+                else if (t == typeof(string))  { c = new Cell((string)o, CellType.STRING); }
                 else // Default = unspecified object
                 {
                     c = new Cell((string)o, CellType.DEFAULT);
@@ -886,27 +879,21 @@ namespace PicoXLSX
             /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
             private static Cell GetVLookup(Worksheet queryTarget, Address address, object number, Worksheet rangeTarget, Range range, int columnIndex, bool exactMatch, bool numericLookup)
             {
-                CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
+                CultureInfo culture = CultureInfo.InvariantCulture;
                 string arg1, arg2, arg3, arg4;
                 if (numericLookup == true)
                 {
                     Type t = number.GetType();
-                    if (t == typeof(int))
-                    {
-                        arg1 = ((int)number).ToString("G", culture);
-                    }
-                    else if (t == typeof(long))
-                    {
-                        arg1 = ((long)number).ToString("G", culture);
-                    }
-                    else if (t == typeof(double))
-                    {
-                        arg1 = ((double)number).ToString("G", culture);
-                    }
-                    else if (t == typeof(float))
-                    {
-                        arg1 = ((float)number).ToString("G", culture);
-                    }
+                    if (t == typeof(byte))          { arg1 = ((byte)number).ToString("G", culture); }
+                    else if (t == typeof(sbyte))    { arg1 = ((sbyte)number).ToString("G", culture); }
+                    else if (t == typeof(decimal))  { arg1 = ((decimal)number).ToString("G", culture); }
+                    else if (t == typeof(double))   { arg1 = ((double)number).ToString("G", culture); }
+                    else if (t == typeof(float))    { arg1 = ((float)number).ToString("G", culture); }
+                    else if (t == typeof(int))      { arg1 = ((int)number).ToString("G", culture); }
+                    else if (t == typeof(long))     { arg1 = ((long)number).ToString("G", culture); }
+                    else if (t == typeof(ulong))    { arg1 = ((ulong)number).ToString("G", culture); }
+                    else if (t == typeof(short))    { arg1 = ((short)number).ToString("G", culture); }
+                    else if (t == typeof(ushort))   { arg1 = ((ushort)number).ToString("G", culture); }
                     else
                     {
                         throw new FormatException("InvalidLookupType", "The lookup variable can only be a cell address or a numeric value. The value '" + number + "' is invalid.");

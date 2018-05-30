@@ -45,6 +45,7 @@
     <Compile Include="Testing\Performance.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Testing\TypeTesting.cs" />
     <Compile Include="Testing\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
