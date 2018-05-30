@@ -934,7 +934,7 @@ namespace PicoXLSX
             List<int> columnsToDelete = new List<int>();
             foreach (KeyValuePair<int, Column> col in columns)
             {
-                if (col.Value.HasAutoFilter == false && col.Value.IsHidden == false && col.Value.Width != Worksheet.DEFAULT_COLUMN_WIDTH)
+                if (col.Value.HasAutoFilter == false && col.Value.IsHidden == false && col.Value.Width == Worksheet.DEFAULT_COLUMN_WIDTH)
                 {
                     columnsToDelete.Add(col.Key);
                 }
