@@ -19,7 +19,7 @@ namespace PicoXLSX
     public class Cell : IComparable<Cell>
     {
 
-#region enums
+        #region enums
         /// <summary>
         /// Enum defines the basic data types of a cell
         /// </summary>
@@ -40,15 +40,15 @@ namespace PicoXLSX
             /// <summary>Default Type, not specified</summary>
             DEFAULT
         }
-#endregion
+        #endregion
 
-#region privateFileds
+        #region privateFileds
         private Style cellStyle;
         private int columnNumber;
         private int rowNumber;
-#endregion
+        #endregion
 
-#region properties
+        #region properties
 
         /// <summary>
         /// Gets or sets the combined cell Address as string in the format A1 - XFD1048576
@@ -87,7 +87,7 @@ namespace PicoXLSX
             {
                 if (value < Worksheet.MIN_COLUMN_NUMBER || value > Worksheet.MAX_COLUMN_NUMBER)
                 {
-                    throw new RangeException("OutOfRangeException","The passed column number (" + value.ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER.ToString() + " to " + Worksheet.MAX_COLUMN_NUMBER.ToString() + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1).ToString() + " rows).");
+                    throw new RangeException("OutOfRangeException", "The passed column number (" + value.ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER.ToString() + " to " + Worksheet.MAX_COLUMN_NUMBER.ToString() + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1).ToString() + " rows).");
                 }
                 columnNumber = value;
             }
@@ -120,9 +120,9 @@ namespace PicoXLSX
         /// </summary>
         public Worksheet WorksheetReference { get; set; }
 
-#endregion
+        #endregion
 
-#region constructors
+        #region constructors
         /// <summary>Default constructor. Cells created with this constructor do not have a link to a worksheet initially</summary>
         public Cell()
         {
@@ -156,12 +156,12 @@ namespace PicoXLSX
             WorksheetReference = reference;
             if (type == CellType.DEFAULT)
             {
-            	ResolveCellType();
+                ResolveCellType();
             }
         }
-#endregion
+        #endregion
 
-#region methods
+        #region methods
         /// <summary>
         /// Implemented CompareTo method
         /// </summary>
@@ -270,9 +270,9 @@ namespace PicoXLSX
             cellStyle = s;
             return s;
         }
-#endregion
+        #endregion
 
-#region staticMethods
+        #region staticMethods
         /// <summary>
         /// Converts a List of supported objects into a list of cells
         /// </summary>
@@ -518,7 +518,7 @@ namespace PicoXLSX
             }
             if (result - 1 > Worksheet.MAX_COLUMN_NUMBER || result - 1 < Worksheet.MIN_COLUMN_NUMBER)
             {
-                throw new RangeException("OutOfRangeException","The column number (" + (result - 1).ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER.ToString() + " to " + Worksheet.MAX_COLUMN_NUMBER.ToString() + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1).ToString() + " columns).");
+                throw new RangeException("OutOfRangeException", "The column number (" + (result - 1).ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER.ToString() + " to " + Worksheet.MAX_COLUMN_NUMBER.ToString() + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1).ToString() + " columns).");
             }
             return result - 1;
         }
@@ -559,9 +559,9 @@ namespace PicoXLSX
             sb.Append((char)(j + 64));
             return sb.ToString();
         }
-#endregion
+        #endregion
 
-#region subClasses
+        #region subClasses
 
         /// <summary>
         /// Struct representing the cell address as column and row (zero based)
@@ -576,7 +576,7 @@ namespace PicoXLSX
             /// Row number (zero based)
             /// </summary>
             public int Row;
-            
+
             /// <summary>
             /// Constructor with row and column as arguments
             /// </summary>
@@ -713,7 +713,7 @@ namespace PicoXLSX
             /// <param name="address">Address to apply the ceil operation to</param>
             /// <param name="decimals">Number of decimals (digits)</param>
             /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
-            public static Cell Ceil(Worksheet target, Address address , int decimals)
+            public static Cell Ceil(Worksheet target, Address address, int decimals)
             { return GetBasicFormula(target, new Range(address, address), "ROUNDUP", decimals.ToString()); }
 
             /// <summary>
@@ -947,7 +947,7 @@ namespace PicoXLSX
             }
         }
 
-#endregion
+        #endregion
 
     }
 }

@@ -37,7 +37,7 @@ namespace Demo
             /* ### PERFORMANCE TESTS ### */
             // # Use tests in this section to test the performance of PicoXLSX
             /* ######################### */
-         // Testing.Performance.StressTest("stressTest.xlsx", "worksheet", 15000, 100);
+            // Testing.Performance.StressTest("stressTest.xlsx", "worksheet", 15000, 100);
             /* ######################### */
         }
 
@@ -144,14 +144,14 @@ namespace Demo
             workbook.CurrentWorksheet.AddNextCell(4);                   // Add cell A4
             int row = workbook.CurrentWorksheet.GetCurrentRowNumber(); // Get the row number (will be 4 = row 5)
             int col = workbook.CurrentWorksheet.GetCurrentColumnNumber(); // Get the column number (will be 0 = column A)
-            workbook.CurrentWorksheet.AddNextCell("This cell has the row number " + (row+1) + " and column number " + (col+1));
+            workbook.CurrentWorksheet.AddNextCell("This cell has the row number " + (row + 1) + " and column number " + (col + 1));
             workbook.CurrentWorksheet.GoToNextColumn();                 // Go to Column B
             workbook.CurrentWorksheet.AddNextCell("A");                 // Add cell B1
             workbook.CurrentWorksheet.AddNextCell("B");                 // Add cell B2
             workbook.CurrentWorksheet.AddNextCell("C");                 // Add cell B3
             workbook.CurrentWorksheet.AddNextCell("D");                 // Add cell B4
             workbook.CurrentWorksheet.RemoveCell("A2");                 // Delete cell A2
-            workbook.CurrentWorksheet.RemoveCell(1,1);                  // Delete cell B2
+            workbook.CurrentWorksheet.RemoveCell(1, 1);                  // Delete cell B2
             workbook.CurrentWorksheet.GoToNextRow(3);                   // Move 3 rows down
             object value = workbook.CurrentWorksheet.GetCell(1, 2).Value;  // Gets the value of cell B3
             workbook.CurrentWorksheet.AddNextCell("Value of B3 is: " + value);
@@ -165,7 +165,7 @@ namespace Demo
         {
             Workbook workbook = new Workbook("test4.xlsx", "Sheet1");                                        // Create new workbook
             List<object> values = new List<object>() { "Header1", "Header2", "Header3" };                    // Create a List of values
-            workbook.CurrentWorksheet.AddCellRange(values, new Cell.Address(0,0), new Cell.Address(2,0));    // Add a cell range to A4 - C4
+            workbook.CurrentWorksheet.AddCellRange(values, new Cell.Address(0, 0), new Cell.Address(2, 0));    // Add a cell range to A4 - C4
             workbook.CurrentWorksheet.Cells["A1"].SetStyle(Style.BasicStyles.Bold);                          // Assign predefined basic style to cell
             workbook.CurrentWorksheet.Cells["B1"].SetStyle(Style.BasicStyles.Bold);                          // Assign predefined basic style to cell
             workbook.CurrentWorksheet.Cells["C1"].SetStyle(Style.BasicStyles.Bold);                          // Assign predefined basic style to cell
@@ -204,7 +204,7 @@ namespace Demo
             workbook.CurrentWorksheet.SetColumnWidth(2, 25f);                                               // Set column width
             workbook.CurrentWorksheet.SetRowHeight(0, 20);                                                 // Set row height
             workbook.CurrentWorksheet.SetRowHeight(1, 30);                                                 // Set row height
-                      
+
             workbook.Save();                                                                               // Save the workbook
         }
 
@@ -259,7 +259,7 @@ namespace Demo
             workbook.CurrentWorksheet.AddNextCell("Cell B1");                                           // Add cell B1
             workbook.CurrentWorksheet.Cells["A1"].SetCellLockedState(false, true);                      // Set the locking state of cell A1 (not locked but value is hidden when cell selected)
             workbook.AddWorksheet("PWD-Protected");                                                     // Add a new worksheet
-            workbook.CurrentWorksheet.AddCell("This worksheet is password protected. The password is:",0,0);  // Add cell A1
+            workbook.CurrentWorksheet.AddCell("This worksheet is password protected. The password is:", 0, 0);  // Add cell A1
             workbook.CurrentWorksheet.AddCell("test123", 0, 1);                                         // Add cell A2
             workbook.CurrentWorksheet.SetSheetProtectionPassword("test123");                            // Set the password "test123"
             workbook.SetWorkbookProtection(true, true, true, null);                                     // Set workbook protection (windows locked, structure locked, no password)
@@ -287,7 +287,7 @@ namespace Demo
             ws.SetAutoFilter(1, 3);                                                                     // Set auto-filter for column B to D
             workbook.SaveAs("test7.xlsx");                                                              // Save the workbook
         }
-        
+
         /// <summary>
         /// This demo shows the usage of cell and worksheet selection, auto-sanitizing of worksheet names
         /// </summary>
@@ -298,11 +298,11 @@ namespace Demo
             workbook.CurrentWorksheet.SetSelectedCells("A5:B10");										// Set the selection to the range A5:B10
             workbook.AddWorksheet("Sheet2");															// Create new worksheet
             workbook.CurrentWorksheet.AddNextCell("Test2");              								// Add cell A1
-            Cell.Range range = new Cell.Range(new Cell.Address(1,1), new Cell.Address(3,3));			// Create a cell range for the selection B2:D4
+            Cell.Range range = new Cell.Range(new Cell.Address(1, 1), new Cell.Address(3, 3));			// Create a cell range for the selection B2:D4
             workbook.CurrentWorksheet.SetSelectedCells(range);											// Set the selection to the range
             workbook.AddWorksheet("Sheet2", true);							// Create new worksheet with already existing name; The name will be changed to Sheet21 due to auto-sanitizing (appending of 1)
             workbook.CurrentWorksheet.AddNextCell("Test3");              								// Add cell A1
-            workbook.CurrentWorksheet.SetSelectedCells(new Cell.Address(2,2), new Cell.Address(4,4));	// Set the selection to the range C3:E5
+            workbook.CurrentWorksheet.SetSelectedCells(new Cell.Address(2, 2), new Cell.Address(4, 4));	// Set the selection to the range C3:E5
             workbook.SetSelectedWorksheet(1);															// Set the second Tab as selected (zero-based: 1)
             workbook.Save();                                            								// Save the workbook
         }
@@ -313,7 +313,7 @@ namespace Demo
         private static void Demo9()
         {
             Workbook workbook = new Workbook("test9.xlsx", "sheet1");                                   // Create a new workbook 
-            List<object> numbers = new List<object> {1.15d, 2.225d, 13.8d, 15d, 15.1d, 17.22d, 22d, 107.5d, 128d }; // Create a list of numbers
+            List<object> numbers = new List<object> { 1.15d, 2.225d, 13.8d, 15d, 15.1d, 17.22d, 22d, 107.5d, 128d }; // Create a list of numbers
             List<object> texts = new List<object>() { "value 1", "value 2", "value 3", "value 4", "value 5", "value 6", "value 7", "value 8", "value 9" }; // Create a list of strings (for vlookup)
             workbook.WS.Value("Numbers", Style.BasicStyles.Bold);                                       // Add a header with a basic style
             workbook.WS.Value("Values", Style.BasicStyles.Bold);                                        // Add a header with a basic style
@@ -372,4 +372,4 @@ namespace Demo
         }
 
     }
-} 
+}
