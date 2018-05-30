@@ -39,6 +39,11 @@ namespace Demo
             /* ######################### */
             // Testing.Performance.StressTest("stressTest.xlsx", "worksheet", 15000, 100);
             /* ######################### */
+            /* ###### TYPE TESTS ####### */
+            // # Use tests in this section to test the type casting of PicoXLSX
+            /* ######################### */
+            // Testing.TypeTesting.NumericTypeTesting("numericTest.xlsx");
+            /* ######################### */
         }
 
 
