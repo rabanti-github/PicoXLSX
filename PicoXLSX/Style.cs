@@ -16,10 +16,10 @@ namespace PicoXLSX
     public class Style : AbstractStyle
     {
         #region privateFields
-            private string name;
-            private bool internalStyle;
-            private bool styleNameDefined = false;
-            private StyleManager styleManagerReference = null;
+        private string name;
+        private bool internalStyle;
+        private bool styleNameDefined = false;
+        private StyleManager styleManagerReference = null;
         #endregion
 
         #region properties
@@ -49,8 +49,8 @@ namespace PicoXLSX
         public string Name
         {
             get { return name; }
-            set 
-            { 
+            set
+            {
                 name = value;
                 styleNameDefined = true;
             }
@@ -67,7 +67,7 @@ namespace PicoXLSX
                 ReorganizeStyle();
             }
         }
-        
+
         /// <summary>
         /// Gets whether the style is system internal. Such styles are not meant to be altered
         /// </summary>
@@ -142,7 +142,7 @@ namespace PicoXLSX
             CurrentFill = newStyle.CurrentFill;
             CurrentFont = newStyle.CurrentFont;
             CurrentNumberFormat = newStyle.CurrentNumberFormat;
-            
+
             if (styleNameDefined == false)
             {
                 name = CalculateHash();
@@ -198,7 +198,7 @@ namespace PicoXLSX
             copy.CurrentCellXf = CurrentCellXf.CopyCellXf();
             copy.CurrentFill = CurrentFill.CopyFill();
             copy.CurrentFont = CurrentFont.CopyFont();
-            copy.CurrentNumberFormat = CurrentNumberFormat.CopyNumberFormat(); 
+            copy.CurrentNumberFormat = CurrentNumberFormat.CopyNumberFormat();
             return copy;
         }
 
@@ -214,7 +214,7 @@ namespace PicoXLSX
         #endregion
 
         /*  ************************************************************************************  */
-#region border
+        #region border
         /// <summary>
         /// Class representing a Border entry. The Border entry is used to define frames and cell borders
         /// </summary>
@@ -477,9 +477,9 @@ namespace PicoXLSX
             #endregion
 
         }
-#endregion
+        #endregion
 
-#region cellXf
+        #region cellXf
         /// <summary>
         /// Class representing an XF entry. The XF entry is used to make reference to other style instances like Border or Fill and for the positioning of the cell content
         /// </summary>
@@ -716,9 +716,9 @@ namespace PicoXLSX
 
 
         }
-#endregion
+        #endregion
 
-#region fill
+        #region fill
         /// <summary>
         /// Class representing a Fill (background) entry. The Fill entry is used to define background colors and fill patterns
         /// </summary>
@@ -837,12 +837,12 @@ namespace PicoXLSX
             public override string CalculateHash()
             {
                 StringBuilder sb = new StringBuilder();
-                sb.Append(StyleManager.FILLPREFIX);        
+                sb.Append(StyleManager.FILLPREFIX);
                 CastValue(IndexedColor, ref sb, ':');
                 CastValue(PatternFill, ref sb, ':');
                 CastValue(ForegroundColor, ref sb, ':');
                 CastValue(BackgroundColor, ref sb, null);
-                return sb.ToString();                
+                return sb.ToString();
             }
 
             /// <summary>
@@ -939,10 +939,10 @@ namespace PicoXLSX
             #endregion
 
         }
-    
-#endregion
 
-#region font
+        #endregion
+
+        #region font
         /// <summary>
         /// Class representing a Font entry. The Font entry is used to define text formatting
         /// </summary>
@@ -1145,9 +1145,9 @@ namespace PicoXLSX
 
             #endregion
         }
-#endregion
+        #endregion
 
-#region numberFormat
+        #region numberFormat
         /// <summary>
         /// Class representing a NumberFormat entry. The NumberFormat entry is used to define cell formats like currency or date
         /// </summary>
@@ -1274,7 +1274,7 @@ namespace PicoXLSX
             #endregion
 
             #region methods
-            
+
             /// <summary>
             /// Override toString method
             /// </summary>
@@ -1315,16 +1315,16 @@ namespace PicoXLSX
             /// Method to copy the current object to a new one with casting
             /// </summary>
             /// <returns>Copy of the current object without the internal ID</returns>
-           public NumberFormat CopyNumberFormat()
+            public NumberFormat CopyNumberFormat()
             {
                 return (Style.NumberFormat)Copy();
             }
 
             #endregion
         }
-#endregion
+        #endregion
 
-#region subClass_BasicStyles
+        #region subClass_BasicStyles
         /// <summary>
         /// Factory class with the most important predefined styles
         /// </summary>
@@ -1528,14 +1528,14 @@ namespace PicoXLSX
             }
             #endregion
         }
-#endregion
+        #endregion
 
     }
 
     /// <summary>
     /// Class represents an abstract style component
     /// </summary>
-    public abstract class AbstractStyle: IComparable<AbstractStyle>, IEquatable<AbstractStyle>
+    public abstract class AbstractStyle : IComparable<AbstractStyle>, IEquatable<AbstractStyle>
     {
         /// <summary>
         /// Gets the unique hash of the object
@@ -1544,12 +1544,12 @@ namespace PicoXLSX
         {
             get { return CalculateHash(); }
         }
-        
+
         /// <summary>
         /// Gets or sets the internal ID for sorting purpose in the Excel style document (nullable)
         /// </summary>
         public int? InternalID { get; set; }
-        
+
         /// <summary>
         /// Abstract method definition to calculate the hash of the component
         /// </summary>
@@ -1615,7 +1615,7 @@ namespace PicoXLSX
             }
             else if (o.GetType() == typeof(string))
             {
-                if (o.ToString() == "#") 
+                if (o.ToString() == "#")
                 {
                     sb.Append("_#_");
                 }
@@ -1645,7 +1645,7 @@ namespace PicoXLSX
 
     }
 
-            /*  ************************************************************************************  */
+    /*  ************************************************************************************  */
 
 
 

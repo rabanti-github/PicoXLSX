@@ -16,11 +16,11 @@ namespace PicoXLSX
     public class Metadata
     {
 
-#region privateFields
+        #region privateFields
         private string applicationVersion;
-#endregion
+        #endregion
 
-#region properties
+        #region properties
         /// <summary>
         /// Gets or sets the application which created the workbook. Default is PicoXLSX
         /// </summary>
@@ -81,9 +81,9 @@ namespace PicoXLSX
         /// Gets or sets the whether custom defined colors (in styles) will be added as recent colors (MRU). If true. MRU information will be added
         /// </summary>
         public bool UseColorMRU { get; set; }
-#endregion
+        #endregion
 
-#region constructors
+        #region constructors
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -94,9 +94,9 @@ namespace PicoXLSX
             Version vi = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             ApplicationVersion = ParseVersion(vi.Major, vi.Minor, vi.Revision, vi.Build);
         }
-#endregion
+        #endregion
 
-#region methods
+        #region methods
         /// <summary>
         /// Checks the format of the passed version string
         /// </summary>
@@ -117,9 +117,9 @@ namespace PicoXLSX
                 throw new FormatException("The format of the version in the meta data is wrong (" + applicationVersion + "). Should be in the format and a range from '0.0' to '99999.99999'");
             }
         }
-#endregion
+        #endregion
 
-#region staticMethods
+        #region staticMethods
         /// <summary>
         /// Method to parse a common version (major.minor.revision.build) into the compatible format (major.minor). The minimum value is 0.0 and the maximum value is 99999.99999<br></br>
         /// The minor, revision and build number are joined if possible. If the number is too long, the additional characters will be removed from the right side down to five characters (e.g. 785563 will be 78556)
@@ -154,6 +154,6 @@ namespace PicoXLSX
             }
             return leftPart + "." + rightPart;
         }
-#endregion
+        #endregion
     }
 }

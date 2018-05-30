@@ -35,32 +35,32 @@ namespace Testing
             }
             return sb.ToString();
         }
-        
+
         /// <summary>
         /// Gets a (pseudo) random string of ASCII characters within a minimum and maximum range
         /// </summary>
         /// <param name="minLength">Minimum length</param>
         /// <param name="maxLength">Maximum length</param>
         /// <returns>Randomly generated string</returns>
-         public static string PseudoRandomString(int minLength, int maxLength)
-         {
-         	int len = PseudoRandomInteger(minLength, maxLength);
-         	return PseudoRandomString(len);
-         }
-        
+        public static string PseudoRandomString(int minLength, int maxLength)
+        {
+            int len = PseudoRandomInteger(minLength, maxLength);
+            return PseudoRandomString(len);
+        }
+
         /// <summary>
-         /// Gets a (pseudo) random long within a minimum and maximum value
+        /// Gets a (pseudo) random long within a minimum and maximum value
         /// </summary>
-         /// <param name="minLength">Minimum value</param>
-         /// <param name="maxLength">Maximum value</param>
-         /// <returns>Randomly generated long</returns>
+        /// <param name="minLength">Minimum value</param>
+        /// <param name="maxLength">Maximum value</param>
+        /// <returns>Randomly generated long</returns>
         public static long PseudoRandomLong(long min, long max)
         {
-        	if (rnd == null) { rnd = new Random(DateTime.Now.Millisecond); }
-			byte[] buffer = new byte[8];
-    		rnd.NextBytes(buffer);
-   			 long longRnd = BitConverter.ToInt64(buffer, 0);
-   			 return (Math.Abs(longRnd % (max - min)) + min);
+            if (rnd == null) { rnd = new Random(DateTime.Now.Millisecond); }
+            byte[] buffer = new byte[8];
+            rnd.NextBytes(buffer);
+            long longRnd = BitConverter.ToInt64(buffer, 0);
+            return (Math.Abs(longRnd % (max - min)) + min);
         }
 
         /// <summary>
@@ -84,18 +84,18 @@ namespace Testing
         public static double PseudoRandomDouble(double min, double max)
         {
             if (rnd == null) { rnd = new Random(DateTime.Now.Millisecond); }
-            return (Utils.rnd.NextDouble() * (max - min)) + min ;
+            return (Utils.rnd.NextDouble() * (max - min)) + min;
         }
-        
+
         /// <summary>
         /// Gets a (pseudo) random bool 
         /// </summary>
         /// <returns>Randomly generated bool</returns>
         public static bool PseudoRandomBool()
         {
-        	int i = Utils.PseudoRandomInteger(0,1);
-        	if (i == 0){ return false;}
-        	else {return true; }
+            int i = Utils.PseudoRandomInteger(0, 1);
+            if (i == 0) { return false; }
+            else { return true; }
         }
 
         /// <summary>
@@ -106,9 +106,9 @@ namespace Testing
         /// <returns>Randomly generated DateTime</returns>
         /// <remarks>Excel, respectively its OADate function does not support a dates before 30th December 1899. Such dates will cause an exception in PicoXLSX</remarks>
         public static DateTime PseduoRandomDate(DateTime min, DateTime max)
-        {       	
-        	long ticks = PseudoRandomLong(min.Ticks, max.Ticks);
-        	return new DateTime(ticks);	
+        {
+            long ticks = PseudoRandomLong(min.Ticks, max.Ticks);
+            return new DateTime(ticks);
         }
 
 
