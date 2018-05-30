@@ -25,7 +25,7 @@ namespace PicoXLSX
     /// 
     public class Workbook
     {
-#region privateFields
+        #region privateFields
         private string filename;
         private List<Worksheet> worksheets;
         private Worksheet currentWorksheet;
@@ -36,9 +36,9 @@ namespace PicoXLSX
         private bool lockStructureIfProtected;
         private int selectedWorksheet;
         private Shortener shortener;
-#endregion
+        #endregion
 
-#region properties
+        #region properties
 
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace PicoXLSX
         {
             get { return shortener; }
         }
-        
+
 
         /// <summary>
         /// Gets the current worksheet
@@ -131,9 +131,9 @@ namespace PicoXLSX
         {
             get { return worksheets; }
         }
-#endregion
+        #endregion
 
-#region constructors
+        #region constructors
         /// <summary>
         /// Default Constructor with additional parameter to create a default worksheet
         /// </summary>
@@ -172,16 +172,16 @@ namespace PicoXLSX
             AddWorksheet(Worksheet.SanitizeWorksheetName(sheetName, this));
         }
 
-#endregion
+        #endregion
 
-#region methods
+        #region methods
 
         /// <summary>
         /// Adds a style to the style manager
         /// </summary>
         /// <param name="style">Style to add</param>
         /// <returns>Returns the managed style of the style manager</returns>
-        
+
         public Style AddStyle(Style style)
         {
             return styleManager.AddStyle(style);
@@ -195,7 +195,7 @@ namespace PicoXLSX
         /// <returns>Returns the managed style of the style manager</returns>
         public Style AddStyleComponent(Style baseStyle, AbstractStyle newComponent)
         {
-        
+
             if (newComponent.GetType() == typeof(Style.Border))
             {
                 baseStyle.CurrentBorder = (Style.Border)newComponent;
@@ -277,7 +277,7 @@ namespace PicoXLSX
                     throw new WorksheetException("WorksheetNameAlreadyExistsException", "The worksheet with the name '" + worksheet.SheetName + "' already exists.");
                 }
             }
-            int number = worksheets.Count+ 1;
+            int number = worksheets.Count + 1;
             worksheet.SheetID = number;
             worksheet.WorkbookReference = this;
             currentWorksheet = worksheet;
@@ -350,27 +350,27 @@ namespace PicoXLSX
             }
             if (onlyIfUnused == true)
             {
-                    bool styleInUse = false;
-                    for(int i = 0; i < worksheets.Count; i++)
+                bool styleInUse = false;
+                for (int i = 0; i < worksheets.Count; i++)
+                {
+                    foreach (KeyValuePair<string, Cell> cell in worksheets[i].Cells)
                     {
-                        foreach(KeyValuePair<string,Cell> cell in worksheets[i].Cells)
+                        if (cell.Value.CellStyle == null) { continue; }
+                        if (cell.Value.CellStyle.Name == styleName)
                         {
-                            if (cell.Value.CellStyle == null) { continue; }
-                            if (cell.Value.CellStyle.Name == styleName)
-                            {
-                                styleInUse = true;
-                                break;
-                            }
-                        }
-                        if (styleInUse == true)
-                        {
+                            styleInUse = true;
                             break;
                         }
                     }
-                    if (styleInUse == false)
+                    if (styleInUse == true)
                     {
-                        styleManager.RemoveStyle(styleName);
+                        break;
                     }
+                }
+                if (styleInUse == false)
+                {
+                    styleManager.RemoveStyle(styleName);
+                }
             }
             else
             {
@@ -550,7 +550,7 @@ namespace PicoXLSX
         {
             if (worksheetIndex < 0 || worksheetIndex > worksheets.Count - 1)
             {
-                throw new RangeException("OutOfRangeException","The worksheet index " + worksheetIndex.ToString() + " is out of range");
+                throw new RangeException("OutOfRangeException", "The worksheet index " + worksheetIndex.ToString() + " is out of range");
             }
             selectedWorksheet = worksheetIndex;
         }
@@ -601,131 +601,131 @@ namespace PicoXLSX
             }
         }
 
-#endregion
+        #endregion
 
-#region sub-classes
+        #region sub-classes
 
-/// <summary>
-/// Class to provide access to the current worksheet with a shortened syntax. Note: The WS object can be null if the workbook was created without a worksheet. The object will be available as soon as the current worksheet is defined
-/// </summary>
-public class Shortener
-{
-    private Worksheet currentWorksheet;
-
-    /// <summary>
-    /// Default constructor
-    /// </summary>
-    public Shortener()
-    { }
-
-    /// <summary>
-    /// Sets the worksheet accessed by the shortener
-    /// </summary>
-    /// <param name="worksheet">Current worksheet</param>
-    public void SetCurrentWorksheet(Worksheet worksheet)
-    {
-        currentWorksheet = worksheet;
-    }
-
-    /// <summary>
-    /// Sets a value into the current cell and moves the cursor to the next cell (column or row depending on the defined cell direction)
-    /// </summary>
-    /// <exception cref="WorksheetException">Throws a WorksheetException if no worksheet was defined</exception>
-    /// <param name="value">Value to set</param>
-    public void Value(object value)
-    {
-        NullCheck();
-        currentWorksheet.AddNextCell(value);
-    }
-
-    /// <summary>
-    /// Sets a value with style into the current cell and moves the cursor to the next cell (column or row depending on the defined cell direction)
-    /// </summary>
-    /// <exception cref="WorksheetException">Throws a WorksheetException if no worksheet was defined</exception>
-    /// <param name="value">Value to set</param>
-    /// <param name="style">Style to apply</param>
-    public void Value(object value, Style style)
-    {
-        NullCheck();
-        currentWorksheet.AddNextCell(value, style);
-    }
-
-    /// <summary>
-    /// Sets a formula into the current cell and moves the cursor to the next cell (column or row depending on the defined cell direction)
-    /// </summary>
-    /// <exception cref="WorksheetException">Throws a WorksheetException if no worksheet was defined</exception>
-    /// <param name="formula">Formula to set</param>
-    public void Formula(string formula)
-    {
-        NullCheck();
-        currentWorksheet.AddNextCellFormula(formula);
-    }
-
-    /// <summary>
-    /// Sets a formula with style into the current cell and moves the cursor to the next cell (column or row depending on the defined cell direction)
-    /// </summary>
-    /// <exception cref="WorksheetException">Throws a WorksheetException if no worksheet was defined</exception>
-    /// <param name="formula">Formula to set</param>
-    /// <param name="style">Style to apply</param>
-    public void Formula(string formula, Style style)
-    {
-        NullCheck();
-        currentWorksheet.AddNextCellFormula(formula, style);
-    }
-
-    /// <summary>
-    /// Moves the cursor one row down
-    /// </summary>
-    public void Down()
-    {
-        NullCheck();
-        currentWorksheet.GoToNextRow();
-    }
-
-    /// <summary>
-    /// Moves the cursor the number of defined rows down
-    /// </summary>
-    /// <param name="numberOfRows">Number of rows to move</param>
-    public void Down(int numberOfRows)
-    {
-        NullCheck();
-        currentWorksheet.GoToNextRow(numberOfRows);
-    }
-
-    /// <summary>
-    /// Moves the cursor one column to the right
-    /// </summary>
-    public void Right()
-    {
-        NullCheck();
-        currentWorksheet.GoToNextColumn();
-    }
-
-    /// <summary>
-    /// Moves the cursor the number of defined columns to the right
-    /// </summary>
-    /// <param name="numberOfColumns">Number of columns to move</param>
-    public void Right(int numberOfColumns)
-    {
-        NullCheck();
-        currentWorksheet.GoToNextColumn(numberOfColumns);
-    }
-
-    /// <summary>
-    /// Internal method to check whether the worksheet is null
-    /// </summary>
-    private void NullCheck()
-    {
-        if (currentWorksheet == null)
+        /// <summary>
+        /// Class to provide access to the current worksheet with a shortened syntax. Note: The WS object can be null if the workbook was created without a worksheet. The object will be available as soon as the current worksheet is defined
+        /// </summary>
+        public class Shortener
         {
-            throw new WorksheetException("UndefinedWorksheetException", "No worksheet was defined");
+            private Worksheet currentWorksheet;
+
+            /// <summary>
+            /// Default constructor
+            /// </summary>
+            public Shortener()
+            { }
+
+            /// <summary>
+            /// Sets the worksheet accessed by the shortener
+            /// </summary>
+            /// <param name="worksheet">Current worksheet</param>
+            public void SetCurrentWorksheet(Worksheet worksheet)
+            {
+                currentWorksheet = worksheet;
+            }
+
+            /// <summary>
+            /// Sets a value into the current cell and moves the cursor to the next cell (column or row depending on the defined cell direction)
+            /// </summary>
+            /// <exception cref="WorksheetException">Throws a WorksheetException if no worksheet was defined</exception>
+            /// <param name="value">Value to set</param>
+            public void Value(object value)
+            {
+                NullCheck();
+                currentWorksheet.AddNextCell(value);
+            }
+
+            /// <summary>
+            /// Sets a value with style into the current cell and moves the cursor to the next cell (column or row depending on the defined cell direction)
+            /// </summary>
+            /// <exception cref="WorksheetException">Throws a WorksheetException if no worksheet was defined</exception>
+            /// <param name="value">Value to set</param>
+            /// <param name="style">Style to apply</param>
+            public void Value(object value, Style style)
+            {
+                NullCheck();
+                currentWorksheet.AddNextCell(value, style);
+            }
+
+            /// <summary>
+            /// Sets a formula into the current cell and moves the cursor to the next cell (column or row depending on the defined cell direction)
+            /// </summary>
+            /// <exception cref="WorksheetException">Throws a WorksheetException if no worksheet was defined</exception>
+            /// <param name="formula">Formula to set</param>
+            public void Formula(string formula)
+            {
+                NullCheck();
+                currentWorksheet.AddNextCellFormula(formula);
+            }
+
+            /// <summary>
+            /// Sets a formula with style into the current cell and moves the cursor to the next cell (column or row depending on the defined cell direction)
+            /// </summary>
+            /// <exception cref="WorksheetException">Throws a WorksheetException if no worksheet was defined</exception>
+            /// <param name="formula">Formula to set</param>
+            /// <param name="style">Style to apply</param>
+            public void Formula(string formula, Style style)
+            {
+                NullCheck();
+                currentWorksheet.AddNextCellFormula(formula, style);
+            }
+
+            /// <summary>
+            /// Moves the cursor one row down
+            /// </summary>
+            public void Down()
+            {
+                NullCheck();
+                currentWorksheet.GoToNextRow();
+            }
+
+            /// <summary>
+            /// Moves the cursor the number of defined rows down
+            /// </summary>
+            /// <param name="numberOfRows">Number of rows to move</param>
+            public void Down(int numberOfRows)
+            {
+                NullCheck();
+                currentWorksheet.GoToNextRow(numberOfRows);
+            }
+
+            /// <summary>
+            /// Moves the cursor one column to the right
+            /// </summary>
+            public void Right()
+            {
+                NullCheck();
+                currentWorksheet.GoToNextColumn();
+            }
+
+            /// <summary>
+            /// Moves the cursor the number of defined columns to the right
+            /// </summary>
+            /// <param name="numberOfColumns">Number of columns to move</param>
+            public void Right(int numberOfColumns)
+            {
+                NullCheck();
+                currentWorksheet.GoToNextColumn(numberOfColumns);
+            }
+
+            /// <summary>
+            /// Internal method to check whether the worksheet is null
+            /// </summary>
+            private void NullCheck()
+            {
+                if (currentWorksheet == null)
+                {
+                    throw new WorksheetException("UndefinedWorksheetException", "No worksheet was defined");
+                }
+            }
+
+
         }
-    }
 
-
-}
-
-#endregion
+        #endregion
 
     }
 }

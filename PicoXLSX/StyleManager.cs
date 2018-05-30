@@ -425,7 +425,7 @@ namespace PicoXLSX
         /// <exception cref="StyleException">Throws a StyleException if the style was not found in the style manager</exception>
         public void RemoveStyle(string styleName)
         {
-//            string hash = null;
+            //            string hash = null;
             bool match = false;
             int len = styles.Count;
             int index = -1;
@@ -434,7 +434,7 @@ namespace PicoXLSX
                 if (((Style)styles[i]).Name == styleName)
                 {
                     match = true;
-//                    hash = ((Style)styles[i]).Hash;
+                    //                    hash = ((Style)styles[i]).Hash;
                     index = i;
                     break;
                 }
@@ -505,7 +505,7 @@ namespace PicoXLSX
                 if (IsUsedByStyle(numberFormat) == false) { numberFormats.RemoveAt(i); }
             }
         }
-   
+
         /// <summary>
         /// Checks whether a style component in the style manager is used by a style
         /// </summary>
@@ -517,7 +517,7 @@ namespace PicoXLSX
             bool match = false;
             String hash = component.Hash;
             int len = styles.Count;
-            for(int i = 0; i < len; i++)
+            for (int i = 0; i < len; i++)
             {
                 s = (Style)styles[i];
                 if (component.GetType() == typeof(Style.Border)) { if (s.CurrentBorder.Hash == hash) { match = true; break; } }

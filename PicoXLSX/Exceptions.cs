@@ -66,7 +66,7 @@ namespace PicoXLSX
         public FormatException(string title, string message)
             : base(title + ": " + message)
         { this.ExceptionTitle = title; }
-                /// <summary>
+        /// <summary>
         /// Constructor with passed message and inner exception
         /// </summary>
         /// <param name="message">Message of the exception</param>

@@ -28,45 +28,45 @@ namespace Testing
         /// <remarks>The data type is determined per column randomly. In case of strings, random ASCII characters from 1 to 256 characters are written into the cells</remarks> 
         public static void StressTest(string filename, string sheetname, int rows, int cols)
         {
-        	System.Console.WriteLine("Starting performance test - Generating Array...");
-        	List<List<object>> field = new List<List<object>>();
-        	List<object> row;
-        	List<int> colTypes = new List<int>();
-        	DateTime  min = new DateTime(1901, 01, 01);
-        	DateTime  max = new DateTime(2100, 01, 01);
-        	int j;
-        	for(int i = 0; i < cols; i++)
-        	{
-        		colTypes.Add(Utils.PseudoRandomInteger(1, 6));
-        	}
-        	for (int i = 0; i < rows; i++)
-        	{
-        		row = new List<object>();
-        		for(j = 0; j < cols; j++)
-        		{
-        			if (colTypes[j] == 1) {row.Add(Utils.PseduoRandomDate(min, max));}
-        			else if (colTypes[j] == 2) {row.Add(Utils.PseudoRandomBool());}
-        			else if (colTypes[j] == 3) {row.Add(Utils.PseudoRandomDouble(double.MinValue, double.MaxValue));}
-        			else if (colTypes[j] == 4) {row.Add(Utils.PseudoRandomInteger(int.MinValue, int.MaxValue));}
-        			else if (colTypes[j] == 5) {row.Add(Utils.PseudoRandomLong(long.MinValue, long.MaxValue));}
-        			else if (colTypes[j] == 6) {row.Add(Utils.PseudoRandomString(1,256));}
-        		}
-        		field.Add(row);
-        	}
-        	System.Console.WriteLine("Writing cells...");
-        	PicoXLSX.Workbook b = new PicoXLSX.Workbook(filename, sheetname);
-        	PicoXLSX.Worksheet s = b.CurrentWorksheet;
-        	s.CurrentCellDirection = PicoXLSX.Worksheet.CellDirection.ColumnToColumn;
-        	for (int i = 0; i < rows; i++)
-        	{
-        		for(j = 0; j < cols; j++)
-        		{
-        			s.AddNextCell(field[i][j]);
-        		}
-        		s.GoToNextRow();
-        	}
-        	System.Console.WriteLine("Saving workbook...");
-        	b.Save();
+            System.Console.WriteLine("Starting performance test - Generating Array...");
+            List<List<object>> field = new List<List<object>>();
+            List<object> row;
+            List<int> colTypes = new List<int>();
+            DateTime min = new DateTime(1901, 01, 01);
+            DateTime max = new DateTime(2100, 01, 01);
+            int j;
+            for (int i = 0; i < cols; i++)
+            {
+                colTypes.Add(Utils.PseudoRandomInteger(1, 6));
+            }
+            for (int i = 0; i < rows; i++)
+            {
+                row = new List<object>();
+                for (j = 0; j < cols; j++)
+                {
+                    if (colTypes[j] == 1) { row.Add(Utils.PseduoRandomDate(min, max)); }
+                    else if (colTypes[j] == 2) { row.Add(Utils.PseudoRandomBool()); }
+                    else if (colTypes[j] == 3) { row.Add(Utils.PseudoRandomDouble(double.MinValue, double.MaxValue)); }
+                    else if (colTypes[j] == 4) { row.Add(Utils.PseudoRandomInteger(int.MinValue, int.MaxValue)); }
+                    else if (colTypes[j] == 5) { row.Add(Utils.PseudoRandomLong(long.MinValue, long.MaxValue)); }
+                    else if (colTypes[j] == 6) { row.Add(Utils.PseudoRandomString(1, 256)); }
+                }
+                field.Add(row);
+            }
+            System.Console.WriteLine("Writing cells...");
+            PicoXLSX.Workbook b = new PicoXLSX.Workbook(filename, sheetname);
+            PicoXLSX.Worksheet s = b.CurrentWorksheet;
+            s.CurrentCellDirection = PicoXLSX.Worksheet.CellDirection.ColumnToColumn;
+            for (int i = 0; i < rows; i++)
+            {
+                for (j = 0; j < cols; j++)
+                {
+                    s.AddNextCell(field[i][j]);
+                }
+                s.GoToNextRow();
+            }
+            System.Console.WriteLine("Saving workbook...");
+            b.Save();
             System.Console.WriteLine("Workbook saved");
         }
 

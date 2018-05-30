@@ -1,5 +1,12 @@
 # Change Log
 
+## v2.3.2
+---
+Release Date: **30.05.2018**
+
+- Fixed a bug in the processing of column widths. Bug fix provided by Johan Lindvall
+
+
 ## v2.3.1
 ---
 Release Date: **12.03.2018**

@@ -23,25 +23,25 @@ namespace PicoXLSX
     class LowLevel
     {
 
-#region staticFields
+        #region staticFields
         private static DocumentPath WORKBOOK = new DocumentPath("workbook.xml", "xl/");
         private static DocumentPath STYLES = new DocumentPath("styles.xml", "xl/");
         private static DocumentPath APP_PROPERTIES = new DocumentPath("app.xml", "docProps/");
         private static DocumentPath CORE_PROPERTIES = new DocumentPath("core.xml", "docProps/");
         private static DocumentPath SHARED_STRINGS = new DocumentPath("sharedStrings.xml", "xl/");
         private static RNGCryptoServiceProvider RNGcsp = new RNGCryptoServiceProvider();
-#endregion
+        #endregion
 
-#region privateFields
+        #region privateFields
         private CultureInfo culture;
         private Workbook workbook;
         private SortedMap sharedStrings;
         private int sharedStringsTotalCount;
         private Dictionary<string, XmlDocument> interceptedDocuments;
         private bool interceptDocuments;
-#endregion
+        #endregion
 
-#region properties
+        #region properties
         /// <summary>
         /// Gets or set whether XML documents are intercepted during creation
         /// </summary>
@@ -61,18 +61,18 @@ namespace PicoXLSX
                 }
             }
         }
- 
+
         /// <summary>
         /// Gets the intercepted documents if interceptDocuments is set to true
         /// </summary>
-        public Dictionary<string,XmlDocument> InterceptedDocuments
+        public Dictionary<string, XmlDocument> InterceptedDocuments
         {
             get { return interceptedDocuments; }
         }
-        
-#endregion
 
-#region constructors
+        #endregion
+
+        #region constructors
         /// <summary>
         /// Constructor with defined workbook object
         /// </summary>
@@ -84,12 +84,12 @@ namespace PicoXLSX
             this.sharedStrings = new SortedMap();
             this.sharedStringsTotalCount = 0;
         }
-#endregion
+        #endregion
 
 
 
 
-#region documentCreation_methods
+        #region documentCreation_methods
 
         /// <summary>
         /// Method to create the app-properties (part of meta data) as raw XML string
@@ -248,23 +248,23 @@ namespace PicoXLSX
             StringBuilder sb = new StringBuilder();
             string line;
             sb.Append("<worksheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14ac\" xmlns:x14ac=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac\">");
-            
+
             if (worksheet.SelectedCells != null)
             {
-            	sb.Append("<sheetViews><sheetView workbookViewId=\"0\"");
-            	if (this.workbook.SelectedWorksheet == worksheet.SheetID - 1)
-            	{
-            		sb.Append(" tabSelected=\"1\"");
-            	}
-            	sb.Append("><selection sqref=\"");
-            	sb.Append(worksheet.SelectedCells.ToString());
-            	sb.Append("\" activeCell=\"");
-            	sb.Append(worksheet.SelectedCells.Value.StartAddress.ToString());
-            	sb.Append("\"/></sheetView></sheetViews>");
+                sb.Append("<sheetViews><sheetView workbookViewId=\"0\"");
+                if (this.workbook.SelectedWorksheet == worksheet.SheetID - 1)
+                {
+                    sb.Append(" tabSelected=\"1\"");
+                }
+                sb.Append("><selection sqref=\"");
+                sb.Append(worksheet.SelectedCells.ToString());
+                sb.Append("\" activeCell=\"");
+                sb.Append(worksheet.SelectedCells.Value.StartAddress.ToString());
+                sb.Append("\"/></sheetView></sheetViews>");
             }
 
             sb.Append("<sheetFormatPr x14ac:dyDescent=\"0.25\" defaultRowHeight=\"").Append(worksheet.DefaultRowHeight.ToString("G", culture)).Append("\" baseColWidth=\"").Append(worksheet.DefaultColumnWidth.ToString("G", culture)).Append("\"/>");
-            
+
             string colWidths = CreateColsString(worksheet);
             if (string.IsNullOrEmpty(colWidths) == false)
             {
@@ -273,7 +273,7 @@ namespace PicoXLSX
                 sb.Append("</cols>");
             }
             sb.Append("<sheetData>");
-            foreach(List<Cell> item in celldata)
+            foreach (List<Cell> item in celldata)
             {
                 line = CreateRowString(item, worksheet);
                 sb.Append(line);
@@ -305,7 +305,7 @@ namespace PicoXLSX
             {
                 FileStream fs = new FileStream(this.workbook.Filename, FileMode.Create);
                 SaveAsStream(fs);
-                
+
             }
             catch (Exception e)
             {
@@ -395,9 +395,9 @@ namespace PicoXLSX
             }
         }
 
-#endregion
+        #endregion
 
-#region documentUtil_methods
+        #region documentUtil_methods
 
         /// <summary>
         /// Method to append a simple XML tag with an enclosed value to the passed StringBuilder
@@ -465,7 +465,7 @@ namespace PicoXLSX
             }
             catch (Exception e)
             {
-                throw new IOException("MemoryStreamException","The XML document could not be saved into the memory stream", e);
+                throw new IOException("MemoryStreamException", "The XML document could not be saved into the memory stream", e);
             }
         }
 
@@ -557,7 +557,7 @@ namespace PicoXLSX
 
             return sb.ToString();
         }
-        
+
         /// <summary>
         /// Method to create the merged cells string of the passed worksheet
         /// </summary>
@@ -569,12 +569,12 @@ namespace PicoXLSX
             {
                 return string.Empty;
             }
-                StringBuilder sb = new StringBuilder();
-                sb.Append("<mergeCells count=\"").Append(sheet.MergedCells.Count.ToString("G", culture)).Append("\">");
-                foreach (KeyValuePair<string, Cell.Range> item in sheet.MergedCells)
-                {
-                    sb.Append("<mergeCell ref=\"").Append(item.Value.ToString()).Append("\"/>");
-                }
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<mergeCells count=\"").Append(sheet.MergedCells.Count.ToString("G", culture)).Append("\">");
+            foreach (KeyValuePair<string, Cell.Range> item in sheet.MergedCells)
+            {
+                sb.Append("<mergeCell ref=\"").Append(item.Value.ToString()).Append("\"/>");
+            }
             sb.Append("</mergeCells>");
             return sb.ToString();
         }
@@ -739,7 +739,7 @@ namespace PicoXLSX
             {
                 return string.Empty;
             }
-            Dictionary<Worksheet.SheetProtectionValue, int> actualLockingValues = new Dictionary<Worksheet.SheetProtectionValue,int>();
+            Dictionary<Worksheet.SheetProtectionValue, int> actualLockingValues = new Dictionary<Worksheet.SheetProtectionValue, int>();
             if (sheet.SheetProtectionValues.Count == 0)
             {
                 actualLockingValues.Add(Worksheet.SheetProtectionValue.selectLockedCells, 1);
@@ -753,7 +753,7 @@ namespace PicoXLSX
             {
                 actualLockingValues.Add(Worksheet.SheetProtectionValue.scenarios, 1);
             }
-            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells) == false )
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells) == false)
             {
                 if (actualLockingValues.ContainsKey(Worksheet.SheetProtectionValue.selectLockedCells) == false)
                 {
@@ -781,14 +781,14 @@ namespace PicoXLSX
             StringBuilder sb = new StringBuilder();
             sb.Append("<sheetProtection");
             string temp;
-            foreach(KeyValuePair<Worksheet.SheetProtectionValue, int>item in actualLockingValues)
+            foreach (KeyValuePair<Worksheet.SheetProtectionValue, int> item in actualLockingValues)
             {
-               try
-               {
-                   temp = Enum.GetName(typeof(Worksheet.SheetProtectionValue), item.Key); // Note! If the enum names differs from the OOXML definitions, this method will cause invalid OOXML entries
-                   sb.Append(" ").Append(temp).Append("=\"").Append(item.Value.ToString("G", culture)).Append("\"");
-               }
-               catch { }
+                try
+                {
+                    temp = Enum.GetName(typeof(Worksheet.SheetProtectionValue), item.Key); // Note! If the enum names differs from the OOXML definitions, this method will cause invalid OOXML entries
+                    sb.Append(" ").Append(temp).Append("=\"").Append(item.Value.ToString("G", culture)).Append("\"");
+                }
+                catch { }
             }
             if (string.IsNullOrEmpty(sheet.SheetProtectionPassword) == false)
             {
@@ -796,7 +796,7 @@ namespace PicoXLSX
                 sb.Append(" password=\"").Append(hash).Append("\"");
             }
             sb.Append(" sheet=\"1\"/>");
-           return sb.ToString();
+            return sb.ToString();
         }
 
         /// <summary>
@@ -883,7 +883,7 @@ namespace PicoXLSX
         {
             Style.Font[] fontStyles = this.workbook.Styles.GetFonts();
             StringBuilder sb = new StringBuilder();
-            foreach(Style.Font item in fontStyles)
+            foreach (Style.Font item in fontStyles)
             {
                 sb.Append("<font>");
                 if (item.Bold == true) { sb.Append("<b/>"); }
@@ -1144,7 +1144,7 @@ namespace PicoXLSX
             if (tempColors.Count > 0)
             {
                 sb.Append("<mruColors>");
-                foreach(string item in tempColors)
+                foreach (string item in tempColors)
                 {
                     sb.Append("<color rgb=\"").Append(item).Append("\"/>");
                 }
@@ -1194,9 +1194,9 @@ namespace PicoXLSX
         }
 
 
-#endregion
+        #endregion
 
-#region staticMethods
+        #region staticMethods
 
         /// <summary>
         /// Method to escape XML characters between two XML tags
@@ -1325,109 +1325,109 @@ namespace PicoXLSX
             }
             catch (Exception e)
             {
-                throw new FormatException("ConversionException","The date could not be transformed into Excel format (OADate).", e);
+                throw new FormatException("ConversionException", "The date could not be transformed into Excel format (OADate).", e);
             }
         }
 
-#endregion
+        #endregion
 
-#region subClasses
-
-    /// <summary>
-    /// Class to manage key value pairs (string / string). The entries are in the order how they were added
-    /// </summary>
-    public class SortedMap
-    {
-        private int count;
-        private List<string> keyEntries;
-        private List<string> valueEntries;
-        private Dictionary<string, int> index;
+        #region subClasses
 
         /// <summary>
-        /// Number of map entries
+        /// Class to manage key value pairs (string / string). The entries are in the order how they were added
         /// </summary>
-        public int Count
+        public class SortedMap
         {
-            get { return count; }
-        }
+            private int count;
+            private List<string> keyEntries;
+            private List<string> valueEntries;
+            private Dictionary<string, int> index;
 
-        /// <summary>
-        /// Gets the keys of the map as list
-        /// </summary>
-        public List<string> Keys
-        {
-            get { return this.keyEntries;  }
-        }
+            /// <summary>
+            /// Number of map entries
+            /// </summary>
+            public int Count
+            {
+                get { return count; }
+            }
 
-        /// <summary>
-        /// Gets the values of the map as values
-        /// </summary>
-        public List<string> Values
-        {
-            get { return this.valueEntries; }
-        }
+            /// <summary>
+            /// Gets the keys of the map as list
+            /// </summary>
+            public List<string> Keys
+            {
+                get { return this.keyEntries; }
+            }
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public SortedMap()
-        {
-            this.keyEntries = new List<string>();
-            this.valueEntries = new List<string>();
-            this.index = new Dictionary<string, int>();
-            this.count = 0;
-        }
+            /// <summary>
+            /// Gets the values of the map as values
+            /// </summary>
+            public List<string> Values
+            {
+                get { return this.valueEntries; }
+            }
+
+            /// <summary>
+            /// Default constructor
+            /// </summary>
+            public SortedMap()
+            {
+                this.keyEntries = new List<string>();
+                this.valueEntries = new List<string>();
+                this.index = new Dictionary<string, int>();
+                this.count = 0;
+            }
 
 
-        /// <summary>
-        /// Indexer to get the specific value by the key
-        /// </summary>
-        /// <param name="key">Key to corresponding value. Returns null if not found</param>
-        public string this[string key]
-        {
-            get
+            /// <summary>
+            /// Indexer to get the specific value by the key
+            /// </summary>
+            /// <param name="key">Key to corresponding value. Returns null if not found</param>
+            public string this[string key]
+            {
+                get
+                {
+                    if (index.ContainsKey(key))
+                    {
+                        return valueEntries[index[key]];
+                    }
+                    return null;
+                }
+            }
+
+            /// <summary>
+            /// Adds a key value pair to the map. If the key already exists, only its index will be returned
+            /// </summary>
+            /// <param name="key">Key of the tuple</param>
+            /// <param name="value">Value of the tuple</param>
+            /// <returns>Position of the tuple in the map as index (zero-based)</returns>
+            public int Add(string key, string value)
             {
                 if (index.ContainsKey(key))
                 {
-                    return valueEntries[index[key]];
+                    return index[key];
                 }
-                return null;
+                else
+                {
+                    index.Add(key, count);
+                    keyEntries.Add(key);
+                    valueEntries.Add(value);
+                    count++;
+                    return count - 1;
+                }
             }
-        }
 
-        /// <summary>
-        /// Adds a key value pair to the map. If the key already exists, only its index will be returned
-        /// </summary>
-        /// <param name="key">Key of the tuple</param>
-        /// <param name="value">Value of the tuple</param>
-        /// <returns>Position of the tuple in the map as index (zero-based)</returns>
-        public int Add(string key, string value)
-        {
-            if (index.ContainsKey(key))
+            /// <summary>
+            /// Gets whether the specified key exists in the map
+            /// </summary>
+            /// <param name="key">Key to check</param>
+            /// <returns>True if the entry exists, otherwise false</returns>
+            public bool ContainsKey(string key)
             {
-                return index[key];
+                return index.ContainsKey(key);
             }
-            else
-            {
-                index.Add(key, count);
-                keyEntries.Add(key);
-                valueEntries.Add(value);
-                count++;
-                return count - 1;
-            }
-        }
 
-        /// <summary>
-        /// Gets whether the specified key exists in the map
-        /// </summary>
-        /// <param name="key">Key to check</param>
-        /// <returns>True if the entry exists, otherwise false</returns>
-        public bool ContainsKey(string key)
-        {
-            return index.ContainsKey(key);
         }
-        
-    }
 
         /// <summary>
         /// Class to manage XML document paths
@@ -1480,7 +1480,7 @@ namespace PicoXLSX
             }
 
         }
-#endregion
+        #endregion
 
     }
 }
