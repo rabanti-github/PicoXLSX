@@ -138,7 +138,10 @@ namespace PicoXLSX
         {
             Value = value;
             DataType = type;
-            ResolveCellType();
+            if (type == CellType.DEFAULT)
+            {
+                ResolveCellType();
+            }
         }
 
         /// <summary>
@@ -154,10 +157,6 @@ namespace PicoXLSX
             ColumnNumber = column;
             RowNumber = row;
             WorksheetReference = reference;
-            if (type == CellType.DEFAULT)
-            {
-            	ResolveCellType();
-            }
         }
 #endregion
 
@@ -217,6 +216,7 @@ namespace PicoXLSX
             if (t == typeof(int)) { DataType = CellType.NUMBER; }
             else if (t == typeof(float)) { DataType = CellType.NUMBER; }
             else if (t == typeof(double)) { DataType = CellType.NUMBER; }
+            else if (t == typeof(decimal)) { DataType = CellType.NUMBER; }
             else if (t == typeof(long)) { DataType = CellType.NUMBER; }
             else if (t == typeof(bool)) { DataType = CellType.BOOL; }
             else if (t == typeof(DateTime)) { DataType = CellType.DATE; }
