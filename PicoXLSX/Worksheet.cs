@@ -788,6 +788,76 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Gets whether the specified address exists in the worksheet. Existing means that a value was stored at the address
+        /// </summary>
+        /// <param name="address">Address to check</param>
+        /// <returns>
+        ///   <c>true</c> if the cell exists, otherwise <c>false</c>.
+        /// </returns>
+        public bool HasCell(Cell.Address address)
+        {
+            return this.cells.ContainsKey(address.GetAddress());
+        }
+
+        /// <summary>
+        /// Gets whether the specified address exists in the worksheet. Existing means that a value was stored at the address
+        /// </summary>
+        /// <param name="columnNumber">Column number of the cell to check (zero-based)</param>
+        /// <param name="rowNumber">Row number of the cell to check (zero-based)</param>
+        /// <returns>
+        ///   <c>true</c> if the cell exists, otherwise <c>false</c>.
+        /// </returns>
+        public bool HasCell(int columnNumber, int rowNumber)
+        {
+            return HasCell(new Cell.Address(columnNumber, rowNumber));
+        }
+
+        /// <summary>
+        /// Gets the last existing column number in the current worksheet (zero-based)
+        /// </summary>
+        /// <returns>Zero-based column number. In case of a empty worksheet, -1 will be returned</returns>
+        public int GetLastColumnNumber()
+        {
+            return GetLastAddress(true);
+        }
+
+        /// <summary>
+        /// Gets the last existing row number in the current worksheet (zero-based)
+        /// </summary>
+        /// <returns>Zero-based row number. In case of a empty worksheet, -1 will be returned</returns>
+        public int GetLastRowNumber()
+        {
+            return GetLastAddress(false);
+        }
+
+        /// <summary>
+        /// Gets the last existing row or column number of the current worksheet (zero-based)
+        /// </summary>
+        /// <param name="column">If true, the output will be the last column, otherwise the last row</param>
+        /// <returns>Last row or column number (zero-based)</returns>
+        private int GetLastAddress(bool column)
+        {
+            int max = -1;
+            int number;
+            foreach (KeyValuePair<string, Cell> cell in this.cells)
+            {
+                if (column == true)
+                {
+                    number = cell.Value.ColumnNumber;
+                }
+                else
+                {
+                    number = cell.Value.RowNumber;
+                }
+                if (number > max)
+                {
+                    max = number;
+                }
+            }
+            return max;
+        }
+
+        /// <summary>
         /// Gets the current column number (zero based)
         /// </summary>
         /// <returns>Column number (zero-based)</returns>
@@ -1320,6 +1390,7 @@ namespace PicoXLSX
             {
                 throw new WorksheetException("MissingReferenceException", "The worksheet name cannot be sanitized because no workbook is referenced");
             }
+            sheetName = ""; // Empty name (temporary) to prevent conflicts during sanitizing
             sheetName = SanitizeWorksheetName(name, WorkbookReference);
         }
 

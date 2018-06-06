@@ -135,7 +135,7 @@ namespace PicoXLSX
 
         #region constructors
         /// <summary>
-        /// Default Constructor with additional parameter to create a default worksheet
+        /// Constructor with additional parameter to create a default worksheet. This constructor can be used to define a workbook that is saved as stream
         /// </summary>
         /// <param name="createWorkSheet">If true, a default worksheet with the name 'Sheet1' will be crated and set as current worksheet</param>
         public Workbook(bool createWorkSheet)
@@ -148,15 +148,25 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Constructor with additional parameter to create a default worksheet with the specified name. This constructor can be used to define a workbook that is saved as stream
+        /// </summary>
+        /// <param name="sheetName">Filename of the workbook.  The name will be sanitized automatically according to the specifications of Excel</param>
+        public Workbook(string sheetName)
+        {
+            Init();
+            AddWorksheet(sheetName, true);
+        }
+
+        /// <summary>
         /// Constructor with filename ant the name of the first worksheet
         /// </summary>
-        /// <param name="filename">Filename of the workbook</param>
-        /// <param name="sheetName">Name of the first worksheet</param>
+        /// <param name="filename">Filename of the workbook.  The name will be sanitized automatically according to the specifications of Excel</param>
+        /// <param name="sheetName">Name of the first worksheet. The name will be sanitized automatically according to the specifications of Excel</param>
         public Workbook(string filename, string sheetName)
         {
             Init();
             this.filename = filename;
-            AddWorksheet(sheetName);
+            AddWorksheet(sheetName, true);
         }
 
         /// <summary>

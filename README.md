@@ -16,6 +16,7 @@ See the **[Change Log](https://github.com/rabanti-github/PicoXLSX/blob/master/Ch
 
 # What's new in version 2.x
 * Complete replacement of the old style handling
+* Added appending of styles for an easier composition of complex styles
 * Added more options to assign styles to cells
 * Added Shortener (property WS) to reduce the code overhead
 * Added static methods for the most important formulas (round, floor, ceil, min, max, average, median, sum, vlookup)
@@ -74,6 +75,6 @@ Place all .CS files from the PicoXLSX source folder into your project. You can p
 See the full **API-Documentation** at: [https://rabanti-github.github.io/PicoXLSX/](https://rabanti-github.github.io/PicoXLSX/).
 
 
-The [Demo project](https://github.com/rabanti-github/PicoXLSX/tree/master/Demo) contains twelve simple use cases. You can find also the full documentation in the [Documentation-Folder](https://github.com/rabanti-github/PicoXLSX/tree/master/docs) (html files or single chm file) or as C# documentation in the psrticular .CS files.
+The [Demo project](https://github.com/rabanti-github/PicoXLSX/tree/master/Demo) contains 13 simple use cases. You can find also the full documentation in the [Documentation-Folder](https://github.com/rabanti-github/PicoXLSX/tree/master/docs) (html files or single chm file) or as C# documentation in the particular .CS files.
 
 See also: [Getting started in the Wiki](https://github.com/rabanti-github/PicoXLSX/wiki/Getting-started)

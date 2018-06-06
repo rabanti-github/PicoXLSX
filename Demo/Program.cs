@@ -21,6 +21,7 @@ namespace Demo
         /// <param name="args">Not used</param>
         static void Main(string[] args)
         {
+            
             BasicDemo();
             ShortenerDemo();
             StreamDemo();
@@ -33,6 +34,7 @@ namespace Demo
             Demo7();
             Demo8();
             Demo9();
+            Demo10();
 
             /* ### PERFORMANCE TESTS ### */
             // # Use tests in this section to test the performance of PicoXLSX
@@ -374,6 +376,31 @@ namespace Demo
             workbook.WS.Value(c);                                                                       // Add the formula to the worksheet
 
             workbook.Save();                                                                            // Save the workbook
+        }
+
+        /// <summary>
+        /// This demo shows the usage of style appending
+        /// </summary>
+        private static void Demo10()
+        {
+            Workbook wb = new Workbook("demo10.xlsx", "styleAppending");                                // Create a new workbook
+
+            Style style = new Style();                                                                  // Create a new style
+            style.Append(Style.BasicStyles.Bold);                                                       // Append a basic style (bold) 
+            style.Append(Style.BasicStyles.Underline);                                                  // Append a basic style (underline) 
+            style.Append(Style.BasicStyles.Font("Arial Black", 20));                                    // Append a basic style (custom font) 
+
+            wb.WS.Value("THIS IS A TEST", style);                                                       // Add text and the appended style
+            wb.WS.Down();                                                                               // Go to a new row
+
+            Style chainedStyle = new Style()                                                            // Create a new style...
+                .Append(Style.BasicStyles.Underline)                                                    // ... and append another part (chaining underline)
+                .Append(Style.BasicStyles.ColorizedText("FF00FF"))                                      // ... and append another part (chaining colorized text)
+                .Append(Style.BasicStyles.ColorizedBackground("AAFFAA"));                               // ... and append another part (chaining colorized background)
+
+            wb.WS.Value("Another test", chainedStyle);                                                  // Add text and the appended style
+
+            wb.Save();                                                                                  // Save the workbook
         }
 
     }
