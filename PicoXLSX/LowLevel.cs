@@ -132,7 +132,7 @@ namespace PicoXLSX
             foreach (string str in this.sharedStrings.Keys)
             {
                 sb.Append("<si><t>");
-                sb.Append(EscapeXMLChars(str));
+                sb.Append(EscapeXmlChars(str));
                 sb.Append("</t></si>");
             }
             sb.Append("</sst>");
@@ -227,7 +227,7 @@ namespace PicoXLSX
             sb.Append("<sheets>");
             foreach (Worksheet item in this.workbook.Worksheets)
             {
-                sb.Append("<sheet r:id=\"rId").Append(item.SheetID.ToString()).Append("\" sheetId=\"").Append(item.SheetID.ToString()).Append("\" name=\"").Append(LowLevel.EscapeXMLAttributeChars(item.SheetName)).Append("\"/>");
+                sb.Append("<sheet r:id=\"rId").Append(item.SheetID.ToString()).Append("\" sheetId=\"").Append(item.SheetID.ToString()).Append("\" name=\"").Append(LowLevel.EscapeXmlAttributeChars(item.SheetName)).Append("\"/>");
             }
             sb.Append("</sheets>");
             sb.Append("</workbook>");
@@ -407,7 +407,7 @@ namespace PicoXLSX
         /// <param name="tagName">Tag name of the XML element</param>
         /// <param name="nameSpace">Optional XML name space. Can be empty or null</param>
         /// <returns>Returns false if no tag was appended, because the value or tag name was null or empty</returns>
-        private bool AppendXMLtag(StringBuilder sb, string value, string tagName, string nameSpace)
+        private bool AppendXmlTag(StringBuilder sb, string value, string tagName, string nameSpace)
         {
             if (string.IsNullOrEmpty(value)) { return false; }
             if (sb == null || string.IsNullOrEmpty(tagName)) { return false; }
@@ -419,7 +419,7 @@ namespace PicoXLSX
                 sb.Append(':');
             }
             sb.Append(tagName).Append(">");
-            sb.Append(EscapeXMLChars(value));
+            sb.Append(EscapeXmlChars(value));
             sb.Append("</");
             if (hasNoNs == false)
             {
@@ -478,17 +478,17 @@ namespace PicoXLSX
             if (this.workbook.WorkbookMetadata == null) { return string.Empty; }
             Metadata md = this.workbook.WorkbookMetadata;
             StringBuilder sb = new StringBuilder();
-            AppendXMLtag(sb, "0", "TotalTime", null);
-            AppendXMLtag(sb, md.Application, "Application", null);
-            AppendXMLtag(sb, "0", "DocSecurity", null);
-            AppendXMLtag(sb, "false", "ScaleCrop", null);
-            AppendXMLtag(sb, md.Manager, "Manager", null);
-            AppendXMLtag(sb, md.Company, "Company", null);
-            AppendXMLtag(sb, "false", "LinksUpToDate", null);
-            AppendXMLtag(sb, "false", "SharedDoc", null);
-            AppendXMLtag(sb, md.HyperlinkBase, "HyperlinkBase", null);
-            AppendXMLtag(sb, "false", "HyperlinksChanged", null);
-            AppendXMLtag(sb, md.ApplicationVersion, "AppVersion", null);
+            AppendXmlTag(sb, "0", "TotalTime", null);
+            AppendXmlTag(sb, md.Application, "Application", null);
+            AppendXmlTag(sb, "0", "DocSecurity", null);
+            AppendXmlTag(sb, "false", "ScaleCrop", null);
+            AppendXmlTag(sb, md.Manager, "Manager", null);
+            AppendXmlTag(sb, md.Company, "Company", null);
+            AppendXmlTag(sb, "false", "LinksUpToDate", null);
+            AppendXmlTag(sb, "false", "SharedDoc", null);
+            AppendXmlTag(sb, md.HyperlinkBase, "HyperlinkBase", null);
+            AppendXmlTag(sb, "false", "HyperlinksChanged", null);
+            AppendXmlTag(sb, md.ApplicationVersion, "AppVersion", null);
             return sb.ToString();
         }
 
@@ -542,18 +542,18 @@ namespace PicoXLSX
             if (this.workbook.WorkbookMetadata == null) { return string.Empty; }
             Metadata md = this.workbook.WorkbookMetadata;
             StringBuilder sb = new StringBuilder();
-            AppendXMLtag(sb, md.Title, "title", "dc");
-            AppendXMLtag(sb, md.Subject, "subject", "dc");
-            AppendXMLtag(sb, md.Creator, "creator", "dc");
-            AppendXMLtag(sb, md.Creator, "lastModifiedBy", "cp");
-            AppendXMLtag(sb, md.Keywords, "keywords", "cp");
-            AppendXMLtag(sb, md.Description, "description", "dc");
+            AppendXmlTag(sb, md.Title, "title", "dc");
+            AppendXmlTag(sb, md.Subject, "subject", "dc");
+            AppendXmlTag(sb, md.Creator, "creator", "dc");
+            AppendXmlTag(sb, md.Creator, "lastModifiedBy", "cp");
+            AppendXmlTag(sb, md.Keywords, "keywords", "cp");
+            AppendXmlTag(sb, md.Description, "description", "dc");
             string time = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ssZ", this.culture);
             sb.Append("<dcterms:created xsi:type=\"dcterms:W3CDTF\">").Append(time).Append("</dcterms:created>");
             sb.Append("<dcterms:modified xsi:type=\"dcterms:W3CDTF\">").Append(time).Append("</dcterms:modified>");
 
-            AppendXMLtag(sb, md.Category, "category", "cp");
-            AppendXMLtag(sb, md.ContentStatus, "contentStatus", "cp");
+            AppendXmlTag(sb, md.Category, "category", "cp");
+            AppendXmlTag(sb, md.ContentStatus, "contentStatus", "cp");
 
             return sb.ToString();
         }
@@ -703,11 +703,11 @@ namespace PicoXLSX
                     sb.Append("<c").Append(tValue).Append("r=\"").Append(item.CellAddress).Append("\"").Append(sValue).Append(">");
                     if (item.DataType == Cell.CellType.FORMULA)
                     {
-                        sb.Append("<f>").Append(LowLevel.EscapeXMLChars(item.Value.ToString())).Append("</f>");
+                        sb.Append("<f>").Append(LowLevel.EscapeXmlChars(item.Value.ToString())).Append("</f>");
                     }
                     else
                     {
-                        sb.Append("<v>").Append(LowLevel.EscapeXMLChars(value)).Append("</v>");
+                        sb.Append("<v>").Append(LowLevel.EscapeXmlChars(value)).Append("</v>");
                     }
                     sb.Append("</c>");
                 }
@@ -1197,7 +1197,7 @@ namespace PicoXLSX
         /// <param name="input">Input string to process</param>
         /// <returns>Escaped string</returns>
         /// <remarks>Note: The XML specs allow characters up to the character value of 0x10FFFF. However, the C# char range is only up to 0xFFFF. PicoXLSX will neglect all values above this level in the sanitizing check. Illegal characters like 0x1 will be replaced with a white space (0x20)</remarks>
-        public static string EscapeXMLChars(string input)
+        public static string EscapeXmlChars(string input)
         {
             if (input == null) { return ""; }
             int len = input.Length;
@@ -1266,9 +1266,9 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="input">Input string to process</param>
         /// <returns>Escaped string</returns>
-        public static string EscapeXMLAttributeChars(string input)
+        public static string EscapeXmlAttributeChars(string input)
         {
-            input = EscapeXMLChars(input); // Sanitize string from illegal characters beside quotes
+            input = EscapeXmlChars(input); // Sanitize string from illegal characters beside quotes
             input = input.Replace("\"", "&quot;");
             return input;
         }

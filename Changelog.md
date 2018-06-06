@@ -1,5 +1,18 @@
 # Change Log
 
+## v2.4.0
+---
+Release Date: **07.06.2018**
+
+- Added style appending (builder / method chaining)
+- Added new basic styles ColorizedText, ColorizedBackground and Font as functions
+- Added a new constructor for Workbooks without file name to handle stream-only workbooks more logiccal
+- Added the functions HasCell, GetLastColumnNumber and GetLastRowNumber in the Worksheet class
+- Fixed a bug when overriding a worksheet name with sanitizing
+- Added new demo for the introduced style features
+- Internal optimizations and fixes
+
+
 ## v2.3.2
 ---
 Release Date: **30.05.2018**

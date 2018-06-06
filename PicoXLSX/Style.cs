@@ -6,6 +6,10 @@
  */
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace PicoXLSX
@@ -26,26 +30,32 @@ namespace PicoXLSX
         /// <summary>
         /// Gets or sets the current Border object of the style
         /// </summary>
+        [AppendAttribute(NestedProperty = true)]
         public Border CurrentBorder { get; set; }
         /// <summary>
         /// Gets or sets the  current CellXf object of the style
         /// </summary>
+        [AppendAttribute(NestedProperty = true)]
         public CellXf CurrentCellXf { get; set; }
         /// <summary>
         /// Gets or sets the current Fill object of the style
         /// </summary>
+        [AppendAttribute(NestedProperty = true)]
         public Fill CurrentFill { get; set; }
         /// <summary>
         /// Gets or sets the  current Font object of the style
         /// </summary>
+        [AppendAttribute(NestedProperty = true)]
         public Font CurrentFont { get; set; }
         /// <summary>
         /// Gets or sets the  current NumberFormat object of the style
         /// </summary>
+        [AppendAttribute(NestedProperty = true)]
         public NumberFormat CurrentNumberFormat { get; set; }
         /// <summary>
         /// Gets or sets the name of the style. If not defined, the automatically calculated hash will be used as name
         /// </summary>
+        [AppendAttribute(Ignore = true)]
         public string Name
         {
             get { return name; }
@@ -59,6 +69,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the reference of the style manager
         /// </summary>
+        [AppendAttribute(Ignore = true)]
         public StyleManager StyleManagerReference
         {
             set
@@ -71,6 +82,7 @@ namespace PicoXLSX
         /// <summary>
         /// Gets whether the style is system internal. Such styles are not meant to be altered
         /// </summary>
+        [AppendAttribute(Ignore = true)]
         public bool IsInternalStyle
         {
             get { return internalStyle; }
@@ -200,6 +212,49 @@ namespace PicoXLSX
             copy.CurrentFont = CurrentFont.CopyFont();
             copy.CurrentNumberFormat = CurrentNumberFormat.CopyNumberFormat();
             return copy;
+        }
+
+        /// <summary>
+        /// Appends the specified style parts to the current one. The parts can be instances of sub-classes like Border or CellXf or a Style instance. Only the altered properties of the specified style or style part that differs from a new / untouched style instance will be appended. This enables method chaining. 
+        /// </summary>
+        /// <param name="styleToAppend">The style to append or a sub-class of Style.</param>
+        /// <returns>Current style with appended style parts</returns>
+        public Style Append(AbstractStyle styleToAppend)
+        {
+            if (styleToAppend.GetType() == typeof(Style.Border))
+            {
+               // this.CurrentBorder = (Border)styleToAppend;
+               this.CurrentBorder.CopyProperties<Border>((Border)styleToAppend, new Border());
+            }
+            else if (styleToAppend.GetType() == typeof(Style.CellXf))
+            {
+                //this.CurrentCellXf = (CellXf)styleToAppend;
+                this.CurrentCellXf.CopyProperties<CellXf>((CellXf)styleToAppend, new CellXf());
+            }
+            else if (styleToAppend.GetType() == typeof(Style.Fill))
+            {
+                //this.CurrentFill = (Fill)styleToAppend;
+                this.CurrentFill.CopyProperties<Fill>((Fill)styleToAppend, new Fill());
+            }
+            else if (styleToAppend.GetType() == typeof(Style.Font))
+            {
+                //this.CurrentFont = (Font)styleToAppend;
+                this.CurrentFont.CopyProperties<Font>((Font)styleToAppend, new Font());
+            }
+            else if (styleToAppend.GetType() == typeof(Style.NumberFormat))
+            {
+                //this.CurrentNumberFormat = (NumberFormat)styleToAppend;
+                this.CurrentNumberFormat.CopyProperties<NumberFormat>((NumberFormat)styleToAppend, new NumberFormat());
+            }
+            else if (styleToAppend.GetType() == typeof(Style))
+            {
+                this.CurrentBorder.CopyProperties<Border>(((Style)styleToAppend).CurrentBorder, new Border());
+                this.CurrentCellXf.CopyProperties<CellXf>(((Style)styleToAppend).CurrentCellXf, new CellXf());
+                this.CurrentFill.CopyProperties<Fill>(((Style)styleToAppend).CurrentFill, new Fill());
+                this.CurrentFont.CopyProperties<Font>(((Style)styleToAppend).CurrentFont, new Font());
+                this.CurrentNumberFormat.CopyProperties<NumberFormat>(((Style)styleToAppend).CurrentNumberFormat, new NumberFormat());
+            }
+            return this;
         }
 
         /// <summary>
@@ -1015,6 +1070,7 @@ namespace PicoXLSX
             /// <summary>
             /// Gets whether the font is equals the default font
             /// </summary>
+            [AppendAttribute(Ignore = true)]
             public bool IsDefaultFont
             {
                 get
@@ -1247,6 +1303,7 @@ namespace PicoXLSX
             /// <summary>
             /// Gets whether the number format is a custom format (higher or equals 164). If true, the format is custom
             /// </summary>
+            [AppendAttribute(Ignore = true)]
             public bool IsCustomFormat
             {
                 get
@@ -1526,6 +1583,30 @@ namespace PicoXLSX
                 }
                 return s.CopyStyle(); // Copy makes basic styles immutable
             }
+
+            public static Style ColorizedText(string rgb)
+            {
+                Style s = new Style();
+                s.CurrentFont.ColorValue = "FF" + rgb.ToUpper();
+                return s;
+            }
+
+            public static Style ColorizedBackground(string rgb)
+            {
+                Style s = new Style();
+                s.CurrentFill.SetColor("FF" + rgb.ToUpper(), Style.Fill.FillType.fillColor);
+                return s;
+            }
+
+            public static Style Font(string fontName, int fontSize = 11, bool isBold = false, bool isItalic = false)
+            {
+                Style s = new Style();
+                s.CurrentFont.Name = fontName;
+                s.CurrentFont.Size = fontSize;
+                s.CurrentFont.Bold = isBold;
+                s.CurrentFont.Italic = isItalic;
+                return s;
+            }
             #endregion
         }
         #endregion
@@ -1540,6 +1621,7 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the unique hash of the object
         /// </summary>
+        [AppendAttribute(Ignore = true)]
         public string Hash
         {
             get { return CalculateHash(); }
@@ -1548,6 +1630,7 @@ namespace PicoXLSX
         /// <summary>
         /// Gets or sets the internal ID for sorting purpose in the Excel style document (nullable)
         /// </summary>
+        [AppendAttribute(Ignore = true)]
         public int? InternalID { get; set; }
 
         /// <summary>
@@ -1561,6 +1644,50 @@ namespace PicoXLSX
         /// </summary>
         /// <returns>Returns a copied component</returns>
         public abstract AbstractStyle Copy();
+
+        /// <summary>
+        /// Internal method to copy altered properties from a source object. The decision whether a property is copied is dependent on a untouched reference object
+        /// </summary>
+        /// <typeparam name="T">Style or sub-class of Style that extends AbstractStyle</typeparam>
+        /// <param name="source">Source object wit properties to copy</param>
+        /// <param name="reference">Reference object to decide whether the properties from the source objects are altered or not</param>
+        internal void CopyProperties<T>(T source, T reference) where T : AbstractStyle
+        {
+            if (this.GetType() != source.GetType() && this.GetType() != reference.GetType())
+            {
+                throw new StyleException("CopyPropertyException", "The objects of the source, target and reference for style appending are not of the same type");
+            }
+            bool ignore;
+            Type type;
+            PropertyInfo[] infos = this.GetType().GetProperties();
+            PropertyInfo sourceInfo, referenceInfo;
+            IEnumerable<AppendAttribute> attributes;
+            foreach (PropertyInfo info in infos)
+            {
+                attributes = (IEnumerable< AppendAttribute>)info.GetCustomAttributes(typeof(AppendAttribute));
+                if (attributes.Count() > 0)
+                {
+                    ignore = false;
+                    type = null;
+                    foreach (AppendAttribute attribute in attributes)
+                    {
+                        if (attribute.Ignore == true || attribute.NestedProperty == true)
+                        {
+                            ignore = true;
+                            break;
+                        }
+                    }
+                    if (ignore == true) { continue; } // skip property
+                }
+
+                sourceInfo = source.GetType().GetProperty(info.Name);
+                referenceInfo = reference.GetType().GetProperty(info.Name);
+                if (sourceInfo.GetValue(source).Equals(referenceInfo.GetValue(reference)) == false)
+                {
+                    info.SetValue(this, sourceInfo.GetValue(source));
+                }
+            }
+        }
 
         /// <summary>
         /// Method to compare two objects for sorting purpose
@@ -1642,7 +1769,37 @@ namespace PicoXLSX
             }
         }
 
+        /// <summary>
+        /// Attribute designated to control the copying of style properties
+        /// </summary>
+        /// <seealso cref="System.Attribute" />
+        public class AppendAttribute : Attribute
+        {
+            /// <summary>
+            /// Gets or sets whether the property annotated with the attribute is ignored during the copying of properties
+            /// </summary>
+            /// <value>
+            ///   <c>true</c> if ignored, otherwise <c>false</c>.
+            /// </value>
+            public bool Ignore { get; set; }
 
+            /// <summary>
+            /// Indicates whether the property annotated with the attribute is a nested property. Nested properties are ignored but during the copying of properties but can be broken down to its sub-properties
+            /// </summary>
+            /// <value>
+            ///   <c>true</c> if a nested property, otherwise <c>false</c>.
+            /// </value>
+            public bool NestedProperty { get; set; }
+
+            /// <summary>
+            /// Default constructor
+            /// </summary>
+            public AppendAttribute()
+            {
+                this.Ignore = false;
+                this.NestedProperty = false;
+            }
+        }
     }
 
     /*  ************************************************************************************  */
