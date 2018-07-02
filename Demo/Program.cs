@@ -95,7 +95,7 @@ namespace Demo
 
 
         /// <summary>
-        /// This method shows the usage of AddNextCell with several data types and formulas
+        /// This method shows the usage of AddNextCell with several data types and formulas. Furthermore, the several types of Addresses are demonstrated
         /// </summary>
         private static void Demo1()
         {
@@ -111,7 +111,21 @@ namespace Demo
             workbook.CurrentWorksheet.AddNextCellFormula("B1*22");      // Add cell A3 as formula (B1 times 22)
             workbook.CurrentWorksheet.AddNextCellFormula("ROUNDDOWN(A2,1)"); // Add cell B3 as formula (Floor A2 with one decimal place)
             workbook.CurrentWorksheet.AddNextCellFormula("PI()");       // Add cell C3 as formula (Pi = 3.14.... )
-            workbook.Save();                                            // Save the workbook
+            workbook.AddWorksheet("Addresses");                                                 // Add new worksheet
+            workbook.CurrentWorksheet.CurrentCellDirection = Worksheet.CellDirection.Disabled;  // Disable automatic addressing
+            workbook.CurrentWorksheet.AddCell("Default", 0,0);                                  // Add a value
+            Cell.Address address = new Cell.Address(1, 0, Cell.AddressType.Default);            // Create Address with default behavior
+            workbook.CurrentWorksheet.AddCell(address.ToString(), 1,0);                         // Add the string of the address
+            workbook.CurrentWorksheet.AddCell("Fixed Column", 0, 1);                            // Add a value
+            address = new Cell.Address(1, 1, Cell.AddressType.FixedColumn);                     // Create Address with fixed column
+            workbook.CurrentWorksheet.AddCell(address.ToString(), 1, 1);                        // Add the string of the address
+            workbook.CurrentWorksheet.AddCell("Fixed Row", 0, 2);                               // Add a value
+            address = new Cell.Address(1, 2, Cell.AddressType.FixedRow);                        // Create Address with fixed row
+            workbook.CurrentWorksheet.AddCell(address.ToString(), 1, 2);                        // Add the string of the address
+            workbook.CurrentWorksheet.AddCell("Fixed Row and Column", 0, 3);                    // Add a value
+            address = new Cell.Address(1, 3, Cell.AddressType.FixedRowAndColumn);               // Create Address with fixed row and column
+            workbook.CurrentWorksheet.AddCell(address.ToString(), 1, 3);                        // Add the string of the address
+            workbook.Save();                                                                    // Save the workbook
         }
 
         /// <summary>
@@ -158,10 +172,14 @@ namespace Demo
             workbook.CurrentWorksheet.AddNextCell("C");                 // Add cell B3
             workbook.CurrentWorksheet.AddNextCell("D");                 // Add cell B4
             workbook.CurrentWorksheet.RemoveCell("A2");                 // Delete cell A2
-            workbook.CurrentWorksheet.RemoveCell(1, 1);                  // Delete cell B2
+            workbook.CurrentWorksheet.RemoveCell(1, 1);                 // Delete cell B2
             workbook.CurrentWorksheet.GoToNextRow(3);                   // Move 3 rows down
             object value = workbook.CurrentWorksheet.GetCell(1, 2).Value;  // Gets the value of cell B3
             workbook.CurrentWorksheet.AddNextCell("Value of B3 is: " + value);
+            workbook.CurrentWorksheet.CurrentCellDirection = Worksheet.CellDirection.Disabled;   // Disable automatic cell addressing
+            workbook.CurrentWorksheet.AddCell("Text A", 3, 0);       // Add manually placed value
+            workbook.CurrentWorksheet.AddCell("Text B", 4, 1);       // Add manually placed value
+            workbook.CurrentWorksheet.AddCell("Text C", 3, 2);       // Add manually placed value
             workbook.Save();                                            // Save the workbook
         }
 

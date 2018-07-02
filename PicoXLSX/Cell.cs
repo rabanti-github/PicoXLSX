@@ -40,6 +40,22 @@ namespace PicoXLSX
             /// <summary>Default Type, not specified</summary>
             DEFAULT
         }
+
+        /// <summary>
+        /// Enum for the referencing style of the address
+        /// </summary>
+        public enum AddressType
+        {
+            /// <summary>Default behavior (e.g. 'C3')</summary>
+            Default,
+            /// <summary>Row of the address is fixed (e.g. 'C$3')</summary>
+            FixedRow,
+            /// <summary>Column of the address is fixed (e.g. '$C3')</summary>
+            FixedColumn,
+            /// <summary>Row and column of the address is fixed (e.g. '$C$3')</summary>
+            FixedRowAndColumn
+        }
+
         #endregion
 
         #region privateFileds
@@ -411,15 +427,29 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="column">Column number of the cell (zero-based)</param>
         /// <param name="row">Row number of the cell (zero-based)</param>
+        /// <param name="type">Optional referencing type of the address</param>
         /// <exception cref="RangeException">Throws an RangeException if the start or end address was out of range</exception>
-        /// <returns>Cell Address as string in the format A1 - XFD1048576</returns>
-        public static string ResolveCellAddress(int column, int row)
+        /// <returns>Cell Address as string in the format A1 - XFD1048576. Depending on the type, Addresses like '$A55', 'B$2' or '$A$5' are possible outputs</returns>
+        public static string ResolveCellAddress(int column, int row, AddressType type = AddressType.Default)
         {
             if (column > Worksheet.MAX_COLUMN_NUMBER || column < Worksheet.MIN_COLUMN_NUMBER)
             {
                 throw new RangeException("OutOfRangeException", "The column number (" + column.ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER.ToString() + " to " + Worksheet.MAX_COLUMN_NUMBER.ToString() + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1).ToString() + " columns).");
             }
-            return ResolveColumnAddress(column) + (row + 1).ToString();
+            switch (type)
+            {
+                case AddressType.FixedRowAndColumn:
+                    return "$" + ResolveColumnAddress(column) + "$" + (row + 1).ToString();
+                    //break;
+                case AddressType.FixedColumn:
+                    return "$" + ResolveColumnAddress(column) + (row + 1).ToString();
+                   // break;
+                case AddressType.FixedRow:
+                    return ResolveColumnAddress(column) + "$" + (row + 1).ToString();
+                  //  break;
+                default:
+                    return ResolveColumnAddress(column) + (row + 1).ToString();
+            }
         }
 
         /// <summary>
@@ -571,22 +601,31 @@ namespace PicoXLSX
             public int Row;
 
             /// <summary>
+            /// Referencing type of the address
+            /// </summary>
+            public AddressType Type;
+
+            /// <summary>
             /// Constructor with row and column as arguments
             /// </summary>
             /// <param name="column">Column number (zero based)</param>
             /// <param name="row">Row number (zero based)</param>
-            public Address(int column, int row)
+            /// <param name="type">Optional referencing type of the address</param>
+            public Address(int column, int row, AddressType type = AddressType.Default)
             {
                 Column = column;
                 Row = row;
+                Type = type;
             }
 
             /// <summary>
             /// Constructor with address as string
             /// </summary>
             /// <param name="address">Address string (e.g. 'A1:B12')</param>
-            public Address(string address)
+            /// <param name="type">Optional referencing type of the address</param>
+            public Address(string address, AddressType type = AddressType.Default)
             {
+                Type = type;
                 ResolveCellCoordinate(address, out Column, out Row);
             }
 
@@ -596,7 +635,16 @@ namespace PicoXLSX
             /// <returns>Address as string in the format A1 - XFD1048576</returns>
             public string GetAddress()
             {
-                return ResolveCellAddress(Column, Row);
+                return ResolveCellAddress(Column, Row, Type);
+            }
+
+            /// <summary>
+            /// Gets the column address (A - XFD)
+            /// </summary>
+            /// <returns>Column address as letter(s)</returns>
+            public string GetColumn()
+            {
+                return Cell.ResolveColumnAddress(Column);
             }
 
             /// <summary>

@@ -35,6 +35,23 @@
         <member name="F:PicoXLSX.Cell.CellType.DEFAULT">
             <summary>Default Type, not specified</summary>
         </member>
+        <member name="T:PicoXLSX.Cell.AddressType">
+            <summary>
+            Enum for the referencing style of the address
+            </summary>
+        </member>
+        <member name="F:PicoXLSX.Cell.AddressType.Default">
+            <summary>Default behavior (e.g. 'C3')</summary>
+        </member>
+        <member name="F:PicoXLSX.Cell.AddressType.FixedRow">
+            <summary>Row of the address is fixed (e.g. 'C$3')</summary>
+        </member>
+        <member name="F:PicoXLSX.Cell.AddressType.FixedColumn">
+            <summary>Column of the address is fixed (e.g. '$C3')</summary>
+        </member>
+        <member name="F:PicoXLSX.Cell.AddressType.FixedRowAndColumn">
+            <summary>Row and column of the address is fixed (e.g. '$C$3')</summary>
+        </member>
         <member name="P:PicoXLSX.Cell.CellAddress">
             <summary>
             Gets or sets the combined cell Address as string in the format A1 - XFD1048576
@@ -170,14 +187,15 @@
             <exception cref="T:PicoXLSX.FormatException">Throws a FormatException if a part of the passed addresses is malformed</exception>
             <exception cref="T:PicoXLSX.RangeException">Throws an RangeException if the value of one passed address is out of range (A-XFD and 1 to 1048576) </exception>
         </member>
-        <member name="M:PicoXLSX.Cell.ResolveCellAddress(System.Int32,System.Int32)">
+        <member name="M:PicoXLSX.Cell.ResolveCellAddress(System.Int32,System.Int32,PicoXLSX.Cell.AddressType)">
             <summary>
             Gets the address of a cell by the column and row number (zero based)
             </summary>
             <param name="column">Column number of the cell (zero-based)</param>
             <param name="row">Row number of the cell (zero-based)</param>
+            <param name="type">Optional referencing type of the address</param>
             <exception cref="T:PicoXLSX.RangeException">Throws an RangeException if the start or end address was out of range</exception>
-            <returns>Cell Address as string in the format A1 - XFD1048576</returns>
+            <returns>Cell Address as string in the format A1 - XFD1048576. Depending on the type, Addresses like '$A55', 'B$2' or '$A$5' are possible outputs</returns>
         </member>
         <member name="M:PicoXLSX.Cell.ResolveCellCoordinate(System.String)">
             <summary>
@@ -238,24 +256,37 @@
             Row number (zero based)
             </summary>
         </member>
-        <member name="M:PicoXLSX.Cell.Address.#ctor(System.Int32,System.Int32)">
+        <member name="F:PicoXLSX.Cell.Address.Type">
+            <summary>
+            Referencing type of the address
+            </summary>
+        </member>
+        <member name="M:PicoXLSX.Cell.Address.#ctor(System.Int32,System.Int32,PicoXLSX.Cell.AddressType)">
             <summary>
             Constructor with row and column as arguments
             </summary>
             <param name="column">Column number (zero based)</param>
             <param name="row">Row number (zero based)</param>
+            <param name="type">Optional referencing type of the address</param>
         </member>
-        <member name="M:PicoXLSX.Cell.Address.#ctor(System.String)">
+        <member name="M:PicoXLSX.Cell.Address.#ctor(System.String,PicoXLSX.Cell.AddressType)">
             <summary>
             Constructor with address as string
             </summary>
             <param name="address">Address string (e.g. 'A1:B12')</param>
+            <param name="type">Optional referencing type of the address</param>
         </member>
         <member name="M:PicoXLSX.Cell.Address.GetAddress">
             <summary>
             Returns the combined Address
             </summary>
             <returns>Address as string in the format A1 - XFD1048576</returns>
+        </member>
+        <member name="M:PicoXLSX.Cell.Address.GetColumn">
+            <summary>
+            Gets the column address (A - XFD)
+            </summary>
+            <returns>Column address as letter(s)</returns>
         </member>
         <member name="M:PicoXLSX.Cell.Address.ToString">
             <summary>
@@ -1091,6 +1122,13 @@
             <param name="forcedOrder">Number of the style for sorting purpose. Style will be placed to this position (internal use only)</param>
             <param name="internalStyle">If true, the style is marked as internal</param>
         </member>
+        <member name="M:PicoXLSX.Style.Append(PicoXLSX.AbstractStyle)">
+            <summary>
+            Appends the specified style parts to the current one. The parts can be instances of sub-classes like Border or CellXf or a Style instance. Only the altered properties of the specified style or style part that differs from a new / untouched style instance will be appended. This enables method chaining
+            </summary>
+            <param name="styleToAppend">The style to append or a sub-class of Style</param>
+            <returns>Current style with appended style parts</returns>
+        </member>
         <member name="M:PicoXLSX.Style.ReorganizeStyle">
             <summary>
             Method to reorganize / synchronize the components of this style
@@ -1113,13 +1151,6 @@
             Method to copy the current object to a new one without casting
             </summary>
             <returns>Copy of the current object without the internal ID</returns>
-        </member>
-        <member name="M:PicoXLSX.Style.Append(PicoXLSX.AbstractStyle)">
-            <summary>
-            Appends the specified style parts to the current one. The parts can be instances of sub-classes like Border or CellXf or a Style instance. Only the altered properties of the specified style or style part that differs from a new / untouched style instance will be appended. This enables method chaining. 
-            </summary>
-            <param name="styleToAppend">The style to append or a sub-class of Style.</param>
-            <returns>Current style with appended style parts</returns>
         </member>
         <member name="M:PicoXLSX.Style.CopyStyle">
             <summary>
@@ -1955,6 +1986,31 @@
             <param name="value">Enum value to maintain</param>
             <returns>The style according to the passed enum value</returns>
         </member>
+        <member name="M:PicoXLSX.Style.BasicStyles.ColorizedText(System.String)">
+            <summary>
+            Gets a style to colorize the text of a cell
+            </summary>
+            <param name="rgb">RGB code in hex format (e.g. FF00AC). Alpha will be set to full opacity (FF)</param>
+            <returns>Style with font color definition</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.BasicStyles.ColorizedBackground(System.String)">
+            <summary>
+            Gets a style to colorize the background of a cell
+            </summary>
+            <param name="rgb">RGB code in hex format (e.g. FF00AC). Alpha will be set to full opacity (FF)</param>
+            <returns>Style with background color definition</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.BasicStyles.Font(System.String,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Gets a style with a user defined font
+            </summary>
+            <param name="fontName">Name of the font</param>
+            <param name="fontSize">Size of the font in points (optional; default 11)</param>
+            <param name="isBold">If true, the font will be bold (optional; default false)</param>
+            <param name="isItalic">If true, the font will be italic (optional; default false)</param>
+            <returns>Style with font definition</returns>
+            <remarks>The font name as well as the availability of bold and italic on the font cannot be validated by PicoXLSX. The generated file may be corrupt or rendered with a fall-back font in case of an error</remarks>
+        </member>
         <member name="T:PicoXLSX.AbstractStyle">
             <summary>
             Class represents an abstract style component
@@ -1987,7 +2043,7 @@
             Internal method to copy altered properties from a source object. The decision whether a property is copied is dependent on a untouched reference object
             </summary>
             <typeparam name="T">Style or sub-class of Style that extends AbstractStyle</typeparam>
-            <param name="source">Source object wit properties to copy</param>
+            <param name="source">Source object with properties to copy</param>
             <param name="reference">Reference object to decide whether the properties from the source objects are altered or not</param>
         </member>
         <member name="M:PicoXLSX.AbstractStyle.CompareTo(PicoXLSX.AbstractStyle)">
@@ -2020,7 +2076,7 @@
         </member>
         <member name="P:PicoXLSX.AbstractStyle.AppendAttribute.Ignore">
             <summary>
-            Gets or sets whether the property annotated with the attribute is ignored during the copying of properties
+            Indicates whether the property annotated with the attribute is ignored during the copying of properties
             </summary>
             <value>
               <c>true</c> if ignored, otherwise <c>false</c>.
@@ -2646,6 +2702,9 @@
         </member>
         <member name="F:PicoXLSX.Worksheet.CellDirection.RowToRow">
             <summary>The next cell will be on the same column (A1,A2,A3...)</summary>
+        </member>
+        <member name="F:PicoXLSX.Worksheet.CellDirection.Disabled">
+            <summary>The address of the next cell will be not changed when adding a cell (for manual definition of cell addresses)</summary>
         </member>
         <member name="T:PicoXLSX.Worksheet.SheetProtectionValue">
             <summary>

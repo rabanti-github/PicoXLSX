@@ -141,6 +141,45 @@ namespace PicoXLSX
         #endregion
 
         #region methods
+
+        /// <summary>
+        /// Appends the specified style parts to the current one. The parts can be instances of sub-classes like Border or CellXf or a Style instance. Only the altered properties of the specified style or style part that differs from a new / untouched style instance will be appended. This enables method chaining
+        /// </summary>
+        /// <param name="styleToAppend">The style to append or a sub-class of Style</param>
+        /// <returns>Current style with appended style parts</returns>
+        public Style Append(AbstractStyle styleToAppend)
+        {
+            if (styleToAppend.GetType() == typeof(Style.Border))
+            {
+                this.CurrentBorder.CopyProperties<Border>((Border)styleToAppend, new Border());
+            }
+            else if (styleToAppend.GetType() == typeof(Style.CellXf))
+            {
+                this.CurrentCellXf.CopyProperties<CellXf>((CellXf)styleToAppend, new CellXf());
+            }
+            else if (styleToAppend.GetType() == typeof(Style.Fill))
+            {
+                this.CurrentFill.CopyProperties<Fill>((Fill)styleToAppend, new Fill());
+            }
+            else if (styleToAppend.GetType() == typeof(Style.Font))
+            {
+                this.CurrentFont.CopyProperties<Font>((Font)styleToAppend, new Font());
+            }
+            else if (styleToAppend.GetType() == typeof(Style.NumberFormat))
+            {
+                this.CurrentNumberFormat.CopyProperties<NumberFormat>((NumberFormat)styleToAppend, new NumberFormat());
+            }
+            else if (styleToAppend.GetType() == typeof(Style))
+            {
+                this.CurrentBorder.CopyProperties<Border>(((Style)styleToAppend).CurrentBorder, new Border());
+                this.CurrentCellXf.CopyProperties<CellXf>(((Style)styleToAppend).CurrentCellXf, new CellXf());
+                this.CurrentFill.CopyProperties<Fill>(((Style)styleToAppend).CurrentFill, new Fill());
+                this.CurrentFont.CopyProperties<Font>(((Style)styleToAppend).CurrentFont, new Font());
+                this.CurrentNumberFormat.CopyProperties<NumberFormat>(((Style)styleToAppend).CurrentNumberFormat, new NumberFormat());
+            }
+            return this;
+        }
+
         /// <summary>
         /// Method to reorganize / synchronize the components of this style
         /// </summary>
@@ -212,49 +251,6 @@ namespace PicoXLSX
             copy.CurrentFont = CurrentFont.CopyFont();
             copy.CurrentNumberFormat = CurrentNumberFormat.CopyNumberFormat();
             return copy;
-        }
-
-        /// <summary>
-        /// Appends the specified style parts to the current one. The parts can be instances of sub-classes like Border or CellXf or a Style instance. Only the altered properties of the specified style or style part that differs from a new / untouched style instance will be appended. This enables method chaining. 
-        /// </summary>
-        /// <param name="styleToAppend">The style to append or a sub-class of Style.</param>
-        /// <returns>Current style with appended style parts</returns>
-        public Style Append(AbstractStyle styleToAppend)
-        {
-            if (styleToAppend.GetType() == typeof(Style.Border))
-            {
-               // this.CurrentBorder = (Border)styleToAppend;
-               this.CurrentBorder.CopyProperties<Border>((Border)styleToAppend, new Border());
-            }
-            else if (styleToAppend.GetType() == typeof(Style.CellXf))
-            {
-                //this.CurrentCellXf = (CellXf)styleToAppend;
-                this.CurrentCellXf.CopyProperties<CellXf>((CellXf)styleToAppend, new CellXf());
-            }
-            else if (styleToAppend.GetType() == typeof(Style.Fill))
-            {
-                //this.CurrentFill = (Fill)styleToAppend;
-                this.CurrentFill.CopyProperties<Fill>((Fill)styleToAppend, new Fill());
-            }
-            else if (styleToAppend.GetType() == typeof(Style.Font))
-            {
-                //this.CurrentFont = (Font)styleToAppend;
-                this.CurrentFont.CopyProperties<Font>((Font)styleToAppend, new Font());
-            }
-            else if (styleToAppend.GetType() == typeof(Style.NumberFormat))
-            {
-                //this.CurrentNumberFormat = (NumberFormat)styleToAppend;
-                this.CurrentNumberFormat.CopyProperties<NumberFormat>((NumberFormat)styleToAppend, new NumberFormat());
-            }
-            else if (styleToAppend.GetType() == typeof(Style))
-            {
-                this.CurrentBorder.CopyProperties<Border>(((Style)styleToAppend).CurrentBorder, new Border());
-                this.CurrentCellXf.CopyProperties<CellXf>(((Style)styleToAppend).CurrentCellXf, new CellXf());
-                this.CurrentFill.CopyProperties<Fill>(((Style)styleToAppend).CurrentFill, new Fill());
-                this.CurrentFont.CopyProperties<Font>(((Style)styleToAppend).CurrentFont, new Font());
-                this.CurrentNumberFormat.CopyProperties<NumberFormat>(((Style)styleToAppend).CurrentNumberFormat, new NumberFormat());
-            }
-            return this;
         }
 
         /// <summary>
@@ -1584,6 +1580,11 @@ namespace PicoXLSX
                 return s.CopyStyle(); // Copy makes basic styles immutable
             }
 
+            /// <summary>
+            /// Gets a style to colorize the text of a cell
+            /// </summary>
+            /// <param name="rgb">RGB code in hex format (e.g. FF00AC). Alpha will be set to full opacity (FF)</param>
+            /// <returns>Style with font color definition</returns>
             public static Style ColorizedText(string rgb)
             {
                 Style s = new Style();
@@ -1591,13 +1592,28 @@ namespace PicoXLSX
                 return s;
             }
 
+            /// <summary>
+            /// Gets a style to colorize the background of a cell
+            /// </summary>
+            /// <param name="rgb">RGB code in hex format (e.g. FF00AC). Alpha will be set to full opacity (FF)</param>
+            /// <returns>Style with background color definition</returns>
             public static Style ColorizedBackground(string rgb)
             {
                 Style s = new Style();
                 s.CurrentFill.SetColor("FF" + rgb.ToUpper(), Style.Fill.FillType.fillColor);
+                
                 return s;
             }
 
+            /// <summary>
+            /// Gets a style with a user defined font
+            /// </summary>
+            /// <param name="fontName">Name of the font</param>
+            /// <param name="fontSize">Size of the font in points (optional; default 11)</param>
+            /// <param name="isBold">If true, the font will be bold (optional; default false)</param>
+            /// <param name="isItalic">If true, the font will be italic (optional; default false)</param>
+            /// <returns>Style with font definition</returns>
+            /// <remarks>The font name as well as the availability of bold and italic on the font cannot be validated by PicoXLSX. The generated file may be corrupt or rendered with a fall-back font in case of an error</remarks>
             public static Style Font(string fontName, int fontSize = 11, bool isBold = false, bool isItalic = false)
             {
                 Style s = new Style();
@@ -1649,7 +1665,7 @@ namespace PicoXLSX
         /// Internal method to copy altered properties from a source object. The decision whether a property is copied is dependent on a untouched reference object
         /// </summary>
         /// <typeparam name="T">Style or sub-class of Style that extends AbstractStyle</typeparam>
-        /// <param name="source">Source object wit properties to copy</param>
+        /// <param name="source">Source object with properties to copy</param>
         /// <param name="reference">Reference object to decide whether the properties from the source objects are altered or not</param>
         internal void CopyProperties<T>(T source, T reference) where T : AbstractStyle
         {
@@ -1658,7 +1674,6 @@ namespace PicoXLSX
                 throw new StyleException("CopyPropertyException", "The objects of the source, target and reference for style appending are not of the same type");
             }
             bool ignore;
-            Type type;
             PropertyInfo[] infos = this.GetType().GetProperties();
             PropertyInfo sourceInfo, referenceInfo;
             IEnumerable<AppendAttribute> attributes;
@@ -1668,7 +1683,6 @@ namespace PicoXLSX
                 if (attributes.Count() > 0)
                 {
                     ignore = false;
-                    type = null;
                     foreach (AppendAttribute attribute in attributes)
                     {
                         if (attribute.Ignore == true || attribute.NestedProperty == true)
@@ -1776,7 +1790,7 @@ namespace PicoXLSX
         public class AppendAttribute : Attribute
         {
             /// <summary>
-            /// Gets or sets whether the property annotated with the attribute is ignored during the copying of properties
+            /// Indicates whether the property annotated with the attribute is ignored during the copying of properties
             /// </summary>
             /// <value>
             ///   <c>true</c> if ignored, otherwise <c>false</c>.

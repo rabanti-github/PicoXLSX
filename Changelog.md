@@ -1,12 +1,24 @@
 # Change Log
 
+## v2.5.0
+
+---
+Release Date: **02.07.2018**
+
+- Added address types (no fixed rows and columns, fixed rows, fixed columns, fixed rows and columns; Useful in formulas)
+- Added new CellDirection Disabled, if the addresses of the cells are defined manually (AddNextCell will override the current cell in this case)
+- Altered Demo 3 to demonstrate disabling of automatic cell addressing
+- Extended Demo 1 to demonstrate the new address types
+- Minor, internal changes
+
+
 ## v2.4.0
 ---
 Release Date: **07.06.2018**
 
 - Added style appending (builder / method chaining)
 - Added new basic styles ColorizedText, ColorizedBackground and Font as functions
-- Added a new constructor for Workbooks without file name to handle stream-only workbooks more logiccal
+- Added a new constructor for Workbooks without file name to handle stream-only workbooks more logical
 - Added the functions HasCell, GetLastColumnNumber and GetLastRowNumber in the Worksheet class
 - Fixed a bug when overriding a worksheet name with sanitizing
 - Added new demo for the introduced style features
