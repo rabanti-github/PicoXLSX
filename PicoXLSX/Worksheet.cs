@@ -70,7 +70,9 @@ namespace PicoXLSX
             /// <summary>The next cell will be on the same row (A1,B1,C1...)</summary>
             ColumnToColumn,
             /// <summary>The next cell will be on the same column (A1,A2,A3...)</summary>
-            RowToRow
+            RowToRow,
+            /// <summary>The address of the next cell will be not changed when adding a cell (for manual definition of cell addresses)</summary>
+            Disabled
         }
 
         /// <summary>
@@ -377,10 +379,11 @@ namespace PicoXLSX
                 {
                     currentColumnNumber++;
                 }
-                else
+                else if (CurrentCellDirection == CellDirection.RowToRow)
                 {
                     currentRowNumber++;
                 }
+                // else = disabled
             }
             else
             {
@@ -389,11 +392,12 @@ namespace PicoXLSX
                     currentColumnNumber = cell.ColumnNumber + 1;
                     currentRowNumber = cell.RowNumber;
                 }
-                else
+                else if (CurrentCellDirection == CellDirection.RowToRow)
                 {
                     currentColumnNumber = cell.ColumnNumber;
                     currentRowNumber = cell.RowNumber + 1;
                 }
+                // else = Disabled
             }
         }
 

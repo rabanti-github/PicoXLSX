@@ -46,7 +46,7 @@ By .NET CLI:
 dotnet add package PicoXLSX
 ```
 ## As DLL
-Simply place the PicoXLSX DLL into your .NET project and add a reference (in VS or SharpDevelop) to it. Please keep in mind that the .NET version of your solution must match with the runtime version of the PicoXLSX DLL (currently compiled with 4.5).
+Simply place the PicoXLSX DLL into your .NET project and add a reference to it. Please keep in mind that the .NET version of your solution must match with the runtime version of the PicoXLSX DLL (currently compiled with 4.5).
 ## As source files
 Place all .CS files from the PicoXLSX source folder into your project. You can place them into a sub-folder if you wish. The files contains definitions for workbooks, worksheets, cells, styles, meta-data, low level methods and exceptions.
 
