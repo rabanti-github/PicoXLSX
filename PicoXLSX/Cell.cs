@@ -725,7 +725,7 @@ namespace PicoXLSX
             /// Returns a cell with a average formula
             /// </summary>
             /// <param name="range">Cell range to apply the average operation to</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Average(Range range)
             { return Average(null, range); }
 
@@ -734,7 +734,7 @@ namespace PicoXLSX
             /// </summary>
             /// <param name="target">Target worksheet of the average operation. Can be null if on the same worksheet</param>
             /// <param name="range">Cell range to apply the average operation to</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Average(Worksheet target, Range range)
             { return GetBasicFormula(target, range, "AVERAGE", null); }
 
@@ -743,7 +743,7 @@ namespace PicoXLSX
             /// </summary>
             /// <param name="address">Address to apply the ceil operation to</param>
             /// <param name="decimals">Number of decimals (digits)</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Ceil(Address address, int decimals)
             { return Ceil(null, address, decimals); }
 
@@ -753,7 +753,7 @@ namespace PicoXLSX
             /// <param name="target">Target worksheet of the ceil operation. Can be null if on the same worksheet</param>
             /// <param name="address">Address to apply the ceil operation to</param>
             /// <param name="decimals">Number of decimals (digits)</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Ceil(Worksheet target, Address address, int decimals)
             { return GetBasicFormula(target, new Range(address, address), "ROUNDUP", decimals.ToString()); }
 
@@ -762,7 +762,7 @@ namespace PicoXLSX
             /// </summary>
             /// <param name="address">Address to apply the floor operation to</param>
             /// <param name="decimals">Number of decimals (digits)</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Floor(Address address, int decimals)
             { return Floor(null, address, decimals); }
 
@@ -772,7 +772,7 @@ namespace PicoXLSX
             /// <param name="target">Target worksheet of the floor operation. Can be null if on the same worksheet</param>
             /// <param name="address">Address to apply the floor operation to</param>
             /// <param name="decimals">Number of decimals (digits)</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Floor(Worksheet target, Address address, int decimals)
             { return GetBasicFormula(target, new Range(address, address), "ROUNDDOWN", decimals.ToString()); }
 
@@ -780,7 +780,7 @@ namespace PicoXLSX
             /// Returns a cell with a max formula
             /// </summary>
             /// <param name="range">Cell range to apply the max operation to</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Max(Range range)
             { return Max(null, range); }
 
@@ -789,7 +789,7 @@ namespace PicoXLSX
             /// </summary>
             /// <param name="target">Target worksheet of the max operation. Can be null if on the same worksheet</param>
             /// <param name="range">Cell range to apply the max operation to</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Max(Worksheet target, Range range)
             { return GetBasicFormula(target, range, "MAX", null); }
 
@@ -797,7 +797,7 @@ namespace PicoXLSX
             /// Returns a cell with a median formula
             /// </summary>
             /// <param name="range">Cell range to apply the median operation to</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Median(Range range)
             { return Median(null, range); }
 
@@ -806,7 +806,7 @@ namespace PicoXLSX
             /// </summary>
             /// <param name="target">Target worksheet of the median operation. Can be null if on the same worksheet</param>
             /// <param name="range">Cell range to apply the median operation to</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Median(Worksheet target, Range range)
             { return GetBasicFormula(target, range, "MEDIAN", null); }
 
@@ -814,7 +814,7 @@ namespace PicoXLSX
             /// Returns a cell with a min formula
             /// </summary>
             /// <param name="range">Cell range to apply the min operation to</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Min(Range range)
             { return Min(null, range); }
 
@@ -823,7 +823,7 @@ namespace PicoXLSX
             /// </summary>
             /// <param name="target">Target worksheet of the min operation. Can be null if on the same worksheet</param>
             /// <param name="range">Cell range to apply the median operation to</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Min(Worksheet target, Range range)
             { return GetBasicFormula(target, range, "MIN", null); }
 
@@ -832,7 +832,7 @@ namespace PicoXLSX
             /// </summary>
             /// <param name="address">Address to apply the round operation to</param>
             /// <param name="decimals">Number of decimals (digits)</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Round(Address address, int decimals)
             { return Round(null, address, decimals); }
 
@@ -842,7 +842,7 @@ namespace PicoXLSX
             /// <param name="target">Target worksheet of the round operation. Can be null if on the same worksheet</param>
             /// <param name="address">Address to apply the round operation to</param>
             /// <param name="decimals">Number of decimals (digits)</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Round(Worksheet target, Address address, int decimals)
             { return GetBasicFormula(target, new Range(address, address), "ROUND", decimals.ToString()); }
 
@@ -850,7 +850,7 @@ namespace PicoXLSX
             /// Returns a cell with a sum formula
             /// </summary>
             /// <param name="range">Cell range to get a sum of</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Sum(Range range)
             { return Sum(null, range); }
 
@@ -859,7 +859,7 @@ namespace PicoXLSX
             /// </summary>
             /// <param name="target">Target worksheet of the sum operation. Can be null if on the same worksheet</param>
             /// <param name="range">Cell range to get a sum of</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Sum(Worksheet target, Range range)
             { return GetBasicFormula(target, range, "SUM", null); }
 
@@ -871,7 +871,7 @@ namespace PicoXLSX
             /// <param name="range">Matrix of the lookup</param>
             /// <param name="columnIndex">Column index of the target column (1 based)</param>
             /// <param name="exactMatch">If true, an exact match is applied to the lookup</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell VLookup(object number, Range range, int columnIndex, bool exactMatch)
             { return VLookup(number, null, range, columnIndex, exactMatch); }
 
@@ -883,7 +883,7 @@ namespace PicoXLSX
             /// <param name="range">Matrix of the lookup</param>
             /// <param name="columnIndex">Column index of the target column (1 based)</param>
             /// <param name="exactMatch">If true, an exact match is applied to the lookup</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell VLookup(object number, Worksheet rangeTarget, Range range, int columnIndex, bool exactMatch)
             { return GetVLookup(null, new Address(), number, rangeTarget, range, columnIndex, exactMatch, true); }
 
@@ -894,7 +894,7 @@ namespace PicoXLSX
             /// <param name="range">Matrix of the lookup</param>
             /// <param name="columnIndex">Column index of the target column (1 based)</param>
             /// <param name="exactMatch">If true, an exact match is applied to the lookup</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell VLookup(Address address, Range range, int columnIndex, bool exactMatch)
             { return VLookup(null, address, null, range, columnIndex, exactMatch); }
 
@@ -907,7 +907,7 @@ namespace PicoXLSX
             /// <param name="range">Matrix of the lookup</param>
             /// <param name="columnIndex">Column index of the target column (1 based)</param>
             /// <param name="exactMatch">If true, an exact match is applied to the lookup</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell VLookup(Worksheet queryTarget, Address address, Worksheet rangeTarget, Range range, int columnIndex, bool exactMatch)
             {
                 return GetVLookup(queryTarget, address, 0, rangeTarget, range, columnIndex, exactMatch, false);
@@ -924,7 +924,7 @@ namespace PicoXLSX
             /// <param name="columnIndex">Column index of the target column (1 based)</param>
             /// <param name="exactMatch">If true, an exact match is applied to the lookup</param>
             /// <param name="numericLookup">If true, the lookup is a numeric lookup, otherwise a reference lookup</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             private static Cell GetVLookup(Worksheet queryTarget, Address address, object number, Worksheet rangeTarget, Range range, int columnIndex, bool exactMatch, bool numericLookup)
             {
                 CultureInfo culture = CultureInfo.InvariantCulture;
@@ -968,7 +968,7 @@ namespace PicoXLSX
             /// <param name="range">Main argument as cell range. If applied on one cell, the start and end address are identical</param>
             /// <param name="functionName">Internal Excel function name</param>
             /// <param name="postArg">Optional argument</param>
-            /// <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             private static Cell GetBasicFormula(Worksheet target, Range range, string functionName, string postArg)
             {
                 string arg1, arg2, prefix;

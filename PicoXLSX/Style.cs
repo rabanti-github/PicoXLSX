@@ -1155,6 +1155,7 @@ namespace PicoXLSX
                 CastValue(DoubleUnderline, ref sb, ':');
                 CastValue(Strike, ref sb, ':');
                 CastValue(ColorTheme, ref sb, ':');
+                CastValue(ColorValue, ref sb, ':');
                 CastValue(Family, ref sb, ':');
                 CastValue(Name, ref sb, ':');
                 CastValue(Scheme, ref sb, ':');
@@ -1174,6 +1175,7 @@ namespace PicoXLSX
                 copy.Bold = Bold;
                 copy.Charset = Charset;
                 copy.ColorTheme = ColorTheme;
+                copy.ColorValue = ColorValue;
                 copy.VerticalAlign = VerticalAlign;
                 copy.DoubleUnderline = DoubleUnderline;
                 copy.Family = Family;
@@ -1601,7 +1603,6 @@ namespace PicoXLSX
             {
                 Style s = new Style();
                 s.CurrentFill.SetColor("FF" + rgb.ToUpper(), Style.Fill.FillType.fillColor);
-                
                 return s;
             }
 
