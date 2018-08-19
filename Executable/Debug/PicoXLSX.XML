@@ -345,7 +345,7 @@
             Returns a cell with a average formula
             </summary>
             <param name="range">Cell range to apply the average operation to</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.Average(PicoXLSX.Worksheet,PicoXLSX.Cell.Range)">
             <summary>
@@ -353,7 +353,7 @@
             </summary>
             <param name="target">Target worksheet of the average operation. Can be null if on the same worksheet</param>
             <param name="range">Cell range to apply the average operation to</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.Ceil(PicoXLSX.Cell.Address,System.Int32)">
             <summary>
@@ -361,7 +361,7 @@
             </summary>
             <param name="address">Address to apply the ceil operation to</param>
             <param name="decimals">Number of decimals (digits)</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.Ceil(PicoXLSX.Worksheet,PicoXLSX.Cell.Address,System.Int32)">
             <summary>
@@ -370,7 +370,7 @@
             <param name="target">Target worksheet of the ceil operation. Can be null if on the same worksheet</param>
             <param name="address">Address to apply the ceil operation to</param>
             <param name="decimals">Number of decimals (digits)</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.Floor(PicoXLSX.Cell.Address,System.Int32)">
             <summary>
@@ -378,7 +378,7 @@
             </summary>
             <param name="address">Address to apply the floor operation to</param>
             <param name="decimals">Number of decimals (digits)</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.Floor(PicoXLSX.Worksheet,PicoXLSX.Cell.Address,System.Int32)">
             <summary>
@@ -387,14 +387,14 @@
             <param name="target">Target worksheet of the floor operation. Can be null if on the same worksheet</param>
             <param name="address">Address to apply the floor operation to</param>
             <param name="decimals">Number of decimals (digits)</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.Max(PicoXLSX.Cell.Range)">
             <summary>
             Returns a cell with a max formula
             </summary>
             <param name="range">Cell range to apply the max operation to</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.Max(PicoXLSX.Worksheet,PicoXLSX.Cell.Range)">
             <summary>
@@ -402,14 +402,14 @@
             </summary>
             <param name="target">Target worksheet of the max operation. Can be null if on the same worksheet</param>
             <param name="range">Cell range to apply the max operation to</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.Median(PicoXLSX.Cell.Range)">
             <summary>
             Returns a cell with a median formula
             </summary>
             <param name="range">Cell range to apply the median operation to</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.Median(PicoXLSX.Worksheet,PicoXLSX.Cell.Range)">
             <summary>
@@ -417,14 +417,14 @@
             </summary>
             <param name="target">Target worksheet of the median operation. Can be null if on the same worksheet</param>
             <param name="range">Cell range to apply the median operation to</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.Min(PicoXLSX.Cell.Range)">
             <summary>
             Returns a cell with a min formula
             </summary>
             <param name="range">Cell range to apply the min operation to</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.Min(PicoXLSX.Worksheet,PicoXLSX.Cell.Range)">
             <summary>
@@ -432,7 +432,7 @@
             </summary>
             <param name="target">Target worksheet of the min operation. Can be null if on the same worksheet</param>
             <param name="range">Cell range to apply the median operation to</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.Round(PicoXLSX.Cell.Address,System.Int32)">
             <summary>
@@ -440,7 +440,7 @@
             </summary>
             <param name="address">Address to apply the round operation to</param>
             <param name="decimals">Number of decimals (digits)</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.Round(PicoXLSX.Worksheet,PicoXLSX.Cell.Address,System.Int32)">
             <summary>
@@ -449,14 +449,14 @@
             <param name="target">Target worksheet of the round operation. Can be null if on the same worksheet</param>
             <param name="address">Address to apply the round operation to</param>
             <param name="decimals">Number of decimals (digits)</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.Sum(PicoXLSX.Cell.Range)">
             <summary>
             Returns a cell with a sum formula
             </summary>
             <param name="range">Cell range to get a sum of</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.Sum(PicoXLSX.Worksheet,PicoXLSX.Cell.Range)">
             <summary>
@@ -464,7 +464,7 @@
             </summary>
             <param name="target">Target worksheet of the sum operation. Can be null if on the same worksheet</param>
             <param name="range">Cell range to get a sum of</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.VLookup(System.Object,PicoXLSX.Cell.Range,System.Int32,System.Boolean)">
             <summary>
@@ -474,7 +474,7 @@
             <param name="range">Matrix of the lookup</param>
             <param name="columnIndex">Column index of the target column (1 based)</param>
             <param name="exactMatch">If true, an exact match is applied to the lookup</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.VLookup(System.Object,PicoXLSX.Worksheet,PicoXLSX.Cell.Range,System.Int32,System.Boolean)">
             <summary>
@@ -485,7 +485,7 @@
             <param name="range">Matrix of the lookup</param>
             <param name="columnIndex">Column index of the target column (1 based)</param>
             <param name="exactMatch">If true, an exact match is applied to the lookup</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.VLookup(PicoXLSX.Cell.Address,PicoXLSX.Cell.Range,System.Int32,System.Boolean)">
             <summary>
@@ -495,7 +495,7 @@
             <param name="range">Matrix of the lookup</param>
             <param name="columnIndex">Column index of the target column (1 based)</param>
             <param name="exactMatch">If true, an exact match is applied to the lookup</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.VLookup(PicoXLSX.Worksheet,PicoXLSX.Cell.Address,PicoXLSX.Worksheet,PicoXLSX.Cell.Range,System.Int32,System.Boolean)">
             <summary>
@@ -507,7 +507,7 @@
             <param name="range">Matrix of the lookup</param>
             <param name="columnIndex">Column index of the target column (1 based)</param>
             <param name="exactMatch">If true, an exact match is applied to the lookup</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.GetVLookup(PicoXLSX.Worksheet,PicoXLSX.Cell.Address,System.Object,PicoXLSX.Worksheet,PicoXLSX.Cell.Range,System.Int32,System.Boolean,System.Boolean)">
             <summary>
@@ -521,7 +521,7 @@
             <param name="columnIndex">Column index of the target column (1 based)</param>
             <param name="exactMatch">If true, an exact match is applied to the lookup</param>
             <param name="numericLookup">If true, the lookup is a numeric lookup, otherwise a reference lookup</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="M:PicoXLSX.Cell.BasicFormulas.GetBasicFormula(PicoXLSX.Worksheet,PicoXLSX.Cell.Range,System.String,System.String)">
             <summary>
@@ -531,7 +531,7 @@
             <param name="range">Main argument as cell range. If applied on one cell, the start and end address are identical</param>
             <param name="functionName">Internal Excel function name</param>
             <param name="postArg">Optional argument</param>
-            <returns>Prepared Cell object, ready to added to a worksheet</returns>
+            <returns>Prepared Cell object, ready to be added to a worksheet</returns>
         </member>
         <member name="T:PicoXLSX.RangeException">
             <summary>
