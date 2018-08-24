@@ -9,6 +9,8 @@ PicoXLSX is a small .NET library written in C#, to create Microsoft Excel files 
  * No need for 3rd party libraries
  * No need for an installation of the Microsoft Open Office XML SDK (OOXML)
 
+**Please have a look at the successor library [NanoXLSX](https://github.com/rabanti-github/NanoXLSX) for reader support.**
+
 Project website: [https://picoxlsx.rabanti.ch](https://picoxlsx.rabanti.ch)
  
 See the **[Change Log](https://github.com/rabanti-github/PicoXLSX/blob/master/Changelog.md)** for recent updates.
