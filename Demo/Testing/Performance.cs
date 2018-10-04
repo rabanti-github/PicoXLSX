@@ -19,7 +19,7 @@ namespace Testing
     public class Performance
     {
         /// <summary>
-        /// Method to perform a stress test on PixoXLSX with a high amount of random data
+        /// Method to perform a stress test on PicoXLSX with a high amount of random data
         /// </summary>
         /// <param name="filename">filename of the output</param>
         /// <param name="sheetname">name of the worksheet</param>

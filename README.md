@@ -9,6 +9,8 @@ PicoXLSX is a small .NET library written in C#, to create Microsoft Excel files 
  * No need for 3rd party libraries
  * No need for an installation of the Microsoft Open Office XML SDK (OOXML)
 
+**Please have a look at the successor library [NanoXLSX](https://github.com/rabanti-github/NanoXLSX) for reader support.**
+
 Project website: [https://picoxlsx.rabanti.ch](https://picoxlsx.rabanti.ch)
  
 See the **[Change Log](https://github.com/rabanti-github/PicoXLSX/blob/master/Changelog.md)** for recent updates.
@@ -37,7 +39,7 @@ If you want to compile the documentation project (folder: Documentation; project
 # Installation
 
 ## Using Nuget
-By package Manager (PM): 
+By Package Manager (PM): 
 ```sh 
 Install-Package PicoXLSX
 ```
@@ -75,6 +77,6 @@ Place all .CS files from the PicoXLSX source folder into your project. You can p
 See the full **API-Documentation** at: [https://rabanti-github.github.io/PicoXLSX/](https://rabanti-github.github.io/PicoXLSX/).
 
 
-The [Demo project](https://github.com/rabanti-github/PicoXLSX/tree/master/Demo) contains 13 simple use cases. You can find also the full documentation in the [Documentation-Folder](https://github.com/rabanti-github/PicoXLSX/tree/master/docs) (html files or single chm file) or as C# documentation in the particular .CS files.
+The [Demo project](https://github.com/rabanti-github/PicoXLSX/tree/master/Demo) contains 14 simple use cases. You can find also the full documentation in the [Documentation-Folder](https://github.com/rabanti-github/PicoXLSX/tree/master/docs) (html files or single chm file) or as C# documentation in the particular .CS files.
 
 See also: [Getting started in the Wiki](https://github.com/rabanti-github/PicoXLSX/wiki/Getting-started)

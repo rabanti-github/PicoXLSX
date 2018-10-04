@@ -1,5 +1,17 @@
 # Change Log
 
+## v2.6.0
+
+---
+Release Date: **19.08.2018**
+
+- Added asynchronous methods SaveAsync, SaveAsAsync and SaveAsStreamAsync
+- Added a new constructor in the Cell class with the address as string
+- Added a new example for the introduced async methods
+- Minor bug fixes and optimizations
+- Fixed typos
+
+
 ## v2.5.1
 
 ---
@@ -15,7 +27,7 @@ Release Date: **19.08.2018**
 Release Date: **02.07.2018**
 
 - Added address types (no fixed rows and columns, fixed rows, fixed columns, fixed rows and columns; Useful in formulas)
-- Added new CellDirection Disabled, if the addresses of the cells are defined manually (AddNextCell will override the current cell in this case)
+- Added new option CellDirection Disabled, if the addresses of the cells are defined manually (AddNextCell will override the current cell in this case)
 - Altered Demo 3 to demonstrate disabling of automatic cell addressing
 - Extended Demo 1 to demonstrate the new address types
 - Minor, internal changes
