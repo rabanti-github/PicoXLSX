@@ -515,7 +515,7 @@ namespace PicoXLSX
         {
             Style s;
             bool match = false;
-            String hash = component.Hash;
+            string hash = component.Hash;
             int len = styles.Count;
             for (int i = 0; i < len; i++)
             {

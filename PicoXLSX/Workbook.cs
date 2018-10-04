@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace PicoXLSX
 {
@@ -59,7 +60,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets or sets the filename of the workbook
+        /// Gets or sets the fileName of the workbook
         /// </summary>
         public string Filename
         {
@@ -158,7 +159,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Constructor with filename ant the name of the first worksheet
+        /// Constructor with fileName ant the name of the first worksheet
         /// </summary>
         /// <param name="filename">Filename of the workbook.  The name will be sanitized automatically according to the specifications of Excel</param>
         /// <param name="sheetName">Name of the first worksheet. The name will be sanitized automatically according to the specifications of Excel</param>
@@ -170,7 +171,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Constructor with filename ant the name of the first worksheet
+        /// Constructor with fileName ant the name of the first worksheet
         /// </summary>
         /// <param name="filename">Filename of the workbook</param>
         /// <param name="sheetName">Name of the first worksheet</param>
@@ -263,7 +264,7 @@ namespace PicoXLSX
         {
             if (sanitizeSheetName == true)
             {
-                String sanitized = Worksheet.SanitizeWorksheetName(name, this);
+                string sanitized = Worksheet.SanitizeWorksheetName(name, this);
                 AddWorksheet(sanitized);
             }
             else
@@ -484,9 +485,9 @@ namespace PicoXLSX
         /// Saves the workbook
         /// </summary>
         /// <exception cref="IOException">Throws IOException in case of an error</exception>
-        /// <exception cref="RangeException">Throws an RangeException if the start or end address of a handled cell range was out of range</exception>
+        /// <exception cref="RangeException">Throws a RangeException if the start or end address of a handled cell range was out of range</exception>
         /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
-        /// <exception cref="StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+        /// <exception cref="StyleException">Throws a StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
         public void Save()
         {
             LowLevel l = new LowLevel(this);
@@ -494,34 +495,81 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Saves the workbook asynchronous.
+        /// </summary>
+        /// <returns>Task object (void)</returns>
+        /// <exception cref="IOException">May throw an IOException in case of an error. The asynchronous operation may hide the exception.</exception>
+        /// <exception cref="RangeException">May throw a RangeException if the start or end address of a handled cell range was out of range. The asynchronous operation may hide the exception.</exception>
+        /// <exception cref="FormatException">May throw a FormatException if a handled date cannot be translated to (Excel internal) OADate. The asynchronous operation may hide the exception.</exception>
+        /// <exception cref="StyleException">May throw a StyleException if one of the styles of the workbook cannot be referenced or is null. The asynchronous operation may hide the exception.</exception>
+        public async Task SaveAsync()
+        {
+            LowLevel  l = new LowLevel(this);
+            await l.SaveAsync();
+        }
+
+        /// <summary>
         /// Saves the workbook with the defined name
         /// </summary>
-        /// <param name="filename">filename of the saved workbook</param>
+        /// <param name="fileName">fileName of the saved workbook</param>
         /// <exception cref="IOException">Throws IOException in case of an error</exception>
-        /// <exception cref="RangeException">Throws an RangeException if the start or end address of a handled cell range was out of range</exception>
+        /// <exception cref="RangeException">Throws a RangeException if the start or end address of a handled cell range was out of range</exception>
         /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
-        /// <exception cref="StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
-        public void SaveAs(string filename)
+        /// <exception cref="StyleException">Throws a StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+        public void SaveAs(string fileName)
         {
-            string backup = filename;
-            this.filename = filename;
+            string backup = fileName;
+            this.filename = fileName;
             LowLevel l = new LowLevel(this);
             l.Save();
             this.filename = backup;
         }
 
         /// <summary>
+        /// Saves the workbook with the defined name asynchronous.
+        /// </summary>
+        /// <param name="fileName">fileName of the saved workbook</param>
+        /// <returns>Task object (void)</returns>
+        /// <exception cref="IOException">May throw an IOException in case of an error. The asynchronous operation may hide the exception.</exception>
+        /// <exception cref="RangeException">May throw a RangeException if the start or end address of a handled cell range was out of range. The asynchronous operation may hide the exception.</exception>
+        /// <exception cref="FormatException">May throw a FormatException if a handled date cannot be translated to (Excel internal) OADate. The asynchronous operation may hide the exception.</exception>
+        /// <exception cref="StyleException">May throw a StyleException if one of the styles of the workbook cannot be referenced or is null. The asynchronous operation may hide the exception.</exception>
+        public async Task SaveAsAsync(string fileName)
+        {
+            string backup = fileName;
+            this.filename = fileName;
+            LowLevel l = new LowLevel(this);
+            await l.SaveAsync();
+            this.filename = backup;
+        }
+             
+        /// <summary>
         /// Save the workbook to a writable stream
         /// </summary>
         /// <param name="stream">Writable stream</param>
         /// <exception cref="IOException">Throws IOException in case of an error</exception>
-        /// <exception cref="RangeException">Throws an RangeException if the start or end address of a handled cell range was out of range</exception>
+        /// <exception cref="RangeException">Throws a RangeException if the start or end address of a handled cell range was out of range</exception>
         /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
-        /// <exception cref="StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+        /// <exception cref="StyleException">Throws a StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
         public void SaveAsStream(Stream stream)
         {
             LowLevel l = new LowLevel(this);
             l.SaveAsStream(stream);
+        }
+
+        /// <summary>
+        /// Save the workbook to a writable stream asynchronous.
+        /// </summary>
+        /// <param name="stream">>Writable stream</param>
+        /// <returns>Task object (void)</returns>
+        /// <exception cref="IOException">Throws IOException in case of an error. The asynchronous operation may hide the exception.</exception>
+        /// <exception cref="RangeException">May throw a RangeException if the start or end address of a handled cell range was out of range. The asynchronous operation may hide the exception.</exception>
+        /// <exception cref="FormatException">May throw a FormatException if a handled date cannot be translated to (Excel internal) OADate. The asynchronous operation may hide the exception.</exception>
+        /// <exception cref="StyleException">May throw a StyleException if one of the styles of the workbook cannot be referenced or is null. The asynchronous operation may hide the exception.</exception>
+        public async Task SaveAsStreamAsync(Stream stream)
+        {
+            LowLevel l = new LowLevel(this);
+            await l.SaveAsStreamAsync(stream);
         }
 
         /// <summary>

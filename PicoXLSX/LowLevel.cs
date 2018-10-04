@@ -12,6 +12,7 @@ using System.IO;
 using System.IO.Packaging;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace PicoXLSX
@@ -29,7 +30,6 @@ namespace PicoXLSX
         private static DocumentPath APP_PROPERTIES = new DocumentPath("app.xml", "docProps/");
         private static DocumentPath CORE_PROPERTIES = new DocumentPath("core.xml", "docProps/");
         private static DocumentPath SHARED_STRINGS = new DocumentPath("sharedStrings.xml", "xl/");
-        private static RNGCryptoServiceProvider RNGcsp = new RNGCryptoServiceProvider();
         #endregion
 
         #region privateFields
@@ -314,6 +314,16 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Method to save the workbook asynchronous.
+        /// </summary>
+        /// <remarks>Possible Exceptions are <see cref="IOException">IOException</see>, <see cref="RangeException">RangeException</see>, <see cref="FormatException"></see> and <see cref="StyleException">StyleException</see>. These exceptions may not emerge directly if using the async method since async/await adds further abstraction layers.</remarks>
+        /// <returns>Async Task</returns>
+        public async Task SaveAsync()
+        {
+            await Task.Run(() => { Save(); });
+        }
+
+        /// <summary>
         /// Method to save the workbook as stream
         /// </summary>
         /// <param name="stream">Writable stream as target</param>
@@ -393,6 +403,17 @@ namespace PicoXLSX
             {
                 throw new IOException("SaveException", "An error occurred while saving. See inner exception for details: " + e.Message, e);
             }
+        }
+
+        /// <summary>
+        /// Method to save the workbook as stream asynchronous.
+        /// </summary>
+        /// <param name="stream">Writable stream as target</param>
+        /// <remarks>Possible Exceptions are <see cref="IOException">IOException</see>, <see cref="RangeException">RangeException</see>, <see cref="FormatException"></see> and <see cref="StyleException">StyleException</see>. These exceptions may not emerge directly if using the async method since async/await adds further abstraction layers.</remarks>
+        /// <returns>Async Task</returns>
+        public async Task SaveAsStreamAsync(Stream stream)
+        {
+            await Task.Run(() => { SaveAsStream(stream); });
         }
 
         #endregion
@@ -669,7 +690,6 @@ namespace PicoXLSX
                     dVal = (DateTime)item.Value;
                     value = LowLevel.GetOADateTimeString(dVal, culture);
                 }
-                // String parsing
                 else
                 {
                     if (item.Value == null)

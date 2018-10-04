@@ -162,6 +162,24 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Constructor with value, cell type and address. The worksheet reference is set to null and must be assigned later
+        /// </summary>
+        /// <param name="value">Value of the cell</param>
+        /// <param name="type">Type of the cell</param>
+        /// <param name="address">Address of the cell</param>
+        public Cell(Object value, CellType type, string address)
+        {
+            this.DataType = type;
+            this.Value = value;
+            this.CellAddress = address;
+            this.WorksheetReference = null;
+            if (type == CellType.DEFAULT)
+            {
+                ResolveCellType();
+            }
+        }
+
+        /// <summary>
         /// Constructor with value, cell type, row number, column number and the link to a worksheet
         /// </summary>
         /// <param name="value">Value of the cell</param>

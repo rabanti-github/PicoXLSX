@@ -39,7 +39,7 @@ If you want to compile the documentation project (folder: Documentation; project
 # Installation
 
 ## Using Nuget
-By package Manager (PM): 
+By Package Manager (PM): 
 ```sh 
 Install-Package PicoXLSX
 ```
@@ -77,6 +77,6 @@ Place all .CS files from the PicoXLSX source folder into your project. You can p
 See the full **API-Documentation** at: [https://rabanti-github.github.io/PicoXLSX/](https://rabanti-github.github.io/PicoXLSX/).
 
 
-The [Demo project](https://github.com/rabanti-github/PicoXLSX/tree/master/Demo) contains 13 simple use cases. You can find also the full documentation in the [Documentation-Folder](https://github.com/rabanti-github/PicoXLSX/tree/master/docs) (html files or single chm file) or as C# documentation in the particular .CS files.
+The [Demo project](https://github.com/rabanti-github/PicoXLSX/tree/master/Demo) contains 14 simple use cases. You can find also the full documentation in the [Documentation-Folder](https://github.com/rabanti-github/PicoXLSX/tree/master/docs) (html files or single chm file) or as C# documentation in the particular .CS files.
 
 See also: [Getting started in the Wiki](https://github.com/rabanti-github/PicoXLSX/wiki/Getting-started)

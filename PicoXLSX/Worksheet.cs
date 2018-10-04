@@ -1406,7 +1406,7 @@ namespace PicoXLSX
         /// <param name="input">Name to sanitize</param>
         /// <param name="workbook">Workbook reference</param>
         /// <returns>Name of the sanitized worksheet</returns>
-        public static String SanitizeWorksheetName(string input, Workbook workbook)
+        public static string SanitizeWorksheetName(string input, Workbook workbook)
         {
             if (input == null) { input = "Sheet1"; }
             int len = input.Length;
@@ -1425,8 +1425,8 @@ namespace PicoXLSX
                 else
                 { sb.Append(c); }
             }
-            String name = sb.ToString();
-            String originalName = name;
+            string name = sb.ToString();
+            string originalName = name;
             int number = 1;
             while (true)
             {

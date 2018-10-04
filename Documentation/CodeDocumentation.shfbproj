@@ -63,9 +63,19 @@ If you want to compile the documentation project %28folder: Documentation%3b pro
 &amp;lt%3bbr/&amp;gt%3b
 &amp;lt%3bh2&amp;gt%3bInstallation&amp;lt%3b/h2&amp;gt%3b
 
+&amp;lt%3bh3&amp;gt%3bUsing NuGet&amp;lt%3b/h3&amp;gt%3b
+
+By Package Manager:&amp;lt%3bbr&amp;gt%3b
+&amp;lt%3bpre&amp;gt%3b&amp;lt%3bcode&amp;gt%3bInstall-Package PicoXLSX&amp;lt%3b/code&amp;gt%3b&amp;lt%3b/pre&amp;gt%3b
+&amp;lt%3bbr&amp;gt%3b
+&amp;lt%3bbr&amp;gt%3b
+By .NET CLI:&amp;lt%3bbr&amp;gt%3b
+&amp;lt%3bpre&amp;gt%3b&amp;lt%3bcode&amp;gt%3bdotnet add package PicoXLSX&amp;lt%3b/code&amp;gt%3b&amp;lt%3b/pre&amp;gt%3b
+
 &amp;lt%3bh3&amp;gt%3bAs DLL&amp;lt%3b/h3&amp;gt%3b
 
 Simply place the PicoXLSX DLL into your .NET project and add a reference to it. Please keep in mind that the .NET version of your solution must match with the runtime version of the PicoXLSX DLL %28currently compiled with 4.5%29.
+
 &amp;lt%3bh3&amp;gt%3bAs source files&amp;lt%3b/h3&amp;gt%3b
 
 Place all .CS files from the PicoXLSX source folder into your project. You can place them into a sub-folder if you wish. The files contains definitions for workbooks, worksheets, cells, styles, meta-data, low level methods and exceptions.

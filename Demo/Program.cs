@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using PicoXLSX;
 
 
@@ -25,6 +26,7 @@ namespace Demo
             BasicDemo();
             ShortenerDemo();
             StreamDemo();
+            AsyncDemo(); // Normally, this method should be called with the await keyword (what is not possible here). Usually, async methods are called along the call stack with await until a terminal element (like a WPF button) is reached
             Demo1();
             Demo2();
             Demo3();
@@ -93,6 +95,17 @@ namespace Demo
             workbook.SaveAsStream(fs);                                      // Save the workbook into the stream
         }
 
+        /// <summary>
+        /// This method shows how to save a workbook asynchronous
+        /// </summary>
+        private static async Task AsyncDemo()
+        {
+            Workbook workbook = new Workbook("shhet1", "async.xlsx");       // Create new workbook with file name
+            workbook.WS.Value("Some text");                                 // Add cell A1
+            workbook.WS.Value(222);                                         // Add cell B1
+            workbook.WS.Formula("=A2");                                     // Add cell C1
+            await workbook.SaveAsync();                                     // Save async
+        }
 
         /// <summary>
         /// This method shows the usage of AddNextCell with several data types and formulas. Furthermore, the several types of Addresses are demonstrated
@@ -297,8 +310,8 @@ namespace Demo
         private static void Demo7()
         {
             Workbook workbook = new Workbook(false);                                                    // Create new workbook without worksheet
-            String invalidSheetName = "Sheet?1";                                                        // ? is not allowed in the names of worksheets
-            String sanitizedSheetName = Worksheet.SanitizeWorksheetName(invalidSheetName, workbook);    // Method to sanitize a worksheet name (replaces ? with _)
+            string invalidSheetName = "Sheet?1";                                                        // ? is not allowed in the names of worksheets
+            string sanitizedSheetName = Worksheet.SanitizeWorksheetName(invalidSheetName, workbook);    // Method to sanitize a worksheet name (replaces ? with _)
             workbook.AddWorksheet(sanitizedSheetName);                                                  // Add new worksheet
             Worksheet ws = workbook.CurrentWorksheet;                                                   // Create reference (shortening)
             List<object> values = new List<object>() { "Cell A1", "Cell B1", "Cell C1", "Cell D1" };    // Create a List of values
