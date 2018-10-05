@@ -1,5 +1,14 @@
 # Change Log
 
+## v2.6.1
+
+---
+Release Date: **06.10.2018**
+
+- Fixed a bug in the demo for the async handling
+- Removed redundant code
+
+
 ## v2.6.0
 
 ---

@@ -800,7 +800,7 @@ namespace PicoXLSX
         /// </returns>
         public bool HasCell(Cell.Address address)
         {
-            return this.cells.ContainsKey(address.GetAddress());
+            return cells.ContainsKey(address.GetAddress());
         }
 
         /// <summary>
@@ -843,7 +843,7 @@ namespace PicoXLSX
         {
             int max = -1;
             int number;
-            foreach (KeyValuePair<string, Cell> cell in this.cells)
+            foreach (KeyValuePair<string, Cell> cell in cells)
             {
                 if (column == true)
                 {
@@ -1008,7 +1008,7 @@ namespace PicoXLSX
             List<int> columnsToDelete = new List<int>();
             foreach (KeyValuePair<int, Column> col in columns)
             {
-                if (col.Value.HasAutoFilter == false && col.Value.IsHidden == false && col.Value.Width == Worksheet.DEFAULT_COLUMN_WIDTH)
+                if (col.Value.HasAutoFilter == false && col.Value.IsHidden == false && col.Value.Width == DEFAULT_COLUMN_WIDTH)
                 {
                     columnsToDelete.Add(col.Key);
                 }

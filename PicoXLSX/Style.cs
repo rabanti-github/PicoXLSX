@@ -149,33 +149,33 @@ namespace PicoXLSX
         /// <returns>Current style with appended style parts</returns>
         public Style Append(AbstractStyle styleToAppend)
         {
-            if (styleToAppend.GetType() == typeof(Style.Border))
+            if (styleToAppend.GetType() == typeof(Border))
             {
-                this.CurrentBorder.CopyProperties<Border>((Border)styleToAppend, new Border());
+                CurrentBorder.CopyProperties<Border>((Border)styleToAppend, new Border());
             }
-            else if (styleToAppend.GetType() == typeof(Style.CellXf))
+            else if (styleToAppend.GetType() == typeof(CellXf))
             {
-                this.CurrentCellXf.CopyProperties<CellXf>((CellXf)styleToAppend, new CellXf());
+                CurrentCellXf.CopyProperties<CellXf>((CellXf)styleToAppend, new CellXf());
             }
-            else if (styleToAppend.GetType() == typeof(Style.Fill))
+            else if (styleToAppend.GetType() == typeof(Fill))
             {
-                this.CurrentFill.CopyProperties<Fill>((Fill)styleToAppend, new Fill());
+                CurrentFill.CopyProperties<Fill>((Fill)styleToAppend, new Fill());
             }
-            else if (styleToAppend.GetType() == typeof(Style.Font))
+            else if (styleToAppend.GetType() == typeof(Font))
             {
-                this.CurrentFont.CopyProperties<Font>((Font)styleToAppend, new Font());
+                CurrentFont.CopyProperties<Font>((Font)styleToAppend, new Font());
             }
-            else if (styleToAppend.GetType() == typeof(Style.NumberFormat))
+            else if (styleToAppend.GetType() == typeof(NumberFormat))
             {
-                this.CurrentNumberFormat.CopyProperties<NumberFormat>((NumberFormat)styleToAppend, new NumberFormat());
+                CurrentNumberFormat.CopyProperties<NumberFormat>((NumberFormat)styleToAppend, new NumberFormat());
             }
             else if (styleToAppend.GetType() == typeof(Style))
             {
-                this.CurrentBorder.CopyProperties<Border>(((Style)styleToAppend).CurrentBorder, new Border());
-                this.CurrentCellXf.CopyProperties<CellXf>(((Style)styleToAppend).CurrentCellXf, new CellXf());
-                this.CurrentFill.CopyProperties<Fill>(((Style)styleToAppend).CurrentFill, new Fill());
-                this.CurrentFont.CopyProperties<Font>(((Style)styleToAppend).CurrentFont, new Font());
-                this.CurrentNumberFormat.CopyProperties<NumberFormat>(((Style)styleToAppend).CurrentNumberFormat, new NumberFormat());
+                CurrentBorder.CopyProperties<Border>(((Style)styleToAppend).CurrentBorder, new Border());
+                CurrentCellXf.CopyProperties<CellXf>(((Style)styleToAppend).CurrentCellXf, new CellXf());
+                CurrentFill.CopyProperties<Fill>(((Style)styleToAppend).CurrentFill, new Fill());
+                CurrentFont.CopyProperties<Font>(((Style)styleToAppend).CurrentFont, new Font());
+                CurrentNumberFormat.CopyProperties<NumberFormat>(((Style)styleToAppend).CurrentNumberFormat, new NumberFormat());
             }
             return this;
         }
@@ -1194,7 +1194,7 @@ namespace PicoXLSX
             /// <returns>Copy of the current object without the internal ID</returns>
             public Font CopyFont()
             {
-                return (Style.Font)Copy();
+                return (Font)Copy();
             }
 
             #endregion
@@ -1372,7 +1372,7 @@ namespace PicoXLSX
             /// <returns>Copy of the current object without the internal ID</returns>
             public NumberFormat CopyNumberFormat()
             {
-                return (Style.NumberFormat)Copy();
+                return (NumberFormat)Copy();
             }
 
             #endregion
@@ -1602,7 +1602,7 @@ namespace PicoXLSX
             public static Style ColorizedBackground(string rgb)
             {
                 Style s = new Style();
-                s.CurrentFill.SetColor("FF" + rgb.ToUpper(), Style.Fill.FillType.fillColor);
+                s.CurrentFill.SetColor("FF" + rgb.ToUpper(), Fill.FillType.fillColor);
                 return s;
             }
 
@@ -1670,12 +1670,12 @@ namespace PicoXLSX
         /// <param name="reference">Reference object to decide whether the properties from the source objects are altered or not</param>
         internal void CopyProperties<T>(T source, T reference) where T : AbstractStyle
         {
-            if (this.GetType() != source.GetType() && this.GetType() != reference.GetType())
+            if (GetType() != source.GetType() && GetType() != reference.GetType())
             {
                 throw new StyleException("CopyPropertyException", "The objects of the source, target and reference for style appending are not of the same type");
             }
             bool ignore;
-            PropertyInfo[] infos = this.GetType().GetProperties();
+            PropertyInfo[] infos = GetType().GetProperties();
             PropertyInfo sourceInfo, referenceInfo;
             IEnumerable<AppendAttribute> attributes;
             foreach (PropertyInfo info in infos)
@@ -1811,8 +1811,8 @@ namespace PicoXLSX
             /// </summary>
             public AppendAttribute()
             {
-                this.Ignore = false;
-                this.NestedProperty = false;
+                Ignore = false;
+                NestedProperty = false;
             }
         }
     }

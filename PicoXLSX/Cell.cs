@@ -143,7 +143,7 @@ namespace PicoXLSX
         public Cell()
         {
             WorksheetReference = null;
-            DataType = Cell.CellType.DEFAULT;
+            DataType = CellType.DEFAULT;
         }
 
         /// <summary>
@@ -169,10 +169,10 @@ namespace PicoXLSX
         /// <param name="address">Address of the cell</param>
         public Cell(Object value, CellType type, string address)
         {
-            this.DataType = type;
-            this.Value = value;
-            this.CellAddress = address;
-            this.WorksheetReference = null;
+            DataType = type;
+            Value = value;
+            CellAddress = address;
+            WorksheetReference = null;
             if (type == CellType.DEFAULT)
             {
                 ResolveCellType();
@@ -662,7 +662,7 @@ namespace PicoXLSX
             /// <returns>Column address as letter(s)</returns>
             public string GetColumn()
             {
-                return Cell.ResolveColumnAddress(Column);
+                return ResolveColumnAddress(Column);
             }
 
             /// <summary>

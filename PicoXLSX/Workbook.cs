@@ -519,10 +519,10 @@ namespace PicoXLSX
         public void SaveAs(string fileName)
         {
             string backup = fileName;
-            this.filename = fileName;
+            filename = fileName;
             LowLevel l = new LowLevel(this);
             l.Save();
-            this.filename = backup;
+            filename = backup;
         }
 
         /// <summary>
@@ -537,10 +537,10 @@ namespace PicoXLSX
         public async Task SaveAsAsync(string fileName)
         {
             string backup = fileName;
-            this.filename = fileName;
+            filename = fileName;
             LowLevel l = new LowLevel(this);
             await l.SaveAsync();
-            this.filename = backup;
+            filename = backup;
         }
              
         /// <summary>
