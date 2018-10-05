@@ -51,13 +51,13 @@ namespace PicoXLSX
             set
             {
                 interceptDocuments = value;
-                if (interceptDocuments == true && this.interceptedDocuments == null)
+                if (interceptDocuments == true && interceptedDocuments == null)
                 {
-                    this.interceptedDocuments = new Dictionary<string, XmlDocument>();
+                    interceptedDocuments = new Dictionary<string, XmlDocument>();
                 }
                 else if (interceptDocuments == false)
                 {
-                    this.interceptedDocuments = null;
+                    interceptedDocuments = null;
                 }
             }
         }
@@ -79,10 +79,10 @@ namespace PicoXLSX
         /// <param name="workbook">Workbook to process</param>
         public LowLevel(Workbook workbook)
         {
-            this.culture = CultureInfo.InvariantCulture;
+            culture = CultureInfo.InvariantCulture;
             this.workbook = workbook;
-            this.sharedStrings = new SortedMap();
-            this.sharedStringsTotalCount = 0;
+            sharedStrings = new SortedMap();
+            sharedStringsTotalCount = 0;
         }
         #endregion
 
@@ -125,11 +125,11 @@ namespace PicoXLSX
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("<sst xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" count=\"");
-            sb.Append(this.sharedStringsTotalCount.ToString("G", culture));
+            sb.Append(sharedStringsTotalCount.ToString("G", culture));
             sb.Append("\" uniqueCount=\"");
-            sb.Append(this.sharedStrings.Count.ToString("G", culture));
+            sb.Append(sharedStrings.Count.ToString("G", culture));
             sb.Append("\">");
-            foreach (string str in this.sharedStrings.Keys)
+            foreach (string str in sharedStrings.Keys)
             {
                 sb.Append("<si><t>");
                 sb.Append(EscapeXmlChars(str));
@@ -153,13 +153,13 @@ namespace PicoXLSX
             string numberFormatsString = CreateStyleNumberFormatString();
             string xfsStings = CreateStyleXfsString();
             string mruColorString = CreateMruColorsString();
-            int fontCount = this.workbook.Styles.GetFontStyleNumber();
-            int fillCount = this.workbook.Styles.GetFillStyleNumber();
-            int styleCount = this.workbook.Styles.GetStyleNumber();
-            int borderCount = this.workbook.Styles.GetBorderStyleNumber();
+            int fontCount = workbook.Styles.GetFontStyleNumber();
+            int fillCount = workbook.Styles.GetFillStyleNumber();
+            int styleCount = workbook.Styles.GetStyleNumber();
+            int borderCount = workbook.Styles.GetBorderStyleNumber();
             StringBuilder sb = new StringBuilder();
             sb.Append("<styleSheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14ac\" xmlns:x14ac=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac\">");
-            int numFormatCount = this.workbook.Styles.GetNumberFormatStyleNumber();
+            int numFormatCount = workbook.Styles.GetNumberFormatStyleNumber();
             if (numFormatCount > 0)
             {
                 sb.Append("<numFmts count=\"").Append(numFormatCount.ToString("G", culture)).Append("\">");
@@ -173,9 +173,9 @@ namespace PicoXLSX
             sb.Append(bordersString).Append("</borders>");
             sb.Append("<cellXfs count=\"").Append(styleCount.ToString("G", culture)).Append("\">");
             sb.Append(xfsStings).Append("</cellXfs>");
-            if (this.workbook.WorkbookMetadata != null)
+            if (workbook.WorkbookMetadata != null)
             {
-                if (string.IsNullOrEmpty(mruColorString) == false && this.workbook.WorkbookMetadata.UseColorMRU == true)
+                if (string.IsNullOrEmpty(mruColorString) == false && workbook.WorkbookMetadata.UseColorMRU == true)
                 {
                     sb.Append("<colors>");
                     sb.Append(mruColorString);
@@ -193,41 +193,41 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws an OutOfRangeException if an address was out of range</exception>
         private string CreateWorkbookDocument()
         {
-            if (this.workbook.Worksheets.Count == 0)
+            if (workbook.Worksheets.Count == 0)
             {
                 throw new RangeException("OutOfRangeException", "The workbook can not be created because no worksheet was defined.");
             }
             StringBuilder sb = new StringBuilder();
             sb.Append("<workbook xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">");
-            if (this.workbook.SelectedWorksheet > 0)
+            if (workbook.SelectedWorksheet > 0)
             {
                 sb.Append("<bookViews><workbookView activeTab=\"");
-                sb.Append(this.workbook.SelectedWorksheet.ToString("G", culture));
+                sb.Append(workbook.SelectedWorksheet.ToString("G", culture));
                 sb.Append("\"/></bookViews>");
             }
-            if (this.workbook.UseWorkbookProtection == true)
+            if (workbook.UseWorkbookProtection == true)
             {
                 sb.Append("<workbookProtection");
-                if (this.workbook.LockWindowsIfProtected == true)
+                if (workbook.LockWindowsIfProtected == true)
                 {
                     sb.Append(" lockWindows=\"1\"");
                 }
-                if (this.workbook.LockStructureIfProtected == true)
+                if (workbook.LockStructureIfProtected == true)
                 {
                     sb.Append(" lockStructure=\"1\"");
                 }
-                if (string.IsNullOrEmpty(this.workbook.WorkbookProtectionPassword) == false)
+                if (string.IsNullOrEmpty(workbook.WorkbookProtectionPassword) == false)
                 {
                     sb.Append("workbookPassword=\"");
-                    sb.Append(GeneratePasswordHash(this.workbook.WorkbookProtectionPassword));
+                    sb.Append(GeneratePasswordHash(workbook.WorkbookProtectionPassword));
                     sb.Append("\"");
                 }
                 sb.Append("/>");
             }
             sb.Append("<sheets>");
-            foreach (Worksheet item in this.workbook.Worksheets)
+            foreach (Worksheet item in workbook.Worksheets)
             {
-                sb.Append("<sheet r:id=\"rId").Append(item.SheetID.ToString()).Append("\" sheetId=\"").Append(item.SheetID.ToString()).Append("\" name=\"").Append(LowLevel.EscapeXmlAttributeChars(item.SheetName)).Append("\"/>");
+                sb.Append("<sheet r:id=\"rId").Append(item.SheetID.ToString()).Append("\" sheetId=\"").Append(item.SheetID.ToString()).Append("\" name=\"").Append(EscapeXmlAttributeChars(item.SheetName)).Append("\"/>");
             }
             sb.Append("</sheets>");
             sb.Append("</workbook>");
@@ -252,7 +252,7 @@ namespace PicoXLSX
             if (worksheet.SelectedCells != null)
             {
                 sb.Append("<sheetViews><sheetView workbookViewId=\"0\"");
-                if (this.workbook.SelectedWorksheet == worksheet.SheetID - 1)
+                if (workbook.SelectedWorksheet == worksheet.SheetID - 1)
                 {
                     sb.Append(" tabSelected=\"1\"");
                 }
@@ -303,7 +303,7 @@ namespace PicoXLSX
         {
             try
             {
-                FileStream fs = new FileStream(this.workbook.Filename, FileMode.Create);
+                FileStream fs = new FileStream(workbook.Filename, FileMode.Create);
                 SaveAsStream(fs);
 
             }
@@ -334,14 +334,14 @@ namespace PicoXLSX
         /// <remarks>The StyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
         public void SaveAsStream(Stream stream)
         {
-            this.workbook.ResolveMergedCells();
+            workbook.ResolveMergedCells();
             DocumentPath sheetPath;
             List<Uri> sheetURIs = new List<Uri>();
 
             try
             {
                 //using (System.IO.Packaging.Package p = Package.Open(this.workbook.Filename, FileMode.Create))
-                using (System.IO.Packaging.Package p = Package.Open(stream, FileMode.Create))
+                using (Package p = Package.Open(stream, FileMode.Create))
                 {
                     Uri workbookUri = new Uri(WORKBOOK.GetFullPath(), UriKind.Relative);
                     Uri stylesheetUri = new Uri(STYLES.GetFullPath(), UriKind.Relative);
@@ -355,12 +355,12 @@ namespace PicoXLSX
                     p.CreateRelationship(appPropertiesUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties", "rId3"); //!
 
                     AppendXmlToPackagePart(CreateWorkbookDocument(), pp, "WORKBOOK");
-                    int idCounter = this.workbook.Worksheets.Count + 1;
+                    int idCounter = workbook.Worksheets.Count + 1;
 
                     pp.CreateRelationship(stylesheetUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", "rId" + idCounter.ToString());
                     pp.CreateRelationship(sharedStringsUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings", "rId" + (idCounter + 1).ToString());
 
-                    foreach (Worksheet item in this.workbook.Worksheets)
+                    foreach (Worksheet item in workbook.Worksheets)
                     {
                         sheetPath = new DocumentPath("sheet" + item.SheetID.ToString() + ".xml", "xl/worksheets");
                         sheetURIs.Add(new Uri(sheetPath.GetFullPath(), UriKind.Relative));
@@ -371,7 +371,7 @@ namespace PicoXLSX
                     AppendXmlToPackagePart(CreateStyleSheetDocument(), pp, "STYLESHEET");
 
                     int i = 0;
-                    foreach (Worksheet item in this.workbook.Worksheets)
+                    foreach (Worksheet item in workbook.Worksheets)
                     {
                         pp = p.CreatePart(sheetURIs[i], @"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", CompressionOption.Normal);
                         i++;
@@ -463,11 +463,11 @@ namespace PicoXLSX
         {
             try
             {
-                if (this.interceptDocuments == true)
+                if (interceptDocuments == true)
                 {
                     XmlDocument xDoc = new XmlDocument();
                     xDoc.LoadXml(doc);
-                    this.interceptedDocuments.Add(title, xDoc);
+                    interceptedDocuments.Add(title, xDoc);
                 }
                 using (MemoryStream ms = new MemoryStream()) // Write workbook.xml
                 {
@@ -496,8 +496,8 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateAppString()
         {
-            if (this.workbook.WorkbookMetadata == null) { return string.Empty; }
-            Metadata md = this.workbook.WorkbookMetadata;
+            if (workbook.WorkbookMetadata == null) { return string.Empty; }
+            Metadata md = workbook.WorkbookMetadata;
             StringBuilder sb = new StringBuilder();
             AppendXmlTag(sb, "0", "TotalTime", null);
             AppendXmlTag(sb, md.Application, "Application", null);
@@ -560,8 +560,8 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateCorePropertiesString()
         {
-            if (this.workbook.WorkbookMetadata == null) { return string.Empty; }
-            Metadata md = this.workbook.WorkbookMetadata;
+            if (workbook.WorkbookMetadata == null) { return string.Empty; }
+            Metadata md = workbook.WorkbookMetadata;
             StringBuilder sb = new StringBuilder();
             AppendXmlTag(sb, md.Title, "title", "dc");
             AppendXmlTag(sb, md.Subject, "subject", "dc");
@@ -569,7 +569,7 @@ namespace PicoXLSX
             AppendXmlTag(sb, md.Creator, "lastModifiedBy", "cp");
             AppendXmlTag(sb, md.Keywords, "keywords", "cp");
             AppendXmlTag(sb, md.Description, "description", "dc");
-            string time = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ssZ", this.culture);
+            string time = DateTime.Now.ToString("yyyy-MM-ddThh:mm:ssZ", culture);
             sb.Append("<dcterms:created xsi:type=\"dcterms:W3CDTF\">").Append(time).Append("</dcterms:created>");
             sb.Append("<dcterms:modified xsi:type=\"dcterms:W3CDTF\">").Append(time).Append("</dcterms:modified>");
 
@@ -688,7 +688,7 @@ namespace PicoXLSX
                 {
                     typeAttribute = "d";
                     dVal = (DateTime)item.Value;
-                    value = LowLevel.GetOADateTimeString(dVal, culture);
+                    value = GetOADateTimeString(dVal, culture);
                 }
                 else
                 {
@@ -708,12 +708,12 @@ namespace PicoXLSX
                         {
                             typeAttribute = "s";
                             value = item.Value.ToString();
-                            if (this.sharedStrings.ContainsKey(value) == false)
+                            if (sharedStrings.ContainsKey(value) == false)
                             {
-                                this.sharedStrings.Add(value, sharedStrings.Count.ToString("G", culture));
+                                sharedStrings.Add(value, sharedStrings.Count.ToString("G", culture));
                             }
-                            value = this.sharedStrings[value];
-                            this.sharedStringsTotalCount++;
+                            value = sharedStrings[value];
+                            sharedStringsTotalCount++;
                         }
                     }
                     tValue = " t=\"" + typeAttribute + "\" ";
@@ -723,11 +723,11 @@ namespace PicoXLSX
                     sb.Append("<c").Append(tValue).Append("r=\"").Append(item.CellAddress).Append("\"").Append(sValue).Append(">");
                     if (item.DataType == Cell.CellType.FORMULA)
                     {
-                        sb.Append("<f>").Append(LowLevel.EscapeXmlChars(item.Value.ToString())).Append("</f>");
+                        sb.Append("<f>").Append(EscapeXmlChars(item.Value.ToString())).Append("</f>");
                     }
                     else
                     {
-                        sb.Append("<v>").Append(LowLevel.EscapeXmlChars(value)).Append("</v>");
+                        sb.Append("<v>").Append(EscapeXmlChars(value)).Append("</v>");
                     }
                     sb.Append("</c>");
                 }
@@ -818,7 +818,7 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateStyleBorderString()
         {
-            Style.Border[] borderStyles = this.workbook.Styles.GetBorders();
+            Style.Border[] borderStyles = workbook.Styles.GetBorders();
             StringBuilder sb = new StringBuilder();
             foreach (Style.Border item in borderStyles)
             {
@@ -894,7 +894,7 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateStyleFontString()
         {
-            Style.Font[] fontStyles = this.workbook.Styles.GetFonts();
+            Style.Font[] fontStyles = workbook.Styles.GetFonts();
             StringBuilder sb = new StringBuilder();
             foreach (Style.Font item in fontStyles)
             {
@@ -939,7 +939,7 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateStyleFillString()
         {
-            Style.Fill[] fillStyles = this.workbook.Styles.GetFills();
+            Style.Fill[] fillStyles = workbook.Styles.GetFills();
             StringBuilder sb = new StringBuilder();
             foreach (Style.Fill item in fillStyles)
             {
@@ -977,7 +977,7 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateStyleNumberFormatString()
         {
-            Style.NumberFormat[] numberFormatStyles = this.workbook.Styles.GetNumberFormats();
+            Style.NumberFormat[] numberFormatStyles = workbook.Styles.GetNumberFormats();
             StringBuilder sb = new StringBuilder();
             foreach (Style.NumberFormat item in numberFormatStyles)
             {
@@ -995,7 +995,7 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateStyleXfsString()
         {
-            Style[] styles = this.workbook.Styles.GetStyles();
+            Style[] styles = workbook.Styles.GetStyles();
             StringBuilder sb = new StringBuilder();
             StringBuilder sb2 = new StringBuilder();
             string alignmentString, protectionString;
@@ -1127,8 +1127,8 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateMruColorsString()
         {
-            Style.Font[] fonts = this.workbook.Styles.GetFonts();
-            Style.Fill[] fills = this.workbook.Styles.GetFills();
+            Style.Font[] fonts = workbook.Styles.GetFonts();
+            Style.Fill[] fills = workbook.Styles.GetFills();
             StringBuilder sb = new StringBuilder();
             List<string> tempColors = new List<string>();
             foreach (Style.Font item in fonts)
@@ -1369,7 +1369,7 @@ namespace PicoXLSX
             /// </summary>
             public List<string> Keys
             {
-                get { return this.keyEntries; }
+                get { return keyEntries; }
             }
 
             /// <summary>
@@ -1377,7 +1377,7 @@ namespace PicoXLSX
             /// </summary>
             public List<string> Values
             {
-                get { return this.valueEntries; }
+                get { return valueEntries; }
             }
 
             /// <summary>
@@ -1385,10 +1385,10 @@ namespace PicoXLSX
             /// </summary>
             public SortedMap()
             {
-                this.keyEntries = new List<string>();
-                this.valueEntries = new List<string>();
-                this.index = new Dictionary<string, int>();
-                this.count = 0;
+                keyEntries = new List<string>();
+                valueEntries = new List<string>();
+                index = new Dictionary<string, int>();
+                count = 0;
             }
 
 
@@ -1470,8 +1470,8 @@ namespace PicoXLSX
             /// <param name="path">Path of the document</param>
             public DocumentPath(string filename, string path)
             {
-                this.Filename = filename;
-                this.Path = path;
+                Filename = filename;
+                Path = path;
             }
 
             /// <summary>
@@ -1480,15 +1480,15 @@ namespace PicoXLSX
             /// <returns>Full path</returns>
             public string GetFullPath()
             {
-                if (this.Path == null) { return this.Filename; }
-                if (this.Path == "") { return this.Filename; }
-                if (this.Path[this.Path.Length - 1] == System.IO.Path.AltDirectorySeparatorChar || this.Path[this.Path.Length - 1] == System.IO.Path.DirectorySeparatorChar)
+                if (Path == null) { return Filename; }
+                if (Path == "") { return Filename; }
+                if (Path[Path.Length - 1] == System.IO.Path.AltDirectorySeparatorChar || Path[Path.Length - 1] == System.IO.Path.DirectorySeparatorChar)
                 {
-                    return System.IO.Path.AltDirectorySeparatorChar.ToString() + this.Path + this.Filename;
+                    return System.IO.Path.AltDirectorySeparatorChar.ToString() + Path + Filename;
                 }
                 else
                 {
-                    return System.IO.Path.AltDirectorySeparatorChar.ToString() + this.Path + System.IO.Path.AltDirectorySeparatorChar.ToString() + this.Filename;
+                    return System.IO.Path.AltDirectorySeparatorChar.ToString() + Path + System.IO.Path.AltDirectorySeparatorChar.ToString() + Filename;
                 }
             }
 

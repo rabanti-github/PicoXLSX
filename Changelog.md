@@ -1,9 +1,18 @@
 # Change Log
 
+## v2.6.1
+
+---
+Release Date: **06.10.2018**
+
+- Fixed a bug in the demo for the async handling
+- Removed redundant code
+
+
 ## v2.6.0
 
 ---
-Release Date: **19.08.2018**
+Release Date: **04.10.2018**
 
 - Added asynchronous methods SaveAsync, SaveAsAsync and SaveAsStreamAsync
 - Added a new constructor in the Cell class with the address as string

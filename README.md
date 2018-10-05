@@ -18,6 +18,7 @@ See the **[Change Log](https://github.com/rabanti-github/PicoXLSX/blob/master/Ch
 
 # What's new in version 2.x
 * Complete replacement of the old style handling
+* Added asynchronous methods to save workbooks as files or streams
 * Added appending of styles for an easier composition of complex styles
 * Added more options to assign styles to cells
 * Added Shortener (property WS) to reduce the code overhead

@@ -32,7 +32,7 @@ namespace PicoXLSX
         /// <param name="title">Title of the exception</param>
         public RangeException(string title, string message)
             : base(title + ": " + message)
-        { this.ExceptionTitle = title; }
+        { ExceptionTitle = title; }
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ namespace PicoXLSX
         /// <param name="title">Title of the exception</param>
         public FormatException(string title, string message)
             : base(title + ": " + message)
-        { this.ExceptionTitle = title; }
+        { ExceptionTitle = title; }
         /// <summary>
         /// Constructor with passed message and inner exception
         /// </summary>
@@ -74,7 +74,7 @@ namespace PicoXLSX
         /// <param name="title">Title of the exception</param>
         public FormatException(string title, string message, Exception inner)
             : base(message, inner)
-        { this.ExceptionTitle = title; }
+        { ExceptionTitle = title; }
     }
 
     /// <summary>
@@ -100,7 +100,7 @@ namespace PicoXLSX
         /// <param name="title">Title of the exception</param>
         public IOException(string title, string message)
             : base(title + ": " + message)
-        { this.ExceptionTitle = title; }
+        { ExceptionTitle = title; }
         /// <summary>
         /// Constructor with passed message and inner exception
         /// </summary>
@@ -109,7 +109,7 @@ namespace PicoXLSX
         /// <param name="title">Title of the exception</param>
         public IOException(string title, string message, Exception inner)
             : base(message, inner)
-        { this.ExceptionTitle = title; }
+        { ExceptionTitle = title; }
     }
 
     /// <summary>
@@ -135,7 +135,7 @@ namespace PicoXLSX
         /// <param name="title">Title of the exception</param>
         public WorksheetException(string title, string message)
             : base(title + ": " + message)
-        { this.ExceptionTitle = title; }
+        { ExceptionTitle = title; }
     }
 
     /// <summary>
@@ -161,7 +161,7 @@ namespace PicoXLSX
         /// <param name="title">Title of the exception</param>
         public StyleException(string title, string message)
             : base(title + ": " + message)
-        { this.ExceptionTitle = title; }
+        { ExceptionTitle = title; }
     }
 
 }
