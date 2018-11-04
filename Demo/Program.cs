@@ -22,7 +22,6 @@ namespace Demo
         /// <param name="args">Not used</param>
         static void Main(string[] args)
         {
-            
             BasicDemo();
             ShortenerDemo();
             StreamDemo();
@@ -50,7 +49,6 @@ namespace Demo
             /* ######################### */
         }
 
-
         /// <summary>
         /// This is a very basic demo (adding three values and save the workbook)
         /// </summary>
@@ -64,7 +62,7 @@ namespace Demo
         }
 
         /// <summary>
-        /// This method show the shortened style of writing cells
+        /// This method shows the shortened style of writing cells
         /// </summary>
         private static void ShortenerDemo()
         {
@@ -166,7 +164,7 @@ namespace Demo
         }
 
         /// <summary>
-        /// This demo shows the usage of flipped direction when using AddnextCell, reading of the current cell address, and retrieving of cell values
+        /// This demo shows the usage of flipped direction when using AddNextCell, reading of the current cell address, and retrieving of cell values
         /// </summary>
         private static void Demo3()
         {
