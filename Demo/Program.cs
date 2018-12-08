@@ -23,7 +23,7 @@ namespace Demo
         /// <param name="args">Not used</param>
         static void Main(string[] args)
         {
-            /*
+            
             BasicDemo();
             ShortenerDemo();
             StreamDemo();
@@ -38,12 +38,12 @@ namespace Demo
             Demo8();
             Demo9();
             Demo10();
-            */
+            
 
             /* ### PERFORMANCE TESTS ### */
             // # Use tests in this section to test the performance of PicoXLSX
             /* ######################### */
-                Performance.StressTest("stressTest.xlsx", "worksheet", 40000, 10);
+            //    Performance.StressTest("stressTest.xlsx", "worksheet", 1500, 2);
             /* ######################### */
             /* ###### TYPE TESTS ####### */
             // # Use tests in this section to test the type casting of PicoXLSX

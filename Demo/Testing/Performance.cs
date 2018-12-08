@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PicoXLSX;
 
 namespace Testing
 {
@@ -61,7 +62,7 @@ namespace Testing
             {
                 for (j = 0; j < cols; j++)
                 {
-                    s.AddNextCell(field[i][j]);
+                    s.AddNextCell(field[i][j], Style.BasicStyles.Bold);
                 }
                 s.GoToNextRow();
             }

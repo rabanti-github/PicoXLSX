@@ -1925,6 +1925,14 @@
             </summary>
             <returns>Copy of the current object without the internal ID</returns>
         </member>
+        <member name="M:PicoXLSX.Style.NumberFormat.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+        </member>
         <member name="T:PicoXLSX.Style.BasicStyles">
             <summary>
             Factory class with the most important predefined styles
