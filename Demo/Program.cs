@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using PicoXLSX;
+using Testing;
 
 
 namespace Demo
@@ -22,6 +23,7 @@ namespace Demo
         /// <param name="args">Not used</param>
         static void Main(string[] args)
         {
+            /*
             BasicDemo();
             ShortenerDemo();
             StreamDemo();
@@ -36,11 +38,12 @@ namespace Demo
             Demo8();
             Demo9();
             Demo10();
+            */
 
             /* ### PERFORMANCE TESTS ### */
             // # Use tests in this section to test the performance of PicoXLSX
             /* ######################### */
-            // Testing.Performance.StressTest("stressTest.xlsx", "worksheet", 15000, 100);
+                Performance.StressTest("stressTest.xlsx", "worksheet", 40000, 10);
             /* ######################### */
             /* ###### TYPE TESTS ####### */
             // # Use tests in this section to test the type casting of PicoXLSX
