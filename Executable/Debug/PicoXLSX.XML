@@ -1163,11 +1163,14 @@
             </summary>
             <returns>String of a class instance</returns>
         </member>
-        <member name="M:PicoXLSX.Style.CalculateHash">
+        <member name="M:PicoXLSX.Style.GetHashCode">
             <summary>
-            Override method to calculate the hash of this component
+            Returns a hash code for this instance.
             </summary>
-            <returns>Calculated hash as string</returns>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+            <exception cref="T:PicoXLSX.StyleException">MissingReferenceException - The hash of the style could not be created because one or more components are missing as references</exception>
         </member>
         <member name="M:PicoXLSX.Style.Copy">
             <summary>
@@ -1298,11 +1301,13 @@
             Default constructor
             </summary>
         </member>
-        <member name="M:PicoXLSX.Style.Border.CalculateHash">
+        <member name="M:PicoXLSX.Style.Border.GetHashCode">
             <summary>
-            Override method to calculate the hash of this component (internal method)
+            Returns a hash code for this instance.
             </summary>
-            <returns>Calculated hash as string</returns>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
         </member>
         <member name="M:PicoXLSX.Style.Border.Copy">
             <summary>
@@ -1478,11 +1483,13 @@
             </summary>
             <returns>String of a class instance</returns>
         </member>
-        <member name="M:PicoXLSX.Style.CellXf.CalculateHash">
+        <member name="M:PicoXLSX.Style.CellXf.GetHashCode">
             <summary>
-            Override method to calculate the hash of this component (internal method)
+            Returns a hash code for this instance.
             </summary>
-            <returns>Calculated hash as string</returns>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
         </member>
         <member name="M:PicoXLSX.Style.CellXf.Copy">
             <summary>
@@ -1582,12 +1589,6 @@
             <param name="value">Color value</param>
             <param name="filltype">Fill type (fill or pattern)</param>
         </member>
-        <member name="M:PicoXLSX.Style.Fill.CalculateHash">
-            <summary>
-            Override method to calculate the hash of this component
-            </summary>
-            <returns>Calculated hash as string</returns>
-        </member>
         <member name="M:PicoXLSX.Style.Fill.ToString">
             <summary>
             Override toString method
@@ -1599,6 +1600,14 @@
             Method to copy the current object to a new one without casting
             </summary>
             <returns>Copy of the current object without the internal ID</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.Fill.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
         </member>
         <member name="M:PicoXLSX.Style.Fill.CopyFill">
             <summary>
@@ -1739,17 +1748,19 @@
             </summary>
             <returns>String of a class</returns>
         </member>
-        <member name="M:PicoXLSX.Style.Font.CalculateHash">
-            <summary>
-            Override method to calculate the hash of this component
-            </summary>
-            <returns>Calculated hash as string</returns>
-        </member>
         <member name="M:PicoXLSX.Style.Font.Copy">
             <summary>
             Method to copy the current object to a new one without casting
             </summary>
             <returns>Copy of the current object without the internal ID</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.Font.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
         </member>
         <member name="M:PicoXLSX.Style.Font.CopyFont">
             <summary>
@@ -1902,12 +1913,6 @@
             </summary>
             <returns>String of a class</returns>
         </member>
-        <member name="M:PicoXLSX.Style.NumberFormat.CalculateHash">
-            <summary>
-            Override method to calculate the hash of this component
-            </summary>
-            <returns>Calculated hash as string</returns>
-        </member>
         <member name="M:PicoXLSX.Style.NumberFormat.Copy">
             <summary>
             Method to copy the current object to a new one without casting
@@ -1919,6 +1924,14 @@
             Method to copy the current object to a new one with casting
             </summary>
             <returns>Copy of the current object without the internal ID</returns>
+        </member>
+        <member name="M:PicoXLSX.Style.NumberFormat.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
         </member>
         <member name="T:PicoXLSX.Style.BasicStyles">
             <summary>
@@ -2039,21 +2052,10 @@
             Class represents an abstract style component
             </summary>
         </member>
-        <member name="P:PicoXLSX.AbstractStyle.Hash">
-            <summary>
-            Gets the unique hash of the object
-            </summary>
-        </member>
         <member name="P:PicoXLSX.AbstractStyle.InternalID">
             <summary>
             Gets or sets the internal ID for sorting purpose in the Excel style document (nullable)
             </summary>
-        </member>
-        <member name="M:PicoXLSX.AbstractStyle.CalculateHash">
-            <summary>
-            Abstract method definition to calculate the hash of the component
-            </summary>
-            <returns>Returns the hash of the component as string</returns>
         </member>
         <member name="M:PicoXLSX.AbstractStyle.Copy">
             <summary>
@@ -2123,42 +2125,12 @@
             Class representing a style manager to maintain all styles and its components of a workbook
             </summary>
         </member>
-        <member name="F:PicoXLSX.StyleManager.BORDERPREFIX">
-            <summary>
-            Prefix for the hash calculation of border styles
-            </summary>
-        </member>
-        <member name="F:PicoXLSX.StyleManager.CELLXFPREFIX">
-            <summary>
-            Prefix for the hash calculation of cellXf styles
-            </summary>
-        </member>
-        <member name="F:PicoXLSX.StyleManager.FILLPREFIX">
-            <summary>
-            Prefix for the hash calculation of fill styles
-            </summary>
-        </member>
-        <member name="F:PicoXLSX.StyleManager.FONTPREFIX">
-            <summary>
-            Prefix for the hash calculation of font styles
-            </summary>
-        </member>
-        <member name="F:PicoXLSX.StyleManager.NUMBERFORMATPREFIX">
-            <summary>
-            Prefix for the hash calculation of number format styles
-            </summary>
-        </member>
-        <member name="F:PicoXLSX.StyleManager.STYLEPREFIX">
-            <summary>
-            Prefix for the hash calculation of styles
-            </summary>
-        </member>
         <member name="M:PicoXLSX.StyleManager.#ctor">
             <summary>
             Default constructor
             </summary>
         </member>
-        <member name="M:PicoXLSX.StyleManager.GetComponentByHash(System.Collections.Generic.List{PicoXLSX.AbstractStyle}@,System.String)">
+        <member name="M:PicoXLSX.StyleManager.GetComponentByHash(System.Collections.Generic.List{PicoXLSX.AbstractStyle}@,System.Int32)">
             <summary>
             Gets a component by its hash
             </summary>
@@ -2166,7 +2138,7 @@
             <param name="hash">Hash of the component</param>
             <returns>Determined component. If not found, null will be returned</returns>
         </member>
-        <member name="M:PicoXLSX.StyleManager.GetBorderByHash(System.String)">
+        <member name="M:PicoXLSX.StyleManager.GetBorderByHash(System.Int32)">
             <summary>
             Gets a border by its hash
             </summary>
@@ -2186,7 +2158,7 @@
             </summary>
             <returns>Number of stored borders</returns>
         </member>
-        <member name="M:PicoXLSX.StyleManager.GetCellXfByHash(System.String)">
+        <member name="M:PicoXLSX.StyleManager.GetCellXfByHash(System.Int32)">
             <summary>
             Gets a cellXf by its hash
             </summary>
@@ -2206,7 +2178,7 @@
             </summary>
             <returns>Number of stored cellXfs</returns>
         </member>
-        <member name="M:PicoXLSX.StyleManager.GetFillByHash(System.String)">
+        <member name="M:PicoXLSX.StyleManager.GetFillByHash(System.Int32)">
             <summary>
             Gets a fill by its hash
             </summary>
@@ -2226,7 +2198,7 @@
             </summary>
             <returns>Number of stored fills</returns>
         </member>
-        <member name="M:PicoXLSX.StyleManager.GetFontByHash(System.String)">
+        <member name="M:PicoXLSX.StyleManager.GetFontByHash(System.Int32)">
             <summary>
             Gets a font by its hash
             </summary>
@@ -2246,7 +2218,7 @@
             </summary>
             <returns>Number of stored fonts</returns>
         </member>
-        <member name="M:PicoXLSX.StyleManager.GetNumberFormatByHash(System.String)">
+        <member name="M:PicoXLSX.StyleManager.GetNumberFormatByHash(System.Int32)">
             <summary>
             Gets a numberFormat by its hash
             </summary>
@@ -2274,7 +2246,7 @@
             <returns>Determined style</returns>
             <exception cref="T:PicoXLSX.StyleException">Throws a StyleException if the style was not found in the style manager</exception>
         </member>
-        <member name="M:PicoXLSX.StyleManager.GetStyleByHash(System.String)">
+        <member name="M:PicoXLSX.StyleManager.GetStyleByHash(System.Int32)">
             <summary>
             Gets a style by its hash
             </summary>

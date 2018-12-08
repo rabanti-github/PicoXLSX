@@ -15,33 +15,6 @@ namespace PicoXLSX
     /// </summary>
     public class StyleManager
     {
-        #region constants
-        /// <summary>
-        /// Prefix for the hash calculation of border styles
-        /// </summary>
-        public const string BORDERPREFIX = "borders@";
-        /// <summary>
-        /// Prefix for the hash calculation of cellXf styles
-        /// </summary>
-        public const string CELLXFPREFIX = "/cellXf@";
-        /// <summary>
-        /// Prefix for the hash calculation of fill styles
-        /// </summary>
-        public const string FILLPREFIX = "/fill@";
-        /// <summary>
-        /// Prefix for the hash calculation of font styles
-        /// </summary>
-        public const string FONTPREFIX = "/font@";
-        /// <summary>
-        /// Prefix for the hash calculation of number format styles
-        /// </summary>
-        public const string NUMBERFORMATPREFIX = "/numberFormat@";
-        /// <summary>
-        /// Prefix for the hash calculation of styles
-        /// </summary>
-        public const string STYLEPREFIX = "style=";
-        #endregion
-
         #region privateFields
         private List<AbstractStyle> borders;
         private List<AbstractStyle> cellXfs;
@@ -76,12 +49,12 @@ namespace PicoXLSX
         /// <param name="list">List to check</param>
         /// <param name="hash">Hash of the component</param>
         /// <returns>Determined component. If not found, null will be returned</returns>
-        private AbstractStyle GetComponentByHash(ref List<AbstractStyle> list, string hash)
+        private AbstractStyle GetComponentByHash(ref List<AbstractStyle> list, int hash)
         {
             int len = list.Count;
             for (int i = 0; i < len; i++)
             {
-                if (list[i].Hash == hash)
+                if (list[i].GetHashCode() == hash)
                 {
                     return list[i];
                 }
@@ -95,7 +68,7 @@ namespace PicoXLSX
         /// <param name="hash">Hash of the border</param>
         /// <returns>Determined border</returns>
         /// <exception cref="StyleException">Throws a StyleException if the border was not found in the style manager</exception>
-        public Style.Border GetBorderByHash(String hash)
+        public Style.Border GetBorderByHash(int hash)
         {
             AbstractStyle component = GetComponentByHash(ref borders, hash);
             if (component == null)
@@ -131,7 +104,7 @@ namespace PicoXLSX
         /// <param name="hash">Hash of the cellXf</param>
         /// <returns>Determined cellXf</returns>
         /// <exception cref="StyleException">Throws a StyleException if the cellXf was not found in the style manager</exception>
-        public Style.CellXf GetCellXfByHash(String hash)
+        public Style.CellXf GetCellXfByHash(int hash)
         {
             AbstractStyle component = GetComponentByHash(ref cellXfs, hash);
             if (component == null)
@@ -167,7 +140,7 @@ namespace PicoXLSX
         /// <param name="hash">Hash of the fill</param>
         /// <returns>Determined fill</returns>
         /// <exception cref="StyleException">Throws a StyleException if the fill was not found in the style manager</exception>
-        public Style.Fill GetFillByHash(String hash)
+        public Style.Fill GetFillByHash(int hash)
         {
             AbstractStyle component = GetComponentByHash(ref fills, hash);
             if (component == null)
@@ -203,7 +176,7 @@ namespace PicoXLSX
         /// <param name="hash">Hash of the font</param>
         /// <returns>Determined font</returns>
         /// <exception cref="StyleException">Throws a StyleException if the font was not found in the style manager</exception>
-        public Style.Font GetFontByHash(String hash)
+        public Style.Font GetFontByHash(int hash)
         {
             AbstractStyle component = GetComponentByHash(ref fonts, hash);
             if (component == null)
@@ -239,7 +212,7 @@ namespace PicoXLSX
         /// <param name="hash">Hash of the numberFormat</param>
         /// <returns>Determined numberFormat</returns>
         /// <exception cref="StyleException">Throws a StyleException if the numberFormat was not found in the style manager</exception>
-        public Style.NumberFormat GetNumberFormatByHash(String hash)
+        public Style.NumberFormat GetNumberFormatByHash(int hash)
         {
             AbstractStyle component = GetComponentByHash(ref numberFormats, hash);
             if (component == null)
@@ -294,7 +267,7 @@ namespace PicoXLSX
         /// <param name="hash">Hash of the style</param>
         /// <returns>Determined style</returns>
         /// <exception cref="StyleException">Throws a StyleException if the style was not found in the style manager</exception>
-        public Style GetStyleByHash(String hash)
+        public Style GetStyleByHash(int hash)
         {
             AbstractStyle component = GetComponentByHash(ref styles, hash);
             if (component == null)
@@ -332,7 +305,7 @@ namespace PicoXLSX
         /// <returns>Added or determined style in the manager</returns>
         public Style AddStyle(Style style)
         {
-            string hash = AddStyleComponent(style);
+            int hash = AddStyleComponent(style);
             return (Style)GetComponentByHash(ref styles, hash);
         }
 
@@ -342,7 +315,7 @@ namespace PicoXLSX
         /// <param name="style">Component to add</param>
         /// <param name="id">Id of the component</param>
         /// <returns>Hash of the added or determined component</returns>
-        private string AddStyleComponent(AbstractStyle style, int? id)
+        private int AddStyleComponent(AbstractStyle style, int? id)
         {
             style.InternalID = id;
             return AddStyleComponent(style);
@@ -353,9 +326,9 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="style">Component to add</param>
         /// <returns>Hash of the added or determined component</returns>
-        private string AddStyleComponent(AbstractStyle style)
+        private int AddStyleComponent(AbstractStyle style)
         {
-            string hash = style.Hash;
+            int hash = style.GetHashCode();
             if (style.GetType() == typeof(Style.Border))
             {
                 if (GetComponentByHash(ref borders, hash) == null) { borders.Add(style); }
@@ -400,7 +373,7 @@ namespace PicoXLSX
                     {
                         id = s.InternalID.Value;
                     }
-                    string temp = AddStyleComponent(s.CurrentBorder, id);
+                    int temp = AddStyleComponent(s.CurrentBorder, id);
                     s.CurrentBorder = (Style.Border)GetComponentByHash(ref borders, temp);
                     temp = AddStyleComponent(s.CurrentCellXf, id);
                     s.CurrentCellXf = (Style.CellXf)GetComponentByHash(ref cellXfs, temp);
@@ -413,7 +386,7 @@ namespace PicoXLSX
                     styles.Add(s);
                 }
                 Reorganize(ref styles);
-                hash = s.CalculateHash();
+                hash = s.GetHashCode();
             }
             return hash;
         }
@@ -515,16 +488,16 @@ namespace PicoXLSX
         {
             Style s;
             bool match = false;
-            string hash = component.Hash;
+            int hash = component.GetHashCode();
             int len = styles.Count;
             for (int i = 0; i < len; i++)
             {
                 s = (Style)styles[i];
-                if (component.GetType() == typeof(Style.Border)) { if (s.CurrentBorder.Hash == hash) { match = true; break; } }
-                else if (component.GetType() == typeof(Style.CellXf)) { if (s.CurrentCellXf.Hash == hash) { match = true; break; } }
-                if (component.GetType() == typeof(Style.Fill)) { if (s.CurrentFill.Hash == hash) { match = true; break; } }
-                if (component.GetType() == typeof(Style.Font)) { if (s.CurrentFont.Hash == hash) { match = true; break; } }
-                if (component.GetType() == typeof(Style.NumberFormat)) { if (s.CurrentNumberFormat.Hash == hash) { match = true; break; } }
+                if (component.GetType() == typeof(Style.Border)) { if (s.CurrentBorder.GetHashCode() == hash) { match = true; break; } }
+                else if (component.GetType() == typeof(Style.CellXf)) { if (s.CurrentCellXf.GetHashCode() == hash) { match = true; break; } }
+                if (component.GetType() == typeof(Style.Fill)) { if (s.CurrentFill.GetHashCode() == hash) { match = true; break; } }
+                if (component.GetType() == typeof(Style.Font)) { if (s.CurrentFont.GetHashCode() == hash) { match = true; break; } }
+                if (component.GetType() == typeof(Style.NumberFormat)) { if (s.CurrentNumberFormat.GetHashCode() == hash) { match = true; break; } }
             }
             return match;
         }

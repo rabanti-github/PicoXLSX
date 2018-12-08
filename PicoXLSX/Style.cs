@@ -102,7 +102,7 @@ namespace PicoXLSX
             CurrentFont = new Font();
             CurrentNumberFormat = new NumberFormat();
             styleNameDefined = false;
-            name = CalculateHash();
+            name = this.GetHashCode().ToString();
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace PicoXLSX
 
             if (styleNameDefined == false)
             {
-                name = CalculateHash();
+                name = this.GetHashCode().ToString();
             }
         }
 
@@ -206,32 +206,31 @@ namespace PicoXLSX
         /// <returns>String of a class instance</returns>
         public override string ToString()
         {
-            return InternalID.ToString() + "->" + Hash;
+            return InternalID.ToString() + "->" + this.GetHashCode();
         }
 
         /// <summary>
-        /// Override method to calculate the hash of this component
+        /// Returns a hash code for this instance.
         /// </summary>
-        /// <returns>Calculated hash as string</returns>
-        public sealed override string CalculateHash()
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        /// <exception cref="StyleException">MissingReferenceException - The hash of the style could not be created because one or more components are missing as references</exception>
+        public override int GetHashCode()
         {
-            StringBuilder sb = new StringBuilder();
             if (CurrentBorder == null || CurrentCellXf == null || CurrentFill == null || CurrentFont == null || CurrentNumberFormat == null)
             {
                 throw new StyleException("MissingReferenceException", "The hash of the style could not be created because one or more components are missing as references");
             }
-            sb.Append(StyleManager.STYLEPREFIX);
-            if (InternalID.HasValue == true)
-            {
-                sb.Append(InternalID.Value);
-                sb.Append(':');
-            }
-            sb.Append(CurrentBorder.CalculateHash());
-            sb.Append(CurrentCellXf.CalculateHash());
-            sb.Append(CurrentFill.CalculateHash());
-            sb.Append(CurrentFont.CalculateHash());
-            sb.Append(CurrentNumberFormat.CalculateHash());
-            return sb.ToString();
+
+            int p = 241;
+            int r = 1;
+            r *= p + this.CurrentBorder.GetHashCode();
+            r *= p + this.CurrentCellXf.GetHashCode();
+            r *= p + this.CurrentFill.GetHashCode();
+            r *= p + this.CurrentFont.GetHashCode();
+            r *= p + this.CurrentNumberFormat.GetHashCode();
+            return r;
         }
 
         /// <summary>
@@ -382,26 +381,28 @@ namespace PicoXLSX
 
             #region methods
             /// <summary>
-            /// Override method to calculate the hash of this component (internal method)
+            /// Returns a hash code for this instance.
             /// </summary>
-            /// <returns>Calculated hash as string</returns>
-            public override string CalculateHash()
+            /// <returns>
+            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            /// </returns>
+            public override int GetHashCode()
             {
-                StringBuilder sb = new StringBuilder();
-                sb.Append(StyleManager.BORDERPREFIX);
-                CastValue(BottomColor, ref sb, ':');
-                CastValue(BottomStyle, ref sb, ':');
-                CastValue(DiagonalColor, ref sb, ':');
-                CastValue(DiagonalDown, ref sb, ':');
-                CastValue(DiagonalStyle, ref sb, ':');
-                CastValue(DiagonalUp, ref sb, ':');
-                CastValue(LeftColor, ref sb, ':');
-                CastValue(LeftStyle, ref sb, ':');
-                CastValue(RightColor, ref sb, ':');
-                CastValue(RightStyle, ref sb, ':');
-                CastValue(TopColor, ref sb, ':');
-                CastValue(TopStyle, ref sb, null);
-                return sb.ToString();
+                int p = 271;
+                int r = 1;
+                r *= p + (int)this.BottomStyle;
+                r *= p + (int)this.DiagonalStyle;
+                r *= p + (int)this.TopStyle;
+                r *= p + (int)this.LeftStyle;
+                r *= p + (int)this.RightStyle;
+                r *= p + this.BottomColor.GetHashCode();
+                r *= p + this.DiagonalColor.GetHashCode();
+                r *= p + this.TopColor.GetHashCode();
+                r *= p + this.LeftColor.GetHashCode();
+                r *= p + this.RightColor.GetHashCode();
+                r *= p + (this.DiagonalDown ? 0 : 1);
+                r *= p + (this.DiagonalUp ? 0 : 1);
+                return r;
             }
 
             /// <summary>
@@ -441,7 +442,7 @@ namespace PicoXLSX
             /// <returns>String of a class</returns>
             public override string ToString()
             {
-                return Hash;
+                return "Border:" + this.GetHashCode();
             }
 
             /// <summary>
@@ -712,26 +713,28 @@ namespace PicoXLSX
             /// <returns>String of a class instance</returns>
             public override string ToString()
             {
-                return Hash;
+                return "StyleXF:" + this.GetHashCode();
             }
 
             /// <summary>
-            /// Override method to calculate the hash of this component (internal method)
+            /// Returns a hash code for this instance.
             /// </summary>
-            /// <returns>Calculated hash as string</returns>
-            public override string CalculateHash()
+            /// <returns>
+            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            /// </returns>
+            public override int GetHashCode()
             {
-                StringBuilder sb = new StringBuilder();
-                sb.Append(StyleManager.CELLXFPREFIX);
-                CastValue(HorizontalAlign, ref sb, ':');
-                CastValue(VerticalAlign, ref sb, ':');
-                CastValue(Alignment, ref sb, ':');
-                CastValue(TextDirection, ref sb, ':');
-                CastValue(TextRotation, ref sb, ':');
-                CastValue(ForceApplyAlignment, ref sb, ':');
-                CastValue(Locked, ref sb, ':');
-                CastValue(Hidden, ref sb, null);
-                return sb.ToString();
+                int p = 269;
+                int r = 1;
+                r *= p + (int)this.HorizontalAlign;
+                r *= p + (int)this.VerticalAlign;
+                r *= p + (int)this.Alignment;
+                r *= p + (int)this.TextDirection;
+                r *= p + this.TextRotation;
+                r *= p + (this.ForceApplyAlignment ? 0 : 1);
+                r *= p + (this.Locked ? 0 : 1);
+                r *= p + (this.Hidden ? 0 : 1);
+                return r;
             }
 
             /// <summary>
@@ -763,8 +766,6 @@ namespace PicoXLSX
 
 
             #endregion
-
-
 
         }
         #endregion
@@ -881,28 +882,14 @@ namespace PicoXLSX
             #endregion
 
             #region methods
-            /// <summary>
-            /// Override method to calculate the hash of this component
-            /// </summary>
-            /// <returns>Calculated hash as string</returns>
-            public override string CalculateHash()
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append(StyleManager.FILLPREFIX);
-                CastValue(IndexedColor, ref sb, ':');
-                CastValue(PatternFill, ref sb, ':');
-                CastValue(ForegroundColor, ref sb, ':');
-                CastValue(BackgroundColor, ref sb, null);
-                return sb.ToString();
-            }
-
+           
             /// <summary>
             /// Override toString method
             /// </summary>
             /// <returns>String of a class</returns>
             public override string ToString()
             {
-                return Hash;
+                return "Fill:" + this.GetHashCode();
             }
 
             /// <summary>
@@ -917,6 +904,23 @@ namespace PicoXLSX
                 copy.IndexedColor = IndexedColor;
                 copy.PatternFill = PatternFill;
                 return copy;
+            }
+
+            /// <summary>
+            /// Returns a hash code for this instance.
+            /// </summary>
+            /// <returns>
+            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            /// </returns>
+            public override int GetHashCode()
+            {
+                int p = 263;
+                int r = 1;
+                r *= p + this.IndexedColor;
+                r *= p + (int)this.PatternFill;
+                r *= p + this.ForegroundColor.GetHashCode();
+                r *= p + this.BackgroundColor.GetHashCode();
+                return r;
             }
 
             /// <summary>
@@ -1138,31 +1142,7 @@ namespace PicoXLSX
             /// <returns>String of a class</returns>
             public override string ToString()
             {
-                return Hash;
-            }
-
-            /// <summary>
-            /// Override method to calculate the hash of this component
-            /// </summary>
-            /// <returns>Calculated hash as string</returns>
-            public override string CalculateHash()
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append(StyleManager.FONTPREFIX);
-                CastValue(Bold, ref sb, ':');
-                CastValue(Italic, ref sb, ':');
-                CastValue(Underline, ref sb, ':');
-                CastValue(DoubleUnderline, ref sb, ':');
-                CastValue(Strike, ref sb, ':');
-                CastValue(ColorTheme, ref sb, ':');
-                CastValue(ColorValue, ref sb, ':');
-                CastValue(Family, ref sb, ':');
-                CastValue(Name, ref sb, ':');
-                CastValue(Scheme, ref sb, ':');
-                CastValue(VerticalAlign, ref sb, ':');
-                CastValue(Charset, ref sb, ':');
-                CastValue(size, ref sb, null);
-                return sb.ToString();
+                return "Font:" + this.GetHashCode();
             }
 
             /// <summary>
@@ -1186,6 +1166,32 @@ namespace PicoXLSX
                 copy.Strike = Strike;
                 copy.Underline = Underline;
                 return copy;
+            }
+
+            /// <summary>
+            /// Returns a hash code for this instance.
+            /// </summary>
+            /// <returns>
+            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            /// </returns>
+            public override int GetHashCode()
+            {
+                int p = 257;
+                int r = 1;
+                r *= p + (this.Bold ? 0 : 1);
+                r *= p + (this.Italic ? 0 : 1);
+                r *= p + (this.Underline ? 0 : 1);
+                r *= p + (this.DoubleUnderline ? 0 : 1);
+                r *= p + (this.Strike ? 0 : 1);
+                r *= p + this.ColorTheme;
+                r *= p + this.ColorValue.GetHashCode();
+                r *= p + this.Family.GetHashCode();
+                r *= p + this.Name.GetHashCode();
+                r *= p + this.Scheme.GetHashCode();
+                r *= p + (int)this.VerticalAlign;
+                r *= p + this.Charset.GetHashCode();
+                r *= p + this.size;
+                return r;
             }
 
             /// <summary>
@@ -1336,21 +1342,7 @@ namespace PicoXLSX
             /// <returns>String of a class</returns>
             public override string ToString()
             {
-                return Hash;
-            }
-
-            /// <summary>
-            /// Override method to calculate the hash of this component
-            /// </summary>
-            /// <returns>Calculated hash as string</returns>
-            public override string CalculateHash()
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append(StyleManager.NUMBERFORMATPREFIX);
-                CastValue(CustomFormatCode, ref sb, ':');
-                CastValue(CustomFormatID, ref sb, ':');
-                CastValue(Number, ref sb, null);
-                return sb.ToString();
+                return "NumberFormat:" + this.GetHashCode();
             }
 
             /// <summary>
@@ -1373,6 +1365,22 @@ namespace PicoXLSX
             public NumberFormat CopyNumberFormat()
             {
                 return (NumberFormat)Copy();
+            }
+
+            /// <summary>
+            /// Returns a hash code for this instance.
+            /// </summary>
+            /// <returns>
+            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            /// </returns>
+            public override int GetHashCode()
+            {
+                int p = 251;
+                int r = 1;
+                r *= p + this.CustomFormatCode.GetHashCode();
+                r *= p + this.CustomFormatID;
+                r *= p + (int)this.Number;
+                return r;
             }
 
             #endregion
@@ -1633,28 +1641,14 @@ namespace PicoXLSX
     /// <summary>
     /// Class represents an abstract style component
     /// </summary>
-    public abstract class AbstractStyle : IComparable<AbstractStyle>, IEquatable<AbstractStyle>
+    public abstract class AbstractStyle : IComparable<AbstractStyle>
     {
-        /// <summary>
-        /// Gets the unique hash of the object
-        /// </summary>
-        [AppendAttribute(Ignore = true)]
-        public string Hash
-        {
-            get { return CalculateHash(); }
-        }
-
         /// <summary>
         /// Gets or sets the internal ID for sorting purpose in the Excel style document (nullable)
         /// </summary>
         [AppendAttribute(Ignore = true)]
         public int? InternalID { get; set; }
 
-        /// <summary>
-        /// Abstract method definition to calculate the hash of the component
-        /// </summary>
-        /// <returns>Returns the hash of the component as string</returns>
-        public abstract string CalculateHash();
 
         /// <summary>
         /// Abstract method to copy a component (dereferencing)
@@ -1723,7 +1717,7 @@ namespace PicoXLSX
         /// <returns>True if both objects are equal, otherwise false</returns>
         public bool Equals(AbstractStyle other)
         {
-            return Hash.Equals(other.Hash);
+            return this.GetHashCode() == other.GetHashCode();
         }
 
         /// <summary>
