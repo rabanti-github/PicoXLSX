@@ -11,8 +11,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PicoXLSX;
+using Testing;
 
-namespace Testing
+namespace Demo.Testing
 {
     /// <summary>
     /// Class for performance tests
