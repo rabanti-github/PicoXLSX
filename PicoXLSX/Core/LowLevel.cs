@@ -5,6 +5,8 @@
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
 
+using PicoXLSX.Exceptions;
+using PicoXLSX.Styles;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,6 +16,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using FormatException = PicoXLSX.Exceptions.FormatException;
+using IOException = PicoXLSX.Exceptions.IOException;
 
 namespace PicoXLSX
 {
@@ -525,7 +529,7 @@ namespace PicoXLSX
                 string col;
                 string hidden = "";
                 StringBuilder sb = new StringBuilder();
-                foreach (KeyValuePair<int, Worksheet.Column> column in worksheet.Columns)
+                foreach (KeyValuePair<int, Column> column in worksheet.Columns)
                 {
                     if (column.Value.Width == worksheet.DefaultColumnWidth && column.Value.IsHidden == false) { continue; }
                     if (worksheet.Columns.ContainsKey(column.Key))
@@ -592,7 +596,7 @@ namespace PicoXLSX
             }
             StringBuilder sb = new StringBuilder();
             sb.Append("<mergeCells count=\"").Append(sheet.MergedCells.Count.ToString("G", culture)).Append("\">");
-            foreach (KeyValuePair<string, Cell.Range> item in sheet.MergedCells)
+            foreach (KeyValuePair<string, Range> item in sheet.MergedCells)
             {
                 sb.Append("<mergeCell ref=\"").Append(item.Value.ToString()).Append("\"/>");
             }
@@ -818,18 +822,18 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateStyleBorderString()
         {
-            Style.Border[] borderStyles = workbook.Styles.GetBorders();
+            Border[] borderStyles = workbook.Styles.GetBorders();
             StringBuilder sb = new StringBuilder();
-            foreach (Style.Border item in borderStyles)
+            foreach (Border item in borderStyles)
             {
                 if (item.DiagonalDown == true && item.DiagonalUp == false) { sb.Append("<border diagonalDown=\"1\">"); }
                 else if (item.DiagonalDown == false && item.DiagonalUp == true) { sb.Append("<border diagonalUp=\"1\">"); }
                 else if (item.DiagonalDown == true && item.DiagonalUp == true) { sb.Append("<border diagonalDown=\"1\" diagonalUp=\"1\">"); }
                 else { sb.Append("<border>"); }
 
-                if (item.LeftStyle != Style.Border.StyleValue.none)
+                if (item.LeftStyle != Border.StyleValue.none)
                 {
-                    sb.Append("<left style=\"" + Style.Border.GetStyleName(item.LeftStyle) + "\">");
+                    sb.Append("<left style=\"" + Border.GetStyleName(item.LeftStyle) + "\">");
                     if (string.IsNullOrEmpty(item.LeftColor) == true) { sb.Append("<color rgb=\"").Append(item.LeftColor).Append("\"/>"); }
                     else { sb.Append("<color auto=\"1\"/>"); }
                     sb.Append("</left>");
@@ -838,9 +842,9 @@ namespace PicoXLSX
                 {
                     sb.Append("<left/>");
                 }
-                if (item.RightStyle != Style.Border.StyleValue.none)
+                if (item.RightStyle != Border.StyleValue.none)
                 {
-                    sb.Append("<right style=\"").Append(Style.Border.GetStyleName(item.RightStyle)).Append("\">");
+                    sb.Append("<right style=\"").Append(Border.GetStyleName(item.RightStyle)).Append("\">");
                     if (string.IsNullOrEmpty(item.RightColor) == true) { sb.Append("<color rgb=\"").Append(item.RightColor).Append("\"/>"); }
                     else { sb.Append("<color auto=\"1\"/>"); }
                     sb.Append("</right>");
@@ -849,9 +853,9 @@ namespace PicoXLSX
                 {
                     sb.Append("<right/>");
                 }
-                if (item.TopStyle != Style.Border.StyleValue.none)
+                if (item.TopStyle != Border.StyleValue.none)
                 {
-                    sb.Append("<top style=\"").Append(Style.Border.GetStyleName(item.TopStyle)).Append("\">");
+                    sb.Append("<top style=\"").Append(Border.GetStyleName(item.TopStyle)).Append("\">");
                     if (string.IsNullOrEmpty(item.TopColor) == true) { sb.Append("<color rgb=\"").Append(item.TopColor).Append("\"/>"); }
                     else { sb.Append("<color auto=\"1\"/>"); }
                     sb.Append("</top>");
@@ -860,9 +864,9 @@ namespace PicoXLSX
                 {
                     sb.Append("<top/>");
                 }
-                if (item.BottomStyle != Style.Border.StyleValue.none)
+                if (item.BottomStyle != Border.StyleValue.none)
                 {
-                    sb.Append("<bottom style=\"").Append(Style.Border.GetStyleName(item.BottomStyle)).Append("\">");
+                    sb.Append("<bottom style=\"").Append(Border.GetStyleName(item.BottomStyle)).Append("\">");
                     if (string.IsNullOrEmpty(item.BottomColor) == true) { sb.Append("<color rgb=\"").Append(item.BottomColor).Append("\"/>"); }
                     else { sb.Append("<color auto=\"1\"/>"); }
                     sb.Append("</bottom>");
@@ -871,9 +875,9 @@ namespace PicoXLSX
                 {
                     sb.Append("<bottom/>");
                 }
-                if (item.DiagonalStyle != Style.Border.StyleValue.none)
+                if (item.DiagonalStyle != Border.StyleValue.none)
                 {
-                    sb.Append("<diagonal style=\"").Append(Style.Border.GetStyleName(item.DiagonalStyle)).Append("\">");
+                    sb.Append("<diagonal style=\"").Append(Border.GetStyleName(item.DiagonalStyle)).Append("\">");
                     if (string.IsNullOrEmpty(item.DiagonalColor) == true) { sb.Append("<color rgb=\"").Append(item.DiagonalColor).Append("\"/>"); }
                     else { sb.Append("<color auto=\"1\"/>"); }
                     sb.Append("</diagonal>");
@@ -894,9 +898,9 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateStyleFontString()
         {
-            Style.Font[] fontStyles = workbook.Styles.GetFonts();
+            Font[] fontStyles = workbook.Styles.GetFonts();
             StringBuilder sb = new StringBuilder();
-            foreach (Style.Font item in fontStyles)
+            foreach (Font item in fontStyles)
             {
                 sb.Append("<font>");
                 if (item.Bold == true) { sb.Append("<b/>"); }
@@ -904,8 +908,8 @@ namespace PicoXLSX
                 if (item.Underline == true) { sb.Append("<u/>"); }
                 if (item.DoubleUnderline == true) { sb.Append("<u val=\"double\"/>"); }
                 if (item.Strike == true) { sb.Append("<strike/>"); }
-                if (item.VerticalAlign == Style.Font.VerticalAlignValue.subscript) { sb.Append("<vertAlign val=\"subscript\"/>"); }
-                else if (item.VerticalAlign == Style.Font.VerticalAlignValue.superscript) { sb.Append("<vertAlign val=\"superscript\"/>"); }
+                if (item.VerticalAlign == Font.VerticalAlignValue.subscript) { sb.Append("<vertAlign val=\"subscript\"/>"); }
+                else if (item.VerticalAlign == Font.VerticalAlignValue.superscript) { sb.Append("<vertAlign val=\"superscript\"/>"); }
                 sb.Append("<sz val=\"").Append(item.Size.ToString("G", culture)).Append("\"/>");
                 if (string.IsNullOrEmpty(item.ColorValue))
                 {
@@ -917,11 +921,11 @@ namespace PicoXLSX
                 }
                 sb.Append("<name val=\"").Append(item.Name).Append("\"/>");
                 sb.Append("<family val=\"").Append(item.Family).Append("\"/>");
-                if (item.Scheme != Style.Font.SchemeValue.none)
+                if (item.Scheme != Font.SchemeValue.none)
                 {
-                    if (item.Scheme == Style.Font.SchemeValue.major)
+                    if (item.Scheme == Font.SchemeValue.major)
                     { sb.Append("<scheme val=\"major\"/>"); }
-                    else if (item.Scheme == Style.Font.SchemeValue.minor)
+                    else if (item.Scheme == Font.SchemeValue.minor)
                     { sb.Append("<scheme val=\"minor\"/>"); }
                 }
                 if (string.IsNullOrEmpty(item.Charset) == false)
@@ -939,20 +943,20 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateStyleFillString()
         {
-            Style.Fill[] fillStyles = workbook.Styles.GetFills();
+            Fill[] fillStyles = workbook.Styles.GetFills();
             StringBuilder sb = new StringBuilder();
-            foreach (Style.Fill item in fillStyles)
+            foreach (Fill item in fillStyles)
             {
                 sb.Append("<fill>");
-                sb.Append("<patternFill patternType=\"").Append(Style.Fill.GetPatternName(item.PatternFill)).Append("\"");
-                if (item.PatternFill == Style.Fill.PatternValue.solid)
+                sb.Append("<patternFill patternType=\"").Append(Fill.GetPatternName(item.PatternFill)).Append("\"");
+                if (item.PatternFill == Fill.PatternValue.solid)
                 {
                     sb.Append(">");
                     sb.Append("<fgColor rgb=\"").Append(item.ForegroundColor).Append("\"/>");
                     sb.Append("<bgColor indexed=\"").Append(item.IndexedColor.ToString("G", culture)).Append("\"/>");
                     sb.Append("</patternFill>");
                 }
-                else if (item.PatternFill == Style.Fill.PatternValue.mediumGray || item.PatternFill == Style.Fill.PatternValue.lightGray || item.PatternFill == Style.Fill.PatternValue.gray0625 || item.PatternFill == Style.Fill.PatternValue.darkGray)
+                else if (item.PatternFill == Fill.PatternValue.mediumGray || item.PatternFill == Fill.PatternValue.lightGray || item.PatternFill == Fill.PatternValue.gray0625 || item.PatternFill == Fill.PatternValue.darkGray)
                 {
                     sb.Append(">");
                     sb.Append("<fgColor rgb=\"").Append(item.ForegroundColor).Append("\"/>");
@@ -977,9 +981,9 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateStyleNumberFormatString()
         {
-            Style.NumberFormat[] numberFormatStyles = workbook.Styles.GetNumberFormats();
+            NumberFormat[] numberFormatStyles = workbook.Styles.GetNumberFormats();
             StringBuilder sb = new StringBuilder();
-            foreach (Style.NumberFormat item in numberFormatStyles)
+            foreach (NumberFormat item in numberFormatStyles)
             {
                 if (item.IsCustomFormat == true)
                 {
@@ -1005,37 +1009,37 @@ namespace PicoXLSX
                 textRotation = item.CurrentCellXf.CalculateInternalRotation();
                 alignmentString = string.Empty;
                 protectionString = string.Empty;
-                if (item.CurrentCellXf.HorizontalAlign != Style.CellXf.HorizontalAlignValue.none || item.CurrentCellXf.VerticalAlign != Style.CellXf.VerticalAlignValue.none || item.CurrentCellXf.Alignment != Style.CellXf.TextBreakValue.none || textRotation != 0)
+                if (item.CurrentCellXf.HorizontalAlign != CellXf.HorizontalAlignValue.none || item.CurrentCellXf.VerticalAlign != CellXf.VerticalAlignValue.none || item.CurrentCellXf.Alignment != CellXf.TextBreakValue.none || textRotation != 0)
                 {
                     sb2.Clear();
                     sb2.Append("<alignment");
-                    if (item.CurrentCellXf.HorizontalAlign != Style.CellXf.HorizontalAlignValue.none)
+                    if (item.CurrentCellXf.HorizontalAlign != CellXf.HorizontalAlignValue.none)
                     {
                         sb2.Append(" horizontal=\"");
-                        if (item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.center) { sb2.Append("center"); }
-                        else if (item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.right) { sb2.Append("right"); }
-                        else if (item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.centerContinuous) { sb2.Append("centerContinuous"); }
-                        else if (item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.distributed) { sb2.Append("distributed"); }
-                        else if (item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.fill) { sb2.Append("fill"); }
-                        else if (item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.general) { sb2.Append("general"); }
-                        else if (item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.justify) { sb2.Append("justify"); }
+                        if (item.CurrentCellXf.HorizontalAlign == CellXf.HorizontalAlignValue.center) { sb2.Append("center"); }
+                        else if (item.CurrentCellXf.HorizontalAlign == CellXf.HorizontalAlignValue.right) { sb2.Append("right"); }
+                        else if (item.CurrentCellXf.HorizontalAlign == CellXf.HorizontalAlignValue.centerContinuous) { sb2.Append("centerContinuous"); }
+                        else if (item.CurrentCellXf.HorizontalAlign == CellXf.HorizontalAlignValue.distributed) { sb2.Append("distributed"); }
+                        else if (item.CurrentCellXf.HorizontalAlign == CellXf.HorizontalAlignValue.fill) { sb2.Append("fill"); }
+                        else if (item.CurrentCellXf.HorizontalAlign == CellXf.HorizontalAlignValue.general) { sb2.Append("general"); }
+                        else if (item.CurrentCellXf.HorizontalAlign == CellXf.HorizontalAlignValue.justify) { sb2.Append("justify"); }
                         else { sb2.Append("left"); }
                         sb2.Append("\"");
                     }
-                    if (item.CurrentCellXf.VerticalAlign != Style.CellXf.VerticalAlignValue.none)
+                    if (item.CurrentCellXf.VerticalAlign != CellXf.VerticalAlignValue.none)
                     {
                         sb2.Append(" vertical=\"");
-                        if (item.CurrentCellXf.VerticalAlign == Style.CellXf.VerticalAlignValue.center) { sb2.Append("center"); }
-                        else if (item.CurrentCellXf.VerticalAlign == Style.CellXf.VerticalAlignValue.distributed) { sb2.Append("distributed"); }
-                        else if (item.CurrentCellXf.VerticalAlign == Style.CellXf.VerticalAlignValue.justify) { sb2.Append("justify"); }
-                        else if (item.CurrentCellXf.VerticalAlign == Style.CellXf.VerticalAlignValue.top) { sb2.Append("top"); }
+                        if (item.CurrentCellXf.VerticalAlign == CellXf.VerticalAlignValue.center) { sb2.Append("center"); }
+                        else if (item.CurrentCellXf.VerticalAlign == CellXf.VerticalAlignValue.distributed) { sb2.Append("distributed"); }
+                        else if (item.CurrentCellXf.VerticalAlign == CellXf.VerticalAlignValue.justify) { sb2.Append("justify"); }
+                        else if (item.CurrentCellXf.VerticalAlign == CellXf.VerticalAlignValue.top) { sb2.Append("top"); }
                         else { sb2.Append("bottom"); }
                         sb2.Append("\"");
                     }
 
-                    if (item.CurrentCellXf.Alignment != Style.CellXf.TextBreakValue.none)
+                    if (item.CurrentCellXf.Alignment != CellXf.TextBreakValue.none)
                     {
-                        if (item.CurrentCellXf.Alignment == Style.CellXf.TextBreakValue.shrinkToFit) { sb2.Append(" shrinkToFit=\"1"); }
+                        if (item.CurrentCellXf.Alignment == CellXf.TextBreakValue.shrinkToFit) { sb2.Append(" shrinkToFit=\"1"); }
                         else { sb2.Append(" wrapText=\"1"); }
                         sb2.Append("\"");
                     }
@@ -1082,7 +1086,7 @@ namespace PicoXLSX
                 {
                     sb.Append("\" applyFont=\"1");
                 }
-                if (item.CurrentFill.PatternFill != Style.Fill.PatternValue.none)
+                if (item.CurrentFill.PatternFill != Fill.PatternValue.none)
                 {
                     sb.Append("\" applyFill=\"1");
                 }
@@ -1098,7 +1102,7 @@ namespace PicoXLSX
                 {
                     sb.Append("\" applyProtection=\"1");
                 }
-                if (item.CurrentNumberFormat.Number != Style.NumberFormat.FormatNumber.none)
+                if (item.CurrentNumberFormat.Number != NumberFormat.FormatNumber.none)
                 {
                     sb.Append("\" applyNumberFormat=\"1\"");
                 }
@@ -1127,28 +1131,28 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateMruColorsString()
         {
-            Style.Font[] fonts = workbook.Styles.GetFonts();
-            Style.Fill[] fills = workbook.Styles.GetFills();
+            Font[] fonts = workbook.Styles.GetFonts();
+            Fill[] fills = workbook.Styles.GetFills();
             StringBuilder sb = new StringBuilder();
             List<string> tempColors = new List<string>();
-            foreach (Style.Font item in fonts)
+            foreach (Font item in fonts)
             {
                 if (string.IsNullOrEmpty(item.ColorValue) == true) { continue; }
-                if (item.ColorValue == Style.Fill.DEFAULTCOLOR) { continue; }
+                if (item.ColorValue == Fill.DEFAULTCOLOR) { continue; }
                 if (tempColors.Contains(item.ColorValue) == false) { tempColors.Add(item.ColorValue); }
             }
-            foreach (Style.Fill item in fills)
+            foreach (Fill item in fills)
             {
                 if (string.IsNullOrEmpty(item.BackgroundColor) == false)
                 {
-                    if (item.BackgroundColor != Style.Fill.DEFAULTCOLOR)
+                    if (item.BackgroundColor != Fill.DEFAULTCOLOR)
                     {
                         if (tempColors.Contains(item.BackgroundColor) == false) { tempColors.Add(item.BackgroundColor); }
                     }
                 }
                 if (string.IsNullOrEmpty(item.ForegroundColor) == false)
                 {
-                    if (item.ForegroundColor != Style.Fill.DEFAULTCOLOR)
+                    if (item.ForegroundColor != Fill.DEFAULTCOLOR)
                     {
                         if (tempColors.Contains(item.ForegroundColor) == false) { tempColors.Add(item.ForegroundColor); }
                     }

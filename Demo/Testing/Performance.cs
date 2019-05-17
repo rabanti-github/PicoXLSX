@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PicoXLSX;
+using PicoXLSX.Styles;
 using Testing;
 
 namespace Demo.Testing
@@ -63,7 +64,7 @@ namespace Demo.Testing
             {
                 for (j = 0; j < cols; j++)
                 {
-                    s.AddNextCell(field[i][j], Style.BasicStyles.Bold);
+                    s.AddNextCell(field[i][j], BasicStyles.Bold);
                 }
                 s.GoToNextRow();
             }

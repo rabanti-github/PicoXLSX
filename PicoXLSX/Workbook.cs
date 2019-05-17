@@ -5,6 +5,8 @@
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
 
+using PicoXLSX.Exceptions;
+using PicoXLSX.Styles;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -207,80 +209,67 @@ namespace PicoXLSX
         public Style AddStyleComponent(Style baseStyle, AbstractStyle newComponent)
         {
 
-            if (newComponent.GetType() == typeof(Style.Border))
+            if (newComponent.GetType() == typeof(Border))
             {
-                baseStyle.CurrentBorder = (Style.Border)newComponent;
+                baseStyle.CurrentBorder = (Border)newComponent;
             }
-            else if (newComponent.GetType() == typeof(Style.CellXf))
+            else if (newComponent.GetType() == typeof(CellXf))
             {
-                baseStyle.CurrentCellXf = (Style.CellXf)newComponent;
+                baseStyle.CurrentCellXf = (CellXf)newComponent;
             }
-            else if (newComponent.GetType() == typeof(Style.Fill))
+            else if (newComponent.GetType() == typeof(Fill))
             {
-                baseStyle.CurrentFill = (Style.Fill)newComponent;
+                baseStyle.CurrentFill = (Fill)newComponent;
             }
-            else if (newComponent.GetType() == typeof(Style.Font))
+            else if (newComponent.GetType() == typeof(Font))
             {
-                baseStyle.CurrentFont = (Style.Font)newComponent;
+                baseStyle.CurrentFont = (Font)newComponent;
             }
-            else if (newComponent.GetType() == typeof(Style.NumberFormat))
+            else if (newComponent.GetType() == typeof(NumberFormat))
             {
-                baseStyle.CurrentNumberFormat = (Style.NumberFormat)newComponent;
+                baseStyle.CurrentNumberFormat = (NumberFormat)newComponent;
             }
             return styleManager.AddStyle(baseStyle);
         }
 
 
         /// <summary>
-        /// Adding a new Worksheet. The new worksheet will be defined as current worksheet
+        /// Adds a new Worksheet. The new worksheet will be defined as current worksheet. The name can be sanitized optionally
         /// </summary>
         /// <param name="name">Name of the new worksheet</param>
+        /// <param name="sanitizeSheetName">If true, the name of the worksheet will be sanitized automatically according to the specifications of Excel. The default is false</param>
         /// <exception cref="WorksheetException">Throws a WorksheetNameAlreadxExistsException if the name of the worksheet already exists</exception>
         /// <exception cref="FormatException">Throws a FormatException if the name contains illegal characters or is out of range (length between 1 an 31 characters)</exception>
-        public void AddWorksheet(string name)
-        {
-            foreach (Worksheet item in worksheets)
-            {
-                if (item.SheetName == name)
-                {
-                    throw new WorksheetException("WorksheetNameAlreadxExistsException", "The worksheet with the name '" + name + "' already exists.");
-                }
-            }
-            int number = worksheets.Count + 1;
-            Worksheet newWs = new Worksheet(name, number, this);
-            currentWorksheet = newWs;
-            worksheets.Add(newWs);
-            shortener.SetCurrentWorksheet(currentWorksheet);
-        }
-
-        /// <summary>
-        /// Adding a new Worksheet with a sanitizing option. The new worksheet will be defined as current worksheet
-        /// </summary>
-        /// <param name="name">Name of the new worksheet</param>
-        /// <param name="sanitizeSheetName">If true, the name of the worksheet will be sanitized automatically according to the specifications of Excel</param>
-        /// <exception cref="WorksheetException">WorksheetException is thrown if the name of the worksheet already exists and sanitizeSheetName is false</exception>
-        /// <exception cref="FormatException">FormatException is thrown if the worksheet name contains illegal characters or is out of range (length between 1 an 31) and sanitizeSheetName is false</exception>
-        public void AddWorksheet(String name, bool sanitizeSheetName)
+        public void AddWorksheet(string name, bool sanitizeSheetName = false)
         {
             if (sanitizeSheetName == true)
             {
-                string sanitized = Worksheet.SanitizeWorksheetName(name, this);
-                AddWorksheet(sanitized);
+                name = Worksheet.SanitizeWorksheetName(name, this);
             }
-            else
-            {
-                AddWorksheet(name);
-            }
+            this.AddWorksheet(new Worksheet(), name);
         }
 
         /// <summary>
-        /// Adding a new Worksheet. The new worksheet will be defined as current worksheet
+        /// Adds a new Worksheet. The new worksheet will be defined as current worksheet
         /// </summary>
         /// <param name="worksheet">Prepared worksheet object</param>
         /// <exception cref="WorksheetException">WorksheetException is thrown if the name of the worksheet already exists</exception>
         /// <exception cref="FormatException">FormatException is thrown if the worksheet name contains illegal characters or is out of range (length between 1 an 31</exception>
         public void AddWorksheet(Worksheet worksheet)
         {
+            this.AddWorksheet(worksheet);
+        }
+
+        /// <summary>
+        /// Internal method to add a worksheet to the current workbook
+        /// </summary>
+        /// <param name="worksheet">Worksheet object to add</param>
+        private void AddWorksheet(Worksheet worksheet, string name = null)
+        {
+            if (name != null)
+            {
+                worksheet.SheetName = name;
+            }
             for (int i = 0; i < worksheets.Count; i++)
             {
                 if (worksheets[i].SheetName == worksheet.SheetName)
@@ -288,11 +277,11 @@ namespace PicoXLSX
                     throw new WorksheetException("WorksheetNameAlreadyExistsException", "The worksheet with the name '" + worksheet.SheetName + "' already exists.");
                 }
             }
-            int number = worksheets.Count + 1;
-            worksheet.SheetID = number;
+            worksheet.SheetID = worksheets.Count + 1;
             worksheet.WorkbookReference = this;
-            currentWorksheet = worksheet;
-            worksheets.Add(worksheet);
+            this.currentWorksheet = worksheet;
+            this.worksheets.Add(worksheet);
+            this.shortener.SetCurrentWorksheet(worksheet);
         }
 
         /// <summary>
@@ -304,20 +293,20 @@ namespace PicoXLSX
             styleManager = new StyleManager();
             styleManager.AddStyle(new Style("default", 0, true));
             Style borderStyle = new Style("default_border_style", 1, true);
-            borderStyle.CurrentBorder = Style.BasicStyles.DottedFill_0_125.CurrentBorder;
-            borderStyle.CurrentFill = Style.BasicStyles.DottedFill_0_125.CurrentFill;
+            borderStyle.CurrentBorder = BasicStyles.DottedFill_0_125.CurrentBorder;
+            borderStyle.CurrentFill = BasicStyles.DottedFill_0_125.CurrentFill;
             styleManager.AddStyle(borderStyle);
             workbookMetadata = new Metadata();
             shortener = new Shortener();
         }
 
-
         /// <summary>
         /// Removes the passed style from the style sheet
         /// </summary>
         /// <param name="style">Style to remove</param>
+        /// <param name="onlyIfUnused">If true, the style will only be removed if not used in any cell. The default is false</param>
         /// <exception cref="StyleException">Throws an StyleException if the style was not found in the style collection (could not be referenced)</exception>
-        public void RemoveStyle(Style style)
+        public void RemoveStyle(Style style, bool onlyIfUnused = false)
         {
             RemoveStyle(style, false);
         }
@@ -326,34 +315,9 @@ namespace PicoXLSX
         /// Removes the defined style from the style sheet of the workbook
         /// </summary>
         /// <param name="styleName">Name of the style to be removed</param>
-        /// <exception cref="StyleException">Throws an StyleException if the style was not found in the style collection (could not be referenced)</exception>
-        public void RemoveStyle(string styleName)
-        {
-            RemoveStyle(styleName, false);
-        }
-
-        /// <summary>
-        /// Removes the defined style from the style sheet of the workbook
-        /// </summary>
-        /// <param name="style">Style to remove</param>
-        /// <param name="onlyIfUnused">If true, the style will only be removed if not used in any cell</param>
-        /// <exception cref="StyleException">Throws an StyleException if the style was not found in the style collection (could not be referenced)</exception>
-        public void RemoveStyle(Style style, bool onlyIfUnused)
-        {
-            if (style == null)
-            {
-                throw new StyleException("UndefinedStyleException", "The style to remove is not defined");
-            }
-            RemoveStyle(style.Name, onlyIfUnused);
-        }
-
-        /// <summary>
-        /// Removes the defined style from the style sheet of the workbook
-        /// </summary>
-        /// <param name="styleName">Name of the style to be removed</param>
-        /// <param name="onlyIfUnused">If true, the style will only be removed if not used in any cell</param>
+        /// <param name="onlyIfUnused">If true, the style will only be removed if not used in any cell. The default is false</param>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
-        public void RemoveStyle(string styleName, bool onlyIfUnused)
+        public void RemoveStyle(string styleName, bool onlyIfUnused = false)
         {
             if (string.IsNullOrEmpty(styleName))
             {
@@ -444,17 +408,17 @@ namespace PicoXLSX
         /// <exception cref="StyleException">Throws an StyleException if one of the styles of the merged cells cannot be referenced or is null</exception>
         public void ResolveMergedCells()
         {
-            Style mergeStyle = Style.BasicStyles.MergeCellStyle;
+            Style mergeStyle = BasicStyles.MergeCellStyle;
             int pos;
-            List<Cell.Address> addresses;
+            List<Address> addresses;
             Cell cell;
             foreach (Worksheet sheet in worksheets)
             {
-                foreach (KeyValuePair<string, Cell.Range> range in sheet.MergedCells)
+                foreach (KeyValuePair<string, Range> range in sheet.MergedCells)
                 {
                     pos = 0;
-                    addresses = Cell.GetCellRange(range.Value.StartAddress, range.Value.EndAddress);
-                    foreach (Cell.Address address in addresses)
+                    addresses = Address.GetAddressRange(range.Value.StartAddress, range.Value.EndAddress);
+                    foreach (Address address in addresses)
                     {
                         if (sheet.Cells.ContainsKey(address.ToString()) == false)
                         {
@@ -476,7 +440,6 @@ namespace PicoXLSX
                         }
                         pos++;
                     }
-
                 }
             }
         }
