@@ -5,7 +5,6 @@
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
 
-using PicoXLSX.Core;
 using PicoXLSX.Exceptions;
 using PicoXLSX.Styles;
 using System;
@@ -26,7 +25,7 @@ namespace PicoXLSX
     /// Class for low level handling (XML, formatting, packing)
     /// </summary>
     /// <remarks>This class is only for internal use. Use the high level API (e.g. class Workbook) to manipulate data and create Excel files</remarks>
-    partial class LowLevel
+    class LowLevel
     {
 
         #region staticFields
@@ -137,7 +136,7 @@ namespace PicoXLSX
             foreach (string str in sharedStrings.Keys)
             {
                 sb.Append("<si><t>");
-                sb.Append(Utils.EscapeXmlChars(str));
+                sb.Append(EscapeXmlChars(str));
                 sb.Append("</t></si>");
             }
             sb.Append("</sst>");
@@ -224,7 +223,7 @@ namespace PicoXLSX
                 if (string.IsNullOrEmpty(workbook.WorkbookProtectionPassword) == false)
                 {
                     sb.Append("workbookPassword=\"");
-                    sb.Append(Utils.GeneratePasswordHash(workbook.WorkbookProtectionPassword));
+                    sb.Append(GeneratePasswordHash(workbook.WorkbookProtectionPassword));
                     sb.Append("\"");
                 }
                 sb.Append("/>");
@@ -232,7 +231,7 @@ namespace PicoXLSX
             sb.Append("<sheets>");
             foreach (Worksheet item in workbook.Worksheets)
             {
-                sb.Append("<sheet r:id=\"rId").Append(item.SheetID.ToString()).Append("\" sheetId=\"").Append(item.SheetID.ToString()).Append("\" name=\"").Append(Utils.EscapeXmlAttributeChars(item.SheetName)).Append("\"/>");
+                sb.Append("<sheet r:id=\"rId").Append(item.SheetID.ToString()).Append("\" sheetId=\"").Append(item.SheetID.ToString()).Append("\" name=\"").Append(EscapeXmlAttributeChars(item.SheetName)).Append("\"/>");
             }
             sb.Append("</sheets>");
             sb.Append("</workbook>");
@@ -445,7 +444,7 @@ namespace PicoXLSX
                 sb.Append(':');
             }
             sb.Append(tagName).Append(">");
-            sb.Append(Utils.EscapeXmlChars(value));
+            sb.Append(EscapeXmlChars(value));
             sb.Append("</");
             if (hasNoNs == false)
             {
@@ -693,7 +692,7 @@ namespace PicoXLSX
                 {
                     typeAttribute = "d";
                     dVal = (DateTime)item.Value;
-                    value = Utils.GetOADateTimeString(dVal, culture);
+                    value = GetOADateTimeString(dVal, culture);
                 }
                 else
                 {
@@ -728,11 +727,11 @@ namespace PicoXLSX
                     sb.Append("<c").Append(tValue).Append("r=\"").Append(item.CellAddress).Append("\"").Append(sValue).Append(">");
                     if (item.DataType == Cell.CellType.FORMULA)
                     {
-                        sb.Append("<f>").Append(Utils.EscapeXmlChars(item.Value.ToString())).Append("</f>");
+                        sb.Append("<f>").Append(EscapeXmlChars(item.Value.ToString())).Append("</f>");
                     }
                     else
                     {
-                        sb.Append("<v>").Append(Utils.EscapeXmlChars(value)).Append("</v>");
+                        sb.Append("<v>").Append(EscapeXmlChars(value)).Append("</v>");
                     }
                     sb.Append("</c>");
                 }
@@ -810,7 +809,7 @@ namespace PicoXLSX
             }
             if (string.IsNullOrEmpty(sheet.SheetProtectionPassword) == false)
             {
-                string hash = Utils.GeneratePasswordHash(sheet.SheetProtectionPassword);
+                string hash = GeneratePasswordHash(sheet.SheetProtectionPassword);
                 sb.Append(" password=\"").Append(hash).Append("\"");
             }
             sb.Append(" sheet=\"1\"/>");
@@ -1209,6 +1208,294 @@ namespace PicoXLSX
                 }
             }
             return output;
+        }
+
+
+        #endregion
+
+        #region staticMethods
+
+        /// <summary>
+        /// Method to escape XML characters between two XML tags
+        /// </summary>
+        /// <param name="input">Input string to process</param>
+        /// <returns>Escaped string</returns>
+        /// <remarks>Note: The XML specs allow characters up to the character value of 0x10FFFF. However, the C# char range is only up to 0xFFFF. PicoXLSX will neglect all values above this level in the sanitizing check. Illegal characters like 0x1 will be replaced with a white space (0x20)</remarks>
+        public static string EscapeXmlChars(string input)
+        {
+            if (input == null) { return ""; }
+            int len = input.Length;
+            List<int> illegalCharacters = new List<int>(len);
+            List<byte> characterTypes = new List<byte>(len);
+            int i;
+            for (i = 0; i < len; i++)
+            {
+                if ((input[i] < 0x9) || (input[i] > 0xA && input[i] < 0xD) || (input[i] > 0xD && input[i] < 0x20) || (input[i] > 0xD7FF && input[i] < 0xE000) || (input[i] > 0xFFFD))
+                {
+                    illegalCharacters.Add(i);
+                    characterTypes.Add(0);
+                    continue;
+                } // Note: XML specs allow characters up to 0x10FFFF. However, the C# char range is only up to 0xFFFF; Higher values are neglected here 
+                if (input[i] == 0x3C) // <
+                {
+                    illegalCharacters.Add(i);
+                    characterTypes.Add(1);
+                }
+                else if (input[i] == 0x3E) // >
+                {
+                    illegalCharacters.Add(i);
+                    characterTypes.Add(2);
+                }
+                else if (input[i] == 0x26) // &
+                {
+                    illegalCharacters.Add(i);
+                    characterTypes.Add(3);
+                }
+            }
+            if (illegalCharacters.Count == 0)
+            {
+                return input;
+            }
+
+            StringBuilder sb = new StringBuilder(len);
+            int lastIndex = 0;
+            len = illegalCharacters.Count;
+            for (i = 0; i < len; i++)
+            {
+                sb.Append(input.Substring(lastIndex, illegalCharacters[i] - lastIndex));
+                if (characterTypes[i] == 0)
+                {
+                    sb.Append(' '); // Whitespace as fall back on illegal character
+                }
+                else if (characterTypes[i] == 1) // replace <
+                {
+                    sb.Append("&lt;");
+                }
+                else if (characterTypes[i] == 2) // replace >
+                {
+                    sb.Append("&gt;");
+                }
+                else if (characterTypes[i] == 3) // replace &
+                {
+                    sb.Append("&amp;");
+                }
+                lastIndex = illegalCharacters[i] + 1;
+            }
+            sb.Append(input.Substring(lastIndex));
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Method to escape XML characters in an XML attribute
+        /// </summary>
+        /// <param name="input">Input string to process</param>
+        /// <returns>Escaped string</returns>
+        public static string EscapeXmlAttributeChars(string input)
+        {
+            input = EscapeXmlChars(input); // Sanitize string from illegal characters beside quotes
+            input = input.Replace("\"", "&quot;");
+            return input;
+        }
+
+        /// <summary>
+        /// Method to generate an Excel internal password hash to protect workbooks or worksheets<br></br>This method is derived from the c++ implementation by Kohei Yoshida (<a href="http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/">http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/</a>)
+        /// </summary>
+        /// <remarks>WARNING! Do not use this method to encrypt 'real' passwords or data outside from PicoXLSX. This is only a minor security feature. Use a proper cryptography method instead.</remarks>
+        /// <param name="password">Password string in UTF-8 to encrypt</param>
+        /// <returns>16 bit hash as hex string</returns>
+        public static string GeneratePasswordHash(string password)
+        {
+            if (string.IsNullOrEmpty(password)) { return string.Empty; }
+            int passwordLength = password.Length;
+            int passwordHash = 0;
+            char character;
+            for (int i = passwordLength; i > 0; i--)
+            {
+                character = password[i - 1];
+                passwordHash = ((passwordHash >> 14) & 0x01) | ((passwordHash << 1) & 0x7fff);
+                passwordHash ^= character;
+            }
+            passwordHash = ((passwordHash >> 14) & 0x01) | ((passwordHash << 1) & 0x7fff);
+            passwordHash ^= (0x8000 | ('N' << 8) | 'K');
+            passwordHash ^= passwordLength;
+            return passwordHash.ToString("X");
+        }
+
+        /// <summary>
+        /// Method to convert a date or date and time into the internal Excel time format (OAdate)
+        /// </summary>
+        /// <param name="date">Date to process</param>
+        /// <param name="culture">CultureInfo for proper formatting of the decimal point</param>
+        /// <returns>Date or date and time as Number</returns>
+        /// <exception cref="FormatException">Throws a FormatException if the passed date cannot be translated to the OADate format</exception>
+        /// <remarks>OA Date format starts at January 1st 1900 (actually 00.01.1900). Dates beyond this date cannot be handled by Excel under normal circumstances and will throw a FormatException</remarks>
+        public static string GetOADateTimeString(DateTime date, CultureInfo culture)
+        {
+            try
+            {
+                double d = date.ToOADate();
+                if (d < 0)
+                {
+                    throw new FormatException("The date is not in a valid range for Excel. Dates before 1900-01-01 are not allowed.");
+                }
+                return d.ToString("G", culture); //worksheet.DefaultRowHeight.ToString("G", culture) 
+            }
+            catch (Exception e)
+            {
+                throw new FormatException("ConversionException", "The date could not be transformed into Excel format (OADate).", e);
+            }
+        }
+
+        #endregion
+
+        #region subClasses
+
+        /// <summary>
+        /// Class to manage key value pairs (string / string). The entries are in the order how they were added
+        /// </summary>
+        public class SortedMap
+        {
+            private int count;
+            private List<string> keyEntries;
+            private List<string> valueEntries;
+            private Dictionary<string, int> index;
+
+            /// <summary>
+            /// Number of map entries
+            /// </summary>
+            public int Count
+            {
+                get { return count; }
+            }
+
+            /// <summary>
+            /// Gets the keys of the map as list
+            /// </summary>
+            public List<string> Keys
+            {
+                get { return keyEntries; }
+            }
+
+            /// <summary>
+            /// Gets the values of the map as values
+            /// </summary>
+            public List<string> Values
+            {
+                get { return valueEntries; }
+            }
+
+            /// <summary>
+            /// Default constructor
+            /// </summary>
+            public SortedMap()
+            {
+                keyEntries = new List<string>();
+                valueEntries = new List<string>();
+                index = new Dictionary<string, int>();
+                count = 0;
+            }
+
+
+            /// <summary>
+            /// Indexer to get the specific value by the key
+            /// </summary>
+            /// <param name="key">Key to corresponding value. Returns null if not found</param>
+            public string this[string key]
+            {
+                get
+                {
+                    if (index.ContainsKey(key))
+                    {
+                        return valueEntries[index[key]];
+                    }
+                    return null;
+                }
+            }
+
+            /// <summary>
+            /// Adds a key value pair to the map. If the key already exists, only its index will be returned
+            /// </summary>
+            /// <param name="key">Key of the tuple</param>
+            /// <param name="value">Value of the tuple</param>
+            /// <returns>Position of the tuple in the map as index (zero-based)</returns>
+            public int Add(string key, string value)
+            {
+                if (index.ContainsKey(key))
+                {
+                    return index[key];
+                }
+                else
+                {
+                    index.Add(key, count);
+                    keyEntries.Add(key);
+                    valueEntries.Add(value);
+                    count++;
+                    return count - 1;
+                }
+            }
+
+            /// <summary>
+            /// Gets whether the specified key exists in the map
+            /// </summary>
+            /// <param name="key">Key to check</param>
+            /// <returns>True if the entry exists, otherwise false</returns>
+            public bool ContainsKey(string key)
+            {
+                return index.ContainsKey(key);
+            }
+
+        }
+
+        /// <summary>
+        /// Class to manage XML document paths
+        /// </summary>
+        public class DocumentPath
+        {
+            /// <summary>
+            /// File name of the document
+            /// </summary>
+            public string Filename { get; set; }
+            /// <summary>
+            /// Path of the document
+            /// </summary>
+            public string Path { get; set; }
+
+            /// <summary>
+            /// Default constructor
+            /// </summary>
+            public DocumentPath()
+            {
+            }
+
+            /// <summary>
+            /// Constructor with defined file name and path
+            /// </summary>
+            /// <param name="filename">File name of the document</param>
+            /// <param name="path">Path of the document</param>
+            public DocumentPath(string filename, string path)
+            {
+                Filename = filename;
+                Path = path;
+            }
+
+            /// <summary>
+            /// Method to return the full path of the document
+            /// </summary>
+            /// <returns>Full path</returns>
+            public string GetFullPath()
+            {
+                if (Path == null) { return Filename; }
+                if (Path == "") { return Filename; }
+                if (Path[Path.Length - 1] == System.IO.Path.AltDirectorySeparatorChar || Path[Path.Length - 1] == System.IO.Path.DirectorySeparatorChar)
+                {
+                    return System.IO.Path.AltDirectorySeparatorChar.ToString() + Path + Filename;
+                }
+                else
+                {
+                    return System.IO.Path.AltDirectorySeparatorChar.ToString() + Path + System.IO.Path.AltDirectorySeparatorChar.ToString() + Filename;
+                }
+            }
+
         }
         #endregion
 

@@ -55,6 +55,10 @@
     <Compile Include="Address.cs" />
     <Compile Include="BasicFormulas.cs" />
     <Compile Include="Column.cs" />
+    <Compile Include="Core\AbstractPart.cs" />
+    <Compile Include="Core\DocumentPath.cs" />
+    <Compile Include="Core\SortedMap.cs" />
+    <Compile Include="Core\Utils.cs" />
     <Compile Include="Range.cs" />
     <Compile Include="Row.cs" />
     <Compile Include="Styles\AbstractStyle.cs" />

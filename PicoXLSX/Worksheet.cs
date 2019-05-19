@@ -21,10 +21,6 @@ namespace PicoXLSX
     public class Worksheet
     {
 
-#region constants
-
-#endregion
-
 #region enums
         /// <summary>
         /// Enum to define the direction when using AddNextCell method

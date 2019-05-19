@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace PicoXLSX
 {
     /// <summary>
-    /// Struct representing a row of a worksheet
+    /// Class representing a row of a worksheet
     /// </summary>
-    public struct Row
+    public class Row
     {
         #region constants
         /// <summary>
@@ -33,5 +33,26 @@ namespace PicoXLSX
         /// </summary>
         public const int MAX_ROW_NUMBER = 1048575;
         #endregion
+
+        private int number;
+
+        /// <summary>
+        /// Row number (0 to 1048575)
+        /// </summary>
+        public int Number
+        {
+            get { return number; }
+            set { number = value; }
+        }
+
+        /// <summary>
+        /// Row address (1 to 1048574)
+        /// </summary>
+        public int RowAddress
+        {
+            get { return number + 1; }
+            set { number = value - 1; }
+        }
+
     }
 }

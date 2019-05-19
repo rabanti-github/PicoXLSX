@@ -250,26 +250,19 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Adds a new Worksheet. The new worksheet will be defined as current worksheet
+        /// Adds a new Worksheet. The new worksheet will be defined as current worksheet.
         /// </summary>
-        /// <param name="worksheet">Prepared worksheet object</param>
+        /// <param name="worksheet">Worksheet to add</param>
+        /// <param name="name">Optional name which overrides the name of the passed worksheet. If not defined or null, the name of the passed worksheet will be kept</param>
         /// <exception cref="WorksheetException">WorksheetException is thrown if the name of the worksheet already exists</exception>
         /// <exception cref="FormatException">FormatException is thrown if the worksheet name contains illegal characters or is out of range (length between 1 an 31</exception>
-        public void AddWorksheet(Worksheet worksheet)
-        {
-            this.AddWorksheet(worksheet);
-        }
-
-        /// <summary>
-        /// Internal method to add a worksheet to the current workbook
-        /// </summary>
-        /// <param name="worksheet">Worksheet object to add</param>
-        private void AddWorksheet(Worksheet worksheet, string name = null)
+        public void AddWorksheet(Worksheet worksheet, string name = null)
         {
             if (name != null)
             {
                 worksheet.SheetName = name;
             }
+            // TODO: Validate name here
             for (int i = 0; i < worksheets.Count; i++)
             {
                 if (worksheets[i].SheetName == worksheet.SheetName)
