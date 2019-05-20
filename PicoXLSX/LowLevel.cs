@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2018
+ * Copyright Raphael Stoeckli © 2019
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -327,12 +327,13 @@ namespace PicoXLSX
         /// Method to save the workbook as stream
         /// </summary>
         /// <param name="stream">Writable stream as target</param>
+        /// <param name="leaveOpen">Optional parameter to keep the stream open after writing (used for MemoryStreams; default is false)</param>
         /// <exception cref="IOException">Throws IOException in case of an error</exception>
         /// <exception cref="RangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
         /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
         /// <exception cref="StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
         /// <remarks>The StyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
-        public void SaveAsStream(Stream stream)
+        public void SaveAsStream(Stream stream, bool leaveOpen = false)
         {
             workbook.ResolveMergedCells();
             DocumentPath sheetPath;
@@ -340,7 +341,6 @@ namespace PicoXLSX
 
             try
             {
-                //using (System.IO.Packaging.Package p = Package.Open(this.workbook.Filename, FileMode.Create))
                 using (Package p = Package.Open(stream, FileMode.Create))
                 {
                     Uri workbookUri = new Uri(WORKBOOK.GetFullPath(), UriKind.Relative);
@@ -395,8 +395,10 @@ namespace PicoXLSX
 
                     p.Flush();
                     p.Close();
-                    //stream.Flush();
-                    stream.Close();
+                    if (leaveOpen == false)
+                    {
+                        stream.Close();
+                    }
                 }
             }
             catch (Exception e)
@@ -409,11 +411,12 @@ namespace PicoXLSX
         /// Method to save the workbook as stream asynchronous.
         /// </summary>
         /// <param name="stream">Writable stream as target</param>
+        /// <param name="leaveOpen">Optional parameter to keep the stream open after writing (used for MemoryStreams; default is false)</param>
         /// <remarks>Possible Exceptions are <see cref="IOException">IOException</see>, <see cref="RangeException">RangeException</see>, <see cref="FormatException"></see> and <see cref="StyleException">StyleException</see>. These exceptions may not emerge directly if using the async method since async/await adds further abstraction layers.</remarks>
         /// <returns>Async Task</returns>
-        public async Task SaveAsStreamAsync(Stream stream)
+        public async Task SaveAsStreamAsync(Stream stream, bool leaveOpen = false)
         {
-            await Task.Run(() => { SaveAsStream(stream); });
+            await Task.Run(() => { SaveAsStream(stream, leaveOpen); });
         }
 
         #endregion
