@@ -5,7 +5,7 @@
 ---
 Release Date: **20.05.2019**
 
-- Fixed a bug in the handling of streams (steams can be left open now)
+- Fixed a bug in the handling of streams (streams can be left open now)
 - Updated stream demo
 - Code Cleanup
 - Removed executable folder, since executables are available through releases, compilation or NuGet
