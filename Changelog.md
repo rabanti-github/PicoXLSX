@@ -1,5 +1,17 @@
 # Change Log
 
+## v2.6.4
+
+---
+Release Date: **20.05.2019**
+
+- Fixed a bug in the handling of streams (steams can be left open now)
+- Updated stream demo
+- Code Cleanup
+- Removed executable folder, since executables are available through releases, compilation or NuGet
+
+
+
 ## v2.6.3
 
 ---

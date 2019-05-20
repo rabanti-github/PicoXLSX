@@ -249,8 +249,8 @@
   <HelpKINode Title="DATE enumeration member" Url="html/869e4b32-cce1-41ab-bb92-a93de8fb392c.htm" />
   <HelpKINode Title="dateFormat enumeration member" Url="html/34686cde-ba88-a4db-d64e-d3f544c9367a.htm" />
   <HelpKINode Title="DateFormat property" Url="html/de49e825-7876-1f38-8efe-d9f1198114b9.htm" />
-  <HelpKINode Title="Default enumeration member" Url="html/054880db-85e2-6c24-88b8-8502bd71892f.htm" />
   <HelpKINode Title="DEFAULT enumeration member" Url="html/869e4b32-cce1-41ab-bb92-a93de8fb392c.htm" />
+  <HelpKINode Title="Default enumeration member" Url="html/054880db-85e2-6c24-88b8-8502bd71892f.htm" />
   <HelpKINode Title="DEFAULTCOLOR field" Url="html/0e746481-09a9-80ed-3243-53123c0ac1b1.htm" />
   <HelpKINode Title="DefaultColumnWidth property" Url="html/40e6537e-c8a6-18c5-a02f-38411cbbcf8e.htm" />
   <HelpKINode Title="DEFAULTFONT field" Url="html/86194439-344c-6442-bdbf-21c9e9d3304b.htm" />
@@ -470,8 +470,8 @@
   <HelpKINode Title="LockWindowsIfProtected property" Url="html/ef8f758a-e442-70b6-604f-51cbdcf200f6.htm" />
   <HelpKINode Title="LowLevel class">
     <HelpKINode Title="LowLevel Class" Url="html/21d4a25a-f2b5-5ec4-8b84-8fcee13605a0.htm" />
-    <HelpKINode Title="constructor" Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
     <HelpKINode Title="constructor" Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
+    <HelpKINode Title="constructor" Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
     <HelpKINode Title="methods" Url="html/322b3913-e838-3a82-7cd5-10444749e661.htm" />
     <HelpKINode Title="properties" Url="html/e8abb7d0-cd71-6f50-8803-cca034581033.htm" />
   </HelpKINode>
@@ -515,8 +515,8 @@
     <HelpKINode Title="LowLevel Constructor " Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
   </HelpKINode>
   <HelpKINode Title="LowLevel.Save method" Url="html/29b7b40b-428d-c03f-9c7d-1d92119e2038.htm" />
-  <HelpKINode Title="LowLevel.SaveAsStream method" Url="html/2f062408-27c7-fa4d-e12b-cfc1e39c70fd.htm" />
-  <HelpKINode Title="LowLevel.SaveAsStreamAsync method" Url="html/223e0e51-402c-5f1a-0356-5a7391eb8ac0.htm" />
+  <HelpKINode Title="LowLevel.SaveAsStream method" Url="html/ff3bc76a-3e01-86aa-d1f0-1b5b03a3a195.htm" />
+  <HelpKINode Title="LowLevel.SaveAsStreamAsync method" Url="html/a150e41f-5e83-200d-f488-d79bdd680cb8.htm" />
   <HelpKINode Title="LowLevel.SaveAsync method" Url="html/6b465dde-fb43-6396-e389-055b84b996f9.htm" />
   <HelpKINode Title="LowLevel.SortedMap class">
     <HelpKINode Title="LowLevel.SortedMap Class" Url="html/c3d56b3f-c248-ae19-08d5-1d32e7116e42.htm" />
@@ -704,12 +704,12 @@
   <HelpKINode Title="SaveAs method" Url="html/d61bb20a-797e-3e5d-ae87-a00b7af77d12.htm" />
   <HelpKINode Title="SaveAsAsync method" Url="html/d1b92306-d350-9ce7-bb22-9f42281aeeb3.htm" />
   <HelpKINode Title="SaveAsStream method">
-    <HelpKINode Title="LowLevel.SaveAsStream Method " Url="html/2f062408-27c7-fa4d-e12b-cfc1e39c70fd.htm" />
-    <HelpKINode Title="Workbook.SaveAsStream Method " Url="html/3c78fdc7-d8ab-20a6-079c-64540b2182df.htm" />
+    <HelpKINode Title="LowLevel.SaveAsStream Method " Url="html/ff3bc76a-3e01-86aa-d1f0-1b5b03a3a195.htm" />
+    <HelpKINode Title="Workbook.SaveAsStream Method " Url="html/52da6731-c715-9523-619c-314441e0e343.htm" />
   </HelpKINode>
   <HelpKINode Title="SaveAsStreamAsync method">
-    <HelpKINode Title="LowLevel.SaveAsStreamAsync Method " Url="html/223e0e51-402c-5f1a-0356-5a7391eb8ac0.htm" />
-    <HelpKINode Title="Workbook.SaveAsStreamAsync Method " Url="html/5fbe9e3a-9fa0-3429-52dc-aea7d467db48.htm" />
+    <HelpKINode Title="LowLevel.SaveAsStreamAsync Method " Url="html/a150e41f-5e83-200d-f488-d79bdd680cb8.htm" />
+    <HelpKINode Title="Workbook.SaveAsStreamAsync Method " Url="html/5b031d61-be5c-2cc7-31e2-c6c89910c30e.htm" />
   </HelpKINode>
   <HelpKINode Title="SaveAsync method">
     <HelpKINode Title="LowLevel.SaveAsync Method " Url="html/6b465dde-fb43-6396-e389-055b84b996f9.htm" />
@@ -738,8 +738,8 @@
   <HelpKINode Title="SetRowHiddenState method" Url="html/c49f088a-d58d-680f-4d6a-b45d554cf7fa.htm" />
   <HelpKINode Title="SetSelectedCells method" Url="html/e642e906-3de8-5d92-f498-13d2f703628a.htm" />
   <HelpKINode Title="SetSelectedWorksheet method" Url="html/29b0d50b-54b9-ade1-8f89-55ef8b4c9705.htm" />
-  <HelpKINode Title="SetSheetname method" Url="html/26ed859f-c126-d114-a95b-d6a7bed349c7.htm" />
   <HelpKINode Title="SetSheetName method" Url="html/0dfb2d1a-1318-91b6-4ebb-a7bc6e4f4665.htm" />
+  <HelpKINode Title="SetSheetname method" Url="html/26ed859f-c126-d114-a95b-d6a7bed349c7.htm" />
   <HelpKINode Title="SetSheetProtectionPassword method" Url="html/425b6b66-0ccf-ec1f-8520-2c08807ea3cd.htm" />
   <HelpKINode Title="SetStyle method" Url="html/4c8dce52-9e1e-2231-320b-19c48ba64aac.htm" />
   <HelpKINode Title="SetWorkbookProtection method" Url="html/ee7b8e72-2649-dac7-a078-19be7954c1f9.htm" />
@@ -1015,8 +1015,8 @@
   <HelpKINode Title="Workbook.Save method" Url="html/b09ca737-6c33-0b13-bcf4-1920572075d0.htm" />
   <HelpKINode Title="Workbook.SaveAs method" Url="html/d61bb20a-797e-3e5d-ae87-a00b7af77d12.htm" />
   <HelpKINode Title="Workbook.SaveAsAsync method" Url="html/d1b92306-d350-9ce7-bb22-9f42281aeeb3.htm" />
-  <HelpKINode Title="Workbook.SaveAsStream method" Url="html/3c78fdc7-d8ab-20a6-079c-64540b2182df.htm" />
-  <HelpKINode Title="Workbook.SaveAsStreamAsync method" Url="html/5fbe9e3a-9fa0-3429-52dc-aea7d467db48.htm" />
+  <HelpKINode Title="Workbook.SaveAsStream method" Url="html/52da6731-c715-9523-619c-314441e0e343.htm" />
+  <HelpKINode Title="Workbook.SaveAsStreamAsync method" Url="html/5b031d61-be5c-2cc7-31e2-c6c89910c30e.htm" />
   <HelpKINode Title="Workbook.SaveAsync method" Url="html/01f733f2-1a48-c482-87e0-2208a0e914ca.htm" />
   <HelpKINode Title="Workbook.SelectedWorksheet property" Url="html/78059228-0c26-29c6-222e-5b932f7d6448.htm" />
   <HelpKINode Title="Workbook.SetCurrentWorksheet method" Url="html/471008ca-dad8-81aa-3d02-6c41a0bfb29d.htm" />
