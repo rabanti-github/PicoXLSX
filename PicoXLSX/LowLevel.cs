@@ -338,7 +338,6 @@ namespace PicoXLSX
             workbook.ResolveMergedCells();
             DocumentPath sheetPath;
             List<Uri> sheetURIs = new List<Uri>();
-
             try
             {
                 using (Package p = Package.Open(stream, FileMode.Create))
@@ -377,14 +376,8 @@ namespace PicoXLSX
                         i++;
                         AppendXmlToPackagePart(CreateWorksheetPart(item), pp, "WORKSHEET:" + item.SheetName);
                     }
-
-
-
                     pp = p.CreatePart(sharedStringsUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", CompressionOption.Normal);
                     AppendXmlToPackagePart(CreateSharedStringsDocument(), pp, "SHAREDSTRINGS");
-
-
-
                     if (workbook.WorkbookMetadata != null)
                     {
                         pp = p.CreatePart(appPropertiesUri, @"application/vnd.openxmlformats-officedocument.extended-properties+xml", CompressionOption.Normal);
@@ -392,7 +385,6 @@ namespace PicoXLSX
                         pp = p.CreatePart(corePropertiesUri, @"application/vnd.openxmlformats-package.core-properties+xml", CompressionOption.Normal);
                         AppendXmlToPackagePart(CreateCorePropertiesDocument(), pp, "COREPROPERTIES");
                     }
-
                     p.Flush();
                     p.Close();
                     if (leaveOpen == false)
