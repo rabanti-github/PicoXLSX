@@ -1,8 +1,8 @@
-# PicoXLSX
-![PicoXLSX](https://rabanti-github.github.io/PicoXLSX/icons/PicoXLSX.png)
+# PicoXLSX ![PicoXLSX](https://rabanti-github.github.io/PicoXLSX/icons/PicoXLSX.png)![nuget](https://img.shields.io/nuget/v/picoXLSX.svg?maxAge=86400)
+![license](https://img.shields.io/github/license/rabanti-github/picoXlsx.svg)[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX?ref=badge_shield)
 
+ PicoXLSX is a small .NET library written in C#, to create Microsoft Excel files in the XLSX format (Microsoft Excel 2007 or newer) in an easy and native way
 
-PicoXLSX is a small .NET library written in C#, to create Microsoft Excel files in the XLSX format (Microsoft Excel 2007 or newer) in an easy and native way
 * **No dependencies** (\*
  * No need for an installation of Microsoft Office
  * No need for Office interop libraries
@@ -81,3 +81,7 @@ See the full **API-Documentation** at: [https://rabanti-github.github.io/PicoXLS
 The [Demo project](https://github.com/rabanti-github/PicoXLSX/tree/master/Demo) contains 14 simple use cases. You can find also the full documentation in the [Documentation-Folder](https://github.com/rabanti-github/PicoXLSX/tree/master/docs) (html files or single chm file) or as C# documentation in the particular .CS files.
 
 See also: [Getting started in the Wiki](https://github.com/rabanti-github/PicoXLSX/wiki/Getting-started)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX?ref=badge_large)
