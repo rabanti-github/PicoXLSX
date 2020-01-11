@@ -1,5 +1,14 @@
 # Change Log
 
+## v2.6.5
+
+---
+Release Date: **11.01.2020**
+
+- Fixed a potential bug when parsing numbers (using certain locales)
+- Formal changes
+
+
 ## v2.6.4
 
 ---
@@ -11,14 +20,12 @@ Release Date: **20.05.2019**
 - Removed executable folder, since executables are available through releases, compilation or NuGet
 
 
-
 ## v2.6.3
 
 ---
 Release Date: **08.12.2018**
 
 - Improved the performance of adding stylized cells by factor 10 to 100
-
 
 
 ## v2.6.2

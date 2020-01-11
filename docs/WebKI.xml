@@ -738,8 +738,8 @@
   <HelpKINode Title="SetRowHiddenState method" Url="html/c49f088a-d58d-680f-4d6a-b45d554cf7fa.htm" />
   <HelpKINode Title="SetSelectedCells method" Url="html/e642e906-3de8-5d92-f498-13d2f703628a.htm" />
   <HelpKINode Title="SetSelectedWorksheet method" Url="html/29b0d50b-54b9-ade1-8f89-55ef8b4c9705.htm" />
-  <HelpKINode Title="SetSheetName method" Url="html/0dfb2d1a-1318-91b6-4ebb-a7bc6e4f4665.htm" />
   <HelpKINode Title="SetSheetname method" Url="html/26ed859f-c126-d114-a95b-d6a7bed349c7.htm" />
+  <HelpKINode Title="SetSheetName method" Url="html/0dfb2d1a-1318-91b6-4ebb-a7bc6e4f4665.htm" />
   <HelpKINode Title="SetSheetProtectionPassword method" Url="html/425b6b66-0ccf-ec1f-8520-2c08807ea3cd.htm" />
   <HelpKINode Title="SetStyle method" Url="html/4c8dce52-9e1e-2231-320b-19c48ba64aac.htm" />
   <HelpKINode Title="SetWorkbookProtection method" Url="html/ee7b8e72-2649-dac7-a078-19be7954c1f9.htm" />

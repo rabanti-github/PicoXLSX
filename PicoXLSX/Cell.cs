@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2019
+ * Copyright Raphael Stoeckli © 2020
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -505,7 +505,7 @@ namespace PicoXLSX
             {
                 throw new FormatException("The format of the cell address (" + address + ") is malformed");
             }
-            int digits = int.Parse(mx.Groups[2].Value);
+            int digits = int.Parse(mx.Groups[2].Value, CultureInfo.InvariantCulture);
             column = ResolveColumn(mx.Groups[1].Value);
             row = digits - 1;
             if (row > Worksheet.MAX_ROW_NUMBER || row < Worksheet.MIN_ROW_NUMBER)

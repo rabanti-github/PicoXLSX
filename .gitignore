@@ -202,3 +202,4 @@ UnitTest/
 Executable/Executable\.zip
 
 *.nuspec
+Executable/
