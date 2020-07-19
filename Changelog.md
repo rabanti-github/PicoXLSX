@@ -1,5 +1,13 @@
 # Change Log
 
+## v2.6.6
+
+---
+Release Date: **19.07.2020**
+
+- Fixed a bug in the method AddNextCellFormula (Fix provided by Thiago Souza)
+
+
 ## v2.6.5
 
 ---
