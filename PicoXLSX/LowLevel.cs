@@ -32,6 +32,17 @@ namespace PicoXLSX
         private static DocumentPath SHARED_STRINGS = new DocumentPath("sharedStrings.xml", "xl/");
         #endregion
 
+        #region constants
+        /// <summary>
+        /// Minimum valid OAdate value (1900-01-01)
+        /// </summary>
+        public const double MIN_OADATE_VALUE = 0f;
+        /// <summary>
+        /// Maximum valid OAdate value (9999-12-31)
+        /// </summary>
+        public const double MAX_OADATE_VALUE = 2958465.9999f;
+        #endregion
+
         #region privateFields
         private CultureInfo culture;
         private Workbook workbook;
@@ -51,7 +62,7 @@ namespace PicoXLSX
             set
             {
                 interceptDocuments = value;
-                if (interceptDocuments == true && interceptedDocuments == null)
+                if (interceptDocuments && interceptedDocuments == null)
                 {
                     interceptedDocuments = new Dictionary<string, XmlDocument>();
                 }
@@ -175,7 +186,7 @@ namespace PicoXLSX
             sb.Append(xfsStings).Append("</cellXfs>");
             if (workbook.WorkbookMetadata != null)
             {
-                if (string.IsNullOrEmpty(mruColorString) == false && workbook.WorkbookMetadata.UseColorMRU == true)
+                if (string.IsNullOrEmpty(mruColorString) == false && workbook.WorkbookMetadata.UseColorMRU)
                 {
                     sb.Append("<colors>");
                     sb.Append(mruColorString);
@@ -205,14 +216,14 @@ namespace PicoXLSX
                 sb.Append(workbook.SelectedWorksheet.ToString("G", culture));
                 sb.Append("\"/></bookViews>");
             }
-            if (workbook.UseWorkbookProtection == true)
+            if (workbook.UseWorkbookProtection)
             {
                 sb.Append("<workbookProtection");
-                if (workbook.LockWindowsIfProtected == true)
+                if (workbook.LockWindowsIfProtected)
                 {
                     sb.Append(" lockWindows=\"1\"");
                 }
-                if (workbook.LockStructureIfProtected == true)
+                if (workbook.LockStructureIfProtected)
                 {
                     sb.Append(" lockStructure=\"1\"");
                 }
@@ -361,7 +372,7 @@ namespace PicoXLSX
 
                     foreach (Worksheet item in workbook.Worksheets)
                     {
-                        sheetPath = new DocumentPath("sheet" + item.SheetID.ToString() + ".xml", "xl/worksheets");
+                        sheetPath = new DocumentPath("sheet" + item.SheetID + ".xml", "xl/worksheets");
                         sheetURIs.Add(new Uri(sheetPath.GetFullPath(), UriKind.Relative));
                         pp.CreateRelationship(sheetURIs[sheetURIs.Count - 1], TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet", "rId" + item.SheetID.ToString());
                     }
@@ -458,7 +469,7 @@ namespace PicoXLSX
         {
             try
             {
-                if (interceptDocuments == true)
+                if (interceptDocuments)
                 {
                     XmlDocument xDoc = new XmlDocument();
                     xDoc.LoadXml(doc);
@@ -525,7 +536,7 @@ namespace PicoXLSX
                     if (column.Value.Width == worksheet.DefaultColumnWidth && column.Value.IsHidden == false) { continue; }
                     if (worksheet.Columns.ContainsKey(column.Key))
                     {
-                        if (worksheet.Columns[column.Key].IsHidden == true)
+                        if (worksheet.Columns[column.Key].IsHidden)
                         {
                             hidden = " hidden=\"1\"";
                         }
@@ -538,15 +549,9 @@ namespace PicoXLSX
                 {
                     return value;
                 }
-                else
-                {
-                    return string.Empty;
-                }
-            }
-            else
-            {
                 return string.Empty;
             }
+            return string.Empty;
         }
 
         /// <summary>
@@ -616,7 +621,7 @@ namespace PicoXLSX
             }
             if (worksheet.HiddenRows.ContainsKey(rowNumber))
             {
-                if (worksheet.HiddenRows[rowNumber] == true)
+                if (worksheet.HiddenRows[rowNumber])
                 {
                     hidden = " hidden=\"1\"";
                 }
@@ -635,8 +640,6 @@ namespace PicoXLSX
             string tValue = "";
             string value = "";
             bool bVal;
-
-            DateTime dVal;
             int col = 0;
             foreach (Cell item in columnFields)
             {
@@ -655,7 +658,7 @@ namespace PicoXLSX
                     typeAttribute = "b";
                     tValue = " t=\"" + typeAttribute + "\" ";
                     bVal = (bool)item.Value;
-                    if (bVal == true) { value = "1"; }
+                    if (bVal) { value = "1"; }
                     else { value = "0"; }
 
                 }
@@ -666,24 +669,32 @@ namespace PicoXLSX
                     tValue = " t=\"" + typeAttribute + "\" ";
                     Type t = item.Value.GetType();
 
-                    if (t == typeof(byte))         { value = ((byte)item.Value).ToString("G", culture); }
-                    else if (t == typeof(sbyte))   { value = ((sbyte)item.Value).ToString("G", culture); }
+                    if (t == typeof(byte)) { value = ((byte)item.Value).ToString("G", culture); }
+                    else if (t == typeof(sbyte)) { value = ((sbyte)item.Value).ToString("G", culture); }
                     else if (t == typeof(decimal)) { value = ((decimal)item.Value).ToString("G", culture); }
-                    else if (t == typeof(double))  { value = ((double)item.Value).ToString("G", culture); }
-                    else if (t == typeof(float))   { value = ((float)item.Value).ToString("G", culture); }
-                    else if (t == typeof(int))     { value = ((int)item.Value).ToString("G", culture); }
-                    else if (t == typeof(uint))    { value = ((uint)item.Value).ToString("G", culture); }
-                    else if (t == typeof(long))    { value = ((long)item.Value).ToString("G", culture); }
-                    else if (t == typeof(ulong))   { value = ((ulong)item.Value).ToString("G", culture); }
-                    else if (t == typeof(short))   { value = ((short)item.Value).ToString("G", culture); }
-                    else if (t == typeof(ushort))  { value = ((ushort)item.Value).ToString("G", culture); }
-                 }
+                    else if (t == typeof(double)) { value = ((double)item.Value).ToString("G", culture); }
+                    else if (t == typeof(float)) { value = ((float)item.Value).ToString("G", culture); }
+                    else if (t == typeof(int)) { value = ((int)item.Value).ToString("G", culture); }
+                    else if (t == typeof(uint)) { value = ((uint)item.Value).ToString("G", culture); }
+                    else if (t == typeof(long)) { value = ((long)item.Value).ToString("G", culture); }
+                    else if (t == typeof(ulong)) { value = ((ulong)item.Value).ToString("G", culture); }
+                    else if (t == typeof(short)) { value = ((short)item.Value).ToString("G", culture); }
+                    else if (t == typeof(ushort)) { value = ((ushort)item.Value).ToString("G", culture); }
+                }
                 // Date parsing
                 else if (item.DataType == Cell.CellType.DATE)
                 {
                     typeAttribute = "d";
-                    dVal = (DateTime)item.Value;
-                    value = GetOADateTimeString(dVal, culture);
+                    DateTime date = (DateTime)item.Value;
+                    value = GetOADateTimeString(date, culture);
+                }
+                // Time parsing
+                else if (item.DataType == Cell.CellType.TIME)
+                {
+                    typeAttribute = "d";
+                    // TODO: 'd' is probably an outdated attribute (to be checked for dates and times)
+                    TimeSpan time = (TimeSpan)item.Value;
+                    value = GetOATimeString(time, culture);
                 }
                 else
                 {
@@ -817,15 +828,15 @@ namespace PicoXLSX
             StringBuilder sb = new StringBuilder();
             foreach (Style.Border item in borderStyles)
             {
-                if (item.DiagonalDown == true && item.DiagonalUp == false) { sb.Append("<border diagonalDown=\"1\">"); }
-                else if (item.DiagonalDown == false && item.DiagonalUp == true) { sb.Append("<border diagonalUp=\"1\">"); }
-                else if (item.DiagonalDown == true && item.DiagonalUp == true) { sb.Append("<border diagonalDown=\"1\" diagonalUp=\"1\">"); }
+                if (item.DiagonalDown && item.DiagonalUp == false) { sb.Append("<border diagonalDown=\"1\">"); }
+                else if (item.DiagonalDown == false && item.DiagonalUp) { sb.Append("<border diagonalUp=\"1\">"); }
+                else if (item.DiagonalDown && item.DiagonalUp) { sb.Append("<border diagonalDown=\"1\" diagonalUp=\"1\">"); }
                 else { sb.Append("<border>"); }
 
                 if (item.LeftStyle != Style.Border.StyleValue.none)
                 {
                     sb.Append("<left style=\"" + Style.Border.GetStyleName(item.LeftStyle) + "\">");
-                    if (string.IsNullOrEmpty(item.LeftColor) == true) { sb.Append("<color rgb=\"").Append(item.LeftColor).Append("\"/>"); }
+                    if (string.IsNullOrEmpty(item.LeftColor)) { sb.Append("<color rgb=\"").Append(item.LeftColor).Append("\"/>"); }
                     else { sb.Append("<color auto=\"1\"/>"); }
                     sb.Append("</left>");
                 }
@@ -836,7 +847,7 @@ namespace PicoXLSX
                 if (item.RightStyle != Style.Border.StyleValue.none)
                 {
                     sb.Append("<right style=\"").Append(Style.Border.GetStyleName(item.RightStyle)).Append("\">");
-                    if (string.IsNullOrEmpty(item.RightColor) == true) { sb.Append("<color rgb=\"").Append(item.RightColor).Append("\"/>"); }
+                    if (string.IsNullOrEmpty(item.RightColor)) { sb.Append("<color rgb=\"").Append(item.RightColor).Append("\"/>"); }
                     else { sb.Append("<color auto=\"1\"/>"); }
                     sb.Append("</right>");
                 }
@@ -847,7 +858,7 @@ namespace PicoXLSX
                 if (item.TopStyle != Style.Border.StyleValue.none)
                 {
                     sb.Append("<top style=\"").Append(Style.Border.GetStyleName(item.TopStyle)).Append("\">");
-                    if (string.IsNullOrEmpty(item.TopColor) == true) { sb.Append("<color rgb=\"").Append(item.TopColor).Append("\"/>"); }
+                    if (string.IsNullOrEmpty(item.TopColor)) { sb.Append("<color rgb=\"").Append(item.TopColor).Append("\"/>"); }
                     else { sb.Append("<color auto=\"1\"/>"); }
                     sb.Append("</top>");
                 }
@@ -858,7 +869,7 @@ namespace PicoXLSX
                 if (item.BottomStyle != Style.Border.StyleValue.none)
                 {
                     sb.Append("<bottom style=\"").Append(Style.Border.GetStyleName(item.BottomStyle)).Append("\">");
-                    if (string.IsNullOrEmpty(item.BottomColor) == true) { sb.Append("<color rgb=\"").Append(item.BottomColor).Append("\"/>"); }
+                    if (string.IsNullOrEmpty(item.BottomColor)) { sb.Append("<color rgb=\"").Append(item.BottomColor).Append("\"/>"); }
                     else { sb.Append("<color auto=\"1\"/>"); }
                     sb.Append("</bottom>");
                 }
@@ -869,7 +880,7 @@ namespace PicoXLSX
                 if (item.DiagonalStyle != Style.Border.StyleValue.none)
                 {
                     sb.Append("<diagonal style=\"").Append(Style.Border.GetStyleName(item.DiagonalStyle)).Append("\">");
-                    if (string.IsNullOrEmpty(item.DiagonalColor) == true) { sb.Append("<color rgb=\"").Append(item.DiagonalColor).Append("\"/>"); }
+                    if (string.IsNullOrEmpty(item.DiagonalColor)) { sb.Append("<color rgb=\"").Append(item.DiagonalColor).Append("\"/>"); }
                     else { sb.Append("<color auto=\"1\"/>"); }
                     sb.Append("</diagonal>");
                 }
@@ -894,11 +905,11 @@ namespace PicoXLSX
             foreach (Style.Font item in fontStyles)
             {
                 sb.Append("<font>");
-                if (item.Bold == true) { sb.Append("<b/>"); }
-                if (item.Italic == true) { sb.Append("<i/>"); }
-                if (item.Underline == true) { sb.Append("<u/>"); }
-                if (item.DoubleUnderline == true) { sb.Append("<u val=\"double\"/>"); }
-                if (item.Strike == true) { sb.Append("<strike/>"); }
+                if (item.Bold) { sb.Append("<b/>"); }
+                if (item.Italic) { sb.Append("<i/>"); }
+                if (item.Underline) { sb.Append("<u/>"); }
+                if (item.DoubleUnderline) { sb.Append("<u val=\"double\"/>"); }
+                if (item.Strike) { sb.Append("<strike/>"); }
                 if (item.VerticalAlign == Style.Font.VerticalAlignValue.subscript) { sb.Append("<vertAlign val=\"subscript\"/>"); }
                 else if (item.VerticalAlign == Style.Font.VerticalAlignValue.superscript) { sb.Append("<vertAlign val=\"superscript\"/>"); }
                 sb.Append("<sz val=\"").Append(item.Size.ToString("G", culture)).Append("\"/>");
@@ -976,7 +987,7 @@ namespace PicoXLSX
             StringBuilder sb = new StringBuilder();
             foreach (Style.NumberFormat item in numberFormatStyles)
             {
-                if (item.IsCustomFormat == true)
+                if (item.IsCustomFormat)
                 {
                     sb.Append("<numFmt formatCode=\"").Append(item.CustomFormatCode).Append("\" numFmtId=\"").Append(item.CustomFormatID.ToString("G", culture)).Append("\"/>");
                 }
@@ -985,7 +996,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method to create the XML string for the Xf part of the style sheet document
+        /// Method to create the XML string for the XF part of the style sheet document
         /// </summary>
         /// <returns>String with formatted XML data</returns>
         private string CreateStyleXfsString()
@@ -1044,13 +1055,13 @@ namespace PicoXLSX
                     alignmentString = sb2.ToString();
                 }
 
-                if (item.CurrentCellXf.Hidden == true || item.CurrentCellXf.Locked == true)
+                if (item.CurrentCellXf.Hidden || item.CurrentCellXf.Locked)
                 {
-                    if (item.CurrentCellXf.Hidden == true && item.CurrentCellXf.Locked == true)
+                    if (item.CurrentCellXf.Hidden && item.CurrentCellXf.Locked)
                     {
                         protectionString = "<protection locked=\"1\" hidden=\"1\"/>";
                     }
-                    else if (item.CurrentCellXf.Hidden == true && item.CurrentCellXf.Locked == false)
+                    else if (item.CurrentCellXf.Hidden && item.CurrentCellXf.Locked == false)
                     {
                         protectionString = "<protection hidden=\"1\" locked=\"0\"/>";
                     }
@@ -1061,7 +1072,7 @@ namespace PicoXLSX
                 }
 
                 sb.Append("<xf numFmtId=\"");
-                if (item.CurrentNumberFormat.IsCustomFormat == true)
+                if (item.CurrentNumberFormat.IsCustomFormat)
                 {
                     sb.Append(item.CurrentNumberFormat.CustomFormatID.ToString("G", culture));
                 }
@@ -1085,7 +1096,7 @@ namespace PicoXLSX
                 {
                     sb.Append("\" applyBorder=\"1");
                 }
-                if (alignmentString != string.Empty || item.CurrentCellXf.ForceApplyAlignment == true)
+                if (alignmentString != string.Empty || item.CurrentCellXf.ForceApplyAlignment)
                 {
                     sb.Append("\" applyAlignment=\"1");
                 }
@@ -1128,7 +1139,7 @@ namespace PicoXLSX
             List<string> tempColors = new List<string>();
             foreach (Style.Font item in fonts)
             {
-                if (string.IsNullOrEmpty(item.ColorValue) == true) { continue; }
+                if (string.IsNullOrEmpty(item.ColorValue)) { continue; }
                 if (item.ColorValue == Style.Fill.DEFAULTCOLOR) { continue; }
                 if (tempColors.Contains(item.ColorValue) == false) { tempColors.Add(item.ColorValue); }
             }
@@ -1159,10 +1170,7 @@ namespace PicoXLSX
                 sb.Append("</mruColors>");
                 return sb.ToString();
             }
-            else
-            {
-                return string.Empty;
-            }
+            return string.Empty;
         }
 
         /// <summary>
@@ -1317,23 +1325,45 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="date">Date to process</param>
         /// <param name="culture">CultureInfo for proper formatting of the decimal point</param>
-        /// <returns>Date or date and time as Number</returns>
+        /// <returns>Date or date and time as number</returns>
         /// <exception cref="FormatException">Throws a FormatException if the passed date cannot be translated to the OADate format</exception>
-        /// <remarks>OA Date format starts at January 1st 1900 (actually 00.01.1900). Dates beyond this date cannot be handled by Excel under normal circumstances and will throw a FormatException</remarks>
+        /// <remarks>OAdate format starts at January 1st 1900 (actually 00.01.1900) and ends at December 31 9999. Values beyond these dates cannot be handled by Excel under normal circumstances and will throw a FormatException</remarks>
         public static string GetOADateTimeString(DateTime date, CultureInfo culture)
         {
             try
             {
                 double d = date.ToOADate();
-                if (d < 0)
+                if (d < MIN_OADATE_VALUE || d > MAX_OADATE_VALUE)
                 {
-                    throw new FormatException("The date is not in a valid range for Excel. Dates before 1900-01-01 are not allowed.");
+                    throw new FormatException("The date is not in a valid range for Excel. Dates before 1900-01-01 or after 9999-12-31 are not allowed.");
                 }
-                return d.ToString("G", culture); //worksheet.DefaultRowHeight.ToString("G", culture) 
+                return d.ToString("G", culture);
             }
             catch (Exception e)
             {
                 throw new FormatException("ConversionException", "The date could not be transformed into Excel format (OADate).", e);
+            }
+        }
+
+        /// <summary>
+        /// Method to convert a time into the internal Excel time format (OAdate without days)
+        /// </summary>
+        /// <param name="time">Time to process. The date component of the timespan is neglected</param>
+        /// <param name="culture">CultureInfo for proper formatting of the decimal point</param>
+        /// <returns>Time as number</returns>
+        /// <exception cref="FormatException">Throws a FormatException if the passed timespan is invalid</exception>
+        /// <remarks>The time is represented by a OAdate without the date component. A time range is between &gt;0.0 (00:00:00) and &lt;1.0 (23:59:59)</remarks>
+        public static string GetOATimeString(TimeSpan time, CultureInfo culture)
+        {
+            try
+            {
+                int seconds = time.Seconds + time.Minutes * 60 + time.Hours * 3600;
+                double d = (double)seconds / 86400d;
+                return d.ToString("G", culture);
+            }
+            catch (Exception e)
+            {
+                throw new FormatException("ConversionException", "The time could not be transformed into Excel format (OADate).", e);
             }
         }
 

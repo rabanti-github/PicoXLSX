@@ -29,8 +29,10 @@ namespace PicoXLSX
             STRING,
             /// <summary>Type for all numeric types (long, integer and float and double)</summary>
             NUMBER,
-            /// <summary>Type for dates and times (Note: Dates before 1900-01-01 are not allowed)</summary>
+            /// <summary>Type for dates(Note: Dates before 1900-01-01 and after 9999-12-31 are not allowed)</summary>
             DATE,
+            /// <summary>Type for times (Note: Internally handled as OAdate, represented by <see cref="TimeSpan"/>)</summary>
+            TIME,
             /// <summary>Type for boolean</summary>
             BOOL,
             /// <summary>Type for Formulas (The cell will be handled differently)</summary>
@@ -103,7 +105,7 @@ namespace PicoXLSX
             {
                 if (value < Worksheet.MIN_COLUMN_NUMBER || value > Worksheet.MAX_COLUMN_NUMBER)
                 {
-                    throw new RangeException("OutOfRangeException", "The passed column number (" + value.ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER.ToString() + " to " + Worksheet.MAX_COLUMN_NUMBER.ToString() + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1).ToString() + " rows).");
+                    throw new RangeException("OutOfRangeException", "The passed column number (" + value + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER + " to " + Worksheet.MAX_COLUMN_NUMBER + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1) + " rows).");
                 }
                 columnNumber = value;
             }
@@ -122,7 +124,7 @@ namespace PicoXLSX
             {
                 if (value < Worksheet.MIN_ROW_NUMBER || value > Worksheet.MAX_ROW_NUMBER)
                 {
-                    throw new RangeException("OutOfRangeException", "The passed row number (" + value.ToString() + ") is out of range. Range is from " + Worksheet.MIN_ROW_NUMBER.ToString() + " to " + Worksheet.MAX_ROW_NUMBER.ToString() + " (" + (Worksheet.MAX_ROW_NUMBER + 1).ToString() + " rows).");
+                    throw new RangeException("OutOfRangeException", "The passed row number (" + value + ") is out of range. Range is from " + Worksheet.MIN_ROW_NUMBER + " to " + Worksheet.MAX_ROW_NUMBER + " (" + (Worksheet.MAX_ROW_NUMBER + 1) + " rows).");
                 }
                 rowNumber = value;
             }
@@ -211,10 +213,7 @@ namespace PicoXLSX
             {
                 return ColumnNumber.CompareTo(other.ColumnNumber);
             }
-            else
-            {
-                return RowNumber.CompareTo(other.RowNumber);
-            }
+            return RowNumber.CompareTo(other.RowNumber);
         }
 
         /// <summary>
@@ -261,6 +260,7 @@ namespace PicoXLSX
             else if (t == typeof(long) || t == typeof(ulong)) { DataType = CellType.NUMBER; }
             else if (t == typeof(short) || t == typeof(ushort)) { DataType = CellType.NUMBER; }
             else if (t == typeof(DateTime)) { DataType = CellType.DATE; } // Not native but standard
+            else if (t == typeof(TimeSpan)) { DataType = CellType.TIME; } // Not native but standard
             else { DataType = CellType.STRING; } // Default (char, string, object)
         }
 
@@ -331,20 +331,21 @@ namespace PicoXLSX
                 o = item; // intermediate object is necessary to cast the types below
                 t = item.GetType();
 
-                if (t == typeof(bool))         {c = new Cell((bool)o, CellType.BOOL); }
-                else if (t == typeof(byte))    { c = new Cell((byte)o, CellType.NUMBER); }
-                else if (t == typeof(sbyte))   { c = new Cell((sbyte)o, CellType.NUMBER); }
+                if (t == typeof(bool)) { c = new Cell((bool)o, CellType.BOOL); }
+                else if (t == typeof(byte)) { c = new Cell((byte)o, CellType.NUMBER); }
+                else if (t == typeof(sbyte)) { c = new Cell((sbyte)o, CellType.NUMBER); }
                 else if (t == typeof(decimal)) { c = new Cell((decimal)o, CellType.NUMBER); }
-                else if (t == typeof(double))  { c = new Cell((double)o, CellType.NUMBER); }
-                else if (t == typeof(float))   { c = new Cell((float)o, CellType.NUMBER); }
-                else if (t == typeof(int))     { c = new Cell((int)o, CellType.NUMBER); }
-                else if (t == typeof(uint))    { c = new Cell((uint)o, CellType.NUMBER); }
-                else if (t == typeof(long))    { c = new Cell((long)o, CellType.NUMBER); }
-                else if (t == typeof(ulong))   { c = new Cell((ulong)o, CellType.NUMBER); }
-                else if (t == typeof(short))   { c = new Cell((short)o, CellType.NUMBER); }
-                else if (t == typeof(ushort))  { c = new Cell((ushort)o, CellType.NUMBER); }
-                else if (t == typeof(DateTime)){ c = new Cell((DateTime)o, CellType.DATE); }
-                else if (t == typeof(string))  { c = new Cell((string)o, CellType.STRING); }
+                else if (t == typeof(double)) { c = new Cell((double)o, CellType.NUMBER); }
+                else if (t == typeof(float)) { c = new Cell((float)o, CellType.NUMBER); }
+                else if (t == typeof(int)) { c = new Cell((int)o, CellType.NUMBER); }
+                else if (t == typeof(uint)) { c = new Cell((uint)o, CellType.NUMBER); }
+                else if (t == typeof(long)) { c = new Cell((long)o, CellType.NUMBER); }
+                else if (t == typeof(ulong)) { c = new Cell((ulong)o, CellType.NUMBER); }
+                else if (t == typeof(short)) { c = new Cell((short)o, CellType.NUMBER); }
+                else if (t == typeof(ushort)) { c = new Cell((ushort)o, CellType.NUMBER); }
+                else if (t == typeof(DateTime)) { c = new Cell((DateTime)o, CellType.DATE); }
+                else if (t == typeof(TimeSpan)) { c = new Cell((TimeSpan)o, CellType.TIME); }
+                else if (t == typeof(string)) { c = new Cell((string)o, CellType.STRING); }
                 else // Default = unspecified object
                 {
                     c = new Cell((string)o, CellType.DEFAULT);
@@ -452,21 +453,21 @@ namespace PicoXLSX
         {
             if (column > Worksheet.MAX_COLUMN_NUMBER || column < Worksheet.MIN_COLUMN_NUMBER)
             {
-                throw new RangeException("OutOfRangeException", "The column number (" + column.ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER.ToString() + " to " + Worksheet.MAX_COLUMN_NUMBER.ToString() + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1).ToString() + " columns).");
+                throw new RangeException("OutOfRangeException", "The column number (" + column + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER + " to " + Worksheet.MAX_COLUMN_NUMBER + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1) + " columns).");
             }
             switch (type)
             {
                 case AddressType.FixedRowAndColumn:
-                    return "$" + ResolveColumnAddress(column) + "$" + (row + 1).ToString();
-                    //break;
+                    return "$" + ResolveColumnAddress(column) + "$" + (row + 1);
+                //break;
                 case AddressType.FixedColumn:
-                    return "$" + ResolveColumnAddress(column) + (row + 1).ToString();
-                   // break;
+                    return "$" + ResolveColumnAddress(column) + (row + 1);
+                // break;
                 case AddressType.FixedRow:
-                    return ResolveColumnAddress(column) + "$" + (row + 1).ToString();
-                  //  break;
+                    return ResolveColumnAddress(column) + "$" + (row + 1);
+                //  break;
                 default:
-                    return ResolveColumnAddress(column) + (row + 1).ToString();
+                    return ResolveColumnAddress(column) + (row + 1);
             }
         }
 
@@ -510,11 +511,11 @@ namespace PicoXLSX
             row = digits - 1;
             if (row > Worksheet.MAX_ROW_NUMBER || row < Worksheet.MIN_ROW_NUMBER)
             {
-                throw new RangeException("OutOfRangeException", "The row number (" + row.ToString() + ") is out of range. Range is from " + Worksheet.MIN_ROW_NUMBER.ToString() + " to " + Worksheet.MAX_ROW_NUMBER.ToString() + " (" + (Worksheet.MAX_ROW_NUMBER + 1).ToString() + " rows).");
+                throw new RangeException("OutOfRangeException", "The row number (" + row + ") is out of range. Range is from " + Worksheet.MIN_ROW_NUMBER + " to " + Worksheet.MAX_ROW_NUMBER + " (" + (Worksheet.MAX_ROW_NUMBER + 1) + " rows).");
             }
             if (column > Worksheet.MAX_COLUMN_NUMBER || column < Worksheet.MIN_COLUMN_NUMBER)
             {
-                throw new RangeException("OutOfRangeException", "The column number (" + column.ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER.ToString() + " to " + Worksheet.MAX_COLUMN_NUMBER.ToString() + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1).ToString() + " columns).");
+                throw new RangeException("OutOfRangeException", "The column number (" + column + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER + " to " + Worksheet.MAX_COLUMN_NUMBER + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1) + " columns).");
             }
         }
 
@@ -559,7 +560,7 @@ namespace PicoXLSX
             }
             if (result - 1 > Worksheet.MAX_COLUMN_NUMBER || result - 1 < Worksheet.MIN_COLUMN_NUMBER)
             {
-                throw new RangeException("OutOfRangeException", "The column number (" + (result - 1).ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER.ToString() + " to " + Worksheet.MAX_COLUMN_NUMBER.ToString() + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1).ToString() + " columns).");
+                throw new RangeException("OutOfRangeException", "The column number (" + (result - 1) + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER + " to " + Worksheet.MAX_COLUMN_NUMBER + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1) + " columns).");
             }
             return result - 1;
         }
@@ -574,7 +575,7 @@ namespace PicoXLSX
         {
             if (columnNumber > Worksheet.MAX_COLUMN_NUMBER || columnNumber < Worksheet.MIN_COLUMN_NUMBER)
             {
-                throw new RangeException("OutOfRangeException", "The column number (" + columnNumber.ToString() + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER.ToString() + " to " + Worksheet.MAX_COLUMN_NUMBER.ToString() + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1).ToString() + " columns).");
+                throw new RangeException("OutOfRangeException", "The column number (" + columnNumber + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER + " to " + Worksheet.MAX_COLUMN_NUMBER + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1) + " columns).");
             }
             // A - XFD
             int j = 0;
@@ -947,19 +948,19 @@ namespace PicoXLSX
             {
                 CultureInfo culture = CultureInfo.InvariantCulture;
                 string arg1, arg2, arg3, arg4;
-                if (numericLookup == true)
+                if (numericLookup)
                 {
                     Type t = number.GetType();
-                    if (t == typeof(byte))          { arg1 = ((byte)number).ToString("G", culture); }
-                    else if (t == typeof(sbyte))    { arg1 = ((sbyte)number).ToString("G", culture); }
-                    else if (t == typeof(decimal))  { arg1 = ((decimal)number).ToString("G", culture); }
-                    else if (t == typeof(double))   { arg1 = ((double)number).ToString("G", culture); }
-                    else if (t == typeof(float))    { arg1 = ((float)number).ToString("G", culture); }
-                    else if (t == typeof(int))      { arg1 = ((int)number).ToString("G", culture); }
-                    else if (t == typeof(long))     { arg1 = ((long)number).ToString("G", culture); }
-                    else if (t == typeof(ulong))    { arg1 = ((ulong)number).ToString("G", culture); }
-                    else if (t == typeof(short))    { arg1 = ((short)number).ToString("G", culture); }
-                    else if (t == typeof(ushort))   { arg1 = ((ushort)number).ToString("G", culture); }
+                    if (t == typeof(byte)) { arg1 = ((byte)number).ToString("G", culture); }
+                    else if (t == typeof(sbyte)) { arg1 = ((sbyte)number).ToString("G", culture); }
+                    else if (t == typeof(decimal)) { arg1 = ((decimal)number).ToString("G", culture); }
+                    else if (t == typeof(double)) { arg1 = ((double)number).ToString("G", culture); }
+                    else if (t == typeof(float)) { arg1 = ((float)number).ToString("G", culture); }
+                    else if (t == typeof(int)) { arg1 = ((int)number).ToString("G", culture); }
+                    else if (t == typeof(long)) { arg1 = ((long)number).ToString("G", culture); }
+                    else if (t == typeof(ulong)) { arg1 = ((ulong)number).ToString("G", culture); }
+                    else if (t == typeof(short)) { arg1 = ((short)number).ToString("G", culture); }
+                    else if (t == typeof(ushort)) { arg1 = ((ushort)number).ToString("G", culture); }
                     else
                     {
                         throw new FormatException("InvalidLookupType", "The lookup variable can only be a cell address or a numeric value. The value '" + number + "' is invalid.");
@@ -973,7 +974,7 @@ namespace PicoXLSX
                 if (rangeTarget != null) { arg2 = rangeTarget.SheetName + "!" + range.ToString(); }
                 else { arg2 = range.ToString(); }
                 arg3 = columnIndex.ToString("G", culture);
-                if (exactMatch == true) { arg4 = "TRUE"; }
+                if (exactMatch) { arg4 = "TRUE"; }
                 else { arg4 = "FALSE"; }
                 return new Cell("VLOOKUP(" + arg1 + "," + arg2 + "," + arg3 + "," + arg4 + ")", CellType.FORMULA);
             }

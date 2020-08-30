@@ -1,12 +1,22 @@
 # Change Log
 
+## v2.7.0
+
+---
+Release Date: **30.08.2020**
+
+- Added new data type TIME, represented by TimeSpan objects
+- Added time (TimeSpan) examples to the demos
+- Added a check to ensure dates are not set beyond 9999-12-31 (limitation of OAdate)
+- Updated documentation
+- Fixed some code formatting issues
+
 ## v2.6.6
 
 ---
 Release Date: **19.07.2020**
 
 - Fixed a bug in the method AddNextCellFormula (Fix provided by Thiago Souza)
-
 
 ## v2.6.5
 
@@ -15,7 +25,6 @@ Release Date: **11.01.2020**
 
 - Fixed a potential bug when parsing numbers (using certain locales)
 - Formal changes
-
 
 ## v2.6.4
 
@@ -27,14 +36,12 @@ Release Date: **20.05.2019**
 - Code Cleanup
 - Removed executable folder, since executables are available through releases, compilation or NuGet
 
-
 ## v2.6.3
 
 ---
 Release Date: **08.12.2018**
 
 - Improved the performance of adding stylized cells by factor 10 to 100
-
 
 ## v2.6.2
 
@@ -43,7 +50,6 @@ Release Date: **04.11.2018**
 
 - Fixed a bug in the style handling of merged cells. Bug fix provided by David Courtel
 
-
 ## v2.6.1
 
 ---
@@ -51,7 +57,6 @@ Release Date: **06.10.2018**
 
 - Fixed a bug in the demo for the async handling
 - Removed redundant code
-
 
 ## v2.6.0
 
@@ -64,7 +69,6 @@ Release Date: **04.10.2018**
 - Minor bug fixes and optimizations
 - Fixed typos
 
-
 ## v2.5.1
 
 ---
@@ -72,7 +76,6 @@ Release Date: **19.08.2018**
 
 - Fixed a bug in the Font style class
 - Fixed typos
-
 
 ## v2.5.0
 
@@ -85,8 +88,8 @@ Release Date: **02.07.2018**
 - Extended Demo 1 to demonstrate the new address types
 - Minor, internal changes
 
-
 ## v2.4.0
+
 ---
 Release Date: **07.06.2018**
 
@@ -98,8 +101,8 @@ Release Date: **07.06.2018**
 - Added new demo for the introduced style features
 - Internal optimizations and fixes
 
-
 ## v2.3.2
+
 ---
 Release Date: **30.05.2018**
 
@@ -107,8 +110,8 @@ Release Date: **30.05.2018**
 - Added numeric data types byte, sbyte, decimal, uint, ulong and short and ushort (proposal by Johan Lindvall)
 - Changed the behavior of cell type casting. User defined cell types will now only be overwritten if the type is DEFAULT (proposal by Johan Lindvall)
 
-
 ## v2.3.1
+
 ---
 Release Date: **12.03.2018**
 
@@ -122,8 +125,8 @@ Release Date: **12.03.2018**
 - Fixed typos
 - Extensive documentation update
 
-
 ## v2.3.0
+
 ---
 Release Date: **09.02.2018**
 
@@ -131,11 +134,12 @@ Release Date: **09.02.2018**
 - Removed overloaded methods to add cells as type Cell. This can be done now with the overloading of the type object (no code changes necessary)
 - Added new constructors for Address and Range
 - Added demo for the new static formula methods
-- Fixed a bug that kept the stream of the saved file open as long as the program was running 
+- Fixed a bug that kept the stream of the saved file open as long as the program was running
 - Minor bug fixes
 - Documentation update
 
 ## v2.2.0
+
 ---
 Release Date: **10.12.2017**
 
@@ -144,6 +148,7 @@ Release Date: **10.12.2017**
 - Added full NuGet support
 
 ## v2.1.1
+
 ---
 Release Date: **07.12.2017**
 
@@ -152,6 +157,7 @@ Release Date: **07.12.2017**
 - Preparation for NuGet release
 
 ## v2.1.0
+
 ---
 Release Date: **03.12.2017**
 
@@ -161,10 +167,12 @@ Release Date: **03.12.2017**
 - Changed log to MD format
 
 ## v2.0.0
+
 ---
 Release Date: **01.11.2017**
 
 **Note**: This major version is not compatible with code of v1.x. However, porting is feasible with moderate effort
+
 - Complete replacement of style handling
 - Added an option to add styles with the cell values in one step
 - Added a sanitizing function for worksheet names (with auto-sanitizing when adding a worksheet as option)
@@ -176,6 +184,7 @@ Release Date: **01.11.2017**
 - Added new functionality to the demos
 
 ## v1.6.3
+
 ---
 Release Date: **24.08.2017**
 
@@ -184,6 +193,7 @@ Release Date: **24.08.2017**
 - Fixed typos
 
 ## v1.6.2
+
 ---
 Release Date: **12.08.2017**
 
@@ -191,20 +201,24 @@ Release Date: **12.08.2017**
 - Fixed typos
 
 ## v1.6.1
+
 ---
 Release Date: **08.08.2017**
 
 **Note**: Due to a (now fixed) typo in a public parameter name, it is possible that some function calls on existing code must be fixed too (just renaming).
+
 - Fixed typos (parameters and text)
 - Minor optimization
 - Complete reformatting of code (alphabetical order & regions)
 - HTML documentation moved to folder 'docs' to provide an automatic API documentation on the hosting platform
 
-## v1.6.0 
+## v1.6.0
+
 ---
 Release Date: **07.04.2017**
 
 **Note**: Using this version of the library with old code can cause compatibility issues due to the simplification of some methods (see below).
+
 - Simplified all style assignment methods. Referencing of the workbook is not necessary anymore (can cause compatibility issues with existing code; just remove the workbook references)
 - Removed SetCellAddress Method. Replaced by Getters and Setters
 - Due to the impossibility of overloading getters and setters, two getters and setters "CellAddress"(string-based) and "CellAddress2" (number based) are introduced
@@ -212,7 +226,8 @@ Release Date: **07.04.2017**
 - Additional checks in the assignment methods for columns and rows
 - Minor changes (code and documentation)
 
-## v1.5.6 
+## v1.5.6
+
 ---
 Release Date: **01.04.2017**
 
@@ -221,7 +236,8 @@ Release Date: **01.04.2017**
 - Minor bug fixes
 - Fixed typos
 
-## v1.5.5 
+## v1.5.5
+
 ---
 Release Date: **24.03.2017**
 
@@ -230,7 +246,8 @@ Release Date: **24.03.2017**
 - Added a debug and release version of the executable
 - Added some testing utils in the demo project (tests are currently commented out)
 
-## v1.5.4 
+## v1.5.4
+
 ---
 Release Date: **20.03.2017**
 
@@ -238,30 +255,35 @@ Release Date: **20.03.2017**
 - Updated project settings of the documentation solution
 - Fixed typos
 
-## v1.5.3 
+## v1.5.3
+
 ---
 Release Date: **17.11.2016**
 
 - Fixed general bug in the handling of the sharedStrings table. Please update
 - Passed null values to cells are now interpreted as empty values. Caused an exception until now
 
-## v1.5.2 
+## v1.5.2
+
 ---
 Release Date: **15.11.2016**
 
 - Fixed a bug in the sharedStrings table
 
-## v1.5.1 
+## v1.5.1
+
 ---
 Release Date: **16.08.2016**
 
 - Fixed a bug in the cell type resolution / formatting assignment
 
-## v1.5.0 
+## v1.5.0
+
 ---
 Release Date: **12.08.2016**
 
 **Note**: Using this version of the library with old code can cause compatibility issues due to the removal of some methods (see below).
+
 - Removed all overloaded methods with various input values for adding cells. Object is sufficient
 - Added sharedStrings table to manage strings more efficient (Excel standard)
 - Pushed solution to .NET 4.6.1 (no changes necessary)
@@ -269,8 +291,8 @@ Release Date: **12.08.2016**
 - Added support for long (64bit) data type
 - Fixed a bug in the type recognition of cells
   
-
 ## v1.4.0
+
 ---
 Release Date: **11.08.2016**
 
@@ -281,6 +303,7 @@ Release Date: **11.08.2016**
 - Added further demo for the new features
 
 ## v1.3.1
+
 ---
 Release Date: **18.01.2016**
 
@@ -289,6 +312,7 @@ Release Date: **18.01.2016**
 - Fixed some documentation issues
 
 ## v1.3.0
+
 ---
 Release Date: **17.01.2016**
 
@@ -297,17 +321,18 @@ Release Date: **17.01.2016**
 - Added new Column class (sub-class of Worksheet) to manage column based properties more efficiently
 - Removed unused Exception UnsupportedDataTypeException
 - Added more documentation (exceptions are now better defined)
-- Minor bug fixes + typos 
+- Minor bug fixes + typos
 - Added further demo for the new features
 
 ## v1.2.4
+
 ---
 Release Date: **08.11.2015**
 
 - Fixed a bug in the meta data section
 
-
 ## v1.2.3
+
 ---
 Release Date: **02.11.2015**
 
@@ -315,6 +340,7 @@ Release Date: **02.11.2015**
 - Minor bug fixes
 
 ## v1.2.2
+
 ---
 Release Date: **01.11.2015**
 
@@ -324,12 +350,14 @@ Release Date: **01.11.2015**
 - Fixed issue in documentation project to include the private LowLevel class (and sub classes)
 
 ## v1.2.1
+
 ---
 Release Date: **31.10.2015**
 
 - Fixed typos (in parameter names)
 
 ## v1.2.0
+
 ---
 Release Date: **29.10.2015**
 
@@ -341,6 +369,7 @@ Release Date: **29.10.2015**
 - Added further demo for the new features
 
 ## v1.1.2
+
 ---
 Release Date: **12.10.2015**
 
@@ -349,12 +378,14 @@ Release Date: **12.10.2015**
 - Fixed typos
 
 ## v1.1.1
+
 ---
 Release Date: **06.10.2015**
 
 - Minor bug fixes
 
 ## v1.1.0
+
 ---
 Release Date: **29.09.2015**
 
@@ -369,13 +400,15 @@ Release Date: **29.09.2015**
 
 **Note**: Styling is not complete and fully tested yet. Several additions and changes are possible with the next version
 
-## v.1.0.1 
+## v.1.0.1
+
 ---
 Release Date: **22.08.2015**
 
 - Fixed uncritical / silent casting exception
 
 ## v1.0.0
+
 ---
 Release Date: **21.08.2015**
 

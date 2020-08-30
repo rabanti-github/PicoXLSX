@@ -249,8 +249,8 @@
   <HelpKINode Title="DATE enumeration member" Url="html/869e4b32-cce1-41ab-bb92-a93de8fb392c.htm" />
   <HelpKINode Title="dateFormat enumeration member" Url="html/34686cde-ba88-a4db-d64e-d3f544c9367a.htm" />
   <HelpKINode Title="DateFormat property" Url="html/de49e825-7876-1f38-8efe-d9f1198114b9.htm" />
-  <HelpKINode Title="Default enumeration member" Url="html/054880db-85e2-6c24-88b8-8502bd71892f.htm" />
   <HelpKINode Title="DEFAULT enumeration member" Url="html/869e4b32-cce1-41ab-bb92-a93de8fb392c.htm" />
+  <HelpKINode Title="Default enumeration member" Url="html/054880db-85e2-6c24-88b8-8502bd71892f.htm" />
   <HelpKINode Title="DEFAULTCOLOR field" Url="html/0e746481-09a9-80ed-3243-53123c0ac1b1.htm" />
   <HelpKINode Title="DefaultColumnWidth property" Url="html/40e6537e-c8a6-18c5-a02f-38411cbbcf8e.htm" />
   <HelpKINode Title="DEFAULTFONT field" Url="html/86194439-344c-6442-bdbf-21c9e9d3304b.htm" />
@@ -404,6 +404,7 @@
   <HelpKINode Title="GetNumberFormats method" Url="html/ca220f7b-5ea4-177c-1f88-2ecc12f969f4.htm" />
   <HelpKINode Title="GetNumberFormatStyleNumber method" Url="html/736de83b-c64a-67e9-fcae-f9c48ddf23ec.htm" />
   <HelpKINode Title="GetOADateTimeString method" Url="html/71d04f52-320f-1afa-b1a3-926eadde6970.htm" />
+  <HelpKINode Title="GetOATimeString method" Url="html/3d385e58-722a-f1ab-ee81-f5e77d196715.htm" />
   <HelpKINode Title="GetPatternName method" Url="html/7f1eb572-6e4c-8a83-5cdf-b7a16dbc9cef.htm" />
   <HelpKINode Title="GetSortedSheetData method" Url="html/d42cf5a8-5c66-c8f7-25de-4d48a7ff6d6d.htm" />
   <HelpKINode Title="GetStyle method" Url="html/9e3b9a1f-09aa-8d1d-c4cf-9e99f469232c.htm" />
@@ -470,8 +471,9 @@
   <HelpKINode Title="LockWindowsIfProtected property" Url="html/ef8f758a-e442-70b6-604f-51cbdcf200f6.htm" />
   <HelpKINode Title="LowLevel class">
     <HelpKINode Title="LowLevel Class" Url="html/21d4a25a-f2b5-5ec4-8b84-8fcee13605a0.htm" />
-    <HelpKINode Title="constructor" Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
     <HelpKINode Title="constructor" Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
+    <HelpKINode Title="constructor" Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
+    <HelpKINode Title="fields" Url="html/1defef87-f57c-99ce-4f31-432379bba20f.htm" />
     <HelpKINode Title="methods" Url="html/322b3913-e838-3a82-7cd5-10444749e661.htm" />
     <HelpKINode Title="properties" Url="html/e8abb7d0-cd71-6f50-8803-cca034581033.htm" />
   </HelpKINode>
@@ -507,6 +509,7 @@
   <HelpKINode Title="LowLevel.EscapeXmlChars method" Url="html/11c53472-18fa-2c19-2559-4da54f647cb4.htm" />
   <HelpKINode Title="LowLevel.GeneratePasswordHash method" Url="html/ca5f9ef5-a6b0-49e1-297e-657479528c94.htm" />
   <HelpKINode Title="LowLevel.GetOADateTimeString method" Url="html/71d04f52-320f-1afa-b1a3-926eadde6970.htm" />
+  <HelpKINode Title="LowLevel.GetOATimeString method" Url="html/3d385e58-722a-f1ab-ee81-f5e77d196715.htm" />
   <HelpKINode Title="LowLevel.GetSortedSheetData method" Url="html/d42cf5a8-5c66-c8f7-25de-4d48a7ff6d6d.htm" />
   <HelpKINode Title="LowLevel.InterceptDocuments property" Url="html/fda1c7b3-f244-461f-cdc9-c90bc8ecfd1f.htm" />
   <HelpKINode Title="LowLevel.InterceptedDocuments property" Url="html/7275496a-b99f-0183-9847-4f47258f69fe.htm" />
@@ -514,6 +517,8 @@
     <HelpKINode Title="LowLevel Constructor " Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
     <HelpKINode Title="LowLevel Constructor " Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
   </HelpKINode>
+  <HelpKINode Title="LowLevel.MAX_OADATE_VALUE field" Url="html/a01ef06a-899e-2b5c-eb1d-8af6774b5b5b.htm" />
+  <HelpKINode Title="LowLevel.MIN_OADATE_VALUE field" Url="html/40c47d62-7e79-1505-a510-f8d48099ee21.htm" />
   <HelpKINode Title="LowLevel.Save method" Url="html/29b7b40b-428d-c03f-9c7d-1d92119e2038.htm" />
   <HelpKINode Title="LowLevel.SaveAsStream method" Url="html/ff3bc76a-3e01-86aa-d1f0-1b5b03a3a195.htm" />
   <HelpKINode Title="LowLevel.SaveAsStreamAsync method" Url="html/a150e41f-5e83-200d-f488-d79bdd680cb8.htm" />
@@ -534,6 +539,7 @@
   <HelpKINode Title="Max method" Url="html/db3847ca-6e51-b580-256e-ab7c935fb2bc.htm" />
   <HelpKINode Title="MAX_COLUMN_NUMBER field" Url="html/97515f3e-4553-e7a2-7039-bb6372725f78.htm" />
   <HelpKINode Title="MAX_COLUMN_WIDTH field" Url="html/1428082b-1fdc-07c3-fa71-65005707bfbd.htm" />
+  <HelpKINode Title="MAX_OADATE_VALUE field" Url="html/a01ef06a-899e-2b5c-eb1d-8af6774b5b5b.htm" />
   <HelpKINode Title="MAX_ROW_HEIGHT field" Url="html/13d92478-4138-d2b0-875f-dce269e874e9.htm" />
   <HelpKINode Title="MAX_ROW_NUMBER field" Url="html/68bf1908-a05e-4675-4ee1-aab460defc5c.htm" />
   <HelpKINode Title="Median method" Url="html/d3af7a99-0e67-e06f-deaf-bb4b5c7fb428.htm" />
@@ -572,6 +578,7 @@
   <HelpKINode Title="minor enumeration member" Url="html/ef91bf2b-91e3-5d9b-22f1-77f39f2a3c68.htm" />
   <HelpKINode Title="MIN_COLUMN_NUMBER field" Url="html/e677798e-5587-2a9d-2317-92d43b190375.htm" />
   <HelpKINode Title="MIN_COLUMN_WIDTH field" Url="html/5a92a4e2-7059-667c-7062-b3d1682e1c9e.htm" />
+  <HelpKINode Title="MIN_OADATE_VALUE field" Url="html/40c47d62-7e79-1505-a510-f8d48099ee21.htm" />
   <HelpKINode Title="MIN_ROW_HEIGHT field" Url="html/a388357c-f059-30e0-b045-24df803f6687.htm" />
   <HelpKINode Title="MIN_ROW_NUMBER field" Url="html/8aa3e551-4742-71bd-9d5b-2d57c82860b2.htm" />
   <HelpKINode Title="Name property">
@@ -790,6 +797,7 @@
   <HelpKINode Title="Style.BasicStyles.RoundFormat property" Url="html/6e0ffd18-723c-8a6c-9708-30aefa3e5b2c.htm" />
   <HelpKINode Title="Style.BasicStyles.Strike property" Url="html/6ea137df-e1bf-6a4e-feca-90aa96ae3b27.htm" />
   <HelpKINode Title="Style.BasicStyles.StyleEnum enumeration" Url="html/34686cde-ba88-a4db-d64e-d3f544c9367a.htm" />
+  <HelpKINode Title="Style.BasicStyles.TimeFormat property" Url="html/b5bdf151-381d-787f-7455-c12e92f11077.htm" />
   <HelpKINode Title="Style.BasicStyles.Underline property" Url="html/5df19794-1527-b038-6daf-a76a85dc7cd2.htm" />
   <HelpKINode Title="Style.Border class">
     <HelpKINode Title="Style.Border Class" Url="html/b0f7ff6d-2132-4c17-6776-66d9839ad828.htm" />
@@ -962,6 +970,9 @@
   <HelpKINode Title="TextRotation property" Url="html/4514e108-5d60-5f10-b1e6-e06168734b72.htm" />
   <HelpKINode Title="thick enumeration member" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
   <HelpKINode Title="thin enumeration member" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
+  <HelpKINode Title="TIME enumeration member" Url="html/869e4b32-cce1-41ab-bb92-a93de8fb392c.htm" />
+  <HelpKINode Title="timeFormat enumeration member" Url="html/34686cde-ba88-a4db-d64e-d3f544c9367a.htm" />
+  <HelpKINode Title="TimeFormat property" Url="html/b5bdf151-381d-787f-7455-c12e92f11077.htm" />
   <HelpKINode Title="Title property" Url="html/dd6300e7-f5c6-c7ec-340a-6d66c5642126.htm" />
   <HelpKINode Title="top enumeration member" Url="html/9aff105d-3f3c-209e-6b7d-b851c6490690.htm" />
   <HelpKINode Title="TopColor property" Url="html/2597f4c5-cb46-154c-3377-3ee1ffd9d8b2.htm" />

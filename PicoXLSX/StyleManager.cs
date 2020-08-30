@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2019
+ * Copyright Raphael Stoeckli © 2020
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -357,7 +357,7 @@ namespace PicoXLSX
             else if (style.GetType() == typeof(Style))
             {
                 Style s = (Style)style;
-                if (styleNames.Contains(s.Name) == true)
+                if (styleNames.Contains(s.Name))
                 {
                     throw new StyleException("StyleAlreadyExistsException", "The style with the name '" + s.Name + "' already exists");
                 }

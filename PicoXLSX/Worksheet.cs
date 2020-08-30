@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2019
+ * Copyright Raphael Stoeckli © 2020
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -18,7 +18,7 @@ namespace PicoXLSX
     public class Worksheet
     {
 
-#region constants
+        #region constants
         /// <summary>
         /// Default column width as constant
         /// </summary>
@@ -59,9 +59,9 @@ namespace PicoXLSX
         /// Maximum row height as constant
         /// </summary>
         public const float MAX_ROW_HEIGHT = 409.5f;
-#endregion
+        #endregion
 
-#region enums
+        #region enums
         /// <summary>
         /// Enum to define the direction when using AddNextCell method
         /// </summary>
@@ -80,7 +80,7 @@ namespace PicoXLSX
         /// </summary>
         public enum SheetProtectionValue
         {
-           // sheet, // Is always on 1 if protected
+            // sheet, // Is always on 1 if protected
             /// <summary>If selected, the user can edit objects if the worksheets is protected</summary>
             objects,
             /// <summary>If selected, the user can edit scenarios if the worksheets is protected</summary>
@@ -110,11 +110,11 @@ namespace PicoXLSX
             /// <summary>If selected, the user can use pivot tables if the worksheets is protected</summary>
             pivotTables,
             /// <summary>If selected, the user can select unlocked cells if the worksheets is protected</summary>
-            selectUnlockedCells 
+            selectUnlockedCells
         }
-#endregion
+        #endregion
 
-#region privateFields
+        #region privateFields
         private Style activeStyle;
         private Nullable<Cell.Range> autoFilterRange;
         private Dictionary<string, Cell> cells;
@@ -130,11 +130,11 @@ namespace PicoXLSX
         private List<SheetProtectionValue> sheetProtectionValues;
         private bool useActiveStyle;
         private string sheetProtectionPassword;
-        
-        private Nullable<Cell.Range> selectedCells;
-#endregion
 
-#region properties
+        private Nullable<Cell.Range> selectedCells;
+        #endregion
+
+        #region properties
         /// <summary>
         /// Gets the range of the auto-filter. Wrapped to Nullable to provide null as value. If null, no auto-filter is applied
         /// </summary>
@@ -270,11 +270,11 @@ namespace PicoXLSX
         /// <summary>
         /// Gets or sets the Reference to the parent Workbook
         /// </summary>
-        public Workbook WorkbookReference { get; set; } 
-#endregion
+        public Workbook WorkbookReference { get; set; }
+        #endregion
 
 
-#region constructors
+        #region constructors
         /// <summary>
         /// Default Constructor
         /// </summary>
@@ -318,7 +318,7 @@ namespace PicoXLSX
         /// <summary>
         /// Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         /// </summary>
-        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <param name="value">Unspecified value to insert</param>
         /// <exception cref="RangeException">Throws a RangeException if the next cell is out of range (on row or column)</exception>
         public void AddNextCell(object value)
@@ -330,7 +330,7 @@ namespace PicoXLSX
         /// <summary>
         /// Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         /// </summary>
-        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <param name="value">Unspecified value to insert</param>
         /// <param name="style">Style object to apply on this cell</param>
         /// <exception cref="RangeException">Throws a RangeException if the next cell is out of range (on row or column)</exception>
@@ -347,12 +347,12 @@ namespace PicoXLSX
         /// <param name="cell">Cell object to insert</param>
         /// <param name="incremental">If true, the address value (row or column) will be incremented, otherwise not</param>
         /// <param name="style">If not null, the defined style will be applied to the cell, otherwise no style or the default style will be applied</param>
-        /// <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="StyleException">Throws a StyleException if the default style was malformed or if the active style cannot be referenced</exception>
         private void AddNextCell(Cell cell, bool incremental, Style style)
         {
             cell.WorksheetReference = this;
-            if (activeStyle != null && useActiveStyle == true && style == null)
+            if (activeStyle != null && useActiveStyle && style == null)
             {
                 cell.SetStyle(activeStyle);
             }
@@ -364,6 +364,10 @@ namespace PicoXLSX
             {
                 cell.SetStyle(Style.BasicStyles.DateFormat);
             }
+            else if (style == null && cell.DataType == Cell.CellType.TIME)
+            {
+                cell.SetStyle(Style.BasicStyles.TimeFormat);
+            }
             string address = cell.CellAddress;
             if (cells.ContainsKey(address))
             {
@@ -373,7 +377,7 @@ namespace PicoXLSX
             {
                 cells.Add(address, cell);
             }
-            if (incremental == true)
+            if (incremental)
             {
                 if (CurrentCellDirection == CellDirection.ColumnToColumn)
                 {
@@ -435,7 +439,7 @@ namespace PicoXLSX
         /// <param name="value">Unspecified value to insert</param>
         /// <param name="columnAddress">Column number (zero based)</param>
         /// <param name="rowAddress">Row number (zero based)</param>
-        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         /// <exception cref="RangeException">Throws an RangeException if the passed cell address is out of range</exception>
         public void AddCell(object value, int columnAddress, int rowAddress)
@@ -450,7 +454,7 @@ namespace PicoXLSX
         /// <param name="columnAddress">Column number (zero based)</param>
         /// <param name="rowAddress">Row number (zero based)</param>
         /// <param name="style">Style to apply on the cell</param>
-        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
         /// <exception cref="RangeException">Throws an RangeException if the passed cell address is out of range</exception>
         public void AddCell(object value, int columnAddress, int rowAddress, Style style)
@@ -464,7 +468,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="value">Unspecified value to insert</param>
         /// <param name="address">Cell address in the format A1 - XFD1048576</param>
-        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         /// <exception cref="RangeException">Throws an RangeException if the passed cell address is out of range</exception>
         /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
@@ -481,7 +485,7 @@ namespace PicoXLSX
         /// <param name="value">Unspecified value to insert</param>
         /// <param name="address">Cell address in the format A1 - XFD1048576</param>
         /// <param name="style">Style to apply on the cell</param>
-        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
         /// <exception cref="RangeException">Throws an RangeException if the passed cell address is out of range</exception>
         /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
@@ -492,9 +496,9 @@ namespace PicoXLSX
             AddCell(value, column, row, style);
         }
 
-#endregion
+        #endregion
 
-#region methods_AddCellFormula
+        #region methods_AddCellFormula
 
         /// <summary>
         /// Adds a cell formula as string to the defined cell address
@@ -593,7 +597,7 @@ namespace PicoXLSX
         /// <param name="values">List of unspecified objects to insert</param>
         /// <param name="startAddress">Start address</param>
         /// <param name="endAddress">End address</param>
-        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="RangeException">Throws an RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
         public void AddCellRange(List<object> values, Cell.Address startAddress, Cell.Address endAddress)
@@ -608,7 +612,7 @@ namespace PicoXLSX
         /// <param name="startAddress">Start address</param>
         /// <param name="endAddress">End address</param>
         /// <param name="style">Style to apply on the all cells of the range</param>
-        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="RangeException">Throws an RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
         public void AddCellRange(List<object> values, Cell.Address startAddress, Cell.Address endAddress, Style style)
@@ -621,7 +625,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="values">List of unspecified objects to insert</param>
         /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
-        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="RangeException">Throws an RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
         /// <exception cref="FormatException">Throws a FormatException if the passed cell range is malformed</exception>
@@ -637,7 +641,7 @@ namespace PicoXLSX
         /// <param name="values">List of unspecified objects to insert</param>
         /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
         /// <param name="style">Style to apply on the all cells of the range</param>
-        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="RangeException">Throws an RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
         /// <exception cref="FormatException">Throws a FormatException if the passed cell range is malformed</exception>
@@ -655,7 +659,7 @@ namespace PicoXLSX
         /// <param name="startAddress">Start address</param>
         /// <param name="endAddress">End address</param>
         /// <param name="style">Style to apply on the all cells of the range</param>
-        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="RangeException">Throws an RangeException if the number of cells differs from the number of passed values</exception>
         /// <exception cref="StyleException">Throws an StyleException if the active style cannot be referenced while creating the cells</exception>
         private void AddCellRangeInternal<T>(List<T> values, Cell.Address startAddress, Cell.Address endAddress, Style style)
@@ -663,11 +667,11 @@ namespace PicoXLSX
             List<Cell.Address> addresses = Cell.GetCellRange(startAddress, endAddress);
             if (values.Count != addresses.Count)
             {
-                throw new RangeException("OutOfRangeException", "The number of passed values (" + values.Count.ToString() + ") differs from the number of cells within the range (" + addresses.Count.ToString() + ")");
+                throw new RangeException("OutOfRangeException", "The number of passed values (" + values.Count + ") differs from the number of cells within the range (" + addresses.Count + ")");
             }
             List<Cell> list = Cell.ConvertArray<T>(values);
             int len = values.Count;
-            for(int i = 0; i < len; i++)
+            for (int i = 0; i < len; i++)
             {
                 list[i].RowNumber = addresses[i].Row;
                 list[i].ColumnNumber = addresses[i].Column;
@@ -675,9 +679,9 @@ namespace PicoXLSX
                 AddNextCell(list[i], false, style);
             }
         }
-#endregion
+        #endregion
 
-#region methods_RemoveCell
+        #region methods_RemoveCell
         /// <summary>
         /// Removes a previous inserted cell at the defined address
         /// </summary>
@@ -704,9 +708,9 @@ namespace PicoXLSX
             Cell.ResolveCellCoordinate(address, out column, out row);
             return RemoveCell(column, row);
         }
-#endregion
+        #endregion
 
-#region common_methods
+        #region common_methods
 
         /// <summary>
         /// Method to add allowed actions if the worksheet is protected. If one or more values are added, UseSheetProtection will be set to true
@@ -845,7 +849,7 @@ namespace PicoXLSX
             int number;
             foreach (KeyValuePair<string, Cell> cell in cells)
             {
-                if (column == true)
+                if (column)
                 {
                     number = cell.Value.ColumnNumber;
                 }
@@ -957,7 +961,7 @@ namespace PicoXLSX
         {
 
             //List<Cell.Address> addresses = Cell.GetCellRange(startAddress, endAddress);
-            string key = startAddress.ToString() + ":" + endAddress.ToString();
+            string key = startAddress + ":" + endAddress;
             Cell.Range value = new Cell.Range(startAddress, endAddress);
             if (mergedCells.ContainsKey(key) == false)
             {
@@ -1070,24 +1074,21 @@ namespace PicoXLSX
             {
                 throw new RangeException("UnknownRangeException", "The cell range " + range + " was not found in the list of merged cell ranges");
             }
-            else
+            List<Cell.Address> addresses = Cell.GetCellRange(range);
+            Cell cell;
+            foreach (Cell.Address address in addresses)
             {
-                List<Cell.Address> addresses = Cell.GetCellRange(range);
-                Cell cell;
-                foreach (Cell.Address address in addresses)
+                if (cells.ContainsKey(address.ToString()))
                 {
-                    if (cells.ContainsKey(address.ToString()))
+                    cell = cells[address.ToString()];
+                    cell.DataType = Cell.CellType.DEFAULT; // resets the type
+                    if (cell.Value == null)
                     {
-                        cell = cells[address.ToString()];
-                        cell.DataType = Cell.CellType.DEFAULT; // resets the type
-                        if (cell.Value == null)
-                        {
-                            cell.Value = string.Empty;
-                        }
+                        cell.Value = string.Empty;
                     }
                 }
-                mergedCells.Remove(range);
             }
+            mergedCells.Remove(range);
         }
 
         /// <summary>
@@ -1151,13 +1152,13 @@ namespace PicoXLSX
         {
             if (columnNumber > MAX_COLUMN_NUMBER || columnNumber < MIN_COLUMN_NUMBER)
             {
-                throw new RangeException("OutOfRangeException", "The column number (" + columnNumber.ToString() + ") is out of range. Range is from " + MIN_COLUMN_NUMBER.ToString() + " to " + MAX_COLUMN_NUMBER.ToString() + " (" + (MAX_COLUMN_NUMBER + 1).ToString() + " columns).");
+                throw new RangeException("OutOfRangeException", "The column number (" + columnNumber + ") is out of range. Range is from " + MIN_COLUMN_NUMBER + " to " + MAX_COLUMN_NUMBER + " (" + (MAX_COLUMN_NUMBER + 1) + " columns).");
             }
-            if (columns.ContainsKey(columnNumber) && state == true)
+            if (columns.ContainsKey(columnNumber) && state)
             {
                 columns[columnNumber].IsHidden = true;
             }
-            else if (state == true)
+            else if (state)
             {
                 Column c = new Column(columnNumber);
                 c.IsHidden = true;
@@ -1239,7 +1240,7 @@ namespace PicoXLSX
         {
             if (columnNumber > MAX_COLUMN_NUMBER || columnNumber < MIN_COLUMN_NUMBER)
             {
-                throw new RangeException("OutOfRangeException", "The column number (" + columnNumber.ToString() + ") is out of range. Range is from " + MIN_COLUMN_NUMBER.ToString() + " to " + MAX_COLUMN_NUMBER.ToString() + " (" + (MAX_COLUMN_NUMBER + 1).ToString() + " columns).");
+                throw new RangeException("OutOfRangeException", "The column number (" + columnNumber + ") is out of range. Range is from " + MIN_COLUMN_NUMBER + " to " + MAX_COLUMN_NUMBER + " (" + (MAX_COLUMN_NUMBER + 1) + " columns).");
             }
             currentColumnNumber = columnNumber;
         }
@@ -1253,7 +1254,7 @@ namespace PicoXLSX
         {
             if (rowNumber > MAX_ROW_NUMBER || rowNumber < 0)
             {
-                throw new RangeException("OutOfRangeException", "The row number (" + rowNumber.ToString() + ") is out of range. Range is from 0 to " + MAX_ROW_NUMBER.ToString() + " (" + (MAX_ROW_NUMBER + 1).ToString() + " rows).");
+                throw new RangeException("OutOfRangeException", "The row number (" + rowNumber + ") is out of range. Range is from 0 to " + MAX_ROW_NUMBER + " (" + (MAX_ROW_NUMBER + 1) + " rows).");
             }
             currentRowNumber = rowNumber;
         }
@@ -1292,7 +1293,7 @@ namespace PicoXLSX
         /// <param name="password">Password (UTF-8) to protect the worksheet. If the password is null or empty, no password will be used</param>
         public void SetSheetProtectionPassword(string password)
         {
-            if (string.IsNullOrEmpty(password) == true)
+            if (string.IsNullOrEmpty(password))
             {
                 sheetProtectionPassword = null;
             }
@@ -1339,11 +1340,11 @@ namespace PicoXLSX
         {
             if (rowNumber > MAX_ROW_NUMBER || rowNumber < MIN_ROW_NUMBER)
             {
-                throw new RangeException("OutOfRangeException", "The row number (" + rowNumber.ToString() + ") is out of range. Range is from " + MIN_ROW_NUMBER + " to " + MAX_ROW_NUMBER + " (" + (MAX_ROW_NUMBER + 1).ToString() + " rows).");
+                throw new RangeException("OutOfRangeException", "The row number (" + rowNumber + ") is out of range. Range is from " + MIN_ROW_NUMBER + " to " + MAX_ROW_NUMBER + " (" + (MAX_ROW_NUMBER + 1) + " rows).");
             }
             if (hiddenRows.ContainsKey(rowNumber))
             {
-                if (state == true)
+                if (state)
                 {
                     hiddenRows.Add(rowNumber, true);
                 }
@@ -1352,7 +1353,7 @@ namespace PicoXLSX
                     hiddenRows.Remove(rowNumber);
                 }
             }
-            else if (state == true)
+            else if (state)
             {
                 hiddenRows.Add(rowNumber, true);
             }
@@ -1398,7 +1399,7 @@ namespace PicoXLSX
             sheetName = SanitizeWorksheetName(name, WorkbookReference);
         }
 
-#region static_methods
+        #region static_methods
 
         /// <summary>
         /// Sanitizes a worksheet name
@@ -1433,11 +1434,11 @@ namespace PicoXLSX
                 if (WorksheetExists(name, workbook) == false) { break; } // OK
                 if (originalName.Length + (number / 10) >= 31)
                 {
-                    name = originalName.Substring(0, 30 - number / 10) +  number.ToString();
+                    name = originalName.Substring(0, 30 - number / 10) + number;
                 }
                 else
                 {
-                    name = originalName + number.ToString();
+                    name = originalName + number;
                 }
                 number++;
             }
@@ -1461,9 +1462,9 @@ namespace PicoXLSX
                 }
             }
             return false;
-        }    
+        }
 
-#endregion
+        #endregion
 
 
         #endregion
@@ -1508,7 +1509,7 @@ namespace PicoXLSX
                 set
                 {
                     columnAddress = Cell.ResolveColumnAddress(value);
-                    number = value; 
+                    number = value;
                 }
             }
 
@@ -1538,13 +1539,13 @@ namespace PicoXLSX
             /// Constructor with column address
             /// </summary>
             /// <param name="columnAddress">Column address (A to XFD)</param>
-            public Column (string columnAddress) : this()
+            public Column(string columnAddress) : this()
             {
-                ColumnAddress = columnAddress; 
+                ColumnAddress = columnAddress;
             }
 
         }
 
-#endregion
+        #endregion
     }
 }

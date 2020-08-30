@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2019
+ * Copyright Raphael Stoeckli © 2020
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -882,7 +882,7 @@ namespace PicoXLSX
             #endregion
 
             #region methods
-           
+
             /// <summary>
             /// Override toString method
             /// </summary>
@@ -1217,13 +1217,14 @@ namespace PicoXLSX
             /// <summary>
             /// Start ID for custom number formats as constant
             /// </summary>
-            public const int CUSTOMFORMAT_START_NUMBER = 124;
+            public const int CUSTOMFORMAT_START_NUMBER = 164;
             #endregion
 
             #region enums
             /// <summary>
             /// Enum for predefined number formats
             /// </summary>
+            /// <remarks>There are other predefined formats (e.g. 43 and 44) that are not listed. The declaration of such formats is done in the number formats section of the style document, whereas the officially listed ones are implicitly used and not declared in the style document</remarks>
             public enum FormatNumber
             {
                 /// <summary>No format / Default</summary>
@@ -1307,7 +1308,7 @@ namespace PicoXLSX
             /// <summary>
             /// Gets whether the number format is a custom format (higher or equals 164). If true, the format is custom
             /// </summary>
-            [AppendAttribute(Ignore = true)]
+            [Append(Ignore = true)]
             public bool IsCustomFormat
             {
                 get
@@ -1413,6 +1414,8 @@ namespace PicoXLSX
                 strike,
                 /// <summary>Format number as date</summary>
                 dateFormat,
+                /// <summary>Format number as time</summary>
+                timeFormat,
                 /// <summary>Rounds number as an integer</summary>
                 roundFormat,
                 /// <summary>Format cell with a thin border</summary>
@@ -1427,7 +1430,7 @@ namespace PicoXLSX
             #endregion
 
             #region staticFields
-            private static Style bold, italic, boldItalic, underline, doubleUnderline, strike, dateFormat, roundFormat, borderFrame, borderFrameHeader, dottedFill_0_125, mergeCellStyle;
+            private static Style bold, italic, boldItalic, underline, doubleUnderline, strike, dateFormat, timeFormat, roundFormat, borderFrame, borderFrameHeader, dottedFill_0_125, mergeCellStyle;
             #endregion
 
             #region staticProperties
@@ -1446,6 +1449,9 @@ namespace PicoXLSX
             /// <summary>Gets the date format style</summary>
             public static Style DateFormat
             { get { return GetStyle(StyleEnum.dateFormat); } }
+            /// <summary>Gets the time format style</summary>
+            public static Style TimeFormat
+            { get { return GetStyle(StyleEnum.timeFormat); } }
             /// <summary>Gets the double underline style</summary>
             public static Style DoubleUnderline
             { get { return GetStyle(StyleEnum.doubleUnderline); } }
@@ -1536,6 +1542,14 @@ namespace PicoXLSX
                             dateFormat.CurrentNumberFormat.Number = NumberFormat.FormatNumber.format_14;
                         }
                         s = dateFormat;
+                        break;
+                    case StyleEnum.timeFormat:
+                        if (timeFormat == null)
+                        {
+                            timeFormat = new Style();
+                            timeFormat.CurrentNumberFormat.Number = NumberFormat.FormatNumber.format_21;
+                        }
+                        s = timeFormat;
                         break;
                     case StyleEnum.roundFormat:
                         if (roundFormat == null)
@@ -1674,19 +1688,19 @@ namespace PicoXLSX
             IEnumerable<AppendAttribute> attributes;
             foreach (PropertyInfo info in infos)
             {
-                attributes = (IEnumerable< AppendAttribute>)info.GetCustomAttributes(typeof(AppendAttribute));
+                attributes = (IEnumerable<AppendAttribute>)info.GetCustomAttributes(typeof(AppendAttribute));
                 if (attributes.Count() > 0)
                 {
                     ignore = false;
                     foreach (AppendAttribute attribute in attributes)
                     {
-                        if (attribute.Ignore == true || attribute.NestedProperty == true)
+                        if (attribute.Ignore || attribute.NestedProperty)
                         {
                             ignore = true;
                             break;
                         }
                     }
-                    if (ignore == true) { continue; } // skip property
+                    if (ignore) { continue; } // skip property
                 }
 
                 sourceInfo = source.GetType().GetProperty(info.Name);
@@ -1734,7 +1748,7 @@ namespace PicoXLSX
             }
             else if (o.GetType() == typeof(bool))
             {
-                if ((bool)o == true) { sb.Append(1); }
+                if ((bool)o) { sb.Append(1); }
                 else { sb.Append(0); }
             }
             else if (o.GetType() == typeof(int))
@@ -1772,7 +1786,7 @@ namespace PicoXLSX
             {
                 sb.Append(o);
             }
-            if (delimiter.HasValue == true)
+            if (delimiter.HasValue)
             {
                 sb.Append(delimiter.Value);
             }

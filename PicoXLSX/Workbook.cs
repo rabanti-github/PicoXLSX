@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2019
+ * Copyright Raphael Stoeckli © 2020
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -60,7 +60,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets or sets the fileName of the workbook
+        /// Gets or sets the filename of the workbook
         /// </summary>
         public string Filename
         {
@@ -142,7 +142,7 @@ namespace PicoXLSX
         public Workbook(bool createWorkSheet)
         {
             Init();
-            if (createWorkSheet == true)
+            if (createWorkSheet)
             {
                 AddWorksheet("Sheet1");
             }
@@ -159,7 +159,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Constructor with fileName ant the name of the first worksheet
+        /// Constructor with filename ant the name of the first worksheet
         /// </summary>
         /// <param name="filename">Filename of the workbook.  The name will be sanitized automatically according to the specifications of Excel</param>
         /// <param name="sheetName">Name of the first worksheet. The name will be sanitized automatically according to the specifications of Excel</param>
@@ -171,7 +171,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Constructor with fileName ant the name of the first worksheet
+        /// Constructor with filename ant the name of the first worksheet
         /// </summary>
         /// <param name="filename">Filename of the workbook</param>
         /// <param name="sheetName">Name of the first worksheet</param>
@@ -262,7 +262,7 @@ namespace PicoXLSX
         /// <exception cref="FormatException">FormatException is thrown if the worksheet name contains illegal characters or is out of range (length between 1 an 31) and sanitizeSheetName is false</exception>
         public void AddWorksheet(String name, bool sanitizeSheetName)
         {
-            if (sanitizeSheetName == true)
+            if (sanitizeSheetName)
             {
                 string sanitized = Worksheet.SanitizeWorksheetName(name, this);
                 AddWorksheet(sanitized);
@@ -316,7 +316,7 @@ namespace PicoXLSX
         /// Removes the passed style from the style sheet
         /// </summary>
         /// <param name="style">Style to remove</param>
-        /// <exception cref="StyleException">Throws an StyleException if the style was not found in the style collection (could not be referenced)</exception>
+        /// <exception cref="StyleException">Throws a StyleException if the style was not found in the style collection (could not be referenced)</exception>
         public void RemoveStyle(Style style)
         {
             RemoveStyle(style, false);
@@ -326,7 +326,7 @@ namespace PicoXLSX
         /// Removes the defined style from the style sheet of the workbook
         /// </summary>
         /// <param name="styleName">Name of the style to be removed</param>
-        /// <exception cref="StyleException">Throws an StyleException if the style was not found in the style collection (could not be referenced)</exception>
+        /// <exception cref="StyleException">Throws a StyleException if the style was not found in the style collection (could not be referenced)</exception>
         public void RemoveStyle(string styleName)
         {
             RemoveStyle(styleName, false);
@@ -337,7 +337,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="style">Style to remove</param>
         /// <param name="onlyIfUnused">If true, the style will only be removed if not used in any cell</param>
-        /// <exception cref="StyleException">Throws an StyleException if the style was not found in the style collection (could not be referenced)</exception>
+        /// <exception cref="StyleException">Throws a StyleException if the style was not found in the style collection (could not be referenced)</exception>
         public void RemoveStyle(Style style, bool onlyIfUnused)
         {
             if (style == null)
@@ -359,7 +359,7 @@ namespace PicoXLSX
             {
                 throw new StyleException("MissingReferenceException", "The style to remove is not defined (no name specified)");
             }
-            if (onlyIfUnused == true)
+            if (onlyIfUnused)
             {
                 bool styleInUse = false;
                 for (int i = 0; i < worksheets.Count; i++)
@@ -373,7 +373,7 @@ namespace PicoXLSX
                             break;
                         }
                     }
-                    if (styleInUse == true)
+                    if (styleInUse)
                     {
                         break;
                     }
@@ -422,7 +422,7 @@ namespace PicoXLSX
                 for (int i = 0; i < worksheets.Count; i++)
                 {
                     worksheets[i].SheetID = i + 1;
-                    if (resetCurrent == true && i == 0)
+                    if (resetCurrent && i == 0)
                     {
                         currentWorksheet = worksheets[i];
                     }
@@ -441,7 +441,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to resolve all merged cells in all worksheets. Only the value of the very first cell of the locked cells range will be visible. The other values are still present (set to EMPTY) but will not be stored in the worksheet.
         /// </summary>
-        /// <exception cref="StyleException">Throws an StyleException if one of the styles of the merged cells cannot be referenced or is null</exception>
+        /// <exception cref="StyleException">Throws a StyleException if one of the styles of the merged cells cannot be referenced or is null</exception>
         public void ResolveMergedCells()
         {
             Style mergeStyle = Style.BasicStyles.MergeCellStyle;
@@ -504,14 +504,14 @@ namespace PicoXLSX
         /// <exception cref="StyleException">May throw a StyleException if one of the styles of the workbook cannot be referenced or is null. The asynchronous operation may hide the exception.</exception>
         public async Task SaveAsync()
         {
-            LowLevel  l = new LowLevel(this);
+            LowLevel l = new LowLevel(this);
             await l.SaveAsync();
         }
 
         /// <summary>
         /// Saves the workbook with the defined name
         /// </summary>
-        /// <param name="fileName">fileName of the saved workbook</param>
+        /// <param name="fileName">filename of the saved workbook</param>
         /// <exception cref="IOException">Throws IOException in case of an error</exception>
         /// <exception cref="RangeException">Throws a RangeException if the start or end address of a handled cell range was out of range</exception>
         /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
@@ -528,7 +528,7 @@ namespace PicoXLSX
         /// <summary>
         /// Saves the workbook with the defined name asynchronous.
         /// </summary>
-        /// <param name="fileName">fileName of the saved workbook</param>
+        /// <param name="fileName">filename of the saved workbook</param>
         /// <returns>Task object (void)</returns>
         /// <exception cref="IOException">May throw an IOException in case of an error. The asynchronous operation may hide the exception.</exception>
         /// <exception cref="RangeException">May throw a RangeException if the start or end address of a handled cell range was out of range. The asynchronous operation may hide the exception.</exception>
@@ -610,7 +610,7 @@ namespace PicoXLSX
         {
             if (worksheetIndex < 0 || worksheetIndex > worksheets.Count - 1)
             {
-                throw new RangeException("OutOfRangeException", "The worksheet index " + worksheetIndex.ToString() + " is out of range");
+                throw new RangeException("OutOfRangeException", "The worksheet index " + worksheetIndex + " is out of range");
             }
             selectedWorksheet = worksheetIndex;
         }
