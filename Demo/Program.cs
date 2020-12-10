@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using PicoXLSX;
-using Testing;
 
 namespace Demo
 {
@@ -249,7 +248,12 @@ namespace Demo
             s3.CurrentCellXf.VerticalAlign = Style.CellXf.VerticalAlignValue.center;                         // Set alignment
                                                                                                              
             workbook.CurrentWorksheet.Cells["B4"].SetStyle(s3);                                              // Assign style to cell
-                                                                                                             
+
+            Style s4 = Style.BasicStyles.BoldItalic;                                                         // Create a style from a predefined style
+            s4.CurrentCellXf.HorizontalAlign = Style.CellXf.HorizontalAlignValue.right;                      // Set text alignment
+            s4.CurrentCellXf.Indent = 4;                                                                     // Set indentation
+            workbook.CurrentWorksheet.AddCell("Text", 1, 4, s4);                                             // Assign style to cell B5
+
             workbook.CurrentWorksheet.SetColumnWidth(0, 20f);                                                // Set column width
             workbook.CurrentWorksheet.SetColumnWidth(1, 15f);                                                // Set column width
             workbook.CurrentWorksheet.SetColumnWidth(2, 25f);                                                // Set column width

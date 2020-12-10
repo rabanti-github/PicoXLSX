@@ -117,17 +117,17 @@ namespace PicoXLSX
         #region privateFields
         private Style activeStyle;
         private Nullable<Cell.Range> autoFilterRange;
-        private Dictionary<string, Cell> cells;
-        private Dictionary<int, Column> columns;
+        private readonly Dictionary<string, Cell> cells;
+        private readonly Dictionary<int, Column> columns;
         private string sheetName;
         private int currentRowNumber;
         private int currentColumnNumber;
         private float defaultRowHeight;
         private float defaultColumnWidth;
-        private Dictionary<int, float> rowHeights;
-        private Dictionary<int, bool> hiddenRows;
-        private Dictionary<string, Cell.Range> mergedCells;
-        private List<SheetProtectionValue> sheetProtectionValues;
+        private readonly Dictionary<int, float> rowHeights;
+        private readonly Dictionary<int, bool> hiddenRows;
+        private readonly Dictionary<string, Cell.Range> mergedCells;
+        private readonly List<SheetProtectionValue> sheetProtectionValues;
         private bool useActiveStyle;
         private string sheetProtectionPassword;
 

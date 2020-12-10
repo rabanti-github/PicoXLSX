@@ -249,8 +249,8 @@
   <HelpKINode Title="DATE enumeration member" Url="html/869e4b32-cce1-41ab-bb92-a93de8fb392c.htm" />
   <HelpKINode Title="dateFormat enumeration member" Url="html/34686cde-ba88-a4db-d64e-d3f544c9367a.htm" />
   <HelpKINode Title="DateFormat property" Url="html/de49e825-7876-1f38-8efe-d9f1198114b9.htm" />
-  <HelpKINode Title="DEFAULT enumeration member" Url="html/869e4b32-cce1-41ab-bb92-a93de8fb392c.htm" />
   <HelpKINode Title="Default enumeration member" Url="html/054880db-85e2-6c24-88b8-8502bd71892f.htm" />
+  <HelpKINode Title="DEFAULT enumeration member" Url="html/869e4b32-cce1-41ab-bb92-a93de8fb392c.htm" />
   <HelpKINode Title="DEFAULTCOLOR field" Url="html/0e746481-09a9-80ed-3243-53123c0ac1b1.htm" />
   <HelpKINode Title="DefaultColumnWidth property" Url="html/40e6537e-c8a6-18c5-a02f-38411cbbcf8e.htm" />
   <HelpKINode Title="DEFAULTFONT field" Url="html/86194439-344c-6442-bdbf-21c9e9d3304b.htm" />
@@ -427,6 +427,7 @@
   <HelpKINode Title="HorizontalAlign property" Url="html/00ac2c39-ba99-39d1-a30b-a86c1521ac03.htm" />
   <HelpKINode Title="HyperlinkBase property" Url="html/abce5c44-7a07-50d5-4f8e-e07a51b7dd03.htm" />
   <HelpKINode Title="Ignore property" Url="html/57282f8d-1831-ef95-ea36-a98142512d19.htm" />
+  <HelpKINode Title="Indent property" Url="html/fd706113-9b9b-0c24-fd35-424c3440edd3.htm" />
   <HelpKINode Title="IndexedColor property" Url="html/82f6f5ca-88ba-75b4-1a41-fdd916bc23f4.htm" />
   <HelpKINode Title="Init method" Url="html/c9d3b337-c432-c22c-4f58-d2347695aeae.htm" />
   <HelpKINode Title="insertColumns enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
@@ -514,8 +515,8 @@
   <HelpKINode Title="LowLevel.InterceptDocuments property" Url="html/fda1c7b3-f244-461f-cdc9-c90bc8ecfd1f.htm" />
   <HelpKINode Title="LowLevel.InterceptedDocuments property" Url="html/7275496a-b99f-0183-9847-4f47258f69fe.htm" />
   <HelpKINode Title="LowLevel.LowLevel constructor">
-    <HelpKINode Title="LowLevel Constructor " Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
     <HelpKINode Title="LowLevel Constructor " Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
+    <HelpKINode Title="LowLevel Constructor " Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
   </HelpKINode>
   <HelpKINode Title="LowLevel.MAX_OADATE_VALUE field" Url="html/a01ef06a-899e-2b5c-eb1d-8af6774b5b5b.htm" />
   <HelpKINode Title="LowLevel.MIN_OADATE_VALUE field" Url="html/40c47d62-7e79-1505-a510-f8d48099ee21.htm" />
@@ -745,8 +746,8 @@
   <HelpKINode Title="SetRowHiddenState method" Url="html/c49f088a-d58d-680f-4d6a-b45d554cf7fa.htm" />
   <HelpKINode Title="SetSelectedCells method" Url="html/e642e906-3de8-5d92-f498-13d2f703628a.htm" />
   <HelpKINode Title="SetSelectedWorksheet method" Url="html/29b0d50b-54b9-ade1-8f89-55ef8b4c9705.htm" />
-  <HelpKINode Title="SetSheetName method" Url="html/0dfb2d1a-1318-91b6-4ebb-a7bc6e4f4665.htm" />
   <HelpKINode Title="SetSheetname method" Url="html/26ed859f-c126-d114-a95b-d6a7bed349c7.htm" />
+  <HelpKINode Title="SetSheetName method" Url="html/0dfb2d1a-1318-91b6-4ebb-a7bc6e4f4665.htm" />
   <HelpKINode Title="SetSheetProtectionPassword method" Url="html/425b6b66-0ccf-ec1f-8520-2c08807ea3cd.htm" />
   <HelpKINode Title="SetStyle method" Url="html/4c8dce52-9e1e-2231-320b-19c48ba64aac.htm" />
   <HelpKINode Title="SetWorkbookProtection method" Url="html/ee7b8e72-2649-dac7-a078-19be7954c1f9.htm" />
@@ -837,6 +838,7 @@
   <HelpKINode Title="Style.CellXf.Hidden property" Url="html/6e71f31d-a3ed-0ef5-b22d-26ff073aaf82.htm" />
   <HelpKINode Title="Style.CellXf.HorizontalAlign property" Url="html/00ac2c39-ba99-39d1-a30b-a86c1521ac03.htm" />
   <HelpKINode Title="Style.CellXf.HorizontalAlignValue enumeration" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
+  <HelpKINode Title="Style.CellXf.Indent property" Url="html/fd706113-9b9b-0c24-fd35-424c3440edd3.htm" />
   <HelpKINode Title="Style.CellXf.Locked property" Url="html/9486e72e-42e1-a25b-27a3-ae0d2cd86564.htm" />
   <HelpKINode Title="Style.CellXf.TextBreakValue enumeration" Url="html/567653c2-d633-6b90-f169-fae46fab93fc.htm" />
   <HelpKINode Title="Style.CellXf.TextDirection property" Url="html/fb793c66-ef2f-d7f5-e309-4d63db2a2e05.htm" />
@@ -1133,8 +1135,8 @@
   <HelpKINode Title="Worksheet.SetRowHeight method" Url="html/6f11a1b3-b136-e23f-fe20-241d7a871cdf.htm" />
   <HelpKINode Title="Worksheet.SetRowHiddenState method" Url="html/c49f088a-d58d-680f-4d6a-b45d554cf7fa.htm" />
   <HelpKINode Title="Worksheet.SetSelectedCells method" Url="html/e642e906-3de8-5d92-f498-13d2f703628a.htm" />
-  <HelpKINode Title="Worksheet.SetSheetName method" Url="html/0dfb2d1a-1318-91b6-4ebb-a7bc6e4f4665.htm" />
   <HelpKINode Title="Worksheet.SetSheetname method" Url="html/26ed859f-c126-d114-a95b-d6a7bed349c7.htm" />
+  <HelpKINode Title="Worksheet.SetSheetName method" Url="html/0dfb2d1a-1318-91b6-4ebb-a7bc6e4f4665.htm" />
   <HelpKINode Title="Worksheet.SetSheetProtectionPassword method" Url="html/425b6b66-0ccf-ec1f-8520-2c08807ea3cd.htm" />
   <HelpKINode Title="Worksheet.SheetID property" Url="html/c68bed38-8567-4dc9-2738-57e87139f3cc.htm" />
   <HelpKINode Title="Worksheet.SheetName property" Url="html/56ee77e1-7c21-416d-4f24-aa16ae01b141.htm" />

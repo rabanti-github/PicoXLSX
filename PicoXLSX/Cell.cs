@@ -774,7 +774,7 @@ namespace PicoXLSX
             /// <param name="decimals">Number of decimals (digits)</param>
             /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Ceil(Worksheet target, Address address, int decimals)
-            { return GetBasicFormula(target, new Range(address, address), "ROUNDUP", decimals.ToString()); }
+            { return GetBasicFormula(target, new Range(address, address), "ROUNDUP", decimals.ToString(CultureInfo.InvariantCulture)); }
 
             /// <summary>
             /// Returns a cell with a floor formula
@@ -793,7 +793,7 @@ namespace PicoXLSX
             /// <param name="decimals">Number of decimals (digits)</param>
             /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Floor(Worksheet target, Address address, int decimals)
-            { return GetBasicFormula(target, new Range(address, address), "ROUNDDOWN", decimals.ToString()); }
+            { return GetBasicFormula(target, new Range(address, address), "ROUNDDOWN", decimals.ToString(CultureInfo.InvariantCulture)); }
 
             /// <summary>
             /// Returns a cell with a max formula
@@ -863,7 +863,7 @@ namespace PicoXLSX
             /// <param name="decimals">Number of decimals (digits)</param>
             /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
             public static Cell Round(Worksheet target, Address address, int decimals)
-            { return GetBasicFormula(target, new Range(address, address), "ROUND", decimals.ToString()); }
+            { return GetBasicFormula(target, new Range(address, address), "ROUND", decimals.ToString(CultureInfo.InvariantCulture)); }
 
             /// <summary>
             /// Returns a cell with a sum formula

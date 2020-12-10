@@ -44,9 +44,9 @@ namespace PicoXLSX
         #endregion
 
         #region privateFields
-        private CultureInfo culture;
-        private Workbook workbook;
-        private SortedMap sharedStrings;
+        private readonly CultureInfo culture;
+        private readonly Workbook workbook;
+        private readonly SortedMap sharedStrings;
         private int sharedStringsTotalCount;
         private Dictionary<string, XmlDocument> interceptedDocuments;
         private bool interceptDocuments;
@@ -184,14 +184,11 @@ namespace PicoXLSX
             sb.Append(bordersString).Append("</borders>");
             sb.Append("<cellXfs count=\"").Append(styleCount.ToString("G", culture)).Append("\">");
             sb.Append(xfsStings).Append("</cellXfs>");
-            if (workbook.WorkbookMetadata != null)
+            if (workbook.WorkbookMetadata != null && !string.IsNullOrEmpty(mruColorString) && workbook.WorkbookMetadata.UseColorMRU)
             {
-                if (string.IsNullOrEmpty(mruColorString) == false && workbook.WorkbookMetadata.UseColorMRU)
-                {
-                    sb.Append("<colors>");
-                    sb.Append(mruColorString);
-                    sb.Append("</colors>");
-                }
+                sb.Append("<colors>");
+                sb.Append(mruColorString);
+                sb.Append("</colors>");
             }
             sb.Append("</styleSheet>");
             return sb.ToString();
@@ -433,14 +430,13 @@ namespace PicoXLSX
         /// <param name="value">Value of the XML element</param>
         /// <param name="tagName">Tag name of the XML element</param>
         /// <param name="nameSpace">Optional XML name space. Can be empty or null</param>
-        /// <returns>Returns false if no tag was appended, because the value or tag name was null or empty</returns>
-        private bool AppendXmlTag(StringBuilder sb, string value, string tagName, string nameSpace)
+        private void AppendXmlTag(StringBuilder sb, string value, string tagName, string nameSpace)
         {
-            if (string.IsNullOrEmpty(value)) { return false; }
-            if (sb == null || string.IsNullOrEmpty(tagName)) { return false; }
+            if (string.IsNullOrEmpty(value)) { return; }
+            if (sb == null || string.IsNullOrEmpty(tagName)) { return; }
             bool hasNoNs = string.IsNullOrEmpty(nameSpace);
             sb.Append('<');
-            if (hasNoNs == false)
+            if (!hasNoNs)
             {
                 sb.Append(nameSpace);
                 sb.Append(':');
@@ -448,14 +444,13 @@ namespace PicoXLSX
             sb.Append(tagName).Append(">");
             sb.Append(EscapeXmlChars(value));
             sb.Append("</");
-            if (hasNoNs == false)
+            if (!hasNoNs)
             {
                 sb.Append(nameSpace);
                 sb.Append(':');
             }
             sb.Append(tagName);
             sb.Append('>');
-            return true;
         }
 
         /// <summary>
@@ -472,15 +467,15 @@ namespace PicoXLSX
                 if (interceptDocuments)
                 {
                     XmlDocument xDoc = new XmlDocument();
+                    xDoc.XmlResolver = null;
                     xDoc.LoadXml(doc);
                     interceptedDocuments.Add(title, xDoc);
                 }
                 using (MemoryStream ms = new MemoryStream()) // Write workbook.xml
                 {
-                    if (ms.CanWrite == false) { return; }
+                    if (!ms.CanWrite) { return; }
                     using (XmlWriter writer = XmlWriter.Create(ms))
                     {
-                        //doc.WriteTo(writer);
                         writer.WriteProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"");
                         writer.WriteRaw(doc);
                         writer.Flush();
@@ -534,12 +529,9 @@ namespace PicoXLSX
                 foreach (KeyValuePair<int, Worksheet.Column> column in worksheet.Columns)
                 {
                     if (column.Value.Width == worksheet.DefaultColumnWidth && column.Value.IsHidden == false) { continue; }
-                    if (worksheet.Columns.ContainsKey(column.Key))
+                    if (worksheet.Columns.ContainsKey(column.Key) && worksheet.Columns[column.Key].IsHidden)
                     {
-                        if (worksheet.Columns[column.Key].IsHidden)
-                        {
-                            hidden = " hidden=\"1\"";
-                        }
+                       hidden = " hidden=\"1\"";
                     }
                     col = (column.Key + 1).ToString("G", culture); // Add 1 for Address
                     sb.Append("<col customWidth=\"1\" width=\"").Append(column.Value.Width.ToString("G", culture)).Append("\" max=\"").Append(col).Append("\" min=\"").Append(col).Append("\"").Append(hidden).Append("/>");
@@ -612,19 +604,13 @@ namespace PicoXLSX
             int rowNumber = columnFields[0].RowNumber;
             string height = "";
             string hidden = "";
-            if (worksheet.RowHeights.ContainsKey(rowNumber))
+            if (worksheet.RowHeights.ContainsKey(rowNumber) && worksheet.RowHeights[rowNumber] != worksheet.DefaultRowHeight)
             {
-                if (worksheet.RowHeights[rowNumber] != worksheet.DefaultRowHeight)
-                {
                     height = " x14ac:dyDescent=\"0.25\" customHeight=\"1\" ht=\"" + worksheet.RowHeights[rowNumber].ToString("G", culture) + "\"";
-                }
             }
-            if (worksheet.HiddenRows.ContainsKey(rowNumber))
+            if (worksheet.HiddenRows.ContainsKey(rowNumber) && worksheet.HiddenRows[rowNumber])
             {
-                if (worksheet.HiddenRows[rowNumber])
-                {
                     hidden = " hidden=\"1\"";
-                }
             }
             StringBuilder sb = new StringBuilder();
             if (columnFields.Count > 0)
@@ -764,24 +750,24 @@ namespace PicoXLSX
                 actualLockingValues.Add(Worksheet.SheetProtectionValue.selectLockedCells, 1);
                 actualLockingValues.Add(Worksheet.SheetProtectionValue.selectUnlockedCells, 1);
             }
-            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.objects) == false)
+            if (!sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.objects))
             {
                 actualLockingValues.Add(Worksheet.SheetProtectionValue.objects, 1);
             }
-            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.scenarios) == false)
+            if (!sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.scenarios))
             {
                 actualLockingValues.Add(Worksheet.SheetProtectionValue.scenarios, 1);
             }
-            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells) == false)
+            if (!sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells))
             {
-                if (actualLockingValues.ContainsKey(Worksheet.SheetProtectionValue.selectLockedCells) == false)
+                if (!actualLockingValues.ContainsKey(Worksheet.SheetProtectionValue.selectLockedCells))
                 {
                     actualLockingValues.Add(Worksheet.SheetProtectionValue.selectLockedCells, 1);
                 }
             }
-            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectUnlockedCells) == false || sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells) == false)
+            if (!sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectUnlockedCells) || !sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells))
             {
-                if (actualLockingValues.ContainsKey(Worksheet.SheetProtectionValue.selectUnlockedCells) == false)
+                if (!actualLockingValues.ContainsKey(Worksheet.SheetProtectionValue.selectUnlockedCells))
                 {
                     actualLockingValues.Add(Worksheet.SheetProtectionValue.selectUnlockedCells, 1);
                 }
@@ -807,7 +793,10 @@ namespace PicoXLSX
                     temp = Enum.GetName(typeof(Worksheet.SheetProtectionValue), item.Key); // Note! If the enum names differs from the OOXML definitions, this method will cause invalid OOXML entries
                     sb.Append(" ").Append(temp).Append("=\"").Append(item.Value.ToString("G", culture)).Append("\"");
                 }
-                catch { }
+                catch
+                {
+                    // no-op
+                }
             }
             if (string.IsNullOrEmpty(sheet.SheetProtectionPassword) == false)
             {
@@ -1038,6 +1027,15 @@ namespace PicoXLSX
                         else { sb2.Append("bottom"); }
                         sb2.Append("\"");
                     }
+                    if (item.CurrentCellXf.Indent > 0 &&
+                        (item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.left
+                        || item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.right
+                        || item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.distributed))
+                    {
+                        sb2.Append(" indent=\"");
+                        sb2.Append(item.CurrentCellXf.Indent.ToString("G", culture));
+                        sb2.Append("\"");
+                    }
 
                     if (item.CurrentCellXf.Alignment != Style.CellXf.TextBreakValue.none)
                     {
@@ -1141,22 +1139,20 @@ namespace PicoXLSX
             {
                 if (string.IsNullOrEmpty(item.ColorValue)) { continue; }
                 if (item.ColorValue == Style.Fill.DEFAULTCOLOR) { continue; }
-                if (tempColors.Contains(item.ColorValue) == false) { tempColors.Add(item.ColorValue); }
+                if (!tempColors.Contains(item.ColorValue)) { tempColors.Add(item.ColorValue); }
             }
             foreach (Style.Fill item in fills)
             {
-                if (string.IsNullOrEmpty(item.BackgroundColor) == false)
+                if (!string.IsNullOrEmpty(item.BackgroundColor) && item.BackgroundColor != Style.Fill.DEFAULTCOLOR)
                 {
-                    if (item.BackgroundColor != Style.Fill.DEFAULTCOLOR)
-                    {
-                        if (tempColors.Contains(item.BackgroundColor) == false) { tempColors.Add(item.BackgroundColor); }
-                    }
+                    if (!tempColors.Contains(item.BackgroundColor))
+                    { tempColors.Add(item.BackgroundColor); }
                 }
-                if (string.IsNullOrEmpty(item.ForegroundColor) == false)
+                if (!string.IsNullOrEmpty(item.ForegroundColor))
                 {
                     if (item.ForegroundColor != Style.Fill.DEFAULTCOLOR)
                     {
-                        if (tempColors.Contains(item.ForegroundColor) == false) { tempColors.Add(item.ForegroundColor); }
+                        if (!tempColors.Contains(item.ForegroundColor)) { tempColors.Add(item.ForegroundColor); }
                     }
                 }
             }
@@ -1377,9 +1373,9 @@ namespace PicoXLSX
         public class SortedMap
         {
             private int count;
-            private List<string> keyEntries;
-            private List<string> valueEntries;
-            private Dictionary<string, int> index;
+            private readonly List<string> keyEntries;
+            private readonly List<string> valueEntries;
+            private readonly Dictionary<string, int> index;
 
             /// <summary>
             /// Number of map entries

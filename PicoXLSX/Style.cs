@@ -21,7 +21,7 @@ namespace PicoXLSX
     {
         #region privateFields
         private string name;
-        private bool internalStyle;
+        private readonly bool internalStyle;
         private bool styleNameDefined = false;
         private StyleManager styleManagerReference = null;
         #endregion
@@ -662,6 +662,10 @@ namespace PicoXLSX
             /// Gets or sets the vertical alignment of the style
             /// </summary>
             public VerticalAlignValue VerticalAlign { get; set; }
+            /// <summary>
+            /// Gets or sets the indentation in case of left, right or distributed alignment. If 0, no alignment is applied
+            /// </summary>
+            public int Indent { get; set; }
             #endregion
 
             #region constructors
@@ -675,6 +679,7 @@ namespace PicoXLSX
                 textDirection = TextDirectionValue.horizontal;
                 VerticalAlign = VerticalAlignValue.none;
                 textRotation = 0;
+                Indent = 0;
             }
             #endregion
 
@@ -730,6 +735,7 @@ namespace PicoXLSX
                 r *= p + (int)this.VerticalAlign;
                 r *= p + (int)this.Alignment;
                 r *= p + (int)this.TextDirection;
+                r *= p + this.Indent;
                 r *= p + this.TextRotation;
                 r *= p + (this.ForceApplyAlignment ? 0 : 1);
                 r *= p + (this.Locked ? 0 : 1);
@@ -752,6 +758,7 @@ namespace PicoXLSX
                 copy.ForceApplyAlignment = ForceApplyAlignment;
                 copy.Locked = Locked;
                 copy.Hidden = Hidden;
+                copy.Indent = Indent;
                 return copy;
             }
 
@@ -1176,7 +1183,7 @@ namespace PicoXLSX
             /// </returns>
             public override int GetHashCode()
             {
-                int p = 257;
+                const int p = 257;
                 int r = 1;
                 r *= p + (this.Bold ? 0 : 1);
                 r *= p + (this.Italic ? 0 : 1);

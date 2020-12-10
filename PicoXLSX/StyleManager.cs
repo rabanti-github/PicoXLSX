@@ -22,7 +22,7 @@ namespace PicoXLSX
         private List<AbstractStyle> fonts;
         private List<AbstractStyle> numberFormats;
         private List<AbstractStyle> styles;
-        private List<string> styleNames;
+        private readonly List<string> styleNames;
         #endregion
 
         #region constructors
@@ -494,10 +494,22 @@ namespace PicoXLSX
             {
                 s = (Style)styles[i];
                 if (component.GetType() == typeof(Style.Border)) { if (s.CurrentBorder.GetHashCode() == hash) { match = true; break; } }
-                else if (component.GetType() == typeof(Style.CellXf)) { if (s.CurrentCellXf.GetHashCode() == hash) { match = true; break; } }
-                if (component.GetType() == typeof(Style.Fill)) { if (s.CurrentFill.GetHashCode() == hash) { match = true; break; } }
-                if (component.GetType() == typeof(Style.Font)) { if (s.CurrentFont.GetHashCode() == hash) { match = true; break; } }
-                if (component.GetType() == typeof(Style.NumberFormat)) { if (s.CurrentNumberFormat.GetHashCode() == hash) { match = true; break; } }
+                else if (component.GetType() == typeof(Style.CellXf) && s.CurrentCellXf.GetHashCode() == hash)
+                {
+                     match = true; break; 
+                }
+                if (component.GetType() == typeof(Style.Fill) && s.CurrentFill.GetHashCode() == hash)
+                { 
+                     match = true; break;
+                }
+                if (component.GetType() == typeof(Style.Font) && s.CurrentFont.GetHashCode() == hash)
+                {
+                    match = true; break;
+                }
+                if (component.GetType() == typeof(Style.NumberFormat) && s.CurrentNumberFormat.GetHashCode() == hash)
+                { 
+                     match = true; break;
+                }
             }
             return match;
         }

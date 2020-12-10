@@ -1,5 +1,14 @@
 # Change Log
 
+## v2.8.0
+
+---
+Release Date: **10.12.2020**
+
+- Added indentation property of horizontal text alignment (CellXF) as style 
+- Added example in demo for text indentation
+- Code Cleanup
+
 ## v2.7.0
 
 ---
