@@ -1,5 +1,14 @@
 # Change Log
 
+## v2.8.1
+
+---
+Release Date: **10.12.2020**
+
+- Formal update for NuGet. Fixed wrong readme
+
+Note: No release will be published for this version, only a Nuget package
+
 ## v2.8.0
 
 ---
