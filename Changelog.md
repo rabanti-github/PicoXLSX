@@ -1,5 +1,26 @@
 # Change Log
 
+## v2.9.0
+
+---
+Release Date: **18.04.2021**
+
+- Introduced library version for .NET Standard 2.0 (and assigned demos)
+- Updated project structure (two projects for .NET >=4.5 and two for .NET Standard 2.0)
+- Added function SetStyle in the Worksheet class
+- Added demo for the new SetStyle function
+- Changed behavior of empty cells. They are now not string but implicit numeric cells
+- Added new function ResolveEnclosedAddresses in Cell.Range class
+- Added new function GetAddressScope in Cell class
+- Fixed the validation of cell addresses (single cell)
+- Introduced several generalizations of Lists
+
+Thanks to the following people for their contributions in NanoXLSX, that are based on the above changes:
+
+- Shobb for the introduction of IReadOnlyList (generalizations)
+- John Lenz for the port to .NET Standard
+- Ned Marinov for the proposal of the new SetStyle function
+
 ## v2.8.1
 
 ---

@@ -26,8 +26,8 @@
   <HelpKINode Title="AddCell method" Url="html/858e777d-4b39-d54c-be05-4c5ee2ee5983.htm" />
   <HelpKINode Title="AddCellFormula method" Url="html/cedb2473-d34f-c63b-b1f1-0a1cdc1a7d5d.htm" />
   <HelpKINode Title="AddCellRange method" Url="html/dca5a3f2-ba67-25ba-ed41-94be48006488.htm" />
-  <HelpKINode Title="AddCellRangeInternal(Of T) method" Url="html/f894adcd-1db4-4e50-7858-894c808eab4b.htm" />
-  <HelpKINode Title="AddCellRangeInternal&lt;T&gt; method" Url="html/f894adcd-1db4-4e50-7858-894c808eab4b.htm" />
+  <HelpKINode Title="AddCellRangeInternal(Of T) method" Url="html/133a867c-b88b-f56b-43a4-660c7936a7dc.htm" />
+  <HelpKINode Title="AddCellRangeInternal&lt;T&gt; method" Url="html/133a867c-b88b-f56b-43a4-660c7936a7dc.htm" />
   <HelpKINode Title="AddHiddenColumn method" Url="html/6253efe0-b403-2fd9-3e11-7ddd3f0b66f0.htm" />
   <HelpKINode Title="AddHiddenRow method" Url="html/77045f88-0564-498f-38c0-408b73d64cf0.htm" />
   <HelpKINode Title="AddNextCell method" Url="html/16026592-80e7-006a-99b6-3f4d1defdd53.htm" />
@@ -110,6 +110,7 @@
   <HelpKINode Title="Cell.Address.Row field" Url="html/50d4bb7e-869c-dd56-dbf3-332f2b4c9c3a.htm" />
   <HelpKINode Title="Cell.Address.ToString method" Url="html/019dc6d7-0b33-e1dc-9e6c-b2ed6145cc4a.htm" />
   <HelpKINode Title="Cell.Address.Type field" Url="html/a55e3f05-fabf-25c7-c0f9-aed57fbe2843.htm" />
+  <HelpKINode Title="Cell.AddressScope enumeration" Url="html/354d372c-76f6-6a71-a6aa-cfc65ef5c9ff.htm" />
   <HelpKINode Title="Cell.AddressType enumeration" Url="html/054880db-85e2-6c24-88b8-8502bd71892f.htm" />
   <HelpKINode Title="Cell.BasicFormulas class" Url="html/e041cac9-5ce1-449c-2433-62724b2aee31.htm" />
   <HelpKINode Title="Cell.BasicFormulas.Average method" Url="html/09aa3706-2a3c-f1f9-67fa-c0791edc0158.htm" />
@@ -130,9 +131,10 @@
   <HelpKINode Title="Cell.CellType enumeration" Url="html/869e4b32-cce1-41ab-bb92-a93de8fb392c.htm" />
   <HelpKINode Title="Cell.ColumnNumber property" Url="html/789ecb27-1c43-1bd5-3281-d714f075d339.htm" />
   <HelpKINode Title="Cell.CompareTo method" Url="html/39d45d3d-624f-96dc-a82d-7e509303776d.htm" />
-  <HelpKINode Title="Cell.ConvertArray(Of T) method" Url="html/d8bbe442-2ac8-fffb-d854-08bff7d57fc3.htm" />
-  <HelpKINode Title="Cell.ConvertArray&lt;T&gt; method" Url="html/d8bbe442-2ac8-fffb-d854-08bff7d57fc3.htm" />
+  <HelpKINode Title="Cell.ConvertArray(Of T) method" Url="html/47c55618-a753-9bb6-4c53-a757d11a4a92.htm" />
+  <HelpKINode Title="Cell.ConvertArray&lt;T&gt; method" Url="html/47c55618-a753-9bb6-4c53-a757d11a4a92.htm" />
   <HelpKINode Title="Cell.DataType property" Url="html/e28f396b-0ffd-5922-ec22-9ee2c0c28c2b.htm" />
+  <HelpKINode Title="Cell.GetAddressScope method" Url="html/76cdeda8-18d4-7d65-d44c-c6e11b4c9a18.htm" />
   <HelpKINode Title="Cell.GetCellRange method" Url="html/4754841d-02de-f678-0f7d-b5660f93c728.htm" />
   <HelpKINode Title="Cell.Range structure">
     <HelpKINode Title="Cell.Range Structure" Url="html/a7a13882-14d0-cf93-78d8-9fe6cd71f414.htm" />
@@ -140,6 +142,7 @@
   </HelpKINode>
   <HelpKINode Title="Cell.Range.EndAddress field" Url="html/52cd39a1-7088-c920-47ec-e074f52560d0.htm" />
   <HelpKINode Title="Cell.Range.Range constructor" Url="html/58ca429d-776d-d57e-81cc-f8f13dd36efe.htm" />
+  <HelpKINode Title="Cell.Range.ResolveEnclosedAddresses method" Url="html/ca58cc53-00df-22f8-ea66-f6c59a1eb3ca.htm" />
   <HelpKINode Title="Cell.Range.StartAddress field" Url="html/23a9c8b0-d313-74b4-d09c-7fb9de4fed59.htm" />
   <HelpKINode Title="Cell.Range.ToString method" Url="html/6cdb4cfb-ccfd-5a52-9856-2f31c69d2cd2.htm" />
   <HelpKINode Title="Cell.RemoveStyle method" Url="html/a2cf7667-588f-6e84-eee9-d954f7f9adc9.htm" />
@@ -191,8 +194,8 @@
   </HelpKINode>
   <HelpKINode Title="ContainsKey method" Url="html/236cd3fb-69f1-349e-8321-9e43a3f046f5.htm" />
   <HelpKINode Title="ContentStatus property" Url="html/b6754615-b0db-4811-ad92-27fc7183f1b4.htm" />
-  <HelpKINode Title="ConvertArray(Of T) method" Url="html/d8bbe442-2ac8-fffb-d854-08bff7d57fc3.htm" />
-  <HelpKINode Title="ConvertArray&lt;T&gt; method" Url="html/d8bbe442-2ac8-fffb-d854-08bff7d57fc3.htm" />
+  <HelpKINode Title="ConvertArray(Of T) method" Url="html/47c55618-a753-9bb6-4c53-a757d11a4a92.htm" />
+  <HelpKINode Title="ConvertArray&lt;T&gt; method" Url="html/47c55618-a753-9bb6-4c53-a757d11a4a92.htm" />
   <HelpKINode Title="Copy method">
     <HelpKINode Title="AbstractStyle.Copy Method " Url="html/b4a49ced-cc7b-3be3-e043-7187e0386ddb.htm" />
     <HelpKINode Title="Style.Border.Copy Method " Url="html/db226416-5f4f-be89-ec01-3f30ec362326.htm" />
@@ -369,6 +372,7 @@
   <HelpKINode Title="general enumeration member" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
   <HelpKINode Title="GeneratePasswordHash method" Url="html/ca5f9ef5-a6b0-49e1-297e-657479528c94.htm" />
   <HelpKINode Title="GetAddress method" Url="html/ff73b209-092a-f6a6-f7c9-6280d97b3367.htm" />
+  <HelpKINode Title="GetAddressScope method" Url="html/76cdeda8-18d4-7d65-d44c-c6e11b4c9a18.htm" />
   <HelpKINode Title="GetBasicFormula method" Url="html/4f022877-cf08-e62e-f8fc-4f38c8929314.htm" />
   <HelpKINode Title="GetBorderByHash method" Url="html/e604dff8-dc0f-2df9-86f4-de5f8c0ff422.htm" />
   <HelpKINode Title="GetBorders method" Url="html/e5e24456-c423-ff2c-f018-963d34c5e97c.htm" />
@@ -436,6 +440,7 @@
   <HelpKINode Title="InterceptDocuments property" Url="html/fda1c7b3-f244-461f-cdc9-c90bc8ecfd1f.htm" />
   <HelpKINode Title="InterceptedDocuments property" Url="html/7275496a-b99f-0183-9847-4f47258f69fe.htm" />
   <HelpKINode Title="InternalID property" Url="html/fa218416-797a-c9bc-c820-0b71b2955ddd.htm" />
+  <HelpKINode Title="Invalid enumeration member" Url="html/354d372c-76f6-6a71-a6aa-cfc65ef5c9ff.htm" />
   <HelpKINode Title="IOException class">
     <HelpKINode Title="IOException Class" Url="html/7b910ab5-f3a7-99fe-4c3b-89a7e971d96b.htm" />
     <HelpKINode Title="constructor" Url="html/46d9d936-78ba-eb1f-96c0-769285dbad7e.htm" />
@@ -472,8 +477,8 @@
   <HelpKINode Title="LockWindowsIfProtected property" Url="html/ef8f758a-e442-70b6-604f-51cbdcf200f6.htm" />
   <HelpKINode Title="LowLevel class">
     <HelpKINode Title="LowLevel Class" Url="html/21d4a25a-f2b5-5ec4-8b84-8fcee13605a0.htm" />
-    <HelpKINode Title="constructor" Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
     <HelpKINode Title="constructor" Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
+    <HelpKINode Title="constructor" Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
     <HelpKINode Title="fields" Url="html/1defef87-f57c-99ce-4f31-432379bba20f.htm" />
     <HelpKINode Title="methods" Url="html/322b3913-e838-3a82-7cd5-10444749e661.htm" />
     <HelpKINode Title="properties" Url="html/e8abb7d0-cd71-6f50-8803-cca034581033.htm" />
@@ -618,6 +623,7 @@
   <HelpKINode Title="PicoXLSX.AbstractStyle.AppendAttribute class" Url="html/648570a5-7a07-7e00-2880-61ad9fba586c.htm" />
   <HelpKINode Title="PicoXLSX.Cell class" Url="html/95b17deb-1e82-18db-5872-214ebb9e4cdd.htm" />
   <HelpKINode Title="PicoXLSX.Cell.Address structure" Url="html/f3c06937-89c5-74cb-adc7-3c0b462a61a1.htm" />
+  <HelpKINode Title="PicoXLSX.Cell.AddressScope enumeration" Url="html/354d372c-76f6-6a71-a6aa-cfc65ef5c9ff.htm" />
   <HelpKINode Title="PicoXLSX.Cell.AddressType enumeration" Url="html/054880db-85e2-6c24-88b8-8502bd71892f.htm" />
   <HelpKINode Title="PicoXLSX.Cell.BasicFormulas class" Url="html/e041cac9-5ce1-449c-2433-62724b2aee31.htm" />
   <HelpKINode Title="PicoXLSX.Cell.CellType enumeration" Url="html/869e4b32-cce1-41ab-bb92-a93de8fb392c.htm" />
@@ -657,6 +663,7 @@
   <HelpKINode Title="PicoXLSX.Worksheet.SheetProtectionValue enumeration" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
   <HelpKINode Title="PicoXLSX.WorksheetException class" Url="html/f9f7f510-1df7-f64b-3916-7b88f0ef5946.htm" />
   <HelpKINode Title="pivotTables enumeration member" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
+  <HelpKINode Title="Range enumeration member" Url="html/354d372c-76f6-6a71-a6aa-cfc65ef5c9ff.htm" />
   <HelpKINode Title="Range structure">
     <HelpKINode Title="fields" Url="html/54620a7e-7acb-7c81-c46a-7103da47cccf.htm" />
     <HelpKINode Title="methods" Url="html/795766a5-9ac3-d594-bb74-89413d0646cc.htm" />
@@ -692,6 +699,7 @@
   <HelpKINode Title="ResolveCellType method" Url="html/1180abab-e934-a71d-535a-7eb67b23fd73.htm" />
   <HelpKINode Title="ResolveColumn method" Url="html/43506256-facf-2d08-b361-75554f0a9073.htm" />
   <HelpKINode Title="ResolveColumnAddress method" Url="html/927af0f3-f952-0556-d05d-ad4e971d75cf.htm" />
+  <HelpKINode Title="ResolveEnclosedAddresses method" Url="html/ca58cc53-00df-22f8-ea66-f6c59a1eb3ca.htm" />
   <HelpKINode Title="ResolveMergedCells method" Url="html/c2b87dda-bc97-54cf-5716-befe2066b99b.htm" />
   <HelpKINode Title="right enumeration member" Url="html/1d6c53e4-a492-6a06-dfd1-5cc387c60ccc.htm" />
   <HelpKINode Title="Right method" Url="html/b3e00f27-7cb2-a5f8-bb48-9c8a05cffadf.htm" />
@@ -746,10 +754,13 @@
   <HelpKINode Title="SetRowHiddenState method" Url="html/c49f088a-d58d-680f-4d6a-b45d554cf7fa.htm" />
   <HelpKINode Title="SetSelectedCells method" Url="html/e642e906-3de8-5d92-f498-13d2f703628a.htm" />
   <HelpKINode Title="SetSelectedWorksheet method" Url="html/29b0d50b-54b9-ade1-8f89-55ef8b4c9705.htm" />
-  <HelpKINode Title="SetSheetname method" Url="html/26ed859f-c126-d114-a95b-d6a7bed349c7.htm" />
   <HelpKINode Title="SetSheetName method" Url="html/0dfb2d1a-1318-91b6-4ebb-a7bc6e4f4665.htm" />
+  <HelpKINode Title="SetSheetname method" Url="html/26ed859f-c126-d114-a95b-d6a7bed349c7.htm" />
   <HelpKINode Title="SetSheetProtectionPassword method" Url="html/425b6b66-0ccf-ec1f-8520-2c08807ea3cd.htm" />
-  <HelpKINode Title="SetStyle method" Url="html/4c8dce52-9e1e-2231-320b-19c48ba64aac.htm" />
+  <HelpKINode Title="SetStyle method">
+    <HelpKINode Title="Cell.SetStyle Method " Url="html/4c8dce52-9e1e-2231-320b-19c48ba64aac.htm" />
+    <HelpKINode Title="Worksheet.SetStyle Method " Url="html/307f1cba-5a45-4165-2f97-e3cdbf2ef82e.htm" />
+  </HelpKINode>
   <HelpKINode Title="SetWorkbookProtection method" Url="html/ee7b8e72-2649-dac7-a078-19be7954c1f9.htm" />
   <HelpKINode Title="SheetID property" Url="html/c68bed38-8567-4dc9-2738-57e87139f3cc.htm" />
   <HelpKINode Title="SheetName property" Url="html/56ee77e1-7c21-416d-4f24-aa16ae01b141.htm" />
@@ -759,6 +770,7 @@
     <HelpKINode Title="methods" Url="html/0d6124f6-7f17-cda7-9d4d-04bd692aaed2.htm" />
   </HelpKINode>
   <HelpKINode Title="shrinkToFit enumeration member" Url="html/567653c2-d633-6b90-f169-fae46fab93fc.htm" />
+  <HelpKINode Title="SingleAddress enumeration member" Url="html/354d372c-76f6-6a71-a6aa-cfc65ef5c9ff.htm" />
   <HelpKINode Title="Size property" Url="html/c52dc5fd-efa1-ad21-34f5-7342a648a85b.htm" />
   <HelpKINode Title="slantDashDot enumeration member" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
   <HelpKINode Title="solid enumeration member" Url="html/8eb3aaa5-5ec9-f14b-0857-a910d0101c88.htm" />
@@ -1067,8 +1079,8 @@
   <HelpKINode Title="Worksheet.AddCell method" Url="html/858e777d-4b39-d54c-be05-4c5ee2ee5983.htm" />
   <HelpKINode Title="Worksheet.AddCellFormula method" Url="html/cedb2473-d34f-c63b-b1f1-0a1cdc1a7d5d.htm" />
   <HelpKINode Title="Worksheet.AddCellRange method" Url="html/dca5a3f2-ba67-25ba-ed41-94be48006488.htm" />
-  <HelpKINode Title="Worksheet.AddCellRangeInternal(Of T) method" Url="html/f894adcd-1db4-4e50-7858-894c808eab4b.htm" />
-  <HelpKINode Title="Worksheet.AddCellRangeInternal&lt;T&gt; method" Url="html/f894adcd-1db4-4e50-7858-894c808eab4b.htm" />
+  <HelpKINode Title="Worksheet.AddCellRangeInternal(Of T) method" Url="html/133a867c-b88b-f56b-43a4-660c7936a7dc.htm" />
+  <HelpKINode Title="Worksheet.AddCellRangeInternal&lt;T&gt; method" Url="html/133a867c-b88b-f56b-43a4-660c7936a7dc.htm" />
   <HelpKINode Title="Worksheet.AddHiddenColumn method" Url="html/6253efe0-b403-2fd9-3e11-7ddd3f0b66f0.htm" />
   <HelpKINode Title="Worksheet.AddHiddenRow method" Url="html/77045f88-0564-498f-38c0-408b73d64cf0.htm" />
   <HelpKINode Title="Worksheet.AddNextCell method" Url="html/16026592-80e7-006a-99b6-3f4d1defdd53.htm" />
@@ -1138,6 +1150,7 @@
   <HelpKINode Title="Worksheet.SetSheetname method" Url="html/26ed859f-c126-d114-a95b-d6a7bed349c7.htm" />
   <HelpKINode Title="Worksheet.SetSheetName method" Url="html/0dfb2d1a-1318-91b6-4ebb-a7bc6e4f4665.htm" />
   <HelpKINode Title="Worksheet.SetSheetProtectionPassword method" Url="html/425b6b66-0ccf-ec1f-8520-2c08807ea3cd.htm" />
+  <HelpKINode Title="Worksheet.SetStyle method" Url="html/307f1cba-5a45-4165-2f97-e3cdbf2ef82e.htm" />
   <HelpKINode Title="Worksheet.SheetID property" Url="html/c68bed38-8567-4dc9-2738-57e87139f3cc.htm" />
   <HelpKINode Title="Worksheet.SheetName property" Url="html/56ee77e1-7c21-416d-4f24-aa16ae01b141.htm" />
   <HelpKINode Title="Worksheet.SheetProtectionPassword property" Url="html/a3f95e50-416b-3493-4c19-4ccac9f84147.htm" />

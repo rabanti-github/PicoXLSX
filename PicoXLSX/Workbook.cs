@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2020
+ * Copyright Raphael Stoeckli © 2021
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -453,7 +453,8 @@ namespace PicoXLSX
                 foreach (KeyValuePair<string, Cell.Range> range in sheet.MergedCells)
                 {
                     pos = 0;
-                    addresses = Cell.GetCellRange(range.Value.StartAddress, range.Value.EndAddress);
+                    addresses = Cell.GetCellRange(range.Value.StartAddress, range.Value.EndAddress) as List<Cell.
+                        Address>;
                     foreach (Cell.Address address in addresses)
                     {
                         if (sheet.Cells.ContainsKey(address.ToString()) == false)

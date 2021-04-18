@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2020
+ * Copyright Raphael Stoeckli © 2021
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -35,6 +35,7 @@ namespace Demo
             Demo8();
             Demo9();
             Demo10();
+            Demo11();
 
             /* ### PERFORMANCE TESTS ### */
             // # Use tests in this section to test the performance of PicoXLSX
@@ -355,7 +356,7 @@ namespace Demo
             workbook.CurrentWorksheet.AddNextCell("Test2");              								// Add cell A1
             Cell.Range range = new Cell.Range(new Cell.Address(1, 1), new Cell.Address(3, 3));			// Create a cell range for the selection B2:D4
             workbook.CurrentWorksheet.SetSelectedCells(range);											// Set the selection to the range
-            workbook.AddWorksheet("Sheet2", true);							// Create new worksheet with already existing name; The name will be changed to Sheet21 due to auto-sanitizing (appending of 1)
+            workbook.AddWorksheet("Sheet2", true);							                            // Create new worksheet with already existing name; The name will be changed to Sheet21 due to auto-sanitizing (appending of 1)
             workbook.CurrentWorksheet.AddNextCell("Test3");              								// Add cell A1
             workbook.CurrentWorksheet.SetSelectedCells(new Cell.Address(2, 2), new Cell.Address(4, 4));	// Set the selection to the range C3:E5
             workbook.SetSelectedWorksheet(1);															// Set the second Tab as selected (zero-based: 1)
@@ -449,6 +450,27 @@ namespace Demo
             wb.WS.Value("Another test", chainedStyle);                                                  // Add text and the appended style
 
             wb.Save();                                                                                  // Save the workbook
+        }
+
+        /// <summary>
+        /// This demo shows the usage of the SetStyle methods on worksheets
+        /// </summary>
+        private static void Demo11()
+        {
+            Workbook wb = new Workbook("demo11.xlsx", "setStyles");                               // Create a new workbook
+
+            Style style = new Style();                                                            // Create a new style
+            style.Append(Style.BasicStyles.ColorizedBackground("FF0000"));                        // Append a visible style component
+
+            wb.CurrentWorksheet.AddCell("Test", "C3", Style.BasicStyles.Bold);                    // Define a cell with a style (will be replaced)
+
+            wb.CurrentWorksheet.SetStyle("A1", style);                                                              // Set style based on a string address
+            wb.CurrentWorksheet.SetStyle("A3:B6", style);                                                           // Set style based on a string address range
+            wb.CurrentWorksheet.SetStyle(new Cell.Address(0, 7), style);                                            // Set style based on a address object
+            wb.CurrentWorksheet.SetStyle(new Cell.Range(new Cell.Address("C1"), new Cell.Address(4, 8)), style);    // Set style based on a range object (overwrites style on C3)
+            wb.CurrentWorksheet.SetStyle(new Cell.Address("F6"), new Cell.Address("F10"), style);                   // Set style based on a two address objects as range
+
+            wb.Save();                                                                            // Save the workbook
         }
 
     }

@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2020
+ * Copyright Raphael Stoeckli © 2021
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -56,6 +56,19 @@ namespace PicoXLSX
             FixedColumn,
             /// <summary>Row and column of the address is fixed (e.g. '$C$3')</summary>
             FixedRowAndColumn
+        }
+
+        /// <summary>
+        /// Enum to define the scope of a passed address string (used in static context)
+        /// </summary>
+        public enum AddressScope
+        {
+            /// <summary>The address represents a single cell</summary>
+            SingleAddress,
+            /// <summary>The address represents a range of cells</summary>
+            Range,
+            /// <summary>The address expression is invalid</summary>
+            Invalid
         }
 
         #endregion
@@ -320,7 +333,7 @@ namespace PicoXLSX
         /// <typeparam name="T">Generic data type</typeparam>
         /// <param name="list">List of generic objects</param>
         /// <returns>List of cells</returns>
-        public static List<Cell> ConvertArray<T>(List<T> list)
+        public static IEnumerable<Cell> ConvertArray<T>(IEnumerable<T> list)
         {
             List<Cell> output = new List<Cell>();
             Cell c;
@@ -362,7 +375,7 @@ namespace PicoXLSX
         /// <returns>List of cell addresses</returns>
         /// <exception cref="FormatException">Throws a FormatException if a part of the passed range is malformed</exception>
         /// <exception cref="RangeException">Throws an RangeException if the range is out of range (A-XFD and 1 to 1048576) </exception>
-        public static List<Address> GetCellRange(string range)
+        public static IEnumerable<Address> GetCellRange(string range)
         {
             Range range2 = ResolveCellRange(range);
             return GetCellRange(range2.StartAddress, range2.EndAddress);
@@ -376,7 +389,7 @@ namespace PicoXLSX
         /// <returns>List of cell addresses</returns>
         /// <exception cref="FormatException">Throws a FormatException if a part of the passed range is malformed</exception>
         /// <exception cref="RangeException">Throws an RangeException if the range is out of range (A-XFD and 1 to 1048576) </exception> 
-        public static List<Address> GetCellRange(string startAddress, string endAddress)
+        public static IEnumerable<Address> GetCellRange(string startAddress, string endAddress)
         {
             Address start = ResolveCellCoordinate(startAddress);
             Address end = ResolveCellCoordinate(endAddress);
@@ -392,7 +405,7 @@ namespace PicoXLSX
         /// <param name="endRow">End row (zero based)</param>
         /// <returns>List of cell addresses</returns>
         /// <exception cref="RangeException">Throws an RangeException if the value of one passed address parts is out of range (A-XFD and 1 to 1048576) </exception>
-        public static List<Address> GetCellRange(int startColumn, int startRow, int endColumn, int endRow)
+        public static IEnumerable<Address> GetCellRange(int startColumn, int startRow, int endColumn, int endRow)
         {
             Address start = new Address(startColumn, startRow);
             Address end = new Address(endColumn, endRow);
@@ -407,7 +420,7 @@ namespace PicoXLSX
         /// <returns>List of cell addresses</returns>
         /// <exception cref="FormatException">Throws a FormatException if a part of the passed addresses is malformed</exception>
         /// <exception cref="RangeException">Throws an RangeException if the value of one passed address is out of range (A-XFD and 1 to 1048576) </exception>
-        public static List<Address> GetCellRange(Address startAddress, Address endAddress)
+        public static IEnumerable<Address> GetCellRange(Address startAddress, Address endAddress)
         {
             int startColumn, endColumn, startRow, endRow;
             if (startAddress.Column < endAddress.Column)
@@ -500,7 +513,7 @@ namespace PicoXLSX
                 throw new FormatException("The cell address is null or empty and could not be resolved");
             }
             address = address.ToUpper();
-            Regex rx = new Regex("([A-Z]{1,3})([0-9]{1,7})");
+            Regex rx = new Regex("^([A-Z]{1,3})([0-9]{1,7})$");
             Match mx = rx.Match(address);
             if (mx.Groups.Count != 3)
             {
@@ -600,6 +613,33 @@ namespace PicoXLSX
             if (k > 0) { sb.Append((char)(k + 64)); }
             sb.Append((char)(j + 64));
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Gets the scope of the passed address (string expression). Scope means either single cell address or range
+        /// </summary>
+        /// <param name="addressExpression">Address expression</param>
+        /// <returns>Scope of the address expression</returns>
+        public static AddressScope GetAddressScope(String addressExpression)
+        {
+            try
+            {
+                ResolveCellCoordinate(addressExpression);
+                return AddressScope.SingleAddress;
+            }
+            catch
+            {
+                try
+                {
+                    ResolveCellRange(addressExpression);
+                    return AddressScope.Range;
+                }
+                catch
+                {
+                    return AddressScope.Invalid;
+                }
+            }
+
         }
         #endregion
 
@@ -722,6 +762,44 @@ namespace PicoXLSX
                 Range r = ResolveCellRange(range);
                 StartAddress = r.StartAddress;
                 EndAddress = r.EndAddress;
+            }
+
+            /// <summary>
+            /// Gets a list of all addresses between the start and end address
+            /// </summary>
+            /// <returns>List of Addresses</returns>
+            public IReadOnlyList<Cell.Address> ResolveEnclosedAddresses()
+            {
+                int startColumn, endColumn, startRow, endRow;
+                if (StartAddress.Column <= EndAddress.Column)
+                {
+                    startColumn = this.StartAddress.Column;
+                    endColumn = this.EndAddress.Column;
+                }
+                else
+                {
+                    endColumn = this.StartAddress.Column;
+                    startColumn = this.EndAddress.Column;
+                }
+                if (StartAddress.Row <= EndAddress.Row)
+                {
+                    startRow = this.StartAddress.Row;
+                    endRow = this.EndAddress.Row;
+                }
+                else
+                {
+                    endRow = this.StartAddress.Row;
+                    startRow = this.EndAddress.Row;
+                }
+                List<Cell.Address> addresses = new List<Cell.Address>();
+                for (int c = startColumn; c <= endColumn; c++)
+                {
+                    for (int r = startRow; r <= endRow; r++)
+                    {
+                        addresses.Add(new Cell.Address(c, r));
+                    }
+                }
+                return addresses;
             }
 
             /// <summary>

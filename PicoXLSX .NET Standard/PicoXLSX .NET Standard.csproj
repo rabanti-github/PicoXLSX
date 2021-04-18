@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <RootNamespace>PicoXLSX_.NET_Standard</RootNamespace>
+    <PackageId>PicoXLSX</PackageId>
+    <Version>2.9.0</Version>
+    <Authors>Raphael Stoeckli</Authors>
+    <Company>Raphael Stoeckli</Company>
+    <Product>PicoXLSX</Product>
+    <Description>PicoXLSX is a library to generate Microsoft Excel files (XLSX) in an easy and native way</Description>
+    <Copyright>Copyright Raphael Stoeckli © 2021</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/rabanti-github/PicoXLSX</PackageProjectUrl>
+    <PackageIcon>PicoXLSX.png</PackageIcon>
+    <RepositoryUrl>https://github.com/rabanti-github/PicoXLSX.git</RepositoryUrl>
+    <PackageTags>Excel Office XLSX</PackageTags>
+    <PackageReleaseNotes>Please see https://github.com/rabanti-github/PicoXLSX/blob/master/Changelog.md for the release notes</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>bin\Debug\PicoXLSX .NET Standard.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>bin\Release\PicoXLSX .NET Standard.xml</DocumentationFile>
+  </PropertyGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+		<PackageReference Include="System.IO.Packaging" Version="4.7.0" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+		<Reference Include="System.IO.Compression" />
+		<Reference Include="WindowsBase" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\PicoXLSX\Cell.cs" Link="Cell.cs" />
+    <Compile Include="..\PicoXLSX\Exceptions.cs" Link="Exceptions.cs" />
+    <Compile Include="..\PicoXLSX\LowLevel.cs" Link="LowLevel.cs" />
+    <Compile Include="..\PicoXLSX\Metadata.cs" Link="Metadata.cs" />
+    <Compile Include="..\PicoXLSX\Style.cs" Link="Style.cs" />
+    <Compile Include="..\PicoXLSX\StyleManager.cs" Link="StyleManager.cs" />
+    <Compile Include="..\PicoXLSX\Workbook.cs" Link="Workbook.cs" />
+    <Compile Include="..\PicoXLSX\Worksheet.cs" Link="Worksheet.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\docs\icons\PicoXLSX.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

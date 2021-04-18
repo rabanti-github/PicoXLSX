@@ -1,39 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HelpTOC>
 
-  <HelpTOCNode Id="936aba2d-d883-447d-9ae2-d6f7f94790ea" Title="PicoXLSX" Url="html/d75eb659-6335-53f6-af7a-81814a21ab7f.htm">
-    <HelpTOCNode Id="842885e4-fb15-4563-940e-4b2445d8bc8f" Title="PicoXLSX" Url="html/545ed039-1119-7deb-75d0-067dd8f97878.htm">
-      <HelpTOCNode Id="0755f838-3b8d-44ad-81c0-8c39aa65d549" Title="AbstractStyle Class" Url="html/d3bf283d-a5e7-07f8-2030-53138bc0238a.htm">
+  <HelpTOCNode Id="aa22747c-b0e3-4bef-bff5-633bbf552777" Title="PicoXLSX" Url="html/d75eb659-6335-53f6-af7a-81814a21ab7f.htm">
+    <HelpTOCNode Id="701fb856-df11-4fbb-8807-461767904213" Title="PicoXLSX" Url="html/545ed039-1119-7deb-75d0-067dd8f97878.htm">
+      <HelpTOCNode Id="dd0def29-301f-4a1f-8f26-335ba63bef19" Title="AbstractStyle Class" Url="html/d3bf283d-a5e7-07f8-2030-53138bc0238a.htm">
         <HelpTOCNode Title="AbstractStyle Constructor " Url="html/a4ba859f-38c0-812b-a406-b7fd73f46fbd.htm" />
-        <HelpTOCNode Id="3b3213a7-b04d-4cf2-9f0b-4f263fe434df" Title="AbstractStyle Properties" Url="html/e8cc4830-bd75-21d1-8983-b9746c22a0f9.htm">
+        <HelpTOCNode Id="b6c19545-8feb-4f22-a874-58d1bf980e1f" Title="AbstractStyle Properties" Url="html/e8cc4830-bd75-21d1-8983-b9746c22a0f9.htm">
           <HelpTOCNode Title="InternalID Property " Url="html/fa218416-797a-c9bc-c820-0b71b2955ddd.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="85be82ba-5602-4a87-92c8-4a642cf0b520" Title="AbstractStyle Methods" Url="html/a1398213-d314-6377-7a0a-9db70e25f10b.htm">
+        <HelpTOCNode Id="a289e018-0f05-4b9f-90d7-51bd39d01842" Title="AbstractStyle Methods" Url="html/a1398213-d314-6377-7a0a-9db70e25f10b.htm">
           <HelpTOCNode Title="CastValue Method " Url="html/52a60108-9724-09b2-8287-69fabae1bab7.htm" />
           <HelpTOCNode Title="CompareTo Method " Url="html/bb138535-ce8b-f492-0565-3780944f4f7a.htm" />
           <HelpTOCNode Title="Copy Method " Url="html/b4a49ced-cc7b-3be3-e043-7187e0386ddb.htm" />
           <HelpTOCNode Title="CopyProperties(T) Method " Url="html/9a19da46-05bf-8755-ee2d-8cb45a381fa1.htm" />
-          <HelpTOCNode Id="1feb93bf-8670-475c-bbba-be07ffbe5dc1" Title="Equals Method " Url="html/fc5bcebc-2de0-88d4-aaa4-d1745c41f396.htm">
+          <HelpTOCNode Id="052d8a08-b691-4867-a4e8-0ba072ab7226" Title="Equals Method " Url="html/fc5bcebc-2de0-88d4-aaa4-d1745c41f396.htm">
             <HelpTOCNode Title="Equals Method (AbstractStyle)" Url="html/f9d1ade5-c35e-4a73-900b-189e1857fe0d.htm" />
           </HelpTOCNode>
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="901e247e-f0de-44b0-99d4-5b2164c3fc4b" Title="AbstractStyle.AppendAttribute Class" Url="html/648570a5-7a07-7e00-2880-61ad9fba586c.htm">
+      <HelpTOCNode Id="1ea8c6c4-094b-43ee-a0e8-f25e9abb0769" Title="AbstractStyle.AppendAttribute Class" Url="html/648570a5-7a07-7e00-2880-61ad9fba586c.htm">
         <HelpTOCNode Title="AbstractStyle.AppendAttribute Constructor " Url="html/f9e54e5c-a818-2e48-5aa8-fb8ad282881f.htm" />
-        <HelpTOCNode Id="386a7395-a598-46a1-b2d9-4abf1573a420" Title="AppendAttribute Properties" Url="html/4244134a-f85e-f85e-e03f-3458121ff18b.htm">
+        <HelpTOCNode Id="c4a2725b-4954-4479-90af-0f5f7adfbc9b" Title="AppendAttribute Properties" Url="html/4244134a-f85e-f85e-e03f-3458121ff18b.htm">
           <HelpTOCNode Title="Ignore Property " Url="html/57282f8d-1831-ef95-ea36-a98142512d19.htm" />
           <HelpTOCNode Title="NestedProperty Property " Url="html/a4795928-3232-3d9a-2c8f-23d4ef2c5c77.htm" />
         </HelpTOCNode>
         <HelpTOCNode Title="AppendAttribute Methods" Url="html/4b1db3c0-f187-5295-b4fa-dd773fc62791.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="7dbb8393-9d8d-4de7-b7c5-724ca14415e9" Title="Cell Class" Url="html/95b17deb-1e82-18db-5872-214ebb9e4cdd.htm">
-        <HelpTOCNode Id="d3d004b8-0829-402b-8562-dfa9c72c22b5" Title="Cell Constructor " Url="html/6610ca31-6879-6e03-fa1c-7a79dd66e293.htm">
+      <HelpTOCNode Id="0975bf14-5248-4940-a013-e5e199d2fc93" Title="Cell Class" Url="html/95b17deb-1e82-18db-5872-214ebb9e4cdd.htm">
+        <HelpTOCNode Id="972db1b1-2539-4171-9a9e-f4f7b07a206f" Title="Cell Constructor " Url="html/6610ca31-6879-6e03-fa1c-7a79dd66e293.htm">
           <HelpTOCNode Title="Cell Constructor " Url="html/9c01d220-403e-a0d4-ca1e-71ecb3889d2c.htm" />
           <HelpTOCNode Title="Cell Constructor (Object, Cell.CellType)" Url="html/75678fd7-fd59-f8d8-a79b-751378bf10d2.htm" />
           <HelpTOCNode Title="Cell Constructor (Object, Cell.CellType, String)" Url="html/5247a9db-5dca-2da9-94da-dc4e00c9a8b0.htm" />
           <HelpTOCNode Title="Cell Constructor (Object, Cell.CellType, Int32, Int32, Worksheet)" Url="html/05315a5d-728b-fac3-2a74-e0d3c15c2908.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="a7f874bd-dd80-4b71-8530-40bd5c016ba4" Title="Cell Properties" Url="html/031174c7-84ed-0253-9e61-8e8ed9833e87.htm">
+        <HelpTOCNode Id="c0a04746-ed1f-44d7-bd23-e73e2fb4fdcc" Title="Cell Properties" Url="html/031174c7-84ed-0253-9e61-8e8ed9833e87.htm">
           <HelpTOCNode Title="CellAddress Property " Url="html/f75ea90f-4a64-2d9a-ae04-68576c1a1001.htm" />
           <HelpTOCNode Title="CellAddress2 Property " Url="html/ec3bdead-1fab-2645-01b7-6d66d1bd13a6.htm" />
           <HelpTOCNode Title="CellStyle Property " Url="html/d3dfed87-517c-8ed1-4d1d-b69654ed41a8.htm" />
@@ -43,10 +43,11 @@
           <HelpTOCNode Title="Value Property " Url="html/77fb6634-2466-1fe0-0b9f-ecd943b0d36d.htm" />
           <HelpTOCNode Title="WorksheetReference Property " Url="html/27f62c08-7b21-8ff3-0984-6c3ecf1fccd7.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="3c098409-3403-4b47-946c-0e2e2701ffb2" Title="Cell Methods" Url="html/ba0a5810-1206-bdf9-4211-54817c0e6b07.htm">
+        <HelpTOCNode Id="01699e79-139a-4cc3-b177-0e84660d791e" Title="Cell Methods" Url="html/ba0a5810-1206-bdf9-4211-54817c0e6b07.htm">
           <HelpTOCNode Title="CompareTo Method " Url="html/39d45d3d-624f-96dc-a82d-7e509303776d.htm" />
-          <HelpTOCNode Title="ConvertArray(T) Method " Url="html/d8bbe442-2ac8-fffb-d854-08bff7d57fc3.htm" />
-          <HelpTOCNode Id="01b4ff5c-7d8b-4d66-a668-dccbfa48d670" Title="GetCellRange Method " Url="html/4754841d-02de-f678-0f7d-b5660f93c728.htm">
+          <HelpTOCNode Title="ConvertArray(T) Method " Url="html/47c55618-a753-9bb6-4c53-a757d11a4a92.htm" />
+          <HelpTOCNode Title="GetAddressScope Method " Url="html/76cdeda8-18d4-7d65-d44c-c6e11b4c9a18.htm" />
+          <HelpTOCNode Id="fa26ff28-cc22-46f9-a74b-eda94801bde3" Title="GetCellRange Method " Url="html/4754841d-02de-f678-0f7d-b5660f93c728.htm">
             <HelpTOCNode Title="GetCellRange Method (String)" Url="html/657cd203-3213-585f-f44a-2e8cee198f11.htm" />
             <HelpTOCNode Title="GetCellRange Method (String, String)" Url="html/e6efd987-fe14-35e6-40a8-9d3692ebc06c.htm" />
             <HelpTOCNode Title="GetCellRange Method (Cell.Address, Cell.Address)" Url="html/04432c7b-f29d-d934-7001-5f0a5e4162ca.htm" />
@@ -54,7 +55,7 @@
           </HelpTOCNode>
           <HelpTOCNode Title="RemoveStyle Method " Url="html/a2cf7667-588f-6e84-eee9-d954f7f9adc9.htm" />
           <HelpTOCNode Title="ResolveCellAddress Method " Url="html/ee5b0e8c-4809-7069-c9e5-1a81c942e980.htm" />
-          <HelpTOCNode Id="99fa2a40-6ba6-45a2-8f74-f4d7db7a3481" Title="ResolveCellCoordinate Method " Url="html/06819873-4ff5-87af-b49f-f28b719fcdd7.htm">
+          <HelpTOCNode Id="84a3bfd4-439a-4b52-8a97-6bd3c8a4e125" Title="ResolveCellCoordinate Method " Url="html/06819873-4ff5-87af-b49f-f28b719fcdd7.htm">
             <HelpTOCNode Title="ResolveCellCoordinate Method (String)" Url="html/af5ed4c4-7912-8767-18b7-1ca79a31af10.htm" />
             <HelpTOCNode Title="ResolveCellCoordinate Method (String, Int32, Int32)" Url="html/900bfcf3-1fa0-1a4b-8f8d-3097227f1020.htm" />
           </HelpTOCNode>
@@ -66,63 +67,64 @@
           <HelpTOCNode Title="SetStyle Method " Url="html/4c8dce52-9e1e-2231-320b-19c48ba64aac.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="811b678f-dd59-4e9d-8e1d-fb825bae9537" Title="Cell.Address Structure" Url="html/f3c06937-89c5-74cb-adc7-3c0b462a61a1.htm">
-        <HelpTOCNode Id="2b2099cf-adf3-4eb1-846a-482ee7e027d8" Title="Address Constructor " Url="html/d2d5f221-e6a3-4b31-c134-a9e9e4fbae82.htm">
+      <HelpTOCNode Id="180c61ff-f9b7-4d99-a3d5-8e61063247c5" Title="Cell.Address Structure" Url="html/f3c06937-89c5-74cb-adc7-3c0b462a61a1.htm">
+        <HelpTOCNode Id="59cf325a-4ed4-46c2-9b2e-10067c9f4da4" Title="Address Constructor " Url="html/d2d5f221-e6a3-4b31-c134-a9e9e4fbae82.htm">
           <HelpTOCNode Title="Cell.Address Constructor (String, Cell.AddressType)" Url="html/618211a6-1b6c-0986-c7cd-5845a7f2d5f1.htm" />
           <HelpTOCNode Title="Cell.Address Constructor (Int32, Int32, Cell.AddressType)" Url="html/76976afe-f8c4-d881-045e-38d819ae4d25.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="ed7ff21b-19b4-485e-95f7-6cd5e8770346" Title="Address Methods" Url="html/0ec3da5d-5044-7eec-f40b-42bef45d5bbf.htm">
-          <HelpTOCNode Id="e7fb3a4d-5370-41dc-93cd-46472cdf84a5" Title="Equals Method " Url="html/33743d81-b315-d8e9-0ee8-71a4b97d03f5.htm">
+        <HelpTOCNode Id="ccf54a5e-416b-41a4-bb12-06cfe8065973" Title="Address Methods" Url="html/0ec3da5d-5044-7eec-f40b-42bef45d5bbf.htm">
+          <HelpTOCNode Id="b31d39ba-5a59-43ec-8422-71e179672cb0" Title="Equals Method " Url="html/33743d81-b315-d8e9-0ee8-71a4b97d03f5.htm">
             <HelpTOCNode Title="Equals Method (Cell.Address)" Url="html/218e99ef-4935-f37d-2fc2-af93eabca94d.htm" />
           </HelpTOCNode>
           <HelpTOCNode Title="GetAddress Method " Url="html/ff73b209-092a-f6a6-f7c9-6280d97b3367.htm" />
           <HelpTOCNode Title="GetColumn Method " Url="html/68d8bd34-7559-d246-320d-dcef53631247.htm" />
           <HelpTOCNode Title="ToString Method " Url="html/019dc6d7-0b33-e1dc-9e6c-b2ed6145cc4a.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="ed572b39-c43b-4e00-8d8c-cf4a46482ecc" Title="Address Fields" Url="html/d5af4ef2-fe4f-d61a-e5fb-05e27c1e61cc.htm">
+        <HelpTOCNode Id="e03d4b2d-97c1-423b-8a80-2ab7aca2b52a" Title="Address Fields" Url="html/d5af4ef2-fe4f-d61a-e5fb-05e27c1e61cc.htm">
           <HelpTOCNode Title="Column Field" Url="html/5b2d79d7-1e5b-384d-af1b-fe3b79c80215.htm" />
           <HelpTOCNode Title="Row Field" Url="html/50d4bb7e-869c-dd56-dbf3-332f2b4c9c3a.htm" />
           <HelpTOCNode Title="Type Field" Url="html/a55e3f05-fabf-25c7-c0f9-aed57fbe2843.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
+      <HelpTOCNode Title="Cell.AddressScope Enumeration" Url="html/354d372c-76f6-6a71-a6aa-cfc65ef5c9ff.htm" />
       <HelpTOCNode Title="Cell.AddressType Enumeration" Url="html/054880db-85e2-6c24-88b8-8502bd71892f.htm" />
-      <HelpTOCNode Id="f3eb5f48-6a8a-41ae-9119-cd20ee6abbb8" Title="Cell.BasicFormulas Class" Url="html/e041cac9-5ce1-449c-2433-62724b2aee31.htm">
-        <HelpTOCNode Id="4086f52c-b80b-48e6-acf2-5ea3b35bc518" Title="BasicFormulas Methods" Url="html/adb80843-f2e4-c361-dfd4-212a4cfce6f8.htm">
-          <HelpTOCNode Id="8687d4c9-0848-4851-bcf4-87e1cc665311" Title="Average Method " Url="html/09aa3706-2a3c-f1f9-67fa-c0791edc0158.htm">
+      <HelpTOCNode Id="25ab5db1-b19a-489b-b45a-e393356a71f0" Title="Cell.BasicFormulas Class" Url="html/e041cac9-5ce1-449c-2433-62724b2aee31.htm">
+        <HelpTOCNode Id="843e5c01-ad68-480a-baee-7be4657cc694" Title="BasicFormulas Methods" Url="html/adb80843-f2e4-c361-dfd4-212a4cfce6f8.htm">
+          <HelpTOCNode Id="40efa734-d4d7-455c-b455-3c1e438d42dc" Title="Average Method " Url="html/09aa3706-2a3c-f1f9-67fa-c0791edc0158.htm">
             <HelpTOCNode Title="Average Method (Cell.Range)" Url="html/ff3dd81b-c067-8edf-352a-067dd2d22b75.htm" />
             <HelpTOCNode Title="Average Method (Worksheet, Cell.Range)" Url="html/8416ee80-db64-3eb7-0c27-cc87d28f8da5.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="54156ba3-7edd-49fd-b0b8-13400180e5fe" Title="Ceil Method " Url="html/b7d5b295-cda5-3de8-a43d-07f1753d060a.htm">
+          <HelpTOCNode Id="6182513c-850a-4e42-bf75-dd80c314a50f" Title="Ceil Method " Url="html/b7d5b295-cda5-3de8-a43d-07f1753d060a.htm">
             <HelpTOCNode Title="Ceil Method (Cell.Address, Int32)" Url="html/1c0ec8ff-d06c-06ed-f19f-3d1b0c9196f6.htm" />
             <HelpTOCNode Title="Ceil Method (Worksheet, Cell.Address, Int32)" Url="html/6c6d886e-d86c-e347-fa90-762cf631c97e.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="b78127c2-5c31-4055-961f-c19b376f288d" Title="Floor Method " Url="html/2e78e377-f43c-0a6d-e812-35df6f6b5e4f.htm">
+          <HelpTOCNode Id="0ea931a9-6bef-4ecf-ac24-9d2796bff2f0" Title="Floor Method " Url="html/2e78e377-f43c-0a6d-e812-35df6f6b5e4f.htm">
             <HelpTOCNode Title="Floor Method (Cell.Address, Int32)" Url="html/580ca871-abd5-f63d-9808-3ee816a57c97.htm" />
             <HelpTOCNode Title="Floor Method (Worksheet, Cell.Address, Int32)" Url="html/127229f2-5f4f-f4ef-aa45-f25966c7f572.htm" />
           </HelpTOCNode>
           <HelpTOCNode Title="GetBasicFormula Method " Url="html/4f022877-cf08-e62e-f8fc-4f38c8929314.htm" />
           <HelpTOCNode Title="GetVLookup Method " Url="html/25b5fe8e-38ee-63f3-058e-14b8872c363f.htm" />
-          <HelpTOCNode Id="b8750114-3bf8-4972-a449-5bcf53694d7c" Title="Max Method " Url="html/db3847ca-6e51-b580-256e-ab7c935fb2bc.htm">
+          <HelpTOCNode Id="299e299e-175a-48a7-ad68-7c2fd99501bb" Title="Max Method " Url="html/db3847ca-6e51-b580-256e-ab7c935fb2bc.htm">
             <HelpTOCNode Title="Max Method (Cell.Range)" Url="html/5f817e68-5deb-0fe5-abb4-f8110e9758a2.htm" />
             <HelpTOCNode Title="Max Method (Worksheet, Cell.Range)" Url="html/6992741d-4e7c-2078-f803-4fb181849add.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="bc6b9707-4355-4af0-8b6f-43585da5c9cc" Title="Median Method " Url="html/d3af7a99-0e67-e06f-deaf-bb4b5c7fb428.htm">
+          <HelpTOCNode Id="80fbca31-94e1-41b1-82f4-cfefc0a19359" Title="Median Method " Url="html/d3af7a99-0e67-e06f-deaf-bb4b5c7fb428.htm">
             <HelpTOCNode Title="Median Method (Cell.Range)" Url="html/0c9940b4-e990-a55e-186e-7c557e89b099.htm" />
             <HelpTOCNode Title="Median Method (Worksheet, Cell.Range)" Url="html/91a37b06-ee56-4e9e-b5af-f40f674b9b99.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="2bd10df1-95fb-440c-8afc-fcfd4502e134" Title="Min Method " Url="html/2caf8395-d8dc-a793-d4d9-6ccbdd08f27c.htm">
+          <HelpTOCNode Id="9f796e39-23c0-431e-a2b1-2f241c0e26de" Title="Min Method " Url="html/2caf8395-d8dc-a793-d4d9-6ccbdd08f27c.htm">
             <HelpTOCNode Title="Min Method (Cell.Range)" Url="html/04a0a3f6-c414-091f-7a89-b9603afcb9f6.htm" />
             <HelpTOCNode Title="Min Method (Worksheet, Cell.Range)" Url="html/82142604-9d3e-8f1e-b26f-d61d67bd7732.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="27098c7f-68ef-4e5a-afa5-16e972627575" Title="Round Method " Url="html/c3ee093c-eade-029d-7b67-645320a2b5ab.htm">
+          <HelpTOCNode Id="4615046f-084a-4251-866a-ab433258253a" Title="Round Method " Url="html/c3ee093c-eade-029d-7b67-645320a2b5ab.htm">
             <HelpTOCNode Title="Round Method (Cell.Address, Int32)" Url="html/ccc4cc53-a73e-8dd4-90e9-ac9dc9488656.htm" />
             <HelpTOCNode Title="Round Method (Worksheet, Cell.Address, Int32)" Url="html/4c52c3fb-6a2b-185b-5558-49788f6c98bf.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="5ea847d0-3931-4554-b616-4977d6857273" Title="Sum Method " Url="html/0afea201-3829-a1c3-f847-ef06b08723b3.htm">
+          <HelpTOCNode Id="994133a0-ac42-44c9-8f3d-4226fa6489c0" Title="Sum Method " Url="html/0afea201-3829-a1c3-f847-ef06b08723b3.htm">
             <HelpTOCNode Title="Sum Method (Cell.Range)" Url="html/81734b61-4f36-a824-02cc-b336c96b7090.htm" />
             <HelpTOCNode Title="Sum Method (Worksheet, Cell.Range)" Url="html/7474cd6a-67f7-f247-e45b-2ea4d974bb88.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="8f783bfd-109a-4381-9e9d-71cc716110b9" Title="VLookup Method " Url="html/0445b4fb-85c9-a69d-45e7-d6a267d80ca9.htm">
+          <HelpTOCNode Id="07d74221-4e68-4f18-87d2-8871f204f22f" Title="VLookup Method " Url="html/0445b4fb-85c9-a69d-45e7-d6a267d80ca9.htm">
             <HelpTOCNode Title="VLookup Method (Object, Cell.Range, Int32, Boolean)" Url="html/ba8dd31d-e722-f0c2-21f9-2f8a275f4e7b.htm" />
             <HelpTOCNode Title="VLookup Method (Cell.Address, Cell.Range, Int32, Boolean)" Url="html/38794411-3dc2-bd79-12f8-8e69e7e6e718.htm" />
             <HelpTOCNode Title="VLookup Method (Object, Worksheet, Cell.Range, Int32, Boolean)" Url="html/c722f46e-d554-9101-9762-5d00c14048a5.htm" />
@@ -131,52 +133,53 @@
         </HelpTOCNode>
       </HelpTOCNode>
       <HelpTOCNode Title="Cell.CellType Enumeration" Url="html/869e4b32-cce1-41ab-bb92-a93de8fb392c.htm" />
-      <HelpTOCNode Id="c667191a-cb47-4de3-b515-ca5d9a5a208a" Title="Cell.Range Structure" Url="html/a7a13882-14d0-cf93-78d8-9fe6cd71f414.htm">
-        <HelpTOCNode Id="f5c0a1be-d751-4e4c-9981-95df26a67f1e" Title="Range Constructor " Url="html/58ca429d-776d-d57e-81cc-f8f13dd36efe.htm">
+      <HelpTOCNode Id="5574c76d-f021-43f6-a022-7ce54d17ac18" Title="Cell.Range Structure" Url="html/a7a13882-14d0-cf93-78d8-9fe6cd71f414.htm">
+        <HelpTOCNode Id="af8dafbf-7bd0-4424-a66d-979eeae5ece3" Title="Range Constructor " Url="html/58ca429d-776d-d57e-81cc-f8f13dd36efe.htm">
           <HelpTOCNode Title="Cell.Range Constructor (String)" Url="html/4fd02fa2-abee-9582-f2a7-0001f6999cb5.htm" />
           <HelpTOCNode Title="Cell.Range Constructor (Cell.Address, Cell.Address)" Url="html/9c5ffd8b-68e9-4f1f-1b40-d403332108a4.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="f9617d57-823c-41dc-886f-f4e8ca0cc773" Title="Range Methods" Url="html/795766a5-9ac3-d594-bb74-89413d0646cc.htm">
+        <HelpTOCNode Id="c10e412d-7aea-4b8b-bd11-ffe889d3e9f9" Title="Range Methods" Url="html/795766a5-9ac3-d594-bb74-89413d0646cc.htm">
+          <HelpTOCNode Title="ResolveEnclosedAddresses Method " Url="html/ca58cc53-00df-22f8-ea66-f6c59a1eb3ca.htm" />
           <HelpTOCNode Title="ToString Method " Url="html/6cdb4cfb-ccfd-5a52-9856-2f31c69d2cd2.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="20aedd4c-03d4-4eea-bb07-85c9022f6b7f" Title="Range Fields" Url="html/54620a7e-7acb-7c81-c46a-7103da47cccf.htm">
+        <HelpTOCNode Id="b6067518-68c7-4e64-942e-d3c1fcb9896e" Title="Range Fields" Url="html/54620a7e-7acb-7c81-c46a-7103da47cccf.htm">
           <HelpTOCNode Title="EndAddress Field" Url="html/52cd39a1-7088-c920-47ec-e074f52560d0.htm" />
           <HelpTOCNode Title="StartAddress Field" Url="html/23a9c8b0-d313-74b4-d09c-7fb9de4fed59.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="59b042d2-1478-4274-909f-94bd9e4fee95" Title="FormatException Class" Url="html/d68fa000-e9c8-43c4-983b-5fed311c0966.htm">
-        <HelpTOCNode Id="99ad2119-8552-4c9a-b186-c564fefaae7f" Title="FormatException Constructor " Url="html/b5a99a41-809b-7242-8e0e-3c460cb123a7.htm">
+      <HelpTOCNode Id="cd956412-8ac0-463c-a5a4-7540dc3a995c" Title="FormatException Class" Url="html/d68fa000-e9c8-43c4-983b-5fed311c0966.htm">
+        <HelpTOCNode Id="050da00f-f99a-4d6b-8274-8be985d80c35" Title="FormatException Constructor " Url="html/b5a99a41-809b-7242-8e0e-3c460cb123a7.htm">
           <HelpTOCNode Title="FormatException Constructor " Url="html/bbc32787-eb39-6901-2f71-8555e97e3a9e.htm" />
           <HelpTOCNode Title="FormatException Constructor (String)" Url="html/250e1e4b-89ab-63c8-59b8-ffee028a634b.htm" />
           <HelpTOCNode Title="FormatException Constructor (String, String)" Url="html/14717424-27f9-6434-7e54-ad50d2da172e.htm" />
           <HelpTOCNode Title="FormatException Constructor (String, String, Exception)" Url="html/3aaafb24-1f1c-f18f-a206-359f105508fd.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="874ea5d1-c351-4b9e-a371-8c3afae3820d" Title="FormatException Properties" Url="html/41f48091-ef2f-8eea-d4c6-7d2cc8e4bee5.htm">
+        <HelpTOCNode Id="0dc04af3-4837-4e48-ab38-32360f9d2f2b" Title="FormatException Properties" Url="html/41f48091-ef2f-8eea-d4c6-7d2cc8e4bee5.htm">
           <HelpTOCNode Title="ExceptionTitle Property " Url="html/fdb38572-b51f-6304-e278-6e9ccb21ede3.htm" />
         </HelpTOCNode>
         <HelpTOCNode Title="FormatException Methods" Url="html/a095d7f7-a4fa-390a-5917-71113778c8d2.htm" />
         <HelpTOCNode Title="FormatException Events" Url="html/4c676134-cddb-f8f8-d343-6d4a67cdf307.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="e0d9ebec-fbbf-4660-9f8d-0d48a8d86faf" Title="IOException Class" Url="html/7b910ab5-f3a7-99fe-4c3b-89a7e971d96b.htm">
-        <HelpTOCNode Id="94d2ced5-309f-43fe-936c-8f0fd9b4cc12" Title="IOException Constructor " Url="html/46d9d936-78ba-eb1f-96c0-769285dbad7e.htm">
+      <HelpTOCNode Id="677cad4d-c749-4fd5-90d2-709901c2105f" Title="IOException Class" Url="html/7b910ab5-f3a7-99fe-4c3b-89a7e971d96b.htm">
+        <HelpTOCNode Id="7afd5840-e78c-487c-9a03-6cfb45d1b16e" Title="IOException Constructor " Url="html/46d9d936-78ba-eb1f-96c0-769285dbad7e.htm">
           <HelpTOCNode Title="IOException Constructor " Url="html/fdb1f051-7a7b-edf4-4f11-e6b791371eee.htm" />
           <HelpTOCNode Title="IOException Constructor (String, String)" Url="html/dd1c850f-7ecc-ca24-5a21-cca0b8b47433.htm" />
           <HelpTOCNode Title="IOException Constructor (String, String, Exception)" Url="html/dda8d7cd-f21d-d31c-69fe-c296fc450005.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="311211b1-1f37-42ee-927b-95b302d04fb0" Title="IOException Properties" Url="html/806dce4a-998f-8e0d-cba1-711ebb4459fa.htm">
+        <HelpTOCNode Id="99d507a0-b4b8-45b8-93b7-7202ea435872" Title="IOException Properties" Url="html/806dce4a-998f-8e0d-cba1-711ebb4459fa.htm">
           <HelpTOCNode Title="ExceptionTitle Property " Url="html/7443137d-0b5a-37ec-19ae-03343c64cc1b.htm" />
         </HelpTOCNode>
         <HelpTOCNode Title="IOException Methods" Url="html/37355d75-32f4-e16c-b984-81b8ed3854c7.htm" />
         <HelpTOCNode Title="IOException Events" Url="html/6a489069-c6ac-a607-c89b-bceb6c687501.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="c45da75b-f0f9-4ee2-b37f-5c35ab863ecb" Title="LowLevel Class" Url="html/21d4a25a-f2b5-5ec4-8b84-8fcee13605a0.htm">
+      <HelpTOCNode Id="1f45e495-3498-4c0a-b971-be75f9e8b5a4" Title="LowLevel Class" Url="html/21d4a25a-f2b5-5ec4-8b84-8fcee13605a0.htm">
         <HelpTOCNode Title="LowLevel Constructor " Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
         <HelpTOCNode Title="LowLevel Constructor " Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
-        <HelpTOCNode Id="df9101d9-4c05-4e85-9bf4-3c71d3b47223" Title="LowLevel Properties" Url="html/e8abb7d0-cd71-6f50-8803-cca034581033.htm">
+        <HelpTOCNode Id="5757fa9d-9ca8-4ef1-b07d-e459f39491b9" Title="LowLevel Properties" Url="html/e8abb7d0-cd71-6f50-8803-cca034581033.htm">
           <HelpTOCNode Title="InterceptDocuments Property " Url="html/fda1c7b3-f244-461f-cdc9-c90bc8ecfd1f.htm" />
           <HelpTOCNode Title="InterceptedDocuments Property " Url="html/7275496a-b99f-0183-9847-4f47258f69fe.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="ca7f54fc-4294-47f3-80b2-9a54887b1d3b" Title="LowLevel Methods" Url="html/322b3913-e838-3a82-7cd5-10444749e661.htm">
+        <HelpTOCNode Id="95b0b754-dd07-4403-98e8-aae07af0c011" Title="LowLevel Methods" Url="html/322b3913-e838-3a82-7cd5-10444749e661.htm">
           <HelpTOCNode Title="AppendXmlTag Method " Url="html/b0d47d26-6de4-4d5a-a342-f741ebd836da.htm" />
           <HelpTOCNode Title="AppendXmlToPackagePart Method " Url="html/8dab927a-795a-ab25-f6d4-4b92e8976f67.htm" />
           <HelpTOCNode Title="CreateAppPropertiesDocument Method " Url="html/c228e594-052b-0fb4-e00f-d245b3a3b8dd.htm" />
@@ -208,40 +211,40 @@
           <HelpTOCNode Title="SaveAsStreamAsync Method " Url="html/a150e41f-5e83-200d-f488-d79bdd680cb8.htm" />
           <HelpTOCNode Title="SaveAsync Method " Url="html/6b465dde-fb43-6396-e389-055b84b996f9.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="c60f6aee-5d91-4c26-ac6b-010188ff8148" Title="LowLevel Fields" Url="html/1defef87-f57c-99ce-4f31-432379bba20f.htm">
+        <HelpTOCNode Id="a0d7939f-9bd6-474e-944f-921456f6a2a9" Title="LowLevel Fields" Url="html/1defef87-f57c-99ce-4f31-432379bba20f.htm">
           <HelpTOCNode Title="MAX_OADATE_VALUE Field" Url="html/a01ef06a-899e-2b5c-eb1d-8af6774b5b5b.htm" />
           <HelpTOCNode Title="MIN_OADATE_VALUE Field" Url="html/40c47d62-7e79-1505-a510-f8d48099ee21.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="9a965f95-c4fb-467a-8395-b27ed98a18ff" Title="LowLevel.DocumentPath Class" Url="html/24f892e1-28e9-a6f1-3416-b27c2162d10e.htm">
-        <HelpTOCNode Id="1a1e7479-0315-4da4-9399-7f25c755760c" Title="DocumentPath Constructor " Url="html/8c53b5d2-f837-737f-1900-0c31c1485bc8.htm">
+      <HelpTOCNode Id="72987248-9b80-40ec-8ac9-14592702f8ce" Title="LowLevel.DocumentPath Class" Url="html/24f892e1-28e9-a6f1-3416-b27c2162d10e.htm">
+        <HelpTOCNode Id="6dce2d1e-348a-4d64-92d0-17da0a49971c" Title="DocumentPath Constructor " Url="html/8c53b5d2-f837-737f-1900-0c31c1485bc8.htm">
           <HelpTOCNode Title="LowLevel.DocumentPath Constructor " Url="html/9e22fde6-6c1a-2b71-1f3f-240c8e2acc30.htm" />
           <HelpTOCNode Title="LowLevel.DocumentPath Constructor (String, String)" Url="html/1500cf7e-eeb8-6f6d-d223-057ac531426e.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="e0763417-e265-4ea3-ac57-996575d5ae97" Title="DocumentPath Properties" Url="html/cba5d8b5-1932-7e7d-4df2-aeaf8b939dea.htm">
+        <HelpTOCNode Id="19f53fdf-b421-4ad5-927a-e926180a9f65" Title="DocumentPath Properties" Url="html/cba5d8b5-1932-7e7d-4df2-aeaf8b939dea.htm">
           <HelpTOCNode Title="Filename Property " Url="html/aa727f9a-47c0-013d-781e-1ac9ebcf45e1.htm" />
           <HelpTOCNode Title="Path Property " Url="html/ecba9ebd-84b2-4ffc-344f-aacf201a6618.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="d637dfbf-4a27-4062-aa0b-5fea3abd55af" Title="DocumentPath Methods" Url="html/db8cab22-25bb-7d90-ebb4-976ed27ebda1.htm">
+        <HelpTOCNode Id="738d4134-ec50-4e1b-8450-7abf10378b92" Title="DocumentPath Methods" Url="html/db8cab22-25bb-7d90-ebb4-976ed27ebda1.htm">
           <HelpTOCNode Title="GetFullPath Method " Url="html/23d5a7ee-4309-c5f4-548f-4e83a9250106.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="59a3e298-aae0-469c-b6a5-1b7f55a3bebd" Title="LowLevel.SortedMap Class" Url="html/c3d56b3f-c248-ae19-08d5-1d32e7116e42.htm">
+      <HelpTOCNode Id="80c65402-2d50-4510-aeef-e5f129df8756" Title="LowLevel.SortedMap Class" Url="html/c3d56b3f-c248-ae19-08d5-1d32e7116e42.htm">
         <HelpTOCNode Title="LowLevel.SortedMap Constructor " Url="html/05eb9f51-893d-ff88-b31a-b6f169c18d9d.htm" />
-        <HelpTOCNode Id="5172c31d-a8d7-439a-b453-a3f106434d67" Title="SortedMap Properties" Url="html/0ecc8fdc-a197-a4eb-767d-53abf9595cd7.htm">
+        <HelpTOCNode Id="2823ba42-8175-496e-a8c0-f0fe239ba159" Title="SortedMap Properties" Url="html/0ecc8fdc-a197-a4eb-767d-53abf9595cd7.htm">
           <HelpTOCNode Title="Count Property " Url="html/ba02022c-9a38-811b-deec-af177eeaaa9d.htm" />
           <HelpTOCNode Title="Item Property " Url="html/7a3728ee-2984-ba4d-1dee-df36a51aa702.htm" />
           <HelpTOCNode Title="Keys Property " Url="html/d57708e2-3f02-4312-1c20-1b2c475e46f0.htm" />
           <HelpTOCNode Title="Values Property " Url="html/870e75ae-ac9e-56ae-4073-5315f2c65435.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="897f0628-716b-4339-89ae-145903ddeef0" Title="SortedMap Methods" Url="html/50270225-2146-0983-f527-5e6d45305d5f.htm">
+        <HelpTOCNode Id="e1aee88b-e4bd-4d3d-8567-3ee7f1c18e16" Title="SortedMap Methods" Url="html/50270225-2146-0983-f527-5e6d45305d5f.htm">
           <HelpTOCNode Title="Add Method " Url="html/ad4a1d25-c830-1640-1a77-cf1f7a6154e6.htm" />
           <HelpTOCNode Title="ContainsKey Method " Url="html/236cd3fb-69f1-349e-8321-9e43a3f046f5.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="f565888b-e03d-41a0-aaad-28a3f0762435" Title="Metadata Class" Url="html/05218a85-e20c-fc60-d57e-343ae5621845.htm">
+      <HelpTOCNode Id="287821d1-e6f8-4f28-9c3f-50ecc5ca7a5a" Title="Metadata Class" Url="html/05218a85-e20c-fc60-d57e-343ae5621845.htm">
         <HelpTOCNode Title="Metadata Constructor " Url="html/63332e75-a4cd-e3cc-a6f2-b6b44043ba77.htm" />
-        <HelpTOCNode Id="c23d365e-6338-45f9-bc03-3d18ad30b5a0" Title="Metadata Properties" Url="html/53cc0ead-10bc-ccbd-857a-70ab694a5a94.htm">
+        <HelpTOCNode Id="e08db0c1-e7ab-4714-9a16-86263e2b639d" Title="Metadata Properties" Url="html/53cc0ead-10bc-ccbd-857a-70ab694a5a94.htm">
           <HelpTOCNode Title="Application Property " Url="html/d132ea68-37d5-15ac-4527-4277f96f4418.htm" />
           <HelpTOCNode Title="ApplicationVersion Property " Url="html/e1e73db3-9c46-2186-c78f-176401825f81.htm" />
           <HelpTOCNode Title="Category Property " Url="html/b07e9aea-da87-89ee-7c00-19b82a240010.htm" />
@@ -256,29 +259,29 @@
           <HelpTOCNode Title="Title Property " Url="html/dd6300e7-f5c6-c7ec-340a-6d66c5642126.htm" />
           <HelpTOCNode Title="UseColorMRU Property " Url="html/21f8420d-7476-482f-9368-5caa3e65a5ed.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="e15d2c1a-8915-4969-ad3e-a85965be1589" Title="Metadata Methods" Url="html/a213a0be-dd4e-7343-caa0-4e4a136fedae.htm">
+        <HelpTOCNode Id="79714170-a1a4-4e49-81c9-fd017c3105f5" Title="Metadata Methods" Url="html/a213a0be-dd4e-7343-caa0-4e4a136fedae.htm">
           <HelpTOCNode Title="CheckVersion Method " Url="html/d3f75b3c-69d0-8570-e49a-580559609b38.htm" />
           <HelpTOCNode Title="ParseVersion Method " Url="html/90d5d6ec-4d0d-3430-aeb8-bfaf82b926fc.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="0996bdc4-bd9a-4548-a6da-c7e8d924d6c2" Title="RangeException Class" Url="html/69542d1d-cdc9-8fbd-90ac-969014805c72.htm">
-        <HelpTOCNode Id="07e5fff4-220f-48df-9d19-4ea02aa09983" Title="RangeException Constructor " Url="html/9a2a14a4-e509-285e-520f-9431429ec030.htm">
+      <HelpTOCNode Id="5ad518e1-3e7f-488e-92be-b397f017a9e3" Title="RangeException Class" Url="html/69542d1d-cdc9-8fbd-90ac-969014805c72.htm">
+        <HelpTOCNode Id="1e49d49b-1eb9-488b-b7c2-0b66ed26eb45" Title="RangeException Constructor " Url="html/9a2a14a4-e509-285e-520f-9431429ec030.htm">
           <HelpTOCNode Title="RangeException Constructor " Url="html/320be980-2ad9-de64-a290-83b7a841779e.htm" />
           <HelpTOCNode Title="RangeException Constructor (String, String)" Url="html/6b166a30-3813-88d8-5917-639d5282e681.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="8cac1189-21b1-4dd1-b833-97d10e211c97" Title="RangeException Properties" Url="html/4dc4db9e-0ab9-acab-5d75-1a34dcca3fff.htm">
+        <HelpTOCNode Id="bbd8b657-b47c-4046-a189-b593785a4799" Title="RangeException Properties" Url="html/4dc4db9e-0ab9-acab-5d75-1a34dcca3fff.htm">
           <HelpTOCNode Title="ExceptionTitle Property " Url="html/ed52a666-29bb-cca0-309a-a7fdf790217e.htm" />
         </HelpTOCNode>
         <HelpTOCNode Title="RangeException Methods" Url="html/2c5f720c-51cd-a57c-ecd6-c2b44ec7c673.htm" />
         <HelpTOCNode Title="RangeException Events" Url="html/a500f8b3-86a3-84ab-61b7-67fc841e7a49.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="c6f23c78-f3c5-4e44-a7ef-69af64d48c4f" Title="Style Class" Url="html/d39b4a51-0a49-7a9b-bcd1-bac433145294.htm">
-        <HelpTOCNode Id="0ede6fa9-fec8-4dfc-b5b9-5746cca604c5" Title="Style Constructor " Url="html/77978064-4924-b5de-216e-befac1d59766.htm">
+      <HelpTOCNode Id="da91e145-b816-47a5-ba2e-7546f80d8a4c" Title="Style Class" Url="html/d39b4a51-0a49-7a9b-bcd1-bac433145294.htm">
+        <HelpTOCNode Id="bc617580-49fb-4571-ace8-8b72a24769af" Title="Style Constructor " Url="html/77978064-4924-b5de-216e-befac1d59766.htm">
           <HelpTOCNode Title="Style Constructor " Url="html/00108899-508b-1f7a-43a9-804e19451302.htm" />
           <HelpTOCNode Title="Style Constructor (String)" Url="html/fb401104-f0d3-7fa8-dd5b-35125709bb98.htm" />
           <HelpTOCNode Title="Style Constructor (String, Int32, Boolean)" Url="html/a19ab59e-47a2-9ecb-8f87-6bd9947e7e5e.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="c848201f-a105-4392-9672-d7386ec7998a" Title="Style Properties" Url="html/7b895d9a-22aa-86c0-1855-a11ded23636b.htm">
+        <HelpTOCNode Id="d16497ae-1c0c-4544-813f-93cec0d60794" Title="Style Properties" Url="html/7b895d9a-22aa-86c0-1855-a11ded23636b.htm">
           <HelpTOCNode Title="CurrentBorder Property " Url="html/985ca533-d5e5-3d56-4365-cd00df47dcbe.htm" />
           <HelpTOCNode Title="CurrentCellXf Property " Url="html/98f0424c-73c9-8ac3-677b-1e21cfaae015.htm" />
           <HelpTOCNode Title="CurrentFill Property " Url="html/19857227-c764-1c6b-8c2a-03752e346229.htm" />
@@ -288,7 +291,7 @@
           <HelpTOCNode Title="Name Property " Url="html/19014a80-7be3-71c8-5c04-41ba757108bd.htm" />
           <HelpTOCNode Title="StyleManagerReference Property " Url="html/1f1d7a67-26eb-1e56-2787-8b4f1c0ab8f6.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="f35631f5-fed8-4f51-8736-0c4d469ba801" Title="Style Methods" Url="html/f8a20be1-6f12-aea2-6718-311ec5cf1a92.htm">
+        <HelpTOCNode Id="131b5700-e9bc-4463-8169-b650f729dd6a" Title="Style Methods" Url="html/f8a20be1-6f12-aea2-6718-311ec5cf1a92.htm">
           <HelpTOCNode Title="Append Method " Url="html/de423e65-64a1-e26a-bc91-d0569f8b13d5.htm" />
           <HelpTOCNode Title="Copy Method " Url="html/2bcc8a60-59df-f901-cf0c-49903cf207d2.htm" />
           <HelpTOCNode Title="CopyStyle Method " Url="html/6ae35113-6bc8-4ef2-d2b6-d3c6cc250ffa.htm" />
@@ -297,8 +300,8 @@
           <HelpTOCNode Title="ToString Method " Url="html/b0082835-f648-f886-39e1-7bc703fea443.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="9bd5f743-d7b5-4744-9138-d95d6f2bdba1" Title="Style.BasicStyles Class" Url="html/eb0d74aa-d42a-8fa3-39a6-166e9ab92349.htm">
-        <HelpTOCNode Id="822f2a67-d17a-4b82-8f44-6d2f1167ed66" Title="BasicStyles Properties" Url="html/8a2f6527-3952-b4c7-22d1-650a98d14a0d.htm">
+      <HelpTOCNode Id="3bc1f83c-4565-4723-b52f-595a99eea047" Title="Style.BasicStyles Class" Url="html/eb0d74aa-d42a-8fa3-39a6-166e9ab92349.htm">
+        <HelpTOCNode Id="f5a49d46-8743-4058-a408-b3a0a61d13e2" Title="BasicStyles Properties" Url="html/8a2f6527-3952-b4c7-22d1-650a98d14a0d.htm">
           <HelpTOCNode Title="Bold Property " Url="html/ebcbaadf-f0ca-dac9-230d-8bc62dff6ef4.htm" />
           <HelpTOCNode Title="BoldItalic Property " Url="html/5009de15-4c6c-c123-59fe-329a73bacb98.htm" />
           <HelpTOCNode Title="BorderFrame Property " Url="html/daad8014-65bd-8327-cc6c-503b60ae7653.htm" />
@@ -313,7 +316,7 @@
           <HelpTOCNode Title="TimeFormat Property " Url="html/b5bdf151-381d-787f-7455-c12e92f11077.htm" />
           <HelpTOCNode Title="Underline Property " Url="html/5df19794-1527-b038-6daf-a76a85dc7cd2.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="a19e9652-b070-477f-b09b-7823c28bc512" Title="BasicStyles Methods" Url="html/116e977a-0575-4178-2c62-657f3310352a.htm">
+        <HelpTOCNode Id="d97ed67e-99ce-434e-8c48-0d28b27e3617" Title="BasicStyles Methods" Url="html/116e977a-0575-4178-2c62-657f3310352a.htm">
           <HelpTOCNode Title="ColorizedBackground Method " Url="html/1d5ad058-90f7-d1e4-87a7-a032055ba6cc.htm" />
           <HelpTOCNode Title="ColorizedText Method " Url="html/fa769f6d-ee6f-b057-b535-a00bf20dad58.htm" />
           <HelpTOCNode Title="Font Method " Url="html/b350fa4a-ae26-e42f-48f3-eacec3e7ad5c.htm" />
@@ -321,9 +324,9 @@
         </HelpTOCNode>
       </HelpTOCNode>
       <HelpTOCNode Title="Style.BasicStyles.StyleEnum Enumeration" Url="html/34686cde-ba88-a4db-d64e-d3f544c9367a.htm" />
-      <HelpTOCNode Id="ab197ac3-ebdb-4a93-aae2-bdc4c0183f2a" Title="Style.Border Class" Url="html/b0f7ff6d-2132-4c17-6776-66d9839ad828.htm">
+      <HelpTOCNode Id="c8e2a1b4-8088-43c7-9081-192f43176202" Title="Style.Border Class" Url="html/b0f7ff6d-2132-4c17-6776-66d9839ad828.htm">
         <HelpTOCNode Title="Style.Border Constructor " Url="html/35d8ae0c-d71c-9090-3488-ee82b27d3442.htm" />
-        <HelpTOCNode Id="06a16d86-c3e4-4305-8871-b09525a5877d" Title="Border Properties" Url="html/1458e5c9-3a0a-2419-689d-e5aef1bc891f.htm">
+        <HelpTOCNode Id="795e3819-7afd-4d35-850b-ca1030477bdb" Title="Border Properties" Url="html/1458e5c9-3a0a-2419-689d-e5aef1bc891f.htm">
           <HelpTOCNode Title="BottomColor Property " Url="html/44ad0056-fc9b-dc19-a110-670e9d9fda12.htm" />
           <HelpTOCNode Title="BottomStyle Property " Url="html/6dfe6c9a-85d1-34fa-cca8-b5bfb25eea6a.htm" />
           <HelpTOCNode Title="DiagonalColor Property " Url="html/171c8de0-8c0e-5de5-9275-89340865bb3c.htm" />
@@ -337,7 +340,7 @@
           <HelpTOCNode Title="TopColor Property " Url="html/2597f4c5-cb46-154c-3377-3ee1ffd9d8b2.htm" />
           <HelpTOCNode Title="TopStyle Property " Url="html/2a0ab15b-9ede-c6ae-62f7-55954ca7318f.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="c7709522-3c23-46fd-8ea0-539e10980bc2" Title="Border Methods" Url="html/8220399e-89f5-a083-e57e-11c30890dbbc.htm">
+        <HelpTOCNode Id="d2212951-a62f-4707-a5dd-72d711c463b9" Title="Border Methods" Url="html/8220399e-89f5-a083-e57e-11c30890dbbc.htm">
           <HelpTOCNode Title="Copy Method " Url="html/db226416-5f4f-be89-ec01-3f30ec362326.htm" />
           <HelpTOCNode Title="CopyBorder Method " Url="html/da1ca41a-7815-401d-c9c8-3d5f4a47e3b6.htm" />
           <HelpTOCNode Title="GetHashCode Method " Url="html/1aa2f017-e62e-f738-79c3-8d67f5316223.htm" />
@@ -347,9 +350,9 @@
         </HelpTOCNode>
       </HelpTOCNode>
       <HelpTOCNode Title="Style.Border.StyleValue Enumeration" Url="html/89c65855-06e4-26fb-b411-c3b4949c4d04.htm" />
-      <HelpTOCNode Id="5d56b994-b49c-4d4c-bec0-c31269ce6389" Title="Style.CellXf Class" Url="html/1cea405c-b47e-ee50-0614-4894cbd9ab25.htm">
+      <HelpTOCNode Id="fa587254-6013-4924-8bf8-f5dc395bdb60" Title="Style.CellXf Class" Url="html/1cea405c-b47e-ee50-0614-4894cbd9ab25.htm">
         <HelpTOCNode Title="Style.CellXf Constructor " Url="html/4c26c15f-a878-15fb-9399-291d227b1375.htm" />
-        <HelpTOCNode Id="366c10db-640f-4e86-93c3-7484c21ed7f5" Title="CellXf Properties" Url="html/680b91b5-d1d8-51a0-7c5a-de55dfca82cf.htm">
+        <HelpTOCNode Id="30b78aff-4fa6-4f2a-8b91-a8e7ec8f1215" Title="CellXf Properties" Url="html/680b91b5-d1d8-51a0-7c5a-de55dfca82cf.htm">
           <HelpTOCNode Title="Alignment Property " Url="html/be0671ae-d0b7-f60f-219d-4da15ed60b11.htm" />
           <HelpTOCNode Title="ForceApplyAlignment Property " Url="html/9b93abcd-46c9-bd1e-6aa1-3dc3d2277137.htm" />
           <HelpTOCNode Title="Hidden Property " Url="html/6e71f31d-a3ed-0ef5-b22d-26ff073aaf82.htm" />
@@ -360,7 +363,7 @@
           <HelpTOCNode Title="TextRotation Property " Url="html/4514e108-5d60-5f10-b1e6-e06168734b72.htm" />
           <HelpTOCNode Title="VerticalAlign Property " Url="html/fec17d64-b1a4-2df6-edbe-ed3d0b06e485.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="f3465f10-4529-4f61-a6fb-5d91fec9022f" Title="CellXf Methods" Url="html/4f0ee5fe-8288-7594-3f8d-91f3696fc5a9.htm">
+        <HelpTOCNode Id="4ff69f62-b41c-44d5-8d9b-529976502548" Title="CellXf Methods" Url="html/4f0ee5fe-8288-7594-3f8d-91f3696fc5a9.htm">
           <HelpTOCNode Title="CalculateInternalRotation Method " Url="html/c533f83c-5d21-6f4b-6cb2-56c362a0c86d.htm" />
           <HelpTOCNode Title="Copy Method " Url="html/9b2381ac-3ab2-59e1-17ec-5e105bd941c9.htm" />
           <HelpTOCNode Title="CopyCellXf Method " Url="html/5e49c821-63a7-9530-d119-98d4d6dc1bbf.htm" />
@@ -372,19 +375,19 @@
       <HelpTOCNode Title="Style.CellXf.TextBreakValue Enumeration" Url="html/567653c2-d633-6b90-f169-fae46fab93fc.htm" />
       <HelpTOCNode Title="Style.CellXf.TextDirectionValue Enumeration" Url="html/f49f234c-2222-24d5-d9f7-0eb0e53bffbe.htm" />
       <HelpTOCNode Title="Style.CellXf.VerticalAlignValue Enumeration" Url="html/9aff105d-3f3c-209e-6b7d-b851c6490690.htm" />
-      <HelpTOCNode Id="808b0715-be98-48b6-b5e9-92da22552157" Title="Style.Fill Class" Url="html/4889f551-d9e8-98f5-4928-be808ecb71f8.htm">
-        <HelpTOCNode Id="689032e7-ef23-4bb7-b55f-bb43cf279f67" Title="Fill Constructor " Url="html/8daa79c4-a1fa-2020-b84b-fb290ece1a13.htm">
+      <HelpTOCNode Id="9fa6407d-dc12-49e4-8114-50d8d2c69aa6" Title="Style.Fill Class" Url="html/4889f551-d9e8-98f5-4928-be808ecb71f8.htm">
+        <HelpTOCNode Id="cba84994-526b-4f2f-8858-95ce70dac9d1" Title="Fill Constructor " Url="html/8daa79c4-a1fa-2020-b84b-fb290ece1a13.htm">
           <HelpTOCNode Title="Style.Fill Constructor " Url="html/568cd2f9-f64d-3c8c-fbe4-4a10d960f6a1.htm" />
           <HelpTOCNode Title="Style.Fill Constructor (String, Style.Fill.FillType)" Url="html/9160220b-8ac3-1a17-1625-bb8ab3d23da7.htm" />
           <HelpTOCNode Title="Style.Fill Constructor (String, String)" Url="html/ce595d08-0189-039e-51db-d19c8c0714bd.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="96871cc5-eec1-4c59-8742-71937631b480" Title="Fill Properties" Url="html/3520018c-e7c0-aaa3-61f7-9d9952a22a17.htm">
+        <HelpTOCNode Id="8fa06c63-575a-4116-8bd3-7953b0bc68cf" Title="Fill Properties" Url="html/3520018c-e7c0-aaa3-61f7-9d9952a22a17.htm">
           <HelpTOCNode Title="BackgroundColor Property " Url="html/262c885b-c545-0c33-a5c5-45d6a0cfea92.htm" />
           <HelpTOCNode Title="ForegroundColor Property " Url="html/e422690a-a3f5-bf19-943e-97f7f4bb7024.htm" />
           <HelpTOCNode Title="IndexedColor Property " Url="html/82f6f5ca-88ba-75b4-1a41-fdd916bc23f4.htm" />
           <HelpTOCNode Title="PatternFill Property " Url="html/c1362af1-475b-cfc6-9871-7fe2e34ecca8.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="5a0b1fc2-0359-46c2-9d58-4515ff54a19a" Title="Fill Methods" Url="html/e1954a68-937e-99b4-f221-7385cb87b8a1.htm">
+        <HelpTOCNode Id="41037a60-ad42-4db5-aaba-e9cb864fbb61" Title="Fill Methods" Url="html/e1954a68-937e-99b4-f221-7385cb87b8a1.htm">
           <HelpTOCNode Title="Copy Method " Url="html/bf332b60-5b82-d506-84b9-acce3b3b92bd.htm" />
           <HelpTOCNode Title="CopyFill Method " Url="html/698166e4-5212-5f71-01a7-ede457bf61ee.htm" />
           <HelpTOCNode Title="GetHashCode Method " Url="html/3e3df47a-fe80-b34a-67ba-346a3223a03d.htm" />
@@ -392,15 +395,15 @@
           <HelpTOCNode Title="SetColor Method " Url="html/9133e3b7-f5af-7022-665e-da6033328e75.htm" />
           <HelpTOCNode Title="ToString Method " Url="html/f8e86040-2f65-e48f-6e60-9175cb332c79.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="e9ce01c9-496f-427b-a2dd-81cd0482cce2" Title="Fill Fields" Url="html/56845943-6fb9-6e3d-0795-6a9c71c0c920.htm">
+        <HelpTOCNode Id="3b82c704-3c96-4df9-ac43-795104a23d5f" Title="Fill Fields" Url="html/56845943-6fb9-6e3d-0795-6a9c71c0c920.htm">
           <HelpTOCNode Title="DEFAULTCOLOR Field" Url="html/0e746481-09a9-80ed-3243-53123c0ac1b1.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
       <HelpTOCNode Title="Style.Fill.FillType Enumeration" Url="html/d25639c7-0640-0ae4-1ce1-86f0069e7f10.htm" />
       <HelpTOCNode Title="Style.Fill.PatternValue Enumeration" Url="html/8eb3aaa5-5ec9-f14b-0857-a910d0101c88.htm" />
-      <HelpTOCNode Id="872f7ae6-8e66-4538-acfd-f363b655f305" Title="Style.Font Class" Url="html/781509fe-fd0c-f65d-ab2d-c825a259bbfa.htm">
+      <HelpTOCNode Id="9c94e3e8-329d-4c65-9dc2-986a648161d0" Title="Style.Font Class" Url="html/781509fe-fd0c-f65d-ab2d-c825a259bbfa.htm">
         <HelpTOCNode Title="Style.Font Constructor " Url="html/dfd57e48-bd6b-02a7-f764-8fb65b569ee2.htm" />
-        <HelpTOCNode Id="4fe7d76f-753b-4672-8c7b-4e85e8bb49a0" Title="Font Properties" Url="html/feb34171-9dba-71a1-cdfa-e0f7f02f35ce.htm">
+        <HelpTOCNode Id="9cca8868-592e-4f55-9ca5-78f4d55feeb1" Title="Font Properties" Url="html/feb34171-9dba-71a1-cdfa-e0f7f02f35ce.htm">
           <HelpTOCNode Title="Bold Property " Url="html/f80efe30-749f-1110-e464-3da1eb4dd6a2.htm" />
           <HelpTOCNode Title="Charset Property " Url="html/048ce452-128b-2c67-6de7-cc4d26274f16.htm" />
           <HelpTOCNode Title="ColorTheme Property " Url="html/e0274656-f7ce-7be3-5ca5-18ae62359bd7.htm" />
@@ -416,53 +419,53 @@
           <HelpTOCNode Title="Underline Property " Url="html/618e0bd3-75a6-69a1-71ed-465a6d72ee83.htm" />
           <HelpTOCNode Title="VerticalAlign Property " Url="html/ebbb3821-4b72-12e3-15c4-0bb0b8f0e2a1.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="64765e31-81ee-4580-aa49-61e7f2f6c315" Title="Font Methods" Url="html/f8c32df5-62c0-0f94-ab3a-c55c70b181a4.htm">
+        <HelpTOCNode Id="1a505473-6132-400d-806e-e66f9c8ff323" Title="Font Methods" Url="html/f8c32df5-62c0-0f94-ab3a-c55c70b181a4.htm">
           <HelpTOCNode Title="Copy Method " Url="html/23d3c06f-6899-ca99-41ab-96de83a2075e.htm" />
           <HelpTOCNode Title="CopyFont Method " Url="html/87bb0c2b-8daa-f4a7-4098-b902d4a81024.htm" />
           <HelpTOCNode Title="GetHashCode Method " Url="html/c94f33d1-8bbf-4fec-225e-be56c632eb91.htm" />
           <HelpTOCNode Title="ToString Method " Url="html/2eaa6de0-4510-c9d8-4af1-65c39612e0fd.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="1fd55ce3-f08b-4159-8f41-a6036e4c5aef" Title="Font Fields" Url="html/e56c6604-2625-3a66-6388-c7e268278bae.htm">
+        <HelpTOCNode Id="b4386cc1-5c22-4bbe-aec3-7628a220ce5c" Title="Font Fields" Url="html/e56c6604-2625-3a66-6388-c7e268278bae.htm">
           <HelpTOCNode Title="DEFAULTFONT Field" Url="html/86194439-344c-6442-bdbf-21c9e9d3304b.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
       <HelpTOCNode Title="Style.Font.SchemeValue Enumeration" Url="html/ef91bf2b-91e3-5d9b-22f1-77f39f2a3c68.htm" />
       <HelpTOCNode Title="Style.Font.VerticalAlignValue Enumeration" Url="html/a1869e04-b523-eae9-eb43-c71978e39369.htm" />
-      <HelpTOCNode Id="b688aeb7-e382-4f81-abec-94f187a12e2b" Title="Style.NumberFormat Class" Url="html/383cdbae-d857-dd99-c4eb-f62fa557ff6b.htm">
+      <HelpTOCNode Id="03361b47-40ac-42ca-8b6d-e8ed89517655" Title="Style.NumberFormat Class" Url="html/383cdbae-d857-dd99-c4eb-f62fa557ff6b.htm">
         <HelpTOCNode Title="Style.NumberFormat Constructor " Url="html/60a35a6a-7d41-5823-9ebc-87c47d6dd1ad.htm" />
-        <HelpTOCNode Id="eb586cfa-5af6-43b7-80f5-729ccf49e07f" Title="NumberFormat Properties" Url="html/69c42a7f-e8cd-8f7d-e0cd-02b8b802b6b5.htm">
+        <HelpTOCNode Id="0b9a4b3a-7761-4999-aeab-f761effd3689" Title="NumberFormat Properties" Url="html/69c42a7f-e8cd-8f7d-e0cd-02b8b802b6b5.htm">
           <HelpTOCNode Title="CustomFormatCode Property " Url="html/c533caf7-918b-c223-0044-5606b946a474.htm" />
           <HelpTOCNode Title="CustomFormatID Property " Url="html/b5ce5d3d-618f-aa0c-f565-1908056bd14a.htm" />
           <HelpTOCNode Title="IsCustomFormat Property " Url="html/241da745-2318-b976-a750-85d0c3263142.htm" />
           <HelpTOCNode Title="Number Property " Url="html/06026975-7c50-7830-0791-44c7d353f653.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="0d7b7938-f95c-4056-a641-c3003e85d6ab" Title="NumberFormat Methods" Url="html/81d81349-d841-6541-3c60-54b44712ad7f.htm">
+        <HelpTOCNode Id="516c7681-0f50-4937-8bac-ad36bf3e33b3" Title="NumberFormat Methods" Url="html/81d81349-d841-6541-3c60-54b44712ad7f.htm">
           <HelpTOCNode Title="Copy Method " Url="html/ec67a3c2-73ca-3c5d-2f28-45a6f06450ff.htm" />
           <HelpTOCNode Title="CopyNumberFormat Method " Url="html/4bac8213-363b-0986-393f-82ff3a0ab87e.htm" />
           <HelpTOCNode Title="GetHashCode Method " Url="html/e32f609b-8aeb-6590-e19c-70bb27d454ae.htm" />
           <HelpTOCNode Title="ToString Method " Url="html/c55dfd14-c102-4211-d74f-fe34c307f9f0.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="02259ccd-b5a3-4e9d-bbca-01bd8a18c0c8" Title="NumberFormat Fields" Url="html/30b25edd-34be-86a3-c499-39b5f571feb9.htm">
+        <HelpTOCNode Id="b1c84e16-5e8a-4e59-ad6e-1283473319b8" Title="NumberFormat Fields" Url="html/30b25edd-34be-86a3-c499-39b5f571feb9.htm">
           <HelpTOCNode Title="CUSTOMFORMAT_START_NUMBER Field" Url="html/12faf6c9-9e57-61a7-29ac-e2b8fafaf1d7.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
       <HelpTOCNode Title="Style.NumberFormat.FormatNumber Enumeration" Url="html/551f78ab-758c-cbe9-8e7c-1cef0a87f040.htm" />
-      <HelpTOCNode Id="828b4d5b-d961-4831-8895-b9523629c16e" Title="StyleException Class" Url="html/7f8b9d97-afe2-deeb-cc7e-d63814e68af3.htm">
-        <HelpTOCNode Id="bf7882af-d95f-464d-bb65-2f9d4334a729" Title="StyleException Constructor " Url="html/f81397de-8a52-e6d1-15f6-0f16bc0da36d.htm">
+      <HelpTOCNode Id="8056db0a-c7a6-40a1-a056-f29677073bf6" Title="StyleException Class" Url="html/7f8b9d97-afe2-deeb-cc7e-d63814e68af3.htm">
+        <HelpTOCNode Id="dfdc40ca-37b9-49ef-9aaf-8731c739cc7c" Title="StyleException Constructor " Url="html/f81397de-8a52-e6d1-15f6-0f16bc0da36d.htm">
           <HelpTOCNode Title="StyleException Constructor " Url="html/9499b2f4-54b9-e142-610a-0be9502ad2b3.htm" />
           <HelpTOCNode Title="StyleException Constructor (String, String)" Url="html/2f64eff9-4f12-58ca-141e-86bf263cd54c.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="7a0478e2-62a7-4cf8-be0e-3e31f2a5f513" Title="StyleException Properties" Url="html/3a10e3e2-6676-8141-5272-10755cd75b22.htm">
+        <HelpTOCNode Id="fb099023-c618-4339-8d65-6d65a15323f1" Title="StyleException Properties" Url="html/3a10e3e2-6676-8141-5272-10755cd75b22.htm">
           <HelpTOCNode Title="ExceptionTitle Property " Url="html/56601e93-55af-267b-00e6-a88c1681b831.htm" />
         </HelpTOCNode>
         <HelpTOCNode Title="StyleException Methods" Url="html/d58587c7-d602-f57e-2b6c-c59509cb359f.htm" />
         <HelpTOCNode Title="StyleException Events" Url="html/0ea8f1e2-cb3c-fcd8-339a-2fc23c865db5.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="cf20c999-c383-4ada-abed-232130a34bd7" Title="StyleManager Class" Url="html/e336754a-88ee-c522-085c-f51bd92ea79e.htm">
+      <HelpTOCNode Id="cbb86ab2-3176-49bb-8d24-63fbecbaa438" Title="StyleManager Class" Url="html/e336754a-88ee-c522-085c-f51bd92ea79e.htm">
         <HelpTOCNode Title="StyleManager Constructor " Url="html/16c840de-10c6-0a54-f130-45f43690548c.htm" />
-        <HelpTOCNode Id="169f60c4-dbc5-4892-bfe4-fb1f0c78a2de" Title="StyleManager Methods" Url="html/3cab4393-15c2-2cf9-23d5-bb7e8b710490.htm">
+        <HelpTOCNode Id="ac0308e6-ee06-45af-83d9-7f5de5298b11" Title="StyleManager Methods" Url="html/3cab4393-15c2-2cf9-23d5-bb7e8b710490.htm">
           <HelpTOCNode Title="AddStyle Method " Url="html/7e87b332-f94d-566e-db81-79c888998270.htm" />
-          <HelpTOCNode Id="6a3eabbb-98f0-4727-a0a4-b4990357168a" Title="AddStyleComponent Method " Url="html/4117ee42-59f9-94ca-20cc-95eb6b6df1fb.htm">
+          <HelpTOCNode Id="efe69bc3-f75d-4e8d-9570-59ebea8a8753" Title="AddStyleComponent Method " Url="html/4117ee42-59f9-94ca-20cc-95eb6b6df1fb.htm">
             <HelpTOCNode Title="AddStyleComponent Method (AbstractStyle)" Url="html/4801987a-f010-f8bc-b4a0-bb8bbf877fb7.htm" />
             <HelpTOCNode Title="AddStyleComponent Method (AbstractStyle, Nullable(Int32))" Url="html/eb5eb768-baa3-8a55-9d98-1a4c75e25889.htm" />
           </HelpTOCNode>
@@ -492,14 +495,14 @@
           <HelpTOCNode Title="Reorganize Method " Url="html/6d7c208d-9b34-a51a-4ebc-6288058547c1.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="ab2f5a23-6a25-4971-8ac4-6ca6b7419c0c" Title="Workbook Class" Url="html/aa9e6490-6a12-3b26-bd7a-6a6f3317ba31.htm">
-        <HelpTOCNode Id="de1acd2a-c04c-47a9-8d80-03c5dd6569ca" Title="Workbook Constructor " Url="html/eb6c8f1a-4c14-866f-7563-d1ce3076352f.htm">
+      <HelpTOCNode Id="6ac6abe4-7659-46ea-975d-d7745e8cefdf" Title="Workbook Class" Url="html/aa9e6490-6a12-3b26-bd7a-6a6f3317ba31.htm">
+        <HelpTOCNode Id="7fcc3d73-c1c6-4f00-91e7-0627b41c09ab" Title="Workbook Constructor " Url="html/eb6c8f1a-4c14-866f-7563-d1ce3076352f.htm">
           <HelpTOCNode Title="Workbook Constructor (Boolean)" Url="html/824d2dbf-33fc-cf5e-6dc0-800aeaef2614.htm" />
           <HelpTOCNode Title="Workbook Constructor (String)" Url="html/d96d3bb5-fde0-24d9-5f58-66d5b750aa58.htm" />
           <HelpTOCNode Title="Workbook Constructor (String, String)" Url="html/59a2e990-a047-d3a1-ddb7-2a3d07405503.htm" />
           <HelpTOCNode Title="Workbook Constructor (String, String, Boolean)" Url="html/2018013c-9ee4-5881-a2cd-e82f471f7346.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="70d4ca69-a156-4222-b2a5-8dcb72c0be2f" Title="Workbook Properties" Url="html/9e95cd7a-1a3d-8c83-2f97-1bc53c7f5178.htm">
+        <HelpTOCNode Id="13a7e6fa-e5ce-4812-99c3-73f6e6402525" Title="Workbook Properties" Url="html/9e95cd7a-1a3d-8c83-2f97-1bc53c7f5178.htm">
           <HelpTOCNode Title="CurrentWorksheet Property " Url="html/e7139d93-2ac2-e819-98ab-2c16ac9c096f.htm" />
           <HelpTOCNode Title="Filename Property " Url="html/de09893a-83f8-c50b-6d62-400e723bbefe.htm" />
           <HelpTOCNode Title="LockStructureIfProtected Property " Url="html/fd0814b5-e62e-f46c-8eda-4de2c553dbfa.htm" />
@@ -512,16 +515,16 @@
           <HelpTOCNode Title="Worksheets Property " Url="html/319790c2-ca89-aabc-c76c-693d7f153a6d.htm" />
           <HelpTOCNode Title="WS Property " Url="html/46694a1c-2cce-c561-7b3a-cb6c4760d9a9.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="864aff0b-7539-430f-a420-f0a98e82fa81" Title="Workbook Methods" Url="html/afb90f60-b5f1-ad6e-ccf9-52539f9ff97c.htm">
+        <HelpTOCNode Id="374971d6-6a07-4aab-9f68-cb6a3cb50280" Title="Workbook Methods" Url="html/afb90f60-b5f1-ad6e-ccf9-52539f9ff97c.htm">
           <HelpTOCNode Title="AddStyle Method " Url="html/2fd49619-71db-f773-179f-de2134bb4a73.htm" />
           <HelpTOCNode Title="AddStyleComponent Method " Url="html/daf1066a-9fe6-b063-2a04-9c949b39bda0.htm" />
-          <HelpTOCNode Id="a57fd9e7-d75e-4947-b229-463092562a05" Title="AddWorksheet Method " Url="html/cf2d6283-ee19-74c7-4e67-8e86545164f3.htm">
+          <HelpTOCNode Id="58e538ae-5102-47e3-9617-8b8001d4db56" Title="AddWorksheet Method " Url="html/cf2d6283-ee19-74c7-4e67-8e86545164f3.htm">
             <HelpTOCNode Title="AddWorksheet Method (String)" Url="html/c9d43c5b-02d7-5d72-6924-0447d36c0f16.htm" />
             <HelpTOCNode Title="AddWorksheet Method (Worksheet)" Url="html/5bf750c5-6e64-92cf-3d31-3abbc6eca099.htm" />
             <HelpTOCNode Title="AddWorksheet Method (String, Boolean)" Url="html/66cc0b4b-749f-fb12-429c-1ac7c6603767.htm" />
           </HelpTOCNode>
           <HelpTOCNode Title="Init Method " Url="html/c9d3b337-c432-c22c-4f58-d2347695aeae.htm" />
-          <HelpTOCNode Id="881269ab-a2cc-4624-b37b-2223155b2325" Title="RemoveStyle Method " Url="html/19317dcc-6e19-445a-06e8-70576bf768eb.htm">
+          <HelpTOCNode Id="756e38d5-343b-4efa-9787-7173eb8acaa4" Title="RemoveStyle Method " Url="html/19317dcc-6e19-445a-06e8-70576bf768eb.htm">
             <HelpTOCNode Title="RemoveStyle Method (String)" Url="html/803498aa-6623-93ef-3ea0-82d9100e1786.htm" />
             <HelpTOCNode Title="RemoveStyle Method (Style)" Url="html/de29a967-ec9c-94e2-b531-723e85be48d2.htm" />
             <HelpTOCNode Title="RemoveStyle Method (String, Boolean)" Url="html/197c10fc-09fd-6ee2-27da-e1d42aa130ae.htm" />
@@ -536,42 +539,42 @@
           <HelpTOCNode Title="SaveAsStreamAsync Method " Url="html/5b031d61-be5c-2cc7-31e2-c6c89910c30e.htm" />
           <HelpTOCNode Title="SaveAsync Method " Url="html/01f733f2-1a48-c482-87e0-2208a0e914ca.htm" />
           <HelpTOCNode Title="SetCurrentWorksheet Method " Url="html/471008ca-dad8-81aa-3d02-6c41a0bfb29d.htm" />
-          <HelpTOCNode Id="950751f3-b9a5-4204-9015-ba9820624f01" Title="SetSelectedWorksheet Method " Url="html/29b0d50b-54b9-ade1-8f89-55ef8b4c9705.htm">
+          <HelpTOCNode Id="886e223b-64de-4170-89ce-007e6376e487" Title="SetSelectedWorksheet Method " Url="html/29b0d50b-54b9-ade1-8f89-55ef8b4c9705.htm">
             <HelpTOCNode Title="SetSelectedWorksheet Method (Int32)" Url="html/cb3d6ccf-9e61-6786-ccb8-9faaf71df11b.htm" />
             <HelpTOCNode Title="SetSelectedWorksheet Method (Worksheet)" Url="html/2914a4ac-0a2c-75be-fa3e-8df38ca00b20.htm" />
           </HelpTOCNode>
           <HelpTOCNode Title="SetWorkbookProtection Method " Url="html/ee7b8e72-2649-dac7-a078-19be7954c1f9.htm" />
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="8817e419-3a55-419a-8eaa-791471e687fc" Title="Workbook.Shortener Class" Url="html/2bca62b1-e875-ef37-123a-c41c3e2595cf.htm">
+      <HelpTOCNode Id="3cddc4c3-2bdd-4483-b83d-16892937d2f3" Title="Workbook.Shortener Class" Url="html/2bca62b1-e875-ef37-123a-c41c3e2595cf.htm">
         <HelpTOCNode Title="Workbook.Shortener Constructor " Url="html/ca21922c-e809-187a-9f0e-6af6021a00a8.htm" />
-        <HelpTOCNode Id="8ae7d505-2e9b-4479-8b8c-8e17dedd5ece" Title="Shortener Methods" Url="html/0d6124f6-7f17-cda7-9d4d-04bd692aaed2.htm">
-          <HelpTOCNode Id="d70120db-6330-487f-8d27-3a3c762aa936" Title="Down Method " Url="html/8b30e64e-da68-fe75-a7c4-a6d4de889c09.htm">
+        <HelpTOCNode Id="5fed2ff3-4092-4101-8b81-07ff5c1c0403" Title="Shortener Methods" Url="html/0d6124f6-7f17-cda7-9d4d-04bd692aaed2.htm">
+          <HelpTOCNode Id="0fa3cf0e-cb3a-4252-92af-6f6363975070" Title="Down Method " Url="html/8b30e64e-da68-fe75-a7c4-a6d4de889c09.htm">
             <HelpTOCNode Title="Down Method " Url="html/d89be0e4-724d-e3c7-5e57-1d7014813d56.htm" />
             <HelpTOCNode Title="Down Method (Int32)" Url="html/1c828ee6-2a13-ac8a-7cc4-7a9210c1d618.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="3c9c279c-38a5-41b0-9c63-a882a7d11a6c" Title="Formula Method " Url="html/d93498f9-0ad1-21f0-fc79-b629784d0e2a.htm">
+          <HelpTOCNode Id="69b19795-082b-4843-b27a-261817c1fa65" Title="Formula Method " Url="html/d93498f9-0ad1-21f0-fc79-b629784d0e2a.htm">
             <HelpTOCNode Title="Formula Method (String)" Url="html/ff45957c-46e9-0ee2-bc2c-c794fe79a61d.htm" />
             <HelpTOCNode Title="Formula Method (String, Style)" Url="html/44166a13-44c3-9662-e526-b614a75de7b5.htm" />
           </HelpTOCNode>
           <HelpTOCNode Title="NullCheck Method " Url="html/93bfeb7b-0950-3f07-3ecc-64c340185cc0.htm" />
-          <HelpTOCNode Id="6f0c7e9b-3559-477e-8a6b-8b4470cfcca2" Title="Right Method " Url="html/b3e00f27-7cb2-a5f8-bb48-9c8a05cffadf.htm">
+          <HelpTOCNode Id="111736bb-6f32-43e8-8ec9-1890d7a9071b" Title="Right Method " Url="html/b3e00f27-7cb2-a5f8-bb48-9c8a05cffadf.htm">
             <HelpTOCNode Title="Right Method " Url="html/dc1786c1-5eec-d145-9de3-0b5cf6d22463.htm" />
             <HelpTOCNode Title="Right Method (Int32)" Url="html/e40492c0-2e05-7890-8b5c-fbcdee0f235d.htm" />
           </HelpTOCNode>
           <HelpTOCNode Title="SetCurrentWorksheet Method " Url="html/be02821a-b928-9c17-d319-4345e2034928.htm" />
-          <HelpTOCNode Id="14a0f17b-7d63-4bf8-b176-7b67ec750dae" Title="Value Method " Url="html/8d9624d9-e882-b481-0178-4765522e5903.htm">
+          <HelpTOCNode Id="2ee9f422-f782-43df-af03-1a5d0b3889e5" Title="Value Method " Url="html/8d9624d9-e882-b481-0178-4765522e5903.htm">
             <HelpTOCNode Title="Value Method (Object)" Url="html/070a3d45-7579-737d-ad7d-28cd48f21edf.htm" />
             <HelpTOCNode Title="Value Method (Object, Style)" Url="html/99f79e66-83e7-a966-10ed-247b4006ad4c.htm" />
           </HelpTOCNode>
         </HelpTOCNode>
       </HelpTOCNode>
-      <HelpTOCNode Id="36e83ecc-ef76-47ef-a7a1-f9b0381eab71" Title="Worksheet Class" Url="html/c3b3c4d1-7f62-b7df-bb0a-76cecc18fef3.htm">
-        <HelpTOCNode Id="eaa86b57-c585-47a7-8ea2-b187513acadc" Title="Worksheet Constructor " Url="html/648c8cb8-c40d-d174-ccf7-205cf8c9f427.htm">
+      <HelpTOCNode Id="71673e73-183f-4aa8-99fb-8cfd0de9a154" Title="Worksheet Class" Url="html/c3b3c4d1-7f62-b7df-bb0a-76cecc18fef3.htm">
+        <HelpTOCNode Id="a4da7f7e-1c30-4973-86c8-307da873a0c9" Title="Worksheet Constructor " Url="html/648c8cb8-c40d-d174-ccf7-205cf8c9f427.htm">
           <HelpTOCNode Title="Worksheet Constructor " Url="html/3a8db9b3-d91f-bde1-a0e2-9f0abc2e191c.htm" />
           <HelpTOCNode Title="Worksheet Constructor (String, Int32, Workbook)" Url="html/afa67a83-f75c-0c69-3dfb-e627a5153ca8.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="11fb57d0-8636-4a5b-b3cb-64e1cc4910b7" Title="Worksheet Properties" Url="html/f4525299-9cb3-57ae-ddb1-2f5f7ad85754.htm">
+        <HelpTOCNode Id="639f0c3e-fb08-423d-9f78-2cce4283a773" Title="Worksheet Properties" Url="html/f4525299-9cb3-57ae-ddb1-2f5f7ad85754.htm">
           <HelpTOCNode Title="AutoFilterRange Property " Url="html/9d3ffb1d-453a-864c-8be6-916881113798.htm" />
           <HelpTOCNode Title="Cells Property " Url="html/3819289d-71f3-d482-10da-f1e04dcf87fe.htm" />
           <HelpTOCNode Title="Columns Property " Url="html/8d4f9f1a-f99e-63cd-ae75-816a28244bd8.htm" />
@@ -589,44 +592,44 @@
           <HelpTOCNode Title="UseSheetProtection Property " Url="html/4274e257-3677-f178-81ae-67bf9a9d1d8c.htm" />
           <HelpTOCNode Title="WorkbookReference Property " Url="html/b4d37c83-50bf-5f7d-353a-f0b24fb25a75.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="f08c5ef9-a9cb-466e-9744-02745b5d006c" Title="Worksheet Methods" Url="html/adb3f264-b043-9a46-54d3-4c6ae515d937.htm">
+        <HelpTOCNode Id="6bdf3a5e-bde3-46ed-aa90-2307fa06ae91" Title="Worksheet Methods" Url="html/adb3f264-b043-9a46-54d3-4c6ae515d937.htm">
           <HelpTOCNode Title="AddAllowedActionOnSheetProtection Method " Url="html/13589b86-1dee-c3b7-90e6-06131497a6ff.htm" />
-          <HelpTOCNode Id="9ab931b1-172a-43bf-b742-1b0186a23b6c" Title="AddCell Method " Url="html/858e777d-4b39-d54c-be05-4c5ee2ee5983.htm">
+          <HelpTOCNode Id="4c711a7c-9d5a-45e2-bc66-1e6903957794" Title="AddCell Method " Url="html/858e777d-4b39-d54c-be05-4c5ee2ee5983.htm">
             <HelpTOCNode Title="AddCell Method (Object, String)" Url="html/5b7cd028-15e2-a3b9-c94b-5617904f6db2.htm" />
             <HelpTOCNode Title="AddCell Method (Object, Int32, Int32)" Url="html/3063f62b-38c9-7acf-a311-2784e20dc582.htm" />
             <HelpTOCNode Title="AddCell Method (Object, String, Style)" Url="html/3840165f-0ef6-1e3c-1f82-046a336b8b0e.htm" />
             <HelpTOCNode Title="AddCell Method (Object, Int32, Int32, Style)" Url="html/a7fcf685-9d44-6f5b-ccbe-3bd712facdfc.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="63c8cc99-a5c0-49ef-bede-3cacd46555c1" Title="AddCellFormula Method " Url="html/cedb2473-d34f-c63b-b1f1-0a1cdc1a7d5d.htm">
+          <HelpTOCNode Id="4c99f0f2-07a3-4d41-a24d-cac0a134cbdf" Title="AddCellFormula Method " Url="html/cedb2473-d34f-c63b-b1f1-0a1cdc1a7d5d.htm">
             <HelpTOCNode Title="AddCellFormula Method (String, String)" Url="html/3e51c984-7c3a-1185-c1a3-8efde28ceeef.htm" />
             <HelpTOCNode Title="AddCellFormula Method (String, Int32, Int32)" Url="html/34555d76-e78f-e0ba-a5da-39c44c09d5ee.htm" />
             <HelpTOCNode Title="AddCellFormula Method (String, String, Style)" Url="html/0aef4c96-0693-2882-85a2-7f7f1089535d.htm" />
             <HelpTOCNode Title="AddCellFormula Method (String, Int32, Int32, Style)" Url="html/fc205996-f361-6668-68c2-ec8e5aa0ce76.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="081d2481-3171-4cbb-9e15-a5685d294511" Title="AddCellRange Method " Url="html/dca5a3f2-ba67-25ba-ed41-94be48006488.htm">
-            <HelpTOCNode Title="AddCellRange Method (List(Object), String)" Url="html/a31fb951-e199-de9c-f391-e2a94eb88c50.htm" />
-            <HelpTOCNode Title="AddCellRange Method (List(Object), Cell.Address, Cell.Address)" Url="html/cf6df72e-5f7b-f76e-d402-dc0b3ef19862.htm" />
-            <HelpTOCNode Title="AddCellRange Method (List(Object), String, Style)" Url="html/2c2db141-1f6b-d3fa-50e8-6d2f7d18e32f.htm" />
-            <HelpTOCNode Title="AddCellRange Method (List(Object), Cell.Address, Cell.Address, Style)" Url="html/2651d2bc-0b99-6739-af9d-36195b44056f.htm" />
+          <HelpTOCNode Id="656087ab-3ba9-4760-a23b-8667b5431217" Title="AddCellRange Method " Url="html/dca5a3f2-ba67-25ba-ed41-94be48006488.htm">
+            <HelpTOCNode Title="AddCellRange Method (IReadOnlyList(Object), String)" Url="html/b9c16b13-58e5-a05d-74e3-467e58fead8a.htm" />
+            <HelpTOCNode Title="AddCellRange Method (IReadOnlyList(Object), Cell.Address, Cell.Address)" Url="html/e05ddcd6-7be5-b47d-80d5-07197e0281dd.htm" />
+            <HelpTOCNode Title="AddCellRange Method (IReadOnlyList(Object), String, Style)" Url="html/51b626fc-9475-150c-a616-e057cc3ad879.htm" />
+            <HelpTOCNode Title="AddCellRange Method (IReadOnlyList(Object), Cell.Address, Cell.Address, Style)" Url="html/7947555d-d74d-8726-99d8-eb350916e9d6.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Title="AddCellRangeInternal(T) Method " Url="html/f894adcd-1db4-4e50-7858-894c808eab4b.htm" />
-          <HelpTOCNode Id="364517fb-5f42-48ca-b006-2c3dbefabf05" Title="AddHiddenColumn Method " Url="html/6253efe0-b403-2fd9-3e11-7ddd3f0b66f0.htm">
+          <HelpTOCNode Title="AddCellRangeInternal(T) Method " Url="html/133a867c-b88b-f56b-43a4-660c7936a7dc.htm" />
+          <HelpTOCNode Id="34f60631-ea30-4571-a4ea-2c6fad93faaa" Title="AddHiddenColumn Method " Url="html/6253efe0-b403-2fd9-3e11-7ddd3f0b66f0.htm">
             <HelpTOCNode Title="AddHiddenColumn Method (Int32)" Url="html/d5c13a36-afbf-4e0f-38d2-aaf6e0a088aa.htm" />
             <HelpTOCNode Title="AddHiddenColumn Method (String)" Url="html/8ceb304b-2977-ea23-8654-fa646980d9ad.htm" />
           </HelpTOCNode>
           <HelpTOCNode Title="AddHiddenRow Method " Url="html/77045f88-0564-498f-38c0-408b73d64cf0.htm" />
-          <HelpTOCNode Id="1c75c62a-178f-4db6-8397-483e530d40cb" Title="AddNextCell Method " Url="html/16026592-80e7-006a-99b6-3f4d1defdd53.htm">
+          <HelpTOCNode Id="8bb1304e-3f17-4f73-85de-dc20b6353224" Title="AddNextCell Method " Url="html/16026592-80e7-006a-99b6-3f4d1defdd53.htm">
             <HelpTOCNode Title="AddNextCell Method (Object)" Url="html/5fa89b73-42f4-8157-0c32-0115f0691a4f.htm" />
             <HelpTOCNode Title="AddNextCell Method (Object, Style)" Url="html/3cffba9d-2d82-64b9-3765-ae1185a1278b.htm" />
             <HelpTOCNode Title="AddNextCell Method (Cell, Boolean, Style)" Url="html/577f0129-5dfa-6dd2-dc2c-7c5f8fa4579e.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="a888c411-fed9-4773-b214-76593ed19d22" Title="AddNextCellFormula Method " Url="html/0e61398a-7c1d-0f11-532d-9640f72744bf.htm">
+          <HelpTOCNode Id="c7e9d508-bfbc-43cb-b9f6-92ed0dd6ff59" Title="AddNextCellFormula Method " Url="html/0e61398a-7c1d-0f11-532d-9640f72744bf.htm">
             <HelpTOCNode Title="AddNextCellFormula Method (String)" Url="html/dda63afd-08f6-a669-89b5-4dc939f623c8.htm" />
             <HelpTOCNode Title="AddNextCellFormula Method (String, Style)" Url="html/ee44e62e-0a9d-ff10-8d90-a343eccc3c33.htm" />
           </HelpTOCNode>
           <HelpTOCNode Title="CastValue Method " Url="html/e61adb5d-f1d8-da1d-73fe-bffd8bde22cc.htm" />
           <HelpTOCNode Title="ClearActiveStyle Method " Url="html/5276e7c9-cd0c-a3de-4387-9cd639a65fe0.htm" />
-          <HelpTOCNode Id="f9f745c7-9440-4211-9d6a-337f05f1dcd7" Title="GetCell Method " Url="html/e34cc41e-2be8-c908-d45b-d078b1d62d9e.htm">
+          <HelpTOCNode Id="0aadfcee-a7bc-4bdf-9f85-3cd3d4b19858" Title="GetCell Method " Url="html/e34cc41e-2be8-c908-d45b-d078b1d62d9e.htm">
             <HelpTOCNode Title="GetCell Method (Cell.Address)" Url="html/9ad7e248-5dd1-5a9f-8612-8abb9037254d.htm" />
             <HelpTOCNode Title="GetCell Method (Int32, Int32)" Url="html/6bef7bd2-c102-7f14-9e2d-6fb63de61d4a.htm" />
           </HelpTOCNode>
@@ -635,19 +638,19 @@
           <HelpTOCNode Title="GetLastAddress Method " Url="html/c8368df4-d099-7183-a3a9-202d79a503ab.htm" />
           <HelpTOCNode Title="GetLastColumnNumber Method " Url="html/562bd9f2-3bfb-d2f7-e2df-584bbb04dd19.htm" />
           <HelpTOCNode Title="GetLastRowNumber Method " Url="html/3424a71f-ac83-e1fe-7657-3c9d02ee87d4.htm" />
-          <HelpTOCNode Id="fd08a0d8-e1d5-490e-b10b-304d948c6f9c" Title="GoToNextColumn Method " Url="html/d1386a71-038d-70df-5fba-60e4089784bc.htm">
+          <HelpTOCNode Id="870ce73f-18f8-4ebe-b355-881449c02817" Title="GoToNextColumn Method " Url="html/d1386a71-038d-70df-5fba-60e4089784bc.htm">
             <HelpTOCNode Title="GoToNextColumn Method " Url="html/1b333d28-e538-1102-fbbd-342841bc06d0.htm" />
             <HelpTOCNode Title="GoToNextColumn Method (Int32)" Url="html/80e9b9ea-6e37-d078-b27b-b321b43056b1.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="dbdfde99-e7d0-4d51-b5f9-fb3a52e91f78" Title="GoToNextRow Method " Url="html/0e0670a0-2ca2-b370-1804-868a286b3d0e.htm">
+          <HelpTOCNode Id="617f55fe-1598-4391-ada4-6698d9fc021a" Title="GoToNextRow Method " Url="html/0e0670a0-2ca2-b370-1804-868a286b3d0e.htm">
             <HelpTOCNode Title="GoToNextRow Method " Url="html/0faaf09a-e42a-6557-2c14-5c0da367317c.htm" />
             <HelpTOCNode Title="GoToNextRow Method (Int32)" Url="html/e725967d-6a3b-f8f2-cce5-247a21d62d1d.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="31cca2c5-4cb2-471b-9988-ec8d74c5caaf" Title="HasCell Method " Url="html/30aa4689-9f20-3836-dc9b-d6bd07e34729.htm">
+          <HelpTOCNode Id="b73406b1-58c5-4643-b390-71fe850958ce" Title="HasCell Method " Url="html/30aa4689-9f20-3836-dc9b-d6bd07e34729.htm">
             <HelpTOCNode Title="HasCell Method (Cell.Address)" Url="html/b10ef006-1885-2a86-ad8e-e59d7810a7a8.htm" />
             <HelpTOCNode Title="HasCell Method (Int32, Int32)" Url="html/350e6a7b-8bca-3c83-9daf-58270d24a648.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="c745d21c-04b2-483c-a42a-475afd6cc791" Title="MergeCells Method " Url="html/aa556474-fb5a-430c-6955-24c8f9a88870.htm">
+          <HelpTOCNode Id="4d3c4b34-9001-4d7d-9906-570bd30b2dfb" Title="MergeCells Method " Url="html/aa556474-fb5a-430c-6955-24c8f9a88870.htm">
             <HelpTOCNode Title="MergeCells Method (String)" Url="html/927d7730-7197-8d5a-48f1-0693b23f40b6.htm" />
             <HelpTOCNode Title="MergeCells Method (Cell.Range)" Url="html/416d8e9b-70ce-2649-8eb8-0722472c50d1.htm" />
             <HelpTOCNode Title="MergeCells Method (Cell.Address, Cell.Address)" Url="html/270347ff-83ee-273e-747a-c64ff5c4576b.htm" />
@@ -655,11 +658,11 @@
           <HelpTOCNode Title="RecalculateAutoFilter Method " Url="html/53b1a562-040c-bf09-21ce-1e855f0a5eb0.htm" />
           <HelpTOCNode Title="RecalculateColumns Method " Url="html/cb42e501-93b6-0700-06c5-f1784968dfa0.htm" />
           <HelpTOCNode Title="RemoveAutoFilter Method " Url="html/4c4c8223-0b2b-2e6c-8ad8-b1dcbeb6fbf8.htm" />
-          <HelpTOCNode Id="07aac449-cd8e-4336-a03f-e5a3a46ec83b" Title="RemoveCell Method " Url="html/ac4832f1-8a7c-2f08-78e5-7784b8e1be24.htm">
+          <HelpTOCNode Id="f074e41a-102d-4c51-ab2f-db2494b8147b" Title="RemoveCell Method " Url="html/ac4832f1-8a7c-2f08-78e5-7784b8e1be24.htm">
             <HelpTOCNode Title="RemoveCell Method (String)" Url="html/ea93d17f-c440-2d2d-8974-b5b81bab39d9.htm" />
             <HelpTOCNode Title="RemoveCell Method (Int32, Int32)" Url="html/c2817d78-a288-e9d4-5bb0-12359a77cf8a.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="027cf917-6db8-48a5-92b1-5961ae97e39a" Title="RemoveHiddenColumn Method " Url="html/e6bd13bd-2dbb-f84e-a151-2ba1e57c5cbf.htm">
+          <HelpTOCNode Id="35f5817d-2782-4db7-a5e4-19043f3029cd" Title="RemoveHiddenColumn Method " Url="html/e6bd13bd-2dbb-f84e-a151-2ba1e57c5cbf.htm">
             <HelpTOCNode Title="RemoveHiddenColumn Method (Int32)" Url="html/7cdd33d9-82cf-1850-eef0-a58083087999.htm" />
             <HelpTOCNode Title="RemoveHiddenColumn Method (String)" Url="html/8e97f90e-6e1e-4cd2-e2cb-9fd1f0a294dd.htm" />
           </HelpTOCNode>
@@ -668,16 +671,16 @@
           <HelpTOCNode Title="RemoveSelectedCells Method " Url="html/1808a9f3-a853-5e65-77e8-553a081ebf7e.htm" />
           <HelpTOCNode Title="SanitizeWorksheetName Method " Url="html/6e13912d-c57e-6d1f-3c65-ac9ebdd7a831.htm" />
           <HelpTOCNode Title="SetActiveStyle Method " Url="html/b94defd3-271e-5206-c564-1043865fe8f8.htm" />
-          <HelpTOCNode Id="63a88613-c63d-4745-8e39-606e306cf863" Title="SetAutoFilter Method " Url="html/b0ecd4c4-3355-86d9-e955-154e78a058cb.htm">
+          <HelpTOCNode Id="b423376c-cb35-43ad-af06-702ca65a0dd2" Title="SetAutoFilter Method " Url="html/b0ecd4c4-3355-86d9-e955-154e78a058cb.htm">
             <HelpTOCNode Title="SetAutoFilter Method (String)" Url="html/579becee-7197-80a5-63cb-e8771e462484.htm" />
             <HelpTOCNode Title="SetAutoFilter Method (Int32, Int32)" Url="html/bc19c252-5f79-6a21-3a7b-de0c875e4538.htm" />
           </HelpTOCNode>
           <HelpTOCNode Title="SetColumnHiddenState Method " Url="html/be97f0ec-198b-bd0c-a8f0-1eb2b59fe27f.htm" />
-          <HelpTOCNode Id="f67fca71-bbb4-4423-8776-bc3d94076208" Title="SetColumnWidth Method " Url="html/5dfd3811-e4cf-06e8-433f-c67ac2e58ce9.htm">
+          <HelpTOCNode Id="b8969374-42cf-4580-9ba9-0b0abc93f2b1" Title="SetColumnWidth Method " Url="html/5dfd3811-e4cf-06e8-433f-c67ac2e58ce9.htm">
             <HelpTOCNode Title="SetColumnWidth Method (Int32, Single)" Url="html/e5193c58-c49b-ae91-345b-e2e9ef322f80.htm" />
             <HelpTOCNode Title="SetColumnWidth Method (String, Single)" Url="html/26ef3612-c8fd-d1e9-15ae-5d9274e6103d.htm" />
           </HelpTOCNode>
-          <HelpTOCNode Id="2766ee2c-971a-42ba-b988-f0184f9513fb" Title="SetCurrentCellAddress Method " Url="html/e5121826-e3d7-7627-1121-537788a1a366.htm">
+          <HelpTOCNode Id="fbfc0604-f034-4ecb-9ad9-6a25f9a87d6d" Title="SetCurrentCellAddress Method " Url="html/e5121826-e3d7-7627-1121-537788a1a366.htm">
             <HelpTOCNode Title="SetCurrentCellAddress Method (String)" Url="html/125c9686-d9c9-7a3c-d5e8-fcae28002863.htm" />
             <HelpTOCNode Title="SetCurrentCellAddress Method (Int32, Int32)" Url="html/50be46e5-609b-b102-81e3-597bcfbfc5e0.htm" />
           </HelpTOCNode>
@@ -685,7 +688,7 @@
           <HelpTOCNode Title="SetCurrentRowNumber Method " Url="html/dc26b4d0-84cd-f8c2-398b-e123679c8d9a.htm" />
           <HelpTOCNode Title="SetRowHeight Method " Url="html/6f11a1b3-b136-e23f-fe20-241d7a871cdf.htm" />
           <HelpTOCNode Title="SetRowHiddenState Method " Url="html/c49f088a-d58d-680f-4d6a-b45d554cf7fa.htm" />
-          <HelpTOCNode Id="3e3c2ddc-2076-4ca8-8f54-2927844ae894" Title="SetSelectedCells Method " Url="html/e642e906-3de8-5d92-f498-13d2f703628a.htm">
+          <HelpTOCNode Id="1a0030a0-e09b-4b1e-a831-8b6bd9621aea" Title="SetSelectedCells Method " Url="html/e642e906-3de8-5d92-f498-13d2f703628a.htm">
             <HelpTOCNode Title="SetSelectedCells Method (String)" Url="html/9974d0b1-dfdc-f400-3f0a-da36423c1ee3.htm" />
             <HelpTOCNode Title="SetSelectedCells Method (Cell.Range)" Url="html/ad5b956e-6610-89bb-38c4-49dd77a789de.htm" />
             <HelpTOCNode Title="SetSelectedCells Method (Cell.Address, Cell.Address)" Url="html/e14f6d9a-1920-28e4-9bc1-1acb5365c6ed.htm" />
@@ -693,9 +696,15 @@
           <HelpTOCNode Title="SetSheetname Method " Url="html/26ed859f-c126-d114-a95b-d6a7bed349c7.htm" />
           <HelpTOCNode Title="SetSheetName Method " Url="html/0dfb2d1a-1318-91b6-4ebb-a7bc6e4f4665.htm" />
           <HelpTOCNode Title="SetSheetProtectionPassword Method " Url="html/425b6b66-0ccf-ec1f-8520-2c08807ea3cd.htm" />
+          <HelpTOCNode Id="56c7048d-c099-4c0e-b954-683f6139e945" Title="SetStyle Method " Url="html/307f1cba-5a45-4165-2f97-e3cdbf2ef82e.htm">
+            <HelpTOCNode Title="SetStyle Method (String, Style)" Url="html/03a25068-a023-3c2b-a1bc-837261fcb505.htm" />
+            <HelpTOCNode Title="SetStyle Method (Cell.Address, Style)" Url="html/d91a9a5c-be44-de31-ddc6-89f608f2e8ae.htm" />
+            <HelpTOCNode Title="SetStyle Method (Cell.Range, Style)" Url="html/b00b80b9-44cf-786d-69ed-106dd287f7a0.htm" />
+            <HelpTOCNode Title="SetStyle Method (Cell.Address, Cell.Address, Style)" Url="html/91d025ea-4475-20fc-2f73-c90205a63896.htm" />
+          </HelpTOCNode>
           <HelpTOCNode Title="WorksheetExists Method " Url="html/d2ffb7b8-7790-dab7-a76d-fb7d8dee97d7.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="514eb8bf-9a93-4090-b161-e978850ab13a" Title="Worksheet Fields" Url="html/78cb97f5-810f-f822-4da0-c39b1b23b979.htm">
+        <HelpTOCNode Id="08c43e67-041a-4835-a2ba-05a85a4665e6" Title="Worksheet Fields" Url="html/78cb97f5-810f-f822-4da0-c39b1b23b979.htm">
           <HelpTOCNode Title="DEFAULT_COLUMN_WIDTH Field" Url="html/e34ba8a3-e09b-5adc-4425-88cf17ed3e38.htm" />
           <HelpTOCNode Title="DEFAULT_ROW_HEIGHT Field" Url="html/a30e0a33-9530-dfb6-e9a5-91c303a0e762.htm" />
           <HelpTOCNode Title="MAX_COLUMN_NUMBER Field" Url="html/97515f3e-4553-e7a2-7039-bb6372725f78.htm" />
@@ -709,13 +718,13 @@
         </HelpTOCNode>
       </HelpTOCNode>
       <HelpTOCNode Title="Worksheet.CellDirection Enumeration" Url="html/357d67a9-19c3-3a83-17db-cc2b8c442940.htm" />
-      <HelpTOCNode Id="4b5385cc-a678-4a0d-9b18-9680fe644fb6" Title="Worksheet.Column Class" Url="html/e949ab0d-da0d-d5a5-0a83-d6e9ac92d8b7.htm">
-        <HelpTOCNode Id="c93dbd84-6062-45c1-927e-f73cd2d7fa6a" Title="Column Constructor " Url="html/fba493e6-cdcf-c630-5f73-a450b8e88085.htm">
+      <HelpTOCNode Id="881e1b45-2d0e-4b6b-8c7c-5a9baacbcf37" Title="Worksheet.Column Class" Url="html/e949ab0d-da0d-d5a5-0a83-d6e9ac92d8b7.htm">
+        <HelpTOCNode Id="74cd2184-b5bc-4044-bb2f-45f603994875" Title="Column Constructor " Url="html/fba493e6-cdcf-c630-5f73-a450b8e88085.htm">
           <HelpTOCNode Title="Worksheet.Column Constructor " Url="html/957d7af6-2827-0064-a086-b8cadd0d0dd3.htm" />
           <HelpTOCNode Title="Worksheet.Column Constructor (Int32)" Url="html/357b084a-c896-90b4-728f-5e49fe0f267a.htm" />
           <HelpTOCNode Title="Worksheet.Column Constructor (String)" Url="html/497a8e52-0834-8040-c574-893588c79561.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="2f600120-0b7a-4d14-b134-8a66a9f41412" Title="Column Properties" Url="html/b63b780f-52b4-6240-908f-42563fa1880f.htm">
+        <HelpTOCNode Id="422cb323-a837-415a-9ee5-5b5f753e4f29" Title="Column Properties" Url="html/b63b780f-52b4-6240-908f-42563fa1880f.htm">
           <HelpTOCNode Title="ColumnAddress Property " Url="html/625217f2-fa11-2be4-f0d0-c65026d79131.htm" />
           <HelpTOCNode Title="HasAutoFilter Property " Url="html/9f68da3f-a411-67bd-a607-ff47c2b81cf5.htm" />
           <HelpTOCNode Title="IsHidden Property " Url="html/719f71ed-9cf4-a938-7ffb-b9d74240bc76.htm" />
@@ -725,12 +734,12 @@
         <HelpTOCNode Title="Column Methods" Url="html/da51e8e8-f3b1-eb3d-0964-81fae4303aef.htm" />
       </HelpTOCNode>
       <HelpTOCNode Title="Worksheet.SheetProtectionValue Enumeration" Url="html/c755e9da-1c36-54e9-f987-e16a78ad3cde.htm" />
-      <HelpTOCNode Id="3941025f-f3e1-41ac-8d26-c306afd3be8f" Title="WorksheetException Class" Url="html/f9f7f510-1df7-f64b-3916-7b88f0ef5946.htm">
-        <HelpTOCNode Id="d18f5b98-9585-47b2-9695-48de5f7025c1" Title="WorksheetException Constructor " Url="html/5d2e5e1a-d710-05cc-78cc-26704ca04f7f.htm">
+      <HelpTOCNode Id="558ed376-b57c-4c4e-8009-bcb9ea378e8a" Title="WorksheetException Class" Url="html/f9f7f510-1df7-f64b-3916-7b88f0ef5946.htm">
+        <HelpTOCNode Id="aace5497-e33d-4a3f-a096-40bab9c2413e" Title="WorksheetException Constructor " Url="html/5d2e5e1a-d710-05cc-78cc-26704ca04f7f.htm">
           <HelpTOCNode Title="WorksheetException Constructor " Url="html/5f573be0-a534-822d-67bf-950fb0979dcf.htm" />
           <HelpTOCNode Title="WorksheetException Constructor (String, String)" Url="html/8cbe43cb-74f6-188c-daf3-c6012e02d1b9.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="12510f78-665b-42d2-802c-54e131b3363e" Title="WorksheetException Properties" Url="html/859b9574-b99a-e207-54d2-2278db14c379.htm">
+        <HelpTOCNode Id="a3929994-9a7d-4a8d-ab83-e39de7a97a08" Title="WorksheetException Properties" Url="html/859b9574-b99a-e207-54d2-2278db14c379.htm">
           <HelpTOCNode Title="ExceptionTitle Property " Url="html/c19610d3-972f-c6ec-b2bc-ded39e0fab2f.htm" />
         </HelpTOCNode>
         <HelpTOCNode Title="WorksheetException Methods" Url="html/6f06ea22-1ddb-ce88-fd1a-f8bb6ffe2abe.htm" />

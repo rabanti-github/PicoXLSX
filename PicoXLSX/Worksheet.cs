@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2020
+ * Copyright Raphael Stoeckli © 2021
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -415,7 +415,7 @@ namespace PicoXLSX
         private Cell CastValue(object value, int column, int row)
         {
             Cell c;
-            if (value.GetType() == typeof(Cell))
+            if (value != null && value.GetType() == typeof(Cell))
             {
                 c = (Cell)value;
                 c.WorksheetReference = this;
@@ -427,7 +427,6 @@ namespace PicoXLSX
             }
             return c;
         }
-
 
         #endregion
 
@@ -600,7 +599,7 @@ namespace PicoXLSX
         /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="RangeException">Throws an RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
-        public void AddCellRange(List<object> values, Cell.Address startAddress, Cell.Address endAddress)
+        public void AddCellRange(IReadOnlyList<object> values, Cell.Address startAddress, Cell.Address endAddress)
         {
             AddCellRangeInternal(values, startAddress, endAddress, null);
         }
@@ -615,7 +614,7 @@ namespace PicoXLSX
         /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="RangeException">Throws an RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
-        public void AddCellRange(List<object> values, Cell.Address startAddress, Cell.Address endAddress, Style style)
+        public void AddCellRange(IReadOnlyList<object> values, Cell.Address startAddress, Cell.Address endAddress, Style style)
         {
             AddCellRangeInternal(values, startAddress, endAddress, style);
         }
@@ -629,7 +628,7 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws an RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cells</exception>
         /// <exception cref="FormatException">Throws a FormatException if the passed cell range is malformed</exception>
-        public void AddCellRange(List<object> values, string cellRange)
+        public void AddCellRange(IReadOnlyList<object> values, string cellRange)
         {
             Cell.Range range = Cell.ResolveCellRange(cellRange);
             AddCellRangeInternal(values, range.StartAddress, range.EndAddress, null);
@@ -645,7 +644,7 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws an RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
         /// <exception cref="FormatException">Throws a FormatException if the passed cell range is malformed</exception>
-        public void AddCellRange(List<object> values, string cellRange, Style style)
+        public void AddCellRange(IReadOnlyList<object> values, string cellRange, Style style)
         {
             Cell.Range range = Cell.ResolveCellRange(cellRange);
             AddCellRangeInternal(values, range.StartAddress, range.EndAddress, style);
@@ -662,14 +661,14 @@ namespace PicoXLSX
         /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="RangeException">Throws an RangeException if the number of cells differs from the number of passed values</exception>
         /// <exception cref="StyleException">Throws an StyleException if the active style cannot be referenced while creating the cells</exception>
-        private void AddCellRangeInternal<T>(List<T> values, Cell.Address startAddress, Cell.Address endAddress, Style style)
+        private void AddCellRangeInternal<T>(IReadOnlyList<T> values, Cell.Address startAddress, Cell.Address endAddress, Style style)
         {
-            List<Cell.Address> addresses = Cell.GetCellRange(startAddress, endAddress);
+            List<Cell.Address> addresses = Cell.GetCellRange(startAddress, endAddress) as List<Cell.Address>;
             if (values.Count != addresses.Count)
             {
                 throw new RangeException("OutOfRangeException", "The number of passed values (" + values.Count + ") differs from the number of cells within the range (" + addresses.Count + ")");
             }
-            List<Cell> list = Cell.ConvertArray<T>(values);
+            List<Cell> list = Cell.ConvertArray(values) as List<Cell>;
             int len = values.Count;
             for (int i = 0; i < len; i++)
             {
@@ -708,6 +707,84 @@ namespace PicoXLSX
             Cell.ResolveCellCoordinate(address, out column, out row);
             return RemoveCell(column, row);
         }
+        #endregion
+
+        #region methods_SetStyle
+
+        /// <summary>
+        /// Sets the passed style on the passed cell range. If cells are already existing, the style will be added or replaced. Otherwise, an empty (numeric) cell will be added with the assigned style
+        /// </summary>
+        /// <param name="cellRange">Cell range to apply the style</param>
+        /// <param name="style">Style to apply</param>
+        /// <remarks>Note: This method may invalidate an existing date value since dates are defined by specific style. The result of a redefinition will be a number, instead of a date</remarks>
+        public void SetStyle(Cell.Range cellRange, Style style)
+        {
+            IReadOnlyList<Cell.Address> addresses = cellRange.ResolveEnclosedAddresses();
+            foreach (Cell.Address address in addresses)
+            {
+                String key = address.GetAddress();
+                if (this.cells.ContainsKey(key))
+                {
+                    cells[key].SetStyle(style);
+                }
+                else
+                {
+                    AddCell(null, address.Column, address.Row, style);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the passed style on the passed cell range, derived from a start and end address. If cells are already existing, the style will be added or replaced. 
+        /// Otherwise, an empty (numeric) cell will be added with the assigned style
+        /// </summary>
+        /// <param name="startAddress">Start address of the cell range</param>
+        /// <param name="endAddress">End address of the cell range</param>
+        /// <param name="style">Style to apply</param>
+        /// <remarks>Note: This method may invalidate an existing date value since dates are defined by specific style. The result of a redefinition will be a number, instead of a date</remarks>
+        public void SetStyle(Cell.Address startAddress, Cell.Address endAddress, Style style)
+        {
+            SetStyle(new Cell.Range(startAddress, endAddress), style);
+        }
+
+        /// <summary>
+        /// Sets the passed style on the passed (singular) cell address. If the cell is already existing, the style will be added or replaced.
+        /// Otherwise, an empty (numeric) cell will be added with the assigned style
+        /// </summary>
+        /// <param name="address">Cell address to apply the style</param>
+        /// <param name="style">Style to apply</param>
+        /// <remarks>Note: This method may invalidate an existing date value since dates are defined by specific style. The result of a redefinition will be a number, instead of a date</remarks>
+        public void SetStyle(Cell.Address address, Style style)
+        {
+            SetStyle(address, address, style);
+        }
+
+        /// <summary>
+        /// Sets the passed style on the passed address expression. Such an expression may be a single cell or a cell range.
+        /// If the cell is already existing, the style will be added or replaced. Otherwise, an empty (numeric) cell or cell range will be added with the assigned style
+        /// </summary>
+        /// <param name="addressExpression">Expression of a cell address or range of addresses</param>
+        /// <param name="style">Style to apply</param>
+        /// <remarks>Note: This method may invalidate an existing date value since dates are defined by specific style. The result of a redefinition will be a number, instead of a date</remarks>
+        public void SetStyle(string addressExpression, Style style)
+        {
+            Cell.AddressScope scope = Cell.GetAddressScope(addressExpression);
+            if (scope == Cell.AddressScope.SingleAddress)
+            {
+                Cell.Address address = new Cell.Address(addressExpression);
+                SetStyle(address, style);
+            }
+            else if (scope == Cell.AddressScope.Range)
+            {
+                Cell.Range range = new Cell.Range(addressExpression);
+                SetStyle(range, style);
+            }
+            else
+            {
+                throw new FormatException("InvalidAddressExpression", "The passed address'" + addressExpression + "' is neither a cell address, nor a range");
+            }
+        }
+
         #endregion
 
         #region common_methods
@@ -1074,7 +1151,7 @@ namespace PicoXLSX
             {
                 throw new RangeException("UnknownRangeException", "The cell range " + range + " was not found in the list of merged cell ranges");
             }
-            List<Cell.Address> addresses = Cell.GetCellRange(range);
+            List<Cell.Address> addresses = Cell.GetCellRange(range) as List<Cell.Address>;
             Cell cell;
             foreach (Cell.Address address in addresses)
             {

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>PicoXLSX</RootNamespace>
+    <AssemblyName>PicoXLSX.Demo</AssemblyName>
+    <Copyright>Copyright Raphael Stoeckli © 2021</Copyright>
+    <RepositoryUrl>https://github.com/rabanti-github/PicoXLSX.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/rabanti-github/PicoXLSX</PackageProjectUrl>
+    <AssemblyVersion>2.9.0.0</AssemblyVersion>
+    <FileVersion>2.9.0.0</FileVersion>
+    <Version>2.9.0</Version>
+    <Description>Demo Library showing the use of PicoXLSX, a library to generate Microsoft Excel files (XLSX) in an easy and native way</Description>
+    <StartupObject>Demo.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Demo\Program.cs" Link="Program.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PicoXLSX .NET Standard\PicoXLSX .NET Standard.csproj" />
+  </ItemGroup>
+
+</Project>
