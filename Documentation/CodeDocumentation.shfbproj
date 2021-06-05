@@ -13,7 +13,7 @@
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
-    <FrameworkVersion>.NET Framework 4.5.2</FrameworkVersion>
+    <FrameworkVersion>.NET Core/.NET Standard/.NET 5.0+</FrameworkVersion>
     <OutputPath>..\docs\</OutputPath>
     <HtmlHelpName>Documentation</HtmlHelpName>
     <Language>en-US</Language>
@@ -58,7 +58,7 @@
 PicoXLSX was created with .NET version 4.5. Newer versions like 4.6 are working and tested. Furthermore, .NET Standard 2.0 is supported since v1.6. Older versions of.NET like 3.5 and 4.0 may also work with minor changes. Some functions introduced in .NET 4.5 were used and must be adapted in this case.
 &amp;lt%3bbr/&amp;gt%3b
 &amp;lt%3bh3&amp;gt%3b.NET 4.5 or newer&amp;lt%3b/h3&amp;gt%3b
-%2a%29The only requirement to compile the library besides .NET %28v4.5 or newer%29 is the assembly &amp;lt%3bb&amp;gt%3bWindowsBase&amp;lt%3b/b&amp;gt%3b, as well as &amp;lt%3bb&amp;gt%3bSystem.IO.Compression&amp;lt%3b/b&amp;gt%3b. These assemblies are &amp;lt%3bb&amp;gt%3bstandard components in all Microsoft Windows systems&amp;lt%3b/b&amp;gt%3b %28except Windows RT systems%29. If your IDE of choice supports referencing assemblies from the Global Assembly Cache %28&amp;lt%3bb&amp;gt%3bGAC&amp;lt%3b/b&amp;gt%3b%29 of Windows, select WindowsBase and Compression from there. If you want so select the DLLs manually and Microsoft Visual Studio is installed on your system, the DLL of WindowsBase can be found most likely under “c:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\WindowsBase.dll”, as well as System.IO.Compression under &amp;quot%3bc:\Program Files %28x86%29\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.IO.Compression.dll&amp;quot%3b. Otherwise you find them in the GAC, under “c:\Windows\Microsoft.NET\assembly\GAC_MSIL\WindowsBase” and &amp;quot%3bc:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.IO.Compression&amp;quot%3b
+%2a%29The only requirement to compile the library besides .NET %28v4.5 or newer%29 is the assembly &amp;lt%3bb&amp;gt%3bWindowsBase&amp;lt%3b/b&amp;gt%3b, as well as &amp;lt%3bb&amp;gt%3bSystem.IO.Compression&amp;lt%3b/b&amp;gt%3b. These assemblies are &amp;lt%3bb&amp;gt%3bstandard components in all Microsoft Windows systems&amp;lt%3b/b&amp;gt%3b %28except Windows RT systems%29. If your IDE of choice supports referencing assemblies from the Global Assembly Cache %28&amp;lt%3bb&amp;gt%3bGAC&amp;lt%3b/b&amp;gt%3b%29 of Windows, select WindowsBase and Compression from there. If you want so select the DLLs manually and Microsoft Visual Studio is installed on your system, the DLL of WindowsBase can be found most likely under &amp;quot%3bc:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\WindowsBase.dll&amp;quot%3b, as well as System.IO.Compression under &amp;quot%3bc:\Program Files %28x86%29\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.IO.Compression.dll&amp;quot%3b. Otherwise you find them in the GAC, under &amp;quot%3bc:\Windows\Microsoft.NET\assembly\GAC_MSIL\WindowsBase&amp;quot%3b and &amp;quot%3bc:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.IO.Compression&amp;quot%3b
 &amp;lt%3bbr/&amp;gt%3b
 The NuGet package &amp;lt%3bb&amp;gt%3bdoes not require dependencies&amp;lt%3b/b&amp;gt%3b
 &amp;lt%3bbr/&amp;gt%3b
@@ -78,11 +78,11 @@ The .NET version of the documentation may vary, based on the installation. If v4
 
 &amp;lt%3bh3&amp;gt%3bUsing NuGet&amp;lt%3b/h3&amp;gt%3b
 
-By Package Manager:&amp;lt%3bbr&amp;gt%3b
+By Package Manager:&amp;lt%3bbr/&amp;gt%3b
 &amp;lt%3bpre&amp;gt%3b&amp;lt%3bcode&amp;gt%3bInstall-Package PicoXLSX&amp;lt%3b/code&amp;gt%3b&amp;lt%3b/pre&amp;gt%3b
-&amp;lt%3bbr&amp;gt%3b
-&amp;lt%3bbr&amp;gt%3b
-By .NET CLI:&amp;lt%3bbr&amp;gt%3b
+&amp;lt%3bbr/&amp;gt%3b
+&amp;lt%3bbr/&amp;gt%3b
+By .NET CLI:&amp;lt%3bbr/&amp;gt%3b
 &amp;lt%3bpre&amp;gt%3b&amp;lt%3bcode&amp;gt%3bdotnet add package PicoXLSX&amp;lt%3b/code&amp;gt%3b&amp;lt%3b/pre&amp;gt%3b
 
 &amp;lt%3bh3&amp;gt%3bAs DLL&amp;lt%3b/h3&amp;gt%3b
