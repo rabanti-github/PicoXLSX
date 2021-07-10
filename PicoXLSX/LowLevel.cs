@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Packaging;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,6 +42,16 @@ namespace PicoXLSX
         /// Maximum valid OAdate value (9999-12-31)
         /// </summary>
         public const double MAX_OADATE_VALUE = 2958465.9999f;
+
+        private const float COLUMN_WIDTH_ROUNDING_MODIFIER = 256f;
+        private const float SPLIT_WIDTH_MULTIPLIER = 12f;
+        private const float SPLIT_WIDTH_OFFSET = 0.5f;
+        private const float SPLIT_WIDTH_POINT_MULTIPLIER = 3f / 4f;
+        private const float SPLIT_POINT_DIVIDER = 20f;
+        private const float SPLIT_WIDTH_POINT_OFFSET = 390f;
+        private const float SPLIT_HEIGHT_POINT_OFFSET = 300f;
+        private const float ROW_HEIGHT_POINT_MULTIPLIER = 1f / 3f + 1f;
+
         #endregion
 
         #region privateFields
@@ -66,7 +77,7 @@ namespace PicoXLSX
                 {
                     interceptedDocuments = new Dictionary<string, XmlDocument>();
                 }
-                else if (interceptDocuments == false)
+                else if (!interceptDocuments)
                 {
                     interceptedDocuments = null;
                 }
@@ -207,12 +218,41 @@ namespace PicoXLSX
             }
             StringBuilder sb = new StringBuilder();
             sb.Append("<workbook xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">");
-            if (workbook.SelectedWorksheet > 0)
+            if (workbook.SelectedWorksheet > 0 || workbook.Hidden)
             {
-                sb.Append("<bookViews><workbookView activeTab=\"");
-                sb.Append(workbook.SelectedWorksheet.ToString("G", culture));
-                sb.Append("\"/></bookViews>");
+                sb.Append("<bookViews><workbookView ");
+                if (workbook.Hidden)
+                {
+                    sb.Append("visibility=\"hidden\"");
+                }
+                else
+                {
+                    sb.Append("activeTab=\"").Append(workbook.SelectedWorksheet.ToString("G", culture)).Append("\"");
+                }
+                sb.Append("/></bookViews>");
             }
+            CreateWorkbookProtectionString(sb);
+            sb.Append("<sheets>");
+            foreach (Worksheet item in workbook.Worksheets)
+            {
+                sb.Append("<sheet r:id=\"rId").Append(item.SheetID.ToString()).Append("\" sheetId=\"").Append(item.SheetID.ToString()).Append("\" name=\"").Append(EscapeXmlAttributeChars(item.SheetName)).Append("\"");
+                if (item.Hidden)
+                {
+                    sb.Append(" state=\"hidden\"");
+                }
+                sb.Append("/>");
+            }
+            sb.Append("</sheets>");
+            sb.Append("</workbook>");
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Method to create the (sub) part of the workbook protection within the workbook XML document
+        /// </summary>
+        /// <param name="sb">reference to the stringbuilder</param>
+        private void CreateWorkbookProtectionString(StringBuilder sb)
+        {
             if (workbook.UseWorkbookProtection)
             {
                 sb.Append("<workbookProtection");
@@ -224,7 +264,7 @@ namespace PicoXLSX
                 {
                     sb.Append(" lockStructure=\"1\"");
                 }
-                if (string.IsNullOrEmpty(workbook.WorkbookProtectionPassword) == false)
+                if (!string.IsNullOrEmpty(workbook.WorkbookProtectionPassword))
                 {
                     sb.Append("workbookPassword=\"");
                     sb.Append(GeneratePasswordHash(workbook.WorkbookProtectionPassword));
@@ -232,14 +272,6 @@ namespace PicoXLSX
                 }
                 sb.Append("/>");
             }
-            sb.Append("<sheets>");
-            foreach (Worksheet item in workbook.Worksheets)
-            {
-                sb.Append("<sheet r:id=\"rId").Append(item.SheetID.ToString()).Append("\" sheetId=\"").Append(item.SheetID.ToString()).Append("\" name=\"").Append(EscapeXmlAttributeChars(item.SheetName)).Append("\"/>");
-            }
-            sb.Append("</sheets>");
-            sb.Append("</workbook>");
-            return sb.ToString();
         }
 
         /// <summary>
@@ -252,40 +284,23 @@ namespace PicoXLSX
         {
             worksheet.RecalculateAutoFilter();
             worksheet.RecalculateColumns();
-            List<List<Cell>> celldata = GetSortedSheetData(worksheet);
             StringBuilder sb = new StringBuilder();
-            string line;
             sb.Append("<worksheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14ac\" xmlns:x14ac=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac\">");
-
-            if (worksheet.SelectedCells != null)
+            if (worksheet.SelectedCells != null || worksheet.PaneSplitTopHeight != null || worksheet.PaneSplitLeftWidth != null || worksheet.PaneSplitAddress != null)
             {
-                sb.Append("<sheetViews><sheetView workbookViewId=\"0\"");
-                if (workbook.SelectedWorksheet == worksheet.SheetID - 1)
-                {
-                    sb.Append(" tabSelected=\"1\"");
-                }
-                sb.Append("><selection sqref=\"");
-                sb.Append(worksheet.SelectedCells.ToString());
-                sb.Append("\" activeCell=\"");
-                sb.Append(worksheet.SelectedCells.Value.StartAddress.ToString());
-                sb.Append("\"/></sheetView></sheetViews>");
+                CreateSheetViewString(worksheet, sb);
             }
-
             sb.Append("<sheetFormatPr x14ac:dyDescent=\"0.25\" defaultRowHeight=\"").Append(worksheet.DefaultRowHeight.ToString("G", culture)).Append("\" baseColWidth=\"").Append(worksheet.DefaultColumnWidth.ToString("G", culture)).Append("\"/>");
 
             string colWidths = CreateColsString(worksheet);
-            if (string.IsNullOrEmpty(colWidths) == false)
+            if (!string.IsNullOrEmpty(colWidths))
             {
                 sb.Append("<cols>");
                 sb.Append(colWidths);
                 sb.Append("</cols>");
             }
             sb.Append("<sheetData>");
-            foreach (List<Cell> item in celldata)
-            {
-                line = CreateRowString(item, worksheet);
-                sb.Append(line);
-            }
+            CreateRowsString(worksheet, sb);
             sb.Append("</sheetData>");
             sb.Append(CreateMergedCellsString(worksheet));
             sb.Append(CreateSheetProtectionString(worksheet));
@@ -297,6 +312,194 @@ namespace PicoXLSX
 
             sb.Append("</worksheet>");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Method to create the enclosing part of the rows
+        /// </summary>
+        /// <param name="worksheet">worksheet object to process</param>
+        /// <param name="sb">reference to the stringbuilder</param>
+        private void CreateRowsString(Worksheet worksheet, StringBuilder sb)
+        {
+            List<DynamicRow> cellData = GetSortedSheetData(worksheet);
+            String line;
+            foreach (DynamicRow row in cellData)
+            {
+                line = CreateRowString(row, worksheet);
+                sb.Append(line);
+            }
+        }
+
+        /// <summary>
+        /// Method to create the (sub) part of the sheet view (selected cells and panes) within the worksheet XML document
+        /// </summary>
+        /// <param name="worksheet">worksheet object to process</param>
+        /// <param name="sb">reference to the stringbuilder</param>
+        private void CreateSheetViewString(Worksheet worksheet, StringBuilder sb)
+        {
+            sb.Append("<sheetViews><sheetView workbookViewId=\"0\"");
+            if (workbook.SelectedWorksheet == worksheet.SheetID - 1)
+            {
+                sb.Append(" tabSelected=\"1\"");
+            }
+            sb.Append(">");
+            CreatePaneString(worksheet, sb);
+            if (worksheet.SelectedCells != null)
+            {
+                sb.Append("<selection sqref=\"");
+                sb.Append(worksheet.SelectedCells.Value.ToString());
+                sb.Append("\" activeCell=\"");
+                sb.Append(worksheet.SelectedCells.Value.StartAddress.ToString());
+                sb.Append("\"/>");
+            }
+            sb.Append("</sheetView></sheetViews>");
+        }
+
+        /// <summary>
+        /// Method to create the (sub) part of the pane (splitting and freezing) within the worksheet XML document
+        /// </summary>
+        /// <param name="worksheet">worksheet object to process</param>
+        /// <param name="sb">reference to the stringbuilder</param>
+        private void CreatePaneString(Worksheet worksheet, StringBuilder sb)
+        {
+            if (worksheet.PaneSplitLeftWidth == null && worksheet.PaneSplitTopHeight == null && worksheet.PaneSplitAddress == null)
+            {
+                return;
+            }
+            sb.Append("<pane");
+            bool applyXSplit = false;
+            bool applyYSplit = false;
+            if (worksheet.PaneSplitAddress != null)
+            {
+                bool freeze = worksheet.FreezeSplitPanes != null && worksheet.FreezeSplitPanes.Value;
+                int xSplit = worksheet.PaneSplitAddress.Value.Column;
+                int ySplit = worksheet.PaneSplitAddress.Value.Row;
+                if (xSplit > 0)
+                {
+                    if (freeze)
+                    {
+                        sb.Append(" xSplit=\"").Append(xSplit.ToString("G", culture)).Append("\"");
+                    }
+                    else
+                    {
+                        sb.Append(" xSplit=\"").Append(CalculatePaneWidth(worksheet, xSplit).ToString("G", culture)).Append("\"");
+                    }
+                    applyXSplit = true;
+                }
+                if (ySplit > 0)
+                {
+                    if (freeze)
+                    {
+                        sb.Append(" ySplit=\"").Append(ySplit.ToString("G", culture)).Append("\"");
+                    }
+                    else
+                    {
+                        sb.Append(" ySplit=\"").Append(CalculatePaneHeight(worksheet, ySplit).ToString("G", culture)).Append("\"");
+                    }
+                    applyYSplit = true;
+                }
+                if (freeze && applyXSplit && applyYSplit)
+                {
+                    sb.Append(" state=\"frozenSplit\"");
+                }
+                else if (freeze)
+                {
+                    sb.Append(" state=\"frozen\"");
+                }
+            }
+            else
+            {
+                if (worksheet.PaneSplitLeftWidth != null)
+                {
+                    sb.Append(" xSplit=\"").Append(GetInternalPaneSplitWidth(worksheet.PaneSplitLeftWidth.Value).ToString("G", culture)).Append("\"");
+                    applyXSplit = true;
+                }
+                if (worksheet.PaneSplitTopHeight != null)
+                {
+                    sb.Append(" ySplit=\"").Append(GetInternalPaneSplitHeight(worksheet.PaneSplitTopHeight.Value).ToString("G", culture)).Append("\"");
+                    applyYSplit = true;
+                }
+            }
+            if (applyXSplit && applyYSplit)
+            {
+                switch (worksheet.ActivePane.Value)
+                {
+                    case Worksheet.WorksheetPane.bottomLeft:
+                        sb.Append(" activePane=\"bottomLeft\"");
+                        break;
+                    case Worksheet.WorksheetPane.bottomRight:
+                        sb.Append(" activePane=\"bottomRight\"");
+                        break;
+                    case Worksheet.WorksheetPane.topLeft:
+                        sb.Append(" activePane=\"topLeft\"");
+                        break;
+                    case Worksheet.WorksheetPane.topRight:
+                        sb.Append(" activePane=\"topRight\"");
+                        break;
+                }
+            }
+            String topLeftCell = worksheet.PaneSplitTopLeftCell.Value.GetAddress();
+            sb.Append(" topLeftCell=\"").Append(topLeftCell).Append("\" ");
+            sb.Append("/>");
+            if (applyXSplit && !applyYSplit)
+            {
+                sb.Append("<selection pane=\"topRight\" activeCell=\"" + topLeftCell + "\"  sqref=\"" + topLeftCell + "\" />");
+            }
+            else if (applyYSplit && !applyXSplit)
+            {
+                sb.Append("<selection pane=\"bottomLeft\" activeCell=\"" + topLeftCell + "\"  sqref=\"" + topLeftCell + "\" />");
+            }
+            else if (applyYSplit && applyXSplit)
+            {
+                sb.Append("<selection activeCell=\"" + topLeftCell + "\"  sqref=\"" + topLeftCell + "\" />");
+            }
+        }
+
+        /// <summary>
+        /// Method to calculate the pane height, based on the number of rows
+        /// </summary>
+        /// <param name="worksheet">worksheet object to get the row definitions from</param>
+        /// <param name="numberOfRows">Number of rows from the top to the split position</param>
+        /// <returns>Internal height from the top of the worksheet to the pane split position</returns>
+        private float CalculatePaneHeight(Worksheet worksheet, int numberOfRows)
+        {
+            float height = 0;
+            for (int i = 0; i < numberOfRows; i++)
+            {
+                if (worksheet.RowHeights.ContainsKey(i))
+                {
+                    height += GetInternalRowHeight(worksheet.RowHeights[i]);
+                }
+                else
+                {
+                    height += GetInternalRowHeight(Worksheet.DEFAULT_ROW_HEIGHT);
+                }
+            }
+            return GetInternalPaneSplitHeight(height);
+        }
+
+        /// <summary>
+        /// Method to calculate the pane width, based on the number of columns
+        /// </summary>
+        /// <param name="worksheet">worksheet object to get the column definitions from</param>
+        /// <param name="numberOfColumns">Number of columns from the left to the split position</param>
+        /// <returns>Internal width from the left of the worksheet to the pane split position</returns>
+        private float CalculatePaneWidth(Worksheet worksheet, int numberOfColumns)
+        {
+            float width = 0;
+            for (int i = 0; i < numberOfColumns; i++)
+            {
+                if (worksheet.Columns.ContainsKey(i))
+                {
+                    width += GetInternalColumnWidth(worksheet.Columns[i].Width);
+                }
+                else
+                {
+                    width += GetInternalColumnWidth(Worksheet.DEFAULT_COLUMN_WIDTH);
+                }
+            }
+            // Add padding of 75 per column
+            return GetInternalPaneSplitWidth(width) + ((numberOfColumns - 1) * 0f);
         }
 
         /// <summary>
@@ -395,7 +598,7 @@ namespace PicoXLSX
                     }
                     p.Flush();
                     p.Close();
-                    if (leaveOpen == false)
+                    if (!leaveOpen)
                     {
                         stream.Close();
                     }
@@ -528,13 +731,14 @@ namespace PicoXLSX
                 StringBuilder sb = new StringBuilder();
                 foreach (KeyValuePair<int, Worksheet.Column> column in worksheet.Columns)
                 {
-                    if (column.Value.Width == worksheet.DefaultColumnWidth && column.Value.IsHidden == false) { continue; }
+                    if (column.Value.Width == worksheet.DefaultColumnWidth && !column.Value.IsHidden) { continue; }
                     if (worksheet.Columns.ContainsKey(column.Key) && worksheet.Columns[column.Key].IsHidden)
                     {
-                       hidden = " hidden=\"1\"";
+                        hidden = " hidden=\"1\"";
                     }
                     col = (column.Key + 1).ToString("G", culture); // Add 1 for Address
-                    sb.Append("<col customWidth=\"1\" width=\"").Append(column.Value.Width.ToString("G", culture)).Append("\" max=\"").Append(col).Append("\" min=\"").Append(col).Append("\"").Append(hidden).Append("/>");
+                    float width = GetInternalColumnWidth(column.Value.Width);
+                    sb.Append("<col customWidth=\"1\" width=\"").Append(width.ToString("G", culture)).Append("\" max=\"").Append(col).Append("\" min=\"").Append(col).Append("\"").Append(hidden).Append("/>");
                 }
                 string value = sb.ToString();
                 if (value.Length > 0)
@@ -595,39 +799,33 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create a row string
         /// </summary>
-        /// <param name="columnFields">List of cells</param>
+        /// <param name="dynamicRow">Dynamic row with List of cells, heights and hidden states</param>
         /// <param name="worksheet">Worksheet to process</param>
         /// <returns>Formatted row string</returns>
         /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
-        private string CreateRowString(List<Cell> columnFields, Worksheet worksheet)
+        private string CreateRowString(DynamicRow dynamicRow, Worksheet worksheet)
         {
-            int rowNumber = columnFields[0].RowNumber;
+            int rowNumber = dynamicRow.RowNumber;
             string height = "";
             string hidden = "";
             if (worksheet.RowHeights.ContainsKey(rowNumber) && worksheet.RowHeights[rowNumber] != worksheet.DefaultRowHeight)
             {
-                    height = " x14ac:dyDescent=\"0.25\" customHeight=\"1\" ht=\"" + worksheet.RowHeights[rowNumber].ToString("G", culture) + "\"";
+                height = " x14ac:dyDescent=\"0.25\" customHeight=\"1\" ht=\"" + GetInternalRowHeight(worksheet.RowHeights[rowNumber]).ToString("G", culture) + "\"";
             }
             if (worksheet.HiddenRows.ContainsKey(rowNumber) && worksheet.HiddenRows[rowNumber])
             {
-                    hidden = " hidden=\"1\"";
+                hidden = " hidden=\"1\"";
             }
             StringBuilder sb = new StringBuilder();
-            if (columnFields.Count > 0)
-            {
-                sb.Append("<row r=\"").Append((rowNumber + 1).ToString()).Append("\"").Append(height).Append(hidden).Append(">");
-            }
-            else
-            {
-                sb.Append("<row").Append(height).Append(">");
-            }
+            sb.Append("<row r=\"").Append((rowNumber + 1).ToString()).Append("\"").Append(height).Append(hidden).Append(">");
             string typeAttribute;
             string styleDef = "";
             string typeDef = "";
             string valueDef = "";
             bool boolValue;
+
             int col = 0;
-            foreach (Cell item in columnFields)
+            foreach (Cell item in dynamicRow.CellDefinitions)
             {
                 typeDef = " ";
                 if (item.CellStyle != null)
@@ -744,7 +942,7 @@ namespace PicoXLSX
         /// <returns>Formatted string with protection statement of the worksheet</returns>
         private string CreateSheetProtectionString(Worksheet sheet)
         {
-            if (sheet.UseSheetProtection == false)
+            if (!sheet.UseSheetProtection)
             {
                 return string.Empty;
             }
@@ -762,19 +960,13 @@ namespace PicoXLSX
             {
                 actualLockingValues.Add(Worksheet.SheetProtectionValue.scenarios, 1);
             }
-            if (!sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells))
+            if (!sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells) && !actualLockingValues.ContainsKey(Worksheet.SheetProtectionValue.selectLockedCells))
             {
-                if (!actualLockingValues.ContainsKey(Worksheet.SheetProtectionValue.selectLockedCells))
-                {
-                    actualLockingValues.Add(Worksheet.SheetProtectionValue.selectLockedCells, 1);
-                }
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.selectLockedCells, 1);
             }
-            if (!sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectUnlockedCells) || !sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells))
+            if ((!sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectUnlockedCells) || !sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells)) && !actualLockingValues.ContainsKey(Worksheet.SheetProtectionValue.selectUnlockedCells))
             {
-                if (!actualLockingValues.ContainsKey(Worksheet.SheetProtectionValue.selectUnlockedCells))
-                {
-                    actualLockingValues.Add(Worksheet.SheetProtectionValue.selectUnlockedCells, 1);
-                }
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.selectUnlockedCells, 1);
             }
             if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.formatCells)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.formatCells, 0); }
             if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.formatColumns)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.formatColumns, 0); }
@@ -802,7 +994,7 @@ namespace PicoXLSX
                     // no-op
                 }
             }
-            if (string.IsNullOrEmpty(sheet.SheetProtectionPassword) == false)
+            if (!string.IsNullOrEmpty(sheet.SheetProtectionPassword))
             {
                 string hash = GeneratePasswordHash(sheet.SheetProtectionPassword);
                 sb.Append(" password=\"").Append(hash).Append("\"");
@@ -821,8 +1013,8 @@ namespace PicoXLSX
             StringBuilder sb = new StringBuilder();
             foreach (Style.Border item in borderStyles)
             {
-                if (item.DiagonalDown && item.DiagonalUp == false) { sb.Append("<border diagonalDown=\"1\">"); }
-                else if (item.DiagonalDown == false && item.DiagonalUp) { sb.Append("<border diagonalUp=\"1\">"); }
+                if (item.DiagonalDown && !item.DiagonalUp) { sb.Append("<border diagonalDown=\"1\">"); }
+                else if (!item.DiagonalDown && item.DiagonalUp) { sb.Append("<border diagonalUp=\"1\">"); }
                 else if (item.DiagonalDown && item.DiagonalUp) { sb.Append("<border diagonalDown=\"1\" diagonalUp=\"1\">"); }
                 else { sb.Append("<border>"); }
 
@@ -923,7 +1115,7 @@ namespace PicoXLSX
                     else if (item.Scheme == Style.Font.SchemeValue.minor)
                     { sb.Append("<scheme val=\"minor\"/>"); }
                 }
-                if (string.IsNullOrEmpty(item.Charset) == false)
+                if (!string.IsNullOrEmpty(item.Charset))
                 {
                     sb.Append("<charset val=\"").Append(item.Charset).Append("\"/>");
                 }
@@ -955,7 +1147,7 @@ namespace PicoXLSX
                 {
                     sb.Append(">");
                     sb.Append("<fgColor rgb=\"").Append(item.ForegroundColor).Append("\"/>");
-                    if (string.IsNullOrEmpty(item.BackgroundColor) == false)
+                    if (!string.IsNullOrEmpty(item.BackgroundColor))
                     {
                         sb.Append("<bgColor rgb=\"").Append(item.BackgroundColor).Append("\"/>");
                     }
@@ -1063,7 +1255,7 @@ namespace PicoXLSX
                     {
                         protectionString = "<protection locked=\"1\" hidden=\"1\"/>";
                     }
-                    else if (item.CurrentCellXf.Hidden && item.CurrentCellXf.Locked == false)
+                    else if (item.CurrentCellXf.Hidden && !item.CurrentCellXf.Locked)
                     {
                         protectionString = "<protection hidden=\"1\" locked=\"0\"/>";
                     }
@@ -1086,7 +1278,7 @@ namespace PicoXLSX
                 sb.Append("\" borderId=\"").Append(item.CurrentBorder.InternalID.Value.ToString("G", culture));
                 sb.Append("\" fillId=\"").Append(item.CurrentFill.InternalID.Value.ToString("G", culture));
                 sb.Append("\" fontId=\"").Append(item.CurrentFont.InternalID.Value.ToString("G", culture));
-                if (item.CurrentFont.IsDefaultFont == false)
+                if (!item.CurrentFont.IsDefaultFont)
                 {
                     sb.Append("\" applyFont=\"1");
                 }
@@ -1094,7 +1286,7 @@ namespace PicoXLSX
                 {
                     sb.Append("\" applyFill=\"1");
                 }
-                if (item.CurrentBorder.IsEmpty() == false)
+                if (!item.CurrentBorder.IsEmpty())
                 {
                     sb.Append("\" applyBorder=\"1");
                 }
@@ -1147,18 +1339,10 @@ namespace PicoXLSX
             }
             foreach (Style.Fill item in fills)
             {
-                if (!string.IsNullOrEmpty(item.BackgroundColor) && item.BackgroundColor != Style.Fill.DEFAULTCOLOR)
-                {
-                    if (!tempColors.Contains(item.BackgroundColor))
-                    { tempColors.Add(item.BackgroundColor); }
-                }
-                if (!string.IsNullOrEmpty(item.ForegroundColor))
-                {
-                    if (item.ForegroundColor != Style.Fill.DEFAULTCOLOR)
-                    {
-                        if (!tempColors.Contains(item.ForegroundColor)) { tempColors.Add(item.ForegroundColor); }
-                    }
-                }
+                if (!string.IsNullOrEmpty(item.BackgroundColor) && item.BackgroundColor != Style.Fill.DEFAULTCOLOR && !tempColors.Contains(item.BackgroundColor))
+                { tempColors.Add(item.BackgroundColor); }
+                if (!string.IsNullOrEmpty(item.ForegroundColor) && item.ForegroundColor != Style.Fill.DEFAULTCOLOR && !tempColors.Contains(item.ForegroundColor))
+                { tempColors.Add(item.ForegroundColor); }
             }
             if (tempColors.Count > 0)
             {
@@ -1177,8 +1361,8 @@ namespace PicoXLSX
         /// Method to sort the cells of a worksheet as preparation for the XML document
         /// </summary>
         /// <param name="sheet">Worksheet to process</param>
-        /// <returns>Two dimensional array of Cell objects</returns>
-        private List<List<Cell>> GetSortedSheetData(Worksheet sheet)
+        /// <returns>Sorted list of dynamic rows that are either defined by cells or row widths / hidden states. The list is sorted by row numbers (zero-based)</returns>
+        private List<DynamicRow> GetSortedSheetData(Worksheet sheet)
         {
             List<Cell> temp = new List<Cell>();
             foreach (KeyValuePair<string, Cell> item in sheet.Cells)
@@ -1186,26 +1370,49 @@ namespace PicoXLSX
                 temp.Add(item.Value);
             }
             temp.Sort();
-            List<Cell> line = new List<Cell>();
-            List<List<Cell>> output = new List<List<Cell>>();
+            DynamicRow row = new DynamicRow();
+            Dictionary<int, DynamicRow> rows = new Dictionary<int, DynamicRow>();
+            int rowNumber;
             if (temp.Count > 0)
             {
-                int rowNumber = temp[0].RowNumber;
-                foreach (Cell item in temp)
+                rowNumber = temp[0].RowNumber;
+                row.RowNumber = rowNumber;
+                foreach (Cell cell in temp)
                 {
-                    if (item.RowNumber != rowNumber)
+                    if (cell.RowNumber != rowNumber)
                     {
-                        output.Add(line);
-                        line = new List<Cell>();
-                        rowNumber = item.RowNumber;
+                        rows.Add(rowNumber, row);
+                        row = new DynamicRow();
+                        row.RowNumber = cell.RowNumber;
+                        rowNumber = cell.RowNumber;
                     }
-                    line.Add(item);
+                    row.CellDefinitions.Add(cell);
                 }
-                if (line.Count > 0)
+                if (row.CellDefinitions.Count > 0)
                 {
-                    output.Add(line);
+                    rows.Add(rowNumber, row);
                 }
             }
+            foreach (KeyValuePair<int, float> rowHeight in sheet.RowHeights)
+            {
+                if (!rows.ContainsKey(rowHeight.Key))
+                {
+                    row = new DynamicRow();
+                    row.RowNumber = rowHeight.Key;
+                    rows.Add(rowHeight.Key, row);
+                }
+            }
+            foreach (KeyValuePair<int, bool> hiddenRow in sheet.HiddenRows)
+            {
+                if (!rows.ContainsKey(hiddenRow.Key))
+                {
+                    row = new DynamicRow();
+                    row.RowNumber = hiddenRow.Key;
+                    rows.Add(hiddenRow.Key, row);
+                }
+            }
+            List<DynamicRow> output = rows.Values.ToList();
+            output.Sort((r1, r2) => (r1.RowNumber.CompareTo(r2.RowNumber))); // Lambda sort
             return output;
         }
 
@@ -1367,9 +1574,128 @@ namespace PicoXLSX
             }
         }
 
+        /// <summary>
+        /// Calculates the internal width of a column in characters. This width is used only in the XML documents of worksheets and is usually not exposed to the (Excel) end user
+        /// </summary>
+        /// <remarks>
+        /// The internal width deviates slightly from the column width, entered in Excel. Although internal, the default column width of 10 characters is visible in Excel as 10.71.
+        /// The deviation depends on the maximum digit width of the default font, as well as its text padding and various constants.<br/>
+        /// In case of the width 10.0 and the default digit width 7.0, as well as the padding 5.0 of the default font Calibri (size 11), 
+        /// the internal width is approximately 10.7142857 (rounded to 10.71).<br/> Note that the column hight is not affected by this consideration. 
+        /// The entered height in Excel is the actual height in the worksheet XML documents.<br/> 
+        /// This method is derived from the Perl implementation by John McNamara (<a href="https://stackoverflow.com/a/5010899">https://stackoverflow.com/a/5010899</a>)<br/>
+        /// See also: <a href="https://www.ecma-international.org/publications-and-standards/standards/ecma-376/">ECMA-376, Part 1, Chapter 18.3.1.13</a>
+        /// </remarks>
+        /// <param name="columnWidth">Target column width (displayed in Excel)</param>
+        /// <param name="maxDigitWidth">Maximum digit with of the default font (default is 7.0 for Calibri, size 11)</param>
+        /// <param name="textPadding">Text padding of the default font (default is 5.0 for Calibri, size 11)</param>
+        /// <returns>The internal column width in characters, used in worksheet XML documents</returns>
+        public static float GetInternalColumnWidth(float columnWidth, float maxDigitWidth = 7f, float textPadding = 5f)
+        {
+            if (columnWidth <= 0f || maxDigitWidth <= 0f)
+            {
+                return 0f;
+            }
+            else if (columnWidth <= 1f)
+            {
+                return (float)Math.Floor((columnWidth * (maxDigitWidth + textPadding)) / maxDigitWidth * COLUMN_WIDTH_ROUNDING_MODIFIER) / COLUMN_WIDTH_ROUNDING_MODIFIER;
+            }
+            else
+            {
+                return (float)Math.Floor((columnWidth * maxDigitWidth + textPadding) / maxDigitWidth * COLUMN_WIDTH_ROUNDING_MODIFIER) / COLUMN_WIDTH_ROUNDING_MODIFIER;
+            }
+        }
+
+        /// <summary>
+        /// Calculates the internal height of a row. This height is used only in the XML documents of worksheets and is usually not exposed to the (Excel) end user
+        /// </summary>
+        /// <remarks>The height is based on the calculated amount of pixels. One point are ~1.333 (1+1/3) pixels. 
+        /// After the conversion, the number of pixels is rounded to the nearest integer and calculated back to points.<br/>
+        /// Therefore, the originally defined row height will slightly deviate, based on this pixel snap</remarks>
+        /// <param name="rowHeight">Target row height (displayed in Excel)</param>
+        /// <returns>The internal row height which snaps to the nearest pixel</returns>
+        public static float GetInternalRowHeight(float rowHeight)
+        {
+            if (rowHeight <= 0f)
+            {
+                return 0f;
+            }
+            double heightInPixel = Math.Round(rowHeight * ROW_HEIGHT_POINT_MULTIPLIER);
+            return (float)heightInPixel / ROW_HEIGHT_POINT_MULTIPLIER;
+        }
+
+        /// <summary>
+        /// Calculates the internal width of a split pane in a worksheet. This width is used only in the XML documents of worksheets and is not exposed to the (Excel) end user
+        /// </summary>
+        /// <remarks>
+        /// The internal split width is based on the width of one or more columns. 
+        /// It also depends on the maximum digit width of the default font, as well as its text padding and various constants.<br/>
+        /// See also <see cref="GetInternalColumnWidth(float, float, float)"/> for additional details.<br/>
+        /// This method is derived from the Perl implementation by John McNamara (<a href="https://stackoverflow.com/a/5010899">https://stackoverflow.com/a/5010899</a>)<br/>
+        /// See also: <a href="https://www.ecma-international.org/publications-and-standards/standards/ecma-376/">ECMA-376, Part 1, Chapter 18.3.1.13</a><br/>
+        /// The three optional parameters maxDigitWidth and textPadding probably don't have to be changed ever.
+        /// </remarks>
+        /// <param name="width">Target column(s) width (one or more columns, displayed in Excel)</param>
+        /// <param name="maxDigitWidth">Maximum digit with of the default font (default is 7.0 for Calibri, size 11)</param>
+        /// <param name="textPadding">Text padding of the default font (default is 5.0 for Calibri, size 11)</param>
+        /// <returns>The internal pane width, used in worksheet XML documents in case of worksheet splitting</returns>
+        public static float GetInternalPaneSplitWidth(float width, float maxDigitWidth = 7f, float textPadding = 5f)
+        {
+            float pixels;
+            if (width <= 1f)
+            {
+                pixels = (float)Math.Floor(width / SPLIT_WIDTH_MULTIPLIER + SPLIT_WIDTH_OFFSET);
+            }
+            else
+            {
+                pixels = (float)Math.Floor(width * maxDigitWidth + SPLIT_WIDTH_OFFSET) + textPadding;
+            }
+            float points = pixels * SPLIT_WIDTH_POINT_MULTIPLIER;
+            return points * SPLIT_POINT_DIVIDER + SPLIT_WIDTH_POINT_OFFSET;
+        }
+
+        /// <summary>
+        /// Calculates the internal height of a split pane in a worksheet. This height is used only in the XML documents of worksheets and is not exposed to the (Excel) user
+        /// </summary>
+        /// <remarks>
+        /// The internal split height is based on the height of one or more rows. It also depends on various constants.<br/>
+        /// This method is derived from the Perl implementation by John McNamara (<a href="https://stackoverflow.com/a/5010899">https://stackoverflow.com/a/5010899</a>)
+        /// </remarks>
+        /// <param name="height">Target row(s) height (one or more rows, displayed in Excel)</param>
+        /// <returns>The internal pane height, used in worksheet XML documents in case of worksheet splitting</returns>
+        public static float GetInternalPaneSplitHeight(float height)
+        {
+            return (float)Math.Floor(SPLIT_POINT_DIVIDER * height + SPLIT_HEIGHT_POINT_OFFSET);
+        }
+
         #endregion
 
         #region subClasses
+
+        /// <summary>
+        /// Class representing a row that is either empty or containing cells. Empty rows can also carry information about height or visibility
+        /// </summary>
+        private class DynamicRow
+        {
+            private List<Cell> cellDefinitions;
+            public int RowNumber { get; set; }
+
+            /// <summary>
+            /// Gets the List of cells if not empty
+            /// </summary>
+            public List<Cell> CellDefinitions
+            {
+                get { return cellDefinitions; }
+            }
+
+            /// <summary>
+            /// Default constructor. Defines an empty row if no additional operations are made on the object
+            /// </summary>
+            public DynamicRow()
+            {
+                this.cellDefinitions = new List<Cell>();
+            }
+        }
 
         /// <summary>
         /// Class to manage key value pairs (string / string). The entries are in the order how they were added
@@ -1445,14 +1771,12 @@ namespace PicoXLSX
                 {
                     return index[key];
                 }
-                else
-                {
-                    index.Add(key, count);
-                    keyEntries.Add(key);
-                    valueEntries.Add(value);
-                    count++;
-                    return count - 1;
-                }
+
+                index.Add(key, count);
+                keyEntries.Add(key);
+                valueEntries.Add(value);
+                count++;
+                return count - 1;
             }
 
             /// <summary>
@@ -1464,7 +1788,6 @@ namespace PicoXLSX
             {
                 return index.ContainsKey(key);
             }
-
         }
 
         /// <summary>

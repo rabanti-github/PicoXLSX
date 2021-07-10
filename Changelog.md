@@ -1,5 +1,20 @@
 # Change Log
 
+## v2.11.0
+
+---
+Release Date: **10.07.2020**
+
+- Added functions to split (and freeze) a worksheet horizontally and vertically into panes
+- Added a property to set the visibility of a workbook
+- Added a property to set the visibility of worksheets
+- Added two examples in the demo for the introduced split, freeze and visibility functionalities
+- Added the possibility to define column widths and row height even if there are no cells defined
+- Fixed the internal representation of column widths and row heights
+- Minor code maintenance
+
+Note: The column widths and row heights may change slightly with this release, since now the actual (internal) width and height is applied when setting a non-standard column width or row height
+
 ## v2.10.0
 
 ---

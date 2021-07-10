@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
-    <RootNamespace>PicoXLSX_.NET_Standard</RootNamespace>
+    <RootNamespace>PicoXLSX</RootNamespace>
     <PackageId>PicoXLSX</PackageId>
-    <Version>2.10.0</Version>
+    <Version>2.11.0</Version>
     <Authors>Raphael Stoeckli</Authors>
     <Company>Raphael Stoeckli</Company>
     <Product>PicoXLSX</Product>
@@ -17,18 +17,18 @@
     <PackageTags>Excel Office XLSX</PackageTags>
     <PackageReleaseNotes>Please see https://github.com/rabanti-github/PicoXLSX/blob/master/Changelog.md for the release notes</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>2.10.0.0</AssemblyVersion>
-    <FileVersion>2.10.0.0</FileVersion>
+    <AssemblyVersion>2.11.0.0</AssemblyVersion>
+    <FileVersion>2.11.0.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>bin\Debug\PicoXLSX .NET Standard.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\PicoXLSX.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>bin\Release\PicoXLSX .NET Standard.xml</DocumentationFile>
+    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">

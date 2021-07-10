@@ -472,13 +472,10 @@ namespace PicoXLSX
             {
                 case AddressType.FixedRowAndColumn:
                     return "$" + ResolveColumnAddress(column) + "$" + (row + 1);
-                //break;
                 case AddressType.FixedColumn:
                     return "$" + ResolveColumnAddress(column) + (row + 1);
-                // break;
                 case AddressType.FixedRow:
                     return ResolveColumnAddress(column) + "$" + (row + 1);
-                //  break;
                 default:
                     return ResolveColumnAddress(column) + (row + 1);
             }
@@ -567,9 +564,9 @@ namespace PicoXLSX
             for (int i = columnAddress.Length - 1; i >= 0; i--)
             {
                 chr = columnAddress[i];
-                chr = chr - 64;
-                result = result + (chr * multiplier);
-                multiplier = multiplier * 26;
+                chr -= 64;
+                result += (chr * multiplier);
+                multiplier *= 26;
             }
             if (result - 1 > Worksheet.MAX_COLUMN_NUMBER || result - 1 < Worksheet.MIN_COLUMN_NUMBER)
             {

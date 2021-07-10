@@ -194,7 +194,7 @@ namespace PicoXLSX
             CurrentFont = newStyle.CurrentFont;
             CurrentNumberFormat = newStyle.CurrentNumberFormat;
 
-            if (styleNameDefined == false)
+            if (!styleNameDefined)
             {
                 name = this.GetHashCode().ToString();
             }
@@ -462,8 +462,8 @@ namespace PicoXLSX
                 if (TopStyle != StyleValue.none) { state = false; }
                 if (BottomStyle != StyleValue.none) { state = false; }
                 if (DiagonalStyle != StyleValue.none) { state = false; }
-                if (DiagonalDown != false) { state = false; }
-                if (DiagonalUp != false) { state = false; }
+                if (DiagonalDown) { state = false; }
+                if (DiagonalUp) { state = false; }
                 return state;
             }
             #endregion
@@ -1689,34 +1689,41 @@ namespace PicoXLSX
             {
                 throw new StyleException("CopyPropertyException", "The objects of the source, target and reference for style appending are not of the same type");
             }
-            bool ignore;
             PropertyInfo[] infos = GetType().GetProperties();
-            PropertyInfo sourceInfo, referenceInfo;
+            PropertyInfo sourceInfo;
+            PropertyInfo referenceInfo;
             IEnumerable<AppendAttribute> attributes;
             foreach (PropertyInfo info in infos)
             {
                 attributes = (IEnumerable<AppendAttribute>)info.GetCustomAttributes(typeof(AppendAttribute));
-                if (attributes.Count() > 0)
+                if (attributes.Any() && !HandleProperties(attributes))
                 {
-                    ignore = false;
-                    foreach (AppendAttribute attribute in attributes)
-                    {
-                        if (attribute.Ignore || attribute.NestedProperty)
-                        {
-                            ignore = true;
-                            break;
-                        }
-                    }
-                    if (ignore) { continue; } // skip property
+                    continue;
                 }
-
                 sourceInfo = source.GetType().GetProperty(info.Name);
                 referenceInfo = reference.GetType().GetProperty(info.Name);
-                if (sourceInfo.GetValue(source).Equals(referenceInfo.GetValue(reference)) == false)
+                if (!sourceInfo.GetValue(source).Equals(referenceInfo.GetValue(reference)))
                 {
                     info.SetValue(this, sourceInfo.GetValue(source));
                 }
             }
+        }
+
+        /// <summary>
+        /// Method to check whether a property is considered or skipped 
+        /// </summary>
+        /// <param name="attributes">Collection of attributes to check</param>
+        /// <returns>Returns false as soon a property of the collection is marked as ignored or nested</returns>
+        private static bool HandleProperties(IEnumerable<AppendAttribute> attributes)
+        {
+            foreach (AppendAttribute attribute in attributes)
+            {
+                if (attribute.Ignore || attribute.NestedProperty)
+                {
+                    return false; // skip property
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -1726,8 +1733,8 @@ namespace PicoXLSX
         /// <returns>-1 if the other object is bigger. 0 if both objects are equal. 1 if the other object is smaller.</returns>
         public int CompareTo(AbstractStyle other)
         {
-            if (InternalID.HasValue == false) { return -1; }
-            else if (other.InternalID.HasValue == false) { return 1; }
+            if (!InternalID.HasValue) { return -1; }
+            else if (!other.InternalID.HasValue) { return 1; }
             else { return InternalID.Value.CompareTo(other.InternalID.Value); }
         }
 
@@ -1753,24 +1760,24 @@ namespace PicoXLSX
             {
                 sb.Append('#');
             }
-            else if (o.GetType() == typeof(bool))
+            else if (o is bool)
             {
                 if ((bool)o) { sb.Append(1); }
                 else { sb.Append(0); }
             }
-            else if (o.GetType() == typeof(int))
+            else if (o is int)
             {
                 sb.Append((int)o);
             }
-            else if (o.GetType() == typeof(double))
+            else if (o is double)
             {
                 sb.Append((double)o);
             }
-            else if (o.GetType() == typeof(float))
+            else if (o is float)
             {
                 sb.Append((float)o);
             }
-            else if (o.GetType() == typeof(string))
+            else if (o is string @string)
             {
                 if (o.ToString() == "#")
                 {
@@ -1778,14 +1785,14 @@ namespace PicoXLSX
                 }
                 else
                 {
-                    sb.Append((string)o);
+                    sb.Append(@string);
                 }
             }
-            else if (o.GetType() == typeof(long))
+            else if (o is long)
             {
                 sb.Append((long)o);
             }
-            else if (o.GetType() == typeof(char))
+            else if (o is char)
             {
                 sb.Append((char)o);
             }

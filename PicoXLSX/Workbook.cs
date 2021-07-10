@@ -132,6 +132,13 @@ namespace PicoXLSX
         {
             get { return worksheets; }
         }
+
+        /// <summary>
+        /// Gets or sets whether the whole workbook is hidden
+        /// </summary>
+        /// <remarks>A hidden workbook can only be made visible, using another, already visible Excel window</remarks>
+        public bool Hidden { get; set; }
+
         #endregion
 
         #region constructors

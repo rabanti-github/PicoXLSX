@@ -364,7 +364,7 @@ namespace PicoXLSX
                 if (GetComponentByHash(ref styles, hash) == null)
                 {
                     int? id;
-                    if (s.InternalID.HasValue == false)
+                    if (!s.InternalID.HasValue)
                     {
                         id = int.MaxValue;
                         s.InternalID = id;
@@ -398,7 +398,6 @@ namespace PicoXLSX
         /// <exception cref="StyleException">Throws a StyleException if the style was not found in the style manager</exception>
         public void RemoveStyle(string styleName)
         {
-            //            string hash = null;
             bool match = false;
             int len = styles.Count;
             int index = -1;
@@ -407,12 +406,11 @@ namespace PicoXLSX
                 if (((Style)styles[i]).Name == styleName)
                 {
                     match = true;
-                    //                    hash = ((Style)styles[i]).Hash;
                     index = i;
                     break;
                 }
             }
-            if (match == false)
+            if (!match)
             {
                 throw new StyleException("MissingReferenceException", "The style with the name '" + styleName + "' was not found in the style manager");
             }
@@ -451,31 +449,31 @@ namespace PicoXLSX
             for (i = len; i >= 0; i--)
             {
                 border = (Style.Border)borders[i];
-                if (IsUsedByStyle(border) == false) { borders.RemoveAt(i); }
+                if (!IsUsedByStyle(border)) { borders.RemoveAt(i); }
             }
             len = cellXfs.Count;
             for (i = len; i >= 0; i--)
             {
                 cellXf = (Style.CellXf)cellXfs[i];
-                if (IsUsedByStyle(cellXf) == false) { cellXfs.RemoveAt(i); }
+                if (!IsUsedByStyle(cellXf)) { cellXfs.RemoveAt(i); }
             }
             len = fills.Count;
             for (i = len; i >= 0; i--)
             {
                 fill = (Style.Fill)fills[i];
-                if (IsUsedByStyle(fill) == false) { fills.RemoveAt(i); }
+                if (!IsUsedByStyle(fill)) { fills.RemoveAt(i); }
             }
             len = fonts.Count;
             for (i = len; i >= 0; i--)
             {
                 font = (Style.Font)fonts[i];
-                if (IsUsedByStyle(font) == false) { fonts.RemoveAt(i); }
+                if (!IsUsedByStyle(font)) { fonts.RemoveAt(i); }
             }
             len = numberFormats.Count;
             for (i = len; i >= 0; i--)
             {
                 numberFormat = (Style.NumberFormat)numberFormats[i];
-                if (IsUsedByStyle(numberFormat) == false) { numberFormats.RemoveAt(i); }
+                if (!IsUsedByStyle(numberFormat)) { numberFormats.RemoveAt(i); }
             }
         }
 
