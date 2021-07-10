@@ -29,6 +29,8 @@ See the **[Change Log](https://github.com/rabanti-github/PicoXLSX/blob/master/Ch
 * Added an option for sanitizing of worksheet names
 * Replaced specific exception classes with general exceptions (e.g. StyleException, FormatException or WorksheetException)
 * Added functions to retrieve stored data and the current cell address
+* Added functions to split and freeze worksheets as panes
+* Added properties to hide worksheets and workbooks
 * Many internal optimizations and additional documentation
 
 ## Requirements
