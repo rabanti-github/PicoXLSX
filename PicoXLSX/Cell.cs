@@ -143,6 +143,12 @@ namespace PicoXLSX
             }
         }
 
+        /// <summary>
+        /// Gets or sets the optional address type that can be part of the cell address. 
+        /// </summary>
+        /// <remarks>The type has no influence on the behavior of the cell, though. It is preserved to avoid losing information on the address object of the cell</remarks>
+        public AddressType CellAddressType { get; set; }
+
         /// <summary>Gets or sets the value of the cell (generic object type)</summary>
         public object Value { get; set; }
 
@@ -341,9 +347,14 @@ namespace PicoXLSX
             Type t;
             foreach (T item in list)
             {
+                if (item == null)
+                {
+                    c = new Cell(null, CellType.EMPTY);
+                    output.Add(c);
+                    continue;
+                }
                 o = item; // intermediate object is necessary to cast the types below
                 t = item.GetType();
-
                 if (t == typeof(bool)) { c = new Cell((bool)o, CellType.BOOL); }
                 else if (t == typeof(byte)) { c = new Cell((byte)o, CellType.NUMBER); }
                 else if (t == typeof(sbyte)) { c = new Cell((sbyte)o, CellType.NUMBER); }
@@ -361,7 +372,7 @@ namespace PicoXLSX
                 else if (t == typeof(string)) { c = new Cell((string)o, CellType.STRING); }
                 else // Default = unspecified object
                 {
-                    c = new Cell((string)o, CellType.DEFAULT);
+                     c = new Cell(o.ToString(), CellType.DEFAULT); 
                 }
                 output.Add(c);
             }
@@ -444,11 +455,11 @@ namespace PicoXLSX
                 endRow = startAddress.Row;
             }
             List<Address> output = new List<Address>();
-            for (int i = startRow; i <= endRow; i++)
+            for (int column = startColumn; column <= endColumn; column++)
             {
-                for (int j = startColumn; j <= endColumn; j++)
+                for (int row = startRow; row <= endRow; row++)
                 {
-                    output.Add(new Address(j, i));
+                    output.Add(new Address(column, row));
                 }
             }
             return output;
@@ -491,8 +502,9 @@ namespace PicoXLSX
         public static Address ResolveCellCoordinate(string address)
         {
             int row, column;
-            ResolveCellCoordinate(address, out column, out row);
-            return new Address(column, row);
+            AddressType type;
+            ResolveCellCoordinate(address, out column, out row, out type);
+            return new Address(column, row, type);
         }
 
         /// <summary>
@@ -501,31 +513,55 @@ namespace PicoXLSX
         /// <param name="address">Address as string in the format A1 - XFD1048576</param>
         /// <param name="column">Column number of the cell (zero-based) as out parameter</param>
         /// <param name="row">Row number of the cell (zero-based) as out parameter</param>
-        /// <exception cref="FormatException">Throws a FormatException if the range address was malformed</exception>
+        /// <exception cref="Exceptions.FormatException">Throws a FormatException if the range address was malformed</exception>
         /// <exception cref="RangeException">Throws an RangeException if the row or column number was out of range</exception>
         public static void ResolveCellCoordinate(string address, out int column, out int row)
+        {
+            AddressType dummy;
+            ResolveCellCoordinate(address, out column, out row, out dummy);
+        }
+
+        /// <summary>
+        /// Gets the column and row number (zero based) of a cell by the address
+        /// </summary>
+        /// <param name="address">Address as string in the format A1 - XFD1048576</param>
+        /// <param name="column">Column number of the cell (zero-based) as out parameter</param>
+        /// <param name="row">Row number of the cell (zero-based) as out parameter</param>
+        /// <param name="addressType">Address type of the cell (if defined as modifiers in the address string)</param>
+        /// <exception cref="FormatException">Throws a FormatException if the range address was malformed</exception>
+        /// <exception cref="RangeException">Throws an RangeException if the row or column number was out of range</exception>
+        public static void ResolveCellCoordinate(string address, out int column, out int row, out AddressType addressType)
         {
             if (string.IsNullOrEmpty(address))
             {
                 throw new FormatException("The cell address is null or empty and could not be resolved");
             }
             address = address.ToUpper();
-            Regex rx = new Regex("^([A-Z]{1,3})([0-9]{1,7})$");
-            Match mx = rx.Match(address);
-            if (mx.Groups.Count != 3)
+            Regex pattern = new Regex("(^(\\$?)([A-Z]{1,3})(\\$?)([0-9]{1,7})$)");
+            Match matcher = pattern.Match(address);
+            if (matcher.Groups.Count != 6)
             {
                 throw new FormatException("The format of the cell address (" + address + ") is malformed");
             }
-            int digits = int.Parse(mx.Groups[2].Value, CultureInfo.InvariantCulture);
-            column = ResolveColumn(mx.Groups[1].Value);
+            int digits = int.Parse(matcher.Groups[5].Value, CultureInfo.InvariantCulture);
+            column = ResolveColumn(matcher.Groups[3].Value);
             row = digits - 1;
-            if (row > Worksheet.MAX_ROW_NUMBER || row < Worksheet.MIN_ROW_NUMBER)
+            ValidateRowNumber(row);
+            if (!String.IsNullOrEmpty(matcher.Groups[2].Value) && !String.IsNullOrEmpty(matcher.Groups[4].Value))
             {
-                throw new RangeException("OutOfRangeException", "The row number (" + row + ") is out of range. Range is from " + Worksheet.MIN_ROW_NUMBER + " to " + Worksheet.MAX_ROW_NUMBER + " (" + (Worksheet.MAX_ROW_NUMBER + 1) + " rows).");
+                addressType = AddressType.FixedRowAndColumn;
             }
-            if (column > Worksheet.MAX_COLUMN_NUMBER || column < Worksheet.MIN_COLUMN_NUMBER)
+            else if (!String.IsNullOrEmpty(matcher.Groups[2].Value) && String.IsNullOrEmpty(matcher.Groups[4].Value))
             {
-                throw new RangeException("OutOfRangeException", "The column number (" + column + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER + " to " + Worksheet.MAX_COLUMN_NUMBER + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1) + " columns).");
+                addressType = AddressType.FixedColumn;
+            }
+            else if (String.IsNullOrEmpty(matcher.Groups[2].Value) && !String.IsNullOrEmpty(matcher.Groups[4].Value))
+            {
+                addressType = AddressType.FixedRow;
+            }
+            else
+            {
+                addressType = AddressType.Default;
             }
         }
 
@@ -558,6 +594,11 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws an RangeException if the passed address was out of range</exception>
         public static int ResolveColumn(string columnAddress)
         {
+            if (String.IsNullOrEmpty(columnAddress))
+            {
+                throw new RangeException("A general range exception occurred", "The passed address was null or empty");
+            }
+            columnAddress = columnAddress.ToUpper();
             int chr;
             int result = 0;
             int multiplier = 1;
@@ -568,10 +609,7 @@ namespace PicoXLSX
                 result += (chr * multiplier);
                 multiplier *= 26;
             }
-            if (result - 1 > Worksheet.MAX_COLUMN_NUMBER || result - 1 < Worksheet.MIN_COLUMN_NUMBER)
-            {
-                throw new RangeException("OutOfRangeException", "The column number (" + (result - 1) + ") is out of range. Range is from " + Worksheet.MIN_COLUMN_NUMBER + " to " + Worksheet.MAX_COLUMN_NUMBER + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1) + " columns).");
-            }
+            ValidateColumnNumber(result - 1);
             return result - 1;
         }
 
@@ -638,6 +676,34 @@ namespace PicoXLSX
             }
 
         }
+
+        /// <summary>
+        /// Validates the passed (zero-based) column number. an exception will be thrown if the column is invalid
+        /// </summary>
+        /// <param name="column">Number to check</param>
+        /// <exception cref="RangeException">Thrown if the passed column number is out of range</exception>
+        public static void ValidateColumnNumber(int column)
+        {
+            if (column > Worksheet.MAX_COLUMN_NUMBER || column < Worksheet.MIN_COLUMN_NUMBER)
+            {
+                throw new RangeException("A general range exception occurred", "The column number (" + column + ") is out of range. Range is from " +
+                    Worksheet.MIN_COLUMN_NUMBER + " to " + Worksheet.MAX_COLUMN_NUMBER + " (" + (Worksheet.MAX_COLUMN_NUMBER + 1) + " columns).");
+            }
+        }
+
+        /// <summary>
+        /// Validates the passed (zero-based) row number. an exception will be thrown if the row is invalid
+        /// </summary>
+        /// <param name="row">Number to check</param>
+        /// <exception cref="RangeException">Thrown if the passed row number is out of range</exception>
+        public static void ValidateRowNumber(int row)
+        {
+            if (row > Worksheet.MAX_ROW_NUMBER || row < Worksheet.MIN_ROW_NUMBER)
+            {
+                throw new RangeException("A general range exception occurred", "The row number (" + row + ") is out of range. Range is from " +
+                    Worksheet.MIN_ROW_NUMBER + " to " + Worksheet.MAX_ROW_NUMBER + " (" + (Worksheet.MAX_ROW_NUMBER + 1) + " rows).");
+            }
+        }
         #endregion
 
         #region subClasses
@@ -645,7 +711,7 @@ namespace PicoXLSX
         /// <summary>
         /// Struct representing the cell address as column and row (zero based)
         /// </summary>
-        public struct Address
+        public struct Address : IEquatable<Address>, IComparable<Address>
         {
             /// <summary>
             /// Column number (zero based)
@@ -682,7 +748,7 @@ namespace PicoXLSX
             public Address(string address, AddressType type = AddressType.Default)
             {
                 Type = type;
-                ResolveCellCoordinate(address, out Column, out Row);
+                ResolveCellCoordinate(address, out Column, out Row, out type);
             }
 
             /// <summary>
@@ -723,6 +789,18 @@ namespace PicoXLSX
                 else { return false; }
             }
 
+            /// <summary>
+            /// Compares two addresses using the column and row numbers
+            /// </summary>
+            /// <param name="other"> Other address</param>
+            /// <returns>-1 if the other address is greater, 0 if equal and 1 if smaller</returns>
+            public int CompareTo(Address other)
+            {
+                long thisCoordinate = Column * Worksheet.MAX_ROW_NUMBER + Row;
+                long otherCoordinate = other.Column * Worksheet.MAX_ROW_NUMBER + other.Row;
+                return thisCoordinate.CompareTo(otherCoordinate);
+            }
+
         }
 
         /// <summary>
@@ -740,25 +818,41 @@ namespace PicoXLSX
             public Address StartAddress;
 
             /// <summary>
-            /// Constructor with addresses as arguments
+            /// Constructor with addresses as arguments. The addresses are automatically swapped if the start address is greater than the end address
             /// </summary>
             /// <param name="start">Start address of the range</param>
             /// <param name="end">End address of the range</param>
             public Range(Address start, Address end)
             {
-                StartAddress = start;
-                EndAddress = end;
+                if (start.CompareTo(end) < 0)
+                {
+                    StartAddress = start;
+                    EndAddress = end;
+                }
+                else
+                {
+                    StartAddress = end;
+                    EndAddress = start;
+                }
             }
 
             /// <summary>
-            /// Constructor with a range string as argument
+            /// Constructor with a range string as argument. The addresses are automatically swapped if the start address is greater than the end address
             /// </summary>
             /// <param name="range">Address range (e.g. 'A1:B12')</param>
             public Range(string range)
             {
                 Range r = ResolveCellRange(range);
-                StartAddress = r.StartAddress;
-                EndAddress = r.EndAddress;
+                if (r.StartAddress.CompareTo(r.EndAddress) < 0)
+                {
+                    StartAddress = r.StartAddress;
+                    EndAddress = r.EndAddress;
+                }
+                else
+                {
+                    StartAddress = r.EndAddress;
+                    EndAddress = r.StartAddress;
+                }
             }
 
             /// <summary>
@@ -807,7 +901,6 @@ namespace PicoXLSX
             {
                 return StartAddress.ToString() + ":" + EndAddress.ToString();
             }
-
         }
 
         /// <summary>

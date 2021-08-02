@@ -153,6 +153,7 @@ namespace PicoXLSX
         private Cell.Address? paneSplitTopLeftCell;
         private Cell.Address? paneSplitAddress;
         private WorksheetPane? activePane;
+        private int sheetID;
 
         #endregion
 
@@ -160,7 +161,7 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the range of the auto-filter. Wrapped to Nullable to provide null as value. If null, no auto-filter is applied
         /// </summary>
-        public Nullable<Cell.Range> AutoFilterRange
+        public Cell.Range? AutoFilterRange
         {
             get { return autoFilterRange; }
         }
@@ -254,9 +255,20 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets or sets the internal ID of the sheet
+        /// Gets or sets the internal ID of the worksheet
         /// </summary>
-        public int SheetID { get; set; }
+        public int SheetID
+        {
+            get => sheetID;
+            set
+            {
+                if (value < 1)
+                {
+                    throw new FormatException("InvalidIDException", "The ID " + value + " is invalid. Worksheet IDs must be >0");
+                }
+                sheetID = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the name of the worksheet
@@ -268,9 +280,8 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets the password used for sheet protection
+        /// Gets the password used for sheet protection. See <see cref="SetSheetProtectionPassword"/> to set the password
         /// </summary>
-        /// <see cref="SetSheetProtectionPassword"/>
         public string SheetProtectionPassword
         {
             get { return sheetProtectionPassword; }
@@ -366,6 +377,14 @@ namespace PicoXLSX
         public WorksheetPane? ActivePane
         {
             get { return activePane; }
+        }
+
+        /// <summary>
+        /// Gets the active Style of the worksheet. If null, no style is defined as active
+        /// </summary>
+        public Style ActiveStyle
+        {
+            get { return activeStyle; }
         }
 
         #endregion
@@ -1326,6 +1345,18 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Removes the defined, non-standard row height
+        /// </summary>
+        /// <param name="rowNumber">Row number (zero-based)</param>
+        public void RemoveRowHeight(int rowNumber)
+        {
+            if (rowHeights.ContainsKey(rowNumber))
+            {
+                rowHeights.Remove(rowNumber);
+            }
+        }
+
+        /// <summary>
         /// Sets the active style of the worksheet. This style will be assigned to all later added cells
         /// </summary>
         /// <param name="style">Style to set as active style</param>
@@ -1589,30 +1620,30 @@ namespace PicoXLSX
         /// Validates and sets the worksheet name
         /// </summary>
         /// <param name="name">Name to set</param>
-        /// <exception cref="FormatException">Throws a FormatException if the sheet name is too long (max. 31) or contains illegal characters [  ]  * ? / \</exception>
+        /// <exception cref="FormatException">Throws a FormatException if the worksheet name is too long (max. 31) or contains illegal characters [  ]  * ? / \</exception>
         public void SetSheetname(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
-                throw new FormatException("The sheet name must be between 1 and 31 characters");
+                throw new FormatException("the worksheet name must be between 1 and 31 characters");
             }
             if (name.Length > 31)
             {
-                throw new FormatException("The sheet name must be between 1 and 31 characters");
+                throw new FormatException("the worksheet name must be between 1 and 31 characters");
             }
             Regex rx = new Regex(@"[\[\]\*\?/\\]");
             Match mx = rx.Match(name);
             if (mx.Captures.Count > 0)
             {
-                throw new FormatException(@"The sheet name must not contain the characters [  ]  * ? / \ ");
+                throw new FormatException(@"the worksheet name must not contain the characters [  ]  * ? / \ ");
             }
             sheetName = name;
         }
 
         /// <summary>
-        /// Sets the name of the sheet
+        /// Sets the name of the worksheet
         /// </summary>
-        /// <param name="name">Name of the sheet</param>
+        /// <param name="name">Name of the worksheet</param>
         /// <param name="sanitize">If true, the filename will be sanitized automatically according to the specifications of Excel</param>
         /// <exception cref="WorksheetException">WorksheetException Thrown if no workbook is referenced. This information is necessary to determine whether the name already exists</exception>
         public void SetSheetName(string name, bool sanitize)
@@ -1820,6 +1851,7 @@ namespace PicoXLSX
         {
             private int number;
             private string columnAddress;
+            private float width;
 
             /// <summary>
             /// Column address (A to XFD)
@@ -1829,8 +1861,12 @@ namespace PicoXLSX
                 get { return columnAddress; }
                 set
                 {
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        throw new RangeException("A general range exception occurred", "The passed address was null or empty");
+                    }
                     number = Cell.ResolveColumn(value);
-                    columnAddress = value;
+                    columnAddress = value.ToUpper();
                 }
             }
 
@@ -1859,12 +1895,23 @@ namespace PicoXLSX
             /// <summary>
             /// Width of the column
             /// </summary>
-            public float Width { get; set; }
+            public float Width
+            {
+                get { return width; }
+                set
+                {
+                    if (value < Worksheet.MIN_COLUMN_WIDTH || value > Worksheet.MAX_COLUMN_WIDTH)
+                    {
+                        throw new RangeException("A general range exception occurred", "The passed column width is out of range (" + Worksheet.MIN_COLUMN_WIDTH + " to " + Worksheet.MAX_COLUMN_WIDTH + ")");
+                    }
+                    width = value;
+                }
+            }
 
             /// <summary>
-            /// Default constructor
+            /// Default constructor (private, since not valid without address)
             /// </summary>
-            public Column()
+            private Column()
             {
                 Width = DEFAULT_COLUMN_WIDTH;
             }
@@ -1886,7 +1933,6 @@ namespace PicoXLSX
             {
                 ColumnAddress = columnAddress;
             }
-
         }
 
         #endregion

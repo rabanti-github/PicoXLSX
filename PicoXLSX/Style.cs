@@ -401,7 +401,7 @@ namespace PicoXLSX
                 r *= p + this.LeftColor.GetHashCode();
                 r *= p + this.RightColor.GetHashCode();
                 r *= p + (this.DiagonalDown ? 0 : 1);
-                r *= p + (this.DiagonalUp ? 0 : 1);
+                r *= p + (this.DiagonalUp ? 0 : 2);
                 return r;
             }
 
@@ -738,8 +738,8 @@ namespace PicoXLSX
                 r *= p + this.Indent;
                 r *= p + this.TextRotation;
                 r *= p + (this.ForceApplyAlignment ? 0 : 1);
-                r *= p + (this.Locked ? 0 : 1);
-                r *= p + (this.Hidden ? 0 : 1);
+                r *= p + (this.Locked ? 0 : 2);
+                r *= p + (this.Hidden ? 0 : 4);
                 return r;
             }
 
@@ -1186,10 +1186,10 @@ namespace PicoXLSX
                 const int p = 257;
                 int r = 1;
                 r *= p + (this.Bold ? 0 : 1);
-                r *= p + (this.Italic ? 0 : 1);
-                r *= p + (this.Underline ? 0 : 1);
-                r *= p + (this.DoubleUnderline ? 0 : 1);
-                r *= p + (this.Strike ? 0 : 1);
+                r *= p + (this.Italic ? 0 : 2);
+                r *= p + (this.Underline ? 0 : 4);
+                r *= p + (this.DoubleUnderline ? 0 : 8);
+                r *= p + (this.Strike ? 0 : 16);
                 r *= p + this.ColorTheme;
                 r *= p + this.ColorValue.GetHashCode();
                 r *= p + this.Family.GetHashCode();

@@ -331,7 +331,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method to create the (sub) part of the sheet view (selected cells and panes) within the worksheet XML document
+        /// Method to create the (sub) part of the worksheet view (selected cells and panes) within the worksheet XML document
         /// </summary>
         /// <param name="worksheet">worksheet object to process</param>
         /// <param name="sb">reference to the stringbuilder</param>
