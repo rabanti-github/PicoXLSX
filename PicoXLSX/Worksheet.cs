@@ -959,6 +959,7 @@ namespace PicoXLSX
         public void ClearActiveStyle()
         {
             useActiveStyle = false;
+            activeStyle = null;
         }
 
         /// <summary>
@@ -998,6 +999,25 @@ namespace PicoXLSX
         public bool HasCell(Cell.Address address)
         {
             return cells.ContainsKey(address.GetAddress());
+        }
+
+        /// <summary>
+        /// Resets the defined column, if existing. The corresponding instance will be removed from <see cref="Columns"/>.
+        /// </summary>
+        /// <remarks>If the column is inside an autoFilter-Range, the column cannot be entirely removed from <see cref="Columns"/>. The hidden state will be set to false and width to default, in this case.
+        /// </remarks>
+        /// <param name="columnNumber"></param>
+        public void ResetColumn(int columnNumber)
+        {
+            if (columns.ContainsKey(columnNumber) && !columns[columnNumber].HasAutoFilter) // AutoFilters cannot have gaps 
+            {
+                columns.Remove(columnNumber);
+            }
+            else
+            {
+                columns[columnNumber].IsHidden = false;
+                columns[columnNumber].Width = DEFAULT_COLUMN_WIDTH;
+            }
         }
 
         /// <summary>
@@ -1353,6 +1373,18 @@ namespace PicoXLSX
             if (rowHeights.ContainsKey(rowNumber))
             {
                 rowHeights.Remove(rowNumber);
+            }
+        }
+
+        /// <summary>
+        /// Removes an allowed action on the current worksheet or its cells
+        /// </summary>
+        /// <param name="value">Allowed action on the worksheet or cells</param>
+        public void RemoveAllowedActionOnSheetProtection(SheetProtectionValue value)
+        {
+            if (sheetProtectionValues.Contains(value))
+            {
+                sheetProtectionValues.Remove(value);
             }
         }
 
