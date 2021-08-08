@@ -463,26 +463,35 @@ namespace PicoXLSX
         /// <param name="cell">Cell object to insert</param>
         /// <param name="incremental">If true, the address value (row or column) will be incremented, otherwise not</param>
         /// <param name="style">If not null, the defined style will be applied to the cell, otherwise no style or the default style will be applied</param>
-        /// <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
+        /// <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method.<br/>
+        /// If the cell object already has a style definition, and a style or active style is defined, the cell style will be merged, otherwise just set</remarks>
         /// <exception cref="StyleException">Throws a StyleException if the default style was malformed or if the active style cannot be referenced</exception>
         private void AddNextCell(Cell cell, bool incremental, Style style)
         {
-            cell.WorksheetReference = this;
-            if (activeStyle != null && useActiveStyle && style == null)
+            // date and time styles are already defined by the passed cell object
+            if (style != null || (activeStyle != null && useActiveStyle))
             {
-                cell.SetStyle(activeStyle);
-            }
-            else if (style != null)
-            {
-                cell.SetStyle(style);
-            }
-            else if (style == null && cell.DataType == Cell.CellType.DATE)
-            {
-                cell.SetStyle(Style.BasicStyles.DateFormat);
-            }
-            else if (style == null && cell.DataType == Cell.CellType.TIME)
-            {
-                cell.SetStyle(Style.BasicStyles.TimeFormat);
+
+                if (cell.CellStyle == null && useActiveStyle)
+                {
+                    cell.SetStyle(activeStyle);
+                }
+                else if (cell.CellStyle == null && style != null)
+                {
+                    cell.SetStyle(style);
+                }
+                else if (cell.CellStyle != null && useActiveStyle)
+                {
+                    Style mixedStyle = (Style)cell.CellStyle.Copy();
+                    mixedStyle.Append(activeStyle);
+                    cell.SetStyle(mixedStyle);
+                }
+                else if (cell.CellStyle != null && style != null)
+                {
+                    Style mixedStyle = (Style)cell.CellStyle.Copy();
+                    mixedStyle.Append(style);
+                    cell.SetStyle(mixedStyle);
+                }
             }
             string address = cell.CellAddress;
             if (cells.ContainsKey(address))
@@ -534,12 +543,11 @@ namespace PicoXLSX
             if (value != null && value.GetType() == typeof(Cell))
             {
                 c = (Cell)value;
-                c.WorksheetReference = this;
                 c.CellAddress2 = new Cell.Address(column, row);
             }
             else
             {
-                c = new Cell(value, Cell.CellType.DEFAULT, column, row, this);
+                c = new Cell(value, Cell.CellType.DEFAULT, column, row);
             }
             return c;
         }
@@ -552,29 +560,29 @@ namespace PicoXLSX
         /// Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         /// </summary>
         /// <param name="value">Unspecified value to insert</param>
-        /// <param name="columnAddress">Column number (zero based)</param>
-        /// <param name="rowAddress">Row number (zero based)</param>
+        /// <param name="columnNumber">Column number (zero based)</param>
+        /// <param name="rowNumber">Row number (zero based)</param>
         /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         /// <exception cref="RangeException">Throws an RangeException if the passed cell address is out of range</exception>
-        public void AddCell(object value, int columnAddress, int rowAddress)
+        public void AddCell(object value, int columnNumber, int rowNumber)
         {
-            AddNextCell(CastValue(value, columnAddress, rowAddress), false, null);
+            AddNextCell(CastValue(value, columnNumber, rowNumber), false, null);
         }
 
         /// <summary>
         /// Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         /// </summary>
         /// <param name="value">Unspecified value to insert</param>
-        /// <param name="columnAddress">Column number (zero based)</param>
-        /// <param name="rowAddress">Row number (zero based)</param>
+        /// <param name="columnNumber">Column number (zero based)</param>
+        /// <param name="rowNumber">Row number (zero based)</param>
         /// <param name="style">Style to apply on the cell</param>
         /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the passed style is malformed</exception>
         /// <exception cref="RangeException">Throws an RangeException if the passed cell address is out of range</exception>
-        public void AddCell(object value, int columnAddress, int rowAddress, Style style)
+        public void AddCell(object value, int columnNumber, int rowNumber, Style style)
         {
-            AddNextCell(CastValue(value, columnAddress, rowAddress), false, style);
+            AddNextCell(CastValue(value, columnNumber, rowNumber), false, style);
         }
 
 
@@ -627,7 +635,7 @@ namespace PicoXLSX
         {
             int column, row;
             Cell.ResolveCellCoordinate(address, out column, out row);
-            Cell c = new Cell(formula, Cell.CellType.FORMULA, column, row, this);
+            Cell c = new Cell(formula, Cell.CellType.FORMULA, column, row);
             AddNextCell(c, false, null);
         }
 
@@ -644,7 +652,7 @@ namespace PicoXLSX
         {
             int column, row;
             Cell.ResolveCellCoordinate(address, out column, out row);
-            Cell c = new Cell(formula, Cell.CellType.FORMULA, column, row, this);
+            Cell c = new Cell(formula, Cell.CellType.FORMULA, column, row);
             AddNextCell(c, false, style);
         }
 
@@ -652,13 +660,13 @@ namespace PicoXLSX
         /// Adds a cell formula as string to the defined cell address
         /// </summary>
         /// <param name="formula">Formula to insert</param>
-        /// <param name="columnAddress">Column number (zero based)</param>
-        /// <param name="rowAddress">Row number (zero based)</param>
+        /// <param name="columnNumber">Column number (zero based)</param>
+        /// <param name="rowNumber">Row number (zero based)</param>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         /// <exception cref="RangeException">Throws an RangeException if the passed cell address is out of range</exception>
-        public void AddCellFormula(string formula, int columnAddress, int rowAddress)
+        public void AddCellFormula(string formula, int columnNumber, int rowNumber)
         {
-            Cell c = new Cell(formula, Cell.CellType.FORMULA, columnAddress, rowAddress, this);
+            Cell c = new Cell(formula, Cell.CellType.FORMULA, columnNumber, rowNumber);
             AddNextCell(c, false, null);
         }
 
@@ -666,14 +674,14 @@ namespace PicoXLSX
         /// Adds a cell formula as string to the defined cell address
         /// </summary>
         /// <param name="formula">Formula to insert</param>
-        /// <param name="columnAddress">Column number (zero based)</param>
-        /// <param name="rowAddress">Row number (zero based)</param>
+        /// <param name="columnNumber">Column number (zero based)</param>
+        /// <param name="rowNumber">Row number (zero based)</param>
         /// <param name="style">Style to apply on the cell</param>
         /// <exception cref="StyleException">Throws an UndefinedStyleException if the active style cannot be referenced while creating the cell</exception>
         /// <exception cref="RangeException">Throws an RangeException if the passed cell address is out of range</exception>
-        public void AddCellFormula(string formula, int columnAddress, int rowAddress, Style style)
+        public void AddCellFormula(string formula, int columnNumber, int rowNumber, Style style)
         {
-            Cell c = new Cell(formula, Cell.CellType.FORMULA, columnAddress, rowAddress, this);
+            Cell c = new Cell(formula, Cell.CellType.FORMULA, columnNumber, rowNumber);
             AddNextCell(c, false, style);
         }
 
@@ -685,7 +693,7 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Trows a RangeException if the next cell is out of range (on row or column)</exception>
         public void AddNextCellFormula(string formula)
         {
-            Cell c = new Cell(formula, Cell.CellType.FORMULA, currentColumnNumber, currentRowNumber, this);
+            Cell c = new Cell(formula, Cell.CellType.FORMULA, currentColumnNumber, currentRowNumber);
             AddNextCell(c, true, null);
         }
 
@@ -698,7 +706,7 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Trows a RangeException if the next cell is out of range (on row or column)</exception>
         public void AddNextCellFormula(string formula, Style style)
         {
-            Cell c = new Cell(formula, Cell.CellType.FORMULA, currentColumnNumber, currentRowNumber, this);
+            Cell c = new Cell(formula, Cell.CellType.FORMULA, currentColumnNumber, currentRowNumber);
             AddNextCell(c, true, style);
         }
 
@@ -790,7 +798,6 @@ namespace PicoXLSX
             {
                 list[i].RowNumber = addresses[i].Row;
                 list[i].ColumnNumber = addresses[i].Column;
-                list[i].WorksheetReference = this;
                 AddNextCell(list[i], false, style);
             }
         }
@@ -800,13 +807,13 @@ namespace PicoXLSX
         /// <summary>
         /// Removes a previous inserted cell at the defined address
         /// </summary>
-        /// <param name="columnAddress">Column number (zero based)</param>
-        /// <param name="rowAddress">Row number (zero based)</param>
+        /// <param name="columnNumber">Column number (zero based)</param>
+        /// <param name="rowNumber">Row number (zero based)</param>
         /// <returns>Returns true if the cell could be removed (existed), otherwise false (did not exist)</returns>
         /// <exception cref="RangeException">Throws an RangeException if the passed cell address is out of range</exception>
-        public bool RemoveCell(int columnAddress, int rowAddress)
+        public bool RemoveCell(int columnNumber, int rowNumber)
         {
-            string address = Cell.ResolveCellAddress(columnAddress, rowAddress);
+            string address = Cell.ResolveCellAddress(columnNumber, rowNumber);
             return cells.Remove(address);
         }
 
@@ -828,11 +835,12 @@ namespace PicoXLSX
         #region methods_SetStyle
 
         /// <summary>
-        /// Sets the passed style on the passed cell range. If cells are already existing, the style will be added or replaced. Otherwise, an empty (numeric) cell will be added with the assigned style
+        /// Sets the passed style on the passed cell range. If cells are already existing, the style will be added or replaced.
+        /// Otherwise, an empty cell will be added with the assigned style. If the passed style is null, all styles will be removed on existing cells and no additional (empty) cells are added to the worksheet
         /// </summary>
         /// <param name="cellRange">Cell range to apply the style</param>
         /// <param name="style">Style to apply</param>
-        /// <remarks>Note: This method may invalidate an existing date value since dates are defined by specific style. The result of a redefinition will be a number, instead of a date</remarks>
+        /// <remarks>Note: This method may invalidate an existing date or time value since dates and times are defined by specific style. The result of a redefinition will be a number, instead of a date or time</remarks>
         public void SetStyle(Cell.Range cellRange, Style style)
         {
             IReadOnlyList<Cell.Address> addresses = cellRange.ResolveEnclosedAddresses();
@@ -841,23 +849,33 @@ namespace PicoXLSX
                 String key = address.GetAddress();
                 if (this.cells.ContainsKey(key))
                 {
-                    cells[key].SetStyle(style);
+                    if (style == null)
+                    {
+                        cells[key].RemoveStyle();
+                    }
+                    else
+                    {
+                        cells[key].SetStyle(style);
+                    }
                 }
                 else
                 {
-                    AddCell(null, address.Column, address.Row, style);
+                    if (style != null)
+                    {
+                        AddCell(null, address.Column, address.Row, style);
+                    }
                 }
             }
         }
 
         /// <summary>
-        /// Sets the passed style on the passed cell range, derived from a start and end address. If cells are already existing, the style will be added or replaced. 
-        /// Otherwise, an empty (numeric) cell will be added with the assigned style
+        /// Sets the passed style on the passed cell range, derived from a start and end address. If cells are already existing, the style will be added or replaced.
+        /// Otherwise, an empty cell will be added with the assigned style. If the passed style is null, all styles will be removed on existing cells and no additional (empty) cells are added to the worksheet
         /// </summary>
         /// <param name="startAddress">Start address of the cell range</param>
         /// <param name="endAddress">End address of the cell range</param>
-        /// <param name="style">Style to apply</param>
-        /// <remarks>Note: This method may invalidate an existing date value since dates are defined by specific style. The result of a redefinition will be a number, instead of a date</remarks>
+        /// <param name="style">Style to apply or null to clear the range</param>
+        /// <remarks>Note: This method may invalidate an existing date or time value since dates and times are defined by specific style. The result of a redefinition will be a number, instead of a date or time</remarks>
         public void SetStyle(Cell.Address startAddress, Cell.Address endAddress, Style style)
         {
             SetStyle(new Cell.Range(startAddress, endAddress), style);
@@ -865,11 +883,11 @@ namespace PicoXLSX
 
         /// <summary>
         /// Sets the passed style on the passed (singular) cell address. If the cell is already existing, the style will be added or replaced.
-        /// Otherwise, an empty (numeric) cell will be added with the assigned style
+        /// Otherwise, an empty cell will be added with the assigned style. If the passed style is null, all styles will be removed on existing cells and no additional (empty) cells are added to the worksheet
         /// </summary>
         /// <param name="address">Cell address to apply the style</param>
-        /// <param name="style">Style to apply</param>
-        /// <remarks>Note: This method may invalidate an existing date value since dates are defined by specific style. The result of a redefinition will be a number, instead of a date</remarks>
+        /// <param name="style">Style to apply or null to clear the range</param>
+        /// <remarks>Note: This method may invalidate an existing date or time value since dates and times are defined by specific style. The result of a redefinition will be a number, instead of a date or time</remarks>
         public void SetStyle(Cell.Address address, Style style)
         {
             SetStyle(address, address, style);
@@ -877,11 +895,12 @@ namespace PicoXLSX
 
         /// <summary>
         /// Sets the passed style on the passed address expression. Such an expression may be a single cell or a cell range.
-        /// If the cell is already existing, the style will be added or replaced. Otherwise, an empty (numeric) cell or cell range will be added with the assigned style
+        /// If the cell is already existing, the style will be added or replaced.
+        /// Otherwise, an empty cell will be added with the assigned style. If the passed style is null, all styles will be removed on existing cells and no additional (empty) cells are added to the worksheet
         /// </summary>
         /// <param name="addressExpression">Expression of a cell address or range of addresses</param>
-        /// <param name="style">Style to apply</param>
-        /// <remarks>Note: This method may invalidate an existing date value since dates are defined by specific style. The result of a redefinition will be a number, instead of a date</remarks>
+        /// <param name="style">Style to apply or null to clear the range</param>
+        /// <remarks>Note: This method may invalidate an existing date or time value since dates and times are defined by specific style. The result of a redefinition will be a number, instead of a date or time</remarks>
         public void SetStyle(string addressExpression, Style style)
         {
             Cell.AddressScope scope = Cell.GetAddressScope(addressExpression);
@@ -1004,9 +1023,8 @@ namespace PicoXLSX
         /// <summary>
         /// Resets the defined column, if existing. The corresponding instance will be removed from <see cref="Columns"/>.
         /// </summary>
-        /// <remarks>If the column is inside an autoFilter-Range, the column cannot be entirely removed from <see cref="Columns"/>. The hidden state will be set to false and width to default, in this case.
-        /// </remarks>
-        /// <param name="columnNumber"></param>
+        /// <remarks>If the column is inside an autoFilter-Range, the column cannot be entirely removed from <see cref="Columns"/>. The hidden state will be set to false and width to default, in this case.</remarks>
+        /// <param name="columnNumber">Column number to reset (zero-based)</param>
         public void ResetColumn(int columnNumber)
         {
             if (columns.ContainsKey(columnNumber) && !columns[columnNumber].HasAutoFilter) // AutoFilters cannot have gaps 
@@ -1498,13 +1516,13 @@ namespace PicoXLSX
         /// <summary>
         /// Set the current cell address
         /// </summary>
-        /// <param name="columnAddress">Column number (zero based)</param>
-        /// <param name="rowAddress">Row number (zero based)</param>
+        /// <param name="columnNumber">Column number (zero based)</param>
+        /// <param name="rowNumber">Row number (zero based)</param>
         /// <exception cref="RangeException">Throws an RangeException if one of the passed cell addresses is out of range</exception>
-        public void SetCurrentCellAddress(int columnAddress, int rowAddress)
+        public void SetCurrentCellAddress(int columnNumber, int rowNumber)
         {
-            SetCurrentColumnNumber(columnAddress);
-            SetCurrentRowNumber(rowAddress);
+            SetCurrentColumnNumber(columnNumber);
+            SetCurrentRowNumber(rowNumber);
         }
 
         /// <summary>

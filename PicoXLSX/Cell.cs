@@ -152,18 +152,12 @@ namespace PicoXLSX
         /// <summary>Gets or sets the value of the cell (generic object type)</summary>
         public object Value { get; set; }
 
-        /// <summary>
-        /// Gets or sets the parent worksheet reference
-        /// </summary>
-        public Worksheet WorksheetReference { get; set; }
-
         #endregion
 
         #region constructors
         /// <summary>Default constructor. Cells created with this constructor do not have a link to a worksheet initially</summary>
         public Cell()
         {
-            WorksheetReference = null;
             DataType = CellType.DEFAULT;
         }
 
@@ -193,7 +187,6 @@ namespace PicoXLSX
             DataType = type;
             Value = value;
             CellAddress = address;
-            WorksheetReference = null;
             if (type == CellType.DEFAULT)
             {
                 ResolveCellType();
@@ -201,18 +194,17 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Constructor with value, cell type, row number, column number and the link to a worksheet
+        /// Constructor with value, cell type, row number and column number
         /// </summary>
         /// <param name="value">Value of the cell</param>
         /// <param name="type">Type of the cell</param>
         /// <param name="column">Column number of the cell (zero-based)</param>
         /// <param name="row">Row number of the cell (zero-based)</param>
-        /// <param name="reference">Referenced worksheet which contains the cell</param>
-        public Cell(object value, CellType type, int column, int row, Worksheet reference) : this(value, type)
+
+        public Cell(object value, CellType type, int column, int row) : this(value, type)
         {
             ColumnNumber = column;
             RowNumber = row;
-            WorksheetReference = reference;
             if (type == CellType.DEFAULT)
             {
                 ResolveCellType();
@@ -238,23 +230,9 @@ namespace PicoXLSX
         /// <summary>
         /// Removes the assigned style from the cell
         /// </summary>
-        /// <exception cref="StyleException">Throws an StyleException if the style cannot be referenced</exception>
         public void RemoveStyle()
         {
-            if (WorksheetReference == null)
-            {
-                throw new StyleException("UndefinedStyleException", "No worksheet reference was defined while trying to remove a style from a cell");
-            }
-            if (WorksheetReference.WorkbookReference == null)
-            {
-                throw new StyleException("UndefinedStyleException", "No workbook reference was defined on the worksheet while trying to remove a style from a cell");
-            }
-            if (cellStyle != null)
-            {
-                string styleName = cellStyle.Name;
-                cellStyle = null;
-                WorksheetReference.WorkbookReference.RemoveStyle(styleName, true);
-            }
+            cellStyle = null;
         }
 
         /// <summary>
@@ -310,26 +288,18 @@ namespace PicoXLSX
         /// Sets the style of the cell
         /// </summary>
         /// <param name="style">Style to assign</param>
-        /// <returns>If the passed style already exists in the workbook, the existing one will be returned, otherwise the passed one</returns>
-        /// <exception cref="StyleException">Throws an StyleException if the style cannot be referenced or no style was defined</exception>
-        public Style SetStyle(Style style)
+        /// <param name="unmanaged">Internally used: If true, the style repository is not invoked and only the style object of the cell is updated. Do not use!</param>
+        /// <returns>If the passed style already exists in the repository, the existing one will be returned, otherwise the passed one</returns>
+        public Style SetStyle(Style style, bool unmanaged = false)
         {
-            if (WorksheetReference == null)
-            {
-                throw new StyleException("UndefinedStyleException", "No worksheet reference was defined while trying to set a style to a cell");
-            }
-            if (WorksheetReference.WorkbookReference == null)
-            {
-                throw new StyleException("UndefinedStyleException", "No workbook reference was defined on the worksheet while trying to set a style to a cell");
-            }
             if (style == null)
             {
-                throw new StyleException("UndefinedStyleException", "No style to assign was defined");
+                throw new StyleException("A reference is missing in the style definition", "No style to assign was defined");
             }
-            Style s = WorksheetReference.WorkbookReference.AddStyle(style);
-            cellStyle = s;
-            return s;
+            cellStyle = unmanaged ? style : StyleRepository.Instance.AddStyle(style);
+            return cellStyle;
         }
+
         #endregion
 
         #region staticMethods
@@ -355,7 +325,8 @@ namespace PicoXLSX
                 }
                 o = item; // intermediate object is necessary to cast the types below
                 t = item.GetType();
-                if (t == typeof(bool)) { c = new Cell((bool)o, CellType.BOOL); }
+                if (t == typeof(Cell)) { c = item as Cell; }
+                else if (t == typeof(bool)) { c = new Cell((bool)o, CellType.BOOL); }
                 else if (t == typeof(byte)) { c = new Cell((byte)o, CellType.NUMBER); }
                 else if (t == typeof(sbyte)) { c = new Cell((sbyte)o, CellType.NUMBER); }
                 else if (t == typeof(decimal)) { c = new Cell((decimal)o, CellType.NUMBER); }
@@ -367,8 +338,16 @@ namespace PicoXLSX
                 else if (t == typeof(ulong)) { c = new Cell((ulong)o, CellType.NUMBER); }
                 else if (t == typeof(short)) { c = new Cell((short)o, CellType.NUMBER); }
                 else if (t == typeof(ushort)) { c = new Cell((ushort)o, CellType.NUMBER); }
-                else if (t == typeof(DateTime)) { c = new Cell((DateTime)o, CellType.DATE); }
-                else if (t == typeof(TimeSpan)) { c = new Cell((TimeSpan)o, CellType.TIME); }
+                else if (t == typeof(DateTime)) 
+                { 
+                    c = new Cell((DateTime)o, CellType.DATE);
+                    c.SetStyle(Style.BasicStyles.DateFormat);
+                }
+                else if (t == typeof(TimeSpan)) 
+                { 
+                    c = new Cell((TimeSpan)o, CellType.TIME);
+                    c.SetStyle(Style.BasicStyles.TimeFormat);
+                }
                 else if (t == typeof(string)) { c = new Cell((string)o, CellType.STRING); }
                 else // Default = unspecified object
                 {

@@ -58,6 +58,7 @@
     <Compile Include="Metadata.cs" />
     <Compile Include="Style.cs" />
     <Compile Include="StyleManager.cs" />
+    <Compile Include="StyleRepository.cs" />
     <Compile Include="Workbook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Worksheet.cs" />

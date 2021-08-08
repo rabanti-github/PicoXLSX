@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using static PicoXLSX.Style;
 
 namespace PicoXLSX
 {
@@ -30,7 +31,6 @@ namespace PicoXLSX
         private string filename;
         private List<Worksheet> worksheets;
         private Worksheet currentWorksheet;
-        private StyleManager styleManager;
         private Metadata workbookMetadata;
         private string workbookProtectionPassword;
         private bool lockWindowsIfProtected;
@@ -101,14 +101,6 @@ namespace PicoXLSX
         public int SelectedWorksheet
         {
             get { return selectedWorksheet; }
-        }
-
-        /// <summary>
-        /// Gets the style manager of this workbook
-        /// </summary>
-        public StyleManager Styles
-        {
-            get { return styleManager; }
         }
 
         /// <summary>
@@ -195,46 +187,48 @@ namespace PicoXLSX
         #region methods
 
         /// <summary>
-        /// Adds a style to the style manager
+        /// Adds a style to the style repository. This method is deprecated since it has no direct impact on the generated file.
         /// </summary>
         /// <param name="style">Style to add</param>
-        /// <returns>Returns the managed style of the style manager</returns>
-
+        /// <returns>Returns the managed style of the style repository</returns>
+        /// 
+        [Obsolete("This method has no direct impact on the generated file and is deprecated.")]
         public Style AddStyle(Style style)
         {
-            return styleManager.AddStyle(style);
+            return StyleRepository.Instance.AddStyle(style);
         }
 
         /// <summary>
-        /// Adds a style component to a style
+        /// Adds a style component to a style. This method is deprecated since it has no direct impact on the generated file.
         /// </summary>
         /// <param name="baseStyle">Style to append a component</param>
         /// <param name="newComponent">Component to add to the baseStyle</param>
-        /// <returns>Returns the managed style of the style manager</returns>
+        /// <returns>Returns the modified style of the style repository</returns>
+        [Obsolete("This method has no direct impact on the generated file and is deprecated.")]
         public Style AddStyleComponent(Style baseStyle, AbstractStyle newComponent)
         {
 
-            if (newComponent.GetType() == typeof(Style.Border))
+            if (newComponent.GetType() == typeof(Border))
             {
-                baseStyle.CurrentBorder = (Style.Border)newComponent;
+                baseStyle.CurrentBorder = (Border)newComponent;
             }
-            else if (newComponent.GetType() == typeof(Style.CellXf))
+            else if (newComponent.GetType() == typeof(CellXf))
             {
-                baseStyle.CurrentCellXf = (Style.CellXf)newComponent;
+                baseStyle.CurrentCellXf = (CellXf)newComponent;
             }
-            else if (newComponent.GetType() == typeof(Style.Fill))
+            else if (newComponent.GetType() == typeof(Fill))
             {
-                baseStyle.CurrentFill = (Style.Fill)newComponent;
+                baseStyle.CurrentFill = (Fill)newComponent;
             }
-            else if (newComponent.GetType() == typeof(Style.Font))
+            else if (newComponent.GetType() == typeof(Font))
             {
-                baseStyle.CurrentFont = (Style.Font)newComponent;
+                baseStyle.CurrentFont = (Font)newComponent;
             }
-            else if (newComponent.GetType() == typeof(Style.NumberFormat))
+            else if (newComponent.GetType() == typeof(NumberFormat))
             {
-                baseStyle.CurrentNumberFormat = (Style.NumberFormat)newComponent;
+                baseStyle.CurrentNumberFormat = (NumberFormat)newComponent;
             }
-            return styleManager.AddStyle(baseStyle);
+            return StyleRepository.Instance.AddStyle(baseStyle);
         }
 
 
@@ -308,32 +302,25 @@ namespace PicoXLSX
         private void Init()
         {
             worksheets = new List<Worksheet>();
-            styleManager = new StyleManager();
-            styleManager.AddStyle(new Style("default", 0, true));
-            Style borderStyle = new Style("default_border_style", 1, true);
-            borderStyle.CurrentBorder = Style.BasicStyles.DottedFill_0_125.CurrentBorder;
-            borderStyle.CurrentFill = Style.BasicStyles.DottedFill_0_125.CurrentFill;
-            styleManager.AddStyle(borderStyle);
             workbookMetadata = new Metadata();
             shortener = new Shortener();
         }
 
-
         /// <summary>
-        /// Removes the passed style from the style sheet
+        /// Removes the passed style from the style sheet. This method is deprecated since it has no direct impact on the generated file.
         /// </summary>
         /// <param name="style">Style to remove</param>
-        /// <exception cref="StyleException">Throws a StyleException if the style was not found in the style collection (could not be referenced)</exception>
+        [Obsolete("This method has no direct impact on the generated file and is deprecated.")]
         public void RemoveStyle(Style style)
         {
             RemoveStyle(style, false);
         }
 
         /// <summary>
-        /// Removes the defined style from the style sheet of the workbook
+        /// Removes the defined style from the style sheet of the workbook. This method is deprecated since it has no direct impact on the generated file.
         /// </summary>
         /// <param name="styleName">Name of the style to be removed</param>
-        /// <exception cref="StyleException">Throws a StyleException if the style was not found in the style collection (could not be referenced)</exception>
+        [Obsolete("This method has no direct impact on the generated file and is deprecated.")]
         public void RemoveStyle(string styleName)
         {
             RemoveStyle(styleName, false);
@@ -344,56 +331,25 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="style">Style to remove</param>
         /// <param name="onlyIfUnused">If true, the style will only be removed if not used in any cell</param>
-        /// <exception cref="StyleException">Throws a StyleException if the style was not found in the style collection (could not be referenced)</exception>
+        [Obsolete("This method has no direct impact on the generated file and is deprecated.")]
         public void RemoveStyle(Style style, bool onlyIfUnused)
         {
-            if (style == null)
-            {
-                throw new StyleException("UndefinedStyleException", "The style to remove is not defined");
-            }
             RemoveStyle(style.Name, onlyIfUnused);
         }
 
         /// <summary>
-        /// Removes the defined style from the style sheet of the workbook
+        /// Removes the defined style from the style sheet of the workbook. This method is deprecated since it has no direct impact on the generated file.
         /// </summary>
         /// <param name="styleName">Name of the style to be removed</param>
         /// <param name="onlyIfUnused">If true, the style will only be removed if not used in any cell</param>
-        /// <exception cref="StyleException">Throws an UndefinedStyleException if the style was not found in the style collection (could not be referenced)</exception>
+        [Obsolete("This method has no direct impact on the generated file and is deprecated.")]
         public void RemoveStyle(string styleName, bool onlyIfUnused)
         {
             if (string.IsNullOrEmpty(styleName))
             {
                 throw new StyleException("MissingReferenceException", "The style to remove is not defined (no name specified)");
             }
-            if (onlyIfUnused)
-            {
-                bool styleInUse = false;
-                for (int i = 0; i < worksheets.Count; i++)
-                {
-                    foreach (KeyValuePair<string, Cell> cell in worksheets[i].Cells)
-                    {
-                        if (cell.Value.CellStyle == null) { continue; }
-                        if (cell.Value.CellStyle.Name == styleName)
-                        {
-                            styleInUse = true;
-                            break;
-                        }
-                    }
-                    if (styleInUse)
-                    {
-                        break;
-                    }
-                }
-                if (styleInUse == false)
-                {
-                    styleManager.RemoveStyle(styleName);
-                }
-            }
-            else
-            {
-                styleManager.RemoveStyle(styleName);
-            }
+            // noOp / deprecated
         }
 
         /// <summary>
@@ -470,7 +426,6 @@ namespace PicoXLSX
                             cell.DataType = Cell.CellType.EMPTY;
                             cell.RowNumber = address.Row;
                             cell.ColumnNumber = address.Column;
-                            cell.WorksheetReference = sheet;
                             sheet.AddCell(cell, cell.ColumnNumber, cell.RowNumber);
                         }
                         else

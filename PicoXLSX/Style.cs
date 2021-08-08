@@ -1075,7 +1075,7 @@ namespace PicoXLSX
             /// </summary>
             public string Family { get; set; }
             /// <summary>
-            /// Gets whether the font is equals the default font
+            /// Gets whether the font is equal to the default font
             /// </summary>
             [AppendAttribute(Ignore = true)]
             public bool IsDefaultFont

@@ -57,6 +57,7 @@ namespace PicoXLSX
         #region privateFields
         private readonly CultureInfo culture;
         private readonly Workbook workbook;
+        private StyleManager styles;
         private readonly SortedMap sharedStrings;
         private int sharedStringsTotalCount;
         private Dictionary<string, XmlDocument> interceptedDocuments;
@@ -175,13 +176,13 @@ namespace PicoXLSX
             string numberFormatsString = CreateStyleNumberFormatString();
             string xfsStings = CreateStyleXfsString();
             string mruColorString = CreateMruColorsString();
-            int fontCount = workbook.Styles.GetFontStyleNumber();
-            int fillCount = workbook.Styles.GetFillStyleNumber();
-            int styleCount = workbook.Styles.GetStyleNumber();
-            int borderCount = workbook.Styles.GetBorderStyleNumber();
+            int fontCount = styles.GetFontStyleNumber();
+            int fillCount = styles.GetFillStyleNumber();
+            int styleCount = styles.GetStyleNumber();
+            int borderCount = styles.GetBorderStyleNumber();
             StringBuilder sb = new StringBuilder();
             sb.Append("<styleSheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14ac\" xmlns:x14ac=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac\">");
-            int numFormatCount = workbook.Styles.GetNumberFormatStyleNumber();
+            int numFormatCount = styles.GetNumberFormatStyleNumber();
             if (numFormatCount > 0)
             {
                 sb.Append("<numFmts count=\"").Append(numFormatCount.ToString("G", culture)).Append("\">");
@@ -547,6 +548,7 @@ namespace PicoXLSX
         public void SaveAsStream(Stream stream, bool leaveOpen = false)
         {
             workbook.ResolveMergedCells();
+            this.styles = StyleManager.GetManagedStyles(workbook); // After this point, styles must not be changed anymore
             DocumentPath sheetPath;
             List<Uri> sheetURIs = new List<Uri>();
             try
@@ -1009,7 +1011,7 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateStyleBorderString()
         {
-            Style.Border[] borderStyles = workbook.Styles.GetBorders();
+            Style.Border[] borderStyles = styles.GetBorders();
             StringBuilder sb = new StringBuilder();
             foreach (Style.Border item in borderStyles)
             {
@@ -1085,7 +1087,7 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateStyleFontString()
         {
-            Style.Font[] fontStyles = workbook.Styles.GetFonts();
+            Style.Font[] fontStyles = styles.GetFonts();
             StringBuilder sb = new StringBuilder();
             foreach (Style.Font item in fontStyles)
             {
@@ -1130,7 +1132,7 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateStyleFillString()
         {
-            Style.Fill[] fillStyles = workbook.Styles.GetFills();
+            Style.Fill[] fillStyles = styles.GetFills();
             StringBuilder sb = new StringBuilder();
             foreach (Style.Fill item in fillStyles)
             {
@@ -1168,7 +1170,7 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateStyleNumberFormatString()
         {
-            Style.NumberFormat[] numberFormatStyles = workbook.Styles.GetNumberFormats();
+            Style.NumberFormat[] numberFormatStyles = styles.GetNumberFormats();
             StringBuilder sb = new StringBuilder();
             foreach (Style.NumberFormat item in numberFormatStyles)
             {
@@ -1186,56 +1188,56 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateStyleXfsString()
         {
-            Style[] styles = workbook.Styles.GetStyles();
+            Style[] styleItems = this.styles.GetStyles();
             StringBuilder sb = new StringBuilder();
             StringBuilder sb2 = new StringBuilder();
             string alignmentString, protectionString;
             int formatNumber, textRotation;
-            foreach (Style item in styles)
+            foreach (Style style in styleItems)
             {
-                textRotation = item.CurrentCellXf.CalculateInternalRotation();
+                textRotation = style.CurrentCellXf.CalculateInternalRotation();
                 alignmentString = string.Empty;
                 protectionString = string.Empty;
-                if (item.CurrentCellXf.HorizontalAlign != Style.CellXf.HorizontalAlignValue.none || item.CurrentCellXf.VerticalAlign != Style.CellXf.VerticalAlignValue.none || item.CurrentCellXf.Alignment != Style.CellXf.TextBreakValue.none || textRotation != 0)
+                if (style.CurrentCellXf.HorizontalAlign != Style.CellXf.HorizontalAlignValue.none || style.CurrentCellXf.VerticalAlign != Style.CellXf.VerticalAlignValue.none || style.CurrentCellXf.Alignment != Style.CellXf.TextBreakValue.none || textRotation != 0)
                 {
                     sb2.Clear();
                     sb2.Append("<alignment");
-                    if (item.CurrentCellXf.HorizontalAlign != Style.CellXf.HorizontalAlignValue.none)
+                    if (style.CurrentCellXf.HorizontalAlign != Style.CellXf.HorizontalAlignValue.none)
                     {
                         sb2.Append(" horizontal=\"");
-                        if (item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.center) { sb2.Append("center"); }
-                        else if (item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.right) { sb2.Append("right"); }
-                        else if (item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.centerContinuous) { sb2.Append("centerContinuous"); }
-                        else if (item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.distributed) { sb2.Append("distributed"); }
-                        else if (item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.fill) { sb2.Append("fill"); }
-                        else if (item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.general) { sb2.Append("general"); }
-                        else if (item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.justify) { sb2.Append("justify"); }
+                        if (style.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.center) { sb2.Append("center"); }
+                        else if (style.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.right) { sb2.Append("right"); }
+                        else if (style.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.centerContinuous) { sb2.Append("centerContinuous"); }
+                        else if (style.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.distributed) { sb2.Append("distributed"); }
+                        else if (style.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.fill) { sb2.Append("fill"); }
+                        else if (style.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.general) { sb2.Append("general"); }
+                        else if (style.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.justify) { sb2.Append("justify"); }
                         else { sb2.Append("left"); }
                         sb2.Append("\"");
                     }
-                    if (item.CurrentCellXf.VerticalAlign != Style.CellXf.VerticalAlignValue.none)
+                    if (style.CurrentCellXf.VerticalAlign != Style.CellXf.VerticalAlignValue.none)
                     {
                         sb2.Append(" vertical=\"");
-                        if (item.CurrentCellXf.VerticalAlign == Style.CellXf.VerticalAlignValue.center) { sb2.Append("center"); }
-                        else if (item.CurrentCellXf.VerticalAlign == Style.CellXf.VerticalAlignValue.distributed) { sb2.Append("distributed"); }
-                        else if (item.CurrentCellXf.VerticalAlign == Style.CellXf.VerticalAlignValue.justify) { sb2.Append("justify"); }
-                        else if (item.CurrentCellXf.VerticalAlign == Style.CellXf.VerticalAlignValue.top) { sb2.Append("top"); }
+                        if (style.CurrentCellXf.VerticalAlign == Style.CellXf.VerticalAlignValue.center) { sb2.Append("center"); }
+                        else if (style.CurrentCellXf.VerticalAlign == Style.CellXf.VerticalAlignValue.distributed) { sb2.Append("distributed"); }
+                        else if (style.CurrentCellXf.VerticalAlign == Style.CellXf.VerticalAlignValue.justify) { sb2.Append("justify"); }
+                        else if (style.CurrentCellXf.VerticalAlign == Style.CellXf.VerticalAlignValue.top) { sb2.Append("top"); }
                         else { sb2.Append("bottom"); }
                         sb2.Append("\"");
                     }
-                    if (item.CurrentCellXf.Indent > 0 &&
-                        (item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.left
-                        || item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.right
-                        || item.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.distributed))
+                    if (style.CurrentCellXf.Indent > 0 &&
+                        (style.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.left
+                        || style.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.right
+                        || style.CurrentCellXf.HorizontalAlign == Style.CellXf.HorizontalAlignValue.distributed))
                     {
                         sb2.Append(" indent=\"");
-                        sb2.Append(item.CurrentCellXf.Indent.ToString("G", culture));
+                        sb2.Append(style.CurrentCellXf.Indent.ToString("G", culture));
                         sb2.Append("\"");
                     }
 
-                    if (item.CurrentCellXf.Alignment != Style.CellXf.TextBreakValue.none)
+                    if (style.CurrentCellXf.Alignment != Style.CellXf.TextBreakValue.none)
                     {
-                        if (item.CurrentCellXf.Alignment == Style.CellXf.TextBreakValue.shrinkToFit) { sb2.Append(" shrinkToFit=\"1"); }
+                        if (style.CurrentCellXf.Alignment == Style.CellXf.TextBreakValue.shrinkToFit) { sb2.Append(" shrinkToFit=\"1"); }
                         else { sb2.Append(" wrapText=\"1"); }
                         sb2.Append("\"");
                     }
@@ -1249,13 +1251,13 @@ namespace PicoXLSX
                     alignmentString = sb2.ToString();
                 }
 
-                if (item.CurrentCellXf.Hidden || item.CurrentCellXf.Locked)
+                if (style.CurrentCellXf.Hidden || style.CurrentCellXf.Locked)
                 {
-                    if (item.CurrentCellXf.Hidden && item.CurrentCellXf.Locked)
+                    if (style.CurrentCellXf.Hidden && style.CurrentCellXf.Locked)
                     {
                         protectionString = "<protection locked=\"1\" hidden=\"1\"/>";
                     }
-                    else if (item.CurrentCellXf.Hidden && !item.CurrentCellXf.Locked)
+                    else if (style.CurrentCellXf.Hidden && !style.CurrentCellXf.Locked)
                     {
                         protectionString = "<protection hidden=\"1\" locked=\"0\"/>";
                     }
@@ -1266,31 +1268,31 @@ namespace PicoXLSX
                 }
 
                 sb.Append("<xf numFmtId=\"");
-                if (item.CurrentNumberFormat.IsCustomFormat)
+                if (style.CurrentNumberFormat.IsCustomFormat)
                 {
-                    sb.Append(item.CurrentNumberFormat.CustomFormatID.ToString("G", culture));
+                    sb.Append(style.CurrentNumberFormat.CustomFormatID.ToString("G", culture));
                 }
                 else
                 {
-                    formatNumber = (int)item.CurrentNumberFormat.Number;
+                    formatNumber = (int)style.CurrentNumberFormat.Number;
                     sb.Append(formatNumber.ToString("G", culture));
                 }
-                sb.Append("\" borderId=\"").Append(item.CurrentBorder.InternalID.Value.ToString("G", culture));
-                sb.Append("\" fillId=\"").Append(item.CurrentFill.InternalID.Value.ToString("G", culture));
-                sb.Append("\" fontId=\"").Append(item.CurrentFont.InternalID.Value.ToString("G", culture));
-                if (!item.CurrentFont.IsDefaultFont)
+                sb.Append("\" borderId=\"").Append(style.CurrentBorder.InternalID.Value.ToString("G", culture));
+                sb.Append("\" fillId=\"").Append(style.CurrentFill.InternalID.Value.ToString("G", culture));
+                sb.Append("\" fontId=\"").Append(style.CurrentFont.InternalID.Value.ToString("G", culture));
+                if (!style.CurrentFont.IsDefaultFont)
                 {
                     sb.Append("\" applyFont=\"1");
                 }
-                if (item.CurrentFill.PatternFill != Style.Fill.PatternValue.none)
+                if (style.CurrentFill.PatternFill != Style.Fill.PatternValue.none)
                 {
                     sb.Append("\" applyFill=\"1");
                 }
-                if (!item.CurrentBorder.IsEmpty())
+                if (!style.CurrentBorder.IsEmpty())
                 {
                     sb.Append("\" applyBorder=\"1");
                 }
-                if (alignmentString != string.Empty || item.CurrentCellXf.ForceApplyAlignment)
+                if (alignmentString != string.Empty || style.CurrentCellXf.ForceApplyAlignment)
                 {
                     sb.Append("\" applyAlignment=\"1");
                 }
@@ -1298,7 +1300,7 @@ namespace PicoXLSX
                 {
                     sb.Append("\" applyProtection=\"1");
                 }
-                if (item.CurrentNumberFormat.Number != Style.NumberFormat.FormatNumber.none)
+                if (style.CurrentNumberFormat.Number != Style.NumberFormat.FormatNumber.none)
                 {
                     sb.Append("\" applyNumberFormat=\"1\"");
                 }
@@ -1327,8 +1329,8 @@ namespace PicoXLSX
         /// <returns>String with formatted XML data</returns>
         private string CreateMruColorsString()
         {
-            Style.Font[] fonts = workbook.Styles.GetFonts();
-            Style.Fill[] fills = workbook.Styles.GetFills();
+            Style.Font[] fonts = styles.GetFonts();
+            Style.Fill[] fills = styles.GetFills();
             StringBuilder sb = new StringBuilder();
             List<string> tempColors = new List<string>();
             foreach (Style.Font item in fonts)
