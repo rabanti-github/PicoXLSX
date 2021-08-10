@@ -21,6 +21,10 @@ namespace PicoXLSX
 
         #region constants
         /// <summary>
+        /// Threshold, using when floats are compared
+        /// </summary>
+        private const float FLOAT_TRESHOLD = 0.0001f;
+        /// <summary>
         /// Default column width as constant
         /// </summary>
         public const float DEFAULT_COLUMN_WIDTH = 10f;
@@ -1104,29 +1108,37 @@ namespace PicoXLSX
         /// <summary>
         ///  Gets the last existing cell in the current worksheet (bottom right)
         /// </summary>
-        /// <returns>Cell Address</returns>
+        /// <returns>Nullable Cell Address. If no cell address could be determined, null will be returned</returns>
         /// <remarks>GetLastCellAddress() will not return the last cell with data in any case. If there is a formatted (or with definitions of hidden states, AutoFilters, heights or widths) 
         /// but empty cell (or many) beyond the last cell with data, 
         /// GetLastCellAddress() will return the address of this empty cell. Use <see cref="GetLastDataCellAddress"/> in this case.</remarks>
 
-        public Cell.Address GetLastCellAddress()
+        public Cell.Address? GetLastCellAddress()
         {
             int lastRow = GetLastRowNumber();
             int lastColumn = GetLastColumnNumber();
+            if (lastRow < 0 || lastColumn < 0)
+            {
+                return null;
+            }
             return new Cell.Address(lastColumn, lastRow);
         }
 
         /// <summary>
         ///  Gets the last existing cell with data in the current worksheet (bottom right)
         /// </summary>
-        /// <returns>Cell Address</returns>
+        /// <returns>Nullable Cell Address. If no cell address could be determined, null will be returned</returns>
         /// <remarks>GetLastDataCellAddress() will ignore formatted (or with definitions of hidden states, AutoFilters, heights or widths) but empty cells beyond the last cell with data. 
         /// If you want the last defined cell, use <see cref="GetLastCellAddress"/> instead.</remarks>
 
-        public Cell.Address GetLastDataCellAddress()
+        public Cell.Address? GetLastDataCellAddress()
         {
             int lastRow = GetLastDataRowNumber();
             int lastColumn = GetLastDataColumnNumber();
+            if (lastRow < 0 || lastColumn < 0)
+            {
+                return null;
+            }
             return new Cell.Address(lastColumn, lastRow);
         }
 
@@ -1208,18 +1220,19 @@ namespace PicoXLSX
         {
             currentColumnNumber++;
             currentRowNumber = 0;
+            Cell.ValidateColumnNumber(currentColumnNumber);
         }
 
         /// <summary>
         /// Moves the current position to the next column with the number of cells to move
         /// </summary>
         /// <param name="numberOfColumns">Number of columns to move</param>
+        /// <remarks>The value can also be negative. However, resulting column numbers below 0 or above 16383 will cause an exception</remarks>
         public void GoToNextColumn(int numberOfColumns)
         {
-            for (int i = 0; i < numberOfColumns; i++)
-            {
-                GoToNextColumn();
-            }
+            currentColumnNumber += numberOfColumns;
+            currentRowNumber = 0;
+            Cell.ValidateColumnNumber(currentColumnNumber);
         }
 
         /// <summary>
@@ -1229,18 +1242,19 @@ namespace PicoXLSX
         {
             currentRowNumber++;
             currentColumnNumber = 0;
+            Cell.ValidateRowNumber(currentRowNumber);
         }
 
         /// <summary>
         /// Moves the current position to the next row with the number of cells to move (use for a new line)
         /// </summary>
         /// <param name="numberOfRows">Number of rows to move</param>
+        /// <remarks>The value can also be negative. However, resulting row numbers below 0 or above 1048575 will cause an exception</remarks>
         public void GoToNextRow(int numberOfRows)
         {
-            for (int i = 0; i < numberOfRows; i++)
-            {
-                GoToNextRow();
-            }
+            currentRowNumber += numberOfRows;
+            currentColumnNumber = 0;
+            Cell.ValidateRowNumber(currentRowNumber);
         }
 
         /// <summary>
@@ -1273,22 +1287,27 @@ namespace PicoXLSX
         /// <param name="startAddress">Start address of the merged cell range</param>
         /// <param name="endAddress">End address of the merged cell range</param>
         /// <returns>Returns the validated range of the merged cells (e.g. 'A1:B12')</returns>
-        /// <exception cref="RangeException">Throws an RangeException if one of the passed cell addresses is out of range</exception>
+        /// <exception cref="RangeException">Throws an RangeException if one of the passed cell addresses is out of range or if one or more cell addresses are already occupied in another merge range</exception>
         public string MergeCells(Cell.Address startAddress, Cell.Address endAddress)
         {
             string key = startAddress + ":" + endAddress;
             Cell.Range value = new Cell.Range(startAddress, endAddress);
-            if (!mergedCells.ContainsKey(key))
+            IReadOnlyList<Cell.Address> cells = value.ResolveEnclosedAddresses();
+            foreach (KeyValuePair<string, Cell.Range> item in mergedCells)
             {
-                mergedCells.Add(key, value);
+                if (item.Value.ResolveEnclosedAddresses().Intersect(cells).ToList().Count > 0)
+                {
+                    throw new RangeException("ConflictingRangeException", "The passed range: " + value.ToString() + " contains cells that are already in the defined merge range: " + item.Key);
+                }
             }
+            mergedCells.Add(key, value);
             return key;
         }
 
         /// <summary>
-        /// Method to recalculate the auto filter (columns) of this worksheet. This is an internal method. There is no need to use it. It must be public to require access from the LowLevel class
+        /// Method to recalculate the auto filter (columns) of this worksheet. This is an internal method. There is no need to use it
         /// </summary>
-        public void RecalculateAutoFilter()
+        internal void RecalculateAutoFilter()
         {
             if (autoFilterRange == null) { return; }
             int start = autoFilterRange.Value.StartAddress.Column;
@@ -1320,14 +1339,18 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method to recalculate the collection of columns of this worksheet. This is an internal method. There is no need to use it. It must be public to require access from the LowLevel class
+        /// Method to recalculate the collection of columns of this worksheet. This is an internal method. There is no need to use it
         /// </summary>
-        public void RecalculateColumns()
+        internal void RecalculateColumns()
         {
             List<int> columnsToDelete = new List<int>();
             foreach (KeyValuePair<int, Column> col in columns)
             {
-                if (!col.Value.HasAutoFilter && !col.Value.IsHidden && col.Value.Width == DEFAULT_COLUMN_WIDTH)
+                if (!col.Value.HasAutoFilter && !col.Value.IsHidden && Math.Abs(col.Value.Width - DEFAULT_COLUMN_WIDTH) <= FLOAT_TRESHOLD)
+                {
+                    columnsToDelete.Add(col.Key);
+                }
+                if (!col.Value.HasAutoFilter && !col.Value.IsHidden && Math.Abs(col.Value.Width - DEFAULT_COLUMN_WIDTH) <= FLOAT_TRESHOLD)
                 {
                     columnsToDelete.Add(col.Key);
                 }
@@ -1335,6 +1358,43 @@ namespace PicoXLSX
             foreach (int index in columnsToDelete)
             {
                 columns.Remove(index);
+            }
+        }
+
+        /// <summary>
+        /// Method to resolve all merged cells of the worksheet. Only the value of the very first cell of the locked cells range will be visible. The other values are still present (set to EMPTY) but will not be stored in the worksheet.<br/>
+        /// This is an internal method. There is no need to use it
+        /// </summary>
+        /// <exception cref="StyleException">Throws a StyleException if one of the styles of the merged cells cannot be referenced or is null</exception>
+        internal void ResolveMergedCells()
+        {
+            Style mergeStyle = Style.BasicStyles.MergeCellStyle;
+            Cell cell;
+            foreach (KeyValuePair<string, Cell.Range> range in MergedCells)
+            {
+                int pos = 0;
+                List<Cell.Address> addresses = Cell.GetCellRange(range.Value.StartAddress, range.Value.EndAddress) as List<Cell.Address>;
+                foreach (Cell.Address address in addresses)
+                {
+                    if (!Cells.ContainsKey(address.GetAddress()))
+                    {
+                        cell = new Cell();
+                        cell.DataType = Cell.CellType.EMPTY;
+                        cell.RowNumber = address.Row;
+                        cell.ColumnNumber = address.Column;
+                        AddCell(cell, cell.ColumnNumber, cell.RowNumber);
+                    }
+                    else
+                    {
+                        cell = Cells[address.GetAddress()];
+                    }
+                    if (pos != 0)
+                    {
+                        cell.DataType = Cell.CellType.EMPTY;
+                        cell.SetStyle(mergeStyle);
+                    }
+                    pos++;
+                }
             }
         }
 
@@ -1384,23 +1444,26 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws a UnkownRangeException if the passed cell range was not merged earlier</exception>
         public void RemoveMergedCells(string range)
         {
-            range = range.ToUpper();
-            if (!mergedCells.ContainsKey(range))
+            if (range != null)
+            {
+                range = range.ToUpper();
+            }
+            if (range == null || !mergedCells.ContainsKey(range))
             {
                 throw new RangeException("UnknownRangeException", "The cell range " + range + " was not found in the list of merged cell ranges");
             }
+
             List<Cell.Address> addresses = Cell.GetCellRange(range) as List<Cell.Address>;
-            Cell cell;
             foreach (Cell.Address address in addresses)
             {
-                if (cells.ContainsKey(address.ToString()))
+                if (cells.ContainsKey(address.GetAddress()))
                 {
-                    cell = cells[address.ToString()];
-                    cell.DataType = Cell.CellType.DEFAULT; // resets the type
-                    if (cell.Value == null)
+                    Cell cell = cells[address.ToString()];
+                    if (Style.BasicStyles.MergeCellStyle.Equals(cell.CellStyle))
                     {
-                        cell.Value = string.Empty;
+                        cell.RemoveStyle();
                     }
+                    cell.ResolveCellType(); // resets the type
                 }
             }
             mergedCells.Remove(range);
@@ -1444,7 +1507,14 @@ namespace PicoXLSX
         /// <param name="style">Style to set as active style</param>
         public void SetActiveStyle(Style style)
         {
-            useActiveStyle = true;
+            if (style == null)
+            {
+                useActiveStyle = false;
+            }
+            else
+            {
+                useActiveStyle = true;
+            }
             activeStyle = style;
         }
 
@@ -1493,15 +1563,19 @@ namespace PicoXLSX
             {
                 throw new RangeException("OutOfRangeException", "The column number (" + columnNumber + ") is out of range. Range is from " + MIN_COLUMN_NUMBER + " to " + MAX_COLUMN_NUMBER + " (" + (MAX_COLUMN_NUMBER + 1) + " columns).");
             }
-            if (columns.ContainsKey(columnNumber) && state)
+            if (columns.ContainsKey(columnNumber))
             {
-                columns[columnNumber].IsHidden = true;
+                columns[columnNumber].IsHidden = state;
             }
             else if (state)
             {
                 Column c = new Column(columnNumber);
                 c.IsHidden = true;
                 columns.Add(columnNumber, c);
+            }
+            if (!columns[columnNumber].IsHidden && Math.Abs(columns[columnNumber].Width - DEFAULT_COLUMN_WIDTH) <= FLOAT_TRESHOLD && !columns[columnNumber].HasAutoFilter)
+            {
+                columns.Remove(columnNumber);
             }
         }
 
