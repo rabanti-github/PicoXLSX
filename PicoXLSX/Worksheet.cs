@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -23,7 +24,11 @@ namespace PicoXLSX
         /// <summary>
         /// Threshold, using when floats are compared
         /// </summary>
-        private const float FLOAT_TRESHOLD = 0.0001f;
+        private const float FLOAT_THRESHOLD = 0.0001f;
+        /// <summary>
+        /// Maximum number of characters a worksheet name can have
+        /// </summary>
+        public static readonly int MAX_WORKSHEET_NAME_LENGTH = 31;
         /// <summary>
         /// Default column width as constant
         /// </summary>
@@ -1346,11 +1351,11 @@ namespace PicoXLSX
             List<int> columnsToDelete = new List<int>();
             foreach (KeyValuePair<int, Column> col in columns)
             {
-                if (!col.Value.HasAutoFilter && !col.Value.IsHidden && Math.Abs(col.Value.Width - DEFAULT_COLUMN_WIDTH) <= FLOAT_TRESHOLD)
+                if (!col.Value.HasAutoFilter && !col.Value.IsHidden && Math.Abs(col.Value.Width - DEFAULT_COLUMN_WIDTH) <= FLOAT_THRESHOLD)
                 {
                     columnsToDelete.Add(col.Key);
                 }
-                if (!col.Value.HasAutoFilter && !col.Value.IsHidden && Math.Abs(col.Value.Width - DEFAULT_COLUMN_WIDTH) <= FLOAT_TRESHOLD)
+                if (!col.Value.HasAutoFilter && !col.Value.IsHidden && Math.Abs(col.Value.Width - DEFAULT_COLUMN_WIDTH) <= FLOAT_THRESHOLD)
                 {
                     columnsToDelete.Add(col.Key);
                 }
@@ -1559,10 +1564,7 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws an RangeException if the column number out of range</exception>
         private void SetColumnHiddenState(int columnNumber, bool state)
         {
-            if (columnNumber > MAX_COLUMN_NUMBER || columnNumber < MIN_COLUMN_NUMBER)
-            {
-                throw new RangeException("OutOfRangeException", "The column number (" + columnNumber + ") is out of range. Range is from " + MIN_COLUMN_NUMBER + " to " + MAX_COLUMN_NUMBER + " (" + (MAX_COLUMN_NUMBER + 1) + " columns).");
-            }
+            Cell.ValidateColumnNumber(columnNumber);
             if (columns.ContainsKey(columnNumber))
             {
                 columns[columnNumber].IsHidden = state;
@@ -1573,7 +1575,7 @@ namespace PicoXLSX
                 c.IsHidden = true;
                 columns.Add(columnNumber, c);
             }
-            if (!columns[columnNumber].IsHidden && Math.Abs(columns[columnNumber].Width - DEFAULT_COLUMN_WIDTH) <= FLOAT_TRESHOLD && !columns[columnNumber].HasAutoFilter)
+            if (!columns[columnNumber].IsHidden && Math.Abs(columns[columnNumber].Width - DEFAULT_COLUMN_WIDTH) <= FLOAT_THRESHOLD && !columns[columnNumber].HasAutoFilter)
             {
                 columns.Remove(columnNumber);
             }
@@ -1599,10 +1601,7 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws an RangeException:<br></br>a) If the passed column number is out of range<br></br>b) if the column width is out of range (0 - 255.0)</exception>
         public void SetColumnWidth(int columnNumber, float width)
         {
-            if (columnNumber > MAX_COLUMN_NUMBER || columnNumber < MIN_COLUMN_NUMBER)
-            {
-                throw new RangeException("OutOfRangeException", "The column number (" + columnNumber + ") is out of range. Range is from " + MIN_COLUMN_NUMBER + " to " + MAX_COLUMN_NUMBER + " (" + (MAX_COLUMN_NUMBER + 1) + " columns).");
-            }
+            Cell.ValidateColumnNumber(columnNumber);
             if (width < MIN_COLUMN_WIDTH || width > MAX_COLUMN_WIDTH)
             {
                 throw new RangeException("OutOfRangeException", "The column width (" + width + ") is out of range. Range is from " + MIN_COLUMN_WIDTH + " to " + MAX_COLUMN_WIDTH + " (chars).");
@@ -1651,10 +1650,7 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws an RangeException if the number is out of the valid range. Range is from 0 to 16383 (16384 columns)</exception>
         public void SetCurrentColumnNumber(int columnNumber)
         {
-            if (columnNumber > MAX_COLUMN_NUMBER || columnNumber < MIN_COLUMN_NUMBER)
-            {
-                throw new RangeException("OutOfRangeException", "The column number (" + columnNumber + ") is out of range. Range is from " + MIN_COLUMN_NUMBER + " to " + MAX_COLUMN_NUMBER + " (" + (MAX_COLUMN_NUMBER + 1) + " columns).");
-            }
+            Cell.ValidateColumnNumber(columnNumber);
             currentColumnNumber = columnNumber;
         }
 
@@ -1665,10 +1661,7 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws an RangeException if the number is out of the valid range. Range is from 0 to 1048575 (1048576 rows)</exception>
         public void SetCurrentRowNumber(int rowNumber)
         {
-            if (rowNumber > MAX_ROW_NUMBER || rowNumber < 0)
-            {
-                throw new RangeException("OutOfRangeException", "The row number (" + rowNumber + ") is out of range. Range is from 0 to " + MAX_ROW_NUMBER + " (" + (MAX_ROW_NUMBER + 1) + " rows).");
-            }
+            Cell.ValidateRowNumber(rowNumber);
             currentRowNumber = rowNumber;
         }
 
@@ -1692,12 +1685,19 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Sets the selected cells on this worksheet
+        /// Sets the selected cells on this worksheet. Null removes the selected cell range
         /// </summary>
         /// <param name="range">Cell range to select</param>
         public void SetSelectedCells(string range)
         {
-            selectedCells = Cell.ResolveCellRange(range);
+            if (range == null)
+            {
+                selectedCells = null;
+            }
+            else
+            {
+                selectedCells = Cell.ResolveCellRange(range);
+            }
         }
 
         /// <summary>
@@ -1709,6 +1709,7 @@ namespace PicoXLSX
             if (string.IsNullOrEmpty(password))
             {
                 sheetProtectionPassword = null;
+                UseSheetProtection = false;
             }
             else
             {
@@ -1725,10 +1726,7 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws an RangeException:<br></br>a) If the passed row number is out of range<br></br>b) if the row height is out of range (0 - 409.5)</exception>
         public void SetRowHeight(int rowNumber, float height)
         {
-            if (rowNumber > MAX_ROW_NUMBER || rowNumber < MIN_ROW_NUMBER)
-            {
-                throw new RangeException("OutOfRangeException", "The row number (" + rowNumber + ") is out of range. Range is from " + MIN_ROW_NUMBER + " to " + MAX_ROW_NUMBER + " (" + (MAX_ROW_NUMBER + 1) + " rows).");
-            }
+            Cell.ValidateRowNumber(rowNumber);
             if (height < MIN_ROW_HEIGHT || height > MAX_ROW_HEIGHT)
             {
                 throw new RangeException("OutOfRangeException", "The row height (" + height + ") is out of range. Range is from " + MIN_ROW_HEIGHT + " to " + MAX_ROW_HEIGHT + " (equals 546px).");
@@ -1751,10 +1749,7 @@ namespace PicoXLSX
         /// <exception cref="RangeException">Throws an RangeException if the passed row number was out of range</exception>
         private void SetRowHiddenState(int rowNumber, bool state)
         {
-            if (rowNumber > MAX_ROW_NUMBER || rowNumber < MIN_ROW_NUMBER)
-            {
-                throw new RangeException("OutOfRangeException", "The row number (" + rowNumber + ") is out of range. Range is from " + MIN_ROW_NUMBER + " to " + MAX_ROW_NUMBER + " (" + (MAX_ROW_NUMBER + 1) + " rows).");
-            }
+            Cell.ValidateRowNumber(rowNumber);
             if (hiddenRows.ContainsKey(rowNumber))
             {
                 if (state)
@@ -1777,19 +1772,19 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="name">Name to set</param>
         /// <exception cref="FormatException">Throws a FormatException if the worksheet name is too long (max. 31) or contains illegal characters [  ]  * ? / \</exception>
-        public void SetSheetname(string name)
+        public void SetSheetName(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
-                throw new FormatException("the worksheet name must be between 1 and 31 characters");
+                throw new FormatException("the worksheet name must be between 1 and " + MAX_WORKSHEET_NAME_LENGTH + " characters");
             }
-            if (name.Length > 31)
+            if (name.Length > MAX_WORKSHEET_NAME_LENGTH)
             {
-                throw new FormatException("the worksheet name must be between 1 and 31 characters");
+                throw new FormatException("the worksheet name must be between 1 and " + MAX_WORKSHEET_NAME_LENGTH + " characters");
             }
-            Regex rx = new Regex(@"[\[\]\*\?/\\]");
-            Match mx = rx.Match(name);
-            if (mx.Captures.Count > 0)
+            Regex regex = new Regex(@"[\[\]\*\?/\\]");
+            Match match = regex.Match(name);
+            if (match.Captures.Count > 0)
             {
                 throw new FormatException(@"the worksheet name must not contain the characters [  ]  * ? / \ ");
             }
@@ -1801,15 +1796,19 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="name">Name of the worksheet</param>
         /// <param name="sanitize">If true, the filename will be sanitized automatically according to the specifications of Excel</param>
+        /// <exception cref="WorksheetException">A WorksheetException is thrown if the workbook reference is null, since all worksheets have to be considered during sanitation</exception>
         /// <exception cref="WorksheetException">WorksheetException Thrown if no workbook is referenced. This information is necessary to determine whether the name already exists</exception>
         public void SetSheetName(string name, bool sanitize)
         {
-            if (WorkbookReference == null)
+            if (sanitize)
             {
-                throw new WorksheetException("MissingReferenceException", "The worksheet name cannot be sanitized because no workbook is referenced");
+                sheetName = ""; // Empty name (temporary) to prevent conflicts during sanitizing
+                sheetName = SanitizeWorksheetName(name, WorkbookReference);
             }
-            sheetName = ""; // Empty name (temporary) to prevent conflicts during sanitizing
-            sheetName = SanitizeWorksheetName(name, WorkbookReference);
+            else
+            {
+                SetSheetName(name);
+            }
         }
 
         /// <summary>
@@ -1935,6 +1934,7 @@ namespace PicoXLSX
         /// Sanitizes a worksheet name
         /// </summary>
         /// <param name="input">Name to sanitize</param>
+        /// <exception cref="WorksheetException">A WorksheetException is thrown if the workbook reference is null, since all worksheets have to be considered during sanitation</exception>
         /// <param name="workbook">Workbook reference</param>
         /// <returns>Name of the sanitized worksheet</returns>
         public static string SanitizeWorksheetName(string input, Workbook workbook)
@@ -1956,23 +1956,48 @@ namespace PicoXLSX
                 else
                 { sb.Append(c); }
             }
-            string name = sb.ToString();
-            string originalName = name;
+            return GetUnusedWorksheetName(sb.ToString(), workbook);
+        }
+
+        /// <summary>
+        /// Determines the next unused worksheet name in the passed workbook
+        /// </summary>
+        /// <param name="name">Original name to start the check</param>
+        /// <param name="workbook">Workbook to look for existing worksheets</param>
+        /// <returns>Not yet used worksheet name</returns>
+        /// <exception cref="WorksheetException">A WorksheetException is thrown if the workbook reference is null, since all worksheets have to be considered during sanitation</exception>
+        /// <remarks>The 'rare' case where 10^31 Worksheets exists (leads to a crash) is deliberately not handled, 
+        /// since such a number of sheets would consume at least one quintillion bytes of RAM... what is vastly out of the 64 bit range</remarks>
+        private static string GetUnusedWorksheetName(string name, Workbook workbook)
+        {
+            if (workbook == null)
+            {
+                throw new WorksheetException("MissingReferenceException", "The workbook reference is null");
+            }
+            if (!WorksheetExists(name, workbook))
+            { return name; }
+            Regex regex = new Regex(@"^(.*?)(\d{1,31})$");
+            Match match = regex.Match(name);
+            string prefix = name;
             int number = 1;
+            if (match.Groups.Count > 1)
+            {
+                prefix = match.Groups[1].Value;
+                number = int.Parse(match.Groups[2].Value);
+            }
             while (true)
             {
-                if (!WorksheetExists(name, workbook)) { break; } // OK
-                if (originalName.Length + (number / 10) >= 31)
+                string numberString = number.ToString("G", CultureInfo.InvariantCulture);
+                if (numberString.Length + prefix.Length > MAX_WORKSHEET_NAME_LENGTH)
                 {
-                    name = originalName.Substring(0, 30 - number / 10) + number;
+                    int endIndex = prefix.Length - (numberString.Length + prefix.Length - MAX_WORKSHEET_NAME_LENGTH);
+                    prefix = prefix.Substring(0, endIndex);
                 }
-                else
-                {
-                    name = originalName + number;
-                }
+                string newName = prefix + numberString;
+                if (!WorksheetExists(newName, workbook))
+                { return newName; }
                 number++;
             }
-            return name;
         }
 
         /// <summary>
@@ -1980,9 +2005,14 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="name">Name to check</param>
         /// <param name="workbook">Workbook reference</param>
+        /// <exception cref="WorksheetException">A WorksheetException is thrown if the workbook reference is null, since all worksheets have to be considered during sanitation</exception>
         /// <returns>True if the name exits, otherwise false</returns>
         private static bool WorksheetExists(String name, Workbook workbook)
         {
+            if (workbook == null)
+            {
+                throw new WorksheetException("MissingReferenceException", "The workbook reference is null");
+            }
             int len = workbook.Worksheets.Count;
             for (int i = 0; i < len; i++)
             {
