@@ -286,7 +286,7 @@ namespace PicoXLSX
         public string SheetName
         {
             get { return sheetName; }
-            set { SetSheetname(value); }
+            set { SetSheetName(value); }
         }
 
         /// <summary>
@@ -430,7 +430,7 @@ namespace PicoXLSX
         public Worksheet(string name, int id, Workbook reference)
             : this()
         {
-            SetSheetname(name);
+            SetSheetName(name);
             SheetID = id;
             WorkbookReference = reference;
         }
@@ -1983,7 +1983,8 @@ namespace PicoXLSX
             if (match.Groups.Count > 1)
             {
                 prefix = match.Groups[1].Value;
-                number = int.Parse(match.Groups[2].Value);
+                int.TryParse(match.Groups[2].Value, out number);
+                // if this failed, the start number is 0 (parsed number was >max. int32)
             }
             while (true)
             {
