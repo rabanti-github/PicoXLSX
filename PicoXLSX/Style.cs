@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PicoXLSX
 {
@@ -998,6 +999,31 @@ namespace PicoXLSX
                 }
                 return output;
             }
+
+            /// <summary>
+            /// Validates the passed string, whether it is a valid RGB value that can be used for Fills or Fonts
+            /// </summary>
+            /// <exception cref="StyleException">A StyleException is thrown if an invalid hex value is passed</exception>
+            /// <param name="hexCode">Hex string to check</param>
+            /// <param name="useAlpha">If true, two additional characters (total 8) are expected as alpha value</param>
+            /// <param name="allowEmpty">Optional parameter that allows null or empty as valid values</param>
+            public static void ValidateColor(string hexCode, bool useAlpha, bool allowEmpty = false)
+            {
+                if (string.IsNullOrEmpty(hexCode) && !allowEmpty)
+                {
+                    throw new StyleException("A general style exception occurred", "The color expression was null or empty");
+                }
+                int length;
+                length = useAlpha ? 8 : 6;
+                if (hexCode == null || hexCode.Length != length)
+                {
+                    throw new StyleException("A general style exception occurred", "The value '" + hexCode + "' is invalid. A valid value must contain six hex characters");
+                }
+                if (!Regex.IsMatch(hexCode, "[a-fA-F0-9]{6,8}"))
+                {
+                    throw new StyleException("A general style exception occurred", "The expression '" + hexCode + "' is not a valid hex value");
+                }
+            }
             #endregion
 
         }
@@ -1014,8 +1040,38 @@ namespace PicoXLSX
             /// <summary>
             /// Default font family as constant
             /// </summary>
-            public const string DEFAULTFONT = "Calibri";
+            public static readonly string DEFAULT_FONT_NAME = "Calibri";
+
+            /// <summary>
+            /// Maximum possible font size
+            /// </summary>
+            public static readonly float MIN_FONT_SIZE = 1f;
+
+            /// <summary>
+            /// Minimum possible font size
+            /// </summary>
+            public static readonly float MAX_FONT_SIZE = 409f;
             #endregion
+
+            /// <summary>
+            /// Default font size
+            /// </summary>
+            public static readonly float DEFAULT_FONT_SIZE = 11f;
+
+            /// <summary>
+            /// Default font family
+            /// </summary>
+            public static readonly string DEFAULT_FONT_FAMILY = "2";
+
+            /// <summary>
+            /// Default font scheme
+            /// </summary>
+            public static readonly SchemeValue DEFAULT_FONT_SCHEME = SchemeValue.minor;
+
+            /// <summary>
+            /// Default vertical alignment
+            /// </summary>
+            public static readonly VerticalAlignValue DEFAULT_VERTICAL_ALIGN = VerticalAlignValue.none;
 
             #region enums
             /// <summary>
@@ -1046,7 +1102,10 @@ namespace PicoXLSX
             #endregion
 
             #region privateFields
-            private int size;
+            private float size;
+            private string name = DEFAULT_FONT_NAME;
+            private int colorTheme;
+            private string colorValue;
             #endregion
 
             #region properties
@@ -1061,11 +1120,33 @@ namespace PicoXLSX
             /// <summary>
             /// Gets or sets the font color theme (Default is 1)
             /// </summary>
-            public int ColorTheme { get; set; }
+            /// <exception cref="StyleException">Throws a StyleException if the number is below 1</exception>
+            public int ColorTheme
+            {
+                get => colorTheme;
+                set
+                {
+                    if (value < 1)
+                    {
+                        throw new StyleException("A general style exception occurred", "The color theme number " + value + " is invalid. Should be >0");
+                    }
+                    colorTheme = value;
+                }
+            }
             /// <summary>
-            /// Gets or sets the font color (default is empty)
+            /// Gets or sets the color code of the font color. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF.
+            /// To omit the color, an empty string can be set. Empty is also default.
             /// </summary>
-            public string ColorValue { get; set; }
+            /// <exception cref="StyleException">Throws a StyleException if the passed ARGB value is not valid</exception>
+            public string ColorValue
+            {
+                get => colorValue;
+                set
+                {
+                    Fill.ValidateColor(value, true, true);
+                    colorValue = value;
+                }
+            }
             /// <summary>
             /// Gets or sets whether the font has a double underline. If true, the font is declared with a double underline
             /// </summary>
@@ -1093,21 +1174,36 @@ namespace PicoXLSX
             /// <summary>
             /// Gets or sets the font name (Default is Calibri)
             /// </summary>
-            public string Name { get; set; }
+            /// <exception cref="StyleException">A StyleException is thrown if the name is null or empty</exception>
+            /// <remarks>Note that the font name is not validated whether it is a valid or existing font</remarks>
+            public string Name
+            {
+                get { return name; }
+                set
+                {
+                    if (string.IsNullOrEmpty(name))
+                    {
+                        throw new StyleException("A general style exception occurred", "The font name was null or empty");
+                    }
+                    name = value;
+                }
+            }
             /// <summary>
             /// Gets or sets the font scheme (Default is minor)
             /// </summary>
             public SchemeValue Scheme { get; set; }
             /// <summary>
-            /// Gets or sets the font size. Valid range is from 8 to 75
+            /// Gets or sets the font size. Valid range is from 1 to 409
             /// </summary>
-            public int Size
+            public float Size
             {
                 get { return size; }
                 set
                 {
-                    if (value < 8) { size = 8; }
-                    else if (value > 75) { size = 72; }
+                    if (value < MIN_FONT_SIZE)
+                    { size = MIN_FONT_SIZE; }
+                    else if (value > MAX_FONT_SIZE)
+                    { size = MAX_FONT_SIZE; }
                     else { size = value; }
                 }
             }
@@ -1131,14 +1227,14 @@ namespace PicoXLSX
             /// </summary>
             public Font()
             {
-                size = 11;
-                Name = DEFAULTFONT;
-                Family = "2";
+                size = DEFAULT_FONT_SIZE;
+                Name = DEFAULT_FONT_NAME;
+                Family = DEFAULT_FONT_FAMILY;
                 ColorTheme = 1;
                 ColorValue = string.Empty;
                 Charset = string.Empty;
-                Scheme = SchemeValue.minor;
-                VerticalAlign = VerticalAlignValue.none;
+                Scheme = DEFAULT_FONT_SCHEME;
+                VerticalAlign = DEFAULT_VERTICAL_ALIGN;
             }
             #endregion
 
@@ -1197,7 +1293,7 @@ namespace PicoXLSX
                 r *= p + this.Scheme.GetHashCode();
                 r *= p + (int)this.VerticalAlign;
                 r *= p + this.Charset.GetHashCode();
-                r *= p + this.size;
+                r *= p + this.size.GetHashCode();
                 return r;
             }
 
@@ -1605,8 +1701,6 @@ namespace PicoXLSX
                         }
                         s = mergeCellStyle;
                         break;
-                    default:
-                        break;
                 }
                 return s.CopyStyle(); // Copy makes basic styles immutable
             }
@@ -1614,10 +1708,12 @@ namespace PicoXLSX
             /// <summary>
             /// Gets a style to colorize the text of a cell
             /// </summary>
-            /// <param name="rgb">RGB code in hex format (e.g. FF00AC). Alpha will be set to full opacity (FF)</param>
+            /// <param name="rgb">RGB code in hex format (6 characters, e.g. FF00AC). Alpha will be set to full opacity (FF)</param>
             /// <returns>Style with font color definition</returns>
+            /// <exception cref="StyleException">A StyleException is thrown if an invalid hex value is passed</exception>
             public static Style ColorizedText(string rgb)
             {
+                Fill.ValidateColor(rgb, false);
                 Style s = new Style();
                 s.CurrentFont.ColorValue = "FF" + rgb.ToUpper();
                 return s;
@@ -1626,10 +1722,12 @@ namespace PicoXLSX
             /// <summary>
             /// Gets a style to colorize the background of a cell
             /// </summary>
-            /// <param name="rgb">RGB code in hex format (e.g. FF00AC). Alpha will be set to full opacity (FF)</param>
+            /// <param name="rgb">RGB code in hex format (6 characters, e.g. FF00AC). Alpha will be set to full opacity (FF)</param>
             /// <returns>Style with background color definition</returns>
+            /// <exception cref="StyleException">A StyleException is thrown if an invalid hex value is passed</exception>
             public static Style ColorizedBackground(string rgb)
             {
+                Fill.ValidateColor(rgb, false);
                 Style s = new Style();
                 s.CurrentFill.SetColor("FF" + rgb.ToUpper(), Fill.FillType.fillColor);
                 return s;
