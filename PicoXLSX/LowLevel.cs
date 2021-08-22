@@ -1336,14 +1336,14 @@ namespace PicoXLSX
             foreach (Style.Font item in fonts)
             {
                 if (string.IsNullOrEmpty(item.ColorValue)) { continue; }
-                if (item.ColorValue == Style.Fill.DEFAULTCOLOR) { continue; }
+                if (item.ColorValue == Style.Fill.DEFAULT_COLOR) { continue; }
                 if (!tempColors.Contains(item.ColorValue)) { tempColors.Add(item.ColorValue); }
             }
             foreach (Style.Fill item in fills)
             {
-                if (!string.IsNullOrEmpty(item.BackgroundColor) && item.BackgroundColor != Style.Fill.DEFAULTCOLOR && !tempColors.Contains(item.BackgroundColor))
+                if (!string.IsNullOrEmpty(item.BackgroundColor) && item.BackgroundColor != Style.Fill.DEFAULT_COLOR && !tempColors.Contains(item.BackgroundColor))
                 { tempColors.Add(item.BackgroundColor); }
-                if (!string.IsNullOrEmpty(item.ForegroundColor) && item.ForegroundColor != Style.Fill.DEFAULTCOLOR && !tempColors.Contains(item.ForegroundColor))
+                if (!string.IsNullOrEmpty(item.ForegroundColor) && item.ForegroundColor != Style.Fill.DEFAULT_COLOR && !tempColors.Contains(item.ForegroundColor))
                 { tempColors.Add(item.ForegroundColor); }
             }
             if (tempColors.Count > 0)

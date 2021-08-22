@@ -786,9 +786,17 @@ namespace PicoXLSX
         {
             #region constants
             /// <summary>
-            /// Default Color (foreground or background) as constant
+            /// Default Color (foreground or background)
             /// </summary>
-            public const string DEFAULTCOLOR = "FF000000";
+            public static readonly string DEFAULT_COLOR = "FF000000";
+            /// <summary>
+            /// Default index color
+            /// </summary>
+            public static readonly int DEFAULT_INDEXED_COLOR = 64;
+            /// <summary>
+            /// Default pattern
+            /// </summary>
+            public static readonly PatternValue DEFAULT_PATTERN_FILL = PatternValue.none;
             #endregion
 
             #region enums
@@ -824,15 +832,37 @@ namespace PicoXLSX
             }
             #endregion
 
+            #region privateFields
+            private string backgroundColor = DEFAULT_COLOR;
+            private string foregroundColor = DEFAULT_COLOR;
+            #endregion
+
+
             #region properties
             /// <summary>
             /// Gets or sets the background color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
-            public string BackgroundColor { get; set; }
+            public string BackgroundColor
+            {
+                get => backgroundColor;
+                set
+                {
+                    ValidateColor(value, true);
+                    backgroundColor = value;
+                }
+            }
             /// <summary>
             /// Gets or sets the foreground color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
-            public string ForegroundColor { get; set; }
+            public string ForegroundColor
+            {
+                get => foregroundColor;
+                set
+                {
+                    ValidateColor(value, true);
+                    foregroundColor = value;
+                }
+            }
             /// <summary>
             /// Gets or sets the indexed color (Default is 64)
             /// </summary>
@@ -849,10 +879,10 @@ namespace PicoXLSX
             /// </summary>
             public Fill()
             {
-                IndexedColor = 64;
-                PatternFill = PatternValue.none;
-                ForegroundColor = DEFAULTCOLOR;
-                BackgroundColor = DEFAULTCOLOR;
+                IndexedColor = DEFAULT_INDEXED_COLOR;
+                PatternFill = DEFAULT_PATTERN_FILL;
+                ForegroundColor = DEFAULT_COLOR;
+                BackgroundColor = DEFAULT_COLOR;
             }
             /// <summary>
             /// Constructor with foreground and background color
@@ -863,7 +893,7 @@ namespace PicoXLSX
             {
                 BackgroundColor = background;
                 ForegroundColor = foreground;
-                IndexedColor = 64;
+                IndexedColor = DEFAULT_INDEXED_COLOR;
                 PatternFill = PatternValue.solid;
             }
 
@@ -877,14 +907,14 @@ namespace PicoXLSX
                 if (filltype == FillType.fillColor)
                 {
                     BackgroundColor = value;
-                    ForegroundColor = DEFAULTCOLOR;
+                    ForegroundColor = DEFAULT_COLOR;
                 }
                 else
                 {
-                    BackgroundColor = DEFAULTCOLOR;
+                    BackgroundColor = DEFAULT_COLOR;
                     ForegroundColor = value;
                 }
-                IndexedColor = 64;
+                IndexedColor = DEFAULT_INDEXED_COLOR;
                 PatternFill = PatternValue.solid;
             }
             #endregion
@@ -950,11 +980,11 @@ namespace PicoXLSX
                 if (filltype == FillType.fillColor)
                 {
                     ForegroundColor = value;
-                    BackgroundColor = DEFAULTCOLOR;
+                    BackgroundColor = DEFAULT_COLOR;
                 }
                 else
                 {
-                    ForegroundColor = DEFAULTCOLOR;
+                    ForegroundColor = DEFAULT_COLOR;
                     BackgroundColor = value;
                 }
                 PatternFill = PatternValue.solid;
@@ -1009,8 +1039,12 @@ namespace PicoXLSX
             /// <param name="allowEmpty">Optional parameter that allows null or empty as valid values</param>
             public static void ValidateColor(string hexCode, bool useAlpha, bool allowEmpty = false)
             {
-                if (string.IsNullOrEmpty(hexCode) && !allowEmpty)
+                if (string.IsNullOrEmpty(hexCode))
                 {
+                    if (allowEmpty)
+                    {
+                        return;
+                    }
                     throw new StyleException("A general style exception occurred", "The color expression was null or empty");
                 }
                 int length;
