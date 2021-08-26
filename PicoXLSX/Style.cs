@@ -271,6 +271,26 @@ namespace PicoXLSX
         /// </summary>
         public class Border : AbstractStyle
         {
+            #region constants
+            /// <summary>
+            /// Default border style as constant
+            /// </summary>
+            public static readonly StyleValue DEFAULT_BORDER_STYLE = StyleValue.none;
+
+            /// <summary>
+            /// Default border color as constant
+            /// </summary>
+            public static readonly string DEFAULT_COLOR = "";
+            #endregion
+
+            #region privateFields
+            private string bottomColor;
+            private string diagonalColor;
+            private string leftColor;
+            private string rightColor;
+            private string topColor;
+            #endregion
+
             #region enums
             /// <summary>
             /// Enum for the border style
@@ -312,7 +332,14 @@ namespace PicoXLSX
             /// <summary>
             /// Gets or sets the color code of the bottom border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
-            public string BottomColor { get; set; }
+            public string BottomColor
+            {
+                get => bottomColor; set
+                {
+                    Fill.ValidateColor(value, true, true);
+                    bottomColor = value;
+                }
+            }
             /// <summary>
             /// Gets or sets the  style of bottom cell border
             /// </summary>
@@ -320,7 +347,14 @@ namespace PicoXLSX
             /// <summary>
             /// Gets or sets the color code of the diagonal lines. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
-            public string DiagonalColor { get; set; }
+            public string DiagonalColor
+            {
+                get => diagonalColor; set
+                {
+                    Fill.ValidateColor(value, true, true);
+                    diagonalColor = value;
+                }
+            }
             /// <summary>
             /// Gets or sets whether the downwards diagonal line is used. If true, the line is used
             /// </summary>
@@ -336,7 +370,14 @@ namespace PicoXLSX
             /// <summary>
             /// Gets or sets the color code of the left border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
-            public string LeftColor { get; set; }
+            public string LeftColor
+            {
+                get => leftColor; set
+                {
+                    Fill.ValidateColor(value, true, true);
+                    leftColor = value;
+                }
+            }
             /// <summary>
             /// Gets or sets the style of left cell border
             /// </summary>
@@ -344,7 +385,14 @@ namespace PicoXLSX
             /// <summary>
             /// Gets or sets the color code of the right border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
-            public string RightColor { get; set; }
+            public string RightColor
+            {
+                get => rightColor; set
+                {
+                    Fill.ValidateColor(value, true, true);
+                    rightColor = value;
+                }
+            }
             /// <summary>
             /// Gets or sets the style of right cell border
             /// </summary>
@@ -352,7 +400,14 @@ namespace PicoXLSX
             /// <summary>
             /// Gets or sets the color code of the top border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
-            public string TopColor { get; set; }
+            public string TopColor
+            {
+                get => topColor; set
+                {
+                    Fill.ValidateColor(value, true, true);
+                    topColor = value;
+                }
+            }
             /// <summary>
             /// Gets or sets the style of top cell border
             /// </summary>
@@ -365,16 +420,16 @@ namespace PicoXLSX
             /// </summary>
             public Border()
             {
-                BottomColor = string.Empty;
-                TopColor = string.Empty;
-                LeftColor = string.Empty;
-                RightColor = string.Empty;
-                DiagonalColor = string.Empty;
-                LeftStyle = StyleValue.none;
-                RightStyle = StyleValue.none;
-                TopStyle = StyleValue.none;
-                BottomStyle = StyleValue.none;
-                DiagonalStyle = StyleValue.none;
+                BottomColor = DEFAULT_COLOR;
+                TopColor = DEFAULT_COLOR;
+                LeftColor = DEFAULT_COLOR;
+                RightColor = DEFAULT_COLOR;
+                DiagonalColor = DEFAULT_COLOR;
+                LeftStyle = DEFAULT_BORDER_STYLE;
+                RightStyle = DEFAULT_BORDER_STYLE;
+                TopStyle = DEFAULT_BORDER_STYLE;
+                BottomStyle = DEFAULT_BORDER_STYLE;
+                DiagonalStyle = DEFAULT_BORDER_STYLE;
                 DiagonalDown = false;
                 DiagonalUp = false;
             }
@@ -453,16 +508,16 @@ namespace PicoXLSX
             public bool IsEmpty()
             {
                 bool state = true;
-                if (BottomColor != string.Empty) { state = false; }
-                if (TopColor != string.Empty) { state = false; }
-                if (LeftColor != string.Empty) { state = false; }
-                if (RightColor != string.Empty) { state = false; }
-                if (DiagonalColor != string.Empty) { state = false; }
-                if (LeftStyle != StyleValue.none) { state = false; }
-                if (RightStyle != StyleValue.none) { state = false; }
-                if (TopStyle != StyleValue.none) { state = false; }
-                if (BottomStyle != StyleValue.none) { state = false; }
-                if (DiagonalStyle != StyleValue.none) { state = false; }
+                if (BottomColor != DEFAULT_COLOR) { state = false; }
+                if (TopColor != DEFAULT_COLOR) { state = false; }
+                if (LeftColor != DEFAULT_COLOR) { state = false; }
+                if (RightColor != DEFAULT_COLOR) { state = false; }
+                if (DiagonalColor != DEFAULT_COLOR) { state = false; }
+                if (LeftStyle != DEFAULT_BORDER_STYLE) { state = false; }
+                if (RightStyle != DEFAULT_BORDER_STYLE) { state = false; }
+                if (TopStyle != DEFAULT_BORDER_STYLE) { state = false; }
+                if (BottomStyle != DEFAULT_BORDER_STYLE) { state = false; }
+                if (DiagonalStyle != DEFAULT_BORDER_STYLE) { state = false; }
                 if (DiagonalDown) { state = false; }
                 if (DiagonalUp) { state = false; }
                 return state;
@@ -538,6 +593,25 @@ namespace PicoXLSX
         /// </summary>
         public class CellXf : AbstractStyle
         {
+            #region constants
+            /// <summary>
+            /// Default horizontal align value as constant
+            /// </summary>
+            public static readonly HorizontalAlignValue DEFAULT_HORIZONTAL_ALIGNMENT = HorizontalAlignValue.none;
+            /// <summary>
+            /// Default text break value as constant
+            /// </summary>
+            public static readonly TextBreakValue DEFAULT_ALIGNMENT = TextBreakValue.none;
+            /// <summary>
+            /// Default text direction value as constant
+            /// </summary>
+            public static readonly TextDirectionValue DEFAULT_TEXT_DIRECTION = TextDirectionValue.horizontal;
+            /// <summary>
+            /// Default vertical align value as constant
+            /// </summary>
+            public static readonly VerticalAlignValue DEFAULT_VERTICAL_ALIGNMENT = VerticalAlignValue.none;
+            #endregion
+
             #region enums
             /// <summary>
             /// Enum for the horizontal alignment of a cell 
@@ -611,6 +685,7 @@ namespace PicoXLSX
             #region privateFields
             private int textRotation;
             private TextDirectionValue textDirection;
+            private int indent;
             #endregion
 
             #region properties
@@ -666,7 +741,21 @@ namespace PicoXLSX
             /// <summary>
             /// Gets or sets the indentation in case of left, right or distributed alignment. If 0, no alignment is applied
             /// </summary>
-            public int Indent { get; set; }
+            public int Indent
+            {
+                get => indent;
+                set
+                {
+                    if (value >= 0)
+                    {
+                        indent = value;
+                    }
+                    else
+                    {
+                        throw new StyleException("A general style exception occurred", "The indent value '" + value + "' is not valid. It must be >= 0");
+                    }
+                }
+            }
             #endregion
 
             #region constructors
@@ -675,10 +764,10 @@ namespace PicoXLSX
             /// </summary>
             public CellXf()
             {
-                HorizontalAlign = HorizontalAlignValue.none;
-                Alignment = TextBreakValue.none;
-                textDirection = TextDirectionValue.horizontal;
-                VerticalAlign = VerticalAlignValue.none;
+                HorizontalAlign = DEFAULT_HORIZONTAL_ALIGNMENT;
+                Alignment = DEFAULT_ALIGNMENT;
+                textDirection = DEFAULT_TEXT_DIRECTION;
+                VerticalAlign = DEFAULT_VERTICAL_ALIGNMENT;
                 textRotation = 0;
                 Indent = 0;
             }
@@ -688,9 +777,9 @@ namespace PicoXLSX
             /// <summary>
             /// Method to calculate the internal text rotation. The text direction and rotation are handled internally by the text rotation value
             /// </summary>
-            /// <returns>Returns the valid rotation in degrees for internal uses (LowLevel)</returns>
+            /// <returns>Returns the valid rotation in degrees for internal use (LowLevel)</returns>
             /// <exception cref="FormatException">Throws a FormatException if the rotation angle (-90 to 90) is out of range</exception>
-            public int CalculateInternalRotation()
+            internal int CalculateInternalRotation()
             {
                 if (textRotation < -90 || textRotation > 90)
                 {
@@ -698,7 +787,8 @@ namespace PicoXLSX
                 }
                 if (textDirection == TextDirectionValue.vertical)
                 {
-                    return 255;
+                    textRotation = 255;
+                    return textRotation;
                 }
                 else
                 {
@@ -906,13 +996,13 @@ namespace PicoXLSX
             {
                 if (filltype == FillType.fillColor)
                 {
-                    BackgroundColor = value;
-                    ForegroundColor = DEFAULT_COLOR;
+                    backgroundColor = DEFAULT_COLOR;
+                    ForegroundColor = value;
                 }
                 else
                 {
-                    BackgroundColor = DEFAULT_COLOR;
-                    ForegroundColor = value;
+                    BackgroundColor = value;
+                    foregroundColor = DEFAULT_COLOR;
                 }
                 IndexedColor = DEFAULT_INDEXED_COLOR;
                 PatternFill = PatternValue.solid;
@@ -979,13 +1069,13 @@ namespace PicoXLSX
             {
                 if (filltype == FillType.fillColor)
                 {
+                    backgroundColor = DEFAULT_COLOR;
                     ForegroundColor = value;
-                    BackgroundColor = DEFAULT_COLOR;
                 }
                 else
                 {
-                    ForegroundColor = DEFAULT_COLOR;
                     BackgroundColor = value;
+                    foregroundColor = DEFAULT_COLOR;
                 }
                 PatternFill = PatternValue.solid;
             }
