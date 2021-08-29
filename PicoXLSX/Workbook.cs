@@ -253,7 +253,7 @@ namespace PicoXLSX
         /// Adding a new Worksheet. The new worksheet will be defined as current worksheet
         /// </summary>
         /// <param name="name">Name of the new worksheet</param>
-        /// <exception cref="WorksheetException">Throws a WorksheetNameAlreadxExistsException if the name of the worksheet already exists</exception>
+        /// <exception cref="WorksheetException">Throws a WorksheetException if the name of the worksheet already exists</exception>
         /// <exception cref="FormatException">Throws a FormatException if the name contains illegal characters or is out of range (length between 1 an 31 characters)</exception>
         public void AddWorksheet(string name)
         {
@@ -268,7 +268,7 @@ namespace PicoXLSX
             Worksheet newWs = new Worksheet(name, number, this);
             currentWorksheet = newWs;
             worksheets.Add(newWs);
-            shortener.SetCurrentWorksheet(currentWorksheet);
+            shortener.SetCurrentWorksheetInternal(currentWorksheet);
         }
 
         /// <summary>
@@ -536,7 +536,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="name">Name of the worksheet</param>
         /// <returns>Returns the current worksheet</returns>
-        /// <exception cref="WorksheetException">Throws a MissingReferenceException if the name of the worksheet is unknown</exception>
+        /// <exception cref="WorksheetException">Throws a WorksheetException if the name of the worksheet is unknown</exception>
         public Worksheet SetCurrentWorksheet(string name)
         {
             currentWorksheet = worksheets.FirstOrDefault(w => w.SheetName == name);
@@ -544,7 +544,7 @@ namespace PicoXLSX
             {
                 throw new WorksheetException("The worksheet with the name '" + name + "' does not exist.");
             }
-            shortener.SetCurrentWorksheet(currentWorksheet);
+            shortener.SetCurrentWorksheetInternal(currentWorksheet);
             return currentWorksheet;
         }
 
@@ -553,7 +553,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="worksheetIndex">Zero-based worksheet index</param>
         /// <returns>Returns the current worksheet</returns>
-        /// <exception cref="WorksheetException">Throws a MissingReferenceException if the name of the worksheet is unknown</exception>
+        /// <exception cref="WorksheetException">Throws a WorksheetException if the name of the worksheet is unknown</exception>
         public Worksheet SetCurrentWorksheet(int worksheetIndex)
         {
             if (worksheetIndex < 0 || worksheetIndex > worksheets.Count - 1)
@@ -561,7 +561,7 @@ namespace PicoXLSX
                 throw new RangeException("OutOfRangeException", "The worksheet index " + worksheetIndex + " is out of range");
             }
             currentWorksheet = worksheets[worksheetIndex];
-            shortener.SetCurrentWorksheet(currentWorksheet);
+            shortener.SetCurrentWorksheetInternal(currentWorksheet);
             return currentWorksheet;
         }
 
@@ -569,7 +569,7 @@ namespace PicoXLSX
         /// Sets the current worksheet
         /// </summary>
         /// <param name="worksheet">Worksheet object (must be in the collection of worksheets)</param>
-        /// <exception cref="WorksheetException">Throws a UnknownWorksheetException if the worksheet was not found in the worksheet collection</exception>
+        /// <exception cref="WorksheetException">Throws a WorksheetException if the worksheet was not found in the worksheet collection</exception>
         public void SetCurrentWorksheet(Worksheet worksheet)
         {
             int index = worksheets.IndexOf(worksheet);
@@ -578,14 +578,14 @@ namespace PicoXLSX
                 throw new WorksheetException("The passed worksheet object is not in the worksheet collection.");
             }
             currentWorksheet = worksheets[index];
-            shortener.SetCurrentWorksheet(worksheet);
+            shortener.SetCurrentWorksheetInternal(worksheet);
         }
 
         /// <summary>
         /// Sets the selected worksheet in the output workbook
         /// </summary>
         /// <param name="name">Name of the worksheet</param>
-        /// <exception cref="WorksheetException">Throws a MissingReferenceException if the name of the worksheet is unknown</exception>
+        /// <exception cref="WorksheetException">Throws a WorksheetException if the name of the worksheet is unknown</exception>
         public void SetSelectedWorksheet(string name)
         {
             selectedWorksheet = worksheets.FindIndex(w => w.SheetName == name);
@@ -600,7 +600,7 @@ namespace PicoXLSX
         /// </summary>
         /// <remarks>This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this</remarks>
         /// <param name="worksheetIndex">Zero-based worksheet index</param>
-        /// <exception cref="RangeException">Throws a OutOfRangeException if the index of the worksheet is out of range</exception>
+        /// <exception cref="RangeException">Throws a RangeException if the index of the worksheet is out of range</exception>
         public void SetSelectedWorksheet(int worksheetIndex)
         {
             if (worksheetIndex < 0 || worksheetIndex > worksheets.Count - 1)
@@ -615,7 +615,7 @@ namespace PicoXLSX
         /// </summary>
         /// <remarks>This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this</remarks>
         /// <param name="worksheet">Worksheet object (must be in the collection of worksheets)</param>
-        /// <exception cref="WorksheetException">Throws a UnknownWorksheetException if the worksheet was not found in the worksheet collection</exception>
+        /// <exception cref="WorksheetException">Throws a WorksheetException if the worksheet was not found in the worksheet collection</exception>
         public void SetSelectedWorksheet(Worksheet worksheet)
         {
             selectedWorksheet = worksheets.IndexOf(worksheet);
@@ -697,7 +697,7 @@ namespace PicoXLSX
         {
             worksheets = new List<Worksheet>();
             workbookMetadata = new Metadata();
-            shortener = new Shortener();
+            shortener = new Shortener(this);
         }
 
         #endregion
@@ -710,18 +710,33 @@ namespace PicoXLSX
         public class Shortener
         {
             private Worksheet currentWorksheet;
+            private readonly Workbook workbookReference;
 
             /// <summary>
-            /// Default constructor
+            /// Constructor with workbook reference
             /// </summary>
-            public Shortener()
-            { }
+            /// <param name="reference">Workbook reference</param>
+            public Shortener(Workbook reference)
+            {
+                this.workbookReference = reference;
+                this.currentWorksheet = reference.CurrentWorksheet;
+            }
 
             /// <summary>
             /// Sets the worksheet accessed by the shortener
             /// </summary>
             /// <param name="worksheet">Current worksheet</param>
             public void SetCurrentWorksheet(Worksheet worksheet)
+            {
+                workbookReference.SetCurrentWorksheet(worksheet);
+                currentWorksheet = worksheet;
+            }
+
+            /// <summary>
+            /// Sets the worksheet accessed by the shortener, invoked by the workbook
+            /// </summary>
+            /// <param name="worksheet">Current worksheet</param>
+            internal void SetCurrentWorksheetInternal(Worksheet worksheet)
             {
                 currentWorksheet = worksheet;
             }
@@ -785,10 +800,33 @@ namespace PicoXLSX
             /// Moves the cursor the number of defined rows down
             /// </summary>
             /// <param name="numberOfRows">Number of rows to move</param>
-            public void Down(int numberOfRows)
+            /// <param name="keepColumnPosition">If true, the column position is preserved, otherwise set to 0</param>
+            public void Down(int numberOfRows, bool keepColumnPosition = false)
             {
                 NullCheck();
-                currentWorksheet.GoToNextRow(numberOfRows);
+                currentWorksheet.GoToNextRow(numberOfRows, keepColumnPosition);
+            }
+
+            /// <summary>
+            /// Moves the cursor one row up
+            /// </summary>
+            /// <remarks>An exception will be thrown if the row number is below 0/></remarks>
+            public void Up()
+            {
+                NullCheck();
+                currentWorksheet.GoToNextRow(-1);
+            }
+
+            /// <summary>
+            /// Moves the cursor the number of defined rows up
+            /// </summary>
+            /// <param name="numberOfRows">Number of rows to move</param>
+            /// <param name="keepColumnosition">If true, the column position is preserved, otherwise set to 0</param>
+            /// <remarks>An exception will be thrown if the row number is below 0. Values can be also negative. However, this is the equivalent of the function <see cref="Down(int, bool)"/></remarks>
+            public void Up(int numberOfRows, bool keepColumnosition = false)
+            {
+                NullCheck();
+                currentWorksheet.GoToNextRow(-1 * numberOfRows, keepColumnosition);
             }
 
             /// <summary>
@@ -804,10 +842,33 @@ namespace PicoXLSX
             /// Moves the cursor the number of defined columns to the right
             /// </summary>
             /// <param name="numberOfColumns">Number of columns to move</param>
-            public void Right(int numberOfColumns)
+            /// <param name="keepRowPosition">If true, the row position is preserved, otherwise set to 0</param></param>
+            public void Right(int numberOfColumns, bool keepRowPosition = false)
             {
                 NullCheck();
-                currentWorksheet.GoToNextColumn(numberOfColumns);
+                currentWorksheet.GoToNextColumn(numberOfColumns, keepRowPosition);
+            }
+
+            /// <summary>
+            /// Moves the cursor one column to the left
+            /// </summary>
+            /// <remarks>An exception will be thrown if the column number is below 0</remarks>
+            public void Left()
+            {
+                NullCheck();
+                currentWorksheet.GoToNextColumn(-1);
+            }
+
+            /// <summary>
+            /// Moves the cursor the number of defined columns to the left
+            /// </summary>
+            /// <param name="numberOfColumns">Number of columns to move</param>
+            /// <param name="keepRowRowPosition">If true, the row position is preserved, otherwise set to 0</param>
+            /// <remarks>An exception will be thrown if the column number is below 0. Values can be also negative. However, this is the equivalent of the function <see cref="Right(int, bool)"/></remarks>
+            public void Left(int numberOfColumns, bool keepRowRowPosition = false)
+            {
+                NullCheck();
+                currentWorksheet.GoToNextColumn(-1 * numberOfColumns, keepRowRowPosition);
             }
 
             /// <summary>

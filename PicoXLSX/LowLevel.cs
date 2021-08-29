@@ -166,7 +166,7 @@ namespace PicoXLSX
         /// Method to create a style sheet as raw XML string
         /// </summary>
         /// <returns>Raw XML string</returns>
-        /// <exception cref="StyleException">Throws an StyleException if one of the styles cannot be referenced or is null</exception>
+        /// <exception cref="StyleException">Throws a StyleException if one of the styles cannot be referenced or is null</exception>
         /// <remarks>The UndefinedStyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
         private string CreateStyleSheetDocument()
         {
@@ -210,7 +210,7 @@ namespace PicoXLSX
         /// Method to create a workbook as raw XML string
         /// </summary>
         /// <returns>Raw XML string</returns>
-        /// <exception cref="RangeException">Throws an OutOfRangeException if an address was out of range</exception>
+        /// <exception cref="RangeException">Throws a RangeException if an address was out of range</exception>
         private string CreateWorkbookDocument()
         {
             if (workbook.Worksheets.Count == 0)
@@ -507,9 +507,9 @@ namespace PicoXLSX
         /// Method to save the workbook
         /// </summary>
         /// <exception cref="IOException">Throws IOException in case of an error</exception>
-        /// <exception cref="RangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
+        /// <exception cref="RangeException">Throws a RangeException if the start or end address of a handled cell range was out of range</exception>
         /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
-        /// <exception cref="StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+        /// <exception cref="StyleException">Throws a StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
         /// <remarks>The StyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
         public void Save()
         {
@@ -541,9 +541,9 @@ namespace PicoXLSX
         /// <param name="stream">Writable stream as target</param>
         /// <param name="leaveOpen">Optional parameter to keep the stream open after writing (used for MemoryStreams; default is false)</param>
         /// <exception cref="IOException">Throws IOException in case of an error</exception>
-        /// <exception cref="RangeException">Throws an OutOfRangeException if the start or end address of a handled cell range was out of range</exception>
+        /// <exception cref="RangeException">Throws a RangeException if the start or end address of a handled cell range was out of range</exception>
         /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
-        /// <exception cref="StyleException">Throws an StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
+        /// <exception cref="StyleException">Throws a StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
         /// <remarks>The StyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
         public void SaveAsStream(Stream stream, bool leaveOpen = false)
         {
