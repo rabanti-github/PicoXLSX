@@ -521,7 +521,7 @@ namespace PicoXLSX
             }
             catch (Exception e)
             {
-                throw new IOException("SaveException", "An error occurred while saving. See inner exception for details: " + e.Message, e);
+                throw new IOException("An error occurred while saving. See inner exception for details: " + e.Message, e);
             }
         }
 
@@ -608,7 +608,7 @@ namespace PicoXLSX
             }
             catch (Exception e)
             {
-                throw new IOException("SaveException", "An error occurred while saving. See inner exception for details: " + e.Message, e);
+                throw new IOException("An error occurred while saving. See inner exception for details: " + e.Message, e);
             }
         }
 
@@ -692,7 +692,7 @@ namespace PicoXLSX
             }
             catch (Exception e)
             {
-                throw new IOException("MemoryStreamException", "The XML document could not be saved into the memory stream", e);
+                throw new IOException("The XML document could not be saved into the memory stream", e);
             }
         }
 

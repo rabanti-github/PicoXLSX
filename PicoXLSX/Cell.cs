@@ -1110,7 +1110,7 @@ namespace PicoXLSX
                     else if (t == typeof(ushort)) { arg1 = ((ushort)number).ToString("G", culture); }
                     else
                     {
-                        throw new FormatException("InvalidLookupType", "The lookup variable can only be a cell address or a numeric value. The value '" + number + "' is invalid.");
+                        throw new FormatException("The lookup variable can only be a cell address or a numeric value. The value '" + number + "' is invalid.");
                     }
                 }
                 else

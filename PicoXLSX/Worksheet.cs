@@ -274,7 +274,7 @@ namespace PicoXLSX
             {
                 if (value < 1)
                 {
-                    throw new FormatException("InvalidIDException", "The ID " + value + " is invalid. Worksheet IDs must be >0");
+                    throw new FormatException("The ID " + value + " is invalid. Worksheet IDs must be >0");
                 }
                 sheetID = value;
             }
@@ -926,7 +926,7 @@ namespace PicoXLSX
             }
             else
             {
-                throw new FormatException("InvalidAddressExpression", "The passed address'" + addressExpression + "' is neither a cell address, nor a range");
+                throw new FormatException("The passed address'" + addressExpression + "' is neither a cell address, nor a range");
             }
         }
 
@@ -1002,7 +1002,7 @@ namespace PicoXLSX
         {
             if (!cells.ContainsKey(address.GetAddress()))
             {
-                throw new WorksheetException("CellNotFoundException", "The cell with the address " + address.GetAddress() + " does not exist in this worksheet");
+                throw new WorksheetException("The cell with the address " + address.GetAddress() + " does not exist in this worksheet");
             }
             return cells[address.GetAddress()];
         }
@@ -1877,12 +1877,12 @@ namespace PicoXLSX
             {
                 if (numberOfColumnsFromLeft != null && topLeftCell.Column < numberOfColumnsFromLeft.Value)
                 {
-                    throw new WorksheetException("InvalidTopLeftCellException", "The column number " + topLeftCell.Column +
+                    throw new WorksheetException("The column number " + topLeftCell.Column +
                         " is not valid for a frozen, vertical split with the split pane column number " + numberOfColumnsFromLeft.Value);
                 }
                 if (numberOfRowsFromTop != null && topLeftCell.Row < numberOfRowsFromTop.Value)
                 {
-                    throw new WorksheetException("InvalidTopLeftCellException", "The row number " + topLeftCell.Row +
+                    throw new WorksheetException("The row number " + topLeftCell.Row +
                         " is not valid for a frozen, horizontal split height the split pane row number " + numberOfRowsFromTop.Value);
                 }
             }
@@ -1972,7 +1972,7 @@ namespace PicoXLSX
         {
             if (workbook == null)
             {
-                throw new WorksheetException("MissingReferenceException", "The workbook reference is null");
+                throw new WorksheetException("The workbook reference is null");
             }
             if (!WorksheetExists(name, workbook))
             { return name; }
@@ -2012,7 +2012,7 @@ namespace PicoXLSX
         {
             if (workbook == null)
             {
-                throw new WorksheetException("MissingReferenceException", "The workbook reference is null");
+                throw new WorksheetException("The workbook reference is null");
             }
             int len = workbook.Worksheets.Count;
             for (int i = 0; i < len; i++)
