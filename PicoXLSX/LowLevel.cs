@@ -35,13 +35,36 @@ namespace PicoXLSX
 
         #region constants
         /// <summary>
-        /// Minimum valid OAdate value (1900-01-01)
+        /// Minimum valid OAdate value (1900-01-01) However, Excel displays this value as 1900-01-00 (day zero)
         /// </summary>
         public const double MIN_OADATE_VALUE = 0f;
         /// <summary>
         /// Maximum valid OAdate value (9999-12-31)
         /// </summary>
         public const double MAX_OADATE_VALUE = 2958465.9999f;
+        /// <summary>
+        /// First date that can be displayed by Excel. Real values before this date cannot be processed.
+        /// </summary>
+        public static readonly DateTime FIRST_ALLOWED_EXCEL_DATE = new DateTime(1900, 1, 1, 0, 0, 0);
+
+        /// <summary>
+        /// All dates before this date are shifted in Excel by -1.0, since Excel assumes wrongly that the year 1900 is a leap year.<br/>
+        /// See also: <a href="https://docs.microsoft.com/en-us/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year">
+        /// https://docs.microsoft.com/en-us/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year</a>
+        /// </summary>
+        public static readonly DateTime FIRST_VALID_EXCEL_DATE = new DateTime(1900, 3, 1);
+        /// <summary>
+        /// Last date that can be displayed by Excel. Real values after this date cannot be processed.
+        /// </summary>
+        public static readonly DateTime LAST_ALLOWED_EXCEL_DATE = new DateTime(9999, 12, 31, 23, 59, 59);
+
+        /// <summary>
+        /// Constant for number conversion. The invariant culture (represents mostly the US numbering scheme) ensures that no culture-specific 
+        /// punctuations are used when converting numbers to strings, This is especially important for OOXML number values.
+        /// See also: <a href="https://docs.microsoft.com/en-us/dotnet/api/system.globalization.cultureinfo.invariantculture?view=net-5.0">
+        /// https://docs.microsoft.com/en-us/dotnet/api/system.globalization.cultureinfo.invariantculture?view=net-5.0</a>
+        /// </summary>
+        public static readonly CultureInfo INVARIANT_CULTURE = CultureInfo.InvariantCulture;
 
         private const float COLUMN_WIDTH_ROUNDING_MODIFIER = 256f;
         private const float SPLIT_WIDTH_MULTIPLIER = 12f;
@@ -51,6 +74,7 @@ namespace PicoXLSX
         private const float SPLIT_WIDTH_POINT_OFFSET = 390f;
         private const float SPLIT_HEIGHT_POINT_OFFSET = 300f;
         private const float ROW_HEIGHT_POINT_MULTIPLIER = 1f / 3f + 1f;
+        private static readonly double ROOT_MILLIS = (double)new DateTime(1899, 12, 30, 0, 0, 0).Ticks / TimeSpan.TicksPerMillisecond;
 
         #endregion
 
@@ -102,7 +126,7 @@ namespace PicoXLSX
         /// <param name="workbook">Workbook to process</param>
         public LowLevel(Workbook workbook)
         {
-            culture = CultureInfo.InvariantCulture;
+            culture = INVARIANT_CULTURE;
             this.workbook = workbook;
             sharedStrings = new SortedMap();
             sharedStringsTotalCount = 0;
@@ -872,7 +896,7 @@ namespace PicoXLSX
                 {
                     typeAttribute = "d";
                     DateTime date = (DateTime)item.Value;
-                    valueDef = GetOADateTimeString(date, culture);
+                    valueDef = GetOADateTimeString(date);
                 }
                 // Time parsing
                 else if (item.DataType == Cell.CellType.TIME)
@@ -880,7 +904,7 @@ namespace PicoXLSX
                     typeAttribute = "d";
                     // TODO: 'd' is probably an outdated attribute (to be checked for dates and times)
                     TimeSpan time = (TimeSpan)item.Value;
-                    valueDef = GetOATimeString(time, culture);
+                    valueDef = GetOATimeString(time);
                 }
                 else
                 {
@@ -1537,43 +1561,33 @@ namespace PicoXLSX
         /// <returns>Date or date and time as number</returns>
         /// <exception cref="FormatException">Throws a FormatException if the passed date cannot be translated to the OADate format</exception>
         /// <remarks>OAdate format starts at January 1st 1900 (actually 00.01.1900) and ends at December 31 9999. Values beyond these dates cannot be handled by Excel under normal circumstances and will throw a FormatException</remarks>
-        public static string GetOADateTimeString(DateTime date, CultureInfo culture)
+        public static string GetOADateTimeString(DateTime date)
         {
-            try
+            if (date < FIRST_ALLOWED_EXCEL_DATE || date > LAST_ALLOWED_EXCEL_DATE)
             {
-                double d = date.ToOADate();
-                if (d < MIN_OADATE_VALUE || d > MAX_OADATE_VALUE)
-                {
-                    throw new FormatException("The date is not in a valid range for Excel. Dates before 1900-01-01 or after 9999-12-31 are not allowed.");
-                }
-                return d.ToString("G", culture);
+                throw new FormatException("The date is not in a valid range for Excel. Dates before 1900-01-01 or after 9999-12-31 are not allowed.");
             }
-            catch (Exception e)
+            DateTime dateValue = date;
+            if (date < FIRST_VALID_EXCEL_DATE)
             {
-                throw new FormatException("ConversionException", "The date could not be transformed into Excel format (OADate).", e);
+                dateValue = date.AddDays(-1); // Fix of the leap-year-1900-error
             }
+            double currentMillis = (double)dateValue.Ticks / TimeSpan.TicksPerMillisecond;
+            double d = ((double)(dateValue.Second + (dateValue.Minute * 60) + (dateValue.Hour * 3600)) / 86400) + Math.Floor((currentMillis - ROOT_MILLIS) / 86400000);
+            return d.ToString("G", INVARIANT_CULTURE);
         }
 
         /// <summary>
         /// Method to convert a time into the internal Excel time format (OAdate without days)
         /// </summary>
         /// <param name="time">Time to process. The date component of the timespan is neglected</param>
-        /// <param name="culture">CultureInfo for proper formatting of the decimal point</param>
         /// <returns>Time as number</returns>
-        /// <exception cref="FormatException">Throws a FormatException if the passed timespan is invalid</exception>
         /// <remarks>The time is represented by a OAdate without the date component. A time range is between &gt;0.0 (00:00:00) and &lt;1.0 (23:59:59)</remarks>
-        public static string GetOATimeString(TimeSpan time, CultureInfo culture)
+        public static string GetOATimeString(TimeSpan time)
         {
-            try
-            {
-                int seconds = time.Seconds + time.Minutes * 60 + time.Hours * 3600;
-                double d = (double)seconds / 86400d;
-                return d.ToString("G", culture);
-            }
-            catch (Exception e)
-            {
-                throw new FormatException("ConversionException", "The time could not be transformed into Excel format (OADate).", e);
-            }
+            int seconds = time.Seconds + time.Minutes * 60 + time.Hours * 3600;
+            double d = (double)seconds / 86400d;
+            return d.ToString("G", INVARIANT_CULTURE);
         }
 
         /// <summary>
