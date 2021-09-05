@@ -178,12 +178,37 @@ namespace PicoXLSX
             sb.Append("\">");
             foreach (string str in sharedStrings.Keys)
             {
-                sb.Append("<si><t>");
-                sb.Append(EscapeXmlChars(str));
-                sb.Append("</t></si>");
+                AppendSharedString(sb, EscapeXmlChars(str));
             }
             sb.Append("</sst>");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Method to append shared string values and to handle leading or trailing spaces
+        /// </summary>
+        /// <param name="sb">StringBuilder instance</param>
+        /// <param name="value">Escaped string value (not null)</param>
+        private void AppendSharedString(StringBuilder sb, string value)
+        {
+            int len = value.Length;
+            sb.Append("<si>");
+            if (len == 0)
+            {
+                sb.Append("<t></t>");
+            }
+            else
+            {
+                if (value[0] == ' ' || value[len - 1] == ' ')
+                {
+                    sb.Append("<t xml:space=\"preserve\">").Append(value).Append("</t>");
+                }
+                else
+                {
+                    sb.Append("<t>").Append(value).Append("</t>");
+                }
+            }
+            sb.Append("</si>");
         }
 
         /// <summary>
@@ -1606,8 +1631,13 @@ namespace PicoXLSX
         /// <param name="maxDigitWidth">Maximum digit with of the default font (default is 7.0 for Calibri, size 11)</param>
         /// <param name="textPadding">Text padding of the default font (default is 5.0 for Calibri, size 11)</param>
         /// <returns>The internal column width in characters, used in worksheet XML documents</returns>
+        /// <exception cref="FormatException">Throws a FormatException if the column width is out of range</exception>
         public static float GetInternalColumnWidth(float columnWidth, float maxDigitWidth = 7f, float textPadding = 5f)
         {
+            if (columnWidth < Worksheet.MIN_COLUMN_WIDTH || columnWidth > Worksheet.MAX_COLUMN_WIDTH)
+            {
+                throw new FormatException("The column width " + columnWidth + " is not valid. The valid range is between " + Worksheet.MIN_COLUMN_WIDTH + " and " + Worksheet.MAX_COLUMN_WIDTH);
+            }
             if (columnWidth <= 0f || maxDigitWidth <= 0f)
             {
                 return 0f;
@@ -1630,8 +1660,13 @@ namespace PicoXLSX
         /// Therefore, the originally defined row height will slightly deviate, based on this pixel snap</remarks>
         /// <param name="rowHeight">Target row height (displayed in Excel)</param>
         /// <returns>The internal row height which snaps to the nearest pixel</returns>
+        /// <exception cref="FormatException">Throws a FormatException if the row height is out of range</exception>
         public static float GetInternalRowHeight(float rowHeight)
         {
+            if (rowHeight < Worksheet.MIN_ROW_HEIGHT || rowHeight > Worksheet.MAX_ROW_HEIGHT)
+            {
+                throw new FormatException("The row height " + rowHeight + " is not valid. The valid range is between " + Worksheet.MIN_ROW_HEIGHT + " and " + Worksheet.MAX_ROW_HEIGHT);
+            }
             if (rowHeight <= 0f)
             {
                 return 0f;
@@ -1649,7 +1684,7 @@ namespace PicoXLSX
         /// See also <see cref="GetInternalColumnWidth(float, float, float)"/> for additional details.<br/>
         /// This method is derived from the Perl implementation by John McNamara (<a href="https://stackoverflow.com/a/5010899">https://stackoverflow.com/a/5010899</a>)<br/>
         /// See also: <a href="https://www.ecma-international.org/publications-and-standards/standards/ecma-376/">ECMA-376, Part 1, Chapter 18.3.1.13</a><br/>
-        /// The two optional parameters maxDigitWidth and textPadding probably don't have to be changed ever.
+        /// The two optional parameters maxDigitWidth and textPadding probably don't have to be changed ever. Negative column widths are automatically transformed to 0.
         /// </remarks>
         /// <param name="width">Target column(s) width (one or more columns, displayed in Excel)</param>
         /// <param name="maxDigitWidth">Maximum digit with of the default font (default is 7.0 for Calibri, size 11)</param>
@@ -1658,6 +1693,10 @@ namespace PicoXLSX
         public static float GetInternalPaneSplitWidth(float width, float maxDigitWidth = 7f, float textPadding = 5f)
         {
             float pixels;
+            if (width < 0)
+            {
+                width = 0;
+            }
             if (width <= 1f)
             {
                 pixels = (float)Math.Floor(width / SPLIT_WIDTH_MULTIPLIER + SPLIT_WIDTH_OFFSET);
@@ -1675,12 +1714,17 @@ namespace PicoXLSX
         /// </summary>
         /// <remarks>
         /// The internal split height is based on the height of one or more rows. It also depends on various constants.<br/>
-        /// This method is derived from the Perl implementation by John McNamara (<a href="https://stackoverflow.com/a/5010899">https://stackoverflow.com/a/5010899</a>)
+        /// This method is derived from the Perl implementation by John McNamara (<a href="https://stackoverflow.com/a/5010899">https://stackoverflow.com/a/5010899</a>).<br/>
+        /// Negative row heights are automatically transformed to 0.
         /// </remarks>
         /// <param name="height">Target row(s) height (one or more rows, displayed in Excel)</param>
         /// <returns>The internal pane height, used in worksheet XML documents in case of worksheet splitting</returns>
         public static float GetInternalPaneSplitHeight(float height)
         {
+            if (height < 0)
+            {
+                height = 0f;
+            }
             return (float)Math.Floor(SPLIT_POINT_DIVIDER * height + SPLIT_HEIGHT_POINT_OFFSET);
         }
 
