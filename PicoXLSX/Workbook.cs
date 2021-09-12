@@ -331,9 +331,9 @@ namespace PicoXLSX
                 }
             }
             worksheet.SheetID = GetNextWorksheetId();
-            worksheet.WorkbookReference = this;
             currentWorksheet = worksheet;
             worksheets.Add(worksheet);
+            worksheet.WorkbookReference = this;
         }
 
         /// <summary>
@@ -586,6 +586,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="name">Name of the worksheet</param>
         /// <exception cref="WorksheetException">Throws a WorksheetException if the name of the worksheet is unknown</exception>
+        /// <exception cref="WorksheetException">Throws a WorksheetException if the worksheet to be set selected is hidden</exception>
         public void SetSelectedWorksheet(string name)
         {
             selectedWorksheet = worksheets.FindIndex(w => w.SheetName == name);
@@ -593,6 +594,7 @@ namespace PicoXLSX
             {
                 throw new WorksheetException("The worksheet with the name '" + name + "' does not exist.");
             }
+            ValidateWorksheets();
         }
 
         /// <summary>
@@ -601,6 +603,7 @@ namespace PicoXLSX
         /// <remarks>This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this</remarks>
         /// <param name="worksheetIndex">Zero-based worksheet index</param>
         /// <exception cref="RangeException">Throws a RangeException if the index of the worksheet is out of range</exception>
+        /// <exception cref="WorksheetException">Throws a WorksheetException if the worksheet to be set selected is hidden</exception>
         public void SetSelectedWorksheet(int worksheetIndex)
         {
             if (worksheetIndex < 0 || worksheetIndex > worksheets.Count - 1)
@@ -608,6 +611,7 @@ namespace PicoXLSX
                 throw new RangeException("OutOfRangeException", "The worksheet index " + worksheetIndex + " is out of range");
             }
             selectedWorksheet = worksheetIndex;
+            ValidateWorksheets();
         }
 
         /// <summary>
@@ -616,6 +620,7 @@ namespace PicoXLSX
         /// <remarks>This method does not set the current worksheet while design time. Use SetCurrentWorksheet instead for this</remarks>
         /// <param name="worksheet">Worksheet object (must be in the collection of worksheets)</param>
         /// <exception cref="WorksheetException">Throws a WorksheetException if the worksheet was not found in the worksheet collection</exception>
+        /// <exception cref="WorksheetException">Throws a WorksheetException if the worksheet to be set selected is hidden</exception>
         public void SetSelectedWorksheet(Worksheet worksheet)
         {
             selectedWorksheet = worksheets.IndexOf(worksheet);
@@ -623,6 +628,7 @@ namespace PicoXLSX
             {
                 throw new WorksheetException("The passed worksheet object is not in the worksheet collection.");
             }
+            ValidateWorksheets();
         }
 
         /// <summary>
@@ -674,6 +680,33 @@ namespace PicoXLSX
             {
                 currentWorksheet = null;
                 selectedWorksheet = 0;
+            }
+            ValidateWorksheets();
+        }
+
+        /// <summary>
+        /// Validates the worksheets regarding several conditions that must be met:<br/>
+        /// - At least one worksheet must be defined<br/>
+        /// - A hidden worksheet cannot be the selected one<br/>
+        /// - At least one worksheet must be visible<br/>
+        /// If one of the conditions is not met, an exception is thrown
+        /// </summary>
+        internal void ValidateWorksheets()
+        {
+            int woksheetCount = worksheets.Count;
+            if (woksheetCount == 0)
+            {
+                throw new WorksheetException("The workbook must contain at least one worksheet");
+            }
+            for (int i = 0; i < woksheetCount; i++)
+            {
+                if (worksheets[i].Hidden)
+                {
+                    if (i == selectedWorksheet)
+                    {
+                        throw new WorksheetException("The worksheet with the index " + selectedWorksheet + " cannot be set as selected, since it is set hidden");
+                    }
+                }
             }
         }
 
@@ -842,7 +875,7 @@ namespace PicoXLSX
             /// Moves the cursor the number of defined columns to the right
             /// </summary>
             /// <param name="numberOfColumns">Number of columns to move</param>
-            /// <param name="keepRowPosition">If true, the row position is preserved, otherwise set to 0</param></param>
+            /// <param name="keepRowPosition">If true, the row position is preserved, otherwise set to 0</param>
             public void Right(int numberOfColumns, bool keepRowPosition = false)
             {
                 NullCheck();

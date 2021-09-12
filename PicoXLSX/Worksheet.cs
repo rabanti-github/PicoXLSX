@@ -155,6 +155,8 @@ namespace PicoXLSX
         private readonly Dictionary<string, Cell.Range> mergedCells;
         private readonly List<SheetProtectionValue> sheetProtectionValues;
         private bool useActiveStyle;
+        private bool hidden;
+        private Workbook workbookReference;
         private string sheetProtectionPassword;
         private Cell.Range? selectedCells;
         private bool? freezeSplitPanes;
@@ -313,12 +315,36 @@ namespace PicoXLSX
         /// <summary>
         /// Gets or sets the Reference to the parent Workbook
         /// </summary>
-        public Workbook WorkbookReference { get; set; }
+        public Workbook WorkbookReference
+        {
+            get { return workbookReference; }
+            set
+            {
+                workbookReference = value;
+                if (value != null)
+                {
+                    workbookReference.ValidateWorksheets();
+                }
+            }
+        }
 
         /// <summary>
-        /// gets or sets whether the worksheet is hidden. If true, the worksheet is not listed in the worksheet tabs of the workbook
+        /// Gets or sets whether the worksheet is hidden. If true, the worksheet is not listed as tab in the workbook's worksheet selection<br/>
+        /// If the worksheet is not part of a workbook, or the only one in the workbook, an exception will be thrown.<br/>
+        /// If the worksheet is the selected one, and attempted to set hidden, an exception will be thrown. Define another selected worksheet prior to this call, in this case.
         /// </summary>
-        public bool Hidden { get; set; }
+        public bool Hidden
+        {
+            get { return hidden; }
+            set
+            {
+                hidden = value;
+                if (value && workbookReference != null)
+                {
+                    workbookReference.ValidateWorksheets();
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the height of the upper, horizontal split pane, measured from the top of the window.<br/>
@@ -418,7 +444,7 @@ namespace PicoXLSX
             hiddenRows = new Dictionary<int, bool>();
             columns = new Dictionary<int, Column>();
             activeStyle = null;
-            WorkbookReference = null;
+            workbookReference = null;
         }
 
         /// <summary>
@@ -432,7 +458,7 @@ namespace PicoXLSX
         {
             SetSheetName(name);
             SheetID = id;
-            WorkbookReference = reference;
+            workbookReference = reference;
         }
 
         #endregion
@@ -1032,6 +1058,19 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Gets whether the specified address exists in the worksheet. Existing means that a value was stored at the address
+        /// </summary>
+        /// <param name="columnNumber">Column number of the cell to check (zero-based)</param>
+        /// <param name="rowNumber">Row number of the cell to check (zero-based)</param>
+        /// <returns>
+        ///   <c>true</c> if the cell exists, otherwise <c>false</c>.
+        /// </returns>
+        public bool HasCell(int columnNumber, int rowNumber)
+        {
+            return HasCell(new Cell.Address(columnNumber, rowNumber));
+        }
+
+        /// <summary>
         /// Resets the defined column, if existing. The corresponding instance will be removed from <see cref="Columns"/>.
         /// </summary>
         /// <remarks>If the column is inside an autoFilter-Range, the column cannot be entirely removed from <see cref="Columns"/>. The hidden state will be set to false and width to default, in this case.</remarks>
@@ -1048,19 +1087,6 @@ namespace PicoXLSX
                 columns[columnNumber].IsHidden = false;
                 columns[columnNumber].Width = DEFAULT_COLUMN_WIDTH;
             }
-        }
-
-        /// <summary>
-        /// Gets whether the specified address exists in the worksheet. Existing means that a value was stored at the address
-        /// </summary>
-        /// <param name="columnNumber">Column number of the cell to check (zero-based)</param>
-        /// <param name="rowNumber">Row number of the cell to check (zero-based)</param>
-        /// <returns>
-        ///   <c>true</c> if the cell exists, otherwise <c>false</c>.
-        /// </returns>
-        public bool HasCell(int columnNumber, int rowNumber)
-        {
-            return HasCell(new Cell.Address(columnNumber, rowNumber));
         }
 
         /// <summary>
@@ -1305,10 +1331,10 @@ namespace PicoXLSX
         {
             string key = startAddress + ":" + endAddress;
             Cell.Range value = new Cell.Range(startAddress, endAddress);
-            IReadOnlyList<Cell.Address> cells = value.ResolveEnclosedAddresses();
+            IReadOnlyList<Cell.Address> enclosedAddress = value.ResolveEnclosedAddresses();
             foreach (KeyValuePair<string, Cell.Range> item in mergedCells)
             {
-                if (item.Value.ResolveEnclosedAddresses().Intersect(cells).ToList().Count > 0)
+                if (item.Value.ResolveEnclosedAddresses().Intersect(enclosedAddress).ToList().Count > 0)
                 {
                     throw new RangeException("ConflictingRangeException", "The passed range: " + value.ToString() + " contains cells that are already in the defined merge range: " + item.Key);
                 }
@@ -1811,7 +1837,7 @@ namespace PicoXLSX
             if (sanitize)
             {
                 sheetName = ""; // Empty name (temporary) to prevent conflicts during sanitizing
-                sheetName = SanitizeWorksheetName(name, WorkbookReference);
+                sheetName = SanitizeWorksheetName(name, workbookReference);
             }
             else
             {

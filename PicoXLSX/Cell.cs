@@ -492,7 +492,7 @@ namespace PicoXLSX
         /// <param name="address">Address as string in the format A1 - XFD1048576</param>
         /// <param name="column">Column number of the cell (zero-based) as out parameter</param>
         /// <param name="row">Row number of the cell (zero-based) as out parameter</param>
-        /// <exception cref="Exceptions.FormatException">Throws a FormatException if the range address was malformed</exception>
+        /// <exception cref="FormatException">Throws a FormatException if the range address was malformed</exception>
         /// <exception cref="RangeException">Throws a RangeException if the row or column number was out of range</exception>
         public static void ResolveCellCoordinate(string address, out int column, out int row)
         {

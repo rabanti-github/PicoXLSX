@@ -22,7 +22,6 @@ namespace PicoXLSX
     {
         #region privateFields
         private readonly bool internalStyle;
-        private StyleManager styleManagerReference = null;
         #endregion
 
         #region properties
@@ -1566,7 +1565,7 @@ namespace PicoXLSX
             /// <summary>
             /// Gets or sets the format number of the custom format. Must be higher or equal then predefined custom number (164) 
             /// </summary>
-            /// <exception cref="Exceptions.StyleException">Throws a StyleException if the number is below the lowest possible custom number (164)</exception>
+            /// <exception cref="StyleException">Throws a StyleException if the number is below the lowest possible custom number (164)</exception>
 			[Append]
             public int CustomFormatID
             {

@@ -352,7 +352,7 @@ namespace PicoXLSX
             worksheet.RecalculateColumns();
             StringBuilder sb = new StringBuilder();
             sb.Append("<worksheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14ac\" xmlns:x14ac=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac\">");
-            if (worksheet.SelectedCells != null || worksheet.PaneSplitTopHeight != null || worksheet.PaneSplitLeftWidth != null || worksheet.PaneSplitAddress != null)
+            if (worksheet.SelectedCells != null || worksheet.PaneSplitTopHeight != null || worksheet.PaneSplitLeftWidth != null || worksheet.PaneSplitAddress != null || worksheet.Hidden)
             {
                 CreateSheetViewString(worksheet, sb);
             }
@@ -404,7 +404,7 @@ namespace PicoXLSX
         private void CreateSheetViewString(Worksheet worksheet, StringBuilder sb)
         {
             sb.Append("<sheetViews><sheetView workbookViewId=\"0\"");
-            if (workbook.SelectedWorksheet == worksheet.SheetID - 1)
+            if (workbook.SelectedWorksheet == worksheet.SheetID - 1 && !worksheet.Hidden)
             {
                 sb.Append(" tabSelected=\"1\"");
             }
@@ -1598,7 +1598,6 @@ namespace PicoXLSX
         /// Method to convert a date or date and time into the internal Excel time format (OAdate)
         /// </summary>
         /// <param name="date">Date to process</param>
-        /// <param name="culture">CultureInfo for proper formatting of the decimal point</param>
         /// <returns>Date or date and time as number</returns>
         /// <exception cref="FormatException">Throws a FormatException if the passed date cannot be translated to the OADate format</exception>
         /// <remarks>OAdate format starts at January 1st 1900 (actually 00.01.1900) and ends at December 31 9999. Values beyond these dates cannot be handled by Excel under normal circumstances and will throw a FormatException</remarks>
@@ -1754,6 +1753,9 @@ namespace PicoXLSX
         private class DynamicRow
         {
             private List<Cell> cellDefinitions;
+            /// <summary>
+            /// Gets or sets the row number (zero-based)
+            /// </summary>
             public int RowNumber { get; set; }
 
             /// <summary>
