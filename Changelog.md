@@ -5,9 +5,26 @@
 ---
 Release Date: **12.09.2021**
 
-- Fixed a bug when hiding worksheets
+- Added methods to remove styles from cell ranges
+- Added missing methods to remove row height definitions, to reset column definitions and to remove actions for the worksheet protection
+- Introduced general methods to validate row and column numbers (Cell class)
+- Added checks for worksheet IDs and column widths
+- Introduced (internal) style handling by a repository, in favor of the old style manager
+- Fixed a bug in the handling of white spaces and newlines in string values
+- Fixed a bug when hiding worksheets (Note: It is not possible anymore to remove all worksheets from a workbook, or to set a hidden one as active. This would lead to an invalid Excel file)
+- Fixed a bug in the hash code generation in the Style class
+- Fixed date and time handling in OADates
+- Fixed implementation of GetLastRowNumber and GetLastColumnNumber (Worksheet)
+- Fixed handling of cell coordinate resolution (accepts now addresses with fixed rows and columns)
+- Removed worksheet reference from the Cell object
+- Adapted Exceptions
+- Improved the handling of worksheet removal
+- Improved shortener and added option to keep the row number when jumping to the next column (same for next row)
+- Documentation update
+- Many optimizations and minor bug fixes
 
-Note: It is not possible anymore to remove all worksheets from a workbook, or to set a hidden one as active. This would lead to an invalid Excel file
+Note: This patch release contains many fixes, optimizations and features as preview of the next planned minor release v2.12.
+These features are already available due to a recently reported bug and its fix, where pending changes were already published upstream (dev channel).
 
 
 ## v2.11.0
