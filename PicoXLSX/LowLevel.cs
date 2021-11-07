@@ -961,16 +961,19 @@ namespace PicoXLSX
                             typeAttribute = "str";
                             valueDef = item.Value.ToString();
                         }
-                        else
+                        else // Handle sharedStrings
                         {
-                            typeAttribute = "s";
-                            valueDef = item.Value.ToString();
-                            if (!sharedStrings.ContainsKey(valueDef))
+                            if (item.DataType == Cell.CellType.FORMULA)
                             {
-                                sharedStrings.Add(valueDef, sharedStrings.Count.ToString("G", culture));
+                                typeAttribute = "str";
+                                valueDef = item.Value.ToString();
                             }
-                            valueDef = sharedStrings[valueDef];
-                            sharedStringsTotalCount++;
+                            else
+                            {
+                                typeAttribute = "s";
+                                valueDef = sharedStrings.Add(item.Value.ToString(), sharedStrings.Count.ToString("G", culture));
+                                sharedStringsTotalCount++;
+                            }
                         }
                     }
                     typeDef = " t=\"" + typeAttribute + "\" ";
@@ -1802,14 +1805,6 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Gets the values of the map as values
-            /// </summary>
-            public List<string> Values
-            {
-                get { return valueEntries; }
-            }
-
-            /// <summary>
             /// Default constructor
             /// </summary>
             public SortedMap()
@@ -1820,51 +1815,23 @@ namespace PicoXLSX
                 count = 0;
             }
 
-
             /// <summary>
-            /// Indexer to get the specific value by the key
+            /// Method to add a key value pair
             /// </summary>
-            /// <param name="key">Key to corresponding value. Returns null if not found</param>
-            public string this[string key]
-            {
-                get
-                {
-                    if (index.ContainsKey(key))
-                    {
-                        return valueEntries[index[key]];
-                    }
-                    return null;
-                }
-            }
-
-            /// <summary>
-            /// Adds a key value pair to the map. If the key already exists, only its index will be returned
-            /// </summary>
-            /// <param name="key">Key of the tuple</param>
-            /// <param name="value">Value of the tuple</param>
-            /// <returns>Position of the tuple in the map as index (zero-based)</returns>
-            public int Add(string key, string value)
+            /// <param name="key">Key as string</param>
+            /// <param name="value">Value as string</param>
+            /// <returns>Returns the resolved string (either added or returned from an existing entry)</returns>
+            public string Add(string key, string value)
             {
                 if (index.ContainsKey(key))
                 {
-                    return index[key];
+                    return valueEntries[index[key]];
                 }
-
                 index.Add(key, count);
+                count++;
                 keyEntries.Add(key);
                 valueEntries.Add(value);
-                count++;
-                return count - 1;
-            }
-
-            /// <summary>
-            /// Gets whether the specified key exists in the map
-            /// </summary>
-            /// <param name="key">Key to check</param>
-            /// <returns>True if the entry exists, otherwise false</returns>
-            public bool ContainsKey(string key)
-            {
-                return index.ContainsKey(key);
+                return value;
             }
         }
 
