@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2021
+ * Copyright Raphael Stoeckli © 2022
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -1090,11 +1090,82 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Gets the first existing column number in the current worksheet (zero-based)
+        /// </summary>
+        /// <returns>Zero-based column number. In case of an empty worksheet, int32.max will be returned</returns>
+        /// <remarks>GetLastColumnNumber() will not return the last column with data in any case. If there is a formated but empty cell (or many) before the first cell with data, 
+        /// GetLastColumnNumber() will return the column number of this empty cell. Use <see cref="GetFirstDataColumnNumber"/> in this case.</remarks>
+        public int GetFirstColumnNumber()
+        {
+            return GetFirstAddress(true, false);
+        }
+
+        /// <summary>
+        /// Gets the first existing column number with data in the current worksheet (zero-based)
+        /// </summary>
+        /// <returns>Zero-based column number. In case of an empty worksheet, int32.max will be returned</returns>
+        /// <remarks>GetFirstDataColumnNumber() will ignore formatted but empty cells before the first column with data. 
+        /// If you want the first defined column, use <see cref="GetFirstColumnNumber"/> instead.</remarks>
+        public int GetFirstDataColumnNumber()
+        {
+            return GetFirstAddress(true, true);
+        }
+
+        /// <summary>
+        /// Gets the first existing row number in the current worksheet (zero-based)
+        /// </summary>
+        /// <returns>Zero-based row number. In case of an empty worksheet, int32.max will be returned</returns>
+        /// <remarks>GetFirstRowNumber() will not return the first row with data in any case. If there is a formated but empty cell (or many) before the first cell with data, 
+        /// GetFirstRowNumber() will return the row number of this empty cell. Use <see cref="GetFirstDataRowNumber"/> in this case.</remarks>
+        public int GetFirstRowNumber()
+        {
+            return GetFirstAddress(false, false);
+        }
+
+        /// <summary>
+        /// Gets the first existing row number with data in the current worksheet (zero-based)
+        /// </summary>
+        /// <returns>Zero-based row number. In case of an empty worksheet, int32.max will be returned</returns>
+        /// <remarks>GetFirstDataColumnNumber() will ignore formatted but empty cells before the first column with data. 
+        /// If you want the first defined column, use <see cref="GetfirstColumnNumber"/> instead.</remarks>
+        public int GetFirstDataRowNumber()
+        {
+            return GetFirstAddress(false, true);
+        }
+
+        /// <summary>
+        ///  Gets the first existing cell in the current worksheet (bottom right)
+        /// </summary>
+        /// <returns>Cell Address</returns>
+        /// <remarks>GetFirstCellAddress() will not return the first cell with data in any case. If there is a formated but empty cell (or many) before the first cell with data, 
+        /// GetLastCellAddress() will return the address of this empty cell. Use <see cref="GetFirstDataCellAddress"/> in this case.</remarks>
+
+        public Cell.Address GetFirstCellAddress()
+        {
+            int firstRow = GetFirstRowNumber();
+            int firstColumn = GetFirstColumnNumber();
+            return new Cell.Address(firstColumn, firstRow);
+        }
+
+        /// <summary>
+        ///  Gets the first existing cell with data in the current worksheet (bottom right)
+        /// </summary>
+        /// <returns>Cell Address</returns>
+        /// <remarks>GetFirstDataCellAddress() will ignore formatted but empty cells before the first cell with data. 
+        /// If you want the last defined cell, use <see cref="GetFirstCellAddress"/> instead.</remarks>
+
+        public Cell.Address GetFirstDataCellAddress()
+        {
+            int firstRow = GetFirstDataRowNumber();
+            int firstColumn = GetLastDataColumnNumber();
+            return new Cell.Address(firstColumn, firstRow);
+        }
+
+        /// <summary>
         /// Gets the last existing column number in the current worksheet (zero-based)
         /// </summary>
         /// <returns>Zero-based column number. In case of an empty worksheet, -1 will be returned</returns>
-        /// <remarks>GetLastColumnNumber() will not return the last column with data in any case. If there is a formatted (or with the definition of AutoFilter, 
-        /// column width or hidden state) but empty cell (or many) beyond the last cell with data, 
+        /// <remarks>GetLastColumnNumber() will not return the last column with data in any case. If there is a formated but empty cell (or many) beyond the last cell with data, 
         /// GetLastColumnNumber() will return the column number of this empty cell. Use <see cref="GetLastDataColumnNumber"/> in this case.</remarks>
         public int GetLastColumnNumber()
         {
@@ -1104,8 +1175,8 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the last existing column number with data in the current worksheet (zero-based)
         /// </summary>
-        /// <returns>Zero-based column number. in case of an empty worksheet, -1 will be returned</returns>
-        /// <remarks>GetLastDataColumnNumber() will ignore formatted (or with the definition of AutoFilter, column width or hidden state) but empty cells beyond the last column with data. 
+        /// <returns>Zero-based column number. In case of an empty worksheet, -1 will be returned</returns>
+        /// <remarks>GetLastDataColumnNumber() will ignore formatted but empty cells beyond the last column with data. 
         /// If you want the last defined column, use <see cref="GetLastColumnNumber"/> instead.</remarks>
         public int GetLastDataColumnNumber()
         {
@@ -1116,8 +1187,7 @@ namespace PicoXLSX
         /// Gets the last existing row number in the current worksheet (zero-based)
         /// </summary>
         /// <returns>Zero-based row number. In case of an empty worksheet, -1 will be returned</returns>
-        /// <remarks>GetLastRowNumber() will not return the last row with data in any case. If there is a formatted (or with the definition of row height or hidden state) 
-        /// but empty cell (or many) beyond the last cell with data, 
+        /// <remarks>GetLastRowNumber() will not return the last row with data in any case. If there is a formated but empty cell (or many) beyond the last cell with data, 
         /// GetLastRowNumber() will return the row number of this empty cell. Use <see cref="GetLastDataRowNumber"/> in this case.</remarks>
         public int GetLastRowNumber()
         {
@@ -1128,9 +1198,9 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the last existing row number with data in the current worksheet (zero-based)
         /// </summary>
-        /// <returns>Zero-based row number. in case of an empty worksheet, -1 will be returned</returns>
-        /// <remarks>GetLastDataColumnNumber() will ignore formatted (or with the definition of row height or hidden state) but empty cells beyond the last column with data. 
-        /// If you want the last defined column, use <see cref="GetLastRowNumber"/> instead.</remarks>
+        /// <returns>Zero-based row number. In case of an empty worksheet, -1 will be returned</returns>
+        /// <remarks>GetLastDataColumnNumber() will ignore formatted but empty cells beyond the last column with data. 
+        /// If you want the last defined column, use <see cref="GetLastColumnNumber"/> instead.</remarks>
         public int GetLastDataRowNumber()
         {
             return GetLastAddress(false, true);
@@ -1139,38 +1209,40 @@ namespace PicoXLSX
         /// <summary>
         ///  Gets the last existing cell in the current worksheet (bottom right)
         /// </summary>
-        /// <returns>Nullable Cell Address. If no cell address could be determined, null will be returned</returns>
-        /// <remarks>GetLastCellAddress() will not return the last cell with data in any case. If there is a formatted (or with definitions of hidden states, AutoFilters, heights or widths) 
-        /// but empty cell (or many) beyond the last cell with data, 
+        /// <returns>Cell Address</returns>
+        /// <remarks>GetLastCellAddress() will not return the last cell with data in any case. If there is a formated but empty cell (or many) beyond the last cell with data, 
         /// GetLastCellAddress() will return the address of this empty cell. Use <see cref="GetLastDataCellAddress"/> in this case.</remarks>
 
-        public Cell.Address? GetLastCellAddress()
+        public Cell.Address GetLastCellAddress()
         {
             int lastRow = GetLastRowNumber();
             int lastColumn = GetLastColumnNumber();
-            if (lastRow < 0 || lastColumn < 0)
-            {
-                return null;
-            }
             return new Cell.Address(lastColumn, lastRow);
         }
 
         /// <summary>
         ///  Gets the last existing cell with data in the current worksheet (bottom right)
         /// </summary>
-        /// <returns>Nullable Cell Address. If no cell address could be determined, null will be returned</returns>
-        /// <remarks>GetLastDataCellAddress() will ignore formatted (or with definitions of hidden states, AutoFilters, heights or widths) but empty cells beyond the last cell with data. 
+        /// <returns>Cell Address</returns>
+        /// <remarks>GetLastDataCellAddress() will ignore formatted but empty cells beyond the last cell with data. 
         /// If you want the last defined cell, use <see cref="GetLastCellAddress"/> instead.</remarks>
 
-        public Cell.Address? GetLastDataCellAddress()
+        public Cell.Address GetLastDataCellAddress()
         {
             int lastRow = GetLastDataRowNumber();
             int lastColumn = GetLastDataColumnNumber();
-            if (lastRow < 0 || lastColumn < 0)
-            {
-                return null;
-            }
             return new Cell.Address(lastColumn, lastRow);
+        }
+
+        /// <summary>
+        /// Gets the first existing row or column number of the current worksheet (zero-based)
+        /// </summary>
+        /// <param name="column">If true, the output will be the first column, otherwise the first row</param>
+        /// <param name="ignoreEmpty">If true, empty cells are ignored and the first column or row is this one with a value</param>
+        /// <returns>First row or column number (zero-based)</returns>
+        private int GetFirstAddress(bool column, bool ignoreEmpty)
+        {
+            return GetBoundryAddress(false, column, ignoreEmpty);
         }
 
         /// <summary>
@@ -1181,48 +1253,59 @@ namespace PicoXLSX
         /// <returns>Last row or column number (zero-based)</returns>
         private int GetLastAddress(bool column, bool ignoreEmpty)
         {
+            return GetBoundryAddress(true, column, ignoreEmpty);
+        }
+
+        /// <summary>
+        /// Gets the first or last existing row or column number of the current worksheet (zero-based)
+        /// </summary>
+        /// <param name="last">If true, the output will be the last column/row, otherwise the first value column/row</param>
+        /// <param name="column">If true, the output will be the first7last column, otherwise the first/last row</param>
+        /// <param name="ignoreEmpty">If true, empty cells are ignored and the last column or row is this one with a value</param>
+        /// <returns>Last row or column number (zero-based)</returns>
+        private int GetBoundryAddress(bool last, bool column, bool ignoreEmpty)
+        {
+            if (cells.Count == 0)
+            {
+                return 0;
+            }
             int max = -1;
+            int min = int.MaxValue;
             int number;
             foreach (KeyValuePair<string, Cell> cell in cells)
             {
                 number = column ? cell.Value.ColumnNumber : cell.Value.RowNumber;
-                if (ignoreEmpty && cell.Value.Value != null && cell.Value.Value.ToString() != String.Empty && number > max)
+                if (cell.Value.Value != null && cell.Value.Value.ToString() != String.Empty)
                 {
-                    max = number;
-                }
-                else if (!ignoreEmpty && number > max)
-                {
-                    max = number;
-                }
-            }
-            if (column && !ignoreEmpty && columns.Count > 0)
-            {
-                int maxColumnDefinition = columns.Max(c => c.Value.Number);
-                if (maxColumnDefinition > max)
-                {
-                    max = maxColumnDefinition;
-                }
-            }
-            else if (!column && !ignoreEmpty && (hiddenRows.Count > 0 || rowHeights.Count > 0))
-            {
-                if (hiddenRows.Count > 0)
-                {
-                    int maxHiddenRowItem = hiddenRows.Max(r => r.Key);
-                    if (maxHiddenRowItem > max)
+                    if (last && number > max)
                     {
-                        max = maxHiddenRowItem;
+                        max = number;
+                    }
+                    else if (!last && number < min)
+                    {
+                        min = number;
                     }
                 }
-                if (rowHeights.Count > 0)
+                else if (!ignoreEmpty)
                 {
-                    int maxRowHeightItem = rowHeights.Max(r => r.Key);
-                    if (maxRowHeightItem > max)
+                    if (last && number > max)
                     {
-                        max = maxRowHeightItem;
+                        max = number;
+                    }
+                    else if (!last && number < min)
+                    {
+                        min = number;
                     }
                 }
             }
-            return max;
+            if (last)
+            {
+                return max;
+            }
+            else
+            {
+                return min;
+            }
         }
 
         /// <summary>
@@ -1429,8 +1512,17 @@ namespace PicoXLSX
                     }
                     if (pos != 0)
                     {
-                        cell.DataType = Cell.CellType.EMPTY;
-                        cell.SetStyle(mergeStyle);
+                        if (cell.CellStyle == null)
+                        {
+                            cell.SetStyle(mergeStyle);
+                        }
+                        else
+                        {
+                            Style mixedMergeStyle = cell.CellStyle;
+                            // TODO: There should be a better possibility to identify particular style elements that deviates
+                            mixedMergeStyle.CurrentCellXf.ForceApplyAlignment = mergeStyle.CurrentCellXf.ForceApplyAlignment;
+                            cell.SetStyle(mixedMergeStyle);
+                        }
                     }
                     pos++;
                 }

@@ -4,12 +4,12 @@
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <RootNamespace>PicoXLSX</RootNamespace>
     <PackageId>PicoXLSX</PackageId>
-    <Version>2.11.1</Version>
+    <Version>2.11.2</Version>
     <Authors>Raphael Stoeckli</Authors>
     <Company>Raphael Stoeckli</Company>
     <Product>PicoXLSX</Product>
     <Description>PicoXLSX is a library to generate Microsoft Excel files (XLSX) in an easy and native way</Description>
-    <Copyright>Copyright Raphael Stoeckli © 2021</Copyright>
+    <Copyright>Copyright Raphael Stoeckli © 2022</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/rabanti-github/PicoXLSX</PackageProjectUrl>
     <PackageIcon>PicoXLSX.png</PackageIcon>
@@ -17,8 +17,8 @@
     <PackageTags>Excel Office XLSX</PackageTags>
     <PackageReleaseNotes>Please see https://github.com/rabanti-github/PicoXLSX/blob/master/Changelog.md for the release notes</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>2.11.1.0</AssemblyVersion>
-    <FileVersion>2.11.1.0</FileVersion>
+    <AssemblyVersion>2.11.2.0</AssemblyVersion>
+    <FileVersion>2.11.2.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

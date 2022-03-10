@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2021
+ * Copyright Raphael Stoeckli © 2022
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -420,21 +420,20 @@ namespace PicoXLSX
             /// </returns>
             public override int GetHashCode()
             {
-                int p = 271;
-                int r = 1;
-                r *= p + (int)this.BottomStyle;
-                r *= p + (int)this.DiagonalStyle;
-                r *= p + (int)this.TopStyle;
-                r *= p + (int)this.LeftStyle;
-                r *= p + (int)this.RightStyle;
-                r *= p + this.BottomColor.GetHashCode();
-                r *= p + this.DiagonalColor.GetHashCode();
-                r *= p + this.TopColor.GetHashCode();
-                r *= p + this.LeftColor.GetHashCode();
-                r *= p + this.RightColor.GetHashCode();
-                r *= p + (this.DiagonalDown ? 0 : 1);
-                r *= p + (this.DiagonalUp ? 0 : 2);
-                return r;
+                int hashCode = -153001865;
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(BottomColor);
+                hashCode = hashCode * -1521134295 + BottomStyle.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DiagonalColor);
+                hashCode = hashCode * -1521134295 + DiagonalDown.GetHashCode();
+                hashCode = hashCode * -1521134295 + DiagonalUp.GetHashCode();
+                hashCode = hashCode * -1521134295 + DiagonalStyle.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(LeftColor);
+                hashCode = hashCode * -1521134295 + LeftStyle.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(RightColor);
+                hashCode = hashCode * -1521134295 + RightStyle.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(TopColor);
+                hashCode = hashCode * -1521134295 + TopStyle.GetHashCode();
+                return hashCode;
             }
 
             /// <summary>
@@ -805,18 +804,17 @@ namespace PicoXLSX
             /// </returns>
             public override int GetHashCode()
             {
-                int p = 269;
-                int r = 1;
-                r *= p + (int)this.HorizontalAlign;
-                r *= p + (int)this.VerticalAlign;
-                r *= p + (int)this.Alignment;
-                r *= p + (int)this.TextDirection;
-                r *= p + this.Indent;
-                r *= p + this.TextRotation;
-                r *= p + (this.ForceApplyAlignment ? 0 : 1);
-                r *= p + (this.Locked ? 0 : 2);
-                r *= p + (this.Hidden ? 0 : 4);
-                return r;
+                int hashCode = 626307906;
+                hashCode = hashCode * -1521134295 + ForceApplyAlignment.GetHashCode();
+                hashCode = hashCode * -1521134295 + Hidden.GetHashCode();
+                hashCode = hashCode * -1521134295 + HorizontalAlign.GetHashCode();
+                hashCode = hashCode * -1521134295 + Locked.GetHashCode();
+                hashCode = hashCode * -1521134295 + Alignment.GetHashCode();
+                hashCode = hashCode * -1521134295 + TextDirection.GetHashCode();
+                hashCode = hashCode * -1521134295 + TextRotation.GetHashCode();
+                hashCode = hashCode * -1521134295 + VerticalAlign.GetHashCode();
+                hashCode = hashCode * -1521134295 + Indent.GetHashCode();
+                return hashCode;
             }
 
             /// <summary>
@@ -1031,13 +1029,12 @@ namespace PicoXLSX
             /// </returns>
             public override int GetHashCode()
             {
-                int p = 263;
-                int r = 1;
-                r *= p + this.IndexedColor;
-                r *= p + (int)this.PatternFill;
-                r *= p + this.ForegroundColor.GetHashCode();
-                r *= p + this.BackgroundColor.GetHashCode();
-                return r;
+                int hashCode = -1564173520;
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(BackgroundColor);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ForegroundColor);
+                hashCode = hashCode * -1521134295 + IndexedColor.GetHashCode();
+                hashCode = hashCode * -1521134295 + PatternFill.GetHashCode();
+                return hashCode;
             }
 
             /// <summary>
@@ -1405,22 +1402,21 @@ namespace PicoXLSX
             /// </returns>
             public override int GetHashCode()
             {
-                const int p = 257;
-                int r = 1;
-                r *= p + (this.Bold ? 0 : 1);
-                r *= p + (this.Italic ? 0 : 2);
-                r *= p + (this.Underline ? 0 : 4);
-                r *= p + (this.DoubleUnderline ? 0 : 8);
-                r *= p + (this.Strike ? 0 : 16);
-                r *= p + this.ColorTheme;
-                r *= p + this.ColorValue.GetHashCode();
-                r *= p + this.Family.GetHashCode();
-                r *= p + this.Name.GetHashCode();
-                r *= p + this.Scheme.GetHashCode();
-                r *= p + (int)this.VerticalAlign;
-                r *= p + this.Charset.GetHashCode();
-                r *= p + this.size.GetHashCode();
-                return r;
+                int hashCode = -924704582;
+                hashCode = hashCode * -1521134295 + size.GetHashCode();
+                hashCode = hashCode * -1521134295 + Bold.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Charset);
+                hashCode = hashCode * -1521134295 + ColorTheme.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ColorValue);
+                hashCode = hashCode * -1521134295 + DoubleUnderline.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Family);
+                hashCode = hashCode * -1521134295 + Italic.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+                hashCode = hashCode * -1521134295 + Scheme.GetHashCode();
+                hashCode = hashCode * -1521134295 + Strike.GetHashCode();
+                hashCode = hashCode * -1521134295 + Underline.GetHashCode();
+                hashCode = hashCode * -1521134295 + VerticalAlign.GetHashCode();
+                return hashCode;
             }
 
             /// <summary>
@@ -1727,12 +1723,11 @@ namespace PicoXLSX
             /// </returns>
             public override int GetHashCode()
             {
-                int p = 251;
-                int r = 1;
-                r *= p + this.CustomFormatCode.GetHashCode();
-                r *= p + this.CustomFormatID;
-                r *= p + (int)this.Number;
-                return r;
+                int hashCode = 495605284;
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(CustomFormatCode);
+                hashCode = hashCode * -1521134295 + CustomFormatID.GetHashCode();
+                hashCode = hashCode * -1521134295 + Number.GetHashCode();
+                return hashCode;
             }
 
             #endregion

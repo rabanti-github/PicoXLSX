@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2021
+ * Copyright Raphael Stoeckli © 2022
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -352,12 +352,24 @@ namespace PicoXLSX
             worksheet.RecalculateColumns();
             StringBuilder sb = new StringBuilder();
             sb.Append("<worksheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14ac\" xmlns:x14ac=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac\">");
-            if (worksheet.SelectedCells != null || worksheet.PaneSplitTopHeight != null || worksheet.PaneSplitLeftWidth != null || worksheet.PaneSplitAddress != null || worksheet.Hidden)
+            sb.Append("<dimension ref=\"").Append(new Cell.Range(worksheet.GetFirstCellAddress(), worksheet.GetLastCellAddress())).Append("\"/>");
+            if (worksheet.SelectedCells != null || HasPaneSplitting(worksheet) || worksheet.Hidden)
             {
                 CreateSheetViewString(worksheet, sb);
             }
-            sb.Append("<sheetFormatPr x14ac:dyDescent=\"0.25\" defaultRowHeight=\"").Append(worksheet.DefaultRowHeight.ToString("G", culture)).Append("\" baseColWidth=\"").Append(worksheet.DefaultColumnWidth.ToString("G", culture)).Append("\"/>");
-
+            sb.Append("<sheetFormatPr");
+            if (!HasPaneSplitting(worksheet))
+            {
+                // TODO: Find the right calculation to compensate baseColWidth when using pane splitting
+                sb.Append(" defaultColWidth=\"")
+                .Append(worksheet.DefaultColumnWidth.ToString("G", culture))
+                .Append("\"");
+            }
+            sb.Append(" defaultRowHeight=\"")
+                .Append(worksheet.DefaultRowHeight.ToString("G", culture))
+                .Append("\" baseColWidth=\"")
+                .Append(worksheet.DefaultColumnWidth.ToString("G", culture))
+                .Append("\" x14ac:dyDescent=\"0.25\"/>");
             string colWidths = CreateColsString(worksheet);
             if (!string.IsNullOrEmpty(colWidths))
             {
@@ -378,6 +390,20 @@ namespace PicoXLSX
 
             sb.Append("</worksheet>");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Checks whether pane splitting is applied in the given worksheet
+        /// </summary>
+        /// <param name="worksheet"></param>
+        /// <returns>True if applied, otherwise false</returns>
+        private bool HasPaneSplitting(Worksheet worksheet)
+        {
+            if (worksheet.PaneSplitLeftWidth == null && worksheet.PaneSplitTopHeight == null && worksheet.PaneSplitAddress == null)
+            {
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
@@ -428,7 +454,7 @@ namespace PicoXLSX
         /// <param name="sb">reference to the stringbuilder</param>
         private void CreatePaneString(Worksheet worksheet, StringBuilder sb)
         {
-            if (worksheet.PaneSplitLeftWidth == null && worksheet.PaneSplitTopHeight == null && worksheet.PaneSplitAddress == null)
+            if (!HasPaneSplitting(worksheet))
             {
                 return;
             }
@@ -980,7 +1006,7 @@ namespace PicoXLSX
                 }
                 if (item.DataType != Cell.CellType.EMPTY)
                 {
-                    sb.Append("<c").Append(typeDef).Append("r=\"").Append(item.CellAddress).Append("\"").Append(styleDef).Append(">");
+                    sb.Append("<c r=\"").Append(item.CellAddress).Append("\"").Append(typeDef).Append(styleDef).Append(">");
                     if (item.DataType == Cell.CellType.FORMULA)
                     {
                         sb.Append("<f>").Append(EscapeXmlChars(item.Value.ToString())).Append("</f>");
@@ -997,7 +1023,7 @@ namespace PicoXLSX
                 }
                 else // All other, unexpected cases
                 {
-                    sb.Append("<c").Append(typeDef).Append("r=\"").Append(item.CellAddress).Append("\"").Append(styleDef).Append("/>");
+                    sb.Append("<c r=\"").Append(item.CellAddress).Append("\"").Append(typeDef).Append(styleDef).Append("/>");
                 }
                 col++;
             }
@@ -1091,7 +1117,7 @@ namespace PicoXLSX
                 if (item.LeftStyle != Style.Border.StyleValue.none)
                 {
                     sb.Append("<left style=\"" + Style.Border.GetStyleName(item.LeftStyle) + "\">");
-                    if (string.IsNullOrEmpty(item.LeftColor)) { sb.Append("<color rgb=\"").Append(item.LeftColor).Append("\"/>"); }
+                    if (!string.IsNullOrEmpty(item.LeftColor)) { sb.Append("<color rgb=\"").Append(item.LeftColor).Append("\"/>"); }
                     else { sb.Append("<color auto=\"1\"/>"); }
                     sb.Append("</left>");
                 }
@@ -1102,7 +1128,7 @@ namespace PicoXLSX
                 if (item.RightStyle != Style.Border.StyleValue.none)
                 {
                     sb.Append("<right style=\"").Append(Style.Border.GetStyleName(item.RightStyle)).Append("\">");
-                    if (string.IsNullOrEmpty(item.RightColor)) { sb.Append("<color rgb=\"").Append(item.RightColor).Append("\"/>"); }
+                    if (!string.IsNullOrEmpty(item.RightColor)) { sb.Append("<color rgb=\"").Append(item.RightColor).Append("\"/>"); }
                     else { sb.Append("<color auto=\"1\"/>"); }
                     sb.Append("</right>");
                 }
@@ -1113,7 +1139,7 @@ namespace PicoXLSX
                 if (item.TopStyle != Style.Border.StyleValue.none)
                 {
                     sb.Append("<top style=\"").Append(Style.Border.GetStyleName(item.TopStyle)).Append("\">");
-                    if (string.IsNullOrEmpty(item.TopColor)) { sb.Append("<color rgb=\"").Append(item.TopColor).Append("\"/>"); }
+                    if (!string.IsNullOrEmpty(item.TopColor)) { sb.Append("<color rgb=\"").Append(item.TopColor).Append("\"/>"); }
                     else { sb.Append("<color auto=\"1\"/>"); }
                     sb.Append("</top>");
                 }
@@ -1124,7 +1150,7 @@ namespace PicoXLSX
                 if (item.BottomStyle != Style.Border.StyleValue.none)
                 {
                     sb.Append("<bottom style=\"").Append(Style.Border.GetStyleName(item.BottomStyle)).Append("\">");
-                    if (string.IsNullOrEmpty(item.BottomColor)) { sb.Append("<color rgb=\"").Append(item.BottomColor).Append("\"/>"); }
+                    if (!string.IsNullOrEmpty(item.BottomColor)) { sb.Append("<color rgb=\"").Append(item.BottomColor).Append("\"/>"); }
                     else { sb.Append("<color auto=\"1\"/>"); }
                     sb.Append("</bottom>");
                 }
@@ -1135,7 +1161,7 @@ namespace PicoXLSX
                 if (item.DiagonalStyle != Style.Border.StyleValue.none)
                 {
                     sb.Append("<diagonal style=\"").Append(Style.Border.GetStyleName(item.DiagonalStyle)).Append("\">");
-                    if (string.IsNullOrEmpty(item.DiagonalColor)) { sb.Append("<color rgb=\"").Append(item.DiagonalColor).Append("\"/>"); }
+                    if (!string.IsNullOrEmpty(item.DiagonalColor)) { sb.Append("<color rgb=\"").Append(item.DiagonalColor).Append("\"/>"); }
                     else { sb.Append("<color auto=\"1\"/>"); }
                     sb.Append("</diagonal>");
                 }
@@ -1616,7 +1642,7 @@ namespace PicoXLSX
                 dateValue = date.AddDays(-1); // Fix of the leap-year-1900-error
             }
             double currentMillis = (double)dateValue.Ticks / TimeSpan.TicksPerMillisecond;
-            double d = ((double)(dateValue.Second + (dateValue.Minute * 60) + (dateValue.Hour * 3600)) / 86400) + Math.Floor((currentMillis - ROOT_MILLIS) / 86400000);
+            double d = ((dateValue.Second + (dateValue.Minute * 60) + (dateValue.Hour * 3600)) / 86400d) + Math.Floor((currentMillis - ROOT_MILLIS) / 86400000d);
             return d.ToString("G", INVARIANT_CULTURE);
         }
 

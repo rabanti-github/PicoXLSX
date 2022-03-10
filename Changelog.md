@@ -1,5 +1,15 @@
 # Change Log
 
+## v2.11.2
+
+---
+Release Date: **10.03.2022**
+
+- Added functions to determine the first cell address, column number or row number of a worksheet
+- Adapted internal style handling
+- Adapted the internal building of XML documents
+- Fixed a bug in the handling of border colors
+
 ## v2.11.1
 
 ---
@@ -23,7 +33,7 @@ Release Date: **12.09.2021**
 - Documentation update
 - Many optimizations and minor bug fixes
 
-Note: This patch release contains many fixes, optimizations and features as preview of the next planned minor release v2.12.
+Note: This patch release contains many fixes, optimizations and features as preview of the next planned minor release v2.12 or mayor release v3.0.
 These features are already available due to a recently reported bug and its fix, where pending changes were already published upstream (dev channel).
 
 
