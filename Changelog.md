@@ -1,5 +1,12 @@
 # Change Log
 
+## v2.11.3
+
+---
+Release Date: **20.03.2022**
+
+- Fixed a regression bug, caused by changes of v2.11.2
+
 ## v2.11.2
 
 ---
