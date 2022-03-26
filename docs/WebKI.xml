@@ -456,7 +456,7 @@
   <HelpKINode Title="GetBorderByHash method" Url="html/e604dff8-dc0f-2df9-86f4-de5f8c0ff422.htm" />
   <HelpKINode Title="GetBorders method" Url="html/e5e24456-c423-ff2c-f018-963d34c5e97c.htm" />
   <HelpKINode Title="GetBorderStyleNumber method" Url="html/443ceec6-19f4-8375-cb1c-f921475f6b31.htm" />
-  <HelpKINode Title="GetBoundaryDataNumber method" Url="html/2f639689-8dbd-c40a-e304-3b82f628334e.htm" />
+  <HelpKINode Title="GetBoundaryDataNumber method" Url="html/e74e5742-07c9-5803-e662-93d408a45a86.htm" />
   <HelpKINode Title="GetBoundaryNumber method" Url="html/79a474cc-e7a5-60b8-a49d-42ea0a84dfc3.htm" />
   <HelpKINode Title="GetCell method" Url="html/e34cc41e-2be8-c908-d45b-d078b1d62d9e.htm" />
   <HelpKINode Title="GetCellRange method" Url="html/4754841d-02de-f678-0f7d-b5660f93c728.htm" />
@@ -591,8 +591,8 @@
   <HelpKINode Title="LockWindowsIfProtected property" Url="html/ef8f758a-e442-70b6-604f-51cbdcf200f6.htm" />
   <HelpKINode Title="LowLevel class">
     <HelpKINode Title="LowLevel Class" Url="html/21d4a25a-f2b5-5ec4-8b84-8fcee13605a0.htm" />
-    <HelpKINode Title="constructor" Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
     <HelpKINode Title="constructor" Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
+    <HelpKINode Title="constructor" Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
     <HelpKINode Title="fields" Url="html/1defef87-f57c-99ce-4f31-432379bba20f.htm" />
     <HelpKINode Title="methods" Url="html/322b3913-e838-3a82-7cd5-10444749e661.htm" />
     <HelpKINode Title="properties" Url="html/e8abb7d0-cd71-6f50-8803-cca034581033.htm" />
@@ -998,12 +998,12 @@
   <HelpKINode Title="Style.BasicStyles.Underline property" Url="html/5df19794-1527-b038-6daf-a76a85dc7cd2.htm" />
   <HelpKINode Title="Style.Border class">
     <HelpKINode Title="Style.Border Class" Url="html/b0f7ff6d-2132-4c17-6776-66d9839ad828.htm" />
-    <HelpKINode Title="constructor" Url="html/fb6f47d6-8ef3-6efc-70da-d3ce92e9fb1b.htm" />
     <HelpKINode Title="constructor" Url="html/35d8ae0c-d71c-9090-3488-ee82b27d3442.htm" />
+    <HelpKINode Title="constructor" Url="html/fb6f47d6-8ef3-6efc-70da-d3ce92e9fb1b.htm" />
   </HelpKINode>
   <HelpKINode Title="Style.Border.Border constructor">
-    <HelpKINode Title="Style.Border Constructor " Url="html/35d8ae0c-d71c-9090-3488-ee82b27d3442.htm" />
     <HelpKINode Title="Style.Border Constructor " Url="html/fb6f47d6-8ef3-6efc-70da-d3ce92e9fb1b.htm" />
+    <HelpKINode Title="Style.Border Constructor " Url="html/35d8ae0c-d71c-9090-3488-ee82b27d3442.htm" />
   </HelpKINode>
   <HelpKINode Title="Style.Border.BottomColor property" Url="html/44ad0056-fc9b-dc19-a110-670e9d9fda12.htm" />
   <HelpKINode Title="Style.Border.BottomStyle property" Url="html/6dfe6c9a-85d1-34fa-cca8-b5bfb25eea6a.htm" />
@@ -1049,8 +1049,8 @@
   <HelpKINode Title="Style.CellXf.Alignment property" Url="html/be0671ae-d0b7-f60f-219d-4da15ed60b11.htm" />
   <HelpKINode Title="Style.CellXf.CalculateInternalRotation method" Url="html/c533f83c-5d21-6f4b-6cb2-56c362a0c86d.htm" />
   <HelpKINode Title="Style.CellXf.CellXf constructor">
-    <HelpKINode Title="Style.CellXf Constructor " Url="html/aed057e2-ea89-fc4d-9fe5-ed850c36bec2.htm" />
     <HelpKINode Title="Style.CellXf Constructor " Url="html/4c26c15f-a878-15fb-9399-291d227b1375.htm" />
+    <HelpKINode Title="Style.CellXf Constructor " Url="html/aed057e2-ea89-fc4d-9fe5-ed850c36bec2.htm" />
   </HelpKINode>
   <HelpKINode Title="Style.CellXf.Copy method" Url="html/9b2381ac-3ab2-59e1-17ec-5e105bd941c9.htm" />
   <HelpKINode Title="Style.CellXf.CopyCellXf method" Url="html/5e49c821-63a7-9530-d119-98d4d6dc1bbf.htm" />
@@ -1141,8 +1141,8 @@
   <HelpKINode Title="Style.Fill.ValidateColor method" Url="html/b9df0c56-b02d-8fd2-6c50-1fa89141cd15.htm" />
   <HelpKINode Title="Style.Font class">
     <HelpKINode Title="Style.Font Class" Url="html/781509fe-fd0c-f65d-ab2d-c825a259bbfa.htm" />
-    <HelpKINode Title="constructor" Url="html/676d29d4-4bd6-ed3c-7982-66b9d273d0f5.htm" />
     <HelpKINode Title="constructor" Url="html/dfd57e48-bd6b-02a7-f764-8fb65b569ee2.htm" />
+    <HelpKINode Title="constructor" Url="html/676d29d4-4bd6-ed3c-7982-66b9d273d0f5.htm" />
   </HelpKINode>
   <HelpKINode Title="Style.Font.Bold property" Url="html/f80efe30-749f-1110-e464-3da1eb4dd6a2.htm" />
   <HelpKINode Title="Style.Font.Charset property" Url="html/048ce452-128b-2c67-6de7-cc4d26274f16.htm" />
@@ -1390,8 +1390,8 @@
   <HelpKINode Title="VerticalAlignValue class">
     <HelpKINode Title="fields" Url="html/73a6f41e-3d20-34d4-e40c-18bbbce0600d.htm" />
     <HelpKINode Title="fields" Url="html/2de445bf-b8d2-a2d7-9393-780e43205d29.htm" />
-    <HelpKINode Title="methods" Url="html/b2c7f95e-561f-7799-61b6-fedd61ac1725.htm" />
     <HelpKINode Title="methods" Url="html/3f165f09-9d13-532b-9196-9d526c41a617.htm" />
+    <HelpKINode Title="methods" Url="html/b2c7f95e-561f-7799-61b6-fedd61ac1725.htm" />
   </HelpKINode>
   <HelpKINode Title="VLookup method" Url="html/0445b4fb-85c9-a69d-45e7-d6a267d80ca9.htm" />
   <HelpKINode Title="Width property" Url="html/02a6d0a5-1c55-72a9-95bd-5cd8f73f067e.htm" />
@@ -1494,7 +1494,7 @@
   <HelpKINode Title="Worksheet.DEFAULT_COLUMN_WIDTH field" Url="html/e34ba8a3-e09b-5adc-4425-88cf17ed3e38.htm" />
   <HelpKINode Title="Worksheet.DEFAULT_ROW_HEIGHT field" Url="html/a30e0a33-9530-dfb6-e9a5-91c303a0e762.htm" />
   <HelpKINode Title="Worksheet.FreezeSplitPanes property" Url="html/9eaee1a0-0b5b-f275-4d37-95348ce87065.htm" />
-  <HelpKINode Title="Worksheet.GetBoundaryDataNumber method" Url="html/2f639689-8dbd-c40a-e304-3b82f628334e.htm" />
+  <HelpKINode Title="Worksheet.GetBoundaryDataNumber method" Url="html/e74e5742-07c9-5803-e662-93d408a45a86.htm" />
   <HelpKINode Title="Worksheet.GetBoundaryNumber method" Url="html/79a474cc-e7a5-60b8-a49d-42ea0a84dfc3.htm" />
   <HelpKINode Title="Worksheet.GetCell method" Url="html/e34cc41e-2be8-c908-d45b-d078b1d62d9e.htm" />
   <HelpKINode Title="Worksheet.GetCurrentColumnNumber method" Url="html/c7c1fe33-1a59-7a01-0da7-69dd3f31ca73.htm" />

@@ -1632,7 +1632,7 @@ namespace PicoXLSX
         /// <param name="date">Date to process</param>
         /// <returns>Date or date and time as number</returns>
         /// <exception cref="FormatException">Throws a FormatException if the passed date cannot be translated to the OADate format</exception>
-        /// <remarks>OAdate format starts at January 1st 1900 (actually 00.01.1900) and ends at December 31 9999. Values beyond these dates cannot be handled by Excel under normal circumstances and will throw a FormatException</remarks>
+        /// <remarks>OAdate format starts at January 1st 1900 (actually 00.01.1900) and ends at December 31 9999. Values after these dates cannot be handled by Excel under normal circumstances and will throw a FormatException</remarks>
         public static string GetOADateTimeString(DateTime date)
         {
             if (date < FIRST_ALLOWED_EXCEL_DATE || date > LAST_ALLOWED_EXCEL_DATE)

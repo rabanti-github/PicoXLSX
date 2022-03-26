@@ -1,5 +1,12 @@
 # Change Log
 
+## v2.11.4
+
+---
+Release Date: **27.03.2022**
+
+- Fixed a follow-up issue on finding first/last cell addresses on explicitly defined, empty cells
+
 ## v2.11.3
 
 ---
