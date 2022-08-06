@@ -164,14 +164,16 @@ namespace PicoXLSX
         /// <returns>String of a class instance</returns>
         public override string ToString()
         {
-            if (string.IsNullOrEmpty(Name))
-            {
-                return this.GetHashCode().ToString();
-            }
-            else
-            {
-                return Name + "->" + this.GetHashCode();
-            }
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{\n\"Style\": {\n");
+            AddPropertyAsJson(sb, "Name", Name);
+            AddPropertyAsJson(sb, "HashCode", this.GetHashCode());
+            sb.Append(CurrentBorder.ToString()).Append(",\n");
+            sb.Append(CurrentCellXf.ToString()).Append(",\n");
+            sb.Append(CurrentFill.ToString()).Append(",\n");
+            sb.Append(CurrentFont.ToString()).Append(",\n");
+            sb.Append(CurrentNumberFormat.ToString()).Append("\n}\n}");
+            return sb.ToString();
         }
 
         /// <summary>
@@ -473,7 +475,22 @@ namespace PicoXLSX
             /// <returns>String of a class</returns>
             public override string ToString()
             {
-                return "Border:" + this.GetHashCode();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("\"Border\": {\n");
+                AddPropertyAsJson(sb, "BottomStyle", BottomStyle);
+                AddPropertyAsJson(sb, "DiagonalColor", DiagonalColor);
+                AddPropertyAsJson(sb, "DiagonalDown", DiagonalDown);
+                AddPropertyAsJson(sb, "DiagonalStyle", DiagonalStyle);
+                AddPropertyAsJson(sb, "DiagonalUp", DiagonalUp);
+                AddPropertyAsJson(sb, "LeftColor", LeftColor);
+                AddPropertyAsJson(sb, "LeftStyle", LeftStyle);
+                AddPropertyAsJson(sb, "RightColor", RightColor);
+                AddPropertyAsJson(sb, "RightStyle", RightStyle);
+                AddPropertyAsJson(sb, "TopColor", TopColor);
+                AddPropertyAsJson(sb, "TopStyle", TopStyle);
+                AddPropertyAsJson(sb, "HashCode", this.GetHashCode(), true);
+                sb.Append("\n}");
+                return sb.ToString();
             }
 
             /// <summary>
@@ -789,7 +806,20 @@ namespace PicoXLSX
             /// <returns>String of a class instance</returns>
             public override string ToString()
             {
-                return "StyleXF:" + this.GetHashCode();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("\"StyleXF\": {\n");
+                AddPropertyAsJson(sb, "HorizontalAlign", HorizontalAlign);
+                AddPropertyAsJson(sb, "Alignment", Alignment);
+                AddPropertyAsJson(sb, "TextDirection", TextDirection);
+                AddPropertyAsJson(sb, "TextRotation", TextRotation);
+                AddPropertyAsJson(sb, "VerticalAlign", VerticalAlign);
+                AddPropertyAsJson(sb, "ForceApplyAlignment", ForceApplyAlignment);
+                AddPropertyAsJson(sb, "Locked", Locked);
+                AddPropertyAsJson(sb, "Hidden", Hidden);
+                AddPropertyAsJson(sb, "Indent", Indent);
+                AddPropertyAsJson(sb, "HashCode", this.GetHashCode(), true);
+                sb.Append("\n}");
+                return sb.ToString();
             }
 
             /// <summary>
@@ -911,6 +941,8 @@ namespace PicoXLSX
             /// <summary>
             /// Gets or sets the background color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
+            /// <remarks>If a background color is set and the <see cref="PatternFill">PatternFill</see> Property is currently set to <see cref="PatternValue.none">PatternValue.none</see>, 
+            /// the PatternFill property will be automatically set to <see cref="PatternValue.solid">PatternValue.solid</see>, since none invalidates the color values of the foreground or background</remarks>
             [Append]
             public string BackgroundColor
             {
@@ -919,11 +951,17 @@ namespace PicoXLSX
                 {
                     ValidateColor(value, true);
                     backgroundColor = value;
+                    if (PatternFill == PatternValue.none)
+                    {
+                        PatternFill = PatternValue.solid;
+                    }
                 }
             }
             /// <summary>
             /// Gets or sets the foreground color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
+            /// <remarks>If a foreground color is set and the <see cref="PatternFill">PatternFill</see> Property is currently set to <see cref="PatternValue.none">PatternValue.none</see>, 
+            /// the PatternFill property will be automatically set to <see cref="PatternValue.solid">PatternValue.solid</see>, since none invalidates the color values of the foreground or background</remarks>
             [Append]
             public string ForegroundColor
             {
@@ -932,6 +970,10 @@ namespace PicoXLSX
                 {
                     ValidateColor(value, true);
                     foregroundColor = value;
+                    if (PatternFill == PatternValue.none)
+                    {
+                        PatternFill = PatternValue.solid;
+                    }
                 }
             }
             /// <summary>
@@ -1000,7 +1042,15 @@ namespace PicoXLSX
             /// <returns>String of a class</returns>
             public override string ToString()
             {
-                return "Fill:" + this.GetHashCode();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("\"Fill\": {\n");
+                AddPropertyAsJson(sb, "BackgroundColor", BackgroundColor);
+                AddPropertyAsJson(sb, "ForegroundColor", ForegroundColor);
+                AddPropertyAsJson(sb, "IndexedColor", IndexedColor);
+                AddPropertyAsJson(sb, "PatternFill", PatternFill);
+                AddPropertyAsJson(sb, "HashCode", this.GetHashCode(), true);
+                sb.Append("\n}");
+                return sb.ToString();
             }
 
             /// <summary>
@@ -1205,6 +1255,23 @@ namespace PicoXLSX
                 /// <summary>Text will be rendered normal</summary>
                 none,
             }
+
+            /// <summary>
+            /// Enum for the style of the underline property of a stylized text
+            /// </summary>
+            public enum UnderlineValue
+            {
+                /// <summary>Text contains a single underline</summary>
+                u_single,
+                /// <summary>Text contains a double underline</summary>
+                u_double,
+                /// <summary>Text contains a single, accounting underline</summary>
+                singleAccounting,
+                /// <summary>Text contains a double, accounting underline</summary>
+                doubleAccounting,
+                /// <summary>Text contains no underline (default)</summary>
+                none,
+            }
             #endregion
 
             #region privateFields
@@ -1220,6 +1287,16 @@ namespace PicoXLSX
             /// </summary>
             [Append]
             public bool Bold { get; set; }
+            /// <summary>
+            /// Gets or sets whether the font is italic. If true, the font is declared as italic
+            /// </summary>
+            [Append]
+            public bool Italic { get; set; }
+            /// <summary>
+            /// Gets or sets the underline style of the font. If set to <a cref="UnderlineValue.none">none</a> no underline will be applied (default)
+            /// </summary>
+            [Append]
+            public UnderlineValue Underline { get; set; } = UnderlineValue.none;
             /// <summary>
             /// Gets or sets the char set of the Font (Default is empty)
             /// </summary>
@@ -1258,11 +1335,6 @@ namespace PicoXLSX
                 }
             }
             /// <summary>
-            /// Gets or sets whether the font has a double underline. If true, the font is declared with a double underline
-            /// </summary>
-            [Append]
-            public bool DoubleUnderline { get; set; }
-            /// <summary>
             ///  Gets or sets the font family (Default is 2)
             /// </summary>
             [Append]
@@ -1279,11 +1351,6 @@ namespace PicoXLSX
                     return Equals(temp);
                 }
             }
-            /// <summary>
-            /// Gets or sets whether the font is italic. If true, the font is declared as italic
-            /// </summary>
-            [Append]
-            public bool Italic { get; set; }
             /// <summary>
             /// Gets or sets the font name (Default is Calibri)
             /// </summary>
@@ -1329,11 +1396,6 @@ namespace PicoXLSX
             [Append]
             public bool Strike { get; set; }
             /// <summary>
-            /// Gets or sets whether the font is underlined. If true, the font is declared as underlined
-            /// </summary>
-            [Append]
-            public bool Underline { get; set; }
-            /// <summary>
             /// Gets or sets the alignment of the font (Default is none)
             /// </summary>
             [Append]
@@ -1364,7 +1426,23 @@ namespace PicoXLSX
             /// <returns>String of a class</returns>
             public override string ToString()
             {
-                return "Font:" + this.GetHashCode();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("\"Font\": {\n");
+                AddPropertyAsJson(sb, "Bold", Bold);
+                AddPropertyAsJson(sb, "Charset", Charset);
+                AddPropertyAsJson(sb, "ColorTheme", ColorTheme);
+                AddPropertyAsJson(sb, "ColorValue", ColorValue);
+                AddPropertyAsJson(sb, "VerticalAlign", VerticalAlign);
+                AddPropertyAsJson(sb, "Family", Family);
+                AddPropertyAsJson(sb, "Italic", Italic);
+                AddPropertyAsJson(sb, "Name", Name);
+                AddPropertyAsJson(sb, "Scheme", Scheme);
+                AddPropertyAsJson(sb, "Size", Size);
+                AddPropertyAsJson(sb, "Strike", Strike);
+                AddPropertyAsJson(sb, "Underline", Underline);
+                AddPropertyAsJson(sb, "HashCode", this.GetHashCode(), true);
+                sb.Append("\n}");
+                return sb.ToString();
             }
 
             /// <summary>
@@ -1379,7 +1457,6 @@ namespace PicoXLSX
                 copy.ColorTheme = ColorTheme;
                 copy.ColorValue = ColorValue;
                 copy.VerticalAlign = VerticalAlign;
-                copy.DoubleUnderline = DoubleUnderline;
                 copy.Family = Family;
                 copy.Italic = Italic;
                 copy.Name = Name;
@@ -1404,7 +1481,6 @@ namespace PicoXLSX
                 hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Charset);
                 hashCode = hashCode * -1521134295 + ColorTheme.GetHashCode();
                 hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ColorValue);
-                hashCode = hashCode * -1521134295 + DoubleUnderline.GetHashCode();
                 hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Family);
                 hashCode = hashCode * -1521134295 + Italic.GetHashCode();
                 hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
@@ -1686,7 +1762,14 @@ namespace PicoXLSX
             /// <returns>String of a class</returns>
             public override string ToString()
             {
-                return "NumberFormat:" + this.GetHashCode();
+                StringBuilder sb = new StringBuilder();
+                sb.Append("\"NumberFormat\": {\n");
+                AddPropertyAsJson(sb, "CustomFormatCode", CustomFormatCode);
+                AddPropertyAsJson(sb, "CustomFormatID", CustomFormatID);
+                AddPropertyAsJson(sb, "Number", Number);
+                AddPropertyAsJson(sb, "HashCode", this.GetHashCode(), true);
+                sb.Append("\n}");
+                return sb.ToString();
             }
 
             /// <summary>
@@ -1857,7 +1940,7 @@ namespace PicoXLSX
                         if (underline == null)
                         {
                             underline = new Style();
-                            underline.CurrentFont.Underline = true;
+                            underline.CurrentFont.Underline = Style.Font.UnderlineValue.u_single;
                         }
                         s = underline;
                         break;
@@ -1865,7 +1948,7 @@ namespace PicoXLSX
                         if (doubleUnderline == null)
                         {
                             doubleUnderline = new Style();
-                            doubleUnderline.CurrentFont.DoubleUnderline = true;
+                            doubleUnderline.CurrentFont.Underline = Style.Font.UnderlineValue.u_double;
                         }
                         s = doubleUnderline;
                         break;
@@ -2083,6 +2166,30 @@ namespace PicoXLSX
         public bool Equals(AbstractStyle other)
         {
             return this.GetHashCode() == other.GetHashCode();
+        }
+
+        /// <summary>
+        /// Append a JSON property for debug purpose (used in the ToString methods) to the passed string builder
+        /// </summary>
+        /// <param name="sb">String builder</param>
+        /// <param name="name">Property name</param>
+        /// <param name="value">Property value</param>
+        /// <param name="terminate">If true, no comma and newline will be appended</param>
+        internal static void AddPropertyAsJson(StringBuilder sb, String name, object value, bool terminate = false)
+        {
+            sb.Append("\"").Append(name).Append("\": ");
+            if (value == null)
+            {
+                sb.Append("\"\"");
+            }
+            else
+            {
+                sb.Append("\"").Append(value.ToString().Replace("\"", "\\\"")).Append("\"");
+            }
+            if (!terminate)
+            {
+                sb.Append(",\n");
+            }
         }
 
         /// <summary>

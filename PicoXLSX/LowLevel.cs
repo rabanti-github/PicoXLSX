@@ -332,7 +332,7 @@ namespace PicoXLSX
                 }
                 if (!string.IsNullOrEmpty(workbook.WorkbookProtectionPassword))
                 {
-                    sb.Append("workbookPassword=\"");
+                    sb.Append(" workbookPassword=\"");
                     sb.Append(GeneratePasswordHash(workbook.WorkbookProtectionPassword));
                     sb.Append("\"");
                 }
@@ -1191,9 +1191,14 @@ namespace PicoXLSX
                 sb.Append("<font>");
                 if (item.Bold) { sb.Append("<b/>"); }
                 if (item.Italic) { sb.Append("<i/>"); }
-                if (item.Underline) { sb.Append("<u/>"); }
-                if (item.DoubleUnderline) { sb.Append("<u val=\"double\"/>"); }
                 if (item.Strike) { sb.Append("<strike/>"); }
+                if (item.Underline != Style.Font.UnderlineValue.none)
+                {
+                    if (item.Underline == Style.Font.UnderlineValue.u_double) { sb.Append("<u val=\"double\"/>"); }
+                    else if (item.Underline == Style.Font.UnderlineValue.singleAccounting) { sb.Append(" val=\"singleAccounting\"/>"); }
+                    else if (item.Underline == Style.Font.UnderlineValue.doubleAccounting) { sb.Append(" val=\"doubleAccounting\"/>"); }
+                    else { sb.Append("<u/>"); }
+                }
                 if (item.VerticalAlign == Style.Font.VerticalAlignValue.subscript) { sb.Append("<vertAlign val=\"subscript\"/>"); }
                 else if (item.VerticalAlign == Style.Font.VerticalAlignValue.superscript) { sb.Append("<vertAlign val=\"superscript\"/>"); }
                 sb.Append("<sz val=\"").Append(item.Size.ToString("G", culture)).Append("\"/>");

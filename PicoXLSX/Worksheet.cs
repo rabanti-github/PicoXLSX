@@ -157,7 +157,8 @@ namespace PicoXLSX
         private bool useActiveStyle;
         private bool hidden;
         private Workbook workbookReference;
-        private string sheetProtectionPassword;
+        private string sheetProtectionPassword = null;
+        private string sheetProtectionPasswordHash = null;
         private Cell.Range? selectedCells;
         private bool? freezeSplitPanes;
         private float? paneSplitLeftWidth;
@@ -294,9 +295,18 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the password used for sheet protection. See <see cref="SetSheetProtectionPassword"/> to set the password
         /// </summary>
+        /// <remarks>The password cannot retrieved when loading a workbook. Only the <see cref="SheetProtectionPasswordHash"/> can be loaded</remarks>
         public string SheetProtectionPassword
         {
             get { return sheetProtectionPassword; }
+        }
+
+        /// <summary>
+        /// gets the encrypted hash of the password, defined with <see cref="SheetProtectionPassword"/>. The value will be null, if no password is defined
+        /// </summary>
+        public string SheetProtectionPasswordHash
+        {
+            get { return sheetProtectionPasswordHash; }
         }
 
         /// <summary>
@@ -1924,11 +1934,13 @@ namespace PicoXLSX
             if (string.IsNullOrEmpty(password))
             {
                 sheetProtectionPassword = null;
+                sheetProtectionPasswordHash = null;
                 UseSheetProtection = false;
             }
             else
             {
                 sheetProtectionPassword = password;
+                sheetProtectionPasswordHash = LowLevel.GeneratePasswordHash(password);
                 UseSheetProtection = true;
             }
         }

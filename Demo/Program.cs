@@ -233,7 +233,7 @@ namespace Demo
 
             Style s = new Style();                                                                           // Create new style
             s.CurrentFill.SetColor("FF22FF11", Style.Fill.FillType.fillColor);                               // Set fill color
-            s.CurrentFont.DoubleUnderline = true;                                                            // Set double underline
+            s.CurrentFont.Underline = Style.Font.UnderlineValue.u_double;                                    // Set double underline
             s.CurrentCellXf.HorizontalAlign = Style.CellXf.HorizontalAlignValue.center;                      // Set alignment
                                                                                                            
             Style s2 = s.CopyStyle();                                                                        // Copy the previously defined style
