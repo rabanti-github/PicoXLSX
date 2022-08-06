@@ -1,5 +1,12 @@
 # Change Log
 
+## v2.11.5
+
+---
+Release Date: **06.08.2022**
+
+- Fixed a bug when setting a workbook protection password
+
 ## v2.11.4
 
 ---

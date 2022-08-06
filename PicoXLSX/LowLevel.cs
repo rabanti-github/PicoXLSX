@@ -332,7 +332,7 @@ namespace PicoXLSX
                 }
                 if (!string.IsNullOrEmpty(workbook.WorkbookProtectionPassword))
                 {
-                    sb.Append("workbookPassword=\"");
+                    sb.Append(" workbookPassword=\"");
                     sb.Append(GeneratePasswordHash(workbook.WorkbookProtectionPassword));
                     sb.Append("\"");
                 }

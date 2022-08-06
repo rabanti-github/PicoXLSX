@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <RootNamespace>PicoXLSX</RootNamespace>
     <PackageId>PicoXLSX</PackageId>
-    <Version>2.11.4</Version>
+    <Version>2.11.5</Version>
     <Authors>Raphael Stoeckli</Authors>
     <Company>Raphael Stoeckli</Company>
     <Product>PicoXLSX</Product>
@@ -17,8 +17,8 @@
     <PackageTags>Excel Office XLSX</PackageTags>
     <PackageReleaseNotes>Please see https://github.com/rabanti-github/PicoXLSX/blob/master/Changelog.md for the release notes</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>2.11.4.0</AssemblyVersion>
-    <FileVersion>2.11.4.0</FileVersion>
+    <AssemblyVersion>2.11.5.0</AssemblyVersion>
+    <FileVersion>2.11.5.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -657,8 +657,8 @@
   <HelpKINode Title="LowLevel.INVARIANT_CULTURE field" Url="html/01e5f765-39d1-fba1-30d8-545857665b78.htm" />
   <HelpKINode Title="LowLevel.LAST_ALLOWED_EXCEL_DATE field" Url="html/d73ed8bc-b6fa-5f25-f693-4f1178a18f5b.htm" />
   <HelpKINode Title="LowLevel.LowLevel constructor">
-    <HelpKINode Title="LowLevel Constructor " Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
     <HelpKINode Title="LowLevel Constructor " Url="html/20d28a8a-5f98-83cc-261b-e6510f44cdc1.htm" />
+    <HelpKINode Title="LowLevel Constructor " Url="html/dbbcf6a6-b50e-1d72-6dc4-dfa09f1aca4e.htm" />
   </HelpKINode>
   <HelpKINode Title="LowLevel.MAX_OADATE_VALUE field" Url="html/a01ef06a-899e-2b5c-eb1d-8af6774b5b5b.htm" />
   <HelpKINode Title="LowLevel.MIN_OADATE_VALUE field" Url="html/40c47d62-7e79-1505-a510-f8d48099ee21.htm" />
@@ -998,8 +998,8 @@
   <HelpKINode Title="Style.BasicStyles.Underline property" Url="html/5df19794-1527-b038-6daf-a76a85dc7cd2.htm" />
   <HelpKINode Title="Style.Border class">
     <HelpKINode Title="Style.Border Class" Url="html/b0f7ff6d-2132-4c17-6776-66d9839ad828.htm" />
-    <HelpKINode Title="constructor" Url="html/35d8ae0c-d71c-9090-3488-ee82b27d3442.htm" />
     <HelpKINode Title="constructor" Url="html/fb6f47d6-8ef3-6efc-70da-d3ce92e9fb1b.htm" />
+    <HelpKINode Title="constructor" Url="html/35d8ae0c-d71c-9090-3488-ee82b27d3442.htm" />
   </HelpKINode>
   <HelpKINode Title="Style.Border.Border constructor">
     <HelpKINode Title="Style.Border Constructor " Url="html/fb6f47d6-8ef3-6efc-70da-d3ce92e9fb1b.htm" />
@@ -1158,8 +1158,8 @@
   <HelpKINode Title="Style.Font.DoubleUnderline property" Url="html/672e97a3-da19-c726-22cc-fe6b2b69dd32.htm" />
   <HelpKINode Title="Style.Font.Family property" Url="html/cfacdb92-0bd0-b0e1-171e-5c6c14ca980b.htm" />
   <HelpKINode Title="Style.Font.Font constructor">
-    <HelpKINode Title="Style.Font Constructor " Url="html/dfd57e48-bd6b-02a7-f764-8fb65b569ee2.htm" />
     <HelpKINode Title="Style.Font Constructor " Url="html/676d29d4-4bd6-ed3c-7982-66b9d273d0f5.htm" />
+    <HelpKINode Title="Style.Font Constructor " Url="html/dfd57e48-bd6b-02a7-f764-8fb65b569ee2.htm" />
   </HelpKINode>
   <HelpKINode Title="Style.Font.GetHashCode method" Url="html/c94f33d1-8bbf-4fec-225e-be56c632eb91.htm" />
   <HelpKINode Title="Style.Font.IsDefaultFont property" Url="html/5e91fe81-5bd6-8aa7-ca94-e8d6c6295045.htm" />
@@ -1450,8 +1450,8 @@
   <HelpKINode Title="WorkbookReference property" Url="html/b4d37c83-50bf-5f7d-353a-f0b24fb25a75.htm" />
   <HelpKINode Title="Worksheet class">
     <HelpKINode Title="Worksheet Class" Url="html/c3b3c4d1-7f62-b7df-bb0a-76cecc18fef3.htm" />
-    <HelpKINode Title="constructor" Url="html/648c8cb8-c40d-d174-ccf7-205cf8c9f427.htm" />
     <HelpKINode Title="constructor" Url="html/edb4ea29-ed1f-9c7d-4535-3aa4c2828c19.htm" />
+    <HelpKINode Title="constructor" Url="html/648c8cb8-c40d-d174-ccf7-205cf8c9f427.htm" />
     <HelpKINode Title="fields" Url="html/78cb97f5-810f-f822-4da0-c39b1b23b979.htm" />
     <HelpKINode Title="methods" Url="html/adb3f264-b043-9a46-54d3-4c6ae515d937.htm" />
     <HelpKINode Title="properties" Url="html/f4525299-9cb3-57ae-ddb1-2f5f7ad85754.htm" />
@@ -1590,8 +1590,8 @@
   <HelpKINode Title="Worksheet.UseSheetProtection property" Url="html/4274e257-3677-f178-81ae-67bf9a9d1d8c.htm" />
   <HelpKINode Title="Worksheet.WorkbookReference property" Url="html/b4d37c83-50bf-5f7d-353a-f0b24fb25a75.htm" />
   <HelpKINode Title="Worksheet.Worksheet constructor">
-    <HelpKINode Title="Worksheet Constructor " Url="html/648c8cb8-c40d-d174-ccf7-205cf8c9f427.htm" />
     <HelpKINode Title="Worksheet Constructor " Url="html/edb4ea29-ed1f-9c7d-4535-3aa4c2828c19.htm" />
+    <HelpKINode Title="Worksheet Constructor " Url="html/648c8cb8-c40d-d174-ccf7-205cf8c9f427.htm" />
   </HelpKINode>
   <HelpKINode Title="Worksheet.WorksheetExists method" Url="html/d2ffb7b8-7790-dab7-a76d-fb7d8dee97d7.htm" />
   <HelpKINode Title="Worksheet.WorksheetPane class" Url="html/6d49ab3c-2dd8-f414-29ca-e25869cac58f.htm" />
