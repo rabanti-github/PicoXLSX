@@ -78,10 +78,6 @@ namespace PicoXLSX
         /// Gets or sets the title of the workbook
         /// </summary>
         public string Title { get; set; }
-        /// <summary>
-        /// Gets or sets the whether custom defined colors (in styles) will be added as recent colors (MRU). If true. MRU information will be added
-        /// </summary>
-        public bool UseColorMRU { get; set; }
         #endregion
 
         #region constructors
@@ -90,7 +86,6 @@ namespace PicoXLSX
         /// </summary>
         public Metadata()
         {
-            UseColorMRU = false;
             Application = "PicoXLSX";
             Version vi = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             ApplicationVersion = ParseVersion(vi.Major, vi.Minor, vi.Revision, vi.Build);

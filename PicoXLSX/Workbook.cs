@@ -38,6 +38,7 @@ namespace PicoXLSX
         private bool lockStructureIfProtected;
         private int selectedWorksheet;
         private Shortener shortener;
+        private List<string> mruColors = new List<string>();
         #endregion
 
         #region properties
@@ -113,11 +114,17 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the password used for workbook protection. See also <see cref="SetWorkbookProtection"/>
         /// </summary>
-        /// <remarks>The password of this property is stored in plan text. Encryption is performed when the workbook is saved</remarks>
+        /// <remarks>The password of this property is stored in plan text at runtime but not stored to a workbook. See also <see cref="WorkbookProtectionPasswordHash"/> for the generated hash</remarks>
         public string WorkbookProtectionPassword
         {
             get { return workbookProtectionPassword; }
         }
+
+        /// <summary>
+        /// Hash of the protected workbook, originated from <see cref="WorkbookProtectionPassword"/>
+        /// </summary>
+        /// <remarks>The plain text password cannot be recovered</remarks>
+        public string WorkbookProtectionPasswordHash { get; internal set; }
 
         /// <summary>
         /// Gets the list of worksheets in the workbook
@@ -202,6 +209,38 @@ namespace PicoXLSX
         #endregion
 
         #region methods
+
+        /// <summary>
+        /// Adds a color value (HEX; 6-digit RGB or 8-digit RGBA) to the MRU list
+        /// </summary>
+        /// <param name="color">RGB code in hex format (either 6 characters, e.g. FF00AC or 8 characters with leading alpha value). Alpha will be set to full opacity (FF) in case of 6 characters</param>
+        public void AddMruColor(string color)
+        {
+            if (color != null && color.Length == 6)
+            {
+                color = "FF" + color;
+            }
+            Fill.ValidateColor(color, true);
+            mruColors.Add(color.ToUpper());
+        }
+
+        /// <summary>
+        /// Gets the MRU color list
+        /// </summary>
+        /// <returns>Immutable list of color values</returns>
+        public IReadOnlyList<string> GetMruColors()
+        {
+            return mruColors;
+        }
+
+        /// <summary>
+        /// Clears the MRU color list
+        /// </summary>
+        public void ClearMruColors()
+        {
+            mruColors.Clear();
+        }
+
 
         /// <summary>
         /// Adds a style to the style repository. This method is deprecated since it has no direct impact on the generated file.
@@ -643,6 +682,7 @@ namespace PicoXLSX
             lockWindowsIfProtected = protectWindows;
             lockStructureIfProtected = protectStructure;
             workbookProtectionPassword = password;
+            WorkbookProtectionPasswordHash = LowLevel.GeneratePasswordHash(password);
             if (protectWindows == false && protectStructure == false)
             {
                 UseWorkbookProtection = false;

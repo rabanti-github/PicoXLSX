@@ -23,7 +23,6 @@ namespace PicoXLSX
         private List<AbstractStyle> fonts;
         private List<AbstractStyle> numberFormats;
         private List<AbstractStyle> styles;
-        private readonly List<string> styleNames;
         #endregion
 
         #region constructors
@@ -38,7 +37,6 @@ namespace PicoXLSX
             fonts = new List<AbstractStyle>();
             numberFormats = new List<AbstractStyle>();
             styles = new List<AbstractStyle>();
-            styleNames = new List<string>();
         }
         #endregion
 
@@ -358,10 +356,6 @@ namespace PicoXLSX
             else if (style.GetType() == typeof(Style))
             {
                 Style s = (Style)style;
-                if (styleNames.Contains(s.Name))
-                {
-                    throw new StyleException("StyleAlreadyExistsException", "The style with the name '" + s.Name + "' already exists");
-                }
                 if (GetComponentByHash(ref styles, hash) == null)
                 {
                     int? id;
