@@ -300,6 +300,24 @@ namespace PicoXLSX
             return cellStyle;
         }
 
+        /// <summary>
+        /// Copies this cell into a new one. The style is considered if not null.
+        /// </summary>
+        /// <returns>Copy of this cell</returns>
+        internal Cell Copy()
+        {
+            Cell copy = new Cell();
+            copy.Value = this.Value;
+            copy.DataType = this.DataType;
+            copy.CellAddress = this.CellAddress;
+            copy.CellAddressType = this.CellAddressType;
+            if (this.cellStyle != null)
+            {
+                copy.SetStyle(this.cellStyle, true);
+            }
+            return copy;
+        }
+
         #endregion
 
         #region staticMethods
@@ -780,6 +798,15 @@ namespace PicoXLSX
                 return thisCoordinate.CompareTo(otherCoordinate);
             }
 
+            /// <summary>
+            /// Creates a (dereferenced, if applicable) deep copy of this address
+            /// </summary>
+            /// <returns>Copy of this range</returns>
+            internal Address Copy()
+            {
+                return new Address(this.Column, this.Row, this.Type);
+            }
+
         }
 
         /// <summary>
@@ -813,6 +840,7 @@ namespace PicoXLSX
                     StartAddress = end;
                     EndAddress = start;
                 }
+
             }
 
             /// <summary>
@@ -879,6 +907,15 @@ namespace PicoXLSX
             public override string ToString()
             {
                 return StartAddress.ToString() + ":" + EndAddress.ToString();
+            }
+
+            /// <summary>
+            /// Creates a (dereferenced, if applicable) deep copy of this range
+            /// </summary>
+            /// <returns>Copy of this range</returns>
+            internal Range Copy()
+            {
+                return new Range(this.StartAddress.Copy(), this.EndAddress.Copy());
             }
         }
 
