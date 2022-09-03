@@ -84,39 +84,6 @@ namespace PicoXLSX
         private StyleManager styles;
         private readonly SortedMap sharedStrings;
         private int sharedStringsTotalCount;
-        private Dictionary<string, XmlDocument> interceptedDocuments;
-        private bool interceptDocuments;
-        #endregion
-
-        #region properties
-        /// <summary>
-        /// Gets or set whether XML documents are intercepted during creation
-        /// </summary>
-        public bool InterceptDocuments
-        {
-            get { return interceptDocuments; }
-            set
-            {
-                interceptDocuments = value;
-                if (interceptDocuments && interceptedDocuments == null)
-                {
-                    interceptedDocuments = new Dictionary<string, XmlDocument>();
-                }
-                else if (!interceptDocuments)
-                {
-                    interceptedDocuments = null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the intercepted documents if interceptDocuments is set to true
-        /// </summary>
-        public Dictionary<string, XmlDocument> InterceptedDocuments
-        {
-            get { return interceptedDocuments; }
-        }
-
         #endregion
 
         #region constructors
@@ -261,7 +228,7 @@ namespace PicoXLSX
             sb.Append(bordersString).Append("</borders>");
             sb.Append("<cellXfs count=\"").Append(styleCount.ToString("G", culture)).Append("\">");
             sb.Append(xfsStings).Append("</cellXfs>");
-            if (workbook.WorkbookMetadata != null && !string.IsNullOrEmpty(mruColorString) && workbook.WorkbookMetadata.UseColorMRU)
+            if (!string.IsNullOrEmpty(mruColorString))
             {
                 sb.Append("<colors>");
                 sb.Append(mruColorString);
@@ -299,14 +266,22 @@ namespace PicoXLSX
             }
             CreateWorkbookProtectionString(sb);
             sb.Append("<sheets>");
-            foreach (Worksheet item in workbook.Worksheets)
+            if (workbook.Worksheets.Count > 0)
             {
-                sb.Append("<sheet r:id=\"rId").Append(item.SheetID.ToString()).Append("\" sheetId=\"").Append(item.SheetID.ToString()).Append("\" name=\"").Append(EscapeXmlAttributeChars(item.SheetName)).Append("\"");
-                if (item.Hidden)
+                foreach (Worksheet item in workbook.Worksheets)
                 {
-                    sb.Append(" state=\"hidden\"");
+                    sb.Append("<sheet r:id=\"rId").Append(item.SheetID.ToString()).Append("\" sheetId=\"").Append(item.SheetID.ToString()).Append("\" name=\"").Append(EscapeXmlAttributeChars(item.SheetName)).Append("\"");
+                    if (item.Hidden)
+                    {
+                        sb.Append(" state=\"hidden\"");
+                    }
+                    sb.Append("/>");
                 }
-                sb.Append("/>");
+            }
+            else
+            {
+                // Fallback on empty workbook
+                sb.Append("<sheet r:id=\"rId1\" sheetId=\"1\" name=\"sheet1\"/>");
             }
             sb.Append("</sheets>");
             sb.Append("</workbook>");
@@ -333,7 +308,7 @@ namespace PicoXLSX
                 if (!string.IsNullOrEmpty(workbook.WorkbookProtectionPassword))
                 {
                     sb.Append(" workbookPassword=\"");
-                    sb.Append(GeneratePasswordHash(workbook.WorkbookProtectionPassword));
+                    sb.Append(workbook.WorkbookProtectionPasswordHash);
                     sb.Append("\"");
                 }
                 sb.Append("/>");
@@ -417,7 +392,7 @@ namespace PicoXLSX
         private void CreateRowsString(Worksheet worksheet, StringBuilder sb)
         {
             List<DynamicRow> cellData = GetSortedSheetData(worksheet);
-            String line;
+            string line;
             foreach (DynamicRow row in cellData)
             {
                 line = CreateRowString(row, worksheet);
@@ -533,7 +508,7 @@ namespace PicoXLSX
                         break;
                 }
             }
-            String topLeftCell = worksheet.PaneSplitTopLeftCell.Value.GetAddress();
+            string topLeftCell = worksheet.PaneSplitTopLeftCell.Value.GetAddress();
             sb.Append(" topLeftCell=\"").Append(topLeftCell).Append("\" ");
             sb.Append("/>");
             if (applyXSplit && !applyYSplit)
@@ -660,37 +635,65 @@ namespace PicoXLSX
                     p.CreateRelationship(corePropertiesUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties", "rId2"); //!
                     p.CreateRelationship(appPropertiesUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties", "rId3"); //!
 
-                    AppendXmlToPackagePart(CreateWorkbookDocument(), pp, "WORKBOOK");
-                    int idCounter = workbook.Worksheets.Count + 1;
-
-                    pp.CreateRelationship(stylesheetUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", "rId" + idCounter.ToString());
-                    pp.CreateRelationship(sharedStringsUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings", "rId" + (idCounter + 1).ToString());
-
-                    foreach (Worksheet item in workbook.Worksheets)
+                    AppendXmlToPackagePart(CreateWorkbookDocument(), pp);
+                    int idCounter;
+                    if (workbook.Worksheets.Count > 0)
                     {
-                        sheetPath = new DocumentPath("sheet" + item.SheetID + ".xml", "xl/worksheets");
+                        idCounter = workbook.Worksheets.Count + 1;
+                    }
+                    else
+                    {
+                        //  Fallback on empty workbook
+                        idCounter = 2;
+                    }
+                    pp.CreateRelationship(stylesheetUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", "rId" + idCounter);
+                    pp.CreateRelationship(sharedStringsUri, TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings", "rId" + (idCounter + 1));
+
+                    if (workbook.Worksheets.Count > 0)
+                    {
+                        foreach (Worksheet item in workbook.Worksheets)
+                        {
+                            sheetPath = new DocumentPath("sheet" + item.SheetID + ".xml", "xl/worksheets");
+                            sheetURIs.Add(new Uri(sheetPath.GetFullPath(), UriKind.Relative));
+                            pp.CreateRelationship(sheetURIs[sheetURIs.Count - 1], TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet", "rId" + item.SheetID);
+                        }
+                    }
+                    else
+                    {
+                        //  Fallback on empty workbook
+                        sheetPath = new DocumentPath("sheet1.xml", "xl/worksheets");
                         sheetURIs.Add(new Uri(sheetPath.GetFullPath(), UriKind.Relative));
-                        pp.CreateRelationship(sheetURIs[sheetURIs.Count - 1], TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet", "rId" + item.SheetID.ToString());
+                        pp.CreateRelationship(sheetURIs[sheetURIs.Count - 1], TargetMode.Internal, @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet", "rId1");
                     }
 
                     pp = p.CreatePart(stylesheetUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", CompressionOption.Normal);
-                    AppendXmlToPackagePart(CreateStyleSheetDocument(), pp, "STYLESHEET");
+                    AppendXmlToPackagePart(CreateStyleSheetDocument(), pp);
 
                     int i = 0;
-                    foreach (Worksheet item in workbook.Worksheets)
+                    if (workbook.Worksheets.Count > 0)
+                    {
+                        foreach (Worksheet item in workbook.Worksheets)
+                        {
+                            pp = p.CreatePart(sheetURIs[i], @"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", CompressionOption.Normal);
+                            i++;
+                            AppendXmlToPackagePart(CreateWorksheetPart(item), pp);
+                        }
+                    }
+                    else
                     {
                         pp = p.CreatePart(sheetURIs[i], @"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", CompressionOption.Normal);
                         i++;
-                        AppendXmlToPackagePart(CreateWorksheetPart(item), pp, "WORKSHEET:" + item.SheetName);
+                        AppendXmlToPackagePart(CreateWorksheetPart(new Worksheet("sheet1")), pp);
                     }
                     pp = p.CreatePart(sharedStringsUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", CompressionOption.Normal);
-                    AppendXmlToPackagePart(CreateSharedStringsDocument(), pp, "SHAREDSTRINGS");
+                    AppendXmlToPackagePart(CreateSharedStringsDocument(), pp);
+
                     if (workbook.WorkbookMetadata != null)
                     {
                         pp = p.CreatePart(appPropertiesUri, @"application/vnd.openxmlformats-officedocument.extended-properties+xml", CompressionOption.Normal);
-                        AppendXmlToPackagePart(CreateAppPropertiesDocument(), pp, "APPPROPERTIES");
+                        AppendXmlToPackagePart(CreateAppPropertiesDocument(), pp);
                         pp = p.CreatePart(corePropertiesUri, @"application/vnd.openxmlformats-package.core-properties+xml", CompressionOption.Normal);
-                        AppendXmlToPackagePart(CreateCorePropertiesDocument(), pp, "COREPROPERTIES");
+                        AppendXmlToPackagePart(CreateCorePropertiesDocument(), pp);
                     }
                     p.Flush();
                     p.Close();
@@ -757,19 +760,11 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="doc">document as raw XML string</param>
         /// <param name="pp">Package part to append the XML data</param>
-        /// <param name="title">Title for interception / debugging purpose</param>
         /// <exception cref="IOException">Throws an IOException if the XML data could not be written into the Package Part</exception>
-        private void AppendXmlToPackagePart(string doc, PackagePart pp, string title)
+        private void AppendXmlToPackagePart(string doc, PackagePart pp)
         {
             try
             {
-                if (interceptDocuments)
-                {
-                    XmlDocument xDoc = new XmlDocument();
-                    xDoc.XmlResolver = null;
-                    xDoc.LoadXml(doc);
-                    interceptedDocuments.Add(title, xDoc);
-                }
                 using (MemoryStream ms = new MemoryStream()) // Write workbook.xml
                 {
                     if (!ms.CanWrite) { return; }
@@ -1191,9 +1186,14 @@ namespace PicoXLSX
                 sb.Append("<font>");
                 if (item.Bold) { sb.Append("<b/>"); }
                 if (item.Italic) { sb.Append("<i/>"); }
-                if (item.Underline) { sb.Append("<u/>"); }
-                if (item.DoubleUnderline) { sb.Append("<u val=\"double\"/>"); }
                 if (item.Strike) { sb.Append("<strike/>"); }
+                if (item.Underline != Style.Font.UnderlineValue.none)
+                {
+                    if (item.Underline == Style.Font.UnderlineValue.u_double) { sb.Append("<u val=\"double\"/>"); }
+                    else if (item.Underline == Style.Font.UnderlineValue.singleAccounting) { sb.Append(" val=\"singleAccounting\"/>"); }
+                    else if (item.Underline == Style.Font.UnderlineValue.doubleAccounting) { sb.Append(" val=\"doubleAccounting\"/>"); }
+                    else { sb.Append("<u/>"); }
+                }
                 if (item.VerticalAlign == Style.Font.VerticalAlignValue.subscript) { sb.Append("<vertAlign val=\"subscript\"/>"); }
                 else if (item.VerticalAlign == Style.Font.VerticalAlignValue.superscript) { sb.Append("<vertAlign val=\"superscript\"/>"); }
                 sb.Append("<sz val=\"").Append(item.Size.ToString("G", culture)).Append("\"/>");
@@ -1867,7 +1867,7 @@ namespace PicoXLSX
         /// <summary>
         /// Class to manage XML document paths
         /// </summary>
-        public class DocumentPath
+        internal class DocumentPath
         {
             /// <summary>
             /// File name of the document
@@ -1902,8 +1902,6 @@ namespace PicoXLSX
             /// <returns>Full path</returns>
             public string GetFullPath()
             {
-                if (Path == null) { return Filename; }
-                if (Path == "") { return Filename; }
                 if (Path[Path.Length - 1] == System.IO.Path.AltDirectorySeparatorChar || Path[Path.Length - 1] == System.IO.Path.DirectorySeparatorChar)
                 {
                     return System.IO.Path.AltDirectorySeparatorChar.ToString() + Path + Filename;

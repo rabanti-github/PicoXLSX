@@ -157,7 +157,8 @@ namespace PicoXLSX
         private bool useActiveStyle;
         private bool hidden;
         private Workbook workbookReference;
-        private string sheetProtectionPassword;
+        private string sheetProtectionPassword = null;
+        private string sheetProtectionPasswordHash = null;
         private Cell.Range? selectedCells;
         private bool? freezeSplitPanes;
         private float? paneSplitLeftWidth;
@@ -294,9 +295,18 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the password used for sheet protection. See <see cref="SetSheetProtectionPassword"/> to set the password
         /// </summary>
+        /// <remarks>The password cannot retrieved when loading a workbook. Only the <see cref="SheetProtectionPasswordHash"/> can be loaded</remarks>
         public string SheetProtectionPassword
         {
             get { return sheetProtectionPassword; }
+        }
+
+        /// <summary>
+        /// gets the encrypted hash of the password, defined with <see cref="SheetProtectionPassword"/>. The value will be null, if no password is defined
+        /// </summary>
+        public string SheetProtectionPasswordHash
+        {
+            get { return sheetProtectionPasswordHash; }
         }
 
         /// <summary>
@@ -445,6 +455,16 @@ namespace PicoXLSX
             columns = new Dictionary<int, Column>();
             activeStyle = null;
             workbookReference = null;
+        }
+
+        /// <summary>
+        /// Constructor with worksheet name
+        /// </summary>
+        /// <remarks>Note that the worksheet name is not checked and fully sanitized against other worksheets with this operation. This is later performed when the worksheet is added to the workbook</remarks>
+        public Worksheet(string name)
+            : this()
+        {
+            SetSheetName(name);
         }
 
         /// <summary>
@@ -882,7 +902,7 @@ namespace PicoXLSX
             IReadOnlyList<Cell.Address> addresses = cellRange.ResolveEnclosedAddresses();
             foreach (Cell.Address address in addresses)
             {
-                String key = address.GetAddress();
+                string key = address.GetAddress();
                 if (this.cells.ContainsKey(key))
                 {
                     if (style == null)
@@ -1924,11 +1944,13 @@ namespace PicoXLSX
             if (string.IsNullOrEmpty(password))
             {
                 sheetProtectionPassword = null;
+                sheetProtectionPasswordHash = null;
                 UseSheetProtection = false;
             }
             else
             {
                 sheetProtectionPassword = password;
+                sheetProtectionPasswordHash = LowLevel.GeneratePasswordHash(password);
                 UseSheetProtection = true;
             }
         }
@@ -2143,6 +2165,77 @@ namespace PicoXLSX
             this.activePane = null;
         }
 
+        /// <summary>
+        /// Creates a (dereferenced) deep copy of this worksheet
+        /// </summary>
+        /// Not considered in the copy are the internal ID, the worksheet name and the workbook reference. 
+        /// Since styles are managed in a shared repository, no dereferencing is applied (Styles are not deep-copied).<\br>
+        /// Use <see cref="Workbook.CopyWorksheetTo(Worksheet, string, Workbook, bool)"/> or <see cref="Workbook.CopyWorksheetIntoThis(Worksheet, string, bool)"/> 
+        /// to add a copy of worksheet to a workbook. These methods will set the internal ID, name and workbook reference.
+        /// <remarks>
+        /// </remarks>
+        /// <return>Copy of this worksheet</return>
+        public Worksheet Copy()
+        {
+            Worksheet copy = new Worksheet();
+            foreach (KeyValuePair<String, Cell> cell in this.cells)
+            {
+                copy.AddCell(cell.Value.Copy(), cell.Key);
+            }
+            copy.activePane = this.activePane;
+            copy.activeStyle = this.activeStyle;
+            if (this.autoFilterRange.HasValue)
+            {
+                copy.autoFilterRange = this.autoFilterRange.Value.Copy();
+            }
+            foreach (KeyValuePair<int, Column> column in this.columns)
+            {
+                copy.columns.Add(column.Key, column.Value.Copy());
+            }
+            copy.CurrentCellDirection = this.CurrentCellDirection;
+            copy.currentColumnNumber = this.currentColumnNumber;
+            copy.currentRowNumber = this.currentRowNumber;
+            copy.defaultColumnWidth = this.defaultColumnWidth;
+            copy.defaultRowHeight = this.defaultRowHeight;
+            copy.freezeSplitPanes = this.freezeSplitPanes;
+            copy.hidden = this.hidden;
+            foreach (KeyValuePair<int, bool> row in this.hiddenRows)
+            {
+                copy.hiddenRows.Add(row.Key, row.Value);
+            }
+            foreach (KeyValuePair<string, Cell.Range> cell in this.mergedCells)
+            {
+                copy.mergedCells.Add(cell.Key, cell.Value.Copy());
+            }
+            if (this.paneSplitAddress.HasValue)
+            {
+                copy.paneSplitAddress = this.paneSplitAddress.Value.Copy();
+            }
+            copy.paneSplitLeftWidth = this.paneSplitLeftWidth;
+            copy.paneSplitTopHeight = this.paneSplitTopHeight;
+            if (this.paneSplitTopLeftCell.HasValue)
+            {
+                copy.paneSplitTopLeftCell = this.paneSplitTopLeftCell.Value.Copy();
+            }
+            foreach (KeyValuePair<int, float> row in this.rowHeights)
+            {
+                copy.rowHeights.Add(row.Key, row.Value);
+            }
+            if (this.selectedCells.HasValue)
+            {
+                copy.selectedCells = this.selectedCells.Value.Copy();
+            }
+            copy.sheetProtectionPassword = this.sheetProtectionPassword;
+            copy.sheetProtectionPasswordHash = this.sheetProtectionPasswordHash;
+            foreach (SheetProtectionValue value in this.sheetProtectionValues)
+            {
+                copy.sheetProtectionValues.Add(value);
+            }
+            copy.useActiveStyle = this.useActiveStyle;
+            copy.UseSheetProtection = this.UseSheetProtection;
+            return copy;
+        }
+
         #region static_methods
 
         /// <summary>
@@ -2223,7 +2316,7 @@ namespace PicoXLSX
         /// <param name="workbook">Workbook reference</param>
         /// <exception cref="WorksheetException">A WorksheetException is thrown if the workbook reference is null, since all worksheets have to be considered during sanitation</exception>
         /// <returns>True if the name exits, otherwise false</returns>
-        private static bool WorksheetExists(String name, Workbook workbook)
+        private static bool WorksheetExists(string name, Workbook workbook)
         {
             if (workbook == null)
             {
@@ -2334,6 +2427,21 @@ namespace PicoXLSX
             public Column(string columnAddress) : this()
             {
                 ColumnAddress = columnAddress;
+            }
+
+            /// <summary>
+            /// Creates a deep copy of this column
+            /// </summary>
+            /// <returns>Copy of this column</returns>
+            internal Column Copy()
+            {
+                Column copy = new Column();
+                copy.IsHidden = this.IsHidden;
+                copy.Width = this.width;
+                copy.HasAutoFilter = this.HasAutoFilter;
+                copy.columnAddress = this.columnAddress;
+                copy.number = this.number;
+                return copy;
             }
         }
 

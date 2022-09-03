@@ -38,6 +38,7 @@ namespace PicoXLSX
         private bool lockStructureIfProtected;
         private int selectedWorksheet;
         private Shortener shortener;
+        private List<string> mruColors = new List<string>();
         #endregion
 
         #region properties
@@ -113,11 +114,17 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the password used for workbook protection. See also <see cref="SetWorkbookProtection"/>
         /// </summary>
-        /// <remarks>The password of this property is stored in plan text. Encryption is performed when the workbook is saved</remarks>
+        /// <remarks>The password of this property is stored in plan text at runtime but not stored to a workbook. See also <see cref="WorkbookProtectionPasswordHash"/> for the generated hash</remarks>
         public string WorkbookProtectionPassword
         {
             get { return workbookProtectionPassword; }
         }
+
+        /// <summary>
+        /// Hash of the protected workbook, originated from <see cref="WorkbookProtectionPassword"/>
+        /// </summary>
+        /// <remarks>The plain text password cannot be recovered</remarks>
+        public string WorkbookProtectionPasswordHash { get; internal set; }
 
         /// <summary>
         /// Gets the list of worksheets in the workbook
@@ -204,6 +211,38 @@ namespace PicoXLSX
         #region methods
 
         /// <summary>
+        /// Adds a color value (HEX; 6-digit RGB or 8-digit RGBA) to the MRU list
+        /// </summary>
+        /// <param name="color">RGB code in hex format (either 6 characters, e.g. FF00AC or 8 characters with leading alpha value). Alpha will be set to full opacity (FF) in case of 6 characters</param>
+        public void AddMruColor(string color)
+        {
+            if (color != null && color.Length == 6)
+            {
+                color = "FF" + color;
+            }
+            Fill.ValidateColor(color, true);
+            mruColors.Add(color.ToUpper());
+        }
+
+        /// <summary>
+        /// Gets the MRU color list
+        /// </summary>
+        /// <returns>Immutable list of color values</returns>
+        public IReadOnlyList<string> GetMruColors()
+        {
+            return mruColors;
+        }
+
+        /// <summary>
+        /// Clears the MRU color list
+        /// </summary>
+        public void ClearMruColors()
+        {
+            mruColors.Clear();
+        }
+
+
+        /// <summary>
         /// Adds a style to the style repository. This method is deprecated since it has no direct impact on the generated file.
         /// </summary>
         /// <param name="style">Style to add</param>
@@ -278,7 +317,7 @@ namespace PicoXLSX
         /// <param name="sanitizeSheetName">If true, the name of the worksheet will be sanitized automatically according to the specifications of Excel</param>
         /// <exception cref="WorksheetException">WorksheetException is thrown if the name of the worksheet already exists and sanitizeSheetName is false</exception>
         /// <exception cref="FormatException">FormatException is thrown if the worksheet name contains illegal characters or is out of range (length between 1 an 31) and sanitizeSheetName is false</exception>
-        public void AddWorksheet(String name, bool sanitizeSheetName)
+        public void AddWorksheet(string name, bool sanitizeSheetName)
         {
             if (sanitizeSheetName)
             {
@@ -631,6 +670,38 @@ namespace PicoXLSX
             ValidateWorksheets();
         }
 
+
+        /// <summary>
+        /// Gets a worksheet from this workbook by name
+        /// </summary>
+        /// <param name="name">Name of the worksheet</param>
+        /// <returns>Worksheet with the passed name</returns>
+        /// <exception cref="WorksheetException">Throws a WorksheetException if the worksheet was not found in the worksheet collection</exception>
+        public Worksheet GetWorksheet(string name)
+        {
+            int index = worksheets.FindIndex(w => w.SheetName == name);
+            if (index < 0)
+            {
+                throw new WorksheetException("No worksheet with the name '" + name + "' was found in this workbook.");
+            }
+            return worksheets[index];
+        }
+
+        /// <summary>
+        /// Gets a worksheet from this workbook by index
+        /// </summary>
+        /// <param name="index">Index of the worksheet</param>
+        /// <returns>Worksheet with the passed index</returns>
+        /// <exception cref="WorksheetException">Throws a RangeException if the worksheet was not found in the worksheet collection</exception>
+        public Worksheet GetWorksheet(int index)
+        {
+            if (index < 0 || index > worksheets.Count - 1)
+            {
+                throw new RangeException("OutOfRangeException","The worksheet index " + index + " is out of range");
+            }
+            return worksheets[index];
+        }
+
         /// <summary>
         /// Sets or removes the workbook protection. If protectWindows and protectStructure are both false, the workbook will not be protected
         /// </summary>
@@ -643,6 +714,7 @@ namespace PicoXLSX
             lockWindowsIfProtected = protectWindows;
             lockStructureIfProtected = protectStructure;
             workbookProtectionPassword = password;
+            WorkbookProtectionPasswordHash = LowLevel.GeneratePasswordHash(password);
             if (protectWindows == false && protectStructure == false)
             {
                 UseWorkbookProtection = false;
@@ -650,6 +722,132 @@ namespace PicoXLSX
             else
             {
                 UseWorkbookProtection = state;
+            }
+        }
+
+
+        /// <summary>
+        /// Copies a worksheet of the current workbook by its name
+        /// </summary>
+        /// <param name="sourceWorksheetName">Name of the worksheet to copy, originated in this workbook</param>
+        /// <param name="newWorksheetName">Name of the new worksheet (copy)</param>
+        /// <param name="sanitizeSheetName">If true, the new name will be automatically sanitized if a name collision occurs</param>
+        /// <remarks>The copy is not set as current worksheet. The existing one is kept</remarks>
+        /// <returns>Copied worksheet</returns>
+        public Worksheet CopyWorksheetIntoThis(string sourceWorksheetName, string newWorksheetName, bool sanitizeSheetName = true)
+        {
+            Worksheet sourceWorksheet = GetWorksheet(sourceWorksheetName);
+            return CopyWorksheetTo(sourceWorksheet, newWorksheetName, this, sanitizeSheetName);
+        }
+
+        /// <summary>
+        /// Copies a worksheet of the current workbook by its index
+        /// </summary>
+        /// <param name="sourceWorksheetIndex">Index of the worksheet to copy, originated in this workbook</param>
+        /// <param name="newWorksheetName">Name of the new worksheet (copy)</param>
+        /// <param name="sanitizeSheetName">If true, the new name will be automatically sanitized if a name collision occurs</param>
+        /// <remarks>The copy is not set as current worksheet. The existing one is kept</remarks>
+        /// <returns>Copied worksheet</returns>
+        public Worksheet CopyWorksheetIntoThis(int sourceWorksheetIndex, string newWorksheetName, bool sanitizeSheetName = true)
+        {
+            Worksheet sourceWorksheet = GetWorksheet(sourceWorksheetIndex);
+            return CopyWorksheetTo(sourceWorksheet, newWorksheetName, this, sanitizeSheetName);
+        }
+
+        /// <summary>
+        /// Copies a worksheet of any workbook into the current workbook
+        /// </summary>
+        /// <param name="sourceWorksheet">Worksheet to copy</param>
+        /// <param name="newWorksheetName">Name of the new worksheet (copy)</param>
+        /// <param name="sanitizeSheetName">If true, the new name will be automatically sanitized if a name collision occurs</param>
+        /// <remarks>The copy is not set as current worksheet. The existing one is kept. The source worksheet can originate from any workbook</remarks>
+        /// <returns>Copied worksheet</returns>
+        public Worksheet CopyWorksheetIntoThis(Worksheet sourceWorksheet, string newWorksheetName, bool sanitizeSheetName = true)
+        {
+            return CopyWorksheetTo(sourceWorksheet, newWorksheetName, this, sanitizeSheetName);
+        }
+
+        /// <summary>
+        /// Copies a worksheet of the current workbook by its name into another workbook
+        /// </summary>
+        /// <param name="sourceWorksheetName">Name of the worksheet to copy, originated in this workbook</param>
+        /// <param name="newWorksheetName">Name of the new worksheet (copy)</param>
+        /// <param name="targetWorkbook">Workbook to copy the worksheet into</param>
+        /// <param name="sanitizeSheetName">If true, the new name will be automatically sanitized if a name collision occurs</param>
+        /// <remarks>The copy is not set as current worksheet. The existing one is kept</remarks>
+        /// <returns>Copied worksheet</returns>
+        public Worksheet CopyWorksheetTo(string sourceWorksheetName, string newWorksheetName, Workbook targetWorkbook, bool sanitizeSheetName = true)
+        {
+            Worksheet sourceWorksheet = GetWorksheet(sourceWorksheetName);
+            return CopyWorksheetTo(sourceWorksheet, newWorksheetName, targetWorkbook, sanitizeSheetName);
+        }
+
+        /// <summary>
+        /// Copies a worksheet of the current workbook by its index into another workbook
+        /// </summary>
+        /// <param name="sourceWorksheetIndex">Index of the worksheet to copy, originated in this workbook<</param>
+        /// <param name="newWorksheetName">Name of the new worksheet (copy)</param>
+        /// <param name="targetWorkbook">Workbook to copy the worksheet into</param>
+        /// <param name="sanitizeSheetName">If true, the new name will be automatically sanitized if a name collision occurs</param>
+        /// <remarks>The copy is not set as current worksheet. The existing one is kept</remarks>
+        /// <returns>Copied worksheet</returns>
+        public Worksheet CopyWorksheetTo(int sourceWorksheetIndex, string newWorksheetName, Workbook targetWorkbook, bool sanitizeSheetName = true)
+        {
+            Worksheet sourceWorksheet = GetWorksheet(sourceWorksheetIndex);
+            return CopyWorksheetTo(sourceWorksheet, newWorksheetName, targetWorkbook, sanitizeSheetName);
+        }
+
+
+        /// <summary>
+        /// Copies a worksheet of any workbook into the another workbook
+        /// </summary>
+        /// <param name="sourceWorksheet">Worksheet to copy</param>
+        /// <param name="newWorksheetName">Name of the new worksheet (copy)</param>
+        /// <param name="targetWorkbook">Workbook to copy the worksheet into</param>
+        /// <param name="sanitizeSheetName">If true, the new name will be automatically sanitized if a name collision occurs</param>
+        /// <remarks>The copy is not set as current worksheet. The existing one is kept</remarks>
+        /// <returns>Copied worksheet</returns>
+        public static Worksheet CopyWorksheetTo(Worksheet sourceWorksheet, string newWorksheetName, Workbook targetWorkbook, bool sanitizeSheetName = true)
+        {
+            if (targetWorkbook == null)
+            {
+                throw new WorksheetException("The target workbook cannot be null");
+            }
+            if (sourceWorksheet == null)
+            {
+                throw new WorksheetException("The source worksheet cannot be null");
+            }
+            Worksheet copy = sourceWorksheet.Copy();
+            copy.SetSheetName(newWorksheetName);
+            Worksheet currentWorksheet = targetWorkbook.CurrentWorksheet;
+            targetWorkbook.AddWorksheet(copy, sanitizeSheetName);
+            targetWorkbook.SetCurrentWorksheet(currentWorksheet);
+            return copy;
+        }
+
+        /// <summary>
+        /// Validates the worksheets regarding several conditions that must be met:<br/>
+        /// - At least one worksheet must be defined<br/>
+        /// - A hidden worksheet cannot be the selected one<br/>
+        /// - At least one worksheet must be visible<br/>
+        /// If one of the conditions is not met, an exception is thrown
+        /// </summary>
+        internal void ValidateWorksheets()
+        {
+            int woksheetCount = worksheets.Count;
+            if (woksheetCount == 0)
+            {
+                throw new WorksheetException("The workbook must contain at least one worksheet");
+            }
+            for (int i = 0; i < woksheetCount; i++)
+            {
+                if (worksheets[i].Hidden)
+                {
+                    if (i == selectedWorksheet)
+                    {
+                        throw new WorksheetException("The worksheet with the index " + selectedWorksheet + " cannot be set as selected, since it is set hidden");
+                    }
+                }
             }
         }
 
@@ -682,32 +880,6 @@ namespace PicoXLSX
                 selectedWorksheet = 0;
             }
             ValidateWorksheets();
-        }
-
-        /// <summary>
-        /// Validates the worksheets regarding several conditions that must be met:<br/>
-        /// - At least one worksheet must be defined<br/>
-        /// - A hidden worksheet cannot be the selected one<br/>
-        /// - At least one worksheet must be visible<br/>
-        /// If one of the conditions is not met, an exception is thrown
-        /// </summary>
-        internal void ValidateWorksheets()
-        {
-            int woksheetCount = worksheets.Count;
-            if (woksheetCount == 0)
-            {
-                throw new WorksheetException("The workbook must contain at least one worksheet");
-            }
-            for (int i = 0; i < woksheetCount; i++)
-            {
-                if (worksheets[i].Hidden)
-                {
-                    if (i == selectedWorksheet)
-                    {
-                        throw new WorksheetException("The worksheet with the index " + selectedWorksheet + " cannot be set as selected, since it is set hidden");
-                    }
-                }
-            }
         }
 
         /// <summary>
