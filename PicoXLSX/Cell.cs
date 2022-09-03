@@ -652,7 +652,7 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="addressExpression">Address expression</param>
         /// <returns>Scope of the address expression</returns>
-        public static AddressScope GetAddressScope(String addressExpression)
+        public static AddressScope GetAddressScope(string addressExpression)
         {
             try
             {

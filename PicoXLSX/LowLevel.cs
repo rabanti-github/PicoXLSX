@@ -392,7 +392,7 @@ namespace PicoXLSX
         private void CreateRowsString(Worksheet worksheet, StringBuilder sb)
         {
             List<DynamicRow> cellData = GetSortedSheetData(worksheet);
-            String line;
+            string line;
             foreach (DynamicRow row in cellData)
             {
                 line = CreateRowString(row, worksheet);
@@ -508,7 +508,7 @@ namespace PicoXLSX
                         break;
                 }
             }
-            String topLeftCell = worksheet.PaneSplitTopLeftCell.Value.GetAddress();
+            string topLeftCell = worksheet.PaneSplitTopLeftCell.Value.GetAddress();
             sb.Append(" topLeftCell=\"").Append(topLeftCell).Append("\" ");
             sb.Append("/>");
             if (applyXSplit && !applyYSplit)

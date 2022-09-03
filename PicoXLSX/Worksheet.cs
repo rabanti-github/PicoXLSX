@@ -902,7 +902,7 @@ namespace PicoXLSX
             IReadOnlyList<Cell.Address> addresses = cellRange.ResolveEnclosedAddresses();
             foreach (Cell.Address address in addresses)
             {
-                String key = address.GetAddress();
+                string key = address.GetAddress();
                 if (this.cells.ContainsKey(key))
                 {
                     if (style == null)
@@ -2316,7 +2316,7 @@ namespace PicoXLSX
         /// <param name="workbook">Workbook reference</param>
         /// <exception cref="WorksheetException">A WorksheetException is thrown if the workbook reference is null, since all worksheets have to be considered during sanitation</exception>
         /// <returns>True if the name exits, otherwise false</returns>
-        private static bool WorksheetExists(String name, Workbook workbook)
+        private static bool WorksheetExists(string name, Workbook workbook)
         {
             if (workbook == null)
             {

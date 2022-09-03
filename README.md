@@ -17,21 +17,20 @@
 Project website: [https://picoxlsx.rabanti.ch](https://picoxlsx.rabanti.ch) 
 See the **[Change Log](https://github.com/rabanti-github/PicoXLSX/blob/master/Changelog.md)** for recent updates.
 
-## What's new in version 2.x
+## What's new in version 3.x
 
-* Complete replacement of the old style handling
-* Added asynchronous methods to save workbooks as files or streams
-* Added appending of styles for an easier composition of complex styles
-* Added more options to assign styles to cells
-* Added Shortener (property WS) to reduce the code overhead
-* Added static methods for the most important formulas (round, floor, ceil, min, max, average, median, sum, vlookup)
-* Added Save option to save the XLSX file as stream
-* Added an option for sanitizing of worksheet names
-* Replaced specific exception classes with general exceptions (e.g. StyleException, FormatException or WorksheetException)
-* Added functions to retrieve stored data and the current cell address
-* Added functions to split and freeze worksheets as panes
-* Added properties to hide worksheets and workbooks
-* Many internal optimizations and additional documentation
+* Copy functions for worksheets
+* Several additional checks, exception handling and updated documentation
+
+Note: Most changes came from the rewritten [NanoXLSX](https://github.com/rabanti-github/NanoXLSX) library v2.0. Unit testing was also introduced there.
+Therefore, the change list in PicoXLSX is not as long as in NanoXLSX, since many these changes are dealing with reader functionality. 
+
+## Roadmap
+Version 3.x of PicoXLSX was completely overhauled along with NanoXLSX v3.x.
+However, v3.x it is not planned as a LTS version. The upcoming v4.x is supposed to introduce some important functions, like in-line cell formatting, better formula handling and additional worksheet features.
+Furthermore, it is planned to introduce more modern OOXML features like the SHA256 implementation of worksheet passwords.
+One of the main aspects of this upcoming version is the retirement of the original code base in favor of a facade, using NanoXLSX as single dependency. This will reduce the maintenance effort dramatically.
+
 
 ## Requirements
 
