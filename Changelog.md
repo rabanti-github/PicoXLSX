@@ -1,5 +1,19 @@
 # Change Log
 
+## v3.0.1
+
+---
+Release Date: **01.10.2022**
+
+- Fixed a bug in the functions to write custom number formats
+- Fixed behavior of empty cells and added re-evaluation if values are set by the Value property
+- Fixed a bug in the functions to write font values (styles)
+- Updated documentation
+
+Note: 
+- When defining a custom number format, now the CustomFormatCode property must always be defined as well, since an empty value leads to an invalid Workbook 
+- When a cell is now created (by constructor) with the type EMPTY, any passed value will be discarded in this cell
+
 ## v3.0.0
 
 ---

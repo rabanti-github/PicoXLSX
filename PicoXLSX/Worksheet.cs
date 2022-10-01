@@ -2168,11 +2168,10 @@ namespace PicoXLSX
         /// <summary>
         /// Creates a (dereferenced) deep copy of this worksheet
         /// </summary>
-        /// Not considered in the copy are the internal ID, the worksheet name and the workbook reference. 
-        /// Since styles are managed in a shared repository, no dereferencing is applied (Styles are not deep-copied).<\br>
+        /// <remarks>Not considered in the copy are the internal ID, the worksheet name and the workbook reference. 
+        /// Since styles are managed in a shared repository, no dereferencing is applied (Styles are not deep-copied). 
         /// Use <see cref="Workbook.CopyWorksheetTo(Worksheet, string, Workbook, bool)"/> or <see cref="Workbook.CopyWorksheetIntoThis(Worksheet, string, bool)"/> 
         /// to add a copy of worksheet to a workbook. These methods will set the internal ID, name and workbook reference.
-        /// <remarks>
         /// </remarks>
         /// <return>Copy of this worksheet</return>
         public Worksheet Copy()

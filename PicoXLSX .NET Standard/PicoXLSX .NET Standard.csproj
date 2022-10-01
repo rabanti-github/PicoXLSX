@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <RootNamespace>PicoXLSX</RootNamespace>
     <PackageId>PicoXLSX</PackageId>
-    <Version>3.0.0</Version>
+    <Version>3.0.1</Version>
     <Authors>Raphael Stoeckli</Authors>
     <Company></Company>
     <Product>PicoXLSX</Product>
@@ -17,8 +17,8 @@
     <PackageTags>Excel Office XLSX</PackageTags>
     <PackageReleaseNotes>Please see https://github.com/rabanti-github/PicoXLSX/blob/master/Changelog.md for the release notes</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>3.0.0.0</AssemblyVersion>
-    <FileVersion>3.0.0.0</FileVersion>
+    <AssemblyVersion>3.0.1.0</AssemblyVersion>
+    <FileVersion>3.0.1.0</FileVersion>
     <AssemblyName>PicoXLSX</AssemblyName>
   </PropertyGroup>
 

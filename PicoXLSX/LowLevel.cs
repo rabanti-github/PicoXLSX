@@ -1273,7 +1273,13 @@ namespace PicoXLSX
             {
                 if (item.IsCustomFormat)
                 {
-                    sb.Append("<numFmt formatCode=\"").Append(item.CustomFormatCode).Append("\" numFmtId=\"").Append(item.CustomFormatID.ToString("G", culture)).Append("\"/>");
+                    //  sb.Append("<numFmt formatCode=\"").Append(item.CustomFormatCode).Append("\" numFmtId=\"").Append(item.CustomFormatID.ToString("G", culture)).Append("\"/>");
+                    if (string.IsNullOrEmpty(item.CustomFormatCode))
+                    {
+                        throw new FormatException("The number format style component with the ID " + item.CustomFormatID.ToString("G", culture) + " cannot be null or empty");
+                    }
+                    String customFormat = Style.NumberFormat.EscapeFormatCode(item.CustomFormatCode);
+                    sb.Append("<numFmt formatCode=\"").Append(EscapeXmlAttributeChars(customFormat)).Append("\" numFmtId=\"").Append(item.CustomFormatID.ToString("G", culture)).Append("\"/>");
                 }
             }
             return sb.ToString();
