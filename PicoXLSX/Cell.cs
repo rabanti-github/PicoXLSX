@@ -27,9 +27,9 @@ namespace PicoXLSX
         {
             /// <summary>Type for single characters and strings</summary>
             STRING,
-            /// <summary>Type for all numeric types (long, integer and float and double)</summary>
+            /// <summary>Type for all numeric types (long, integer, float, double, short, byte and decimal; signed and unsigned, if available)</summary>
             NUMBER,
-            /// <summary>Type for dates(Note: Dates before 1900-01-01 and after 9999-12-31 are not allowed)</summary>
+            /// <summary>Type for dates (Note: Dates before 1900-01-01 and after 9999-12-31 are not allowed)</summary>
             DATE,
             /// <summary>Type for times (Note: Internally handled as OAdate, represented by <see cref="TimeSpan"/>)</summary>
             TIME,
@@ -77,6 +77,7 @@ namespace PicoXLSX
         private Style cellStyle;
         private int columnNumber;
         private int rowNumber;
+        private object value;
         #endregion
 
         #region properties
@@ -87,17 +88,23 @@ namespace PicoXLSX
         public string CellAddress
         {
             get { return ResolveCellAddress(ColumnNumber, RowNumber); }
-            set { ResolveCellCoordinate(value, out columnNumber, out rowNumber); }
+            set 
+            {
+                AddressType addressType;
+                ResolveCellCoordinate(value, out columnNumber, out rowNumber, out addressType);
+                CellAddressType = addressType;
+            }
         }
 
         /// <summary>Gets or sets the combined cell Address as Address object</summary>
         public Address CellAddress2
         {
-            get { return new Address(ColumnNumber, RowNumber); }
+            get { return new Address(ColumnNumber, RowNumber, CellAddressType); }
             set
             {
                 ColumnNumber = value.Column;
                 RowNumber = value.Row;
+                CellAddressType = value.Type;
             }
         }
 
@@ -149,8 +156,16 @@ namespace PicoXLSX
         /// <remarks>The type has no influence on the behavior of the cell, though. It is preserved to avoid losing information on the address object of the cell</remarks>
         public AddressType CellAddressType { get; set; }
 
-        /// <summary>Gets or sets the value of the cell (generic object type)</summary>
-        public object Value { get; set; }
+        /// <summary>Gets or sets the value of the cell (generic object type). When setting a value, the <see cref="DataType"/> is automatically resolved</summary>
+        public object Value
+        {
+            get => this.value;
+            set
+            {
+                this.value = value;
+                ResolveCellType();
+            }
+        }
 
         #endregion
 
@@ -166,9 +181,17 @@ namespace PicoXLSX
         /// </summary>
         /// <param name="value">Value of the cell</param>
         /// <param name="type">Type of the cell</param>
+        /// <remarks>If the <see cref="DataType"/> is defined as <see cref="CellType.EMPTY"/> any passed value will be set to null</remarks>
         public Cell(object value, CellType type)
         {
-            Value = value;
+            if (type == CellType.EMPTY)
+            {
+                this.value = null;
+            }
+            else
+            {
+                this.value = value;
+            }
             DataType = type;
             if (type == CellType.DEFAULT)
             {
@@ -182,10 +205,18 @@ namespace PicoXLSX
         /// <param name="value">Value of the cell</param>
         /// <param name="type">Type of the cell</param>
         /// <param name="address">Address of the cell</param>
+        /// <remarks>If the <see cref="DataType"/> is defined as <see cref="CellType.EMPTY"/> any passed value will be set to null</remarks>
         public Cell(Object value, CellType type, string address)
         {
+            if (type == CellType.EMPTY)
+            {
+                this.value = null;
+            }
+            else
+            {
+                this.value = value;
+            }
             DataType = type;
-            Value = value;
             CellAddress = address;
             if (type == CellType.DEFAULT)
             {
@@ -200,7 +231,7 @@ namespace PicoXLSX
         /// <param name="type">Type of the cell</param>
         /// <param name="column">Column number of the cell (zero-based)</param>
         /// <param name="row">Row number of the cell (zero-based)</param>
-
+        /// <remarks>If the <see cref="DataType"/> is defined as <see cref="CellType.EMPTY"/> any passed value will be set to null</remarks>
         public Cell(object value, CellType type, int column, int row) : this(value, type)
         {
             ColumnNumber = column;
@@ -236,18 +267,19 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method resets the Cell type and tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT. CellTypes FORMULA and EMPTY will skip this method
+        /// Method resets the Cell type and tries to find the actual type. This is used if a Cell was created with the CellType DEFAULT or automatically if a value was set by <see cref="Value"/>. 
+        /// CellType FORMULA will skip this method and EMPTY will discard the value of the cell
         /// </summary>
         public void ResolveCellType()
         {
-            if (Value == null)
+            if (this.value == null)
             {
                 DataType = CellType.EMPTY;
-                Value = "";
+                this.value = null;
                 return;
             }
-            if (DataType == CellType.FORMULA || DataType == CellType.EMPTY) { return; }
-            Type t = Value.GetType();
+            if (DataType == CellType.FORMULA) { return; }
+            Type t = this.value.GetType();
             if (t == typeof(bool)) { DataType = CellType.BOOL; }
             else if (t == typeof(byte) || t == typeof(sbyte)) { DataType = CellType.NUMBER; }
             else if (t == typeof(decimal)) { DataType = CellType.NUMBER; }
@@ -307,7 +339,7 @@ namespace PicoXLSX
         internal Cell Copy()
         {
             Cell copy = new Cell();
-            copy.Value = this.Value;
+            copy.value = this.value;
             copy.DataType = this.DataType;
             copy.CellAddress = this.CellAddress;
             copy.CellAddressType = this.CellAddressType;

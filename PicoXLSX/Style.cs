@@ -1304,7 +1304,7 @@ namespace PicoXLSX
             [Append]
             public string Charset { get; set; }
             /// <summary>
-            /// Gets or sets the font color theme (Default is 1)
+            /// Gets or sets the font color theme (Default is 1 = Light)
             /// </summary>
             /// <exception cref="StyleException">Throws a StyleException if the number is below 1</exception>
 			[Append]
@@ -1313,7 +1313,7 @@ namespace PicoXLSX
                 get => colorTheme;
                 set
                 {
-                    if (value < 1)
+                    if (value < 0)
                     {
                         throw new StyleException("A general style exception occurred", "The color theme number " + value + " is invalid. Should be >0");
                     }
@@ -1336,7 +1336,7 @@ namespace PicoXLSX
                 }
             }
             /// <summary>
-            ///  Gets or sets the font family (Default is 2)
+            ///  Gets or sets the font family (Default is 2 = Swiss)
             /// </summary>
             [Append]
             public string Family { get; set; }
@@ -1623,14 +1623,29 @@ namespace PicoXLSX
 
             #region privateFields
             private int customFormatID;
+            private string customFormatCode;
             #endregion
 
             #region properties
             /// <summary>
             /// Gets or sets the custom format code in the notation of Excel
             /// </summary>
+            /// <exception cref="FormatException">Throws a FormatException if passed value is null or empty</exception>
+            /// <remarks>Do not escape backslashes in custom format codes by double-backslashes (four in code), since escaping will be performed on saving the file. Unescaping will be also performed on loading</remarks>
             [Append]
-            public string CustomFormatCode { get; set; }
+            public string CustomFormatCode
+            {
+                get => customFormatCode;
+                set
+                {
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        throw new FormatException("A custom format code cannot be null or empty");
+                    }
+                    customFormatCode = value;
+                }
+            }
+
             /// <summary>
             /// Gets or sets the format number of the custom format. Must be higher or equal then predefined custom number (164) 
             /// </summary>
@@ -1674,7 +1689,7 @@ namespace PicoXLSX
             public NumberFormat()
             {
                 Number = DEFAULT_NUMBER;
-                CustomFormatCode = string.Empty;
+                customFormatCode = string.Empty;
                 CustomFormatID = CUSTOMFORMAT_START_NUMBER;
             }
             #endregion
@@ -1758,6 +1773,17 @@ namespace PicoXLSX
             }
 
             /// <summary>
+            /// Method to escape Backslashes in custom format codes.
+            /// </summary>
+            /// <param name="rawFormatCode">Raw value to escape</param>
+            /// <returns></returns>
+            internal static string EscapeFormatCode(string rawFormatCode)
+            {
+                // TODO: Add further rules, if discovered
+                return rawFormatCode.Replace("\\", "\\\\");
+            }
+
+            /// <summary>
             /// Override toString method
             /// </summary>
             /// <returns>String of a class</returns>
@@ -1780,7 +1806,7 @@ namespace PicoXLSX
             public override AbstractStyle Copy()
             {
                 NumberFormat copy = new NumberFormat();
-                copy.CustomFormatCode = CustomFormatCode;
+                copy.customFormatCode = customFormatCode;
                 copy.CustomFormatID = CustomFormatID;
                 copy.Number = Number;
                 return copy;
