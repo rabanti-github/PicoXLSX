@@ -5,10 +5,10 @@
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
 
-using System;
-
 namespace PicoXLSX
 {
+    using System;
+
     /// <summary>
     /// Class for exceptions regarding range incidents (e.g. out-of-range)
     /// </summary>
@@ -16,17 +16,21 @@ namespace PicoXLSX
     public class RangeException : Exception
     {
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the <see cref="RangeException"/> class
         /// </summary>
         public RangeException() : base()
-        { }
+        {
+        }
+
         /// <summary>
-        /// Constructor with passed message
+        /// Initializes a new instance of the <see cref="RangeException"/> class
         /// </summary>
-        /// <param name="message">Message of the exception</param>
+        /// <param name="title">The title<see cref="string"/>.</param>
+        /// <param name="message">Message of the exception.</param>
         public RangeException(string title, string message)
-            : base( message)
-        {}
+            : base(message)
+        {
+        }
     }
 
     /// <summary>
@@ -36,27 +40,31 @@ namespace PicoXLSX
     public class FormatException : Exception
     {
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the <see cref="FormatException"/> class
         /// </summary>
         public FormatException() : base()
-        { }
-        /// <summary>
-        /// Constructor with passed message
-        /// </summary>
-        /// <param name="message">Message of the exception</param>
-        public FormatException(string message)
-            : base(message)
-        { }
+        {
+        }
 
         /// <summary>
-        /// Constructor with passed message and inner exception
+        /// Initializes a new instance of the <see cref="FormatException"/> class
         /// </summary>
-        /// <param name="message">Message of the exception</param>
-        /// <param name="inner">Inner exception</param>
-        /// <param name="title">Title of the exception</param>
+        /// <param name="message">Message of the exception.</param>
+        public FormatException(string message)
+            : base(message)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormatException"/> class
+        /// </summary>
+        /// <param name="title">Title of the exception.</param>
+        /// <param name="message">Message of the exception.</param>
+        /// <param name="inner">Inner exception.</param>
         public FormatException(string title, string message, Exception inner)
             : base(message, inner)
-        {}
+        {
+        }
     }
 
     /// <summary>
@@ -66,25 +74,30 @@ namespace PicoXLSX
     public class IOException : Exception
     {
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the <see cref="IOException"/> class
         /// </summary>
         public IOException() : base()
-        { }
+        {
+        }
+
         /// <summary>
-        /// Constructor with passed message
+        /// Initializes a new instance of the <see cref="IOException"/> class
         /// </summary>
-        /// <param name="message">Message of the exception</param>
+        /// <param name="message">Message of the exception.</param>
         public IOException(string message)
             : base(message)
-        { }
+        {
+        }
+
         /// <summary>
-        /// Constructor with passed message and inner exception
+        /// Initializes a new instance of the <see cref="IOException"/> class
         /// </summary>
-        /// <param name="message">Message of the exception</param>
-        /// <param name="inner">Inner exception</param>
+        /// <param name="message">Message of the exception.</param>
+        /// <param name="inner">Inner exception.</param>
         public IOException(string message, Exception inner)
             : base(message, inner)
-        { }
+        {
+        }
     }
 
     /// <summary>
@@ -94,17 +107,20 @@ namespace PicoXLSX
     public class WorksheetException : Exception
     {
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the <see cref="WorksheetException"/> class
         /// </summary>
         public WorksheetException() : base()
-        { }
+        {
+        }
+
         /// <summary>
-        /// Constructor with passed message
+        /// Initializes a new instance of the <see cref="WorksheetException"/> class
         /// </summary>
-        /// <param name="message">Message of the exception</param>
+        /// <param name="message">Message of the exception.</param>
         public WorksheetException(string message)
             : base(message)
-        { }
+        {
+        }
     }
 
     /// <summary>
@@ -114,17 +130,20 @@ namespace PicoXLSX
     public class StyleException : Exception
     {
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the <see cref="StyleException"/> class
         /// </summary>
         public StyleException() : base()
-        { }
+        {
+        }
+
         /// <summary>
-        /// Constructor with passed message
+        /// Initializes a new instance of the <see cref="StyleException"/> class
         /// </summary>
-        /// <param name="message">Message of the exception</param>
+        /// <param name="title">The title<see cref="string"/>.</param>
+        /// <param name="message">Message of the exception.</param>
         public StyleException(string title, string message)
             : base(message)
-        {  }
+        {
+        }
     }
-
 }

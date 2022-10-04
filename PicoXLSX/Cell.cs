@@ -5,21 +5,19 @@
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.Text.RegularExpressions;
-
 namespace PicoXLSX
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Text;
+    using System.Text.RegularExpressions;
+
     /// <summary>
     /// Class representing a cell of a worksheet
     /// </summary>
     public class Cell : IComparable<Cell>
     {
-
-        #region enums
         /// <summary>
         /// Enum defines the basic data types of a cell
         /// </summary>
@@ -71,16 +69,25 @@ namespace PicoXLSX
             Invalid
         }
 
-        #endregion
-
-        #region privateFileds
+        /// <summary>
+        /// Defines the cellStyle
+        /// </summary>
         private Style cellStyle;
-        private int columnNumber;
-        private int rowNumber;
-        private object value;
-        #endregion
 
-        #region properties
+        /// <summary>
+        /// Defines the columnNumber
+        /// </summary>
+        private int columnNumber;
+
+        /// <summary>
+        /// Defines the rowNumber
+        /// </summary>
+        private int rowNumber;
+
+        /// <summary>
+        /// Defines the value
+        /// </summary>
+        private object value;
 
         /// <summary>
         /// Gets or sets the combined cell Address as string in the format A1 - XFD1048576
@@ -88,7 +95,7 @@ namespace PicoXLSX
         public string CellAddress
         {
             get { return ResolveCellAddress(ColumnNumber, RowNumber); }
-            set 
+            set
             {
                 AddressType addressType;
                 ResolveCellCoordinate(value, out columnNumber, out rowNumber, out addressType);
@@ -96,7 +103,9 @@ namespace PicoXLSX
             }
         }
 
-        /// <summary>Gets or sets the combined cell Address as Address object</summary>
+        /// <summary>
+        /// Gets or sets the CellAddress2
+        /// </summary>
         public Address CellAddress2
         {
             get { return new Address(ColumnNumber, RowNumber, CellAddressType); }
@@ -116,8 +125,9 @@ namespace PicoXLSX
             get { return cellStyle; }
         }
 
-        /// <summary>Gets or sets the number of the column (zero-based)</summary>  
-        /// <exception cref="RangeException">Throws a RangeException if the column number is out of range</exception>
+        /// <summary>
+        /// Gets or sets the ColumnNumber
+        /// </summary>
         public int ColumnNumber
         {
             get { return columnNumber; }
@@ -131,12 +141,14 @@ namespace PicoXLSX
             }
         }
 
-        /// <summary>Gets or sets the type of the cell</summary>
+        /// <summary>
+        /// Gets or sets the DataType
+        /// </summary>
         public CellType DataType { get; set; }
 
-
-        /// <summary>Gets or sets the number of the row (zero-based)</summary>
-        /// <exception cref="RangeException">Throws a RangeException if the row number is out of range</exception>
+        /// <summary>
+        /// Gets or sets the RowNumber
+        /// </summary>
         public int RowNumber
         {
             get { return rowNumber; }
@@ -151,12 +163,13 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets or sets the optional address type that can be part of the cell address. 
+        /// Gets or sets the optional address type that can be part of the cell address.
         /// </summary>
-        /// <remarks>The type has no influence on the behavior of the cell, though. It is preserved to avoid losing information on the address object of the cell</remarks>
         public AddressType CellAddressType { get; set; }
 
-        /// <summary>Gets or sets the value of the cell (generic object type). When setting a value, the <see cref="DataType"/> is automatically resolved</summary>
+        /// <summary>
+        /// Gets or sets the Value
+        /// </summary>
         public object Value
         {
             get => this.value;
@@ -167,21 +180,19 @@ namespace PicoXLSX
             }
         }
 
-        #endregion
-
-        #region constructors
-        /// <summary>Default constructor. Cells created with this constructor do not have a link to a worksheet initially</summary>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Cell"/> class
+        /// </summary>
         public Cell()
         {
             DataType = CellType.DEFAULT;
         }
 
         /// <summary>
-        /// Constructor with value and cell type. Cells created with this constructor do not have a link to a worksheet initially
+        /// Initializes a new instance of the <see cref="Cell"/> class
         /// </summary>
-        /// <param name="value">Value of the cell</param>
-        /// <param name="type">Type of the cell</param>
-        /// <remarks>If the <see cref="DataType"/> is defined as <see cref="CellType.EMPTY"/> any passed value will be set to null</remarks>
+        /// <param name="value">Value of the cell.</param>
+        /// <param name="type">Type of the cell.</param>
         public Cell(object value, CellType type)
         {
             if (type == CellType.EMPTY)
@@ -200,12 +211,11 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Constructor with value, cell type and address. The worksheet reference is set to null and must be assigned later
+        /// Initializes a new instance of the <see cref="Cell"/> class
         /// </summary>
-        /// <param name="value">Value of the cell</param>
-        /// <param name="type">Type of the cell</param>
-        /// <param name="address">Address of the cell</param>
-        /// <remarks>If the <see cref="DataType"/> is defined as <see cref="CellType.EMPTY"/> any passed value will be set to null</remarks>
+        /// <param name="value">Value of the cell.</param>
+        /// <param name="type">Type of the cell.</param>
+        /// <param name="address">Address of the cell.</param>
         public Cell(Object value, CellType type, string address)
         {
             if (type == CellType.EMPTY)
@@ -225,13 +235,12 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Constructor with value, cell type, row number and column number
+        /// Initializes a new instance of the <see cref="Cell"/> class
         /// </summary>
-        /// <param name="value">Value of the cell</param>
-        /// <param name="type">Type of the cell</param>
-        /// <param name="column">Column number of the cell (zero-based)</param>
-        /// <param name="row">Row number of the cell (zero-based)</param>
-        /// <remarks>If the <see cref="DataType"/> is defined as <see cref="CellType.EMPTY"/> any passed value will be set to null</remarks>
+        /// <param name="value">Value of the cell.</param>
+        /// <param name="type">Type of the cell.</param>
+        /// <param name="column">Column number of the cell (zero-based).</param>
+        /// <param name="row">Row number of the cell (zero-based).</param>
         public Cell(object value, CellType type, int column, int row) : this(value, type)
         {
             ColumnNumber = column;
@@ -241,14 +250,12 @@ namespace PicoXLSX
                 ResolveCellType();
             }
         }
-        #endregion
 
-        #region methods
         /// <summary>
         /// Implemented CompareTo method
         /// </summary>
-        /// <param name="other">Object to compare</param>
-        /// <returns>0 if values are the same, -1 if this object is smaller, 1 if it is bigger</returns>
+        /// <param name="other">Object to compare.</param>
+        /// <returns>0 if values are the same, -1 if this object is smaller, 1 if it is bigger.</returns>
         public int CompareTo(Cell other)
         {
             if (RowNumber == other.RowNumber)
@@ -296,10 +303,8 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the lock state of the cell
         /// </summary>
-        /// <param name="isLocked">If true, the cell will be locked if the worksheet is protected</param>
-        /// <param name="isHidden">If true, the value of the cell will be invisible if the worksheet is protected</param>
-        /// <exception cref="StyleException">Throws a StyleException if the style used to lock cells cannot be referenced</exception>
-        /// <remarks>The listed exception should never happen because the mentioned style is internally generated</remarks>
+        /// <param name="isLocked">If true, the cell will be locked if the worksheet is protected.</param>
+        /// <param name="isHidden">If true, the value of the cell will be invisible if the worksheet is protected.</param>
         public void SetCellLockedState(bool isLocked, bool isHidden)
         {
             Style lockStyle;
@@ -319,9 +324,9 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the style of the cell
         /// </summary>
-        /// <param name="style">Style to assign</param>
-        /// <param name="unmanaged">Internally used: If true, the style repository is not invoked and only the style object of the cell is updated. Do not use!</param>
-        /// <returns>If the passed style already exists in the repository, the existing one will be returned, otherwise the passed one</returns>
+        /// <param name="style">Style to assign.</param>
+        /// <param name="unmanaged">Internally used: If true, the style repository is not invoked and only the style object of the cell is updated. Do not use!.</param>
+        /// <returns>If the passed style already exists in the repository, the existing one will be returned, otherwise the passed one.</returns>
         public Style SetStyle(Style style, bool unmanaged = false)
         {
             if (style == null)
@@ -333,9 +338,9 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Copies this cell into a new one. The style is considered if not null.
+        /// Copies this cell into a new one. The style is considered if not null
         /// </summary>
-        /// <returns>Copy of this cell</returns>
+        /// <returns>Copy of this cell.</returns>
         internal Cell Copy()
         {
             Cell copy = new Cell();
@@ -350,15 +355,12 @@ namespace PicoXLSX
             return copy;
         }
 
-        #endregion
-
-        #region staticMethods
         /// <summary>
         /// Converts a List of supported objects into a list of cells
         /// </summary>
-        /// <typeparam name="T">Generic data type</typeparam>
-        /// <param name="list">List of generic objects</param>
-        /// <returns>List of cells</returns>
+        /// <typeparam name="T">Generic data type.</typeparam>
+        /// <param name="list">List of generic objects.</param>
+        /// <returns>List of cells.</returns>
         public static IEnumerable<Cell> ConvertArray<T>(IEnumerable<T> list)
         {
             List<Cell> output = new List<Cell>();
@@ -388,20 +390,20 @@ namespace PicoXLSX
                 else if (t == typeof(ulong)) { c = new Cell((ulong)o, CellType.NUMBER); }
                 else if (t == typeof(short)) { c = new Cell((short)o, CellType.NUMBER); }
                 else if (t == typeof(ushort)) { c = new Cell((ushort)o, CellType.NUMBER); }
-                else if (t == typeof(DateTime)) 
-                { 
+                else if (t == typeof(DateTime))
+                {
                     c = new Cell((DateTime)o, CellType.DATE);
                     c.SetStyle(Style.BasicStyles.DateFormat);
                 }
-                else if (t == typeof(TimeSpan)) 
-                { 
+                else if (t == typeof(TimeSpan))
+                {
                     c = new Cell((TimeSpan)o, CellType.TIME);
                     c.SetStyle(Style.BasicStyles.TimeFormat);
                 }
                 else if (t == typeof(string)) { c = new Cell((string)o, CellType.STRING); }
                 else // Default = unspecified object
                 {
-                     c = new Cell(o.ToString(), CellType.DEFAULT); 
+                    c = new Cell(o.ToString(), CellType.DEFAULT);
                 }
                 output.Add(c);
             }
@@ -411,10 +413,8 @@ namespace PicoXLSX
         /// <summary>
         /// Gets a list of cell addresses from a cell range (format A1:B3 or AAD556:AAD1000)
         /// </summary>
-        /// <param name="range">Range to process</param>
-        /// <returns>List of cell addresses</returns>
-        /// <exception cref="FormatException">Throws a FormatException if a part of the passed range is malformed</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the range is out of range (A-XFD and 1 to 1048576) </exception>
+        /// <param name="range">Range to process.</param>
+        /// <returns>List of cell addresses.</returns>
         public static IEnumerable<Address> GetCellRange(string range)
         {
             Range range2 = ResolveCellRange(range);
@@ -424,11 +424,9 @@ namespace PicoXLSX
         /// <summary>
         /// Get a list of cell addresses from a cell range
         /// </summary>
-        /// <param name="startAddress">Start address as string in the format A1 - XFD1048576</param>
-        /// <param name="endAddress">End address as string in the format A1 - XFD1048576</param>
-        /// <returns>List of cell addresses</returns>
-        /// <exception cref="FormatException">Throws a FormatException if a part of the passed range is malformed</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the range is out of range (A-XFD and 1 to 1048576) </exception> 
+        /// <param name="startAddress">Start address as string in the format A1 - XFD1048576.</param>
+        /// <param name="endAddress">End address as string in the format A1 - XFD1048576.</param>
+        /// <returns>List of cell addresses.</returns>
         public static IEnumerable<Address> GetCellRange(string startAddress, string endAddress)
         {
             Address start = ResolveCellCoordinate(startAddress);
@@ -439,12 +437,11 @@ namespace PicoXLSX
         /// <summary>
         /// Get a list of cell addresses from a cell range
         /// </summary>
-        /// <param name="startColumn">Start column (zero based)</param>
-        /// <param name="startRow">Start row (zero based)</param>
-        /// <param name="endColumn">End column (zero based)</param>
-        /// <param name="endRow">End row (zero based)</param>
-        /// <returns>List of cell addresses</returns>
-        /// <exception cref="RangeException">Throws a RangeException if the value of one passed address parts is out of range (A-XFD and 1 to 1048576) </exception>
+        /// <param name="startColumn">Start column (zero based).</param>
+        /// <param name="startRow">Start row (zero based).</param>
+        /// <param name="endColumn">End column (zero based).</param>
+        /// <param name="endRow">End row (zero based).</param>
+        /// <returns>List of cell addresses.</returns>
         public static IEnumerable<Address> GetCellRange(int startColumn, int startRow, int endColumn, int endRow)
         {
             Address start = new Address(startColumn, startRow);
@@ -455,11 +452,9 @@ namespace PicoXLSX
         /// <summary>
         /// Get a list of cell addresses from a cell range
         /// </summary>
-        /// <param name="startAddress">Start address</param>
-        /// <param name="endAddress">End address</param>
-        /// <returns>List of cell addresses</returns>
-        /// <exception cref="FormatException">Throws a FormatException if a part of the passed addresses is malformed</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the value of one passed address is out of range (A-XFD and 1 to 1048576) </exception>
+        /// <param name="startAddress">Start address.</param>
+        /// <param name="endAddress">End address.</param>
+        /// <returns>List of cell addresses.</returns>
         public static IEnumerable<Address> GetCellRange(Address startAddress, Address endAddress)
         {
             int startColumn, endColumn, startRow, endRow;
@@ -497,11 +492,10 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the address of a cell by the column and row number (zero based)
         /// </summary>
-        /// <param name="column">Column number of the cell (zero-based)</param>
-        /// <param name="row">Row number of the cell (zero-based)</param>
-        /// <param name="type">Optional referencing type of the address</param>
-        /// <exception cref="RangeException">Throws a RangeException if the start or end address was out of range</exception>
-        /// <returns>Cell Address as string in the format A1 - XFD1048576. Depending on the type, Addresses like '$A55', 'B$2' or '$A$5' are possible outputs</returns>
+        /// <param name="column">Column number of the cell (zero-based).</param>
+        /// <param name="row">Row number of the cell (zero-based).</param>
+        /// <param name="type">Optional referencing type of the address.</param>
+        /// <returns>Cell Address as string in the format A1 - XFD1048576. Depending on the type, Addresses like '$A55', 'B$2' or '$A$5' are possible outputs.</returns>
         public static string ResolveCellAddress(int column, int row, AddressType type = AddressType.Default)
         {
             if (column > Worksheet.MAX_COLUMN_NUMBER || column < Worksheet.MIN_COLUMN_NUMBER)
@@ -524,10 +518,8 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the column and row number (zero based) of a cell by the address
         /// </summary>
-        /// <param name="address">Address as string in the format A1 - XFD1048576</param>
-        /// <returns>Struct with row and column</returns>
-        /// <exception cref="FormatException">Throws a FormatException if the passed address is malformed</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the value of the passed address is out of range (A-XFD and 1 to 1048576) </exception>
+        /// <param name="address">Address as string in the format A1 - XFD1048576.</param>
+        /// <returns>Struct with row and column.</returns>
         public static Address ResolveCellCoordinate(string address)
         {
             int row, column;
@@ -539,11 +531,9 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the column and row number (zero based) of a cell by the address
         /// </summary>
-        /// <param name="address">Address as string in the format A1 - XFD1048576</param>
-        /// <param name="column">Column number of the cell (zero-based) as out parameter</param>
-        /// <param name="row">Row number of the cell (zero-based) as out parameter</param>
-        /// <exception cref="FormatException">Throws a FormatException if the range address was malformed</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the row or column number was out of range</exception>
+        /// <param name="address">Address as string in the format A1 - XFD1048576.</param>
+        /// <param name="column">Column number of the cell (zero-based) as out parameter.</param>
+        /// <param name="row">Row number of the cell (zero-based) as out parameter.</param>
         public static void ResolveCellCoordinate(string address, out int column, out int row)
         {
             AddressType dummy;
@@ -553,12 +543,10 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the column and row number (zero based) of a cell by the address
         /// </summary>
-        /// <param name="address">Address as string in the format A1 - XFD1048576</param>
-        /// <param name="column">Column number of the cell (zero-based) as out parameter</param>
-        /// <param name="row">Row number of the cell (zero-based) as out parameter</param>
-        /// <param name="addressType">Address type of the cell (if defined as modifiers in the address string)</param>
-        /// <exception cref="FormatException">Throws a FormatException if the range address was malformed</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the row or column number was out of range</exception>
+        /// <param name="address">Address as string in the format A1 - XFD1048576.</param>
+        /// <param name="column">Column number of the cell (zero-based) as out parameter.</param>
+        /// <param name="row">Row number of the cell (zero-based) as out parameter.</param>
+        /// <param name="addressType">Address type of the cell (if defined as modifiers in the address string).</param>
         public static void ResolveCellCoordinate(string address, out int column, out int row, out AddressType addressType)
         {
             if (string.IsNullOrEmpty(address))
@@ -597,10 +585,8 @@ namespace PicoXLSX
         /// <summary>
         /// Resolves a cell range from the format like A1:B3 or AAD556:AAD1000
         /// </summary>
-        /// <param name="range">Range to process</param>
-        /// <returns>Range object</returns>
-        /// <exception cref="FormatException">Throws a FormatException if the start or end address was malformed</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the range is out of range (A-XFD and 1 to 1048576) </exception>
+        /// <param name="range">Range to process.</param>
+        /// <returns>Range object.</returns>
         public static Range ResolveCellRange(string range)
         {
             if (string.IsNullOrEmpty(range))
@@ -618,9 +604,8 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the column number from the column address (A - XFD)
         /// </summary>
-        /// <param name="columnAddress">Column address (A - XFD)</param>
-        /// <returns>Column number (zero-based)</returns>
-        /// <exception cref="RangeException">Throws a RangeException if the passed address was out of range</exception>
+        /// <param name="columnAddress">Column address (A - XFD).</param>
+        /// <returns>Column number (zero-based).</returns>
         public static int ResolveColumn(string columnAddress)
         {
             if (String.IsNullOrEmpty(columnAddress))
@@ -645,9 +630,8 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the column address (A - XFD)
         /// </summary>
-        /// <param name="columnNumber">Column number (zero-based)</param>
-        /// <returns>Column address (A - XFD)</returns>
-        /// <exception cref="RangeException">Throws a RangeException if the passed column number was out of range</exception>
+        /// <param name="columnNumber">Column number (zero-based).</param>
+        /// <returns>Column address (A - XFD).</returns>
         public static string ResolveColumnAddress(int columnNumber)
         {
             if (columnNumber > Worksheet.MAX_COLUMN_NUMBER || columnNumber < Worksheet.MIN_COLUMN_NUMBER)
@@ -682,8 +666,8 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the scope of the passed address (string expression). Scope means either single cell address or range
         /// </summary>
-        /// <param name="addressExpression">Address expression</param>
-        /// <returns>Scope of the address expression</returns>
+        /// <param name="addressExpression">Address expression.</param>
+        /// <returns>Scope of the address expression.</returns>
         public static AddressScope GetAddressScope(string addressExpression)
         {
             try
@@ -703,14 +687,12 @@ namespace PicoXLSX
                     return AddressScope.Invalid;
                 }
             }
-
         }
 
         /// <summary>
         /// Validates the passed (zero-based) column number. an exception will be thrown if the column is invalid
         /// </summary>
-        /// <param name="column">Number to check</param>
-        /// <exception cref="RangeException">Thrown if the passed column number is out of range</exception>
+        /// <param name="column">Number to check.</param>
         public static void ValidateColumnNumber(int column)
         {
             if (column > Worksheet.MAX_COLUMN_NUMBER || column < Worksheet.MIN_COLUMN_NUMBER)
@@ -723,8 +705,7 @@ namespace PicoXLSX
         /// <summary>
         /// Validates the passed (zero-based) row number. an exception will be thrown if the row is invalid
         /// </summary>
-        /// <param name="row">Number to check</param>
-        /// <exception cref="RangeException">Thrown if the passed row number is out of range</exception>
+        /// <param name="row">Number to check.</param>
         public static void ValidateRowNumber(int row)
         {
             if (row > Worksheet.MAX_ROW_NUMBER || row < Worksheet.MIN_ROW_NUMBER)
@@ -733,9 +714,6 @@ namespace PicoXLSX
                     Worksheet.MIN_ROW_NUMBER + " to " + Worksheet.MAX_ROW_NUMBER + " (" + (Worksheet.MAX_ROW_NUMBER + 1) + " rows).");
             }
         }
-        #endregion
-
-        #region subClasses
 
         /// <summary>
         /// Struct representing the cell address as column and row (zero based)
@@ -746,6 +724,7 @@ namespace PicoXLSX
             /// Column number (zero based)
             /// </summary>
             public int Column;
+
             /// <summary>
             /// Row number (zero based)
             /// </summary>
@@ -757,11 +736,11 @@ namespace PicoXLSX
             public AddressType Type;
 
             /// <summary>
-            /// Constructor with row and column as arguments
+            /// Initializes a new instance of the <see cref=""/> class
             /// </summary>
-            /// <param name="column">Column number (zero based)</param>
-            /// <param name="row">Row number (zero based)</param>
-            /// <param name="type">Optional referencing type of the address</param>
+            /// <param name="column">Column number (zero based).</param>
+            /// <param name="row">Row number (zero based).</param>
+            /// <param name="type">Optional referencing type of the address.</param>
             public Address(int column, int row, AddressType type = AddressType.Default)
             {
                 Column = column;
@@ -770,10 +749,10 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Constructor with address as string
+            /// Initializes a new instance of the <see cref=""/> class
             /// </summary>
-            /// <param name="address">Address string (e.g. 'A1:B12')</param>
-            /// <param name="type">Optional referencing type of the address</param>
+            /// <param name="address">Address string (e.g. 'A1:B12').</param>
+            /// <param name="type">Optional referencing type of the address.</param>
             public Address(string address, AddressType type = AddressType.Default)
             {
                 Type = type;
@@ -783,7 +762,7 @@ namespace PicoXLSX
             /// <summary>
             /// Returns the combined Address
             /// </summary>
-            /// <returns>Address as string in the format A1 - XFD1048576</returns>
+            /// <returns>Address as string in the format A1 - XFD1048576.</returns>
             public string GetAddress()
             {
                 return ResolveCellAddress(Column, Row, Type);
@@ -792,7 +771,7 @@ namespace PicoXLSX
             /// <summary>
             /// Gets the column address (A - XFD)
             /// </summary>
-            /// <returns>Column address as letter(s)</returns>
+            /// <returns>Column address as letter(s).</returns>
             public string GetColumn()
             {
                 return ResolveColumnAddress(Column);
@@ -801,7 +780,7 @@ namespace PicoXLSX
             /// <summary>
             /// Overwritten ToString method
             /// </summary>
-            /// <returns>Returns the cell address (e.g. 'A15')</returns>
+            /// <returns>Returns the cell address (e.g. 'A15').</returns>
             public override string ToString()
             {
                 return GetAddress();
@@ -810,8 +789,8 @@ namespace PicoXLSX
             /// <summary>
             /// Compares two addresses whether they are equal
             /// </summary>
-            /// <param name="o"> Other address</param>
-            /// <returns>True if equal</returns>
+            /// <param name="o"> Other address.</param>
+            /// <returns>True if equal.</returns>
             public bool Equals(Address o)
             {
                 if (Row == o.Row && Column == o.Column) { return true; }
@@ -819,10 +798,44 @@ namespace PicoXLSX
             }
 
             /// <summary>
+            /// Compares two objects whether they are addresses and equal
+            /// </summary>
+            /// <param name="obj"> Other address.</param>
+            /// <returns>True if not null, of the same type and equal.</returns>
+            public override bool Equals(object obj)
+            {
+                if (!(obj is Address))
+                {
+                    return false;
+                }
+                return Equals((Address)obj);
+            }
+
+            /// <summary>
+            /// Gets the hash code based on the string representation of the address
+            /// </summary>
+            /// <returns>Hash code of the address.</returns>
+            public override int GetHashCode()
+            {
+                return ToString().GetHashCode();
+            }
+
+
+            // Operator overloads
+            public static bool operator ==(Address address1, Address address2)
+            {
+                return address1.Equals(address2);
+            }
+
+            public static bool operator !=(Address address1, Address address2)
+            {
+                return !address1.Equals(address2);
+            }
+            /// <summary>
             /// Compares two addresses using the column and row numbers
             /// </summary>
-            /// <param name="other"> Other address</param>
-            /// <returns>-1 if the other address is greater, 0 if equal and 1 if smaller</returns>
+            /// <param name="other"> Other address.</param>
+            /// <returns>-1 if the other address is greater, 0 if equal and 1 if smaller.</returns>
             public int CompareTo(Address other)
             {
                 long thisCoordinate = (long)Column * (long)Worksheet.MAX_ROW_NUMBER + Row;
@@ -833,12 +846,11 @@ namespace PicoXLSX
             /// <summary>
             /// Creates a (dereferenced, if applicable) deep copy of this address
             /// </summary>
-            /// <returns>Copy of this range</returns>
+            /// <returns>Copy of this range.</returns>
             internal Address Copy()
             {
                 return new Address(this.Column, this.Row, this.Type);
             }
-
         }
 
         /// <summary>
@@ -850,16 +862,17 @@ namespace PicoXLSX
             /// End address of the range
             /// </summary>
             public Address EndAddress;
+
             /// <summary>
             /// Start address of the range
             /// </summary>
             public Address StartAddress;
 
             /// <summary>
-            /// Constructor with addresses as arguments. The addresses are automatically swapped if the start address is greater than the end address
+            /// Initializes a new instance of the <see cref=""/> class
             /// </summary>
-            /// <param name="start">Start address of the range</param>
-            /// <param name="end">End address of the range</param>
+            /// <param name="start">Start address of the range.</param>
+            /// <param name="end">End address of the range.</param>
             public Range(Address start, Address end)
             {
                 if (start.CompareTo(end) < 0)
@@ -872,13 +885,12 @@ namespace PicoXLSX
                     StartAddress = end;
                     EndAddress = start;
                 }
-
             }
 
             /// <summary>
-            /// Constructor with a range string as argument. The addresses are automatically swapped if the start address is greater than the end address
+            /// Initializes a new instance of the <see cref=""/> class
             /// </summary>
-            /// <param name="range">Address range (e.g. 'A1:B12')</param>
+            /// <param name="range">Address range (e.g. 'A1:B12').</param>
             public Range(string range)
             {
                 Range r = ResolveCellRange(range);
@@ -897,7 +909,7 @@ namespace PicoXLSX
             /// <summary>
             /// Gets a list of all addresses between the start and end address
             /// </summary>
-            /// <returns>List of Addresses</returns>
+            /// <returns>List of Addresses.</returns>
             public IReadOnlyList<Cell.Address> ResolveEnclosedAddresses()
             {
                 int startColumn, endColumn, startRow, endRow;
@@ -935,7 +947,7 @@ namespace PicoXLSX
             /// <summary>
             /// Overwritten ToString method
             /// </summary>
-            /// <returns>Returns the range (e.g. 'A1:B12')</returns>
+            /// <returns>Returns the range (e.g. 'A1:B12').</returns>
             public override string ToString()
             {
                 return StartAddress.ToString() + ":" + EndAddress.ToString();
@@ -944,10 +956,46 @@ namespace PicoXLSX
             /// <summary>
             /// Creates a (dereferenced, if applicable) deep copy of this range
             /// </summary>
-            /// <returns>Copy of this range</returns>
+            /// <returns>Copy of this range.</returns>
             internal Range Copy()
             {
                 return new Range(this.StartAddress.Copy(), this.EndAddress.Copy());
+            }
+
+            /// <summary>
+            /// Compares two objects whether they are ranges and equal. The cell types (possible $ prefix) are considered
+            /// </summary>
+            /// <param name="obj">Other object to compare.</param>
+            /// <returns>True if the two objects are the same range.</returns>
+            public override bool Equals(object obj)
+            {
+                if (!(obj is Range))
+                {
+                    return false;
+                }
+                Range other = (Range)obj;
+                return this.StartAddress.Equals(other.StartAddress) && this.EndAddress.Equals(other.EndAddress);
+            }
+
+            /// <summary>
+            /// Gets the hash code of the range object according to its string representation
+            /// </summary>
+            /// <returns>Hash code of the range.</returns>
+            public override int GetHashCode()
+            {
+                return this.ToString().GetHashCode();
+            }
+
+
+            // Operator overloads
+            public static bool operator ==(Range range1, Range range2)
+            {
+                return range1.Equals(range2);
+            }
+
+            public static bool operator !=(Range range1, Range range2)
+            {
+                return !range1.Equals(range2);
             }
         }
 
@@ -959,194 +1007,227 @@ namespace PicoXLSX
             /// <summary>
             /// Returns a cell with a average formula
             /// </summary>
-            /// <param name="range">Cell range to apply the average operation to</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="range">Cell range to apply the average operation to.</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell Average(Range range)
-            { return Average(null, range); }
+            {
+                return Average(null, range);
+            }
 
             /// <summary>
             /// Returns a cell with a average formula
             /// </summary>
-            /// <param name="target">Target worksheet of the average operation. Can be null if on the same worksheet</param>
-            /// <param name="range">Cell range to apply the average operation to</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="target">Target worksheet of the average operation. Can be null if on the same worksheet.</param>
+            /// <param name="range">Cell range to apply the average operation to.</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell Average(Worksheet target, Range range)
-            { return GetBasicFormula(target, range, "AVERAGE", null); }
+            {
+                return GetBasicFormula(target, range, "AVERAGE", null);
+            }
 
             /// <summary>
             /// Returns a cell with a ceil formula
             /// </summary>
-            /// <param name="address">Address to apply the ceil operation to</param>
-            /// <param name="decimals">Number of decimals (digits)</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="address">Address to apply the ceil operation to.</param>
+            /// <param name="decimals">Number of decimals (digits).</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell Ceil(Address address, int decimals)
-            { return Ceil(null, address, decimals); }
+            {
+                return Ceil(null, address, decimals);
+            }
 
             /// <summary>
             /// Returns a cell with a ceil formula
             /// </summary>
-            /// <param name="target">Target worksheet of the ceil operation. Can be null if on the same worksheet</param>
-            /// <param name="address">Address to apply the ceil operation to</param>
-            /// <param name="decimals">Number of decimals (digits)</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="target">Target worksheet of the ceil operation. Can be null if on the same worksheet.</param>
+            /// <param name="address">Address to apply the ceil operation to.</param>
+            /// <param name="decimals">Number of decimals (digits).</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell Ceil(Worksheet target, Address address, int decimals)
-            { return GetBasicFormula(target, new Range(address, address), "ROUNDUP", decimals.ToString(CultureInfo.InvariantCulture)); }
+            {
+                return GetBasicFormula(target, new Range(address, address), "ROUNDUP", decimals.ToString(CultureInfo.InvariantCulture));
+            }
 
             /// <summary>
             /// Returns a cell with a floor formula
             /// </summary>
-            /// <param name="address">Address to apply the floor operation to</param>
-            /// <param name="decimals">Number of decimals (digits)</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="address">Address to apply the floor operation to.</param>
+            /// <param name="decimals">Number of decimals (digits).</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell Floor(Address address, int decimals)
-            { return Floor(null, address, decimals); }
+            {
+                return Floor(null, address, decimals);
+            }
 
             /// <summary>
             /// Returns a cell with a floor formula
             /// </summary>
-            /// <param name="target">Target worksheet of the floor operation. Can be null if on the same worksheet</param>
-            /// <param name="address">Address to apply the floor operation to</param>
-            /// <param name="decimals">Number of decimals (digits)</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="target">Target worksheet of the floor operation. Can be null if on the same worksheet.</param>
+            /// <param name="address">Address to apply the floor operation to.</param>
+            /// <param name="decimals">Number of decimals (digits).</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell Floor(Worksheet target, Address address, int decimals)
-            { return GetBasicFormula(target, new Range(address, address), "ROUNDDOWN", decimals.ToString(CultureInfo.InvariantCulture)); }
+            {
+                return GetBasicFormula(target, new Range(address, address), "ROUNDDOWN", decimals.ToString(CultureInfo.InvariantCulture));
+            }
 
             /// <summary>
             /// Returns a cell with a max formula
             /// </summary>
-            /// <param name="range">Cell range to apply the max operation to</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="range">Cell range to apply the max operation to.</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell Max(Range range)
-            { return Max(null, range); }
+            {
+                return Max(null, range);
+            }
 
             /// <summary>
             /// Returns a cell with a max formula
             /// </summary>
-            /// <param name="target">Target worksheet of the max operation. Can be null if on the same worksheet</param>
-            /// <param name="range">Cell range to apply the max operation to</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="target">Target worksheet of the max operation. Can be null if on the same worksheet.</param>
+            /// <param name="range">Cell range to apply the max operation to.</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell Max(Worksheet target, Range range)
-            { return GetBasicFormula(target, range, "MAX", null); }
+            {
+                return GetBasicFormula(target, range, "MAX", null);
+            }
 
             /// <summary>
             /// Returns a cell with a median formula
             /// </summary>
-            /// <param name="range">Cell range to apply the median operation to</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="range">Cell range to apply the median operation to.</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell Median(Range range)
-            { return Median(null, range); }
+            {
+                return Median(null, range);
+            }
 
             /// <summary>
             /// Returns a cell with a median formula
             /// </summary>
-            /// <param name="target">Target worksheet of the median operation. Can be null if on the same worksheet</param>
-            /// <param name="range">Cell range to apply the median operation to</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="target">Target worksheet of the median operation. Can be null if on the same worksheet.</param>
+            /// <param name="range">Cell range to apply the median operation to.</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell Median(Worksheet target, Range range)
-            { return GetBasicFormula(target, range, "MEDIAN", null); }
+            {
+                return GetBasicFormula(target, range, "MEDIAN", null);
+            }
 
             /// <summary>
             /// Returns a cell with a min formula
             /// </summary>
-            /// <param name="range">Cell range to apply the min operation to</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="range">Cell range to apply the min operation to.</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell Min(Range range)
-            { return Min(null, range); }
+            {
+                return Min(null, range);
+            }
 
             /// <summary>
             /// Returns a cell with a min formula
             /// </summary>
-            /// <param name="target">Target worksheet of the min operation. Can be null if on the same worksheet</param>
-            /// <param name="range">Cell range to apply the median operation to</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="target">Target worksheet of the min operation. Can be null if on the same worksheet.</param>
+            /// <param name="range">Cell range to apply the median operation to.</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell Min(Worksheet target, Range range)
-            { return GetBasicFormula(target, range, "MIN", null); }
+            {
+                return GetBasicFormula(target, range, "MIN", null);
+            }
 
             /// <summary>
             /// Returns a cell with a round formula
             /// </summary>
-            /// <param name="address">Address to apply the round operation to</param>
-            /// <param name="decimals">Number of decimals (digits)</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="address">Address to apply the round operation to.</param>
+            /// <param name="decimals">Number of decimals (digits).</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell Round(Address address, int decimals)
-            { return Round(null, address, decimals); }
+            {
+                return Round(null, address, decimals);
+            }
 
             /// <summary>
             /// Returns a cell with a round formula
             /// </summary>
-            /// <param name="target">Target worksheet of the round operation. Can be null if on the same worksheet</param>
-            /// <param name="address">Address to apply the round operation to</param>
-            /// <param name="decimals">Number of decimals (digits)</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="target">Target worksheet of the round operation. Can be null if on the same worksheet.</param>
+            /// <param name="address">Address to apply the round operation to.</param>
+            /// <param name="decimals">Number of decimals (digits).</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell Round(Worksheet target, Address address, int decimals)
-            { return GetBasicFormula(target, new Range(address, address), "ROUND", decimals.ToString(CultureInfo.InvariantCulture)); }
+            {
+                return GetBasicFormula(target, new Range(address, address), "ROUND", decimals.ToString(CultureInfo.InvariantCulture));
+            }
 
             /// <summary>
             /// Returns a cell with a sum formula
             /// </summary>
-            /// <param name="range">Cell range to get a sum of</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="range">Cell range to get a sum of.</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell Sum(Range range)
-            { return Sum(null, range); }
+            {
+                return Sum(null, range);
+            }
 
             /// <summary>
             /// Returns a cell with a sum formula
             /// </summary>
-            /// <param name="target">Target worksheet of the sum operation. Can be null if on the same worksheet</param>
-            /// <param name="range">Cell range to get a sum of</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="target">Target worksheet of the sum operation. Can be null if on the same worksheet.</param>
+            /// <param name="range">Cell range to get a sum of.</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell Sum(Worksheet target, Range range)
-            { return GetBasicFormula(target, range, "SUM", null); }
-
+            {
+                return GetBasicFormula(target, range, "SUM", null);
+            }
 
             /// <summary>
             /// Function to generate a Vlookup as Excel function
             /// </summary>
-            /// <param name="number">Numeric value for the lookup. Valid types are int, uint, long, ulong, float, double, byte, sbyte, decimal, short and ushort</param>
-            /// <param name="range">Matrix of the lookup</param>
-            /// <param name="columnIndex">Column index of the target column within the range (1 based)</param>
-            /// <param name="exactMatch">If true, an exact match is applied to the lookup</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
-            /// <exception cref="FormatException">A format exception is thrown if the value or column index is invalid</exception>
+            /// <param name="number">Numeric value for the lookup. Valid types are int, uint, long, ulong, float, double, byte, sbyte, decimal, short and ushort.</param>
+            /// <param name="range">Matrix of the lookup.</param>
+            /// <param name="columnIndex">Column index of the target column within the range (1 based).</param>
+            /// <param name="exactMatch">If true, an exact match is applied to the lookup.</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell VLookup(object number, Range range, int columnIndex, bool exactMatch)
-            { return VLookup(number, null, range, columnIndex, exactMatch); }
+            {
+                return VLookup(number, null, range, columnIndex, exactMatch);
+            }
 
             /// <summary>
             /// Function to generate a Vlookup as Excel function
             /// </summary>
-            /// <param name="number">Numeric value for the lookup.Valid types are int, uint, long, ulong, float, double, byte, sbyte, decimal, short and ushort</param>
-            /// <param name="rangeTarget">Target worksheet of the matrix. Can be null if on the same worksheet</param>
-            /// <param name="range">Matrix of the lookup</param>
-            /// <param name="columnIndex">Column index of the target column within the range (1 based)</param>
-            /// <param name="exactMatch">If true, an exact match is applied to the lookup</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
-            /// <exception cref="FormatException">A format exception is thrown if the value or column index is invalid</exception>
+            /// <param name="number">Numeric value for the lookup.Valid types are int, uint, long, ulong, float, double, byte, sbyte, decimal, short and ushort.</param>
+            /// <param name="rangeTarget">Target worksheet of the matrix. Can be null if on the same worksheet.</param>
+            /// <param name="range">Matrix of the lookup.</param>
+            /// <param name="columnIndex">Column index of the target column within the range (1 based).</param>
+            /// <param name="exactMatch">If true, an exact match is applied to the lookup.</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell VLookup(object number, Worksheet rangeTarget, Range range, int columnIndex, bool exactMatch)
-            { return GetVLookup(null, new Address(), number, rangeTarget, range, columnIndex, exactMatch, true); }
+            {
+                return GetVLookup(null, new Address(), number, rangeTarget, range, columnIndex, exactMatch, true);
+            }
 
             /// <summary>
             /// Function to generate a Vlookup as Excel function
             /// </summary>
-            /// <param name="address">Query address of a cell as string as source of the lookup</param>
-            /// <param name="range">Matrix of the lookup</param>
-            /// <param name="columnIndex">Column index of the target column within the range (1 based)</param>
-            /// <param name="exactMatch">If true, an exact match is applied to the lookup</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
-            /// <exception cref="FormatException">A format exception is thrown if the column index is invalid</exception>
+            /// <param name="address">Query address of a cell as string as source of the lookup.</param>
+            /// <param name="range">Matrix of the lookup.</param>
+            /// <param name="columnIndex">Column index of the target column within the range (1 based).</param>
+            /// <param name="exactMatch">If true, an exact match is applied to the lookup.</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell VLookup(Address address, Range range, int columnIndex, bool exactMatch)
-            { return VLookup(null, address, null, range, columnIndex, exactMatch); }
+            {
+                return VLookup(null, address, null, range, columnIndex, exactMatch);
+            }
 
             /// <summary>
             /// Function to generate a Vlookup as Excel function
             /// </summary>
-            /// <param name="queryTarget">Target worksheet of the query argument. Can be null if on the same worksheet</param>
-            /// <param name="address">Query address of a cell as string as source of the lookup</param>
-            /// <param name="rangeTarget">Target worksheet of the matrix. Can be null if on the same worksheet</param>
-            /// <param name="range">Matrix of the lookup</param>
-            /// <param name="columnIndex">Column index of the target column within the range (1 based)</param>
-            /// <param name="exactMatch">If true, an exact match is applied to the lookup</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
-            /// <exception cref="FormatException">A format exception is thrown if the column index is invalid</exception>
+            /// <param name="queryTarget">Target worksheet of the query argument. Can be null if on the same worksheet.</param>
+            /// <param name="address">Query address of a cell as string as source of the lookup.</param>
+            /// <param name="rangeTarget">Target worksheet of the matrix. Can be null if on the same worksheet.</param>
+            /// <param name="range">Matrix of the lookup.</param>
+            /// <param name="columnIndex">Column index of the target column within the range (1 based).</param>
+            /// <param name="exactMatch">If true, an exact match is applied to the lookup.</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             public static Cell VLookup(Worksheet queryTarget, Address address, Worksheet rangeTarget, Range range, int columnIndex, bool exactMatch)
             {
                 return GetVLookup(queryTarget, address, 0, rangeTarget, range, columnIndex, exactMatch, false);
@@ -1155,16 +1236,15 @@ namespace PicoXLSX
             /// <summary>
             /// Function to generate a Vlookup as Excel function
             /// </summary>
-            /// <param name="queryTarget">Target worksheet of the query argument. Can be null if on the same worksheet</param>
-            /// <param name="address">In case of a reference lookup, query address of a cell as string</param>
-            /// <param name="number">In case of a numeric lookup, number for the lookup</param>
-            /// <param name="rangeTarget">Target worksheet of the matrix. Can be null if on the same worksheet</param>
-            /// <param name="range">Matrix of the lookup</param>
-            /// <param name="columnIndex">Column index of the target column within the range (1 based)</param>
-            /// <param name="exactMatch">If true, an exact match is applied to the lookup</param>
-            /// <param name="numericLookup">If true, the lookup is a numeric lookup, otherwise a reference lookup</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
-            /// <exception cref="FormatException">A format exception is thrown if the value or column index is invalid</exception>
+            /// <param name="queryTarget">Target worksheet of the query argument. Can be null if on the same worksheet.</param>
+            /// <param name="address">In case of a reference lookup, query address of a cell as string.</param>
+            /// <param name="number">In case of a numeric lookup, number for the lookup.</param>
+            /// <param name="rangeTarget">Target worksheet of the matrix. Can be null if on the same worksheet.</param>
+            /// <param name="range">Matrix of the lookup.</param>
+            /// <param name="columnIndex">Column index of the target column within the range (1 based).</param>
+            /// <param name="exactMatch">If true, an exact match is applied to the lookup.</param>
+            /// <param name="numericLookup">If true, the lookup is a numeric lookup, otherwise a reference lookup.</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             private static Cell GetVLookup(Worksheet queryTarget, Address address, object number, Worksheet rangeTarget, Range range, int columnIndex, bool exactMatch, bool numericLookup)
             {
                 int rangeWidth = range.EndAddress.Column - range.StartAddress.Column + 1;
@@ -1210,15 +1290,14 @@ namespace PicoXLSX
                 return new Cell("VLOOKUP(" + arg1 + "," + arg2 + "," + arg3 + "," + arg4 + ")", CellType.FORMULA);
             }
 
-
             /// <summary>
             /// Function to generate a basic Excel function with one cell range as parameter and an optional post argument
             /// </summary>
-            /// <param name="target">Target worksheet of the cell reference. Can be null if on the same worksheet</param>
-            /// <param name="range">Main argument as cell range. If applied on one cell, the start and end address are identical</param>
-            /// <param name="functionName">Internal Excel function name</param>
-            /// <param name="postArg">Optional argument</param>
-            /// <returns>Prepared Cell object, ready to be added to a worksheet</returns>
+            /// <param name="target">Target worksheet of the cell reference. Can be null if on the same worksheet.</param>
+            /// <param name="range">Main argument as cell range. If applied on one cell, the start and end address are identical.</param>
+            /// <param name="functionName">Internal Excel function name.</param>
+            /// <param name="postArg">Optional argument.</param>
+            /// <returns>Prepared Cell object, ready to be added to a worksheet.</returns>
             private static Cell GetBasicFormula(Worksheet target, Range range, string functionName, string postArg)
             {
                 string arg1, arg2, prefix;
@@ -1231,8 +1310,5 @@ namespace PicoXLSX
                 return new Cell(functionName + "(" + arg1 + arg2 + ")", CellType.FORMULA);
             }
         }
-
-        #endregion
-
     }
 }

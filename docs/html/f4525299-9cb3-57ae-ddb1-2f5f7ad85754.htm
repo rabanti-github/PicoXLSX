@@ -10,6 +10,7 @@
             </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="../icons/pubproperty.gif" alt="Public property" title="Public property" /></td><td><a href="3819289d-71f3-d482-10da-f1e04dcf87fe.htm">Cells</a></td><td><div class="summary">
             Gets the cells of the worksheet as dictionary with the cell address as key and the cell object as value
             </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="../icons/pubproperty.gif" alt="Public property" title="Public property" /></td><td><a href="8d4f9f1a-f99e-63cd-ae75-816a28244bd8.htm">Columns</a></td><td><div class="summary">
+            Gets the Columns
             Gets all columns with non-standard properties, like auto filter applied or a special width as dictionary with the zero-based column index as key and the column object as value
             </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="../icons/pubproperty.gif" alt="Public property" title="Public property" /></td><td><a href="51fa8cd6-af04-a45f-ee80-5bf99d75bccd.htm">CurrentCellDirection</a></td><td><div class="summary">
             Gets or sets the direction when using AddNextCell method
@@ -18,9 +19,11 @@
             </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="../icons/pubproperty.gif" alt="Public property" title="Public property" /></td><td><a href="317d056d-600e-09e9-3b46-3e225c8c0894.htm">DefaultRowHeight</a></td><td><div class="summary">
             Gets or sets the default Row height
             </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="../icons/pubproperty.gif" alt="Public property" title="Public property" /></td><td><a href="9eaee1a0-0b5b-f275-4d37-95348ce87065.htm">FreezeSplitPanes</a></td><td><div class="summary">
+            Gets the FreezeSplitPanes
             Gets whether split panes are frozen.<br />
             The value is nullable. If null, no freezing is applied. This property also does not apply if <a href="519e7f64-67fb-acc1-5c24-94402c19e7a8.htm">PaneSplitAddress</a> is null
             </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="../icons/pubproperty.gif" alt="Public property" title="Public property" /></td><td><a href="05aa7579-a5e3-9a0d-3038-2dbed6f63305.htm">Hidden</a></td><td><div class="summary">
+            Gets or sets a value indicating whether Hidden
             Gets or sets whether the worksheet is hidden. If true, the worksheet is not listed as tab in the workbook's worksheet selection<br />
             If the worksheet is not part of a workbook, or the only one in the workbook, an exception will be thrown.<br />
             If the worksheet is the selected one, and attempted to set hidden, an exception will be thrown. Define another selected worksheet prior to this call, in this case.
@@ -47,6 +50,7 @@
             The column is only relevant for vertical split, whereas the row component is only relevant for a horizontal split.<br />
             The value is nullable. If null, no splitting was defined.
             </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="../icons/pubproperty.gif" alt="Public property" title="Public property" /></td><td><a href="7cbe68af-b70c-331b-76be-40a7e910b532.htm">RowHeights</a></td><td><div class="summary">
+            Gets the RowHeights
             Gets defined row heights as dictionary with the zero-based row number as key and the height (float from 0 to 409.5) as value
             </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="../icons/pubproperty.gif" alt="Public property" title="Public property" /></td><td><a href="52f77cc1-0e55-7d17-7fea-05cd10309df3.htm">SelectedCells</a></td><td><div class="summary">
             Gets the cell range of selected cells of this worksheet. Null if no cells are selected
@@ -57,10 +61,12 @@
             </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="../icons/pubproperty.gif" alt="Public property" title="Public property" /></td><td><a href="a3f95e50-416b-3493-4c19-4ccac9f84147.htm">SheetProtectionPassword</a></td><td><div class="summary">
             Gets the password used for sheet protection. See <a href="425b6b66-0ccf-ec1f-8520-2c08807ea3cd.htm">SetSheetProtectionPassword(String)</a> to set the password
             </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="../icons/pubproperty.gif" alt="Public property" title="Public property" /></td><td><a href="83ed5d8e-9ebf-78d2-71db-7688c2d0a516.htm">SheetProtectionPasswordHash</a></td><td><div class="summary">
+            Gets the SheetProtectionPasswordHash
             gets the encrypted hash of the password, defined with <a href="a3f95e50-416b-3493-4c19-4ccac9f84147.htm">SheetProtectionPassword</a>. The value will be null, if no password is defined
             </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="../icons/pubproperty.gif" alt="Public property" title="Public property" /></td><td><a href="449a22ae-3f12-4637-021a-374348237ed3.htm">SheetProtectionValues</a></td><td><div class="summary">
             Gets the list of SheetProtectionValues. These values define the allowed actions if the worksheet is protected
             </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="../icons/pubproperty.gif" alt="Public property" title="Public property" /></td><td><a href="4274e257-3677-f178-81ae-67bf9a9d1d8c.htm">UseSheetProtection</a></td><td><div class="summary">
+            Gets or sets a value indicating whether UseSheetProtection
             Gets or sets whether the worksheet is protected. If true, protection is enabled
             </div></td></tr><tr data="public;declared;notNetfw;"><td><img src="../icons/pubproperty.gif" alt="Public property" title="Public property" /></td><td><a href="b4d37c83-50bf-5f7d-353a-f0b24fb25a75.htm">WorkbookReference</a></td><td><div class="summary">
             Gets or sets the Reference to the parent Workbook

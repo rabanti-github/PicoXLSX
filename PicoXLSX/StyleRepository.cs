@@ -5,21 +5,23 @@
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace PicoXLSX
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Class to manage all styles at runtime, before writing XLSX files. The main purpose is deduplication and decoupling of styles from workbooks at runtime
     /// </summary>
     public class StyleRepository
     {
+        /// <summary>
+        /// Defines the lockObject
+        /// </summary>
         private readonly object lockObject = new object();
 
+        /// <summary>
+        /// Defines the instance
+        /// </summary>
         private static StyleRepository instance;
 
         /// <summary>
@@ -34,6 +36,9 @@ namespace PicoXLSX
             }
         }
 
+        /// <summary>
+        /// Defines the styles
+        /// </summary>
         private Dictionary<int, Style> styles;
 
         /// <summary>
@@ -42,7 +47,7 @@ namespace PicoXLSX
         public Dictionary<int, Style> Styles { get => styles; }
 
         /// <summary>
-        /// Private constructor. The class is not intended to instantiate outside the singleton
+        /// Prevents a default instance of the <see cref="StyleRepository"/> class from being created
         /// </summary>
         private StyleRepository()
         {
@@ -52,8 +57,8 @@ namespace PicoXLSX
         /// <summary>
         /// Adds a style to the repository and returns the actual reference
         /// </summary>
-        /// <param name="style">Style to add</param>
-        /// <returns>Reference from the repository. If the style to add already existed, the existing object is returned, otherwise the newly added one</returns>
+        /// <param name="style">Style to add.</param>
+        /// <returns>Reference from the repository. If the style to add already existed, the existing object is returned, otherwise the newly added one.</returns>
         public Style AddStyle(Style style)
         {
             lock (lockObject)
@@ -74,12 +79,9 @@ namespace PicoXLSX
         /// <summary>
         /// Empties the static repository
         /// </summary>
-        /// <remarks>Do not use this maintenance method while writing data on a worksheet or workbook. It will lead to invalid style data or even exceptions.<br/>
-        /// Only use this method after all worksheets in all workbooks are disposed.It may free memory then.</remarks>
         public void FlushStyles()
         {
             styles.Clear();
         }
-
     }
 }

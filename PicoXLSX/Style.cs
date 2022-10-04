@@ -5,59 +5,63 @@
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-
 namespace PicoXLSX
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+    using System.Text.RegularExpressions;
+
     /// <summary>
-    /// Class representing a Style with sub classes within a style sheet. An instance of this class is only a container for the different sub-classes. These sub-classes contain the actual styling information.
+    /// Class representing a Style with sub classes within a style sheet. An instance of this class is only a container for the different sub-classes. These sub-classes contain the actual styling information
     /// </summary>
     public class Style : AbstractStyle
     {
-        #region privateFields
+        /// <summary>
+        /// Defines the internalStyle
+        /// </summary>
         private readonly bool internalStyle;
-        #endregion
 
-        #region properties
         /// <summary>
         /// Gets or sets the current Border object of the style
         /// </summary>
         [Append(NestedProperty = true)]
         public Border CurrentBorder { get; set; }
+
         /// <summary>
         /// Gets or sets the current CellXf object of the style
         /// </summary>
         [Append(NestedProperty = true)]
         public CellXf CurrentCellXf { get; set; }
+
         /// <summary>
         /// Gets or sets the current Fill object of the style
         /// </summary>
         [Append(NestedProperty = true)]
         public Fill CurrentFill { get; set; }
+
         /// <summary>
         /// Gets or sets the current Font object of the style
         /// </summary>
         [Append(NestedProperty = true)]
         public Font CurrentFont { get; set; }
+
         /// <summary>
         /// Gets or sets the current NumberFormat object of the style
         /// </summary>
         [Append(NestedProperty = true)]
         public NumberFormat CurrentNumberFormat { get; set; }
+
         /// <summary>
         /// Gets or sets the name of the informal style. If not defined, the automatically calculated hash will be used as name
         /// </summary>
-        /// <remarks>The name is informal and not considered as an identifier, when collecting all styles for a workbook</remarks>
         [Append(Ignore = true)]
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets a value indicating whether IsInternalStyle
         /// Gets whether the style is system internal. Such styles are not meant to be altered
         /// </summary>
         [Append(Ignore = true)]
@@ -66,11 +70,8 @@ namespace PicoXLSX
             get { return internalStyle; }
         }
 
-        #endregion
-
-        #region constructors
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the <see cref="Style"/> class
         /// </summary>
         public Style()
         {
@@ -83,9 +84,9 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Constructor with parameters
+        /// Initializes a new instance of the <see cref="Style"/> class
         /// </summary>
-        /// <param name="name">Name of the style</param>
+        /// <param name="name">Name of the style.</param>
         public Style(string name)
         {
             CurrentBorder = new Border();
@@ -97,11 +98,11 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Constructor with parameters (internal use)
+        /// Initializes a new instance of the <see cref="Style"/> class
         /// </summary>
-        /// <param name="name">Name of the style</param>
-        /// <param name="forcedOrder">Number of the style for sorting purpose. The style will be placed at this position (internal use only)</param>
-        /// <param name="internalStyle">If true, the style is marked as internal</param>
+        /// <param name="name">Name of the style.</param>
+        /// <param name="forcedOrder">Number of the style for sorting purpose. The style will be placed at this position (internal use only).</param>
+        /// <param name="internalStyle">If true, the style is marked as internal.</param>
         public Style(string name, int forcedOrder, bool internalStyle)
         {
             CurrentBorder = new Border();
@@ -113,15 +114,12 @@ namespace PicoXLSX
             InternalID = forcedOrder;
             this.internalStyle = internalStyle;
         }
-        #endregion
-
-        #region methods
 
         /// <summary>
         /// Appends the specified style parts to the current one. The parts can be instances of sub-classes like Border or CellXf or a Style instance. Only the altered properties of the specified style or style part that differs from a new / untouched style instance will be appended. This enables method chaining
         /// </summary>
-        /// <param name="styleToAppend">The style to append or a sub-class of Style</param>
-        /// <returns>Current style with appended style parts</returns>
+        /// <param name="styleToAppend">The style to append or a sub-class of Style.</param>
+        /// <returns>Current style with appended style parts.</returns>
         public Style Append(AbstractStyle styleToAppend)
         {
             if (styleToAppend == null)
@@ -162,7 +160,7 @@ namespace PicoXLSX
         /// <summary>
         /// Override toString method
         /// </summary>
-        /// <returns>String of a class instance</returns>
+        /// <returns>String of a class instance.</returns>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -178,12 +176,9 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Returns a hash code for this instance.
+        /// Returns a hash code for this instance
         /// </summary>
-        /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
-        /// </returns>
-        /// <exception cref="StyleException">MissingReferenceException - The hash of the style could not be created because one or more components are missing as references</exception>
+        /// <returns>The <see cref="int"/>.</returns>
         public override int GetHashCode()
         {
             if (CurrentBorder == null || CurrentCellXf == null || CurrentFill == null || CurrentFont == null || CurrentNumberFormat == null)
@@ -204,7 +199,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to copy the current object to a new one without casting
         /// </summary>
-        /// <returns>Copy of the current object without the internal ID</returns>
+        /// <returns>Copy of the current object without the internal ID.</returns>
         public override AbstractStyle Copy()
         {
             if (CurrentBorder == null || CurrentCellXf == null || CurrentFill == null || CurrentFont == null || CurrentNumberFormat == null)
@@ -223,22 +218,17 @@ namespace PicoXLSX
         /// <summary>
         /// Method to copy the current object to a new one with casting
         /// </summary>
-        /// <returns>Copy of the current object without the internal ID</returns>
+        /// <returns>Copy of the current object without the internal ID.</returns>
         public Style CopyStyle()
         {
             return (Style)Copy();
         }
 
-        #endregion
-
-        /*  ************************************************************************************  */
-        #region border
         /// <summary>
         /// Class representing a Border entry. The Border entry is used to define frames and cell borders
         /// </summary>
         public class Border : AbstractStyle
         {
-            #region constants
             /// <summary>
             /// Default border style as constant
             /// </summary>
@@ -248,17 +238,32 @@ namespace PicoXLSX
             /// Default border color as constant
             /// </summary>
             public static readonly string DEFAULT_COLOR = "";
-            #endregion
 
-            #region privateFields
+            /// <summary>
+            /// Defines the bottomColor
+            /// </summary>
             private string bottomColor;
-            private string diagonalColor;
-            private string leftColor;
-            private string rightColor;
-            private string topColor;
-            #endregion
 
-            #region enums
+            /// <summary>
+            /// Defines the diagonalColor
+            /// </summary>
+            private string diagonalColor;
+
+            /// <summary>
+            /// Defines the leftColor
+            /// </summary>
+            private string leftColor;
+
+            /// <summary>
+            /// Defines the rightColor
+            /// </summary>
+            private string rightColor;
+
+            /// <summary>
+            /// Defines the topColor
+            /// </summary>
+            private string topColor;
+
             /// <summary>
             /// Enum for the border style
             /// </summary>
@@ -293,9 +298,7 @@ namespace PicoXLSX
                 /// <summary>double border</summary>
                 s_double,
             }
-            #endregion
 
-            #region properties
             /// <summary>
             /// Gets or sets the color code of the bottom border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
@@ -308,11 +311,13 @@ namespace PicoXLSX
                     bottomColor = value;
                 }
             }
+
             /// <summary>
-            /// Gets or sets the  style of bottom cell border
+            /// Gets or sets the style of bottom cell border
             /// </summary>
             [Append]
             public StyleValue BottomStyle { get; set; }
+
             /// <summary>
             /// Gets or sets the color code of the diagonal lines. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
@@ -325,21 +330,27 @@ namespace PicoXLSX
                     diagonalColor = value;
                 }
             }
+
             /// <summary>
+            /// Gets or sets a value indicating whether DiagonalDown
             /// Gets or sets whether the downwards diagonal line is used. If true, the line is used
             /// </summary>
             [Append]
             public bool DiagonalDown { get; set; }
+
             /// <summary>
+            /// Gets or sets a value indicating whether DiagonalUp
             /// Gets or sets whether the upwards diagonal line is used. If true, the line is used
             /// </summary>
             [Append]
             public bool DiagonalUp { get; set; }
+
             /// <summary>
             /// Gets or sets the style of the diagonal lines
             /// </summary>
             [Append]
             public StyleValue DiagonalStyle { get; set; }
+
             /// <summary>
             /// Gets or sets the color code of the left border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
@@ -352,11 +363,13 @@ namespace PicoXLSX
                     leftColor = value;
                 }
             }
+
             /// <summary>
             /// Gets or sets the style of left cell border
             /// </summary>
             [Append]
             public StyleValue LeftStyle { get; set; }
+
             /// <summary>
             /// Gets or sets the color code of the right border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
@@ -369,11 +382,13 @@ namespace PicoXLSX
                     rightColor = value;
                 }
             }
+
             /// <summary>
             /// Gets or sets the style of right cell border
             /// </summary>
             [Append]
             public StyleValue RightStyle { get; set; }
+
             /// <summary>
             /// Gets or sets the color code of the top border. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
@@ -386,16 +401,15 @@ namespace PicoXLSX
                     topColor = value;
                 }
             }
+
             /// <summary>
             /// Gets or sets the style of top cell border
             /// </summary>
             [Append]
             public StyleValue TopStyle { get; set; }
-            #endregion
 
-            #region constructors
             /// <summary>
-            /// Default constructor
+            /// Initializes a new instance of the <see cref="Border"/> class
             /// </summary>
             public Border()
             {
@@ -412,15 +426,11 @@ namespace PicoXLSX
                 DiagonalDown = false;
                 DiagonalUp = false;
             }
-            #endregion
 
-            #region methods
             /// <summary>
-            /// Returns a hash code for this instance.
+            /// Returns a hash code for this instance
             /// </summary>
-            /// <returns>
-            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
-            /// </returns>
+            /// <returns>The <see cref="int"/>.</returns>
             public override int GetHashCode()
             {
                 int hashCode = -153001865;
@@ -442,7 +452,7 @@ namespace PicoXLSX
             /// <summary>
             /// Method to copy the current object to a new one without casting
             /// </summary>
-            /// <returns>Copy of the current object without the internal ID</returns>
+            /// <returns>Copy of the current object without the internal ID.</returns>
             public override AbstractStyle Copy()
             {
                 Border copy = new Border();
@@ -464,7 +474,7 @@ namespace PicoXLSX
             /// <summary>
             /// Method to copy the current object to a new one with casting
             /// </summary>
-            /// <returns>Copy of the current object without the internal ID</returns>
+            /// <returns>Copy of the current object without the internal ID.</returns>
             public Border CopyBorder()
             {
                 return (Border)Copy();
@@ -473,7 +483,7 @@ namespace PicoXLSX
             /// <summary>
             /// Override toString method
             /// </summary>
-            /// <returns>String of a class</returns>
+            /// <returns>String of a class.</returns>
             public override string ToString()
             {
                 StringBuilder sb = new StringBuilder();
@@ -497,7 +507,7 @@ namespace PicoXLSX
             /// <summary>
             /// Method to determine whether the object has no values but the default values (means: is empty and must not be processed)
             /// </summary>
-            /// <returns>True if empty, otherwise false</returns>
+            /// <returns>True if empty, otherwise false.</returns>
             public bool IsEmpty()
             {
                 bool state = true;
@@ -515,14 +525,12 @@ namespace PicoXLSX
                 if (DiagonalUp) { state = false; }
                 return state;
             }
-            #endregion
 
-            #region staticMethods
             /// <summary>
             /// Gets the border style name from the enum
             /// </summary>
-            /// <param name="style">Enum to process</param>
-            /// <returns>The valid value of the border style as String</returns>
+            /// <param name="style">Enum to process.</param>
+            /// <returns>The valid value of the border style as String.</returns>
             public static string GetStyleName(StyleValue style)
             {
                 string output = "";
@@ -567,41 +575,37 @@ namespace PicoXLSX
                     case StyleValue.s_double:
                         output = "double";
                         break;
-                   // Default / none is already handled (ignored)
+                        // Default / none is already handled (ignored)
                 }
                 return output;
             }
-            #endregion
-
         }
-        #endregion
 
-        #region cellXf
         /// <summary>
         /// Class representing an XF entry. The XF entry is used to make reference to other style instances like Border or Fill and for the positioning of the cell content
         /// </summary>
         public class CellXf : AbstractStyle
         {
-            #region constants
             /// <summary>
             /// Default horizontal align value as constant
             /// </summary>
             public static readonly HorizontalAlignValue DEFAULT_HORIZONTAL_ALIGNMENT = HorizontalAlignValue.none;
+
             /// <summary>
             /// Default text break value as constant
             /// </summary>
             public static readonly TextBreakValue DEFAULT_ALIGNMENT = TextBreakValue.none;
+
             /// <summary>
             /// Default text direction value as constant
             /// </summary>
             public static readonly TextDirectionValue DEFAULT_TEXT_DIRECTION = TextDirectionValue.horizontal;
+
             /// <summary>
             /// Default vertical align value as constant
             /// </summary>
             public static readonly VerticalAlignValue DEFAULT_VERTICAL_ALIGNMENT = VerticalAlignValue.none;
-            #endregion
 
-            #region enums
             /// <summary>
             /// Enum for the horizontal alignment of a cell 
             /// </summary>
@@ -669,40 +673,55 @@ namespace PicoXLSX
                 /// <summary>No alignment. The alignment will not be used in a style</summary>
                 none,
             }
-            #endregion
 
-            #region privateFields
-            private int textRotation;
-            private TextDirectionValue textDirection;
-            private int indent;
-            #endregion
-
-            #region properties
             /// <summary>
+            /// Defines the textRotation
+            /// </summary>
+            private int textRotation;
+
+            /// <summary>
+            /// Defines the textDirection
+            /// </summary>
+            private TextDirectionValue textDirection;
+
+            /// <summary>
+            /// Defines the indent
+            /// </summary>
+            private int indent;
+
+            /// <summary>
+            /// Gets or sets a value indicating whether ForceApplyAlignment
             /// Gets or sets whether the applyAlignment property (used to merge cells) will be defined in the XF entry of the style. If true, applyAlignment will be defined
             /// </summary>
             [Append]
             public bool ForceApplyAlignment { get; set; }
+
             /// <summary>
+            /// Gets or sets a value indicating whether Hidden
             /// Gets or sets whether the hidden property (used for protection or hiding of cells) will be defined in the XF entry of the style. If true, hidden will be defined
             /// </summary>
             [Append]
             public bool Hidden { get; set; }
+
             /// <summary>
             /// Gets or sets the horizontal alignment of the style
             /// </summary>
             [Append]
             public HorizontalAlignValue HorizontalAlign { get; set; }
+
             /// <summary>
+            /// Gets or sets a value indicating whether Locked
             /// Gets or sets whether the locked property (used for locking / protection of cells or worksheets) will be defined in the XF entry of the style. If true, locked will be defined
             /// </summary>
             [Append]
             public bool Locked { get; set; }
+
             /// <summary>
             /// Gets or sets the text break options of the style
             /// </summary>
             [Append]
             public TextBreakValue Alignment { get; set; }
+
             /// <summary>
             /// Gets or sets the direction of the text within the cell
             /// </summary>
@@ -716,6 +735,7 @@ namespace PicoXLSX
                     CalculateInternalRotation();
                 }
             }
+
             /// <summary>
             /// Gets or sets the text rotation in degrees (from +90 to -90)
             /// </summary>
@@ -730,11 +750,13 @@ namespace PicoXLSX
                     CalculateInternalRotation();
                 }
             }
+
             /// <summary>
             /// Gets or sets the vertical alignment of the style
             /// </summary>
             [Append]
             public VerticalAlignValue VerticalAlign { get; set; }
+
             /// <summary>
             /// Gets or sets the indentation in case of left, right or distributed alignment. If 0, no alignment is applied
             /// </summary>
@@ -754,11 +776,9 @@ namespace PicoXLSX
                     }
                 }
             }
-            #endregion
 
-            #region constructors
             /// <summary>
-            /// Default constructor
+            /// Initializes a new instance of the <see cref="CellXf"/> class
             /// </summary>
             public CellXf()
             {
@@ -769,14 +789,11 @@ namespace PicoXLSX
                 textRotation = 0;
                 Indent = 0;
             }
-            #endregion
 
-            #region methods
             /// <summary>
             /// Method to calculate the internal text rotation. The text direction and rotation are handled internally by the text rotation value
             /// </summary>
-            /// <returns>Returns the valid rotation in degrees for internal use (LowLevel)</returns>
-            /// <exception cref="FormatException">Throws a FormatException if the rotation angle (-90 to 90) is out of range</exception>
+            /// <returns>Returns the valid rotation in degrees for internal use (LowLevel).</returns>
             internal int CalculateInternalRotation()
             {
                 if (textRotation < -90 || textRotation > 90)
@@ -804,7 +821,7 @@ namespace PicoXLSX
             /// <summary>
             /// Override toString method
             /// </summary>
-            /// <returns>String of a class instance</returns>
+            /// <returns>String of a class instance.</returns>
             public override string ToString()
             {
                 StringBuilder sb = new StringBuilder();
@@ -824,11 +841,9 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Returns a hash code for this instance.
+            /// Returns a hash code for this instance
             /// </summary>
-            /// <returns>
-            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
-            /// </returns>
+            /// <returns>The <see cref="int"/>.</returns>
             public override int GetHashCode()
             {
                 int hashCode = 626307906;
@@ -847,7 +862,7 @@ namespace PicoXLSX
             /// <summary>
             /// Method to copy the current object to a new one without casting
             /// </summary>
-            /// <returns>Copy of the current object without the internal ID</returns>
+            /// <returns>Copy of the current object without the internal ID.</returns>
             public override AbstractStyle Copy()
             {
                 CellXf copy = new CellXf();
@@ -866,40 +881,33 @@ namespace PicoXLSX
             /// <summary>
             /// Method to copy the current object to a new one with casting
             /// </summary>
-            /// <returns>Copy of the current object without the internal ID</returns>
+            /// <returns>Copy of the current object without the internal ID.</returns>
             public CellXf CopyCellXf()
             {
                 return (CellXf)Copy();
             }
-
-
-            #endregion
-
         }
-        #endregion
 
-        #region fill
         /// <summary>
         /// Class representing a Fill (background) entry. The Fill entry is used to define background colors and fill patterns
         /// </summary>
         public class Fill : AbstractStyle
         {
-            #region constants
             /// <summary>
             /// Default Color (foreground or background)
             /// </summary>
             public static readonly string DEFAULT_COLOR = "FF000000";
+
             /// <summary>
             /// Default index color
             /// </summary>
             public static readonly int DEFAULT_INDEXED_COLOR = 64;
+
             /// <summary>
             /// Default pattern
             /// </summary>
             public static readonly PatternValue DEFAULT_PATTERN_FILL = PatternValue.none;
-            #endregion
 
-            #region enums
             /// <summary>
             /// Enum for the type of the color
             /// </summary>
@@ -910,6 +918,7 @@ namespace PicoXLSX
                 /// <summary>Color defines a solid fill color </summary>
                 fillColor,
             }
+
             /// <summary>
             /// Enum for the pattern values
             /// </summary>
@@ -930,20 +939,20 @@ namespace PicoXLSX
                 /// <summary>12.5% gray fill</summary>
                 gray125,
             }
-            #endregion
 
-            #region privateFields
+            /// <summary>
+            /// Defines the backgroundColor
+            /// </summary>
             private string backgroundColor = DEFAULT_COLOR;
+
+            /// <summary>
+            /// Defines the foregroundColor
+            /// </summary>
             private string foregroundColor = DEFAULT_COLOR;
-            #endregion
 
-
-            #region properties
             /// <summary>
             /// Gets or sets the background color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
-            /// <remarks>If a background color is set and the <see cref="PatternFill">PatternFill</see> Property is currently set to <see cref="PatternValue.none">PatternValue.none</see>, 
-            /// the PatternFill property will be automatically set to <see cref="PatternValue.solid">PatternValue.solid</see>, since none invalidates the color values of the foreground or background</remarks>
             [Append]
             public string BackgroundColor
             {
@@ -958,11 +967,10 @@ namespace PicoXLSX
                     }
                 }
             }
+
             /// <summary>
             /// Gets or sets the foreground color of the fill. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
-            /// <remarks>If a foreground color is set and the <see cref="PatternFill">PatternFill</see> Property is currently set to <see cref="PatternValue.none">PatternValue.none</see>, 
-            /// the PatternFill property will be automatically set to <see cref="PatternValue.solid">PatternValue.solid</see>, since none invalidates the color values of the foreground or background</remarks>
             [Append]
             public string ForegroundColor
             {
@@ -977,21 +985,21 @@ namespace PicoXLSX
                     }
                 }
             }
+
             /// <summary>
             /// Gets or sets the indexed color (Default is 64)
             /// </summary>
             [Append]
             public int IndexedColor { get; set; }
+
             /// <summary>
             /// Gets or sets the pattern type of the fill (Default is none)
             /// </summary>
             [Append]
             public PatternValue PatternFill { get; set; }
-            #endregion
 
-            #region constructors
             /// <summary>
-            /// Default constructor
+            /// Initializes a new instance of the <see cref="Fill"/> class
             /// </summary>
             public Fill()
             {
@@ -1000,11 +1008,12 @@ namespace PicoXLSX
                 ForegroundColor = DEFAULT_COLOR;
                 BackgroundColor = DEFAULT_COLOR;
             }
+
             /// <summary>
-            /// Constructor with foreground and background color
+            /// Initializes a new instance of the <see cref="Fill"/> class
             /// </summary>
-            /// <param name="foreground">Foreground color of the fill</param>
-            /// <param name="background">Background color of the fill</param>
+            /// <param name="foreground">Foreground color of the fill.</param>
+            /// <param name="background">Background color of the fill.</param>
             public Fill(string foreground, string background)
             {
                 BackgroundColor = background;
@@ -1014,10 +1023,10 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Constructor with color value and fill type
+            /// Initializes a new instance of the <see cref="Fill"/> class
             /// </summary>
-            /// <param name="value">Color value</param>
-            /// <param name="filltype">Fill type (fill or pattern)</param>
+            /// <param name="value">Color value.</param>
+            /// <param name="filltype">Fill type (fill or pattern).</param>
             public Fill(string value, FillType filltype)
             {
                 if (filltype == FillType.fillColor)
@@ -1033,14 +1042,11 @@ namespace PicoXLSX
                 IndexedColor = DEFAULT_INDEXED_COLOR;
                 PatternFill = PatternValue.solid;
             }
-            #endregion
-
-            #region methods
 
             /// <summary>
             /// Override toString method
             /// </summary>
-            /// <returns>String of a class</returns>
+            /// <returns>String of a class.</returns>
             public override string ToString()
             {
                 StringBuilder sb = new StringBuilder();
@@ -1057,7 +1063,7 @@ namespace PicoXLSX
             /// <summary>
             /// Method to copy the current object to a new one without casting
             /// </summary>
-            /// <returns>Copy of the current object without the internal ID</returns>
+            /// <returns>Copy of the current object without the internal ID.</returns>
             public override AbstractStyle Copy()
             {
                 Fill copy = new Fill();
@@ -1069,11 +1075,9 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Returns a hash code for this instance.
+            /// Returns a hash code for this instance
             /// </summary>
-            /// <returns>
-            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
-            /// </returns>
+            /// <returns>The <see cref="int"/>.</returns>
             public override int GetHashCode()
             {
                 int hashCode = -1564173520;
@@ -1087,7 +1091,7 @@ namespace PicoXLSX
             /// <summary>
             /// Method to copy the current object to a new one with casting
             /// </summary>
-            /// <returns>Copy of the current object without the internal ID</returns>
+            /// <returns>Copy of the current object without the internal ID.</returns>
             public Fill CopyFill()
             {
                 return (Fill)Copy();
@@ -1096,8 +1100,8 @@ namespace PicoXLSX
             /// <summary>
             /// Sets the color and the depending fill type
             /// </summary>
-            /// <param name="value">color value</param>
-            /// <param name="filltype">fill type (fill or pattern)</param>
+            /// <param name="value">color value.</param>
+            /// <param name="filltype">fill type (fill or pattern).</param>
             public void SetColor(string value, FillType filltype)
             {
                 if (filltype == FillType.fillColor)
@@ -1112,14 +1116,12 @@ namespace PicoXLSX
                 }
                 PatternFill = PatternValue.solid;
             }
-            #endregion
 
-            #region staticMethods
             /// <summary>
             /// Gets the pattern name from the enum
             /// </summary>
-            /// <param name="pattern">Enum to process</param>
-            /// <returns>The valid value of the pattern as String</returns>
+            /// <param name="pattern">Enum to process.</param>
+            /// <returns>The valid value of the pattern as String.</returns>
             public static string GetPatternName(PatternValue pattern)
             {
                 string output;
@@ -1156,10 +1158,9 @@ namespace PicoXLSX
             /// <summary>
             /// Validates the passed string, whether it is a valid RGB value that can be used for Fills or Fonts
             /// </summary>
-            /// <exception cref="StyleException">A StyleException is thrown if an invalid hex value is passed</exception>
-            /// <param name="hexCode">Hex string to check</param>
-            /// <param name="useAlpha">If true, two additional characters (total 8) are expected as alpha value</param>
-            /// <param name="allowEmpty">Optional parameter that allows null or empty as valid values</param>
+            /// <param name="hexCode">Hex string to check.</param>
+            /// <param name="useAlpha">If true, two additional characters (total 8) are expected as alpha value.</param>
+            /// <param name="allowEmpty">Optional parameter that allows null or empty as valid values.</param>
             public static void ValidateColor(string hexCode, bool useAlpha, bool allowEmpty = false)
             {
                 if (string.IsNullOrEmpty(hexCode))
@@ -1181,19 +1182,13 @@ namespace PicoXLSX
                     throw new StyleException("A general style exception occurred", "The expression '" + hexCode + "' is not a valid hex value");
                 }
             }
-            #endregion
-
         }
 
-        #endregion
-
-        #region font
         /// <summary>
         /// Class representing a Font entry. The Font entry is used to define text formatting
         /// </summary>
         public class Font : AbstractStyle
         {
-            #region constants
             /// <summary>
             /// Default font family as constant
             /// </summary>
@@ -1208,7 +1203,6 @@ namespace PicoXLSX
             /// Minimum possible font size
             /// </summary>
             public static readonly float MAX_FONT_SIZE = 409f;
-            #endregion
 
             /// <summary>
             /// Default font size
@@ -1230,7 +1224,6 @@ namespace PicoXLSX
             /// </summary>
             public static readonly VerticalAlignValue DEFAULT_VERTICAL_ALIGN = VerticalAlignValue.none;
 
-            #region enums
             /// <summary>
             /// Enum for the font scheme
             /// </summary>
@@ -1243,6 +1236,7 @@ namespace PicoXLSX
                 /// <summary>No Font scheme is used</summary>
                 none,
             }
+
             /// <summary>
             /// Enum for the vertical alignment of the text from base line
             /// </summary>
@@ -1273,41 +1267,57 @@ namespace PicoXLSX
                 /// <summary>Text contains no underline (default)</summary>
                 none,
             }
-            #endregion
 
-            #region privateFields
-            private float size;
-            private string name = DEFAULT_FONT_NAME;
-            private int colorTheme;
-            private string colorValue;
-            #endregion
-
-            #region properties
             /// <summary>
+            /// Defines the size
+            /// </summary>
+            private float size;
+
+            /// <summary>
+            /// Defines the name
+            /// </summary>
+            private string name = DEFAULT_FONT_NAME;
+
+            /// <summary>
+            /// Defines the colorTheme
+            /// </summary>
+            private int colorTheme;
+
+            /// <summary>
+            /// Defines the colorValue
+            /// </summary>
+            private string colorValue;
+
+            /// <summary>
+            /// Gets or sets a value indicating whether Bold
             /// Gets or sets whether the font is bold. If true, the font is declared as bold
             /// </summary>
             [Append]
             public bool Bold { get; set; }
+
             /// <summary>
+            /// Gets or sets a value indicating whether Italic
             /// Gets or sets whether the font is italic. If true, the font is declared as italic
             /// </summary>
             [Append]
             public bool Italic { get; set; }
+
             /// <summary>
             /// Gets or sets the underline style of the font. If set to <a cref="UnderlineValue.none">none</a> no underline will be applied (default)
             /// </summary>
             [Append]
             public UnderlineValue Underline { get; set; } = UnderlineValue.none;
+
             /// <summary>
             /// Gets or sets the char set of the Font (Default is empty)
             /// </summary>
             [Append]
             public string Charset { get; set; }
+
             /// <summary>
             /// Gets or sets the font color theme (Default is 1 = Light)
             /// </summary>
-            /// <exception cref="StyleException">Throws a StyleException if the number is below 1</exception>
-			[Append]
+            [Append]
             public int ColorTheme
             {
                 get => colorTheme;
@@ -1320,12 +1330,12 @@ namespace PicoXLSX
                     colorTheme = value;
                 }
             }
+
             /// <summary>
-            /// Gets or sets the color code of the font color. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF.
-            /// To omit the color, an empty string can be set. Empty is also default.
+            /// Gets or sets the color code of the font color. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
+            /// Gets or sets the color code of the font color. The value is expressed as hex string with the format AARRGGBB. AA (Alpha) is usually FF
             /// </summary>
-            /// <exception cref="StyleException">Throws a StyleException if the passed ARGB value is not valid</exception>
-			[Append]
+            [Append]
             public string ColorValue
             {
                 get => colorValue;
@@ -1335,12 +1345,16 @@ namespace PicoXLSX
                     colorValue = value;
                 }
             }
+
             /// <summary>
-            ///  Gets or sets the font family (Default is 2 = Swiss)
+            /// Gets or sets the Family
+            /// Gets or sets the font family (Default is 2 = Swiss)
             /// </summary>
             [Append]
             public string Family { get; set; }
+
             /// <summary>
+            /// Gets a value indicating whether IsDefaultFont
             /// Gets whether the font is equal to the default font
             /// </summary>
             [Append(Ignore = true)]
@@ -1352,12 +1366,11 @@ namespace PicoXLSX
                     return Equals(temp);
                 }
             }
+
             /// <summary>
             /// Gets or sets the font name (Default is Calibri)
             /// </summary>
-            /// <exception cref="StyleException">A StyleException is thrown if the name is null or empty</exception>
-            /// <remarks>Note that the font name is not validated whether it is a valid or existing font</remarks>
-			[Append]
+            [Append]
             public string Name
             {
                 get { return name; }
@@ -1370,11 +1383,13 @@ namespace PicoXLSX
                     name = value;
                 }
             }
+
             /// <summary>
             /// Gets or sets the font scheme (Default is minor)
             /// </summary>
             [Append]
             public SchemeValue Scheme { get; set; }
+
             /// <summary>
             /// Gets or sets the font size. Valid range is from 1 to 409
             /// </summary>
@@ -1391,21 +1406,22 @@ namespace PicoXLSX
                     else { size = value; }
                 }
             }
+
             /// <summary>
+            /// Gets or sets a value indicating whether Strike
             /// Gets or sets whether the font is struck through. If true, the font is declared as strike-through
             /// </summary>
             [Append]
             public bool Strike { get; set; }
+
             /// <summary>
             /// Gets or sets the alignment of the font (Default is none)
             /// </summary>
             [Append]
             public VerticalAlignValue VerticalAlign { get; set; }
-            #endregion
 
-            #region constructors
             /// <summary>
-            /// Default constructor
+            /// Initializes a new instance of the <see cref="Font"/> class
             /// </summary>
             public Font()
             {
@@ -1418,13 +1434,11 @@ namespace PicoXLSX
                 Scheme = DEFAULT_FONT_SCHEME;
                 VerticalAlign = DEFAULT_VERTICAL_ALIGN;
             }
-            #endregion
 
-            #region methods            
             /// <summary>
             /// Override toString method
             /// </summary>
-            /// <returns>String of a class</returns>
+            /// <returns>String of a class.</returns>
             public override string ToString()
             {
                 StringBuilder sb = new StringBuilder();
@@ -1449,7 +1463,7 @@ namespace PicoXLSX
             /// <summary>
             /// Method to copy the current object to a new one without casting
             /// </summary>
-            /// <returns>Copy of the current object without the internal ID</returns>
+            /// <returns>Copy of the current object without the internal ID.</returns>
             public override AbstractStyle Copy()
             {
                 Font copy = new Font();
@@ -1469,11 +1483,9 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Returns a hash code for this instance.
+            /// Returns a hash code for this instance
             /// </summary>
-            /// <returns>
-            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
-            /// </returns>
+            /// <returns>The <see cref="int"/>.</returns>
             public override int GetHashCode()
             {
                 int hashCode = -924704582;
@@ -1495,34 +1507,28 @@ namespace PicoXLSX
             /// <summary>
             /// Method to copy the current object to a new one with casting
             /// </summary>
-            /// <returns>Copy of the current object without the internal ID</returns>
+            /// <returns>Copy of the current object without the internal ID.</returns>
             public Font CopyFont()
             {
                 return (Font)Copy();
             }
-
-            #endregion
         }
-        #endregion
 
-        #region numberFormat
         /// <summary>
         /// Class representing a NumberFormat entry. The NumberFormat entry is used to define cell formats like currency or date
         /// </summary>
         public class NumberFormat : AbstractStyle
         {
-            #region constants
             /// <summary>
             /// Start ID for custom number formats as constant
             /// </summary>
             public const int CUSTOMFORMAT_START_NUMBER = 164;
+
             /// <summary>
             /// Default format number as constant
             /// </summary>
             public static readonly FormatNumber DEFAULT_NUMBER = FormatNumber.none;
-            #endregion
 
-            #region enums
             /// <summary>
             /// Enum for predefined number formats
             /// </summary>
@@ -1619,19 +1625,20 @@ namespace PicoXLSX
                 /// </summary>
                 undefined,
             }
-            #endregion
 
-            #region privateFields
+            /// <summary>
+            /// Defines the customFormatID
+            /// </summary>
             private int customFormatID;
-            private string customFormatCode;
-            #endregion
 
-            #region properties
+            /// <summary>
+            /// Defines the customFormatCode
+            /// </summary>
+            private string customFormatCode;
+
             /// <summary>
             /// Gets or sets the custom format code in the notation of Excel
             /// </summary>
-            /// <exception cref="FormatException">Throws a FormatException if passed value is null or empty</exception>
-            /// <remarks>Do not escape backslashes in custom format codes by double-backslashes (four in code), since escaping will be performed on saving the file. Unescaping will be also performed on loading</remarks>
             [Append]
             public string CustomFormatCode
             {
@@ -1647,10 +1654,9 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Gets or sets the format number of the custom format. Must be higher or equal then predefined custom number (164) 
+            /// Gets or sets the format number of the custom format. Must be higher or equal then predefined custom number (164)
             /// </summary>
-            /// <exception cref="StyleException">Throws a StyleException if the number is below the lowest possible custom number (164)</exception>
-			[Append]
+            [Append]
             public int CustomFormatID
             {
                 get { return customFormatID; }
@@ -1663,7 +1669,9 @@ namespace PicoXLSX
                     customFormatID = value;
                 }
             }
+
             /// <summary>
+            /// Gets a value indicating whether IsCustomFormat
             /// Gets whether the number format is a custom format (higher or equals 164). If true, the format is custom
             /// </summary>
             [Append(Ignore = true)]
@@ -1675,16 +1683,15 @@ namespace PicoXLSX
                     else { return false; }
                 }
             }
+
             /// <summary>
             /// Gets or sets the format number. Set this to custom (164) in case of custom number formats
             /// </summary>
             [Append]
             public FormatNumber Number { get; set; }
-            #endregion
 
-            #region constructors
             /// <summary>
-            /// Default constructor
+            /// Initializes a new instance of the <see cref="NumberFormat"/> class
             /// </summary>
             public NumberFormat()
             {
@@ -1692,16 +1699,12 @@ namespace PicoXLSX
                 customFormatCode = string.Empty;
                 CustomFormatID = CUSTOMFORMAT_START_NUMBER;
             }
-            #endregion
-
-            #region methods
 
             /// <summary>
             /// Determines whether a defined style format number represents a date (or date and time)
             /// </summary>
-            /// <param name="number">Format number to check</param>
-            /// <returns>True if the format represents a date, otherwise false</returns>
-            /// <remarks>Custom number formats (higher than 164), as well as not officially defined numbers (below 164) are currently not considered during the check and will return false</remarks>
+            /// <param name="number">Format number to check.</param>
+            /// <returns>True if the format represents a date, otherwise false.</returns>
             public static bool IsDateFormat(FormatNumber number)
             {
                 switch (number)
@@ -1720,9 +1723,8 @@ namespace PicoXLSX
             /// <summary>
             /// Determines whether a defined style format number represents a time)
             /// </summary>
-            /// <param name="number">Format number to check</param>
-            /// <returns>True if the format represents a time, otherwise false</returns>
-            /// <remarks>Custom number formats (higher than 164), as well as not officially defined numbers (below 164) are currently not considered during the check and will return false</remarks>
+            /// <param name="number">Format number to check.</param>
+            /// <returns>True if the format represents a time, otherwise false.</returns>
             public static bool IsTimeFormat(FormatNumber number)
             {
                 switch (number)
@@ -1741,11 +1743,11 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Tries to parse registered format numbers. If the parsing fails, it is assumed that the number is a custom format number (164 or higher) and 'custom' is returned 
+            /// Tries to parse registered format numbers. If the parsing fails, it is assumed that the number is a custom format number (164 or higher) and 'custom' is returned
             /// </summary>
-            /// <param name="number">Raw number to parse</param>
-            /// <param name="formatNumber">Out parameter with the parsed format enum value. If parsing failed, 'custom' will be returned</param>
-            /// <returns>Format range. Will return 'invalid' if out of any range (e.g. negative value)</returns>
+            /// <param name="number">Raw number to parse.</param>
+            /// <param name="formatNumber">Out parameter with the parsed format enum value. If parsing failed, 'custom' will be returned.</param>
+            /// <returns>Format range. Will return 'invalid' if out of any range (e.g. negative value).</returns>
             public static FormatRange TryParseFormatNumber(int number, out FormatNumber formatNumber)
             {
 
@@ -1773,10 +1775,10 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Method to escape Backslashes in custom format codes.
+            /// Method to escape Backslashes in custom format codes
             /// </summary>
-            /// <param name="rawFormatCode">Raw value to escape</param>
-            /// <returns></returns>
+            /// <param name="rawFormatCode">Raw value to escape.</param>
+            /// <returns>.</returns>
             internal static string EscapeFormatCode(string rawFormatCode)
             {
                 // TODO: Add further rules, if discovered
@@ -1786,7 +1788,7 @@ namespace PicoXLSX
             /// <summary>
             /// Override toString method
             /// </summary>
-            /// <returns>String of a class</returns>
+            /// <returns>String of a class.</returns>
             public override string ToString()
             {
                 StringBuilder sb = new StringBuilder();
@@ -1802,7 +1804,7 @@ namespace PicoXLSX
             /// <summary>
             /// Method to copy the current object to a new one without casting
             /// </summary>
-            /// <returns>Copy of the current object without the internal ID</returns>
+            /// <returns>Copy of the current object without the internal ID.</returns>
             public override AbstractStyle Copy()
             {
                 NumberFormat copy = new NumberFormat();
@@ -1815,18 +1817,16 @@ namespace PicoXLSX
             /// <summary>
             /// Method to copy the current object to a new one with casting
             /// </summary>
-            /// <returns>Copy of the current object without the internal ID</returns>
+            /// <returns>Copy of the current object without the internal ID.</returns>
             public NumberFormat CopyNumberFormat()
             {
                 return (NumberFormat)Copy();
             }
 
             /// <summary>
-            /// Returns a hash code for this instance.
+            /// Returns a hash code for this instance
             /// </summary>
-            /// <returns>
-            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
-            /// </returns>
+            /// <returns>The <see cref="int"/>.</returns>
             public override int GetHashCode()
             {
                 int hashCode = 495605284;
@@ -1835,18 +1835,13 @@ namespace PicoXLSX
                 hashCode = hashCode * -1521134295 + Number.GetHashCode();
                 return hashCode;
             }
-
-            #endregion
         }
-        #endregion
 
-        #region subClass_BasicStyles
         /// <summary>
         /// Factory class with the most important predefined styles
         /// </summary>
         public static class BasicStyles
         {
-            #region enums
             /// <summary>
             /// Enum with style selection
             /// </summary>
@@ -1879,60 +1874,121 @@ namespace PicoXLSX
                 /// <summary>Style to apply on merged cells </summary>
                 mergeCellStyle,
             }
-            #endregion
 
-            #region staticFields
+            /// <summary>
+            /// Defines the bold, italic, boldItalic, underline, doubleUnderline, strike, dateFormat, timeFormat, roundFormat, borderFrame, borderFrameHeader, dottedFill_0_125, mergeCellStyle
+            /// </summary>
             private static Style bold, italic, boldItalic, underline, doubleUnderline, strike, dateFormat, timeFormat, roundFormat, borderFrame, borderFrameHeader, dottedFill_0_125, mergeCellStyle;
-            #endregion
 
-            #region staticProperties
-            /// <summary>Gets the bold style</summary>
+            /// <summary>
+            /// Gets the Bold
+            /// </summary>
             public static Style Bold
-            { get { return GetStyle(StyleEnum.bold); } }
-            /// <summary>Gets the bold and italic style</summary>
-            public static Style BoldItalic
-            { get { return GetStyle(StyleEnum.boldItalic); } }
-            /// <summary>Gets the border frame style</summary>
-            public static Style BorderFrame
-            { get { return GetStyle(StyleEnum.borderFrame); } }
-            /// <summary>Gets the border style for header cells</summary>
-            public static Style BorderFrameHeader
-            { get { return GetStyle(StyleEnum.borderFrameHeader); } }
-            /// <summary>Gets the date format style</summary>
-            public static Style DateFormat
-            { get { return GetStyle(StyleEnum.dateFormat); } }
-            /// <summary>Gets the time format style</summary>
-            public static Style TimeFormat
-            { get { return GetStyle(StyleEnum.timeFormat); } }
-            /// <summary>Gets the double underline style</summary>
-            public static Style DoubleUnderline
-            { get { return GetStyle(StyleEnum.doubleUnderline); } }
-            /// <summary>Gets the special pattern fill style (for compatibility)</summary>
-            public static Style DottedFill_0_125
-            { get { return GetStyle(StyleEnum.dottedFill_0_125); } }
-            /// <summary>Gets the italic style</summary>
-            public static Style Italic
-            { get { return GetStyle(StyleEnum.italic); } }
-            /// <summary>Gets the style used when merging cells</summary>
-            public static Style MergeCellStyle
-            { get { return GetStyle(StyleEnum.mergeCellStyle); } }
-            /// <summary>Gets the round format style</summary>
-            public static Style RoundFormat
-            { get { return GetStyle(StyleEnum.roundFormat); } }
-            /// <summary>Gets the strike style</summary>
-            public static Style Strike
-            { get { return GetStyle(StyleEnum.strike); } }
-            /// <summary>Gets the underline style</summary>
-            public static Style Underline
-            { get { return GetStyle(StyleEnum.underline); } }
-            #endregion
+            {
+                get { return GetStyle(StyleEnum.bold); }
+            }
 
-            #region staticMethods
+            /// <summary>
+            /// Gets the BoldItalic
+            /// </summary>
+            public static Style BoldItalic
+            {
+                get { return GetStyle(StyleEnum.boldItalic); }
+            }
+
+            /// <summary>
+            /// Gets the BorderFrame
+            /// </summary>
+            public static Style BorderFrame
+            {
+                get { return GetStyle(StyleEnum.borderFrame); }
+            }
+
+            /// <summary>
+            /// Gets the BorderFrameHeader
+            /// </summary>
+            public static Style BorderFrameHeader
+            {
+                get { return GetStyle(StyleEnum.borderFrameHeader); }
+            }
+
+            /// <summary>
+            /// Gets the DateFormat
+            /// </summary>
+            public static Style DateFormat
+            {
+                get { return GetStyle(StyleEnum.dateFormat); }
+            }
+
+            /// <summary>
+            /// Gets the TimeFormat
+            /// </summary>
+            public static Style TimeFormat
+            {
+                get { return GetStyle(StyleEnum.timeFormat); }
+            }
+
+            /// <summary>
+            /// Gets the DoubleUnderline
+            /// </summary>
+            public static Style DoubleUnderline
+            {
+                get { return GetStyle(StyleEnum.doubleUnderline); }
+            }
+
+            /// <summary>
+            /// Gets the DottedFill_0_125
+            /// </summary>
+            public static Style DottedFill_0_125
+            {
+                get { return GetStyle(StyleEnum.dottedFill_0_125); }
+            }
+
+            /// <summary>
+            /// Gets the Italic
+            /// </summary>
+            public static Style Italic
+            {
+                get { return GetStyle(StyleEnum.italic); }
+            }
+
+            /// <summary>
+            /// Gets the MergeCellStyle
+            /// </summary>
+            public static Style MergeCellStyle
+            {
+                get { return GetStyle(StyleEnum.mergeCellStyle); }
+            }
+
+            /// <summary>
+            /// Gets the RoundFormat
+            /// </summary>
+            public static Style RoundFormat
+            {
+                get { return GetStyle(StyleEnum.roundFormat); }
+            }
+
+            /// <summary>
+            /// Gets the Strike
+            /// </summary>
+            public static Style Strike
+            {
+                get { return GetStyle(StyleEnum.strike); }
+            }
+
+            /// <summary>
+            /// Gets the Underline
+            /// </summary>
+            public static Style Underline
+            {
+                get { return GetStyle(StyleEnum.underline); }
+            }
+
             /// <summary>
             /// Method to maintain the styles and to create singleton instances
             /// </summary>
-            /// <param name="value">Enum value to maintain</param>
-            /// <returns>The style according to the passed enum value</returns>
+            /// <param name="value">Enum value to maintain.</param>
+            /// <returns>The style according to the passed enum value.</returns>
             private static Style GetStyle(StyleEnum value)
             {
                 Style s = null;
@@ -2057,9 +2113,8 @@ namespace PicoXLSX
             /// <summary>
             /// Gets a style to colorize the text of a cell
             /// </summary>
-            /// <param name="rgb">RGB code in hex format (6 characters, e.g. FF00AC). Alpha will be set to full opacity (FF)</param>
-            /// <returns>Style with font color definition</returns>
-            /// <exception cref="StyleException">A StyleException is thrown if an invalid hex value is passed</exception>
+            /// <param name="rgb">RGB code in hex format (6 characters, e.g. FF00AC). Alpha will be set to full opacity (FF).</param>
+            /// <returns>Style with font color definition.</returns>
             public static Style ColorizedText(string rgb)
             {
                 Fill.ValidateColor(rgb, false);
@@ -2071,9 +2126,8 @@ namespace PicoXLSX
             /// <summary>
             /// Gets a style to colorize the background of a cell
             /// </summary>
-            /// <param name="rgb">RGB code in hex format (6 characters, e.g. FF00AC). Alpha will be set to full opacity (FF)</param>
-            /// <returns>Style with background color definition</returns>
-            /// <exception cref="StyleException">A StyleException is thrown if an invalid hex value is passed</exception>
+            /// <param name="rgb">RGB code in hex format (6 characters, e.g. FF00AC). Alpha will be set to full opacity (FF).</param>
+            /// <returns>Style with background color definition.</returns>
             public static Style ColorizedBackground(string rgb)
             {
                 Fill.ValidateColor(rgb, false);
@@ -2085,12 +2139,11 @@ namespace PicoXLSX
             /// <summary>
             /// Gets a style with a user defined font
             /// </summary>
-            /// <param name="fontName">Name of the font</param>
-            /// <param name="fontSize">Size of the font in points (optional; default 11)</param>
-            /// <param name="isBold">If true, the font will be bold (optional; default false)</param>
-            /// <param name="isItalic">If true, the font will be italic (optional; default false)</param>
-            /// <returns>Style with font definition</returns>
-            /// <remarks>The font name as well as the availability of bold and italic on the font cannot be validated by PicoXLSX. The generated file may be corrupt or rendered with a fall-back font in case of an error</remarks>
+            /// <param name="fontName">Name of the font.</param>
+            /// <param name="fontSize">Size of the font in points (optional; default 11).</param>
+            /// <param name="isBold">If true, the font will be bold (optional; default false).</param>
+            /// <param name="isItalic">If true, the font will be italic (optional; default false).</param>
+            /// <returns>Style with font definition.</returns>
             public static Style Font(string fontName, int fontSize = 11, bool isBold = false, bool isItalic = false)
             {
                 Style s = new Style();
@@ -2100,10 +2153,7 @@ namespace PicoXLSX
                 s.CurrentFont.Italic = isItalic;
                 return s;
             }
-            #endregion
         }
-        #endregion
-
     }
 
     /// <summary>
@@ -2117,19 +2167,18 @@ namespace PicoXLSX
         [Append(Ignore = true)]
         public int? InternalID { get; set; }
 
-
         /// <summary>
         /// Abstract method to copy a component (dereferencing)
         /// </summary>
-        /// <returns>Returns a copied component</returns>
+        /// <returns>Returns a copied component.</returns>
         public abstract AbstractStyle Copy();
 
         /// <summary>
         /// Internal method to copy altered properties from a source object. The decision whether a property is copied is dependent on a untouched reference object
         /// </summary>
-        /// <typeparam name="T">Style or sub-class of Style that extends AbstractStyle</typeparam>
-        /// <param name="source">Source object with properties to copy</param>
-        /// <param name="reference">Reference object to decide whether the properties from the source objects are altered or not</param>
+        /// <typeparam name="T">Style or sub-class of Style that extends AbstractStyle.</typeparam>
+        /// <param name="source">Source object with properties to copy.</param>
+        /// <param name="reference">Reference object to decide whether the properties from the source objects are altered or not.</param>
         internal void CopyProperties<T>(T source, T reference) where T : AbstractStyle
         {
             if (source == null || GetType() != source.GetType() && GetType() != reference.GetType())
@@ -2157,10 +2206,10 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method to check whether a property is considered or skipped 
+        /// Method to check whether a property is considered or skipped
         /// </summary>
-        /// <param name="attributes">Collection of attributes to check</param>
-        /// <returns>Returns false as soon a property of the collection is marked as ignored or nested</returns>
+        /// <param name="attributes">Collection of attributes to check.</param>
+        /// <returns>Returns false as soon a property of the collection is marked as ignored or nested.</returns>
         private static bool HandleProperties(IEnumerable<AppendAttribute> attributes)
         {
             foreach (AppendAttribute attribute in attributes)
@@ -2176,7 +2225,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to compare two objects for sorting purpose
         /// </summary>
-        /// <param name="other">Other object to compare with this object</param>
+        /// <param name="other">Other object to compare with this object.</param>
         /// <returns>-1 if the other object is bigger. 0 if both objects are equal. 1 if the other object is smaller.</returns>
         public int CompareTo(AbstractStyle other)
         {
@@ -2188,8 +2237,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to compare two objects for sorting purpose
         /// </summary>
-        /// <param name="other">Other object to compare with this object</param>
-        /// <returns>True if both objects are equal, otherwise false</returns>
+        /// <param name="other">Other object to compare with this object.</param>
+        /// <returns>True if both objects are equal, otherwise false.</returns>
         public bool Equals(AbstractStyle other)
         {
             return this.GetHashCode() == other.GetHashCode();
@@ -2198,10 +2247,10 @@ namespace PicoXLSX
         /// <summary>
         /// Append a JSON property for debug purpose (used in the ToString methods) to the passed string builder
         /// </summary>
-        /// <param name="sb">String builder</param>
-        /// <param name="name">Property name</param>
-        /// <param name="value">Property value</param>
-        /// <param name="terminate">If true, no comma and newline will be appended</param>
+        /// <param name="sb">String builder.</param>
+        /// <param name="name">Property name.</param>
+        /// <param name="value">Property value.</param>
+        /// <param name="terminate">If true, no comma and newline will be appended.</param>
         internal static void AddPropertyAsJson(StringBuilder sb, string name, object value, bool terminate = false)
         {
             sb.Append("\"").Append(name).Append("\": ");
@@ -2222,27 +2271,22 @@ namespace PicoXLSX
         /// <summary>
         /// Attribute designated to control the copying of style properties
         /// </summary>
-        /// <seealso cref="System.Attribute" />
         public class AppendAttribute : Attribute
         {
             /// <summary>
+            /// Gets or sets a value indicating whether Ignore
             /// Indicates whether the property annotated with the attribute is ignored during the copying of properties
             /// </summary>
-            /// <value>
-            ///   <c>true</c> if ignored, otherwise <c>false</c>.
-            /// </value>
             public bool Ignore { get; set; }
 
             /// <summary>
+            /// Gets or sets a value indicating whether NestedProperty
             /// Indicates whether the property annotated with the attribute is a nested property. Nested properties are ignored during the copying of properties but can be broken down to its sub-properties
             /// </summary>
-            /// <value>
-            ///   <c>true</c> if a nested property, otherwise <c>false</c>.
-            /// </value>
             public bool NestedProperty { get; set; }
 
             /// <summary>
-            /// Default constructor
+            /// Initializes a new instance of the <see cref="AppendAttribute"/> class
             /// </summary>
             public AppendAttribute()
             {
@@ -2251,10 +2295,4 @@ namespace PicoXLSX
             }
         }
     }
-
-    /*  ************************************************************************************  */
-
-
-
-
 }

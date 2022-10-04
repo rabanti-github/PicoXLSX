@@ -5,73 +5,80 @@
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-
 namespace PicoXLSX
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Text;
+    using System.Text.RegularExpressions;
+
     /// <summary>
     /// Class representing a worksheet of a workbook
     /// </summary>
     public class Worksheet
     {
-
-        #region constants
         /// <summary>
         /// Threshold, using when floats are compared
         /// </summary>
         private const float FLOAT_THRESHOLD = 0.0001f;
+
         /// <summary>
         /// Maximum number of characters a worksheet name can have
         /// </summary>
         public static readonly int MAX_WORKSHEET_NAME_LENGTH = 31;
+
         /// <summary>
         /// Default column width as constant
         /// </summary>
         public const float DEFAULT_COLUMN_WIDTH = 10f;
+
         /// <summary>
         /// Default row height as constant
         /// </summary>
         public const float DEFAULT_ROW_HEIGHT = 15f;
+
         /// <summary>
         /// Maximum column number (zero-based) as constant
         /// </summary>
         public const int MAX_COLUMN_NUMBER = 16383;
+
         /// <summary>
         /// Minimum column number (zero-based) as constant
         /// </summary>
         public const int MIN_COLUMN_NUMBER = 0;
+
         /// <summary>
         /// Minimum column width as constant
         /// </summary>
         public const float MIN_COLUMN_WIDTH = 0f;
+
         /// <summary>
         /// Minimum row height as constant
         /// </summary>
         public const float MIN_ROW_HEIGHT = 0f;
+
         /// <summary>
         /// Maximum column width as constant
         /// </summary>
         public const float MAX_COLUMN_WIDTH = 255f;
+
         /// <summary>
         /// Maximum row number (zero-based) as constant
         /// </summary>
         public const int MAX_ROW_NUMBER = 1048575;
+
         /// <summary>
         /// Minimum row number (zero-based) as constant
         /// </summary>
         public const int MIN_ROW_NUMBER = 0;
+
         /// <summary>
         /// Maximum row height as constant
         /// </summary>
         public const float MAX_ROW_HEIGHT = 409.5f;
-        #endregion
 
-        #region enums
         /// <summary>
         /// Enum to define the direction when using AddNextCell method
         /// </summary>
@@ -138,39 +145,136 @@ namespace PicoXLSX
             topLeft
         }
 
-        #endregion
-
-        #region privateFields
+        /// <summary>
+        /// Defines the activeStyle
+        /// </summary>
         private Style activeStyle;
+
+        /// <summary>
+        /// Defines the autoFilterRange
+        /// </summary>
         private Nullable<Cell.Range> autoFilterRange;
+
+        /// <summary>
+        /// Defines the cells
+        /// </summary>
         private readonly Dictionary<string, Cell> cells;
+
+        /// <summary>
+        /// Defines the columns
+        /// </summary>
         private readonly Dictionary<int, Column> columns;
+
+        /// <summary>
+        /// Defines the sheetName
+        /// </summary>
         private string sheetName;
+
+        /// <summary>
+        /// Defines the currentRowNumber
+        /// </summary>
         private int currentRowNumber;
+
+        /// <summary>
+        /// Defines the currentColumnNumber
+        /// </summary>
         private int currentColumnNumber;
+
+        /// <summary>
+        /// Defines the defaultRowHeight
+        /// </summary>
         private float defaultRowHeight;
+
+        /// <summary>
+        /// Defines the defaultColumnWidth
+        /// </summary>
         private float defaultColumnWidth;
+
+        /// <summary>
+        /// Defines the rowHeights
+        /// </summary>
         private readonly Dictionary<int, float> rowHeights;
+
+        /// <summary>
+        /// Defines the hiddenRows
+        /// </summary>
         private readonly Dictionary<int, bool> hiddenRows;
+
+        /// <summary>
+        /// Defines the mergedCells
+        /// </summary>
         private readonly Dictionary<string, Cell.Range> mergedCells;
+
+        /// <summary>
+        /// Defines the sheetProtectionValues
+        /// </summary>
         private readonly List<SheetProtectionValue> sheetProtectionValues;
+
+        /// <summary>
+        /// Defines the useActiveStyle
+        /// </summary>
         private bool useActiveStyle;
+
+        /// <summary>
+        /// Defines the hidden
+        /// </summary>
         private bool hidden;
+
+        /// <summary>
+        /// Defines the workbookReference
+        /// </summary>
         private Workbook workbookReference;
+
+        /// <summary>
+        /// Defines the sheetProtectionPassword
+        /// </summary>
         private string sheetProtectionPassword = null;
+
+        /// <summary>
+        /// Defines the sheetProtectionPasswordHash
+        /// </summary>
         private string sheetProtectionPasswordHash = null;
+
+        /// <summary>
+        /// Defines the selectedCells
+        /// </summary>
         private Cell.Range? selectedCells;
+
+        /// <summary>
+        /// Defines the freezeSplitPanes
+        /// </summary>
         private bool? freezeSplitPanes;
+
+        /// <summary>
+        /// Defines the paneSplitLeftWidth
+        /// </summary>
         private float? paneSplitLeftWidth;
+
+        /// <summary>
+        /// Defines the paneSplitTopHeight
+        /// </summary>
         private float? paneSplitTopHeight;
+
+        /// <summary>
+        /// Defines the paneSplitTopLeftCell
+        /// </summary>
         private Cell.Address? paneSplitTopLeftCell;
+
+        /// <summary>
+        /// Defines the paneSplitAddress
+        /// </summary>
         private Cell.Address? paneSplitAddress;
+
+        /// <summary>
+        /// Defines the activePane
+        /// </summary>
         private WorksheetPane? activePane;
+
+        /// <summary>
+        /// Defines the sheetID
+        /// </summary>
         private int sheetID;
 
-        #endregion
-
-        #region properties
         /// <summary>
         /// Gets the range of the auto-filter. Wrapped to Nullable to provide null as value. If null, no auto-filter is applied
         /// </summary>
@@ -188,6 +292,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Gets the Columns
         /// Gets all columns with non-standard properties, like auto filter applied or a special width as dictionary with the zero-based column index as key and the column object as value
         /// </summary>
         public Dictionary<int, Column> Columns
@@ -203,7 +308,6 @@ namespace PicoXLSX
         /// <summary>
         /// Gets or sets the default column width
         /// </summary>
-        /// <exception cref="RangeException">Throws a RangeException exception if the passed width is out of range (set)</exception>
         public float DefaultColumnWidth
         {
             get { return defaultColumnWidth; }
@@ -220,7 +324,6 @@ namespace PicoXLSX
         /// <summary>
         /// Gets or sets the default Row height
         /// </summary>
-        /// <exception cref="RangeException">Throws a RangeException exception if the passed height is out of range (set)</exception>
         public float DefaultRowHeight
         {
             get { return defaultRowHeight; }
@@ -237,7 +340,6 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the hidden rows as dictionary with the zero-based row number as key and a boolean as value. True indicates hidden, false visible.
         /// </summary>
-        /// <remarks>Entries with the value false are not affecting the worksheet. These entries can be removed</remarks>
         public Dictionary<int, bool> HiddenRows
         {
             get { return hiddenRows; }
@@ -252,6 +354,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Gets the RowHeights
         /// Gets defined row heights as dictionary with the zero-based row number as key and the height (float from 0 to 409.5) as value
         /// </summary>
         public Dictionary<int, float> RowHeights
@@ -295,13 +398,13 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the password used for sheet protection. See <see cref="SetSheetProtectionPassword"/> to set the password
         /// </summary>
-        /// <remarks>The password cannot retrieved when loading a workbook. Only the <see cref="SheetProtectionPasswordHash"/> can be loaded</remarks>
         public string SheetProtectionPassword
         {
             get { return sheetProtectionPassword; }
         }
 
         /// <summary>
+        /// Gets the SheetProtectionPasswordHash
         /// gets the encrypted hash of the password, defined with <see cref="SheetProtectionPassword"/>. The value will be null, if no password is defined
         /// </summary>
         public string SheetProtectionPasswordHash
@@ -318,6 +421,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether UseSheetProtection
         /// Gets or sets whether the worksheet is protected. If true, protection is enabled
         /// </summary>
         public bool UseSheetProtection { get; set; }
@@ -339,6 +443,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether Hidden
         /// Gets or sets whether the worksheet is hidden. If true, the worksheet is not listed as tab in the workbook's worksheet selection<br/>
         /// If the worksheet is not part of a workbook, or the only one in the workbook, an exception will be thrown.<br/>
         /// If the worksheet is the selected one, and attempted to set hidden, an exception will be thrown. Define another selected worksheet prior to this call, in this case.
@@ -362,8 +467,6 @@ namespace PicoXLSX
         /// The value is only applicable to split the worksheet into panes, but not to freeze them.<br/>
         /// See also: <see cref="PaneSplitAddress"/>
         /// </summary>
-        /// <remarks>Note: This value will be modified to the Excel-internal representation, 
-        /// calculated by <see cref="LowLevel.GetInternalPaneSplitHeight(float)"/>.</remarks>
         public float? PaneSplitTopHeight
         {
             get { return paneSplitTopHeight; }
@@ -375,16 +478,13 @@ namespace PicoXLSX
         /// The value is only applicable to split the worksheet into panes, but not to freeze them.<br/>
         /// See also: <see cref="PaneSplitAddress"/>
         /// </summary>
-        /// <remarks>Note: This value will be modified to the Excel-internal representation, 
-        /// calculated by <see cref="LowLevel.GetInternalColumnWidth(float, float, float)"/>.</remarks>
         public float? PaneSplitLeftWidth
         {
             get { return paneSplitLeftWidth; }
         }
 
-
-
         /// <summary>
+        /// Gets the FreezeSplitPanes
         /// Gets whether split panes are frozen.<br/>
         /// The value is nullable. If null, no freezing is applied. This property also does not apply if <see cref="PaneSplitAddress"/> is null
         /// </summary>
@@ -415,7 +515,6 @@ namespace PicoXLSX
             get { return paneSplitAddress; }
         }
 
-
         /// <summary>
         /// Gets the active Pane is splitting is applied.<br/>
         /// The value is nullable. If null, no splitting was defined
@@ -433,12 +532,8 @@ namespace PicoXLSX
             get { return activeStyle; }
         }
 
-        #endregion
-
-
-        #region constructors
         /// <summary>
-        /// Default Constructor
+        /// Initializes a new instance of the <see cref="Worksheet"/> class
         /// </summary>
         public Worksheet()
         {
@@ -458,9 +553,9 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Constructor with worksheet name
+        /// Initializes a new instance of the <see cref="Worksheet"/> class
         /// </summary>
-        /// <remarks>Note that the worksheet name is not checked and fully sanitized against other worksheets with this operation. This is later performed when the worksheet is added to the workbook</remarks>
+        /// <param name="name">The name<see cref="string"/>.</param>
         public Worksheet(string name)
             : this()
         {
@@ -468,11 +563,11 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Constructor with name and sheet ID
+        /// Initializes a new instance of the <see cref="Worksheet"/> class
         /// </summary>
-        /// <param name="name">Name of the worksheet</param>
-        /// <param name="id">ID of the worksheet (for internal use)</param>
-        /// <param name="reference">Reference to the parent Workbook</param>
+        /// <param name="name">Name of the worksheet.</param>
+        /// <param name="id">ID of the worksheet (for internal use).</param>
+        /// <param name="reference">Reference to the parent Workbook.</param>
         public Worksheet(string name, int id, Workbook reference)
             : this()
         {
@@ -481,47 +576,31 @@ namespace PicoXLSX
             workbookReference = reference;
         }
 
-        #endregion
-
-
-
-        #region methods_AddNextCell
-
         /// <summary>
         /// Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         /// </summary>
-        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
-        /// <param name="value">Unspecified value to insert</param>
-        /// <exception cref="RangeException">Throws a RangeException if the next cell is out of range (on row or column)</exception>
+        /// <param name="value">Unspecified value to insert.</param>
         public void AddNextCell(object value)
         {
             AddNextCell(CastValue(value, currentColumnNumber, currentRowNumber), true, null);
         }
 
-
         /// <summary>
         /// Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         /// </summary>
-        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
-        /// <param name="value">Unspecified value to insert</param>
-        /// <param name="style">Style object to apply on this cell</param>
-        /// <exception cref="RangeException">Throws a RangeException if the next cell is out of range (on row or column)</exception>
-        /// <exception cref="StyleException">Throws a StyleException if the default style was malformed</exception>
+        /// <param name="value">Unspecified value to insert.</param>
+        /// <param name="style">Style object to apply on this cell.</param>
         public void AddNextCell(object value, Style style)
         {
             AddNextCell(CastValue(value, currentColumnNumber, currentRowNumber), true, style);
         }
 
-
         /// <summary>
         /// Method to insert a generic cell to the next cell position
         /// </summary>
-        /// <param name="cell">Cell object to insert</param>
-        /// <param name="incremental">If true, the address value (row or column) will be incremented, otherwise not</param>
-        /// <param name="style">If not null, the defined style will be applied to the cell, otherwise no style or the default style will be applied</param>
-        /// <remarks>Recognized are the following data types: string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method.<br/>
-        /// If the cell object already has a style definition, and a style or active style is defined, the cell style will be merged, otherwise just set</remarks>
-        /// <exception cref="StyleException">Throws a StyleException if the default style was malformed or if the active style cannot be referenced</exception>
+        /// <param name="cell">Cell object to insert.</param>
+        /// <param name="incremental">If true, the address value (row or column) will be incremented, otherwise not.</param>
+        /// <param name="style">If not null, the defined style will be applied to the cell, otherwise no style or the default style will be applied.</param>
         private void AddNextCell(Cell cell, bool incremental, Style style)
         {
             // date and time styles are already defined by the passed cell object
@@ -589,10 +668,10 @@ namespace PicoXLSX
         /// <summary>
         /// Method to cast a value or align an object of the type Cell to the context of the worksheet
         /// </summary>
-        /// <param name="value">Unspecified value or object of the type Cell</param>
-        /// <param name="column">Column index</param>
-        /// <param name="row">Row index</param>
-        /// <returns>Cell object</returns>
+        /// <param name="value">Unspecified value or object of the type Cell.</param>
+        /// <param name="column">Column index.</param>
+        /// <param name="row">Row index.</param>
+        /// <returns>Cell object.</returns>
         private Cell CastValue(object value, int column, int row)
         {
             Cell c;
@@ -608,19 +687,12 @@ namespace PicoXLSX
             return c;
         }
 
-        #endregion
-
-        #region methods_AddCell
-
         /// <summary>
         /// Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         /// </summary>
-        /// <param name="value">Unspecified value to insert</param>
-        /// <param name="columnNumber">Column number (zero based)</param>
-        /// <param name="rowNumber">Row number (zero based)</param>
-        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
-        /// <exception cref="StyleException">Throws a StyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the passed cell address is out of range</exception>
+        /// <param name="value">Unspecified value to insert.</param>
+        /// <param name="columnNumber">Column number (zero based).</param>
+        /// <param name="rowNumber">Row number (zero based).</param>
         public void AddCell(object value, int columnNumber, int rowNumber)
         {
             AddNextCell(CastValue(value, columnNumber, rowNumber), false, null);
@@ -629,28 +701,20 @@ namespace PicoXLSX
         /// <summary>
         /// Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         /// </summary>
-        /// <param name="value">Unspecified value to insert</param>
-        /// <param name="columnNumber">Column number (zero based)</param>
-        /// <param name="rowNumber">Row number (zero based)</param>
-        /// <param name="style">Style to apply on the cell</param>
-        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
-        /// <exception cref="StyleException">Throws a StyleException if the passed style is malformed</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the passed cell address is out of range</exception>
+        /// <param name="value">Unspecified value to insert.</param>
+        /// <param name="columnNumber">Column number (zero based).</param>
+        /// <param name="rowNumber">Row number (zero based).</param>
+        /// <param name="style">Style to apply on the cell.</param>
         public void AddCell(object value, int columnNumber, int rowNumber, Style style)
         {
             AddNextCell(CastValue(value, columnNumber, rowNumber), false, style);
         }
 
-
         /// <summary>
         /// Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         /// </summary>
-        /// <param name="value">Unspecified value to insert</param>
-        /// <param name="address">Cell address in the format A1 - XFD1048576</param>
-        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
-        /// <exception cref="StyleException">Throws a StyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the passed cell address is out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
+        /// <param name="value">Unspecified value to insert.</param>
+        /// <param name="address">Cell address in the format A1 - XFD1048576.</param>
         public void AddCell(object value, string address)
         {
             int column, row;
@@ -661,13 +725,9 @@ namespace PicoXLSX
         /// <summary>
         /// Adds an object to the defined cell address. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         /// </summary>
-        /// <param name="value">Unspecified value to insert</param>
-        /// <param name="address">Cell address in the format A1 - XFD1048576</param>
-        /// <param name="style">Style to apply on the cell</param>
-        /// <remarks>Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
-        /// <exception cref="StyleException">Throws a StyleException if the passed style is malformed</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the passed cell address is out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
+        /// <param name="value">Unspecified value to insert.</param>
+        /// <param name="address">Cell address in the format A1 - XFD1048576.</param>
+        /// <param name="style">Style to apply on the cell.</param>
         public void AddCell(object value, string address, Style style)
         {
             int column, row;
@@ -675,18 +735,11 @@ namespace PicoXLSX
             AddCell(value, column, row, style);
         }
 
-        #endregion
-
-        #region methods_AddCellFormula
-
         /// <summary>
         /// Adds a cell formula as string to the defined cell address
         /// </summary>
-        /// <param name="formula">Formula to insert</param>
-        /// <param name="address">Cell address in the format A1 - XFD1048576</param>
-        /// <exception cref="StyleException">Throws a StyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the passed cell address is out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
+        /// <param name="formula">Formula to insert.</param>
+        /// <param name="address">Cell address in the format A1 - XFD1048576.</param>
         public void AddCellFormula(string formula, string address)
         {
             int column, row;
@@ -698,12 +751,9 @@ namespace PicoXLSX
         /// <summary>
         /// Adds a cell formula as string to the defined cell address
         /// </summary>
-        /// <param name="formula">Formula to insert</param>
-        /// <param name="address">Cell address in the format A1 - XFD1048576</param>
-        /// <param name="style">Style to apply on the cell</param>
-        /// <exception cref="StyleException">Throws a StyleException if the passed style was malformed</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the passed cell address is out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
+        /// <param name="formula">Formula to insert.</param>
+        /// <param name="address">Cell address in the format A1 - XFD1048576.</param>
+        /// <param name="style">Style to apply on the cell.</param>
         public void AddCellFormula(string formula, string address, Style style)
         {
             int column, row;
@@ -715,11 +765,9 @@ namespace PicoXLSX
         /// <summary>
         /// Adds a cell formula as string to the defined cell address
         /// </summary>
-        /// <param name="formula">Formula to insert</param>
-        /// <param name="columnNumber">Column number (zero based)</param>
-        /// <param name="rowNumber">Row number (zero based)</param>
-        /// <exception cref="StyleException">Throws a StyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the passed cell address is out of range</exception>
+        /// <param name="formula">Formula to insert.</param>
+        /// <param name="columnNumber">Column number (zero based).</param>
+        /// <param name="rowNumber">Row number (zero based).</param>
         public void AddCellFormula(string formula, int columnNumber, int rowNumber)
         {
             Cell c = new Cell(formula, Cell.CellType.FORMULA, columnNumber, rowNumber);
@@ -729,12 +777,10 @@ namespace PicoXLSX
         /// <summary>
         /// Adds a cell formula as string to the defined cell address
         /// </summary>
-        /// <param name="formula">Formula to insert</param>
-        /// <param name="columnNumber">Column number (zero based)</param>
-        /// <param name="rowNumber">Row number (zero based)</param>
-        /// <param name="style">Style to apply on the cell</param>
-        /// <exception cref="StyleException">Throws a StyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the passed cell address is out of range</exception>
+        /// <param name="formula">Formula to insert.</param>
+        /// <param name="columnNumber">Column number (zero based).</param>
+        /// <param name="rowNumber">Row number (zero based).</param>
+        /// <param name="style">Style to apply on the cell.</param>
         public void AddCellFormula(string formula, int columnNumber, int rowNumber, Style style)
         {
             Cell c = new Cell(formula, Cell.CellType.FORMULA, columnNumber, rowNumber);
@@ -744,9 +790,7 @@ namespace PicoXLSX
         /// <summary>
         /// Adds a formula as string to the next cell position
         /// </summary>
-        /// <param name="formula">Formula to insert</param>
-        /// <exception cref="StyleException">Throws a StyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="RangeException">Trows a RangeException if the next cell is out of range (on row or column)</exception>
+        /// <param name="formula">Formula to insert.</param>
         public void AddNextCellFormula(string formula)
         {
             Cell c = new Cell(formula, Cell.CellType.FORMULA, currentColumnNumber, currentRowNumber);
@@ -756,29 +800,20 @@ namespace PicoXLSX
         /// <summary>
         /// Adds a formula as string to the next cell position
         /// </summary>
-        /// <param name="formula">Formula to insert</param>
-        /// <param name="style">Style to apply on the cell</param>
-        /// <exception cref="StyleException">Throws a StyleException if the active style cannot be referenced while creating the cell</exception>
-        /// <exception cref="RangeException">Trows a RangeException if the next cell is out of range (on row or column)</exception>
+        /// <param name="formula">Formula to insert.</param>
+        /// <param name="style">Style to apply on the cell.</param>
         public void AddNextCellFormula(string formula, Style style)
         {
             Cell c = new Cell(formula, Cell.CellType.FORMULA, currentColumnNumber, currentRowNumber);
             AddNextCell(c, true, style);
         }
 
-        #endregion
-
-        #region methods_AddCellRange
-
         /// <summary>
         /// Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. Prepared objects of the type Cell will not be casted but adjusted
         /// </summary>
-        /// <param name="values">List of unspecified objects to insert</param>
-        /// <param name="startAddress">Start address</param>
-        /// <param name="endAddress">End address</param>
-        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
-        /// <exception cref="RangeException">Throws a RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
-        /// <exception cref="StyleException">Throws a StyleException if the active style cannot be referenced while creating the cells</exception>
+        /// <param name="values">List of unspecified objects to insert.</param>
+        /// <param name="startAddress">Start address.</param>
+        /// <param name="endAddress">End address.</param>
         public void AddCellRange(IReadOnlyList<object> values, Cell.Address startAddress, Cell.Address endAddress)
         {
             AddCellRangeInternal(values, startAddress, endAddress, null);
@@ -787,13 +822,10 @@ namespace PicoXLSX
         /// <summary>
         /// Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. Prepared objects of the type Cell will not be casted but adjusted
         /// </summary>
-        /// <param name="values">List of unspecified objects to insert</param>
-        /// <param name="startAddress">Start address</param>
-        /// <param name="endAddress">End address</param>
-        /// <param name="style">Style to apply on the all cells of the range</param>
-        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
-        /// <exception cref="RangeException">Throws a RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
-        /// <exception cref="StyleException">Throws a StyleException if the passed style is malformed</exception>
+        /// <param name="values">List of unspecified objects to insert.</param>
+        /// <param name="startAddress">Start address.</param>
+        /// <param name="endAddress">End address.</param>
+        /// <param name="style">Style to apply on the all cells of the range.</param>
         public void AddCellRange(IReadOnlyList<object> values, Cell.Address startAddress, Cell.Address endAddress, Style style)
         {
             AddCellRangeInternal(values, startAddress, endAddress, style);
@@ -802,12 +834,8 @@ namespace PicoXLSX
         /// <summary>
         /// Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. Prepared objects of the type Cell will not be casted but adjusted
         /// </summary>
-        /// <param name="values">List of unspecified objects to insert</param>
-        /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
-        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
-        /// <exception cref="RangeException">Throws a RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
-        /// <exception cref="StyleException">Throws a StyleException if the active style cannot be referenced while creating the cells</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell range is malformed</exception>
+        /// <param name="values">List of unspecified objects to insert.</param>
+        /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22.</param>
         public void AddCellRange(IReadOnlyList<object> values, string cellRange)
         {
             Cell.Range range = Cell.ResolveCellRange(cellRange);
@@ -817,13 +845,9 @@ namespace PicoXLSX
         /// <summary>
         /// Adds a list of object values to a defined cell range. If the type of the a particular value does not match with one of the supported data types, it will be casted to a String. Prepared objects of the type Cell will not be casted but adjusted
         /// </summary>
-        /// <param name="values">List of unspecified objects to insert</param>
-        /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22</param>
-        /// <param name="style">Style to apply on the all cells of the range</param>
-        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
-        /// <exception cref="RangeException">Throws a RangeException if the number of cells resolved from the range differs from the number of passed values</exception>
-        /// <exception cref="StyleException">Throws a StyleException if the passed style is malformed</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell range is malformed</exception>
+        /// <param name="values">List of unspecified objects to insert.</param>
+        /// <param name="cellRange">Cell range as string in the format like A1:D1 or X10:X22.</param>
+        /// <param name="style">Style to apply on the all cells of the range.</param>
         public void AddCellRange(IReadOnlyList<object> values, string cellRange, Style style)
         {
             Cell.Range range = Cell.ResolveCellRange(cellRange);
@@ -833,14 +857,11 @@ namespace PicoXLSX
         /// <summary>
         /// Internal function to add a generic list of value to the defined cell range
         /// </summary>
-        /// <typeparam name="T">Data type of the generic value list</typeparam>
-        /// <param name="values">List of values</param>
-        /// <param name="startAddress">Start address</param>
-        /// <param name="endAddress">End address</param>
-        /// <param name="style">Style to apply on the all cells of the range</param>
-        /// <remarks>The data types in the passed list can be mixed. Recognized are the following data types: Cell (prepared object), string, int, double, float, long, DateTime, TimeSpan, bool. All other types will be casted into a string using the default ToString() method</remarks>
-        /// <exception cref="RangeException">Throws a RangeException if the number of cells differs from the number of passed values</exception>
-        /// <exception cref="StyleException">Throws a StyleException if the active style cannot be referenced while creating the cells</exception>
+        /// <typeparam name="T">Data type of the generic value list.</typeparam>
+        /// <param name="values">List of values.</param>
+        /// <param name="startAddress">Start address.</param>
+        /// <param name="endAddress">End address.</param>
+        /// <param name="style">Style to apply on the all cells of the range.</param>
         private void AddCellRangeInternal<T>(IReadOnlyList<T> values, Cell.Address startAddress, Cell.Address endAddress, Style style)
         {
             List<Cell.Address> addresses = Cell.GetCellRange(startAddress, endAddress) as List<Cell.Address>;
@@ -857,16 +878,13 @@ namespace PicoXLSX
                 AddNextCell(list[i], false, style);
             }
         }
-        #endregion
 
-        #region methods_RemoveCell
         /// <summary>
         /// Removes a previous inserted cell at the defined address
         /// </summary>
-        /// <param name="columnNumber">Column number (zero based)</param>
-        /// <param name="rowNumber">Row number (zero based)</param>
-        /// <returns>Returns true if the cell could be removed (existed), otherwise false (did not exist)</returns>
-        /// <exception cref="RangeException">Throws a RangeException if the passed cell address is out of range</exception>
+        /// <param name="columnNumber">Column number (zero based).</param>
+        /// <param name="rowNumber">Row number (zero based).</param>
+        /// <returns>Returns true if the cell could be removed (existed), otherwise false (did not exist).</returns>
         public bool RemoveCell(int columnNumber, int rowNumber)
         {
             string address = Cell.ResolveCellAddress(columnNumber, rowNumber);
@@ -876,27 +894,21 @@ namespace PicoXLSX
         /// <summary>
         /// Removes a previous inserted cell at the defined address
         /// </summary>
-        /// <param name="address">Cell address in the format A1 - XFD1048576</param>
-        /// <returns>Returns true if the cell could be removed (existed), otherwise false (did not exist)</returns>
-        /// <exception cref="RangeException">Throws a RangeException if the passed cell address is out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
+        /// <param name="address">Cell address in the format A1 - XFD1048576.</param>
+        /// <returns>Returns true if the cell could be removed (existed), otherwise false (did not exist).</returns>
         public bool RemoveCell(string address)
         {
             int row, column;
             Cell.ResolveCellCoordinate(address, out column, out row);
             return RemoveCell(column, row);
         }
-        #endregion
-
-        #region methods_SetStyle
 
         /// <summary>
-        /// Sets the passed style on the passed cell range. If cells are already existing, the style will be added or replaced.
-        /// Otherwise, an empty cell will be added with the assigned style. If the passed style is null, all styles will be removed on existing cells and no additional (empty) cells are added to the worksheet
+        /// Sets the passed style on the passed cell range. If cells are already existing, the style will be added or replaced
+        /// Sets the passed style on the passed cell range. If cells are already existing, the style will be added or replaced
         /// </summary>
-        /// <param name="cellRange">Cell range to apply the style</param>
-        /// <param name="style">Style to apply</param>
-        /// <remarks>Note: This method may invalidate an existing date or time value since dates and times are defined by specific style. The result of a redefinition will be a number, instead of a date or time</remarks>
+        /// <param name="cellRange">Cell range to apply the style.</param>
+        /// <param name="style">Style to apply.</param>
         public void SetStyle(Cell.Range cellRange, Style style)
         {
             IReadOnlyList<Cell.Address> addresses = cellRange.ResolveEnclosedAddresses();
@@ -925,38 +937,35 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Sets the passed style on the passed cell range, derived from a start and end address. If cells are already existing, the style will be added or replaced.
-        /// Otherwise, an empty cell will be added with the assigned style. If the passed style is null, all styles will be removed on existing cells and no additional (empty) cells are added to the worksheet
+        /// Sets the passed style on the passed cell range, derived from a start and end address. If cells are already existing, the style will be added or replaced
+        /// Sets the passed style on the passed cell range, derived from a start and end address. If cells are already existing, the style will be added or replaced
         /// </summary>
-        /// <param name="startAddress">Start address of the cell range</param>
-        /// <param name="endAddress">End address of the cell range</param>
-        /// <param name="style">Style to apply or null to clear the range</param>
-        /// <remarks>Note: This method may invalidate an existing date or time value since dates and times are defined by specific style. The result of a redefinition will be a number, instead of a date or time</remarks>
+        /// <param name="startAddress">Start address of the cell range.</param>
+        /// <param name="endAddress">End address of the cell range.</param>
+        /// <param name="style">Style to apply or null to clear the range.</param>
         public void SetStyle(Cell.Address startAddress, Cell.Address endAddress, Style style)
         {
             SetStyle(new Cell.Range(startAddress, endAddress), style);
         }
 
         /// <summary>
-        /// Sets the passed style on the passed (singular) cell address. If the cell is already existing, the style will be added or replaced.
-        /// Otherwise, an empty cell will be added with the assigned style. If the passed style is null, all styles will be removed on existing cells and no additional (empty) cells are added to the worksheet
+        /// Sets the passed style on the passed (singular) cell address. If the cell is already existing, the style will be added or replaced
+        /// Sets the passed style on the passed (singular) cell address. If the cell is already existing, the style will be added or replaced
         /// </summary>
-        /// <param name="address">Cell address to apply the style</param>
-        /// <param name="style">Style to apply or null to clear the range</param>
-        /// <remarks>Note: This method may invalidate an existing date or time value since dates and times are defined by specific style. The result of a redefinition will be a number, instead of a date or time</remarks>
+        /// <param name="address">Cell address to apply the style.</param>
+        /// <param name="style">Style to apply or null to clear the range.</param>
         public void SetStyle(Cell.Address address, Style style)
         {
             SetStyle(address, address, style);
         }
 
         /// <summary>
-        /// Sets the passed style on the passed address expression. Such an expression may be a single cell or a cell range.
-        /// If the cell is already existing, the style will be added or replaced.
-        /// Otherwise, an empty cell will be added with the assigned style. If the passed style is null, all styles will be removed on existing cells and no additional (empty) cells are added to the worksheet
+        /// Sets the passed style on the passed address expression. Such an expression may be a single cell or a cell range
+        /// Sets the passed style on the passed address expression. Such an expression may be a single cell or a cell range
+        /// Sets the passed style on the passed address expression. Such an expression may be a single cell or a cell range
         /// </summary>
-        /// <param name="addressExpression">Expression of a cell address or range of addresses</param>
-        /// <param name="style">Style to apply or null to clear the range</param>
-        /// <remarks>Note: This method may invalidate an existing date or time value since dates and times are defined by specific style. The result of a redefinition will be a number, instead of a date or time</remarks>
+        /// <param name="addressExpression">Expression of a cell address or range of addresses.</param>
+        /// <param name="style">Style to apply or null to clear the range.</param>
         public void SetStyle(string addressExpression, Style style)
         {
             Cell.AddressScope scope = Cell.GetAddressScope(addressExpression);
@@ -976,15 +985,10 @@ namespace PicoXLSX
             }
         }
 
-        #endregion
-
-        #region common_methods
-
         /// <summary>
         /// Method to add allowed actions if the worksheet is protected. If one or more values are added, UseSheetProtection will be set to true
         /// </summary>
-        /// <param name="typeOfProtection">Allowed action on the worksheet or cells</param>
-        /// <remarks>If <see cref="SheetProtectionValue.selectLockedCells"/> is added, <see cref="SheetProtectionValue.selectUnlockedCells"/> is added automatically</remarks>
+        /// <param name="typeOfProtection">Allowed action on the worksheet or cells.</param>
         public void AddAllowedActionOnSheetProtection(SheetProtectionValue typeOfProtection)
         {
             if (!sheetProtectionValues.Contains(typeOfProtection))
@@ -1001,8 +1005,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the defined column as hidden
         /// </summary>
-        /// <param name="columnNumber">Column number to hide on the worksheet</param>
-        /// <exception cref="RangeException">Throws a RangeException if the passed column number is out of range</exception>
+        /// <param name="columnNumber">Column number to hide on the worksheet.</param>
         public void AddHiddenColumn(int columnNumber)
         {
             SetColumnHiddenState(columnNumber, true);
@@ -1011,8 +1014,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the defined column as hidden
         /// </summary>
-        /// <param name="columnAddress">Column address to hide on the worksheet</param>
-        /// <exception cref="RangeException">Throws a RangeException if the passed column address is out of range</exception>
+        /// <param name="columnAddress">Column address to hide on the worksheet.</param>
         public void AddHiddenColumn(string columnAddress)
         {
             int columnNumber = Cell.ResolveColumn(columnAddress);
@@ -1022,8 +1024,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the defined row as hidden
         /// </summary>
-        /// <param name="rowNumber">Row number to hide on the worksheet</param>
-        /// <exception cref="RangeException">Throws a RangeException if the passed row number is out of range</exception>
+        /// <param name="rowNumber">Row number to hide on the worksheet.</param>
         public void AddHiddenRow(int rowNumber)
         {
             SetRowHiddenState(rowNumber, true);
@@ -1041,9 +1042,8 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the cell of the specified address
         /// </summary>
-        /// <param name="address">Address of the cell</param>
-        /// <returns>Cell object</returns>
-        /// <exception cref="WorksheetException">Trows a WorksheetException if the cell was not found on the cell table of this worksheet</exception>
+        /// <param name="address">Address of the cell.</param>
+        /// <returns>Cell object.</returns>
         public Cell GetCell(Cell.Address address)
         {
             if (!cells.ContainsKey(address.GetAddress()))
@@ -1056,10 +1056,9 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the cell of the specified column and row number (zero-based)
         /// </summary>
-        /// <param name="columnNumber">Column number of the cell</param>
-        /// <param name="rowNumber">Row number of the cell</param>
-        /// <returns>Cell object</returns>
-        /// <exception cref="WorksheetException">Trows a WorksheetException if the cell was not found on the cell table of this worksheet</exception>
+        /// <param name="columnNumber">Column number of the cell.</param>
+        /// <param name="rowNumber">Row number of the cell.</param>
+        /// <returns>Cell object.</returns>
         public Cell GetCell(int columnNumber, int rowNumber)
         {
             return GetCell(new Cell.Address(columnNumber, rowNumber));
@@ -1068,10 +1067,8 @@ namespace PicoXLSX
         /// <summary>
         /// Gets whether the specified address exists in the worksheet. Existing means that a value was stored at the address
         /// </summary>
-        /// <param name="address">Address to check</param>
-        /// <returns>
-        ///   <c>true</c> if the cell exists, otherwise <c>false</c>.
-        /// </returns>
+        /// <param name="address">Address to check.</param>
+        /// <returns>The <see cref="bool"/>.</returns>
         public bool HasCell(Cell.Address address)
         {
             return cells.ContainsKey(address.GetAddress());
@@ -1080,22 +1077,18 @@ namespace PicoXLSX
         /// <summary>
         /// Gets whether the specified address exists in the worksheet. Existing means that a value was stored at the address
         /// </summary>
-        /// <param name="columnNumber">Column number of the cell to check (zero-based)</param>
-        /// <param name="rowNumber">Row number of the cell to check (zero-based)</param>
-        /// <returns>
-        ///   <c>true</c> if the cell exists, otherwise <c>false</c>.
-        /// </returns>
+        /// <param name="columnNumber">Column number of the cell to check (zero-based).</param>
+        /// <param name="rowNumber">Row number of the cell to check (zero-based).</param>
+        /// <returns>The <see cref="bool"/>.</returns>
         public bool HasCell(int columnNumber, int rowNumber)
         {
             return HasCell(new Cell.Address(columnNumber, rowNumber));
         }
 
         /// <summary>
-        /// Resets the defined column, if existing. The corresponding instance will be removed from <see cref="Columns"/>.
+        /// Resets the defined column, if existing. The corresponding instance will be removed from <see cref="Columns"/>
         /// </summary>
-        /// <remarks>If the column is inside an autoFilter-Range, the column cannot be entirely removed from <see cref="Columns"/>. The hidden state will be set to false and width to default, in this case.</remarks>
-        /// <param name="columnNumber">Column number to reset (zero-based)</param>
-        /// <exception cref="RangeException">A RangeException is thrown if the column or row number is invalid</exception>
+        /// <param name="columnNumber">Column number to reset (zero-based).</param>
         public void ResetColumn(int columnNumber)
         {
             if (columns.ContainsKey(columnNumber) && !columns[columnNumber].HasAutoFilter) // AutoFilters cannot have gaps 
@@ -1112,9 +1105,7 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the first existing column number in the current worksheet (zero-based)
         /// </summary>
-        /// <returns>Zero-based column number. In case of an empty worksheet, -1 will be returned</returns>
-        /// <remarks>GetFirstColumnNumber() will not return the first column with data in any case. If there is a formatted but empty cell (or many) before the first cell with data, 
-        /// GetFirstColumnNumber() will return the column number of this empty cell. Use <see cref="GetFirstDataColumnNumber"/> in this case.</remarks>
+        /// <returns>Zero-based column number. In case of an empty worksheet, -1 will be returned.</returns>
         public int GetFirstColumnNumber()
         {
             return GetBoundaryNumber(false, true);
@@ -1123,9 +1114,7 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the first existing column number with data in the current worksheet (zero-based)
         /// </summary>
-        /// <returns>Zero-based column number. In case of an empty worksheet, -1 will be returned</returns>
-        /// <remarks>GetFirstDataColumnNumber() will ignore formatted but empty cells before the first column with data. 
-        /// If you want the first defined column, use <see cref="GetFirstColumnNumber"/> instead.</remarks>
+        /// <returns>Zero-based column number. In case of an empty worksheet, -1 will be returned.</returns>
         public int GetFirstDataColumnNumber()
         {
             return GetBoundaryDataNumber(false, true, true);
@@ -1134,9 +1123,7 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the first existing row number in the current worksheet (zero-based)
         /// </summary>
-        /// <returns>Zero-based row number. In case of an empty worksheet, -1 will be returned</returns>
-        /// <remarks>GetFirstRowNumber() will not return the first row with data in any case. If there is a formatted but empty cell (or many) before the first cell with data, 
-        /// GetFirstRowNumber() will return the row number of this empty cell. Use <see cref="GetFirstDataRowNumber"/> in this case.</remarks>
+        /// <returns>Zero-based row number. In case of an empty worksheet, -1 will be returned.</returns>
         public int GetFirstRowNumber()
         {
             return GetBoundaryNumber(true, true);
@@ -1145,9 +1132,7 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the first existing row number with data in the current worksheet (zero-based)
         /// </summary>
-        /// <returns>Zero-based row number. In case of an empty worksheet, -1 will be returned</returns>
-        /// <remarks>GetFirstDataRowNumber() will ignore formatted but empty cells before the first row with data. 
-        /// If you want the first defined row, use <see cref="GetFirstRowNumber"/> instead.</remarks>
+        /// <returns>Zero-based row number. In case of an empty worksheet, -1 will be returned.</returns>
         public int GetFirstDataRowNumber()
         {
             return GetBoundaryDataNumber(true, true, true);
@@ -1156,10 +1141,7 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the last existing column number in the current worksheet (zero-based)
         /// </summary>
-        /// <returns>Zero-based column number. In case of an empty worksheet, -1 will be returned</returns>
-        /// <remarks>GetLastColumnNumber() will not return the last column with data in any case. If there is a formatted (or with the definition of AutoFilter, 
-        /// column width or hidden state) but empty cell (or many) after the last cell with data, 
-        /// GetLastColumnNumber() will return the column number of this empty cell. Use <see cref="GetLastDataColumnNumber"/> in this case.</remarks>
+        /// <returns>Zero-based column number. In case of an empty worksheet, -1 will be returned.</returns>
         public int GetLastColumnNumber()
         {
             return GetBoundaryNumber(false, false);
@@ -1168,9 +1150,7 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the last existing column number with data in the current worksheet (zero-based)
         /// </summary>
-        /// <returns>Zero-based column number. in case of an empty worksheet, -1 will be returned</returns>
-        /// <remarks>GetLastDataColumnNumber() will ignore formatted (or with the definition of AutoFilter, column width or hidden state) but empty cells after the last column with data. 
-        /// If you want the last defined column, use <see cref="GetLastColumnNumber"/> instead.</remarks>
+        /// <returns>Zero-based column number. in case of an empty worksheet, -1 will be returned.</returns>
         public int GetLastDataColumnNumber()
         {
             return GetBoundaryDataNumber(false, false, true);
@@ -1179,35 +1159,25 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the last existing row number in the current worksheet (zero-based)
         /// </summary>
-        /// <returns>Zero-based row number. In case of an empty worksheet, -1 will be returned</returns>
-        /// <remarks>GetLastRowNumber() will not return the last row with data in any case. If there is a formatted (or with the definition of row height or hidden state) 
-        /// but empty cell (or many) after the last cell with data, 
-        /// GetLastRowNumber() will return the row number of this empty cell. Use <see cref="GetLastDataRowNumber"/> in this case.</remarks>
+        /// <returns>Zero-based row number. In case of an empty worksheet, -1 will be returned.</returns>
         public int GetLastRowNumber()
         {
             return GetBoundaryNumber(true, false);
         }
 
-
         /// <summary>
         /// Gets the last existing row number with data in the current worksheet (zero-based)
         /// </summary>
-        /// <returns>Zero-based row number. in case of an empty worksheet, -1 will be returned</returns>
-        /// <remarks>GetLastDataColumnNumber() will ignore formatted (or with the definition of row height or hidden state) but empty cells after the last column with data. 
-        /// If you want the last defined column, use <see cref="GetLastRowNumber"/> instead.</remarks>
+        /// <returns>Zero-based row number. in case of an empty worksheet, -1 will be returned.</returns>
         public int GetLastDataRowNumber()
         {
             return GetBoundaryDataNumber(true, false, true);
         }
 
         /// <summary>
-        ///  Gets the last existing cell in the current worksheet (bottom right)
+        /// Gets the last existing cell in the current worksheet (bottom right)
         /// </summary>
-        /// <returns>Nullable Cell Address. If no cell address could be determined, null will be returned</returns>
-        /// <remarks>GetLastCellAddress() will not return the last cell with data in any case. If there is a formatted (or with definitions of hidden states, AutoFilters, heights or widths) 
-        /// but empty cell (or many) after the last cell with data, 
-        /// GetLastCellAddress() will return the address of this empty cell. Use <see cref="GetLastDataCellAddress"/> in this case.</remarks>
-
+        /// <returns>Nullable Cell Address. If no cell address could be determined, null will be returned.</returns>
         public Cell.Address? GetLastCellAddress()
         {
             int lastRow = GetLastRowNumber();
@@ -1220,12 +1190,9 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        ///  Gets the last existing cell with data in the current worksheet (bottom right)
+        /// Gets the last existing cell with data in the current worksheet (bottom right)
         /// </summary>
-        /// <returns>Nullable Cell Address. If no cell address could be determined, null will be returned</returns>
-        /// <remarks>GetLastDataCellAddress() will ignore formatted (or with definitions of hidden states, AutoFilters, heights or widths) but empty cells after the last cell with data. 
-        /// If you want the last defined cell, use <see cref="GetLastCellAddress"/> instead.</remarks>
-
+        /// <returns>Nullable Cell Address. If no cell address could be determined, null will be returned.</returns>
         public Cell.Address? GetLastDataCellAddress()
         {
             int lastRow = GetLastDataRowNumber();
@@ -1238,11 +1205,9 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        ///  Gets the first existing cell in the current worksheet (bottom right)
+        /// Gets the first existing cell in the current worksheet (bottom right)
         /// </summary>
-        /// <returns>Nullable Cell Address. If no cell address could be determined, null will be returned</returns>
-        /// <remarks>GetFirstCellAddress() will not return the first cell with data in any case. If there is a formatted but empty cell (or many) before the first cell with data, 
-        /// GetLastCellAddress() will return the address of this empty cell. Use <see cref="GetFirstDataCellAddress"/> in this case.</remarks>
+        /// <returns>Nullable Cell Address. If no cell address could be determined, null will be returned.</returns>
         public Cell.Address? GetFirstCellAddress()
         {
             int firstRow = GetFirstRowNumber();
@@ -1255,11 +1220,9 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        ///  Gets the first existing cell with data in the current worksheet (bottom right)
+        /// Gets the first existing cell with data in the current worksheet (bottom right)
         /// </summary>
-        /// <returns>Nullable Cell Address. If no cell address could be determined, null will be returned</returns>
-        /// <remarks>GetFirstDataCellAddress() will ignore formatted but empty cells before the first cell with data. 
-        /// If you want the first defined cell, use <see cref="GetFirstCellAddress"/> instead.</remarks>
+        /// <returns>Nullable Cell Address. If no cell address could be determined, null will be returned.</returns>
         public Cell.Address? GetFirstDataCellAddress()
         {
             int firstRow = GetFirstDataRowNumber();
@@ -1274,10 +1237,10 @@ namespace PicoXLSX
         /// <summary>
         /// Gets either the minimum or maximum row or column number, considering only calls with data
         /// </summary>
-        /// <param name="row">If true, the min or max row is returned, otherwise the column</param>
-        /// <param name="min">If true, the min value of the row or column is defined, otherwise the max value</param>
-        /// <param name="ignoreEmpty">If true, empty cell values are ignored, otherwise considered without checking the content</param>
-        /// <returns>Min or max number, or -1 if not defined</returns>
+        /// <param name="row">If true, the min or max row is returned, otherwise the column.</param>
+        /// <param name="min">If true, the min value of the row or column is defined, otherwise the max value.</param>
+        /// <param name="ignoreEmpty">If true, empty cell values are ignored, otherwise considered without checking the content.</param>
+        /// <returns>Min or max number, or -1 if not defined.</returns>
         private int GetBoundaryDataNumber(bool row, bool min, bool ignoreEmpty)
         {
             if (cells.Count == 0)
@@ -1329,9 +1292,9 @@ namespace PicoXLSX
         /// <summary>
         /// Gets either the minimum or maximum row or column number, considering all available data
         /// </summary>
-        /// <param name="row">If true, the min or max row is returned, otherwise the column</param>
-        /// <param name="min">If true, the min value of the row or column is defined, otherwise the max value</param>
-        /// <returns>Min or max number, or -1 if not defined</returns>
+        /// <param name="row">If true, the min or max row is returned, otherwise the column.</param>
+        /// <param name="min">If true, the min value of the row or column is defined, otherwise the max value.</param>
+        /// <returns>Min or max number, or -1 if not defined.</returns>
         private int GetBoundaryNumber(bool row, bool min)
         {
             int cellBoundary = GetBoundaryDataNumber(row, min, false);
@@ -1370,10 +1333,10 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the maximum row coordinate either from cell data, height definitions or hidden rows
         /// </summary>
-        /// <param name="cellBoundary">Row number of max cell data</param>
-        /// <param name="heightBoundary">Row number of max defined row height</param>
-        /// <param name="hiddenBoundary">Row number of max defined hidden row</param>
-        /// <returns>Max row number or -1 if nothing valid defined</returns>
+        /// <param name="cellBoundary">Row number of max cell data.</param>
+        /// <param name="heightBoundary">Row number of max defined row height.</param>
+        /// <param name="hiddenBoundary">Row number of max defined hidden row.</param>
+        /// <returns>Max row number or -1 if nothing valid defined.</returns>
         private int GetMaxRow(int cellBoundary, int heightBoundary, int hiddenBoundary)
         {
             int highest = -1;
@@ -1395,10 +1358,10 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the minimum row coordinate either from cell data, height definitions or hidden rows
         /// </summary>
-        /// <param name="cellBoundary">Row number of min cell data</param>
-        /// <param name="heightBoundary">Row number of min defined row height</param>
-        /// <param name="hiddenBoundary">Row number of min defined hidden row</param>
-        /// <returns>Min row number or -1 if nothing valid defined</returns>
+        /// <param name="cellBoundary">Row number of min cell data.</param>
+        /// <param name="heightBoundary">Row number of min defined row height.</param>
+        /// <param name="hiddenBoundary">Row number of min defined hidden row.</param>
+        /// <returns>Min row number or -1 if nothing valid defined.</returns>
         private int GetMinRow(int cellBoundary, int heightBoundary, int hiddenBoundary)
         {
             int lowest = int.MaxValue;
@@ -1420,7 +1383,7 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the current column number (zero based)
         /// </summary>
-        /// <returns>Column number (zero-based)</returns>
+        /// <returns>Column number (zero-based).</returns>
         public int GetCurrentColumnNumber()
         {
             return currentColumnNumber;
@@ -1429,12 +1392,11 @@ namespace PicoXLSX
         /// <summary>
         /// Gets the current row number (zero based)
         /// </summary>
-        /// <returns>Row number (zero-based)</returns>
+        /// <returns>Row number (zero-based).</returns>
         public int GetCurrentRowNumber()
         {
             return currentRowNumber;
         }
-
 
         /// <summary>
         /// Moves the current position to the next column
@@ -1449,9 +1411,8 @@ namespace PicoXLSX
         /// <summary>
         /// Moves the current position to the next column with the number of cells to move
         /// </summary>
-        /// <param name="numberOfColumns">Number of columns to move</param>
-        /// <param name="keepRowPosition">If true, the row position is preserved, otherwise set to 0</param>
-        /// <remarks>The value can also be negative. However, resulting column numbers below 0 or above 16383 will cause an exception</remarks>
+        /// <param name="numberOfColumns">Number of columns to move.</param>
+        /// <param name="keepRowPosition">If true, the row position is preserved, otherwise set to 0.</param>
         public void GoToNextColumn(int numberOfColumns, bool keepRowPosition = false)
         {
             currentColumnNumber += numberOfColumns;
@@ -1475,9 +1436,8 @@ namespace PicoXLSX
         /// <summary>
         /// Moves the current position to the next row with the number of cells to move (use for a new line)
         /// </summary>
-        /// <param name="numberOfRows">Number of rows to move</param>
-        /// <param name="keepColumnPosition">If true, the column position is preserved, otherwise set to 0</param>
-        /// <remarks>The value can also be negative. However, resulting row numbers below 0 or above 1048575 will cause an exception</remarks>
+        /// <param name="numberOfRows">Number of rows to move.</param>
+        /// <param name="keepColumnPosition">If true, the column position is preserved, otherwise set to 0.</param>
         public void GoToNextRow(int numberOfRows, bool keepColumnPosition = false)
         {
             currentRowNumber += numberOfRows;
@@ -1491,9 +1451,8 @@ namespace PicoXLSX
         /// <summary>
         /// Merges the defined cell range
         /// </summary>
-        /// <param name="cellRange">Range to merge</param>
-        /// <returns>Returns the validated range of the merged cells (e.g. 'A1:B12')</returns>
-        /// <exception cref="RangeException">Throws a RangeException if the passed cell range is out of range</exception>
+        /// <param name="cellRange">Range to merge.</param>
+        /// <returns>Returns the validated range of the merged cells (e.g. 'A1:B12').</returns>
         public string MergeCells(Cell.Range cellRange)
         {
             return MergeCells(cellRange.StartAddress, cellRange.EndAddress);
@@ -1502,10 +1461,8 @@ namespace PicoXLSX
         /// <summary>
         /// Merges the defined cell range
         /// </summary>
-        /// <param name="cellRange">Range to merge (e.g. 'A1:B12')</param>
-        /// <returns>Returns the validated range of the merged cells (e.g. 'A1:B12')</returns>
-        /// <exception cref="RangeException">Throws a RangeException if the passed cell range is out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell range is malformed</exception>
+        /// <param name="cellRange">Range to merge (e.g. 'A1:B12').</param>
+        /// <returns>Returns the validated range of the merged cells (e.g. 'A1:B12').</returns>
         public string MergeCells(string cellRange)
         {
             Cell.Range range = Cell.ResolveCellRange(cellRange);
@@ -1515,10 +1472,9 @@ namespace PicoXLSX
         /// <summary>
         /// Merges the defined cell range
         /// </summary>
-        /// <param name="startAddress">Start address of the merged cell range</param>
-        /// <param name="endAddress">End address of the merged cell range</param>
-        /// <returns>Returns the validated range of the merged cells (e.g. 'A1:B12')</returns>
-        /// <exception cref="RangeException">Throws a RangeException if one of the passed cell addresses is out of range or if one or more cell addresses are already occupied in another merge range</exception>
+        /// <param name="startAddress">Start address of the merged cell range.</param>
+        /// <param name="endAddress">End address of the merged cell range.</param>
+        /// <returns>Returns the validated range of the merged cells (e.g. 'A1:B12').</returns>
         public string MergeCells(Cell.Address startAddress, Cell.Address endAddress)
         {
             string key = startAddress + ":" + endAddress;
@@ -1596,7 +1552,6 @@ namespace PicoXLSX
         /// Method to resolve all merged cells of the worksheet. Only the value of the very first cell of the locked cells range will be visible. The other values are still present (set to EMPTY) but will not be stored in the worksheet.<br/>
         /// This is an internal method. There is no need to use it
         /// </summary>
-        /// <exception cref="StyleException">Throws a StyleException if one of the styles of the merged cells cannot be referenced or is null</exception>
         internal void ResolveMergedCells()
         {
             Style mergeStyle = Style.BasicStyles.MergeCellStyle;
@@ -1649,8 +1604,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets a previously defined, hidden column as visible again
         /// </summary>
-        /// <param name="columnNumber">Column number to make visible again</param>
-        /// <exception cref="RangeException">Throws a RangeException if the passed column number is out of range</exception>
+        /// <param name="columnNumber">Column number to make visible again.</param>
         public void RemoveHiddenColumn(int columnNumber)
         {
             SetColumnHiddenState(columnNumber, false);
@@ -1659,8 +1613,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets a previously defined, hidden column as visible again
         /// </summary>
-        /// <param name="columnAddress">Column address to make visible again</param>
-        /// <exception cref="RangeException">Throws a RangeException if the column address out of range</exception>
+        /// <param name="columnAddress">Column address to make visible again.</param>
         public void RemoveHiddenColumn(string columnAddress)
         {
             int columnNumber = Cell.ResolveColumn(columnAddress);
@@ -1670,8 +1623,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets a previously defined, hidden row as visible again
         /// </summary>
-        /// <param name="rowNumber">Row number to hide on the worksheet</param>
-        /// <exception cref="RangeException">Throws a RangeException if the passed row number is out of range</exception>
+        /// <param name="rowNumber">Row number to hide on the worksheet.</param>
         public void RemoveHiddenRow(int rowNumber)
         {
             SetRowHiddenState(rowNumber, false);
@@ -1680,8 +1632,7 @@ namespace PicoXLSX
         /// <summary>
         /// Removes the defined merged cell range
         /// </summary>
-        /// <param name="range">Cell range to remove the merging</param>
-        /// <exception cref="RangeException">Throws a RangeException if the passed cell range was not merged earlier</exception>
+        /// <param name="range">Cell range to remove the merging.</param>
         public void RemoveMergedCells(string range)
         {
             if (range != null)
@@ -1720,7 +1671,7 @@ namespace PicoXLSX
         /// <summary>
         /// Removes the defined, non-standard row height
         /// </summary>
-        /// <param name="rowNumber">Row number (zero-based)</param>
+        /// <param name="rowNumber">Row number (zero-based).</param>
         public void RemoveRowHeight(int rowNumber)
         {
             if (rowHeights.ContainsKey(rowNumber))
@@ -1732,7 +1683,7 @@ namespace PicoXLSX
         /// <summary>
         /// Removes an allowed action on the current worksheet or its cells
         /// </summary>
-        /// <param name="value">Allowed action on the worksheet or cells</param>
+        /// <param name="value">Allowed action on the worksheet or cells.</param>
         public void RemoveAllowedActionOnSheetProtection(SheetProtectionValue value)
         {
             if (sheetProtectionValues.Contains(value))
@@ -1744,7 +1695,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the active style of the worksheet. This style will be assigned to all later added cells
         /// </summary>
-        /// <param name="style">Style to set as active style</param>
+        /// <param name="style">Style to set as active style.</param>
         public void SetActiveStyle(Style style)
         {
             if (style == null)
@@ -1761,9 +1712,8 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the column auto filter within the defined column range
         /// </summary>
-        /// <param name="startColumn">Column number with the first appearance of an auto filter drop down</param>
-        /// <param name="endColumn">Column number with the last appearance of an auto filter drop down</param>
-        /// <exception cref="RangeException">Throws a RangeException if the start or end address out of range</exception>
+        /// <param name="startColumn">Column number with the first appearance of an auto filter drop down.</param>
+        /// <param name="endColumn">Column number with the last appearance of an auto filter drop down.</param>
         public void SetAutoFilter(int startColumn, int endColumn)
         {
             string start = Cell.ResolveCellAddress(startColumn, 0);
@@ -1781,9 +1731,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the column auto filter within the defined column range
         /// </summary>
-        /// <param name="range">Range to apply auto filter on. The range could be 'A1:C10' for instance. The end row will be recalculated automatically when saving the file</param>
-        /// <exception cref="RangeException">Throws a RangeException if the passed range out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed range is malformed</exception>
+        /// <param name="range">Range to apply auto filter on. The range could be 'A1:C10' for instance. The end row will be recalculated automatically when saving the file.</param>
         public void SetAutoFilter(string range)
         {
             autoFilterRange = Cell.ResolveCellRange(range);
@@ -1794,9 +1742,8 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the defined column as hidden or visible
         /// </summary>
-        /// <param name="columnNumber">Column number to hide on the worksheet</param>
-        /// <param name="state">If true, the column will be hidden, otherwise be visible</param>
-        /// <exception cref="RangeException">Throws a RangeException if the column number out of range</exception>
+        /// <param name="columnNumber">Column number to hide on the worksheet.</param>
+        /// <param name="state">If true, the column will be hidden, otherwise be visible.</param>
         private void SetColumnHiddenState(int columnNumber, bool state)
         {
             Cell.ValidateColumnNumber(columnNumber);
@@ -1819,9 +1766,8 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the width of the passed column address
         /// </summary>
-        /// <param name="columnAddress">Column address (A - XFD)</param>
-        /// <param name="width">Width from 0 to 255.0</param>
-        /// <exception cref="RangeException">Throws a RangeException:<br></br>a) If the passed column address is out of range<br></br>b) if the column width is out of range (0 - 255.0)</exception>
+        /// <param name="columnAddress">Column address (A - XFD).</param>
+        /// <param name="width">Width from 0 to 255.0.</param>
         public void SetColumnWidth(string columnAddress, float width)
         {
             int columnNumber = Cell.ResolveColumn(columnAddress);
@@ -1831,9 +1777,8 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the width of the passed column number (zero-based)
         /// </summary>
-        /// <param name="columnNumber">Column number (zero-based, from 0 to 16383)</param>
-        /// <param name="width">Width from 0 to 255.0</param>
-        /// <exception cref="RangeException">Throws a RangeException:<br></br>a) If the passed column number is out of range<br></br>b) if the column width is out of range (0 - 255.0)</exception>
+        /// <param name="columnNumber">Column number (zero-based, from 0 to 16383).</param>
+        /// <param name="width">Width from 0 to 255.0.</param>
         public void SetColumnWidth(int columnNumber, float width)
         {
             Cell.ValidateColumnNumber(columnNumber);
@@ -1856,9 +1801,8 @@ namespace PicoXLSX
         /// <summary>
         /// Set the current cell address
         /// </summary>
-        /// <param name="columnNumber">Column number (zero based)</param>
-        /// <param name="rowNumber">Row number (zero based)</param>
-        /// <exception cref="RangeException">Throws a RangeException if one of the passed cell addresses is out of range</exception>
+        /// <param name="columnNumber">Column number (zero based).</param>
+        /// <param name="rowNumber">Row number (zero based).</param>
         public void SetCurrentCellAddress(int columnNumber, int rowNumber)
         {
             SetCurrentColumnNumber(columnNumber);
@@ -1868,9 +1812,7 @@ namespace PicoXLSX
         /// <summary>
         /// Set the current cell address
         /// </summary>
-        /// <param name="address">Cell address in the format A1 - XFD1048576</param>
-        /// <exception cref="RangeException">Throws a RangeException if the passed cell address is out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if the passed cell address is malformed</exception>
+        /// <param name="address">Cell address in the format A1 - XFD1048576.</param>
         public void SetCurrentCellAddress(string address)
         {
             int row, column;
@@ -1881,8 +1823,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the current column number (zero based)
         /// </summary>
-        /// <param name="columnNumber">Column number (zero based)</param>
-        /// <exception cref="RangeException">Throws a RangeException if the number is out of the valid range. Range is from 0 to 16383 (16384 columns)</exception>
+        /// <param name="columnNumber">Column number (zero based).</param>
         public void SetCurrentColumnNumber(int columnNumber)
         {
             Cell.ValidateColumnNumber(columnNumber);
@@ -1892,8 +1833,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the current row number (zero based)
         /// </summary>
-        /// <param name="rowNumber">Row number (zero based)</param>
-        /// <exception cref="RangeException">Throws a RangeException if the number is out of the valid range. Range is from 0 to 1048575 (1048576 rows)</exception>
+        /// <param name="rowNumber">Row number (zero based).</param>
         public void SetCurrentRowNumber(int rowNumber)
         {
             Cell.ValidateRowNumber(rowNumber);
@@ -1903,7 +1843,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the selected cells on this worksheet
         /// </summary>
-        /// <param name="range">Cell range to select</param>
+        /// <param name="range">Cell range to select.</param>
         public void SetSelectedCells(Cell.Range range)
         {
             selectedCells = range;
@@ -1912,8 +1852,8 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the selected cells on this worksheet
         /// </summary>
-        /// <param name="startAddress">Start address of the range</param>
-        /// <param name="endAddress">End address of the range</param>
+        /// <param name="startAddress">Start address of the range.</param>
+        /// <param name="endAddress">End address of the range.</param>
         public void SetSelectedCells(Cell.Address startAddress, Cell.Address endAddress)
         {
             selectedCells = new Cell.Range(startAddress, endAddress);
@@ -1922,7 +1862,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the selected cells on this worksheet. Null removes the selected cell range
         /// </summary>
-        /// <param name="range">Cell range to select</param>
+        /// <param name="range">Cell range to select.</param>
         public void SetSelectedCells(string range)
         {
             if (range == null)
@@ -1938,7 +1878,7 @@ namespace PicoXLSX
         /// <summary>
         /// Sets or removes the password for worksheet protection. If set, UseSheetProtection will be also set to true
         /// </summary>
-        /// <param name="password">Password (UTF-8) to protect the worksheet. If the password is null or empty, no password will be used</param>
+        /// <param name="password">Password (UTF-8) to protect the worksheet. If the password is null or empty, no password will be used.</param>
         public void SetSheetProtectionPassword(string password)
         {
             if (string.IsNullOrEmpty(password))
@@ -1958,9 +1898,8 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the height of the passed row number (zero-based)
         /// </summary>
-        /// <param name="rowNumber">Row number (zero-based, 0 to 1048575)</param>
-        /// <param name="height">Height from 0 to 409.5</param>
-        /// <exception cref="RangeException">Throws a RangeException:<br></br>a) If the passed row number is out of range<br></br>b) if the row height is out of range (0 - 409.5)</exception>
+        /// <param name="rowNumber">Row number (zero-based, 0 to 1048575).</param>
+        /// <param name="height">Height from 0 to 409.5.</param>
         public void SetRowHeight(int rowNumber, float height)
         {
             Cell.ValidateRowNumber(rowNumber);
@@ -1981,9 +1920,8 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the defined row as hidden or visible
         /// </summary>
-        /// <param name="rowNumber">Row number to make visible again</param>
-        /// <param name="state">If true, the row will be hidden, otherwise visible</param>
-        /// <exception cref="RangeException">Throws a RangeException if the passed row number was out of range</exception>
+        /// <param name="rowNumber">Row number to make visible again.</param>
+        /// <param name="state">If true, the row will be hidden, otherwise visible.</param>
         private void SetRowHiddenState(int rowNumber, bool state)
         {
             Cell.ValidateRowNumber(rowNumber);
@@ -2007,8 +1945,7 @@ namespace PicoXLSX
         /// <summary>
         /// Validates and sets the worksheet name
         /// </summary>
-        /// <param name="name">Name to set</param>
-        /// <exception cref="FormatException">Throws a FormatException if the worksheet name is too long (max. 31) or contains illegal characters [  ]  * ? / \</exception>
+        /// <param name="name">Name to set.</param>
         public void SetSheetName(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -2031,10 +1968,8 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the name of the worksheet
         /// </summary>
-        /// <param name="name">Name of the worksheet</param>
-        /// <param name="sanitize">If true, the filename will be sanitized automatically according to the specifications of Excel</param>
-        /// <exception cref="WorksheetException">A WorksheetException is thrown if the workbook reference is null, since all worksheets have to be considered during sanitation</exception>
-        /// <exception cref="WorksheetException">WorksheetException Thrown if no workbook is referenced. This information is necessary to determine whether the name already exists</exception>
+        /// <param name="name">Name of the worksheet.</param>
+        /// <param name="sanitize">If true, the filename will be sanitized automatically according to the specifications of Excel.</param>
         public void SetSheetName(string name, bool sanitize)
         {
             if (sanitize)
@@ -2051,9 +1986,9 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the horizontal split of the worksheet into two panes. The measurement in characters cannot be used to freeze panes
         /// </summary>
-        /// <param name="topPaneHeight">Height (similar to row height) from top of the worksheet to the split line in characters</param>
-        /// <param name="topLeftCell">Top Left cell address of the bottom right pane (if applicable). Only the row component is important in a horizontal split</param>
-        /// <param name="activePane">Active pane in the split window</param>
+        /// <param name="topPaneHeight">Height (similar to row height) from top of the worksheet to the split line in characters.</param>
+        /// <param name="topLeftCell">Top Left cell address of the bottom right pane (if applicable). Only the row component is important in a horizontal split.</param>
+        /// <param name="activePane">Active pane in the split window.</param>
         public void SetHorizontalSplit(float topPaneHeight, Cell.Address topLeftCell, WorksheetPane activePane)
         {
             SetSplit(null, topPaneHeight, topLeftCell, activePane);
@@ -2062,11 +1997,10 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the horizontal split of the worksheet into two panes. The measurement in rows can be used to split and freeze panes
         /// </summary>
-        /// <param name="numberOfRowsFromTop">Number of rows from top of the worksheet to the split line. The particular row heights are considered</param>
-        /// <param name="freeze">If true, all panes are frozen, otherwise remains movable</param>
-        /// <param name="topLeftCell">Top Left cell address of the bottom right pane (if applicable). Only the row component is important in a horizontal split</param>
-        /// <param name="activePane">Active pane in the split window</param>
-        /// <exception cref="WorksheetException">WorksheetException Thrown if the row number of the top left cell is smaller the split panes number of rows from top, if freeze is applied</exception>
+        /// <param name="numberOfRowsFromTop">Number of rows from top of the worksheet to the split line. The particular row heights are considered.</param>
+        /// <param name="freeze">If true, all panes are frozen, otherwise remains movable.</param>
+        /// <param name="topLeftCell">Top Left cell address of the bottom right pane (if applicable). Only the row component is important in a horizontal split.</param>
+        /// <param name="activePane">Active pane in the split window.</param>
         public void SetHorizontalSplit(int numberOfRowsFromTop, bool freeze, Cell.Address topLeftCell, WorksheetPane activePane)
         {
             SetSplit(null, numberOfRowsFromTop, freeze, topLeftCell, activePane);
@@ -2075,9 +2009,9 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the vertical split of the worksheet into two panes. The measurement in characters cannot be used to freeze panes
         /// </summary>
-        /// <param name="leftPaneWidth">Width (similar to column width) from left of the worksheet to the split line in characters</param>
-        /// <param name="topLeftCell">Top Left cell address of the bottom right pane (if applicable). Only the column component is important in a vertical split</param>
-        /// <param name="activePane">Active pane in the split window</param>
+        /// <param name="leftPaneWidth">Width (similar to column width) from left of the worksheet to the split line in characters.</param>
+        /// <param name="topLeftCell">Top Left cell address of the bottom right pane (if applicable). Only the column component is important in a vertical split.</param>
+        /// <param name="activePane">Active pane in the split window.</param>
         public void SetVerticalSplit(float leftPaneWidth, Cell.Address topLeftCell, WorksheetPane activePane)
         {
             SetSplit(leftPaneWidth, null, topLeftCell, activePane);
@@ -2086,12 +2020,10 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the vertical split of the worksheet into two panes. The measurement in columns can be used to split and freeze panes
         /// </summary>
-        /// <param name="numberOfColumnsFromLeft">Number of columns from left of the worksheet to the split line. The particular column widths are considered</param>
-        /// <param name="freeze">If true, all panes are frozen, otherwise remains movable</param>
-        /// <param name="topLeftCell">Top Left cell address of the bottom right pane (if applicable). Only the column component is important in a vertical split</param>
-        /// <param name="activePane">Active pane in the split window</param>
-        /// <exception cref="WorksheetException">WorksheetException Thrown if the column number of the top left cell is smaller the split panes number of columns from left, 
-        /// if freeze is applied</exception>
+        /// <param name="numberOfColumnsFromLeft">Number of columns from left of the worksheet to the split line. The particular column widths are considered.</param>
+        /// <param name="freeze">If true, all panes are frozen, otherwise remains movable.</param>
+        /// <param name="topLeftCell">Top Left cell address of the bottom right pane (if applicable). Only the column component is important in a vertical split.</param>
+        /// <param name="activePane">Active pane in the split window.</param>
         public void SetVerticalSplit(int numberOfColumnsFromLeft, bool freeze, Cell.Address topLeftCell, WorksheetPane activePane)
         {
             SetSplit(numberOfColumnsFromLeft, null, freeze, topLeftCell, activePane);
@@ -2100,14 +2032,11 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the horizontal and vertical split of the worksheet into four panes. The measurement in rows and columns can be used to split and freeze panes
         /// </summary>
-        /// <param name="numberOfColumnsFromLeft">Number of columns from left of the worksheet to the split line. The particular column widths are considered.<br/>
-        /// The parameter is nullable. If left null, the method acts identical to <see cref="SetHorizontalSplit(int, bool, Cell.Address, WorksheetPane)"/></param>
-        /// <param name="numberOfRowsFromTop">Number of rows from top of the worksheet to the split line. The particular row heights are considered.<br/>
-        /// The parameter is nullable. If left null, the method acts identical to <see cref="SetVerticalSplit(int, bool, Cell.Address, WorksheetPane)"/></param>
-        /// <param name="freeze">If true, all panes are frozen, otherwise remains movable</param>
-        /// <param name="topLeftCell">Top Left cell address of the bottom right pane (if applicable)</param>
-        /// <param name="activePane">Active pane in the split window</param>
-        /// <exception cref="WorksheetException">WorksheetException Thrown if the address of the top left cell is smaller the split panes address, if freeze is applied</exception>
+        /// <param name="numberOfColumnsFromLeft">The numberOfColumnsFromLeft<see cref="int?"/>.</param>
+        /// <param name="numberOfRowsFromTop">The numberOfRowsFromTop<see cref="int?"/>.</param>
+        /// <param name="freeze">If true, all panes are frozen, otherwise remains movable.</param>
+        /// <param name="topLeftCell">Top Left cell address of the bottom right pane (if applicable).</param>
+        /// <param name="activePane">Active pane in the split window.</param>
         public void SetSplit(int? numberOfColumnsFromLeft, int? numberOfRowsFromTop, bool freeze, Cell.Address topLeftCell, WorksheetPane activePane)
         {
             if (freeze)
@@ -2136,12 +2065,10 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the horizontal and vertical split of the worksheet into four panes. The measurement in characters cannot be used to freeze panes
         /// </summary>
-        /// <param name="leftPaneWidth">Width (similar to column width) from left of the worksheet to the split line in characters.<br/>
-        /// The parameter is nullable. If left null, the method acts identical to <see cref="SetHorizontalSplit(float, Cell.Address, WorksheetPane)"/></param>
-        /// <param name="topPaneHeight">Height (similar to row height) from top of the worksheet to the split line in characters.<br/>
-        /// The parameter is nullable. If left null, the method acts identical to <see cref="SetVerticalSplit(float, Cell.Address, WorksheetPane)"/></param>
-        /// <param name="topLeftCell">Top Left cell address of the bottom right pane (if applicable)</param>
-        /// <param name="activePane">Active pane in the split window</param>
+        /// <param name="leftPaneWidth">The leftPaneWidth<see cref="float?"/>.</param>
+        /// <param name="topPaneHeight">The topPaneHeight<see cref="float?"/>.</param>
+        /// <param name="topLeftCell">Top Left cell address of the bottom right pane (if applicable).</param>
+        /// <param name="activePane">Active pane in the split window.</param>
         public void SetSplit(float? leftPaneWidth, float? topPaneHeight, Cell.Address topLeftCell, WorksheetPane activePane)
         {
             this.paneSplitLeftWidth = leftPaneWidth;
@@ -2153,7 +2080,7 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Resets splitting of the worksheet into panes, as well as their freezing 
+        /// Resets splitting of the worksheet into panes, as well as their freezing
         /// </summary>
         public void ResetSplit()
         {
@@ -2168,12 +2095,7 @@ namespace PicoXLSX
         /// <summary>
         /// Creates a (dereferenced) deep copy of this worksheet
         /// </summary>
-        /// <remarks>Not considered in the copy are the internal ID, the worksheet name and the workbook reference. 
-        /// Since styles are managed in a shared repository, no dereferencing is applied (Styles are not deep-copied). 
-        /// Use <see cref="Workbook.CopyWorksheetTo(Worksheet, string, Workbook, bool)"/> or <see cref="Workbook.CopyWorksheetIntoThis(Worksheet, string, bool)"/> 
-        /// to add a copy of worksheet to a workbook. These methods will set the internal ID, name and workbook reference.
-        /// </remarks>
-        /// <return>Copy of this worksheet</return>
+        /// <returns>The <see cref="Worksheet"/>.</returns>
         public Worksheet Copy()
         {
             Worksheet copy = new Worksheet();
@@ -2235,15 +2157,12 @@ namespace PicoXLSX
             return copy;
         }
 
-        #region static_methods
-
         /// <summary>
         /// Sanitizes a worksheet name
         /// </summary>
-        /// <param name="input">Name to sanitize</param>
-        /// <exception cref="WorksheetException">A WorksheetException is thrown if the workbook reference is null, since all worksheets have to be considered during sanitation</exception>
-        /// <param name="workbook">Workbook reference</param>
-        /// <returns>Name of the sanitized worksheet</returns>
+        /// <param name="input">Name to sanitize.</param>
+        /// <param name="workbook">Workbook reference.</param>
+        /// <returns>Name of the sanitized worksheet.</returns>
         public static string SanitizeWorksheetName(string input, Workbook workbook)
         {
             if (input == null) { input = "Sheet1"; }
@@ -2269,12 +2188,9 @@ namespace PicoXLSX
         /// <summary>
         /// Determines the next unused worksheet name in the passed workbook
         /// </summary>
-        /// <param name="name">Original name to start the check</param>
-        /// <param name="workbook">Workbook to look for existing worksheets</param>
-        /// <returns>Not yet used worksheet name</returns>
-        /// <exception cref="WorksheetException">A WorksheetException is thrown if the workbook reference is null, since all worksheets have to be considered during sanitation</exception>
-        /// <remarks>The 'rare' case where 10^31 Worksheets exists (leads to a crash) is deliberately not handled, 
-        /// since such a number of sheets would consume at least one quintillion bytes of RAM... what is vastly out of the 64 bit range</remarks>
+        /// <param name="name">Original name to start the check.</param>
+        /// <param name="workbook">Workbook to look for existing worksheets.</param>
+        /// <returns>Not yet used worksheet name.</returns>
         private static string GetUnusedWorksheetName(string name, Workbook workbook)
         {
             if (workbook == null)
@@ -2311,10 +2227,9 @@ namespace PicoXLSX
         /// <summary>
         /// Checks whether a worksheet with the given name exists
         /// </summary>
-        /// <param name="name">Name to check</param>
-        /// <param name="workbook">Workbook reference</param>
-        /// <exception cref="WorksheetException">A WorksheetException is thrown if the workbook reference is null, since all worksheets have to be considered during sanitation</exception>
-        /// <returns>True if the name exits, otherwise false</returns>
+        /// <param name="name">Name to check.</param>
+        /// <param name="workbook">Workbook reference.</param>
+        /// <returns>True if the name exits, otherwise false.</returns>
         private static bool WorksheetExists(string name, Workbook workbook)
         {
             if (workbook == null)
@@ -2332,22 +2247,28 @@ namespace PicoXLSX
             return false;
         }
 
-        #endregion
-
-
-        #endregion
-
-        #region subClasses
         /// <summary>
         /// Class representing a column of a worksheet
         /// </summary>
         public class Column
         {
+            /// <summary>
+            /// Defines the number
+            /// </summary>
             private int number;
+
+            /// <summary>
+            /// Defines the columnAddress
+            /// </summary>
             private string columnAddress;
+
+            /// <summary>
+            /// Defines the width
+            /// </summary>
             private float width;
 
             /// <summary>
+            /// Gets or sets the ColumnAddress
             /// Column address (A to XFD)
             /// </summary>
             public string ColumnAddress
@@ -2365,15 +2286,19 @@ namespace PicoXLSX
             }
 
             /// <summary>
+            /// Gets or sets a value indicating whether HasAutoFilter
             /// If true, the column has auto filter applied, otherwise not
             /// </summary>
             public bool HasAutoFilter { get; set; }
+
             /// <summary>
+            /// Gets or sets a value indicating whether IsHidden
             /// If true, the column is hidden, otherwise visible
             /// </summary>
             public bool IsHidden { get; set; }
 
             /// <summary>
+            /// Gets or sets the Number
             /// Column number (0 to 16383)
             /// </summary>
             public int Number
@@ -2387,6 +2312,7 @@ namespace PicoXLSX
             }
 
             /// <summary>
+            /// Gets or sets the Width
             /// Width of the column
             /// </summary>
             public float Width
@@ -2403,7 +2329,7 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Default constructor (private, since not valid without address)
+            /// Prevents a default instance of the <see cref="Column"/> class from being created
             /// </summary>
             private Column()
             {
@@ -2411,18 +2337,18 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Constructor with column number
+            /// Initializes a new instance of the <see cref="Column"/> class
             /// </summary>
-            /// <param name="columnCoordinate">Column number (zero-based, 0 to 16383)</param>
+            /// <param name="columnCoordinate">Column number (zero-based, 0 to 16383).</param>
             public Column(int columnCoordinate) : this()
             {
                 Number = columnCoordinate;
             }
 
             /// <summary>
-            /// Constructor with column address
+            /// Initializes a new instance of the <see cref="Column"/> class
             /// </summary>
-            /// <param name="columnAddress">Column address (A to XFD)</param>
+            /// <param name="columnAddress">Column address (A to XFD).</param>
             public Column(string columnAddress) : this()
             {
                 ColumnAddress = columnAddress;
@@ -2431,7 +2357,7 @@ namespace PicoXLSX
             /// <summary>
             /// Creates a deep copy of this column
             /// </summary>
-            /// <returns>Copy of this column</returns>
+            /// <returns>Copy of this column.</returns>
             internal Column Copy()
             {
                 Column copy = new Column();
@@ -2443,7 +2369,5 @@ namespace PicoXLSX
                 return copy;
             }
         }
-
-        #endregion
     }
 }

@@ -5,43 +5,58 @@
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.IO.Packaging;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-
 namespace PicoXLSX
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.IO.Packaging;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Xml;
+
     /// <summary>
     /// Class for low level handling (XML, formatting, packing)
     /// </summary>
-    /// <remarks>This class is only for internal use. Use the high level API (e.g. class Workbook) to manipulate data and create Excel files</remarks>
-    class LowLevel
+    internal class LowLevel
     {
-
-        #region staticFields
+        /// <summary>
+        /// Defines the WORKBOOK
+        /// </summary>
         private static DocumentPath WORKBOOK = new DocumentPath("workbook.xml", "xl/");
-        private static DocumentPath STYLES = new DocumentPath("styles.xml", "xl/");
-        private static DocumentPath APP_PROPERTIES = new DocumentPath("app.xml", "docProps/");
-        private static DocumentPath CORE_PROPERTIES = new DocumentPath("core.xml", "docProps/");
-        private static DocumentPath SHARED_STRINGS = new DocumentPath("sharedStrings.xml", "xl/");
-        #endregion
 
-        #region constants
+        /// <summary>
+        /// Defines the STYLES
+        /// </summary>
+        private static DocumentPath STYLES = new DocumentPath("styles.xml", "xl/");
+
+        /// <summary>
+        /// Defines the APP_PROPERTIES
+        /// </summary>
+        private static DocumentPath APP_PROPERTIES = new DocumentPath("app.xml", "docProps/");
+
+        /// <summary>
+        /// Defines the CORE_PROPERTIES
+        /// </summary>
+        private static DocumentPath CORE_PROPERTIES = new DocumentPath("core.xml", "docProps/");
+
+        /// <summary>
+        /// Defines the SHARED_STRINGS
+        /// </summary>
+        private static DocumentPath SHARED_STRINGS = new DocumentPath("sharedStrings.xml", "xl/");
+
         /// <summary>
         /// Minimum valid OAdate value (1900-01-01) However, Excel displays this value as 1900-01-00 (day zero)
         /// </summary>
         public const double MIN_OADATE_VALUE = 0f;
+
         /// <summary>
         /// Maximum valid OAdate value (9999-12-31)
         /// </summary>
         public const double MAX_OADATE_VALUE = 2958465.999988426d;
+
         /// <summary>
         /// First date that can be displayed by Excel. Real values before this date cannot be processed.
         /// </summary>
@@ -53,6 +68,7 @@ namespace PicoXLSX
         /// https://docs.microsoft.com/en-us/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year</a>
         /// </summary>
         public static readonly DateTime FIRST_VALID_EXCEL_DATE = new DateTime(1900, 3, 1);
+
         /// <summary>
         /// Last date that can be displayed by Excel. Real values after this date cannot be processed.
         /// </summary>
@@ -60,37 +76,86 @@ namespace PicoXLSX
 
         /// <summary>
         /// Constant for number conversion. The invariant culture (represents mostly the US numbering scheme) ensures that no culture-specific 
-        /// punctuations are used when converting numbers to strings, This is especially important for OOXML number values.
+        /// punctuations are used when converting numbers to strings, This is especially important for OOXML number values
         /// See also: <a href="https://docs.microsoft.com/en-us/dotnet/api/system.globalization.cultureinfo.invariantculture?view=net-5.0">
         /// https://docs.microsoft.com/en-us/dotnet/api/system.globalization.cultureinfo.invariantculture?view=net-5.0</a>
         /// </summary>
         public static readonly CultureInfo INVARIANT_CULTURE = CultureInfo.InvariantCulture;
 
+        /// <summary>
+        /// Defines the COLUMN_WIDTH_ROUNDING_MODIFIER
+        /// </summary>
         private const float COLUMN_WIDTH_ROUNDING_MODIFIER = 256f;
+
+        /// <summary>
+        /// Defines the SPLIT_WIDTH_MULTIPLIER
+        /// </summary>
         private const float SPLIT_WIDTH_MULTIPLIER = 12f;
+
+        /// <summary>
+        /// Defines the SPLIT_WIDTH_OFFSET
+        /// </summary>
         private const float SPLIT_WIDTH_OFFSET = 0.5f;
+
+        /// <summary>
+        /// Defines the SPLIT_WIDTH_POINT_MULTIPLIER
+        /// </summary>
         private const float SPLIT_WIDTH_POINT_MULTIPLIER = 3f / 4f;
+
+        /// <summary>
+        /// Defines the SPLIT_POINT_DIVIDER
+        /// </summary>
         private const float SPLIT_POINT_DIVIDER = 20f;
+
+        /// <summary>
+        /// Defines the SPLIT_WIDTH_POINT_OFFSET
+        /// </summary>
         private const float SPLIT_WIDTH_POINT_OFFSET = 390f;
+
+        /// <summary>
+        /// Defines the SPLIT_HEIGHT_POINT_OFFSET
+        /// </summary>
         private const float SPLIT_HEIGHT_POINT_OFFSET = 300f;
+
+        /// <summary>
+        /// Defines the ROW_HEIGHT_POINT_MULTIPLIER
+        /// </summary>
         private const float ROW_HEIGHT_POINT_MULTIPLIER = 1f / 3f + 1f;
+
+        /// <summary>
+        /// Defines the ROOT_MILLIS
+        /// </summary>
         private static readonly double ROOT_MILLIS = (double)new DateTime(1899, 12, 30, 0, 0, 0).Ticks / TimeSpan.TicksPerMillisecond;
 
-        #endregion
-
-        #region privateFields
-        private readonly CultureInfo culture;
-        private readonly Workbook workbook;
-        private StyleManager styles;
-        private readonly SortedMap sharedStrings;
-        private int sharedStringsTotalCount;
-        #endregion
-
-        #region constructors
         /// <summary>
-        /// Constructor with defined workbook object
+        /// Defines the culture
         /// </summary>
-        /// <param name="workbook">Workbook to process</param>
+        private readonly CultureInfo culture;
+
+        /// <summary>
+        /// Defines the workbook
+        /// </summary>
+        private readonly Workbook workbook;
+
+        /// <summary>
+        /// Defines the styles
+        /// </summary>
+        private StyleManager styles;
+
+        /// <summary>
+        /// Defines the sharedStrings
+        /// </summary>
+        private readonly SortedMap sharedStrings;
+
+        /// <summary>
+        /// Defines the sharedStringsTotalCount
+        /// </summary>
+        private int sharedStringsTotalCount;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LowLevel"/> class
+        /// </summary>
+        /// <param name="workbook">Workbook to process.</param>
         public LowLevel(Workbook workbook)
         {
             culture = INVARIANT_CULTURE;
@@ -98,17 +163,11 @@ namespace PicoXLSX
             sharedStrings = new SortedMap();
             sharedStringsTotalCount = 0;
         }
-        #endregion
-
-
-
-
-        #region documentCreation_methods
 
         /// <summary>
         /// Method to create the app-properties (part of meta data) as raw XML string
         /// </summary>
-        /// <returns>Raw XML string</returns>
+        /// <returns>Raw XML string.</returns>
         private string CreateAppPropertiesDocument()
         {
             StringBuilder sb = new StringBuilder();
@@ -121,7 +180,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the core-properties (part of meta data) as raw XML string
         /// </summary>
-        /// <returns>Raw XML string</returns>
+        /// <returns>Raw XML string.</returns>
         private string CreateCorePropertiesDocument()
         {
             StringBuilder sb = new StringBuilder();
@@ -134,7 +193,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create shared strings as raw XML string
         /// </summary>
-        /// <returns>Raw XML string</returns>
+        /// <returns>Raw XML string.</returns>
         private string CreateSharedStringsDocument()
         {
             StringBuilder sb = new StringBuilder();
@@ -154,8 +213,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to append shared string values and to handle leading or trailing white spaces
         /// </summary>
-        /// <param name="sb">StringBuilder instance</param>
-        /// <param name="value">Escaped string value (not null)</param>
+        /// <param name="sb">StringBuilder instance.</param>
+        /// <param name="value">Escaped string value (not null).</param>
         private void AppendSharedString(StringBuilder sb, string value)
         {
             int len = value.Length;
@@ -182,8 +241,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to normalize all newlines to CR+LF
         /// </summary>
-        /// <param name="value">Input value</param>
-        /// <returns>Normalized value</returns>
+        /// <param name="value">Input value.</param>
+        /// <returns>Normalized value.</returns>
         private string NormalizeNewLines(string value)
         {
             if (value == null || (!value.Contains('\n') && !value.Contains('\r')))
@@ -197,9 +256,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create a style sheet as raw XML string
         /// </summary>
-        /// <returns>Raw XML string</returns>
-        /// <exception cref="StyleException">Throws a StyleException if one of the styles cannot be referenced or is null</exception>
-        /// <remarks>The UndefinedStyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
+        /// <returns>Raw XML string.</returns>
         private string CreateStyleSheetDocument()
         {
             string bordersString = CreateStyleBorderString();
@@ -241,8 +298,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create a workbook as raw XML string
         /// </summary>
-        /// <returns>Raw XML string</returns>
-        /// <exception cref="RangeException">Throws a RangeException if an address was out of range</exception>
+        /// <returns>Raw XML string.</returns>
         private string CreateWorkbookDocument()
         {
             if (workbook.Worksheets.Count == 0)
@@ -291,7 +347,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the (sub) part of the workbook protection within the workbook XML document
         /// </summary>
-        /// <param name="sb">reference to the stringbuilder</param>
+        /// <param name="sb">reference to the stringbuilder.</param>
         private void CreateWorkbookProtectionString(StringBuilder sb)
         {
             if (workbook.UseWorkbookProtection)
@@ -318,9 +374,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create a worksheet part as a raw XML string
         /// </summary>
-        /// <param name="worksheet">worksheet object to process</param>
-        /// <returns>Raw XML string</returns>
-        /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
+        /// <param name="worksheet">worksheet object to process.</param>
+        /// <returns>Raw XML string.</returns>
         private string CreateWorksheetPart(Worksheet worksheet)
         {
             worksheet.RecalculateAutoFilter();
@@ -373,8 +428,8 @@ namespace PicoXLSX
         /// <summary>
         /// Checks whether pane splitting is applied in the given worksheet
         /// </summary>
-        /// <param name="worksheet"></param>
-        /// <returns>True if applied, otherwise false</returns>
+        /// <param name="worksheet">.</param>
+        /// <returns>True if applied, otherwise false.</returns>
         private bool HasPaneSplitting(Worksheet worksheet)
         {
             if (worksheet.PaneSplitLeftWidth == null && worksheet.PaneSplitTopHeight == null && worksheet.PaneSplitAddress == null)
@@ -387,8 +442,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the enclosing part of the rows
         /// </summary>
-        /// <param name="worksheet">worksheet object to process</param>
-        /// <param name="sb">reference to the stringbuilder</param>
+        /// <param name="worksheet">worksheet object to process.</param>
+        /// <param name="sb">reference to the stringbuilder.</param>
         private void CreateRowsString(Worksheet worksheet, StringBuilder sb)
         {
             List<DynamicRow> cellData = GetSortedSheetData(worksheet);
@@ -403,8 +458,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the (sub) part of the worksheet view (selected cells and panes) within the worksheet XML document
         /// </summary>
-        /// <param name="worksheet">worksheet object to process</param>
-        /// <param name="sb">reference to the stringbuilder</param>
+        /// <param name="worksheet">worksheet object to process.</param>
+        /// <param name="sb">reference to the stringbuilder.</param>
         private void CreateSheetViewString(Worksheet worksheet, StringBuilder sb)
         {
             sb.Append("<sheetViews><sheetView workbookViewId=\"0\"");
@@ -428,8 +483,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the (sub) part of the pane (splitting and freezing) within the worksheet XML document
         /// </summary>
-        /// <param name="worksheet">worksheet object to process</param>
-        /// <param name="sb">reference to the stringbuilder</param>
+        /// <param name="worksheet">worksheet object to process.</param>
+        /// <param name="sb">reference to the stringbuilder.</param>
         private void CreatePaneString(Worksheet worksheet, StringBuilder sb)
         {
             if (!HasPaneSplitting(worksheet))
@@ -528,9 +583,9 @@ namespace PicoXLSX
         /// <summary>
         /// Method to calculate the pane height, based on the number of rows
         /// </summary>
-        /// <param name="worksheet">worksheet object to get the row definitions from</param>
-        /// <param name="numberOfRows">Number of rows from the top to the split position</param>
-        /// <returns>Internal height from the top of the worksheet to the pane split position</returns>
+        /// <param name="worksheet">worksheet object to get the row definitions from.</param>
+        /// <param name="numberOfRows">Number of rows from the top to the split position.</param>
+        /// <returns>Internal height from the top of the worksheet to the pane split position.</returns>
         private float CalculatePaneHeight(Worksheet worksheet, int numberOfRows)
         {
             float height = 0;
@@ -551,9 +606,9 @@ namespace PicoXLSX
         /// <summary>
         /// Method to calculate the pane width, based on the number of columns
         /// </summary>
-        /// <param name="worksheet">worksheet object to get the column definitions from</param>
-        /// <param name="numberOfColumns">Number of columns from the left to the split position</param>
-        /// <returns>Internal width from the left of the worksheet to the pane split position</returns>
+        /// <param name="worksheet">worksheet object to get the column definitions from.</param>
+        /// <param name="numberOfColumns">Number of columns from the left to the split position.</param>
+        /// <returns>Internal width from the left of the worksheet to the pane split position.</returns>
         private float CalculatePaneWidth(Worksheet worksheet, int numberOfColumns)
         {
             float width = 0;
@@ -575,11 +630,6 @@ namespace PicoXLSX
         /// <summary>
         /// Method to save the workbook
         /// </summary>
-        /// <exception cref="IOException">Throws IOException in case of an error</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the start or end address of a handled cell range was out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
-        /// <exception cref="StyleException">Throws a StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
-        /// <remarks>The StyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
         public void Save()
         {
             try
@@ -595,10 +645,9 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method to save the workbook asynchronous.
+        /// Method to save the workbook asynchronous
         /// </summary>
-        /// <remarks>Possible Exceptions are <see cref="IOException">IOException</see>, <see cref="RangeException">RangeException</see>, <see cref="FormatException"></see> and <see cref="StyleException">StyleException</see>. These exceptions may not emerge directly if using the async method since async/await adds further abstraction layers.</remarks>
-        /// <returns>Async Task</returns>
+        /// <returns>Async Task.</returns>
         public async Task SaveAsync()
         {
             await Task.Run(() => { Save(); });
@@ -607,13 +656,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to save the workbook as stream
         /// </summary>
-        /// <param name="stream">Writable stream as target</param>
-        /// <param name="leaveOpen">Optional parameter to keep the stream open after writing (used for MemoryStreams; default is false)</param>
-        /// <exception cref="IOException">Throws IOException in case of an error</exception>
-        /// <exception cref="RangeException">Throws a RangeException if the start or end address of a handled cell range was out of range</exception>
-        /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
-        /// <exception cref="StyleException">Throws a StyleException if one of the styles of the workbook cannot be referenced or is null</exception>
-        /// <remarks>The StyleException should never happen in this state if the internally managed style collection was not tampered. </remarks>
+        /// <param name="stream">Writable stream as target.</param>
+        /// <param name="leaveOpen">Optional parameter to keep the stream open after writing (used for MemoryStreams; default is false).</param>
         public void SaveAsStream(Stream stream, bool leaveOpen = false)
         {
             workbook.ResolveMergedCells();
@@ -710,28 +754,23 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method to save the workbook as stream asynchronous.
+        /// Method to save the workbook as stream asynchronous
         /// </summary>
-        /// <param name="stream">Writable stream as target</param>
-        /// <param name="leaveOpen">Optional parameter to keep the stream open after writing (used for MemoryStreams; default is false)</param>
-        /// <remarks>Possible Exceptions are <see cref="IOException">IOException</see>, <see cref="RangeException">RangeException</see>, <see cref="FormatException"></see> and <see cref="StyleException">StyleException</see>. These exceptions may not emerge directly if using the async method since async/await adds further abstraction layers.</remarks>
-        /// <returns>Async Task</returns>
+        /// <param name="stream">Writable stream as target.</param>
+        /// <param name="leaveOpen">Optional parameter to keep the stream open after writing (used for MemoryStreams; default is false).</param>
+        /// <returns>Async Task.</returns>
         public async Task SaveAsStreamAsync(Stream stream, bool leaveOpen = false)
         {
             await Task.Run(() => { SaveAsStream(stream, leaveOpen); });
         }
 
-        #endregion
-
-        #region documentUtil_methods
-
         /// <summary>
         /// Method to append a simple XML tag with an enclosed value to the passed StringBuilder
         /// </summary>
-        /// <param name="sb">StringBuilder to append</param>
-        /// <param name="value">Value of the XML element</param>
-        /// <param name="tagName">Tag name of the XML element</param>
-        /// <param name="nameSpace">Optional XML name space. Can be empty or null</param>
+        /// <param name="sb">StringBuilder to append.</param>
+        /// <param name="value">Value of the XML element.</param>
+        /// <param name="tagName">Tag name of the XML element.</param>
+        /// <param name="nameSpace">Optional XML name space. Can be empty or null.</param>
         private void AppendXmlTag(StringBuilder sb, string value, string tagName, string nameSpace)
         {
             if (string.IsNullOrEmpty(value)) { return; }
@@ -758,9 +797,8 @@ namespace PicoXLSX
         /// <summary>
         /// Writes raw XML strings into the passed Package Part
         /// </summary>
-        /// <param name="doc">document as raw XML string</param>
-        /// <param name="pp">Package part to append the XML data</param>
-        /// <exception cref="IOException">Throws an IOException if the XML data could not be written into the Package Part</exception>
+        /// <param name="doc">document as raw XML string.</param>
+        /// <param name="pp">Package part to append the XML data.</param>
         private void AppendXmlToPackagePart(string doc, PackagePart pp)
         {
             try
@@ -788,7 +826,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the XML string for the app-properties document
         /// </summary>
-        /// <returns>String with formatted XML data</returns>
+        /// <returns>String with formatted XML data.</returns>
         private string CreateAppString()
         {
             if (workbook.WorkbookMetadata == null) { return string.Empty; }
@@ -811,8 +849,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the columns as XML string. This is used to define the width of columns
         /// </summary>
-        /// <param name="worksheet">Worksheet to process</param>
-        /// <returns>String with formatted XML data</returns>
+        /// <param name="worksheet">Worksheet to process.</param>
+        /// <returns>String with formatted XML data.</returns>
         private string CreateColsString(Worksheet worksheet)
         {
             if (worksheet.Columns.Count > 0)
@@ -844,7 +882,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the XML string for the core-properties document
         /// </summary>
-        /// <returns>String with formatted XML data</returns>
+        /// <returns>String with formatted XML data.</returns>
         private string CreateCorePropertiesString()
         {
             if (workbook.WorkbookMetadata == null) { return string.Empty; }
@@ -869,8 +907,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the merged cells string of the passed worksheet
         /// </summary>
-        /// <param name="sheet">Worksheet to process</param>
-        /// <returns>Formatted string with merged cell ranges</returns>
+        /// <param name="sheet">Worksheet to process.</param>
+        /// <returns>Formatted string with merged cell ranges.</returns>
         private string CreateMergedCellsString(Worksheet sheet)
         {
             if (sheet.MergedCells.Count < 1)
@@ -890,10 +928,9 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create a row string
         /// </summary>
-        /// <param name="dynamicRow">Dynamic row with List of cells, heights and hidden states</param>
-        /// <param name="worksheet">Worksheet to process</param>
-        /// <returns>Formatted row string</returns>
-        /// <exception cref="FormatException">Throws a FormatException if a handled date cannot be translated to (Excel internal) OADate</exception>
+        /// <param name="dynamicRow">Dynamic row with List of cells, heights and hidden states.</param>
+        /// <param name="worksheet">Worksheet to process.</param>
+        /// <returns>Formatted row string.</returns>
         private string CreateRowString(DynamicRow dynamicRow, Worksheet worksheet)
         {
             int rowNumber = dynamicRow.RowNumber;
@@ -1032,8 +1069,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the protection string of the passed worksheet
         /// </summary>
-        /// <param name="sheet">Worksheet to process</param>
-        /// <returns>Formatted string with protection statement of the worksheet</returns>
+        /// <param name="sheet">Worksheet to process.</param>
+        /// <returns>Formatted string with protection statement of the worksheet.</returns>
         private string CreateSheetProtectionString(Worksheet sheet)
         {
             if (!sheet.UseSheetProtection)
@@ -1100,7 +1137,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the XML string for the border part of the style sheet document
         /// </summary>
-        /// <returns>String with formatted XML data</returns>
+        /// <returns>String with formatted XML data.</returns>
         private string CreateStyleBorderString()
         {
             Style.Border[] borderStyles = styles.GetBorders();
@@ -1176,7 +1213,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the XML string for the font part of the style sheet document
         /// </summary>
-        /// <returns>String with formatted XML data</returns>
+        /// <returns>String with formatted XML data.</returns>
         private string CreateStyleFontString()
         {
             Style.Font[] fontStyles = styles.GetFonts();
@@ -1226,7 +1263,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the XML string for the fill part of the style sheet document
         /// </summary>
-        /// <returns>String with formatted XML data</returns>
+        /// <returns>String with formatted XML data.</returns>
         private string CreateStyleFillString()
         {
             Style.Fill[] fillStyles = styles.GetFills();
@@ -1262,9 +1299,9 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Method to create the XML string for the number format part of the style sheet document 
+        /// Method to create the XML string for the number format part of the style sheet document
         /// </summary>
-        /// <returns>String with formatted XML data</returns>
+        /// <returns>String with formatted XML data.</returns>
         private string CreateStyleNumberFormatString()
         {
             Style.NumberFormat[] numberFormatStyles = styles.GetNumberFormats();
@@ -1273,7 +1310,6 @@ namespace PicoXLSX
             {
                 if (item.IsCustomFormat)
                 {
-                    //  sb.Append("<numFmt formatCode=\"").Append(item.CustomFormatCode).Append("\" numFmtId=\"").Append(item.CustomFormatID.ToString("G", culture)).Append("\"/>");
                     if (string.IsNullOrEmpty(item.CustomFormatCode))
                     {
                         throw new FormatException("The number format style component with the ID " + item.CustomFormatID.ToString("G", culture) + " cannot be null or empty");
@@ -1288,7 +1324,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the XML string for the XF part of the style sheet document
         /// </summary>
-        /// <returns>String with formatted XML data</returns>
+        /// <returns>String with formatted XML data.</returns>
         private string CreateStyleXfsString()
         {
             Style[] styleItems = this.styles.GetStyles();
@@ -1429,7 +1465,7 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the XML string for the color-MRU part of the style sheet document (recent colors)
         /// </summary>
-        /// <returns>String with formatted XML data</returns>
+        /// <returns>String with formatted XML data.</returns>
         private string CreateMruColorsString()
         {
             Style.Font[] fonts = styles.GetFonts();
@@ -1465,8 +1501,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to sort the cells of a worksheet as preparation for the XML document
         /// </summary>
-        /// <param name="sheet">Worksheet to process</param>
-        /// <returns>Sorted list of dynamic rows that are either defined by cells or row widths / hidden states. The list is sorted by row numbers (zero-based)</returns>
+        /// <param name="sheet">Worksheet to process.</param>
+        /// <returns>Sorted list of dynamic rows that are either defined by cells or row widths / hidden states. The list is sorted by row numbers (zero-based).</returns>
         private List<DynamicRow> GetSortedSheetData(Worksheet sheet)
         {
             List<Cell> temp = new List<Cell>();
@@ -1521,17 +1557,11 @@ namespace PicoXLSX
             return output;
         }
 
-
-        #endregion
-
-        #region staticMethods
-
         /// <summary>
         /// Method to escape XML characters between two XML tags
         /// </summary>
-        /// <param name="input">Input string to process</param>
-        /// <returns>Escaped string</returns>
-        /// <remarks>Note: The XML specs allow characters up to the character value of 0x10FFFF. However, the C# char range is only up to 0xFFFF. PicoXLSX will neglect all values above this level in the sanitizing check. Illegal characters like 0x1 will be replaced with a white space (0x20)</remarks>
+        /// <param name="input">Input string to process.</param>
+        /// <returns>Escaped string.</returns>
         public static string EscapeXmlChars(string input)
         {
             if (input == null) { return ""; }
@@ -1599,8 +1629,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to escape XML characters in an XML attribute
         /// </summary>
-        /// <param name="input">Input string to process</param>
-        /// <returns>Escaped string</returns>
+        /// <param name="input">Input string to process.</param>
+        /// <returns>Escaped string.</returns>
         public static string EscapeXmlAttributeChars(string input)
         {
             input = EscapeXmlChars(input); // Sanitize string from illegal characters beside quotes
@@ -1611,9 +1641,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to generate an Excel internal password hash to protect workbooks or worksheets<br></br>This method is derived from the c++ implementation by Kohei Yoshida (<a href="http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/">http://kohei.us/2008/01/18/excel-sheet-protection-password-hash/</a>)
         /// </summary>
-        /// <remarks>WARNING! Do not use this method to encrypt 'real' passwords or data outside from PicoXLSX. This is only a minor security feature. Use a proper cryptography method instead.</remarks>
-        /// <param name="password">Password string in UTF-8 to encrypt</param>
-        /// <returns>16 bit hash as hex string</returns>
+        /// <param name="password">Password string in UTF-8 to encrypt.</param>
+        /// <returns>16 bit hash as hex string.</returns>
         public static string GeneratePasswordHash(string password)
         {
             if (string.IsNullOrEmpty(password)) { return string.Empty; }
@@ -1635,10 +1664,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to convert a date or date and time into the internal Excel time format (OAdate)
         /// </summary>
-        /// <param name="date">Date to process</param>
-        /// <returns>Date or date and time as number</returns>
-        /// <exception cref="FormatException">Throws a FormatException if the passed date cannot be translated to the OADate format</exception>
-        /// <remarks>OAdate format starts at January 1st 1900 (actually 00.01.1900) and ends at December 31 9999. Values after these dates cannot be handled by Excel under normal circumstances and will throw a FormatException</remarks>
+        /// <param name="date">Date to process.</param>
+        /// <returns>Date or date and time as number.</returns>
         public static string GetOADateTimeString(DateTime date)
         {
             if (date < FIRST_ALLOWED_EXCEL_DATE || date > LAST_ALLOWED_EXCEL_DATE)
@@ -1658,9 +1685,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to convert a time into the internal Excel time format (OAdate without days)
         /// </summary>
-        /// <param name="time">Time to process. The date component of the timespan is neglected</param>
-        /// <returns>Time as number</returns>
-        /// <remarks>The time is represented by a OAdate without the date component. A time range is between &gt;0.0 (00:00:00) and &lt;1.0 (23:59:59)</remarks>
+        /// <param name="time">Time to process. The date component of the timespan is neglected.</param>
+        /// <returns>Time as number.</returns>
         public static string GetOATimeString(TimeSpan time)
         {
             int seconds = time.Seconds + time.Minutes * 60 + time.Hours * 3600;
@@ -1671,20 +1697,10 @@ namespace PicoXLSX
         /// <summary>
         /// Calculates the internal width of a column in characters. This width is used only in the XML documents of worksheets and is usually not exposed to the (Excel) end user
         /// </summary>
-        /// <remarks>
-        /// The internal width deviates slightly from the column width, entered in Excel. Although internal, the default column width of 10 characters is visible in Excel as 10.71.
-        /// The deviation depends on the maximum digit width of the default font, as well as its text padding and various constants.<br/>
-        /// In case of the width 10.0 and the default digit width 7.0, as well as the padding 5.0 of the default font Calibri (size 11), 
-        /// the internal width is approximately 10.7142857 (rounded to 10.71).<br/> Note that the column height is not affected by this consideration. 
-        /// The entered height in Excel is the actual height in the worksheet XML documents.<br/> 
-        /// This method is derived from the Perl implementation by John McNamara (<a href="https://stackoverflow.com/a/5010899">https://stackoverflow.com/a/5010899</a>)<br/>
-        /// See also: <a href="https://www.ecma-international.org/publications-and-standards/standards/ecma-376/">ECMA-376, Part 1, Chapter 18.3.1.13</a>
-        /// </remarks>
-        /// <param name="columnWidth">Target column width (displayed in Excel)</param>
-        /// <param name="maxDigitWidth">Maximum digit with of the default font (default is 7.0 for Calibri, size 11)</param>
-        /// <param name="textPadding">Text padding of the default font (default is 5.0 for Calibri, size 11)</param>
-        /// <returns>The internal column width in characters, used in worksheet XML documents</returns>
-        /// <exception cref="FormatException">Throws a FormatException if the column width is out of range</exception>
+        /// <param name="columnWidth">Target column width (displayed in Excel).</param>
+        /// <param name="maxDigitWidth">Maximum digit with of the default font (default is 7.0 for Calibri, size 11).</param>
+        /// <param name="textPadding">Text padding of the default font (default is 5.0 for Calibri, size 11).</param>
+        /// <returns>The internal column width in characters, used in worksheet XML documents.</returns>
         public static float GetInternalColumnWidth(float columnWidth, float maxDigitWidth = 7f, float textPadding = 5f)
         {
             if (columnWidth < Worksheet.MIN_COLUMN_WIDTH || columnWidth > Worksheet.MAX_COLUMN_WIDTH)
@@ -1708,12 +1724,8 @@ namespace PicoXLSX
         /// <summary>
         /// Calculates the internal height of a row. This height is used only in the XML documents of worksheets and is usually not exposed to the (Excel) end user
         /// </summary>
-        /// <remarks>The height is based on the calculated amount of pixels. One point are ~1.333 (1+1/3) pixels. 
-        /// After the conversion, the number of pixels is rounded to the nearest integer and calculated back to points.<br/>
-        /// Therefore, the originally defined row height will slightly deviate, based on this pixel snap</remarks>
-        /// <param name="rowHeight">Target row height (displayed in Excel)</param>
-        /// <returns>The internal row height which snaps to the nearest pixel</returns>
-        /// <exception cref="FormatException">Throws a FormatException if the row height is out of range</exception>
+        /// <param name="rowHeight">Target row height (displayed in Excel).</param>
+        /// <returns>The internal row height which snaps to the nearest pixel.</returns>
         public static float GetInternalRowHeight(float rowHeight)
         {
             if (rowHeight < Worksheet.MIN_ROW_HEIGHT || rowHeight > Worksheet.MAX_ROW_HEIGHT)
@@ -1731,18 +1743,10 @@ namespace PicoXLSX
         /// <summary>
         /// Calculates the internal width of a split pane in a worksheet. This width is used only in the XML documents of worksheets and is not exposed to the (Excel) end user
         /// </summary>
-        /// <remarks>
-        /// The internal split width is based on the width of one or more columns. 
-        /// It also depends on the maximum digit width of the default font, as well as its text padding and various constants.<br/>
-        /// See also <see cref="GetInternalColumnWidth(float, float, float)"/> for additional details.<br/>
-        /// This method is derived from the Perl implementation by John McNamara (<a href="https://stackoverflow.com/a/5010899">https://stackoverflow.com/a/5010899</a>)<br/>
-        /// See also: <a href="https://www.ecma-international.org/publications-and-standards/standards/ecma-376/">ECMA-376, Part 1, Chapter 18.3.1.13</a><br/>
-        /// The two optional parameters maxDigitWidth and textPadding probably don't have to be changed ever. Negative column widths are automatically transformed to 0.
-        /// </remarks>
-        /// <param name="width">Target column(s) width (one or more columns, displayed in Excel)</param>
-        /// <param name="maxDigitWidth">Maximum digit with of the default font (default is 7.0 for Calibri, size 11)</param>
-        /// <param name="textPadding">Text padding of the default font (default is 5.0 for Calibri, size 11)</param>
-        /// <returns>The internal pane width, used in worksheet XML documents in case of worksheet splitting</returns>
+        /// <param name="width">Target column(s) width (one or more columns, displayed in Excel).</param>
+        /// <param name="maxDigitWidth">Maximum digit with of the default font (default is 7.0 for Calibri, size 11).</param>
+        /// <param name="textPadding">Text padding of the default font (default is 5.0 for Calibri, size 11).</param>
+        /// <returns>The internal pane width, used in worksheet XML documents in case of worksheet splitting.</returns>
         public static float GetInternalPaneSplitWidth(float width, float maxDigitWidth = 7f, float textPadding = 5f)
         {
             float pixels;
@@ -1765,13 +1769,8 @@ namespace PicoXLSX
         /// <summary>
         /// Calculates the internal height of a split pane in a worksheet. This height is used only in the XML documents of worksheets and is not exposed to the (Excel) user
         /// </summary>
-        /// <remarks>
-        /// The internal split height is based on the height of one or more rows. It also depends on various constants.<br/>
-        /// This method is derived from the Perl implementation by John McNamara (<a href="https://stackoverflow.com/a/5010899">https://stackoverflow.com/a/5010899</a>).<br/>
-        /// Negative row heights are automatically transformed to 0.
-        /// </remarks>
-        /// <param name="height">Target row(s) height (one or more rows, displayed in Excel)</param>
-        /// <returns>The internal pane height, used in worksheet XML documents in case of worksheet splitting</returns>
+        /// <param name="height">Target row(s) height (one or more rows, displayed in Excel).</param>
+        /// <returns>The internal pane height, used in worksheet XML documents in case of worksheet splitting.</returns>
         public static float GetInternalPaneSplitHeight(float height)
         {
             if (height < 0)
@@ -1781,16 +1780,16 @@ namespace PicoXLSX
             return (float)Math.Floor(SPLIT_POINT_DIVIDER * height + SPLIT_HEIGHT_POINT_OFFSET);
         }
 
-        #endregion
-
-        #region subClasses
-
         /// <summary>
         /// Class representing a row that is either empty or containing cells. Empty rows can also carry information about height or visibility
         /// </summary>
         private class DynamicRow
         {
+            /// <summary>
+            /// Defines the cellDefinitions
+            /// </summary>
             private List<Cell> cellDefinitions;
+
             /// <summary>
             /// Gets or sets the row number (zero-based)
             /// </summary>
@@ -1805,7 +1804,7 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Default constructor. Defines an empty row if no additional operations are made on the object
+            /// Initializes a new instance of the <see cref="DynamicRow"/> class
             /// </summary>
             public DynamicRow()
             {
@@ -1818,12 +1817,28 @@ namespace PicoXLSX
         /// </summary>
         public class SortedMap
         {
+            /// <summary>
+            /// Defines the count
+            /// </summary>
             private int count;
+
+            /// <summary>
+            /// Defines the keyEntries
+            /// </summary>
             private readonly List<string> keyEntries;
+
+            /// <summary>
+            /// Defines the valueEntries
+            /// </summary>
             private readonly List<string> valueEntries;
+
+            /// <summary>
+            /// Defines the index
+            /// </summary>
             private readonly Dictionary<string, int> index;
 
             /// <summary>
+            /// Gets the Count
             /// Number of map entries
             /// </summary>
             public int Count
@@ -1840,7 +1855,7 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Default constructor
+            /// Initializes a new instance of the <see cref="SortedMap"/> class
             /// </summary>
             public SortedMap()
             {
@@ -1853,9 +1868,9 @@ namespace PicoXLSX
             /// <summary>
             /// Method to add a key value pair
             /// </summary>
-            /// <param name="key">Key as string</param>
-            /// <param name="value">Value as string</param>
-            /// <returns>Returns the resolved string (either added or returned from an existing entry)</returns>
+            /// <param name="key">Key as string.</param>
+            /// <param name="value">Value as string.</param>
+            /// <returns>Returns the resolved string (either added or returned from an existing entry).</returns>
             public string Add(string key, string value)
             {
                 if (index.ContainsKey(key))
@@ -1876,26 +1891,29 @@ namespace PicoXLSX
         internal class DocumentPath
         {
             /// <summary>
+            /// Gets or sets the Filename
             /// File name of the document
             /// </summary>
             public string Filename { get; set; }
+
             /// <summary>
+            /// Gets or sets the Path
             /// Path of the document
             /// </summary>
             public string Path { get; set; }
 
             /// <summary>
-            /// Default constructor
+            /// Initializes a new instance of the <see cref="DocumentPath"/> class
             /// </summary>
             public DocumentPath()
             {
             }
 
             /// <summary>
-            /// Constructor with defined file name and path
+            /// Initializes a new instance of the <see cref="DocumentPath"/> class
             /// </summary>
-            /// <param name="filename">File name of the document</param>
-            /// <param name="path">Path of the document</param>
+            /// <param name="filename">File name of the document.</param>
+            /// <param name="path">Path of the document.</param>
             public DocumentPath(string filename, string path)
             {
                 Filename = filename;
@@ -1905,7 +1923,7 @@ namespace PicoXLSX
             /// <summary>
             /// Method to return the full path of the document
             /// </summary>
-            /// <returns>Full path</returns>
+            /// <returns>Full path.</returns>
             public string GetFullPath()
             {
                 if (Path[Path.Length - 1] == System.IO.Path.AltDirectorySeparatorChar || Path[Path.Length - 1] == System.IO.Path.DirectorySeparatorChar)
@@ -1917,9 +1935,6 @@ namespace PicoXLSX
                     return System.IO.Path.AltDirectorySeparatorChar.ToString() + Path + System.IO.Path.AltDirectorySeparatorChar.ToString() + Filename;
                 }
             }
-
         }
-        #endregion
-
     }
 }

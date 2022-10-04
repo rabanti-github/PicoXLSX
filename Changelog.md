@@ -1,5 +1,13 @@
 # Change Log
 
+## v3.0.2
+
+---
+Release Date: **05.10.2022**
+
+- Minor adaptions
+- Code formatting and maintenance
+
 ## v3.0.1
 
 ---
