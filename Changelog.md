@@ -1,5 +1,13 @@
 # Change Log
 
+## v3.1.0
+
+---
+Release Date: **03.11.2022**
+
+- Added a several methods in the Worksheet class to add multiple ranges of selected cells
+- Updated example in demo
+
 ## v3.0.2
 
 ---

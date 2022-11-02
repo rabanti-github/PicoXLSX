@@ -386,7 +386,7 @@ namespace PicoXLSX
             {
                 sb.Append("<dimension ref=\"").Append(new Cell.Range(worksheet.GetFirstCellAddress().Value, worksheet.GetLastCellAddress().Value)).Append("\"/>");
             }
-            if (worksheet.SelectedCells != null || HasPaneSplitting(worksheet) || worksheet.Hidden)
+            if (worksheet.SelectedCellRanges.Count > 0 || worksheet.PaneSplitTopHeight != null || worksheet.PaneSplitLeftWidth != null || worksheet.PaneSplitAddress != null || worksheet.Hidden)
             {
                 CreateSheetViewString(worksheet, sb);
             }
@@ -472,9 +472,16 @@ namespace PicoXLSX
             if (worksheet.SelectedCells != null)
             {
                 sb.Append("<selection sqref=\"");
-                sb.Append(worksheet.SelectedCells.Value.ToString());
+                for (int i = 0; i < worksheet.SelectedCellRanges.Count; i++)
+                {
+                    sb.Append(worksheet.SelectedCellRanges[i].ToString());
+                    if (i < worksheet.SelectedCellRanges.Count - 1)
+                    {
+                        sb.Append(" ");
+                    }
+                }
                 sb.Append("\" activeCell=\"");
-                sb.Append(worksheet.SelectedCells.Value.StartAddress.ToString());
+                sb.Append(worksheet.SelectedCellRanges[0].StartAddress.ToString());
                 sb.Append("\"/>");
             }
             sb.Append("</sheetView></sheetViews>");
