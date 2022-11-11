@@ -3,10 +3,14 @@
 ## v3.1.0
 
 ---
-Release Date: **03.11.2022**
+Release Date: **11.11.2022**
 
 - Added a several methods in the Worksheet class to add multiple ranges of selected cells
+- Removed internal escaping of custom number format codes for now
 - Updated example in demo
+
+Note: The incomplete internal escaping of custom number format codes was removed due to the potential high complexity. 
+      Escaping must be performed currently by hand, according to OOXML specs: Part 1 - Fundamentals And Markup Language Reference, Chapter 18.8.31 
 
 ## v3.0.2
 

@@ -1637,8 +1637,10 @@ namespace PicoXLSX
             private string customFormatCode;
 
             /// <summary>
-            /// Gets or sets the custom format code in the notation of Excel
+            /// Gets or sets the raw custom format code in the notation of Excel. <b>The code is not escaped automatically</b>
             /// </summary>
+            /// <remarks>Currently, there is no auto-escaping applied to custom format strings. For instance, to add a white space, internally it is escaped by a backspace (\ ).
+            /// To get a valid custom format code, this escaping must be applied manually, according to OOXML specs: Part 1 - Fundamentals And Markup Language Reference, Chapter 18.8.31</remarks>
             [Append]
             public string CustomFormatCode
             {
@@ -1772,17 +1774,6 @@ namespace PicoXLSX
                     formatNumber = FormatNumber.custom;
                     return FormatRange.custom_format;
                 }
-            }
-
-            /// <summary>
-            /// Method to escape Backslashes in custom format codes
-            /// </summary>
-            /// <param name="rawFormatCode">Raw value to escape.</param>
-            /// <returns>.</returns>
-            internal static string EscapeFormatCode(string rawFormatCode)
-            {
-                // TODO: Add further rules, if discovered
-                return rawFormatCode.Replace("\\", "\\\\");
             }
 
             /// <summary>

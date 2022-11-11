@@ -8,7 +8,7 @@
     <Copyright>Copyright Raphael Stoeckli © 2022</Copyright>
     <RepositoryUrl>https://github.com/rabanti-github/PicoXLSX.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/rabanti-github/PicoXLSX</PackageProjectUrl>
-    <AssemblyVersion>3.1.2.0</AssemblyVersion>
+    <AssemblyVersion>3.1.0.0</AssemblyVersion>
     <FileVersion>3.1.0.0</FileVersion>
     <Version>3.1.0</Version>
     <Description>Demo Library showing the use of PicoXLSX, a library to generate Microsoft Excel files (XLSX) in an easy and native way</Description>

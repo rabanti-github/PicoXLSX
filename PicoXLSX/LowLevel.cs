@@ -1321,8 +1321,9 @@ namespace PicoXLSX
                     {
                         throw new FormatException("The number format style component with the ID " + item.CustomFormatID.ToString("G", culture) + " cannot be null or empty");
                     }
-                    String customFormat = Style.NumberFormat.EscapeFormatCode(item.CustomFormatCode);
-                    sb.Append("<numFmt formatCode=\"").Append(EscapeXmlAttributeChars(customFormat)).Append("\" numFmtId=\"").Append(item.CustomFormatID.ToString("G", culture)).Append("\"/>");
+                    // OOXML: Escaping according to Chp.18.8.31
+                    // TODO: v4> Add a custom format builder as plugin 
+                    sb.Append("<numFmt formatCode=\"").Append(EscapeXmlAttributeChars(item.CustomFormatCode)).Append("\" numFmtId=\"").Append(item.CustomFormatID.ToString("G", culture)).Append("\"/>");
                 }
             }
             return sb.ToString();
