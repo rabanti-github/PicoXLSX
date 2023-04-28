@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\Documentation\Help\PicoXLSX.png">
+    <None Include="..\Documentation\icons\PicoXLSX.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

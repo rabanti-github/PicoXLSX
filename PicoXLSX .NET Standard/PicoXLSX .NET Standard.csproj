@@ -20,6 +20,7 @@
     <AssemblyVersion>3.1.0.0</AssemblyVersion>
     <FileVersion>3.1.0.0</FileVersion>
     <AssemblyName>PicoXLSX</AssemblyName>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -54,7 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\docs\icons\PicoXLSX.png">
+    <None Include="..\Documentation\icons\PicoXLSX.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
