@@ -24,8 +24,8 @@
     <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
     <CleanIntermediates>True</CleanIntermediates>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\PicoXLSX\bin\Debug\PicoXLSX.XML" />
-      <DocumentationSource sourceFile="..\PicoXLSX\bin\Debug\PicoXLSX.dll" />
+      <DocumentationSource sourceFile="..\PicoXLSX .NET Standard\bin\Debug\net45\PicoXLSX.dll" />
+      <DocumentationSource sourceFile="..\PicoXLSX .NET Standard\bin\Debug\net45\PicoXLSX.xml" />
     </DocumentationSources>
     <HelpFileVersion>1.0.0.0</HelpFileVersion>
     <MaximumGroupParts>2</MaximumGroupParts>
