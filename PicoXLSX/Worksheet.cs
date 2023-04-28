@@ -927,7 +927,6 @@ namespace PicoXLSX
 
         /// <summary>
         /// Sets the passed style on the passed cell range. If cells are already existing, the style will be added or replaced
-        /// Sets the passed style on the passed cell range. If cells are already existing, the style will be added or replaced
         /// </summary>
         /// <param name="cellRange">Cell range to apply the style.</param>
         /// <param name="style">Style to apply.</param>
