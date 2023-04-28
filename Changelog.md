@@ -104,7 +104,7 @@ Note: some of the mentioned changes may be already implemented in v2.x as previe
 - Added several functions for pane splitting in the LowLevel class
 - Exposed the (legacy) password generation method in the LowLevel class
 - Updated documentation among the whole project
-- Exceptions have no sub-tiles anymore
+- Exceptions have no sub titles anymore
 - Overhauled the whole writer
 - Removed lot of dead code for better maintenance
 
@@ -179,7 +179,7 @@ Release Date: **10.07.2020**
 - Fixed the internal representation of column widths and row heights
 - Minor code maintenance
 
-Note: The column widths and row heights may change slightly with this release, since now the actual (internal) width and height is applied when setting a non-standard column width or row height
+Note: The column widths and row heights may change slightly with this release, since the actual (internal) width and height is now applied when setting a non-standard column width or row height
 
 ## v2.10.0
 

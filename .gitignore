@@ -201,3 +201,6 @@ UnitTest/
 
 *.nuspec
 Executable/
+
+# User defined
+/docs/*
