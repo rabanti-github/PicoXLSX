@@ -293,7 +293,6 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets the Columns
         /// Gets all columns with non-standard properties, like auto filter applied or a special width as dictionary with the zero-based column index as key and the column object as value
         /// </summary>
         public Dictionary<int, Column> Columns
@@ -355,7 +354,6 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets the RowHeights
         /// Gets defined row heights as dictionary with the zero-based row number as key and the height (float from 0 to 409.5) as value
         /// </summary>
         public Dictionary<int, float> RowHeights
@@ -425,7 +423,6 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets the SheetProtectionPasswordHash
         /// gets the encrypted hash of the password, defined with <see cref="SheetProtectionPassword"/>. The value will be null, if no password is defined
         /// </summary>
         public string SheetProtectionPasswordHash
@@ -442,7 +439,6 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether UseSheetProtection
         /// Gets or sets whether the worksheet is protected. If true, protection is enabled
         /// </summary>
         public bool UseSheetProtection { get; set; }
@@ -464,7 +460,6 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether Hidden
         /// Gets or sets whether the worksheet is hidden. If true, the worksheet is not listed as tab in the workbook's worksheet selection<br/>
         /// If the worksheet is not part of a workbook, or the only one in the workbook, an exception will be thrown.<br/>
         /// If the worksheet is the selected one, and attempted to set hidden, an exception will be thrown. Define another selected worksheet prior to this call, in this case.
