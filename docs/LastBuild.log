@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shfbBuild product="Sandcastle Help File Builder and Tools" version="2023.3.4.0" projectFile="D:\a\PicoXLSX\PicoXLSX\Documentation\CodeDocumentation.shfbproj" started="4/28/2023 11:03:41 PM">
+<shfbBuild product="Sandcastle Help File Builder and Tools" version="2023.3.4.0" projectFile="D:\a\PicoXLSX\PicoXLSX\Documentation\CodeDocumentation.shfbproj" started="4/28/2023 11:59:01 PM">
 <buildStep step="Initializing">
 The Sandcastle tools are located in &#39;C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder&#39;
 Locating components in the following folder(s):
@@ -29,19 +29,19 @@ Copying XML comments files
 <buildStep step="GenerateSharedContent">
 Generating shared content files (en-US, English (United States))...
 <plugIn name="Lightweight Website Style" behavior="After" priority="1000">
-</plugIn>    Last step completed in 00:00:00.2505
+</plugIn>    Last step completed in 00:00:00.4067
 </buildStep>
 <buildStep step="GenerateApiFilter">
 Generating API filter for MRefBuilder...
-    Last step completed in 00:00:00.1406
+    Last step completed in 00:00:00.1563
 </buildStep>
 <buildStep step="GenerateReflectionInfo">
 Generating reflection information...
-[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe - GenerateRefInfo-f98ceb2f-c87c-459c-b7b4-679b196175f7.proj]
-Build started 4/28/2023 11:03:53 PM.
+[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe - GenerateRefInfo-0b50c7ff-d8a0-4565-8888-3827f63e8608.proj]
+Build started 4/28/2023 11:59:12 PM.
 Included response file: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.rsp
 
-Project &quot;D:\a\PicoXLSX\PicoXLSX\docs\Working\GenerateRefInfo-f98ceb2f-c87c-459c-b7b4-679b196175f7.proj&quot; on node 1 (default targets).
+Project &quot;D:\a\PicoXLSX\PicoXLSX\docs\Working\GenerateRefInfo-0b50c7ff-d8a0-4565-8888-3827f63e8608.proj&quot; on node 1 (default targets).
 PrepareForBuild:
   Creating directory &quot;obj\Debug\&quot;.
 GenerateBindingRedirects:
@@ -54,12 +54,12 @@ GenerateRefInfo:
   Wrote information on 1 namespaces, 48 types, and 735 members
   Merging duplicate type and member information
   Merged 0 duplicate type(s) and 0 duplicate member(s)
-Done Building Project &quot;D:\a\PicoXLSX\PicoXLSX\docs\Working\GenerateRefInfo-f98ceb2f-c87c-459c-b7b4-679b196175f7.proj&quot; (default targets).
-    Last step completed in 00:00:09.1009
+Done Building Project &quot;D:\a\PicoXLSX\PicoXLSX\docs\Working\GenerateRefInfo-0b50c7ff-d8a0-4565-8888-3827f63e8608.proj&quot; (default targets).
+    Last step completed in 00:00:06.8970
 </buildStep>
 <buildStep step="ApplyDocumentModel">
 Applying document model to reflection output...
-    Last step completed in 00:00:00.1249
+    Last step completed in 00:00:00.1412
 </buildStep>
 <buildStep step="AddNamespaceGroups">
 Adding namespace group entries...
@@ -72,11 +72,11 @@ Adding topic filenames to API members...
 </buildStep>
 <buildStep step="GenerateApiTopicManifest">
 Generating API topic manifest...
-    Last step completed in 00:00:00.0469
+    Last step completed in 00:00:00.0312
 </buildStep>
 <buildStep step="GenerateNamespaceSummaries">
 Generating namespace summary information...
-    Last step completed in 00:00:00.1406
+    Last step completed in 00:00:00.1569
 </buildStep>
 <buildStep step="CopyAdditionalContent">
 Copying additional content files...
@@ -84,31 +84,31 @@ D:\a\PicoXLSX\PicoXLSX\Documentation\icons\PicoXLSX.png -&gt; D:\a\PicoXLSX\Pico
 D:\a\PicoXLSX\PicoXLSX\Documentation\icons\PicoXLSX.png -&gt; D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\Website\icons\PicoXLSX.png
 D:\a\PicoXLSX\PicoXLSX\Documentation\icons\favicon.ico -&gt; D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\HtmlHelp1\icons\favicon.ico
 D:\a\PicoXLSX\PicoXLSX\Documentation\icons\favicon.ico -&gt; D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\Website\icons\favicon.ico
-    Last step completed in 00:00:00.0157
+    Last step completed in 00:00:00.0156
 </buildStep>
 <buildStep step="MergeTablesOfContents">
 Merging conceptual and additional tables of contents...
-    Last step completed in 00:00:00.0156
+    Last step completed in 00:00:00.0000
 </buildStep>
 <buildStep step="GenerateIntermediateTableOfContents">
 Generating intermediate table of contents file for API content...
 Generating conceptual content intermediate TOC file...
-    Last step completed in 00:00:00.1250
+    Last step completed in 00:00:00.0938
 </buildStep>
 <buildStep step="CreateBuildAssemblerConfigs">
 Creating Sandcastle configuration files...
-    Last step completed in 00:00:02.8417
+    Last step completed in 00:00:02.8301
 </buildStep>
 <buildStep step="CombiningIntermediateTocFiles">
 Combining conceptual and API intermediate TOC files...
-    Last step completed in 00:00:00.0625
+    Last step completed in 00:00:00.0312
 </buildStep>
 <buildStep step="MergeCustomConfigs">
 Merging custom build component configurations
 D:\a\PicoXLSX\PicoXLSX\docs\Working\BuildAssembler.config
   Updating reference topic configurations.
   No conceptual content.  Removing conceptual content components.
-    Last step completed in 00:00:00.0469
+    Last step completed in 00:00:00.0625
 </buildStep>
 <buildStep step="BuildTopics">
 Building help topics...
@@ -195,7 +195,7 @@ Processed 956 topic(s)
 CopyFromIndexComponent: &quot;reflection&quot; in-memory cache entries used: 8 of 15.
 CopyFromIndexComponent: &quot;comments&quot; in-memory cache entries used: 2 of 30.
 ResolveReferenceLinksComponent: 62 entries added to the member ID URL cache.  New cache size: 62 entries
-    Last step completed in 00:00:52.6615
+    Last step completed in 00:00:49.5628
 </buildStep>
 <buildStep step="ExtractingHtmlInfo">
 Extracting HTML info for HTML Help 1 and/or website...
@@ -207,7 +207,7 @@ Saving HTML Help 1 table of contents to D:\a\PicoXLSX\PicoXLSX\docs\Working\Outp
 Processing website files in D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\Website
 Processed 956 HTML files.  Sorting keywords and generating See Also indices.
 Saving website table of contents to D:\a\PicoXLSX\PicoXLSX\docs\Working\\WebTOC.xml
-    Last step completed in 00:00:00.4843
+    Last step completed in 00:00:00.5469
 </buildStep>
 <buildStep step="CopyStandardHelpContent">
 Copying standard help content...
@@ -343,7 +343,7 @@ C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\Components\VS2013
 C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\Components\VS2013\Web\scripts\branding-Website.js -&gt; D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\Website\scripts\branding-Website.js
 C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\Components\VS2013\Web\scripts\clipboard.min.js -&gt; D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\Website\scripts\clipboard.min.js
 C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\Components\VS2013\Web\scripts\jquery-3.5.1.min.js -&gt; D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\Website\scripts\jquery-3.5.1.min.js
-    Last step completed in 00:00:00.3439
+    Last step completed in 00:00:00.2971
 </buildStep>
 <buildStep step="GenerateHelpProject">
 Generating HTML Help 1 project file...
@@ -363,7 +363,7 @@ Compiling HTML Help 1 file...
   
   
   
-  Compile time: 0 minutes, 3 seconds
+  Compile time: 0 minutes, 4 seconds
   
   958	Topics
   
@@ -377,18 +377,18 @@ Compiling HTML Help 1 file...
   
   
   
-  Created d:\a\PicoXLSX\PicoXLSX\docs\Working\Output\HtmlHelp1\Documentation.chm, 1,026,692 bytes
+  Created d:\a\PicoXLSX\PicoXLSX\docs\Working\Output\HtmlHelp1\Documentation.chm, 1,026,226 bytes
   
-  Compression decreased file by 5,502,986 bytes.
+  Compression decreased file by 5,502,098 bytes.
   
-    Last step completed in 00:00:05.8498
+    Last step completed in 00:00:06.0200
 </buildStep>
 <buildStep step="GenerateFullTextIndex">
 Generating full-text index for the website...
 
 <plugIn name="Lightweight Website Style" behavior="After" priority="1000">
 Adding lightweight search and TOC elements to each topic...
-</plugIn>    Last step completed in 00:00:01.2976
+</plugIn>    Last step completed in 00:00:01.1103
 </buildStep>
 <buildStep step="CopyingWebsiteFiles">
 Copying website files to output folder...
@@ -396,15 +396,15 @@ Copying website files to output folder...
 Copied 500 files
 Copied 1000 files
 Copied 1245 files for the website content
-    Last step completed in 00:00:00.3281
+    Last step completed in 00:00:00.3438
 </buildStep>
 <buildStep step="CleanIntermediates">
 Removing intermediate files...
-    Last step completed in 00:00:00.1875
+    Last step completed in 00:00:00.1874
 </buildStep>
 <buildStep step="Completed">
 
-Build completed successfully at 4/28/2023 11:05:06 PM.  Total time: 00:01:25.1241
+Build completed successfully at 4/29/2023 12:00:20 AM.  Total time: 00:01:18.8151
 
 </buildStep>
 </shfbBuild>

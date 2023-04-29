@@ -16,7 +16,6 @@
             </td></tr><tr><td><img src="../icons/pubProperty.gif" alt="Public property" title="Public property" /></td><td><a href="3819289d-71f3-d482-10da-f1e04dcf87fe.htm">Cells</a></td><td>
             Gets the cells of the worksheet as dictionary with the cell address as key and the cell object as value
             </td></tr><tr><td><img src="../icons/pubProperty.gif" alt="Public property" title="Public property" /></td><td><a href="8d4f9f1a-f99e-63cd-ae75-816a28244bd8.htm">Columns</a></td><td>
-            Gets the Columns
             Gets all columns with non-standard properties, like auto filter applied or a special width as dictionary with the zero-based column index as key and the column object as value
             </td></tr><tr><td><img src="../icons/pubProperty.gif" alt="Public property" title="Public property" /></td><td><a href="51fa8cd6-af04-a45f-ee80-5bf99d75bccd.htm">CurrentCellDirection</a></td><td>
             Gets or sets the direction when using AddNextCell method
@@ -29,7 +28,6 @@
             Gets whether split panes are frozen.<br />
             The value is nullable. If null, no freezing is applied. This property also does not apply if <a href="519e7f64-67fb-acc1-5c24-94402c19e7a8.htm">PaneSplitAddress</a> is null
             </td></tr><tr><td><img src="../icons/pubProperty.gif" alt="Public property" title="Public property" /></td><td><a href="05aa7579-a5e3-9a0d-3038-2dbed6f63305.htm">Hidden</a></td><td>
-            Gets or sets a value indicating whether Hidden
             Gets or sets whether the worksheet is hidden. If true, the worksheet is not listed as tab in the workbook's worksheet selection<br />
             If the worksheet is not part of a workbook, or the only one in the workbook, an exception will be thrown.<br />
             If the worksheet is the selected one, and attempted to set hidden, an exception will be thrown. Define another selected worksheet prior to this call, in this case.
@@ -56,7 +54,6 @@
             The column is only relevant for vertical split, whereas the row component is only relevant for a horizontal split.<br />
             The value is nullable. If null, no splitting was defined.
             </td></tr><tr><td><img src="../icons/pubProperty.gif" alt="Public property" title="Public property" /></td><td><a href="7cbe68af-b70c-331b-76be-40a7e910b532.htm">RowHeights</a></td><td>
-            Gets the RowHeights
             Gets defined row heights as dictionary with the zero-based row number as key and the height (float from 0 to 409.5) as value
             </td></tr><tr><td><img src="../icons/pubProperty.gif" alt="Public property" title="Public property" /></td><td><a href="657a4c4a-d008-32e2-175c-b5389ba8efb3.htm">SelectedCellRanges</a></td><td>
             Gets all ranges of selected cells of this worksheet. An empty list is returned if no cells are selected
@@ -69,12 +66,10 @@
             </td></tr><tr><td><img src="../icons/pubProperty.gif" alt="Public property" title="Public property" /></td><td><a href="a3f95e50-416b-3493-4c19-4ccac9f84147.htm">SheetProtectionPassword</a></td><td>
             Gets the password used for sheet protection. See <a href="425b6b66-0ccf-ec1f-8520-2c08807ea3cd.htm">SetSheetProtectionPassword(String)</a> to set the password
             </td></tr><tr><td><img src="../icons/pubProperty.gif" alt="Public property" title="Public property" /></td><td><a href="83ed5d8e-9ebf-78d2-71db-7688c2d0a516.htm">SheetProtectionPasswordHash</a></td><td>
-            Gets the SheetProtectionPasswordHash
             gets the encrypted hash of the password, defined with <a href="a3f95e50-416b-3493-4c19-4ccac9f84147.htm">SheetProtectionPassword</a>. The value will be null, if no password is defined
             </td></tr><tr><td><img src="../icons/pubProperty.gif" alt="Public property" title="Public property" /></td><td><a href="449a22ae-3f12-4637-021a-374348237ed3.htm">SheetProtectionValues</a></td><td>
             Gets the list of SheetProtectionValues. These values define the allowed actions if the worksheet is protected
             </td></tr><tr><td><img src="../icons/pubProperty.gif" alt="Public property" title="Public property" /></td><td><a href="4274e257-3677-f178-81ae-67bf9a9d1d8c.htm">UseSheetProtection</a></td><td>
-            Gets or sets a value indicating whether UseSheetProtection
             Gets or sets whether the worksheet is protected. If true, protection is enabled
             </td></tr><tr><td><img src="../icons/pubProperty.gif" alt="Public property" title="Public property" /></td><td><a href="b4d37c83-50bf-5f7d-353a-f0b24fb25a75.htm">WorkbookReference</a></td><td>
             Gets or sets the Reference to the parent Workbook
@@ -274,7 +269,6 @@
             Sets the passed style on the passed (singular) cell address. If the cell is already existing, the style will be added or replaced
             Sets the passed style on the passed (singular) cell address. If the cell is already existing, the style will be added or replaced
             </td></tr><tr><td><img src="../icons/pubMethod.gif" alt="Public method" title="Public method" /></td><td><a href="b00b80b9-44cf-786d-69ed-106dd287f7a0.htm">SetStyle(Cell<span id="LST225E1C3B_48" data-languageSpecificText="cs=.|vb=.|cpp=::|nu=.|fs=."></span>Range, Style)</a></td><td>
-            Sets the passed style on the passed cell range. If cells are already existing, the style will be added or replaced
             Sets the passed style on the passed cell range. If cells are already existing, the style will be added or replaced
             </td></tr><tr><td><img src="../icons/pubMethod.gif" alt="Public method" title="Public method" /></td><td><a href="03a25068-a023-3c2b-a1bc-837261fcb505.htm">SetStyle(String, Style)</a></td><td>
             Sets the passed style on the passed address expression. Such an expression may be a single cell or a cell range
