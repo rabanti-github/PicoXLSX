@@ -1,5 +1,13 @@
 # Change Log
 
+## v3.1.1
+
+---
+Release Date: **10.08.2023**
+
+- Adapted hex color validation (clarified number of necessary characters)
+- Code maintenance
+
 ## v3.1.0
 
 ---

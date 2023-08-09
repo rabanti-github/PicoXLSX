@@ -736,7 +736,7 @@ namespace PicoXLSX
             public AddressType Type;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref=""/> class
+            /// Initializes a new instance of the <see cref="Address"/> class
             /// </summary>
             /// <param name="column">Column number (zero based).</param>
             /// <param name="row">Row number (zero based).</param>
@@ -749,7 +749,7 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Initializes a new instance of the <see cref=""/> class
+            /// Initializes a new instance of the <see cref="Address"/> class
             /// </summary>
             /// <param name="address">Address string (e.g. 'A1:B12').</param>
             /// <param name="type">Optional referencing type of the address.</param>
@@ -869,7 +869,7 @@ namespace PicoXLSX
             public Address StartAddress;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref=""/> class
+            /// Initializes a new instance of the <see cref="Range"/> class
             /// </summary>
             /// <param name="start">Start address of the range.</param>
             /// <param name="end">End address of the range.</param>
@@ -888,7 +888,7 @@ namespace PicoXLSX
             }
 
             /// <summary>
-            /// Initializes a new instance of the <see cref=""/> class
+            /// Initializes a new instance of the <see cref="Range"/> class
             /// </summary>
             /// <param name="range">Address range (e.g. 'A1:B12').</param>
             public Range(string range)

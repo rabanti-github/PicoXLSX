@@ -60,19 +60,19 @@ namespace PicoXLSX
         /// <summary>
         /// First date that can be displayed by Excel. Real values before this date cannot be processed.
         /// </summary>
-        public static readonly DateTime FIRST_ALLOWED_EXCEL_DATE = new DateTime(1900, 1, 1, 0, 0, 0);
+        public static readonly DateTime FIRST_ALLOWED_EXCEL_DATE = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Unspecified);
 
         /// <summary>
         /// All dates before this date are shifted in Excel by -1.0, since Excel assumes wrongly that the year 1900 is a leap year.<br/>
         /// See also: <a href="https://docs.microsoft.com/en-us/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year">
         /// https://docs.microsoft.com/en-us/office/troubleshoot/excel/wrongly-assumes-1900-is-leap-year</a>
         /// </summary>
-        public static readonly DateTime FIRST_VALID_EXCEL_DATE = new DateTime(1900, 3, 1);
+        public static readonly DateTime FIRST_VALID_EXCEL_DATE = new DateTime(1900, 3, 1, 0, 0, 0, DateTimeKind.Unspecified);
 
         /// <summary>
         /// Last date that can be displayed by Excel. Real values after this date cannot be processed.
         /// </summary>
-        public static readonly DateTime LAST_ALLOWED_EXCEL_DATE = new DateTime(9999, 12, 31, 23, 59, 59);
+        public static readonly DateTime LAST_ALLOWED_EXCEL_DATE = new DateTime(9999, 12, 31, 23, 59, 59, DateTimeKind.Unspecified);
 
         /// <summary>
         /// Constant for number conversion. The invariant culture (represents mostly the US numbering scheme) ensures that no culture-specific 
@@ -125,7 +125,7 @@ namespace PicoXLSX
         /// <summary>
         /// Defines the ROOT_MILLIS
         /// </summary>
-        private static readonly double ROOT_MILLIS = (double)new DateTime(1899, 12, 30, 0, 0, 0).Ticks / TimeSpan.TicksPerMillisecond;
+        private static readonly double ROOT_MILLIS = (double)new DateTime(1899, 12, 30, 0, 0, 0, DateTimeKind.Unspecified).Ticks / TimeSpan.TicksPerMillisecond;
 
         /// <summary>
         /// Defines the culture
@@ -733,7 +733,7 @@ namespace PicoXLSX
                     else
                     {
                         pp = p.CreatePart(sheetURIs[i], @"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml", CompressionOption.Normal);
-                        i++;
+
                         AppendXmlToPackagePart(CreateWorksheetPart(new Worksheet("sheet1")), pp);
                     }
                     pp = p.CreatePart(sharedStringsUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", CompressionOption.Normal);
@@ -1003,15 +1003,12 @@ namespace PicoXLSX
                 // Date parsing
                 else if (item.DataType == Cell.CellType.DATE)
                 {
-                    typeAttribute = "d";
                     DateTime date = (DateTime)item.Value;
                     valueDef = GetOADateTimeString(date);
                 }
                 // Time parsing
                 else if (item.DataType == Cell.CellType.TIME)
                 {
-                    typeAttribute = "d";
-                    // TODO: 'd' is probably an outdated attribute (to be checked for dates and times)
                     TimeSpan time = (TimeSpan)item.Value;
                     valueDef = GetOATimeString(time);
                 }
@@ -1791,12 +1788,12 @@ namespace PicoXLSX
         /// <summary>
         /// Class representing a row that is either empty or containing cells. Empty rows can also carry information about height or visibility
         /// </summary>
-        private class DynamicRow
+        private sealed class DynamicRow
         {
             /// <summary>
             /// Defines the cellDefinitions
             /// </summary>
-            private List<Cell> cellDefinitions;
+            private readonly List<Cell> cellDefinitions;
 
             /// <summary>
             /// Gets or sets the row number (zero-based)

@@ -983,11 +983,11 @@ namespace PicoXLSX
             /// Moves the cursor the number of defined rows up
             /// </summary>
             /// <param name="numberOfRows">Number of rows to move.</param>
-            /// <param name="keepColumnosition">If true, the column position is preserved, otherwise set to 0.</param>
-            public void Up(int numberOfRows, bool keepColumnosition = false)
+            /// <param name="keepColumnPosition">If true, the column position is preserved, otherwise set to 0.</param>
+            public void Up(int numberOfRows, bool keepColumnPosition = false)
             {
                 NullCheck();
-                currentWorksheet.GoToNextRow(-1 * numberOfRows, keepColumnosition);
+                currentWorksheet.GoToNextRow(-1 * numberOfRows, keepColumnPosition);
             }
 
             /// <summary>

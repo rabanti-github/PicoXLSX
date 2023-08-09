@@ -17,7 +17,7 @@ namespace Demo.Testing
     /// <summary>
     /// Class for testing of several data types
     /// </summary>
-    public class TypeTesting
+    public static class TypeTesting
     {
 
         public static void NumericTypeTesting(string fileName)

@@ -13,7 +13,7 @@ using PicoXLSX;
 
 namespace Demo
 {
-    class Program
+    static class Program
     {
         /// <summary>
         /// Method to run all demos / testing scenarios (currently disabled)

@@ -1890,10 +1890,7 @@ namespace PicoXLSX
                 selectedCells.Clear();
                 return;
             }
-            else
-            {
-                SetSelectedCells(new Range(range));
-            }
+            SetSelectedCells(new Range(range));
         }
 
         /// <summary>
@@ -2084,11 +2081,13 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the horizontal and vertical split of the worksheet into four panes. The measurement in rows and columns can be used to split and freeze panes
         /// </summary>
-        /// <param name="numberOfColumnsFromLeft">The numberOfColumnsFromLeft<see cref="int?"/>.</param>
-        /// <param name="numberOfRowsFromTop">The numberOfRowsFromTop<see cref="int?"/>.</param>
-        /// <param name="freeze">If true, all panes are frozen, otherwise remains movable.</param>
-        /// <param name="topLeftCell">Top Left cell address of the bottom right pane (if applicable).</param>
-        /// <param name="activePane">Active pane in the split window.</param>
+        /// <param name="numberOfColumnsFromLeft">Number of columns from left of the worksheet to the split line. The particular column widths are considered.<br/>
+        /// The parameter is nullable. If left null, the method acts identical to <see cref="SetHorizontalSplit(int, bool, Address, WorksheetPane)"/></param>
+        /// <param name="numberOfRowsFromTop">Number of rows from top of the worksheet to the split line. The particular row heights are considered.<br/>
+        /// The parameter is nullable. If left null, the method acts identical to <see cref="SetVerticalSplit(int, bool, Address, WorksheetPane)"/></param>
+        /// <param name="freeze">If true, all panes are frozen, otherwise remains movable</param>
+        /// <param name="topLeftCell">Top Left cell address of the bottom right pane (if applicable)</param>
+        /// <param name="activePane">Active pane in the split window.<br/>The parameter is nullable</param>
         public void SetSplit(int? numberOfColumnsFromLeft, int? numberOfRowsFromTop, bool freeze, Cell.Address topLeftCell, WorksheetPane activePane)
         {
             if (freeze)
@@ -2117,10 +2116,12 @@ namespace PicoXLSX
         /// <summary>
         /// Sets the horizontal and vertical split of the worksheet into four panes. The measurement in characters cannot be used to freeze panes
         /// </summary>
-        /// <param name="leftPaneWidth">The leftPaneWidth<see cref="float?"/>.</param>
-        /// <param name="topPaneHeight">The topPaneHeight<see cref="float?"/>.</param>
-        /// <param name="topLeftCell">Top Left cell address of the bottom right pane (if applicable).</param>
-        /// <param name="activePane">Active pane in the split window.</param>
+        /// <param name="leftPaneWidth">Width (similar to column width) from left of the worksheet to the split line in characters.<br/>
+        /// The parameter is nullable. If left null, the method acts identical to <see cref="SetHorizontalSplit(float, Address, WorksheetPane)"/></param>
+        /// <param name="topPaneHeight">Height (similar to row height) from top of the worksheet to the split line in characters.<br/>
+        /// The parameter is nullable. If left null, the method acts identical to <see cref="SetVerticalSplit(float, Address, WorksheetPane)"/></param>
+        /// <param name="topLeftCell">Top Left cell address of the bottom right pane (if applicable)</param>
+        /// <param name="activePane">Active pane in the split window.<br/>The parameter is nullable</param>
         public void SetSplit(float? leftPaneWidth, float? topPaneHeight, Cell.Address topLeftCell, WorksheetPane activePane)
         {
             this.paneSplitLeftWidth = leftPaneWidth;

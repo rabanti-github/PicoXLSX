@@ -1026,10 +1026,10 @@ namespace PicoXLSX
             /// Initializes a new instance of the <see cref="Fill"/> class
             /// </summary>
             /// <param name="value">Color value.</param>
-            /// <param name="filltype">Fill type (fill or pattern).</param>
-            public Fill(string value, FillType filltype)
+            /// <param name="fillType">Fill type (fill or pattern).</param>
+            public Fill(string value, FillType fillType)
             {
-                if (filltype == FillType.fillColor)
+                if (fillType == FillType.fillColor)
                 {
                     backgroundColor = DEFAULT_COLOR;
                     ForegroundColor = value;
@@ -1101,10 +1101,10 @@ namespace PicoXLSX
             /// Sets the color and the depending fill type
             /// </summary>
             /// <param name="value">color value.</param>
-            /// <param name="filltype">fill type (fill or pattern).</param>
-            public void SetColor(string value, FillType filltype)
+            /// <param name="fillType">fill type (fill or pattern).</param>
+            public void SetColor(string value, FillType fillType)
             {
-                if (filltype == FillType.fillColor)
+                if (fillType == FillType.fillColor)
                 {
                     backgroundColor = DEFAULT_COLOR;
                     ForegroundColor = value;
@@ -1171,11 +1171,10 @@ namespace PicoXLSX
                     }
                     throw new StyleException("A general style exception occurred", "The color expression was null or empty");
                 }
-                int length;
-                length = useAlpha ? 8 : 6;
-                if (hexCode == null || hexCode.Length != length)
+                int length = useAlpha ? 8 : 6;
+                if (hexCode.Length != length)
                 {
-                    throw new StyleException("A general style exception occurred", "The value '" + hexCode + "' is invalid. A valid value must contain six hex characters");
+                throw new StyleException("A general style exception occurred", "The value '" + hexCode + "' is invalid. A valid value must contain " + length + " hex characters");
                 }
                 if (!Regex.IsMatch(hexCode, "[a-fA-F0-9]{6,8}"))
                 {

@@ -18,24 +18,24 @@ namespace Demo.Testing
     /// <summary>
     /// Class for performance tests
     /// </summary>
-    public class Performance
+    public static class Performance
     {
         /// <summary>
         /// Method to perform a stress test on PicoXLSX with a high amount of random data
         /// </summary>
         /// <param name="filename">filename of the output</param>
-        /// <param name="sheetname">name of the worksheet</param>
+        /// <param name="sheetName">name of the worksheet</param>
         /// <param name="rows">Number of rows</param>
         /// <param name="cols">Number of columns</param>
         /// <remarks>The data type is determined per column randomly. In case of strings, random ASCII characters from 1 to 256 characters are written into the cells</remarks> 
-        public static void StressTest(string filename, string sheetname, int rows, int cols)
+        public static void StressTest(string filename, string sheetName, int rows, int cols)
         {
             System.Console.WriteLine("Starting performance test - Generating Array...");
             List<List<object>> field = new List<List<object>>();
             List<object> row;
             List<int> colTypes = new List<int>();
-            DateTime min = new DateTime(1901, 01, 01);
-            DateTime max = new DateTime(2100, 01, 01);
+            DateTime min = new DateTime(1901, 1, 1, 0, 0, 0, DateTimeKind.Unspecified);
+            DateTime max = new DateTime(2100, 1, 1, 0, 0, 0, DateTimeKind.Unspecified);
             int j;
             for (int i = 0; i < cols; i++)
             {
@@ -56,7 +56,7 @@ namespace Demo.Testing
                 field.Add(row);
             }
             System.Console.WriteLine("Writing cells...");
-            PicoXLSX.Workbook b = new PicoXLSX.Workbook(filename, sheetname);
+            PicoXLSX.Workbook b = new PicoXLSX.Workbook(filename, sheetName);
             PicoXLSX.Worksheet s = b.CurrentWorksheet;
             s.CurrentCellDirection = PicoXLSX.Worksheet.CellDirection.ColumnToColumn;
             for (int i = 0; i < rows; i++)
