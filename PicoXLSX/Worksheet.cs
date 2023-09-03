@@ -582,17 +582,17 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets or sets whether gridlines are visible on the current worksheet
+        /// Gets or sets whether grid lines are visible on the current worksheet. Default is true
         /// </summary>
         public bool ShowGridlines { get; set; }
 
         /// <summary>
-        /// Gets or sets whether the column headers are visible on the current worksheet
+        /// Gets or sets whether the column and row headers are visible on the current worksheet. Default is true
         /// </summary>
-        public bool ShowColumnRowHeaders { get; set; }
+        public bool ShowRowColumnHeaders { get; set; }
 
         /// <summary>
-        /// Gets or sets whether a ruler is displayed over the column headers. This value only applies if <see cref="ViewType"/> is set to <see cref="SheetViewType.pageLayout"/>
+        /// Gets or sets whether a ruler is displayed over the column headers. This value only applies if <see cref="ViewType"/> is set to <see cref="SheetViewType.pageLayout"/>. Default is true
         /// </summary>
         public bool ShowRuler { get; set; }
 
@@ -663,6 +663,9 @@ namespace PicoXLSX
             viewType = SheetViewType.normal;
             zoomFactor = new Dictionary<SheetViewType, int>();
             zoomFactor.Add(viewType, 100);
+            ShowGridlines = true;
+            ShowRowColumnHeaders = true;
+            ShowRuler = true;
         }
 
         /// <summary>
@@ -2306,6 +2309,15 @@ namespace PicoXLSX
             }
             copy.useActiveStyle = this.useActiveStyle;
             copy.UseSheetProtection = this.UseSheetProtection;
+            copy.ShowGridlines = this.ShowGridlines;
+            copy.ShowRowColumnHeaders = this.ShowRowColumnHeaders;
+            copy.ShowRuler = this.ShowRuler;
+            copy.ViewType = this.ViewType;
+            copy.zoomFactor.Clear();
+            foreach(KeyValuePair<SheetViewType, int> zoomFactor in this.zoomFactor)
+            {
+                copy.SetZoomFactor(zoomFactor.Key, zoomFactor.Value);
+            }
             return copy;
         }
 
