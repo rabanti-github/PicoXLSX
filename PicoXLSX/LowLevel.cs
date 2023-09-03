@@ -467,6 +467,55 @@ namespace PicoXLSX
             {
                 sb.Append(" tabSelected=\"1\"");
             }
+            if (worksheet.ViewType != Worksheet.SheetViewType.normal)
+            {
+                if (worksheet.ViewType == Worksheet.SheetViewType.pageLayout)
+                {
+                    if (worksheet.ShowRuler)
+                    {
+                        sb.Append(" showRuler=\"1\"");
+                    }
+                    else
+                    {
+                        sb.Append(" showRuler=\"0\"");
+                    }
+                    sb.Append(" view=\"pageLayout\"");
+                    
+                }
+                else if (worksheet.ViewType == Worksheet.SheetViewType.pageBreakPreview)
+                {
+                    sb.Append(" view=\"pageBreakPreview\"");
+                }
+            }
+            if (!worksheet.ShowGridlines)
+            {
+                sb.Append(" showGridLines=\"0\"");
+            }
+            if (!worksheet.ShowColumnRowHeaders)
+            {
+                sb.Append("  showRowColHeaders=\"0\"");
+            }
+            sb.Append(" zoomScale=\"").Append(worksheet.ZoomFactor.ToString("G", culture)).Append("\"");
+            foreach(KeyValuePair<Worksheet.SheetViewType, int> scaleFactor in worksheet.ZoomFactors)
+            {
+                if (scaleFactor.Key == worksheet.ViewType)
+                {
+                    continue;
+                }
+                if (scaleFactor.Key == Worksheet.SheetViewType.normal)
+                {
+                    sb.Append(" zoomScaleNormal=\"").Append(scaleFactor.Value.ToString("G", culture)).Append("\"");
+                }
+                else if (scaleFactor.Key == Worksheet.SheetViewType.pageBreakPreview)
+                {
+                    sb.Append(" zoomScaleSheetLayoutView=\"").Append(scaleFactor.Value.ToString("G", culture)).Append("\"");
+                }
+                else if (scaleFactor.Key == Worksheet.SheetViewType.pageLayout)
+                {
+                    sb.Append(" zoomScalePageLayoutView=\"").Append(scaleFactor.Value.ToString("G", culture)).Append("\"");
+                }
+            }
+
             sb.Append(">");
             CreatePaneString(worksheet, sb);
             if (worksheet.SelectedCells != null)

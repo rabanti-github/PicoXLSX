@@ -81,6 +81,16 @@ namespace PicoXLSX
         public const float MAX_ROW_HEIGHT = 409.5f;
 
         /// <summary>
+        /// Minimum zoom factor of a worksheet. If set to this value, the zoom is set to automatic
+        /// </summary>
+        public const int MIN_ZOOM_FACTOR = 0;
+
+        /// <summary>
+        /// Maximum zoom factor of a worksheet
+        /// </summary>
+        public const int MAX_ZOOM_FACTOR = 400;
+
+        /// <summary>
         /// Enum to define the direction when using AddNextCell method
         /// </summary>
         public enum CellDirection
@@ -144,6 +154,19 @@ namespace PicoXLSX
             bottomLeft,
             /// <summary>The pane is located in the top left of the split worksheet</summary>
             topLeft
+        }
+
+        /// <summary>
+        /// Enum to define how a worksheet is displayed in the spreadsheet application (Excel)
+        /// </summary>
+        public enum SheetViewType
+        {
+            /// <summary>The worksheet is displayed without pagination (default)</summary>
+            normal,
+            /// <summary>The worksheet is displayed with indicators where the page would break if it were printed</summary>
+            pageBreakPreview,
+            /// <summary>The worksheet is displayed like it would be printed</summary>
+            pageLayout
         }
 
         /// <summary>
@@ -275,6 +298,16 @@ namespace PicoXLSX
         /// Defines the sheetID
         /// </summary>
         private int sheetID;
+
+        /// <summary>
+        /// Defines how the current worksheet is displayed in the spreadsheet application (Excel)
+        /// </summary>
+        private SheetViewType viewType;
+
+        /// <summary>
+        /// Defines the zoom factors of the current worksheet for each view type
+        /// </summary>
+        private Dictionary<SheetViewType, int> zoomFactor;
 
         /// <summary>
         /// Gets the range of the auto-filter. Wrapped to Nullable to provide null as value. If null, no auto-filter is applied
@@ -549,6 +582,66 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Gets or sets whether gridlines are visible on the current worksheet
+        /// </summary>
+        public bool ShowGridlines { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the column headers are visible on the current worksheet
+        /// </summary>
+        public bool ShowColumnRowHeaders { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether a ruler is displayed over the column headers. This value only applies if <see cref="ViewType"/> is set to <see cref="SheetViewType.pageLayout"/>
+        /// </summary>
+        public bool ShowRuler { get; set; }
+
+        /// <summary>
+        /// Gets or sets how the current worksheet is displayed in the spreadsheet application (Excel)
+        /// </summary>
+        public SheetViewType ViewType
+        {
+            get
+            {
+                return viewType;
+            }
+            set
+            {
+                viewType = value;
+                SetZoomFactor(value, 100);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the zoom factor of the <see cref="ViewType"/> of the current worksheet.
+        /// </summary>
+        /// <remarks>It is possible to add further zoom factors for inactive view types, using the function <see cref="SetZoomFactor(SheetViewType, int)"/> </remarks>
+        /// <exception cref="WorksheetException">Throws a WorksheetException if the zoom factor is below <see cref="MIN_ZOOM_FACTOR"/> or above <see cref="MAX_ZOOM_FACTOR"/></exception>
+        public int ZoomFactor
+        {
+            set
+            {
+                SetZoomFactor(viewType, value);
+            }
+            get
+            {
+                return zoomFactor[viewType];
+            }
+        }
+
+        /// <summary>
+        /// Gets all defined zoom factors per <see cref="SheetViewType"/> of the current worksheet. Use <see cref="SetZoomFactor(SheetViewType, int)"/> to define the values
+        /// </summary>
+        public Dictionary<SheetViewType, int> ZoomFactors
+        {
+            get
+            {
+                return zoomFactor;
+            }
+        }
+
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Worksheet"/> class
         /// </summary>
         public Worksheet()
@@ -567,6 +660,9 @@ namespace PicoXLSX
             selectedCells = new List<Range>();
             activeStyle = null;
             workbookReference = null;
+            viewType = SheetViewType.normal;
+            zoomFactor = new Dictionary<SheetViewType, int>();
+            zoomFactor.Add(viewType, 100);
         }
 
         /// <summary>
@@ -2239,6 +2335,28 @@ namespace PicoXLSX
                 { sb.Append(c); }
             }
             return GetUnusedWorksheetName(sb.ToString(), workbook);
+        }
+
+        /// <summary>
+        /// Sets a zoom factor for a given <see cref="SheetViewType"/>. This factor is not the currently set factor. use the property <see cref="ZoomFactor"/> to set the factor for the current <see cref="ViewType"/>
+        /// </summary>
+        /// <param name="sheetViewType">Sheet view type to apply the zoom factor on</param>
+        /// <param name="zoomFactor">Zoom factor in percent</param>
+        /// <exception cref="WorksheetException">Throws a WorksheetException if the zoom factor is below <see cref="MIN_ZOOM_FACTOR"/> or above <see cref="MAX_ZOOM_FACTOR"/></exception>
+        public void SetZoomFactor(SheetViewType sheetViewType, int zoomFactor)
+        {
+            if (zoomFactor < 0 || zoomFactor > 400)
+            {
+                throw new WorksheetException("The zoom factor " + zoomFactor + " is not valid. Valid are values between " + MIN_ZOOM_FACTOR + " and " + MAX_ZOOM_FACTOR);
+            }
+            if (this.zoomFactor.ContainsKey(sheetViewType))
+            {
+                this.zoomFactor[sheetViewType] = zoomFactor;
+            }
+            else
+            {
+                this.zoomFactor.Add(sheetViewType, zoomFactor);
+            }
         }
 
         /// <summary>
