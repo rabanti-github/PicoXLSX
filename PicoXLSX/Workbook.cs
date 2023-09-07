@@ -983,7 +983,8 @@ namespace PicoXLSX
             /// Moves the cursor the number of defined rows up
             /// </summary>
             /// <param name="numberOfRows">Number of rows to move.</param>
-            /// <param name="keepColumnPosition">If true, the column position is preserved, otherwise set to 0.</param>
+            /// <param name="keepColumnPosition">If true, the column position is preserved, otherwise set to 0</param>
+            /// <remarks>An exception will be thrown if the row number is below 0. Values (number of rows) can be also negative. However, this is the equivalent of the function <see cref="Down(int, bool)"/></remarks>
             public void Up(int numberOfRows, bool keepColumnPosition = false)
             {
                 NullCheck();
