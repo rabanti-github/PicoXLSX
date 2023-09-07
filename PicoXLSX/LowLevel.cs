@@ -387,7 +387,7 @@ namespace PicoXLSX
                 sb.Append("<dimension ref=\"").Append(new Cell.Range(worksheet.GetFirstCellAddress().Value, worksheet.GetLastCellAddress().Value)).Append("\"/>");
             }
             if (worksheet.SelectedCellRanges.Count > 0 || worksheet.PaneSplitTopHeight != null || worksheet.PaneSplitLeftWidth != null || worksheet.PaneSplitAddress != null ||
-                worksheet.Hidden || worksheet.ZoomFactor != 100 || worksheet.ZoomFactors.Count > 1 || !worksheet.ShowGridlines || !worksheet.ShowRuler || !worksheet.ShowRowColumnHeaders || worksheet.ViewType != Worksheet.SheetViewType.normal)
+                worksheet.Hidden || worksheet.ZoomFactor != 100 || worksheet.ZoomFactors.Count > 1 || !worksheet.ShowGridLines || !worksheet.ShowRuler || !worksheet.ShowRowColumnHeaders || worksheet.ViewType != Worksheet.SheetViewType.normal)
             {
                 CreateSheetViewString(worksheet, sb);
             }
@@ -488,7 +488,7 @@ namespace PicoXLSX
                     sb.Append(" view=\"pageBreakPreview\"");
                 }
             }
-            if (!worksheet.ShowGridlines)
+            if (!worksheet.ShowGridLines)
             {
                 sb.Append(" showGridLines=\"0\"");
             }

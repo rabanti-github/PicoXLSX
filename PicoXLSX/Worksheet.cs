@@ -81,9 +81,14 @@ namespace PicoXLSX
         public const float MAX_ROW_HEIGHT = 409.5f;
 
         /// <summary>
-        /// Minimum zoom factor of a worksheet. If set to this value, the zoom is set to automatic
+        /// Automatic zoom factor of a worksheet
         /// </summary>
-        public const int MIN_ZOOM_FACTOR = 0;
+        public const int AUTO_ZOOM_FACTOR = 0;
+
+        /// <summary>
+        /// Minimum zoom factor of a worksheet
+        /// </summary>
+        public const int MIN_ZOOM_FACTOR = 10;
 
         /// <summary>
         /// Maximum zoom factor of a worksheet
@@ -584,7 +589,7 @@ namespace PicoXLSX
         /// <summary>
         /// Gets or sets whether grid lines are visible on the current worksheet. Default is true
         /// </summary>
-        public bool ShowGridlines { get; set; }
+        public bool ShowGridLines { get; set; }
 
         /// <summary>
         /// Gets or sets whether the column and row headers are visible on the current worksheet. Default is true
@@ -613,10 +618,10 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Gets or sets the zoom factor of the <see cref="ViewType"/> of the current worksheet.
+        /// Gets or sets the zoom factor of the <see cref="ViewType"/> of the current worksheet. If <see cref="AUTO_ZOOM_FACTOR"/>, the zoom factor is set to automatic
         /// </summary>
         /// <remarks>It is possible to add further zoom factors for inactive view types, using the function <see cref="SetZoomFactor(SheetViewType, int)"/> </remarks>
-        /// <exception cref="WorksheetException">Throws a WorksheetException if the zoom factor is below <see cref="MIN_ZOOM_FACTOR"/> or above <see cref="MAX_ZOOM_FACTOR"/></exception>
+        /// <exception cref="WorksheetException">Throws a WorksheetException if the zoom factor is not <see cref="AUTO_ZOOM_FACTOR"/> or below <see cref="MIN_ZOOM_FACTOR"/> or above <see cref="MAX_ZOOM_FACTOR"/></exception>
         public int ZoomFactor
         {
             set
@@ -663,7 +668,7 @@ namespace PicoXLSX
             viewType = SheetViewType.normal;
             zoomFactor = new Dictionary<SheetViewType, int>();
             zoomFactor.Add(viewType, 100);
-            ShowGridlines = true;
+            ShowGridLines = true;
             ShowRowColumnHeaders = true;
             ShowRuler = true;
         }
@@ -2309,7 +2314,7 @@ namespace PicoXLSX
             }
             copy.useActiveStyle = this.useActiveStyle;
             copy.UseSheetProtection = this.UseSheetProtection;
-            copy.ShowGridlines = this.ShowGridlines;
+            copy.ShowGridLines = this.ShowGridLines;
             copy.ShowRowColumnHeaders = this.ShowRowColumnHeaders;
             copy.ShowRuler = this.ShowRuler;
             copy.ViewType = this.ViewType;
@@ -2350,16 +2355,17 @@ namespace PicoXLSX
         }
 
         /// <summary>
-        /// Sets a zoom factor for a given <see cref="SheetViewType"/>. This factor is not the currently set factor. use the property <see cref="ZoomFactor"/> to set the factor for the current <see cref="ViewType"/>
+        /// Sets a zoom factor for a given <see cref="SheetViewType"/>. If <see cref="AUTO_ZOOM_FACTOR"/>, the zoom factor is set to automatic
         /// </summary>
         /// <param name="sheetViewType">Sheet view type to apply the zoom factor on</param>
         /// <param name="zoomFactor">Zoom factor in percent</param>
-        /// <exception cref="WorksheetException">Throws a WorksheetException if the zoom factor is below <see cref="MIN_ZOOM_FACTOR"/> or above <see cref="MAX_ZOOM_FACTOR"/></exception>
+        /// <remarks>This factor is not the currently set factor. use the property <see cref="ZoomFactor"/> to set the factor for the current <see cref="ViewType"/></remarks>
+        /// <exception cref="WorksheetException">Throws a WorksheetException if the zoom factor is not <see cref="AUTO_ZOOM_FACTOR"/> or below <see cref="MIN_ZOOM_FACTOR"/> or above <see cref="MAX_ZOOM_FACTOR"/></exception>
         public void SetZoomFactor(SheetViewType sheetViewType, int zoomFactor)
         {
-            if (zoomFactor < 0 || zoomFactor > 400)
+            if (zoomFactor != AUTO_ZOOM_FACTOR && (zoomFactor < MIN_ZOOM_FACTOR || MAX_ZOOM_FACTOR > 400))
             {
-                throw new WorksheetException("The zoom factor " + zoomFactor + " is not valid. Valid are values between " + MIN_ZOOM_FACTOR + " and " + MAX_ZOOM_FACTOR);
+                throw new WorksheetException("The zoom factor " + zoomFactor + " is not valid. Valid are values between " + MIN_ZOOM_FACTOR + " and " + MAX_ZOOM_FACTOR + ", or " + AUTO_ZOOM_FACTOR + " (automatic)");
             }
             if (this.zoomFactor.ContainsKey(sheetViewType))
             {
