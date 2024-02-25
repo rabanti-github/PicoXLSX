@@ -1,5 +1,15 @@
 # Change Log
 
+## v3.2.1
+
+---
+Release Date: **25.02.2024**
+
+- Fixed a bug when reading min and max values in the GetLastDataColumnNumber function. Bug fix provided by pokorny in NanoXLSX
+- Fixed a bug in the GetFirstDataCellAddress function
+- Code maintenance 
+
+
 ## v3.2.0
 
 ---

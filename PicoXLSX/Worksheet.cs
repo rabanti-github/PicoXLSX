@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2023
+ * Copyright Raphael Stoeckli © 2024
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -1346,7 +1346,7 @@ namespace PicoXLSX
         public Cell.Address? GetFirstDataCellAddress()
         {
             int firstRow = GetFirstDataRowNumber();
-            int firstColumn = GetLastDataColumnNumber();
+            int firstColumn = GetFirstDataColumnNumber();
             if (firstRow < 0 || firstColumn < 0)
             {
                 return null;
@@ -1401,11 +1401,11 @@ namespace PicoXLSX
             }
             else if (min)
             {
-                return nonEmptyCells.Where(x => x.Value.ToString() != string.Empty).Max(x => x.ColumnNumber);
+                return nonEmptyCells.Where(x => x.Value.ToString() != string.Empty).Min(x => x.ColumnNumber);
             }
             else
             {
-                return nonEmptyCells.Where(x => x.Value.ToString() != string.Empty).Min(x => x.ColumnNumber);
+                return nonEmptyCells.Where(x => x.Value.ToString() != string.Empty).Max(x => x.ColumnNumber);
             }
         }
 
