@@ -10,11 +10,12 @@ namespace PicoXLSX
     using System;
     using System.Collections.Generic;
     using static PicoXLSX.Style;
+	using static PicoXLSX.Worksheet;
 
-    /// <summary>
-    /// Class representing a style manager to maintain all styles and its components of a workbook
-    /// </summary>
-    public class StyleManager
+	/// <summary>
+	/// Class representing a style manager to maintain all styles and its components of a workbook
+	/// </summary>
+	public class StyleManager
     {
         /// <summary>
         /// Defines the borders
@@ -431,6 +432,14 @@ namespace PicoXLSX
                     {
                         Style resolvedStyle = styleManager.AddStyle(cell.Value.CellStyle);
                         workbook.Worksheets[i].Cells[cell.Key].SetStyle(resolvedStyle, true);
+                    }
+                }
+                foreach (KeyValuePair<int, Column> column in workbook.Worksheets[i].Columns)
+                {
+                    if (column.Value.DefaultColumnStyle != null)
+                    {
+                        Style resolvedStyle = styleManager.AddStyle(column.Value.DefaultColumnStyle);
+                        workbook.Worksheets[i].Columns[column.Key].SetDefaultColumnStyle(resolvedStyle, true);
                     }
                 }
             }

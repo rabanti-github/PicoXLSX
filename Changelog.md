@@ -1,5 +1,13 @@
 # Change Log
 
+## v3.3.0
+
+---
+Release Date: **23.07.2024**
+
+- Adapted handling of the font scheme in styles. The scheme is now determined automatically
+- Added column option to define a default column style
+
 ## v3.2.1
 
 ---
