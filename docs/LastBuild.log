@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shfbBuild product="Sandcastle Help File Builder and Tools" version="2023.3.4.0" projectFile="D:\a\PicoXLSX\PicoXLSX\Documentation\CodeDocumentation.shfbproj" started="2/25/2024 2:32:01 AM">
+<shfbBuild product="Sandcastle Help File Builder and Tools" version="2023.3.4.0" projectFile="D:\a\PicoXLSX\PicoXLSX\Documentation\CodeDocumentation.shfbproj" started="7/23/2024 9:27:26 PM">
 <buildStep step="Initializing">
 The Sandcastle tools are located in &#39;C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder&#39;
 Locating components in the following folder(s):
@@ -29,43 +29,43 @@ Copying XML comments files
 <buildStep step="GenerateSharedContent">
 Generating shared content files (en-US, English (United States))...
 <plugIn name="Lightweight Website Style" behavior="After" priority="1000">
-</plugIn>    Last step completed in 00:00:00.3284
+</plugIn>    Last step completed in 00:00:00.2813
 </buildStep>
 <buildStep step="GenerateApiFilter">
 Generating API filter for MRefBuilder...
-    Last step completed in 00:00:00.2033
+    Last step completed in 00:00:00.2032
 </buildStep>
 <buildStep step="GenerateReflectionInfo">
 Generating reflection information...
-[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe - GenerateRefInfo-bae58c26-ec3a-4e8c-870f-996c6f30a0bf.proj]
-Build started 2/25/2024 2:32:10 AM.
+[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe - GenerateRefInfo-74efcef0-300a-4dea-85b5-369d3efc728d.proj]
+Build started 7/23/2024 9:27:44 PM.
 
-Project &quot;D:\a\PicoXLSX\PicoXLSX\docs\Working\GenerateRefInfo-bae58c26-ec3a-4e8c-870f-996c6f30a0bf.proj&quot; on node 1 (default targets).
+Project &quot;D:\a\PicoXLSX\PicoXLSX\docs\Working\GenerateRefInfo-74efcef0-300a-4dea-85b5-369d3efc728d.proj&quot; on node 1 (default targets).
 PrepareForBuild:
   Creating directory &quot;obj\Debug\&quot;.
 GenerateRefInfo:
-  Microsoft.Build (v17.9.5+33de0b227b4e7e8f4526049b64f4b7558fcb8844)
+  Microsoft.Build (v17.10.4+10fbfbf2eeb0597fdc1f600d87d38c7f57317bdc)
   c Microsoft Corporation. All rights reserved.
   No source code context base path specified.  Source context information is unavailable.
   Loaded 1 assemblies for reflection and 1 dependency assemblies.
-  Wrote information on 1 namespaces, 49 types, and 749 members
+  Wrote information on 1 namespaces, 49 types, and 756 members
   Merging duplicate type and member information
   Merged 0 duplicate type(s) and 0 duplicate member(s)
-Done Building Project &quot;D:\a\PicoXLSX\PicoXLSX\docs\Working\GenerateRefInfo-bae58c26-ec3a-4e8c-870f-996c6f30a0bf.proj&quot; (default targets).
-    Last step completed in 00:00:09.3273
+Done Building Project &quot;D:\a\PicoXLSX\PicoXLSX\docs\Working\GenerateRefInfo-74efcef0-300a-4dea-85b5-369d3efc728d.proj&quot; (default targets).
+    Last step completed in 00:00:14.1504
 </buildStep>
 <buildStep step="ApplyDocumentModel">
 Applying document model to reflection output...
-    Last step completed in 00:00:00.0938
+    Last step completed in 00:00:00.8286
 </buildStep>
 <buildStep step="AddNamespaceGroups">
 Adding namespace group entries...
 Added 0 namespace group entries
-    Last step completed in 00:00:00.0469
+    Last step completed in 00:00:00.1875
 </buildStep>
 <buildStep step="AddApiTopicFilenames">
 Adding topic filenames to API members...
-    Last step completed in 00:00:00.0469
+    Last step completed in 00:00:00.0312
 </buildStep>
 <buildStep step="GenerateApiTopicManifest">
 Generating API topic manifest...
@@ -73,7 +73,7 @@ Generating API topic manifest...
 </buildStep>
 <buildStep step="GenerateNamespaceSummaries">
 Generating namespace summary information...
-    Last step completed in 00:00:00.1564
+    Last step completed in 00:00:00.0939
 </buildStep>
 <buildStep step="CopyAdditionalContent">
 Copying additional content files...
@@ -81,7 +81,7 @@ D:\a\PicoXLSX\PicoXLSX\Documentation\icons\PicoXLSX.png -&gt; D:\a\PicoXLSX\Pico
 D:\a\PicoXLSX\PicoXLSX\Documentation\icons\PicoXLSX.png -&gt; D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\Website\icons\PicoXLSX.png
 D:\a\PicoXLSX\PicoXLSX\Documentation\icons\favicon.ico -&gt; D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\HtmlHelp1\icons\favicon.ico
 D:\a\PicoXLSX\PicoXLSX\Documentation\icons\favicon.ico -&gt; D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\Website\icons\favicon.ico
-    Last step completed in 00:00:00.0312
+    Last step completed in 00:00:00.0156
 </buildStep>
 <buildStep step="MergeTablesOfContents">
 Merging conceptual and additional tables of contents...
@@ -90,15 +90,15 @@ Merging conceptual and additional tables of contents...
 <buildStep step="GenerateIntermediateTableOfContents">
 Generating intermediate table of contents file for API content...
 Generating conceptual content intermediate TOC file...
-    Last step completed in 00:00:00.1250
+    Last step completed in 00:00:00.3908
 </buildStep>
 <buildStep step="CreateBuildAssemblerConfigs">
 Creating Sandcastle configuration files...
-    Last step completed in 00:00:03.0014
+    Last step completed in 00:00:05.7060
 </buildStep>
 <buildStep step="CombiningIntermediateTocFiles">
 Combining conceptual and API intermediate TOC files...
-    Last step completed in 00:00:00.0156
+    Last step completed in 00:00:00.0313
 </buildStep>
 <buildStep step="MergeCustomConfigs">
 Merging custom build component configurations
@@ -112,6 +112,13 @@ Building help topics...
 Loading configuration...
 ResolveReferenceLinksComponent: The member ID URL cache &#39;C:\Users\runneradmin\AppData\Local\EWSoftware\Sandcastle Help File Builder\Cache\MemberIdUrl.cache&#39; does not exist yet.  All IDs will be looked up in this build which will slow it down.
 Processing topics...
+SHFB: Warning BE0066: ResolveReferenceLinksComponent: [T:PicoXLSX.AbstractStyle] Member ID URL resolver service failed.  No further look ups will be performed for this build.
+Reason: The underlying connection was closed: Could not establish trust relationship for the SSL/TLS secure channel.
+The remote certificate is invalid according to the validation procedure.
+SHFB: Warning BE0066: ResolveReferenceLinksComponent: [T:PicoXLSX.AbstractStyle] Member ID URL not found for target &#39;T:System.Object&#39;.
+SHFB: Warning BE0066: ResolveReferenceLinksComponent: [T:PicoXLSX.AbstractStyle] Member ID URL resolver service failed.  No further look ups will be performed for this build.
+Reason: The underlying connection was closed: Could not establish trust relationship for the SSL/TLS secure channel.
+The remote certificate is invalid according to the validation procedure.
 SHFB: Warning BE0066: ShowMissingComponent: [M:PicoXLSX.Cell.Address.op_Equality(PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)] Missing &lt;summary&gt; documentation
 SHFB: Warning BE0066: ShowMissingComponent: [M:PicoXLSX.Cell.Address.op_Equality(PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)] Missing &lt;returns&gt; documentation
 SHFB: Warning BE0066: ShowMissingComponent: [M:PicoXLSX.Cell.Address.op_Equality(PicoXLSX.Cell.Address,PicoXLSX.Cell.Address)] Missing &lt;param name=&quot;address1&quot;/&gt; documentation
@@ -148,24 +155,23 @@ SHFB: Warning BE0066: ShowMissingComponent: [F:PicoXLSX.Worksheet.CellDirection.
 SHFB: Warning BE0066: ShowMissingComponent: [F:PicoXLSX.Worksheet.SheetProtectionValue.value__] Missing &lt;summary&gt; documentation
 SHFB: Warning BE0066: ShowMissingComponent: [F:PicoXLSX.Worksheet.SheetViewType.value__] Missing &lt;summary&gt; documentation
 SHFB: Warning BE0066: ShowMissingComponent: [F:PicoXLSX.Worksheet.WorksheetPane.value__] Missing &lt;summary&gt; documentation
-Processed 973 topic(s)
-36 warning(s)
+Processed 981 topic(s)
+39 warning(s)
 CopyFromIndexComponent: &quot;reflection&quot; in-memory cache entries used: 8 of 15.
 CopyFromIndexComponent: &quot;comments&quot; in-memory cache entries used: 2 of 30.
-ResolveReferenceLinksComponent: 62 entries added to the member ID URL cache.  New cache size: 62 entries
-    Last step completed in 00:00:44.5382
+    Last step completed in 00:02:12.6104
 </buildStep>
 <buildStep step="ExtractingHtmlInfo">
 Extracting HTML info for HTML Help 1 and/or website...
 Using LCID &#39;1033&#39;, code page &#39;65001&#39;, encoding charset &#39;UTF-8&#39;.
 Processing Help 1 files in D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\HtmlHelp1
-Processed 973 HTML files.  Sorting keywords and generating See Also indices.
+Processed 981 HTML files.  Sorting keywords and generating See Also indices.
 Saving HTML Help 1 keyword index to D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\HtmlHelp1\Documentation.hhk
 Saving HTML Help 1 table of contents to D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\HtmlHelp1\Documentation.hhc
 Processing website files in D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\Website
-Processed 973 HTML files.  Sorting keywords and generating See Also indices.
+Processed 981 HTML files.  Sorting keywords and generating See Also indices.
 Saving website table of contents to D:\a\PicoXLSX\PicoXLSX\docs\Working\\WebTOC.xml
-    Last step completed in 00:00:00.3752
+    Last step completed in 00:00:00.3438
 </buildStep>
 <buildStep step="CopyStandardHelpContent">
 Copying standard help content...
@@ -301,11 +307,11 @@ C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\Components\VS2013
 C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\Components\VS2013\Web\scripts\branding-Website.js -&gt; D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\Website\scripts\branding-Website.js
 C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\Components\VS2013\Web\scripts\clipboard.min.js -&gt; D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\Website\scripts\clipboard.min.js
 C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\Components\VS2013\Web\scripts\jquery-3.5.1.min.js -&gt; D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\Website\scripts\jquery-3.5.1.min.js
-    Last step completed in 00:00:00.2661
+    Last step completed in 00:00:00.2812
 </buildStep>
 <buildStep step="GenerateHelpProject">
 Generating HTML Help 1 project file...
-    Last step completed in 00:00:00.0313
+    Last step completed in 00:00:00.0312
 </buildStep>
 <buildStep step="CompilingHelpFile">
 Compiling HTML Help 1 file...
@@ -323,9 +329,9 @@ Compiling HTML Help 1 file...
   
   Compile time: 0 minutes, 2 seconds
   
-  975	Topics
+  983	Topics
   
-  10,342	Local links
+  10,438	Local links
   
   3	Internet links
   
@@ -335,34 +341,34 @@ Compiling HTML Help 1 file...
   
   
   
-  Created d:\a\PicoXLSX\PicoXLSX\docs\Working\Output\HtmlHelp1\Documentation.chm, 1,046,552 bytes
+  Created d:\a\PicoXLSX\PicoXLSX\docs\Working\Output\HtmlHelp1\Documentation.chm, 1,030,464 bytes
   
-  Compression decreased file by 5,643,521 bytes.
+  Compression decreased file by 5,441,021 bytes.
   
-    Last step completed in 00:00:04.4708
+    Last step completed in 00:00:05.0349
 </buildStep>
 <buildStep step="GenerateFullTextIndex">
 Generating full-text index for the website...
 
 <plugIn name="Lightweight Website Style" behavior="After" priority="1000">
 Adding lightweight search and TOC elements to each topic...
-</plugIn>    Last step completed in 00:00:00.9854
+</plugIn>    Last step completed in 00:00:01.8714
 </buildStep>
 <buildStep step="CopyingWebsiteFiles">
 Copying website files to output folder...
 
 Copied 500 files
 Copied 1000 files
-Copied 1264 files for the website content
-    Last step completed in 00:00:00.2974
+Copied 1273 files for the website content
+    Last step completed in 00:00:00.2656
 </buildStep>
 <buildStep step="CleanIntermediates">
 Removing intermediate files...
-    Last step completed in 00:00:00.1718
+    Last step completed in 00:00:00.1407
 </buildStep>
 <buildStep step="Completed">
 
-Build completed successfully at 2/25/2024 2:33:14 AM.  Total time: 00:01:12.7068
+Build completed successfully at 7/23/2024 9:30:26 PM.  Total time: 00:02:59.7784
 
 </buildStep>
 </shfbBuild>
