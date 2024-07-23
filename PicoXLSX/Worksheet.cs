@@ -1919,6 +1919,42 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Sets the default column style of the passed column address
+        /// </summary>
+        /// <param name="columnAddress">Column address (A - XFD)</param>
+        /// <param name="style">Style to set as default. If null, the style is cleared</param>
+        /// <returns>Assigned style or null if cleared</returns>
+        /// <exception cref="RangeException">Throws a RangeException:<br></br>a) If the passed column address is out of range<br></br>b) if the column width is out of range (0 - 255.0)</exception>
+        public Style SetColumnDefaultStyle(string columnAddress, Style style)
+        {
+            int columnNumber = Cell.ResolveColumn(columnAddress);
+            return SetColumnDefaultStyle(columnNumber, style);
+        }
+
+        /// <summary>
+        /// Sets the default column style of the passed column number (zero-based)
+        /// </summary>
+        /// <param name="columnNumber">Column number (zero-based, from 0 to 16383)</param>
+        /// <param name="style">Style to set as default. If null, the style is cleared</param>
+        /// <returns>Assigned style or null if cleared</returns>
+        /// <exception cref="RangeException">Throws a RangeException:<br></br>a) If the passed column number is out of range<br></br>b) if the column width is out of range (0 - 255.0)</exception>
+        public Style SetColumnDefaultStyle(int columnNumber, Style style)
+        {
+            Cell.ValidateColumnNumber(columnNumber);
+            if (this.columns.ContainsKey(columnNumber))
+            {
+                return this.columns[columnNumber].SetDefaultColumnStyle(style);
+            }
+            else
+            {
+                Column c = new Column(columnNumber);
+                Style returnStyle = c.SetDefaultColumnStyle(style);
+                this.columns.Add(columnNumber, c);
+                return returnStyle;
+            }
+        }
+
+        /// <summary>
         /// Set the current cell address
         /// </summary>
         /// <param name="columnNumber">Column number (zero based).</param>
@@ -2460,6 +2496,11 @@ namespace PicoXLSX
             private float width;
 
             /// <summary>
+            /// Defines the default column style
+            /// </summary>
+            private Style defaultColumnStyle;
+
+            /// <summary>
             /// Gets or sets the ColumnAddress
             /// Column address (A to XFD)
             /// </summary>
@@ -2521,11 +2562,44 @@ namespace PicoXLSX
             }
 
             /// <summary>
+            /// Gets the default style of the column
+            /// </summary>
+            public Style DefaultColumnStyle
+            {
+                get { return this.defaultColumnStyle; }
+            }
+
+            /// <summary>
+            /// Sets the default style of the column
+            /// </summary>
+            /// <param name="defaultColumnStyle">Style to assign as default column style. Can be null (to clear)</param>
+            /// <param name="unmanaged">Internally used: If true, the style repository is not invoked and only the style object of the cell is updated. Do not use!</param>
+            /// <returns>If the passed style already exists in the repository, the existing one will be returned, otherwise the passed one</returns>
+            public Style SetDefaultColumnStyle(Style defaultColumnStyle, bool unmanaged = false)
+            {
+                if (defaultColumnStyle == null)
+                {
+                    this.defaultColumnStyle = null;
+                    return null;
+                }
+                if (unmanaged)
+                {
+                    this.defaultColumnStyle = defaultColumnStyle;
+                }
+                else
+                {
+                    this.defaultColumnStyle = StyleRepository.Instance.AddStyle(defaultColumnStyle);
+                }
+                return this.defaultColumnStyle;
+            }
+
+            /// <summary>
             /// Prevents a default instance of the <see cref="Column"/> class from being created
             /// </summary>
             private Column()
             {
                 Width = DEFAULT_COLUMN_WIDTH;
+                defaultColumnStyle = null;
             }
 
             /// <summary>
@@ -2558,6 +2632,7 @@ namespace PicoXLSX
                 copy.HasAutoFilter = this.HasAutoFilter;
                 copy.columnAddress = this.columnAddress;
                 copy.number = this.number;
+                copy.defaultColumnStyle = this.defaultColumnStyle;
                 return copy;
             }
         }

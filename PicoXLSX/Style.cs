@@ -1189,9 +1189,24 @@ namespace PicoXLSX
         public class Font : AbstractStyle
         {
             /// <summary>
+            /// The default font name that is declared as Major Font (See <see cref="Font.SchemeValue"/>)
+            /// </summary>
+            public static readonly string DEFAULT_MAJOR_FONT = "Calibri Light";
+
+            /// <summary>
+            /// The default font name that is declared as Minor Font (See <see cref="Font.SchemeValue"/>)
+            /// </summary>
+            public static readonly string DEFAULT_MINOR_FONT = "Calibri";
+
+            /// <summary>
             /// Default font family as constant
             /// </summary>
-            public static readonly string DEFAULT_FONT_NAME = "Calibri";
+            public static readonly string DEFAULT_FONT_NAME = DEFAULT_MINOR_FONT;
+
+            /// <summary>
+            /// Default font scheme
+            /// </summary>
+            public static readonly SchemeValue DEFAULT_FONT_SCHEME = SchemeValue.minor;
 
             /// <summary>
             /// Maximum possible font size
@@ -1212,11 +1227,6 @@ namespace PicoXLSX
             /// Default font family
             /// </summary>
             public static readonly string DEFAULT_FONT_FAMILY = "2";
-
-            /// <summary>
-            /// Default font scheme
-            /// </summary>
-            public static readonly SchemeValue DEFAULT_FONT_SCHEME = SchemeValue.minor;
 
             /// <summary>
             /// Default vertical alignment
@@ -1375,11 +1385,8 @@ namespace PicoXLSX
                 get { return name; }
                 set
                 {
-                    if (string.IsNullOrEmpty(name))
-                    {
-                        throw new StyleException("A general style exception occurred", "The font name was null or empty");
-                    }
                     name = value;
+                    ValidateFontScheme();
                 }
             }
 
@@ -1433,6 +1440,30 @@ namespace PicoXLSX
                 Scheme = DEFAULT_FONT_SCHEME;
                 VerticalAlign = DEFAULT_VERTICAL_ALIGN;
             }
+
+            /// <summary>
+            /// Validates the font name and sets the scheme automatically
+            /// </summary>
+            private void ValidateFontScheme()
+            {
+                if (string.IsNullOrEmpty(name))
+                {
+                    throw new StyleException("A general style exception occurred", "The font name was null or empty");
+                }
+                if (name.Equals(DEFAULT_MINOR_FONT))
+                {
+                    Scheme = SchemeValue.minor;
+                }
+                else if (name.Equals(DEFAULT_MAJOR_FONT))
+                {
+                    Scheme = SchemeValue.major;
+                }
+                else
+                {
+                    Scheme = SchemeValue.none;
+                }
+            }
+
 
             /// <summary>
             /// Override toString method
