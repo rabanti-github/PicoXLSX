@@ -1,5 +1,11 @@
 # Change Log
 
+## v3.3.1
+
+---
+Release Date: **26.10.2024**
+- Fixed a bug regarding the determination of the first data cell in an empty worksheet. Bug fix provided by Martin Stránský in NanoXLSX
+
 ## v3.3.0
 
 ---
