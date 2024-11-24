@@ -1,5 +1,12 @@
 # Change Log
 
+## v3.3.2
+
+---
+Release Date: **23.11.2024**
+
+- Fixed a bug of the column address (letter) resolution. Column letters above 'Z' were resolved incorrectly
+
 ## v3.3.1
 
 ---
