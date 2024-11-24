@@ -36,7 +36,7 @@ jobs:
 
     - name: Build PicoXLSX project
       if: ${{ env.build_origin }} == 'pass'
-      run: dotnet build "PicoXLSX .NET Standard/PicoXLSX .NET Standard.csproj" -c Debug
+      run: dotnet build "PicoXLSX/PicoXLSX.csproj" -c Debug
   
     - name: Add msbuild to PATH
       if: ${{ env.build_origin }} == 'pass'
