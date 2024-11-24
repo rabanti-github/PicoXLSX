@@ -3,9 +3,10 @@
 ## v3.3.2
 
 ---
-Release Date: **23.11.2024**
+Release Date: **24.11.2024**
 
 - Fixed a bug of the column address (letter) resolution. Column letters above 'Z' were resolved incorrectly
+- Simplified project structure
 
 ## v3.3.1
 
