@@ -216,7 +216,7 @@ namespace PicoXLSX
         /// <param name="value">Value of the cell.</param>
         /// <param name="type">Type of the cell.</param>
         /// <param name="address">Address of the cell.</param>
-        public Cell(Object value, CellType type, string address)
+        public Cell(object value, CellType type, string address)
         {
             if (type == CellType.EMPTY)
             {
@@ -228,6 +228,33 @@ namespace PicoXLSX
             }
             DataType = type;
             CellAddress = address;
+            if (type == CellType.DEFAULT)
+            {
+                ResolveCellType();
+            }
+        }
+
+        /// <summary>
+        /// Constructor with value, cell type and address as struct. The worksheet reference is set to null and must be assigned later
+        /// </summary>
+        /// <param name="value">Value of the cell</param>
+        /// <param name="type">Type of the cell</param>
+        /// <param name="address">Address struct of the cell</param>
+        /// <remarks>If the <see cref="DataType"/> is defined as <see cref="CellType.EMPTY"/> any passed value will be set to null</remarks>
+        public Cell(object value, CellType type, Address address)
+        {
+            if (type == CellType.EMPTY)
+            {
+                this.value = null;
+            }
+            else
+            {
+                this.value = value;
+            }
+            DataType = type;
+            columnNumber = address.Column;
+            rowNumber = address.Row;
+            CellAddressType = address.Type;
             if (type == CellType.DEFAULT)
             {
                 ResolveCellType();
