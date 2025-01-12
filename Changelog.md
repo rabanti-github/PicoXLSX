@@ -1,5 +1,18 @@
 # Change Log
 
+## v3.4.0
+
+---
+Release Date: **12.01.2025**
+
+- Added Cell constructor, accepting Address objects as address
+- Added GetRow and GetColum functions in Worksheet class
+- Added InsertRow and InsertColumn functions. Functionality provided by Alexander Schlecht in NanoXLSX
+- Added FirstCewllByValue, FirstOrDefaultCell, CellsByValue functions. Functionality provided by Alexander Schlecht in NanoXLSX
+- Added ReplaceCellValue function. Functionality provided by Alexander Schlecht in NanoXLSX
+- Code maintenance
+
+
 ## v3.3.2
 
 ---

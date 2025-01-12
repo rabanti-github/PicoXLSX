@@ -1,6 +1,6 @@
 ﻿/*
  * PicoXLSX is a small .NET library to generate XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
- * Copyright Raphael Stoeckli © 2024
+ * Copyright Raphael Stoeckli © 2025
  * This library is licensed under the MIT License.
  * You find a copy of the license in project folder or on: http://opensource.org/licenses/MIT
  */
@@ -1223,6 +1223,56 @@ namespace PicoXLSX
         }
 
         /// <summary>
+        /// Gets a row as list of cell objects
+        /// </summary>
+        /// <param name="rowNumber">Row number (zero-based)</param>
+        /// <returns>List of cell objects. If the row doesn't exist, an empty list is returned</returns>
+        public IReadOnlyList<Cell> GetRow(int rowNumber)
+        {
+            List<Cell> list = new List<Cell>();
+            foreach (KeyValuePair<string, Cell> cell in cells)
+            {
+                if (cell.Value.RowNumber == rowNumber)
+                {
+                    list.Add(cell.Value);
+                }
+            }
+            list.Sort((c1, c2) => (c1.ColumnNumber.CompareTo(c2.ColumnNumber))); // Lambda sort
+            return list;
+        }
+
+        /// <summary>
+        /// Gets a column as list of cell objects
+        /// </summary>
+        /// <param name="columnAddress">Column address</param>
+        /// <exception cref="RangeException">A range exception is thrown if the address is not valid</exception>
+        /// <returns>List of cell objects. If the column doesn't exist, an empty list is returned</returns>
+        public IReadOnlyList<Cell> GetColumn(string columnAddress)
+        {
+            int column = Cell.ResolveColumn(columnAddress);
+            return GetColumn(column);
+        }
+
+        /// <summary>
+        /// Gets a column as list of cell objects
+        /// </summary>
+        /// <param name="columnNumber">Column number (zero-based)</param>
+        /// <returns>List of cell objects. If the column doesn't exist, an empty list is returned</returns>
+        public IReadOnlyList<Cell> GetColumn(int columnNumber)
+        {
+            List<Cell> list = new List<Cell>();
+            foreach (KeyValuePair<string, Cell> cell in cells)
+            {
+                if (cell.Value.ColumnNumber == columnNumber)
+                {
+                    list.Add(cell.Value);
+                }
+            }
+            list.Sort((c1, c2) => (c1.RowNumber.CompareTo(c2.RowNumber))); // Lambda sort
+            return list;
+        }
+
+        /// <summary>
         /// Gets the first existing column number in the current worksheet (zero-based)
         /// </summary>
         /// <returns>Zero-based column number. In case of an empty worksheet, -1 will be returned.</returns>
@@ -1499,6 +1549,171 @@ namespace PicoXLSX
             }
             return lowest == int.MaxValue ? -1 : lowest;
         }
+
+        #region Insert-Search-Replace
+
+        /// <summary>
+        /// Inserts 'count' rows below the specified 'rowNumber'. Existing cells are moved down by the number of new rows.
+        /// The inserted, new rows inherits the style of the original cell at the defined row number.
+        /// The inserted cells are empty. The values can be set later
+        /// </summary>
+        /// <remarks>Formulas / references are not adjusted</remarks>
+        /// <param name="rowNumber">Row number below which the new row(s) will be inserted.</param>
+        /// <param name="numberOfNewRows">Number of rows to insert.</param>
+        public void InsertRow(int rowNumber, int numberOfNewRows)
+        {
+            // All cells below the first row must receive a new address (row + count);
+            var upperRow = this.GetRow(rowNumber);
+
+            // Identify all cells below the insertion point to adjust their addresses
+            var cellsToChange = this.Cells.Where(c => c.Value.CellAddress2.Row > rowNumber).ToList();
+
+            // Make a copy of the cells to be moved and then delete the original cells;
+            Dictionary<string, Cell> newCells = new Dictionary<string, Cell>();
+            foreach (var cell in cellsToChange)
+            {
+                var row = cell.Value.CellAddress2.Row;
+                var col = cell.Value.CellAddress2.Column;
+                Address newAddress = new Address(col, row + numberOfNewRows);
+
+                Cell newCell = new Cell(cell.Value.Value, cell.Value.DataType, newAddress);
+                if (cell.Value.CellStyle != null)
+                {
+                    newCell.SetStyle(cell.Value.CellStyle); // Apply the style from the "old" cell.
+                }
+                newCells.Add(newAddress.GetAddress(), newCell);
+
+                // Delete the original cells since the key cannot be changed.
+                this.Cells.Remove(cell.Key);
+            }
+
+            // Fill the gap with new cells, using the same style as the first row.
+            foreach (Cell cell in upperRow)
+            {
+                for (int i = 0; i < numberOfNewRows; i++)
+                {
+                    Address newAddress = new Address(cell.CellAddress2.Column, cell.CellAddress2.Row + 1 + i);
+                    Cell newCell = new Cell(null, Cell.CellType.EMPTY, newAddress);
+                    if (cell.CellStyle != null)
+                        newCell.SetStyle(cell.CellStyle);
+                    this.Cells.Add(newAddress.GetAddress(), newCell);
+                }
+            }
+
+            // Re-add the previous cells from the copy back with a new key.
+            foreach (KeyValuePair<string, Cell> cellKeyValue in newCells)
+            {
+                this.Cells.Add(cellKeyValue.Key, cellKeyValue.Value);  //cell.Value is the cell incl. Style etc.
+            }
+        }
+
+        /// <summary>
+        /// Inserts 'count' columns right of the specified 'columnNumber'. Existing cells are moved to the right by the number of new columns.
+        /// The inserted, new columns inherits the style of the original cell at the defined column number.
+        /// The inserted cells are empty. The values can be set later
+        /// </summary>
+        /// <remarks>Formulas are not adjusted</remarks>
+        /// <param name="columnNumber">Column number right which the new column(s) will be inserted.</param>
+        /// <param name="numberOfNewColumns">Number of columns to insert.</param>
+        public void InsertColumn(int columnNumber, int numberOfNewColumns)
+        {
+            var leftColumn = this.GetColumn(columnNumber);
+            var cellsToChange = this.Cells.Where(c => c.Value.CellAddress2.Column > columnNumber).ToList();
+
+            Dictionary<string, Cell> newCells = new Dictionary<string, Cell>();
+            foreach (var cell in cellsToChange)
+            {
+                var row = cell.Value.CellAddress2.Row;
+                var col = cell.Value.CellAddress2.Column;
+                Address newAddress = new Address(col + numberOfNewColumns, row);
+
+                Cell newCell = new Cell(cell.Value.Value, cell.Value.DataType, newAddress);
+                if (cell.Value.CellStyle != null)
+                {
+                    newCell.SetStyle(cell.Value.CellStyle); // Apply the style from the "old" cell.
+                }
+                newCells.Add(newAddress.GetAddress(), newCell);
+
+                // Delete the original cells since the key cannot be changed.
+                this.Cells.Remove(cell.Key);
+            }
+
+            // Fill the gap with new cells, using the same style as the first row.
+            foreach (Cell cell in leftColumn)
+            {
+                for (int i = 0; i < numberOfNewColumns; i++)
+                {
+                    Address newAddress = new Address(cell.CellAddress2.Column + 1 + i, cell.CellAddress2.Row);
+                    Cell newCell = new Cell(null, Cell.CellType.EMPTY, newAddress);
+                    if (cell.CellStyle != null)
+                        newCell.SetStyle(cell.CellStyle);
+                    this.Cells.Add(newAddress.GetAddress(), newCell);
+                }
+            }
+
+            // Re-add the previous cells from the copy back with a new key.
+            foreach (KeyValuePair<string, Cell> cellKeyValue in newCells)
+            {
+                this.Cells.Add(cellKeyValue.Key, cellKeyValue.Value);  //cell.Value is the cell incl. Style etc.
+            }
+        }
+
+        /// <summary>
+        /// Searches for the first occurrence of the value.
+        /// </summary>
+        /// <param name="searchValue">The value to search for.</param>
+        /// <returns>The first cell containing the searched value or null if the value was not found</returns>
+        public Cell FirstCellByValue(object searchValue)
+        {
+            var cell = this.Cells.FirstOrDefault(c =>
+                Equals(c.Value.Value, searchValue))
+                .Value;
+            return cell;
+        }
+
+        /// <summary>
+        /// Searches for the first occurrence of the expression.
+        /// Example: var cell = worksheet.FindCell(c => c.Value?.ToString().Contains("searchValue"));
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns>The first cell containing the searched value or null if the value was not found</returns>
+        public Cell FirstOrDefaultCell(Func<Cell, bool> predicate)
+        {
+            return this.Cells.Values
+                .FirstOrDefault(c => c != null && (c.Value == null || predicate(c)));
+        }
+
+        /// <summary>
+        /// Searches for cells that contain the specified value and returns a list of these cells.
+        /// </summary>
+        /// <param name="searchValue">The value to search for.</param>
+        /// <returns>A list of cells that contain the specified value.</returns>
+        public List<Cell> CellsByValue(object searchValue)
+        {
+            return this.Cells.Where(c =>
+                Equals(c.Value.Value, searchValue))
+                .Select(c => c.Value)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Replaces all occurrences of 'oldValue' with 'newValue' and returns the number of replacements.
+        /// </summary>
+        /// <param name="oldValue">Old value</param>
+        /// <param name="newValue">New value that should replace the old one</param>
+        /// <returns>Count of replaced Cell values</returns>
+        public int ReplaceCellValue(object oldValue, object newValue)
+        {
+            int count = 0;
+            List<Cell> foundCells = this.CellsByValue(oldValue);
+            foreach (var cell in foundCells)
+            {
+                cell.Value = newValue;
+                count++;
+            }
+            return count;
+        }
+        #endregion
 
         /// <summary>
         /// Gets the current column number (zero based)
