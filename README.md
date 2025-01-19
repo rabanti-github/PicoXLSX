@@ -1,4 +1,6 @@
-# PicoXLSX ![PicoXLSX](https://rabanti-github.github.io/PicoXLSX/icons/PicoXLSX.png)
+![NanoXLSX](https://raw.githubusercontent.com/rabanti-github/PicoXLSX/refs/heads/master/Documentation/icons/PicoXLSX.png)
+
+# PicoXLSX
 
 ![nuget](https://img.shields.io/nuget/v/picoXLSX.svg?maxAge=86400)
 ![license](https://img.shields.io/github/license/rabanti-github/picoXlsx.svg)

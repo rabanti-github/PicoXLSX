@@ -23,6 +23,11 @@ namespace PicoXLSX
     internal class LowLevel
     {
         /// <summary>
+        /// Threshold, using when floats are compared
+        /// </summary>
+        private const float FLOAT_THRESHOLD = 0.0001f;
+
+        /// <summary>
         /// Defines the WORKBOOK
         /// </summary>
         private static DocumentPath WORKBOOK = new DocumentPath("workbook.xml", "xl/");
@@ -916,7 +921,7 @@ namespace PicoXLSX
                 StringBuilder sb = new StringBuilder();
                 foreach (KeyValuePair<int, Worksheet.Column> column in worksheet.Columns)
                 {
-                    if (column.Value.Width == worksheet.DefaultColumnWidth && !column.Value.IsHidden) { continue; }
+                    if (Math.Abs(column.Value.Width - worksheet.DefaultColumnWidth) < FLOAT_THRESHOLD && !column.Value.IsHidden) { continue; }
                     if (worksheet.Columns.ContainsKey(column.Key) && worksheet.Columns[column.Key].IsHidden)
                     {
                         hidden = " hidden=\"1\"";
@@ -997,7 +1002,7 @@ namespace PicoXLSX
             int rowNumber = dynamicRow.RowNumber;
             string height = "";
             string hidden = "";
-            if (worksheet.RowHeights.ContainsKey(rowNumber) && worksheet.RowHeights[rowNumber] != worksheet.DefaultRowHeight)
+            if (worksheet.RowHeights.ContainsKey(rowNumber) && Math.Abs(worksheet.RowHeights[rowNumber] - worksheet.DefaultRowHeight) > FLOAT_THRESHOLD)
             {
                 height = " x14ac:dyDescent=\"0.25\" customHeight=\"1\" ht=\"" + GetInternalRowHeight(worksheet.RowHeights[rowNumber]).ToString("G", culture) + "\"";
             }

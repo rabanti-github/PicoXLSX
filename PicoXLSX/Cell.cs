@@ -396,7 +396,7 @@ namespace PicoXLSX
             Type t;
             foreach (T item in list)
             {
-                if (item == null)
+                if (object.Equals(item, default(T)))
                 {
                     c = new Cell(null, CellType.EMPTY);
                     output.Add(c);
@@ -1002,11 +1002,23 @@ namespace PicoXLSX
 
 
             // Operator overloads
+            /// <summary>
+            /// Compares two objects whether they are ranges and equal. The cell types (possible $ prefix) are considered. This method reflects <see cref="Equals(object)"/>
+            /// </summary>
+            /// <param name="range1">First range object</param>
+            /// <param name="range2">Second range object</param>
+            /// <returns>True, if both objects are equal, otherwise false</returns>
             public static bool operator ==(Range range1, Range range2)
             {
                 return range1.Equals(range2);
             }
 
+            /// <summary>
+            /// Compares two objects whether they not equal. This method reflects the inverted method of <see cref="Equals(object)"/>
+            /// </summary>
+            /// <param name="range1">First range object</param>
+            /// <param name="range2">Second range object</param>
+            /// <returns>False, if both objects are equal, otherwise true</returns>
             public static bool operator !=(Range range1, Range range2)
             {
                 return !range1.Equals(range2);
