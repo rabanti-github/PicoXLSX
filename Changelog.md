@@ -5,7 +5,7 @@
 ---
 Release Date: **19.01.2025**
 
-- Fixed a bug on writing default column widths (not persisted in some cases)
+- Fixed a bug on writing default column styles (not persisted in some cases)
 - Code maintenance
 
 
