@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shfbBuild product="Sandcastle Help File Builder and Tools" version="2023.3.4.0" projectFile="D:\a\PicoXLSX\PicoXLSX\Documentation\CodeDocumentation.shfbproj" started="1/12/2025 12:39:47 AM">
+<shfbBuild product="Sandcastle Help File Builder and Tools" version="2023.3.4.0" projectFile="D:\a\PicoXLSX\PicoXLSX\Documentation\CodeDocumentation.shfbproj" started="1/19/2025 8:58:10 PM">
 <buildStep step="Initializing">
 The Sandcastle tools are located in &#39;C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder&#39;
 Locating components in the following folder(s):
@@ -29,18 +29,18 @@ Copying XML comments files
 <buildStep step="GenerateSharedContent">
 Generating shared content files (en-US, English (United States))...
 <plugIn name="Lightweight Website Style" behavior="After" priority="1000">
-</plugIn>    Last step completed in 00:00:00.0469
+</plugIn>    Last step completed in 00:00:00.2032
 </buildStep>
 <buildStep step="GenerateApiFilter">
 Generating API filter for MRefBuilder...
-    Last step completed in 00:00:00.0313
+    Last step completed in 00:00:00.1250
 </buildStep>
 <buildStep step="GenerateReflectionInfo">
 Generating reflection information...
-[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe - GenerateRefInfo-d789c55b-1139-4b41-8309-456c32f81fc6.proj]
-Build started 1/12/2025 12:39:49 AM.
+[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe - GenerateRefInfo-c3c067c4-f21f-427c-8e60-325303e93e9a.proj]
+Build started 1/19/2025 8:58:20 PM.
 
-Project &quot;D:\a\PicoXLSX\PicoXLSX\docs\Working\GenerateRefInfo-d789c55b-1139-4b41-8309-456c32f81fc6.proj&quot; on node 1 (default targets).
+Project &quot;D:\a\PicoXLSX\PicoXLSX\docs\Working\GenerateRefInfo-c3c067c4-f21f-427c-8e60-325303e93e9a.proj&quot; on node 1 (default targets).
 PrepareForBuild:
   Creating directory &quot;obj\Debug\&quot;.
 GenerateRefInfo:
@@ -51,12 +51,12 @@ GenerateRefInfo:
   Wrote information on 1 namespaces, 49 types, and 766 members
   Merging duplicate type and member information
   Merged 0 duplicate type(s) and 0 duplicate member(s)
-Done Building Project &quot;D:\a\PicoXLSX\PicoXLSX\docs\Working\GenerateRefInfo-d789c55b-1139-4b41-8309-456c32f81fc6.proj&quot; (default targets).
-    Last step completed in 00:00:02.6164
+Done Building Project &quot;D:\a\PicoXLSX\PicoXLSX\docs\Working\GenerateRefInfo-c3c067c4-f21f-427c-8e60-325303e93e9a.proj&quot; (default targets).
+    Last step completed in 00:00:11.4277
 </buildStep>
 <buildStep step="ApplyDocumentModel">
 Applying document model to reflection output...
-    Last step completed in 00:00:00.1406
+    Last step completed in 00:00:00.3907
 </buildStep>
 <buildStep step="AddNamespaceGroups">
 Adding namespace group entries...
@@ -73,7 +73,7 @@ Generating API topic manifest...
 </buildStep>
 <buildStep step="GenerateNamespaceSummaries">
 Generating namespace summary information...
-    Last step completed in 00:00:00.0625
+    Last step completed in 00:00:00.1094
 </buildStep>
 <buildStep step="CopyAdditionalContent">
 Copying additional content files...
@@ -81,7 +81,7 @@ D:\a\PicoXLSX\PicoXLSX\Documentation\icons\PicoXLSX.png -&gt; D:\a\PicoXLSX\Pico
 D:\a\PicoXLSX\PicoXLSX\Documentation\icons\PicoXLSX.png -&gt; D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\Website\icons\PicoXLSX.png
 D:\a\PicoXLSX\PicoXLSX\Documentation\icons\favicon.ico -&gt; D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\HtmlHelp1\icons\favicon.ico
 D:\a\PicoXLSX\PicoXLSX\Documentation\icons\favicon.ico -&gt; D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\Website\icons\favicon.ico
-    Last step completed in 00:00:00.0156
+    Last step completed in 00:00:00.0315
 </buildStep>
 <buildStep step="MergeTablesOfContents">
 Merging conceptual and additional tables of contents...
@@ -90,15 +90,15 @@ Merging conceptual and additional tables of contents...
 <buildStep step="GenerateIntermediateTableOfContents">
 Generating intermediate table of contents file for API content...
 Generating conceptual content intermediate TOC file...
-    Last step completed in 00:00:00.0469
+    Last step completed in 00:00:00.1875
 </buildStep>
 <buildStep step="CreateBuildAssemblerConfigs">
 Creating Sandcastle configuration files...
-    Last step completed in 00:00:00.3438
+    Last step completed in 00:00:01.3298
 </buildStep>
 <buildStep step="CombiningIntermediateTocFiles">
 Combining conceptual and API intermediate TOC files...
-    Last step completed in 00:00:00.0156
+    Last step completed in 00:00:00.0312
 </buildStep>
 <buildStep step="MergeCustomConfigs">
 Merging custom build component configurations
@@ -130,14 +130,6 @@ SHFB: Warning BE0066: ShowMissingComponent: [M:PicoXLSX.Cell.Address.op_Inequali
 SHFB: Warning BE0066: ShowMissingComponent: [F:PicoXLSX.Cell.AddressScope.value__] Missing &lt;summary&gt; documentation
 SHFB: Warning BE0066: ShowMissingComponent: [F:PicoXLSX.Cell.AddressType.value__] Missing &lt;summary&gt; documentation
 SHFB: Warning BE0066: ShowMissingComponent: [F:PicoXLSX.Cell.CellType.value__] Missing &lt;summary&gt; documentation
-SHFB: Warning BE0066: ShowMissingComponent: [M:PicoXLSX.Cell.Range.op_Equality(PicoXLSX.Cell.Range,PicoXLSX.Cell.Range)] Missing &lt;summary&gt; documentation
-SHFB: Warning BE0066: ShowMissingComponent: [M:PicoXLSX.Cell.Range.op_Equality(PicoXLSX.Cell.Range,PicoXLSX.Cell.Range)] Missing &lt;returns&gt; documentation
-SHFB: Warning BE0066: ShowMissingComponent: [M:PicoXLSX.Cell.Range.op_Equality(PicoXLSX.Cell.Range,PicoXLSX.Cell.Range)] Missing &lt;param name=&quot;range1&quot;/&gt; documentation
-SHFB: Warning BE0066: ShowMissingComponent: [M:PicoXLSX.Cell.Range.op_Equality(PicoXLSX.Cell.Range,PicoXLSX.Cell.Range)] Missing &lt;param name=&quot;range2&quot;/&gt; documentation
-SHFB: Warning BE0066: ShowMissingComponent: [M:PicoXLSX.Cell.Range.op_Inequality(PicoXLSX.Cell.Range,PicoXLSX.Cell.Range)] Missing &lt;summary&gt; documentation
-SHFB: Warning BE0066: ShowMissingComponent: [M:PicoXLSX.Cell.Range.op_Inequality(PicoXLSX.Cell.Range,PicoXLSX.Cell.Range)] Missing &lt;returns&gt; documentation
-SHFB: Warning BE0066: ShowMissingComponent: [M:PicoXLSX.Cell.Range.op_Inequality(PicoXLSX.Cell.Range,PicoXLSX.Cell.Range)] Missing &lt;param name=&quot;range1&quot;/&gt; documentation
-SHFB: Warning BE0066: ShowMissingComponent: [M:PicoXLSX.Cell.Range.op_Inequality(PicoXLSX.Cell.Range,PicoXLSX.Cell.Range)] Missing &lt;param name=&quot;range2&quot;/&gt; documentation
 SHFB: Warning BE0066: ShowMissingComponent: [F:PicoXLSX.Style.BasicStyles.StyleEnum.value__] Missing &lt;summary&gt; documentation
 SHFB: Warning BE0066: ShowMissingComponent: [F:PicoXLSX.Style.Border.StyleValue.value__] Missing &lt;summary&gt; documentation
 SHFB: Warning BE0066: ShowMissingComponent: [F:PicoXLSX.Style.CellXf.HorizontalAlignValue.value__] Missing &lt;summary&gt; documentation
@@ -157,10 +149,10 @@ SHFB: Warning BE0066: ShowMissingComponent: [F:PicoXLSX.Worksheet.SheetProtectio
 SHFB: Warning BE0066: ShowMissingComponent: [F:PicoXLSX.Worksheet.SheetViewType.value__] Missing &lt;summary&gt; documentation
 SHFB: Warning BE0066: ShowMissingComponent: [F:PicoXLSX.Worksheet.WorksheetPane.value__] Missing &lt;summary&gt; documentation
 Processed 992 topic(s)
-40 warning(s)
+32 warning(s)
 CopyFromIndexComponent: &quot;reflection&quot; in-memory cache entries used: 8 of 15.
 CopyFromIndexComponent: &quot;comments&quot; in-memory cache entries used: 2 of 30.
-    Last step completed in 00:00:14.0622
+    Last step completed in 00:00:52.1457
 </buildStep>
 <buildStep step="ExtractingHtmlInfo">
 Extracting HTML info for HTML Help 1 and/or website...
@@ -172,7 +164,7 @@ Saving HTML Help 1 table of contents to D:\a\PicoXLSX\PicoXLSX\docs\Working\Outp
 Processing website files in D:\a\PicoXLSX\PicoXLSX\docs\Working\Output\Website
 Processed 992 HTML files.  Sorting keywords and generating See Also indices.
 Saving website table of contents to D:\a\PicoXLSX\PicoXLSX\docs\Working\\WebTOC.xml
-    Last step completed in 00:00:00.2777
+    Last step completed in 00:00:00.2969
 </buildStep>
 <buildStep step="CopyStandardHelpContent">
 Copying standard help content...
@@ -312,7 +304,7 @@ C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\Components\VS2013
 </buildStep>
 <buildStep step="GenerateHelpProject">
 Generating HTML Help 1 project file...
-    Last step completed in 00:00:00.0000
+    Last step completed in 00:00:00.0156
 </buildStep>
 <buildStep step="CompilingHelpFile">
 Compiling HTML Help 1 file...
@@ -332,7 +324,7 @@ Compiling HTML Help 1 file...
   
   994	Topics
   
-  10,562	Local links
+  10,568	Local links
   
   3	Internet links
   
@@ -342,18 +334,18 @@ Compiling HTML Help 1 file...
   
   
   
-  Created d:\a\PicoXLSX\PicoXLSX\docs\Working\Output\HtmlHelp1\Documentation.chm, 1,045,656 bytes
+  Created d:\a\PicoXLSX\PicoXLSX\docs\Working\Output\HtmlHelp1\Documentation.chm, 1,046,078 bytes
   
-  Compression decreased file by 5,498,959 bytes.
+  Compression decreased file by 5,498,642 bytes.
   
-    Last step completed in 00:00:03.3937
+    Last step completed in 00:00:04.5119
 </buildStep>
 <buildStep step="GenerateFullTextIndex">
 Generating full-text index for the website...
 
 <plugIn name="Lightweight Website Style" behavior="After" priority="1000">
 Adding lightweight search and TOC elements to each topic...
-</plugIn>    Last step completed in 00:00:00.7505
+</plugIn>    Last step completed in 00:00:01.3752
 </buildStep>
 <buildStep step="CopyingWebsiteFiles">
 Copying website files to output folder...
@@ -361,15 +353,15 @@ Copying website files to output folder...
 Copied 500 files
 Copied 1000 files
 Copied 1285 files for the website content
-    Last step completed in 00:00:00.2976
+    Last step completed in 00:00:00.2813
 </buildStep>
 <buildStep step="CleanIntermediates">
 Removing intermediate files...
-    Last step completed in 00:00:00.1253
+    Last step completed in 00:00:00.1258
 </buildStep>
 <buildStep step="Completed">
 
-Build completed successfully at 1/12/2025 12:40:12 AM.  Total time: 00:00:24.7202
+Build completed successfully at 1/19/2025 8:59:32 PM.  Total time: 00:01:22.1742
 
 </buildStep>
 </shfbBuild>
