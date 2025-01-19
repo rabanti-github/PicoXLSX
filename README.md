@@ -1,4 +1,4 @@
-![NanoXLSX](https://raw.githubusercontent.com/rabanti-github/PicoXLSX/refs/heads/master/Documentation/icons/PicoXLSX.png)
+![PicoXLSX](https://raw.githubusercontent.com/rabanti-github/PicoXLSX/refs/heads/master/Documentation/icons/PicoXLSX.png)
 
 # PicoXLSX
 
