@@ -1,5 +1,14 @@
 # Change Log
 
+## v3.4.1
+
+---
+Release Date: **19.01.2025**
+
+- Fixed a bug on writing default column widths (not persisted in some cases)
+- Code maintenance
+
+
 ## v3.4.0
 
 ---
