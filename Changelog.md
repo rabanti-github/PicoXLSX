@@ -1,5 +1,13 @@
 # Change Log
 
+## v3.4.2
+
+---
+Release Date: **24.01.2025**
+
+- Fixed a regression bug in the Cell function ConvertArray
+
+
 ## v3.4.1
 
 ---
