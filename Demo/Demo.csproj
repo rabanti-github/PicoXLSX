@@ -15,9 +15,9 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <TargetFrameworks>net45;net5.0</TargetFrameworks>
     <StartupObject>Demo.Program</StartupObject>
-    <Version>3.4.2</Version>
-    <AssemblyVersion>3.4.1.0</AssemblyVersion>
-    <FileVersion>3.4.2.0</FileVersion>
+    <Version>3.4.3</Version>
+    <AssemblyVersion>3.4.3.0</AssemblyVersion>
+    <FileVersion>3.4.3.0</FileVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>XLSX Excel ExcelWriter Office</PackageTags>
