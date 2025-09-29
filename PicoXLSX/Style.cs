@@ -786,6 +786,7 @@ namespace PicoXLSX
                 Alignment = DEFAULT_ALIGNMENT;
                 textDirection = DEFAULT_TEXT_DIRECTION;
                 VerticalAlign = DEFAULT_VERTICAL_ALIGNMENT;
+                Locked = true;  // Default in Excel
                 textRotation = 0;
                 Indent = 0;
             }

@@ -1132,8 +1132,8 @@ namespace PicoXLSX
         /// <summary>
         /// Method to create the protection string of the passed worksheet
         /// </summary>
-        /// <param name="sheet">Worksheet to process.</param>
-        /// <returns>Formatted string with protection statement of the worksheet.</returns>
+        /// <param name="sheet">Worksheet to process</param>
+        /// <returns>Formatted string with protection statement of the worksheet</returns>
         private string CreateSheetProtectionString(Worksheet sheet)
         {
             if (!sheet.UseSheetProtection)
@@ -1141,11 +1141,6 @@ namespace PicoXLSX
                 return string.Empty;
             }
             Dictionary<Worksheet.SheetProtectionValue, int> actualLockingValues = new Dictionary<Worksheet.SheetProtectionValue, int>();
-            if (sheet.SheetProtectionValues.Count == 0)
-            {
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.selectLockedCells, 1);
-                actualLockingValues.Add(Worksheet.SheetProtectionValue.selectUnlockedCells, 1);
-            }
             if (!sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.objects))
             {
                 actualLockingValues.Add(Worksheet.SheetProtectionValue.objects, 1);
@@ -1154,46 +1149,80 @@ namespace PicoXLSX
             {
                 actualLockingValues.Add(Worksheet.SheetProtectionValue.scenarios, 1);
             }
-            if (!sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells) && !actualLockingValues.ContainsKey(Worksheet.SheetProtectionValue.selectLockedCells))
+            bool allowSelectLocked = sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells);
+            bool allowSelectUnlocked = sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectUnlockedCells);
+            if (allowSelectLocked && !allowSelectUnlocked)
+            {
+                // This shouldn't happen in Excel's UI, but handle it by allowing both
+                allowSelectUnlocked = true;
+            }
+            if (!allowSelectLocked)
             {
                 actualLockingValues.Add(Worksheet.SheetProtectionValue.selectLockedCells, 1);
             }
-            if ((!sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectUnlockedCells) || !sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.selectLockedCells)) && !actualLockingValues.ContainsKey(Worksheet.SheetProtectionValue.selectUnlockedCells))
+            if (!allowSelectUnlocked)
             {
                 actualLockingValues.Add(Worksheet.SheetProtectionValue.selectUnlockedCells, 1);
             }
-            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.formatCells)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.formatCells, 0); }
-            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.formatColumns)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.formatColumns, 0); }
-            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.formatRows)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.formatRows, 0); }
-            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.insertColumns)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.insertColumns, 0); }
-            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.insertRows)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.insertRows, 0); }
-            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.insertHyperlinks)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.insertHyperlinks, 0); }
-            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.deleteColumns)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.deleteColumns, 0); }
-            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.deleteRows)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.deleteRows, 0); }
-            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.sort)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.sort, 0); }
-            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.autoFilter)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.autoFilter, 0); }
-            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.pivotTables)) { actualLockingValues.Add(Worksheet.SheetProtectionValue.pivotTables, 0); }
+            // Explicit permissions (set to 0 when allowed)
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.formatCells))
+            {
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.formatCells, 0);
+            }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.formatColumns))
+            {
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.formatColumns, 0);
+            }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.formatRows))
+            {
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.formatRows, 0);
+            }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.insertColumns))
+            {
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.insertColumns, 0);
+            }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.insertRows))
+            {
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.insertRows, 0);
+            }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.insertHyperlinks))
+            {
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.insertHyperlinks, 0);
+            }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.deleteColumns))
+            {
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.deleteColumns, 0);
+            }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.deleteRows))
+            {
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.deleteRows, 0);
+            }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.sort))
+            {
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.sort, 0);
+            }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.autoFilter))
+            {
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.autoFilter, 0);
+            }
+            if (sheet.SheetProtectionValues.Contains(Worksheet.SheetProtectionValue.pivotTables))
+            {
+                actualLockingValues.Add(Worksheet.SheetProtectionValue.pivotTables, 0);
+            }
             StringBuilder sb = new StringBuilder();
-            sb.Append("<sheetProtection");
+            sb.Append("<sheetProtection sheet=\"1\"");
+
             string temp;
             foreach (KeyValuePair<Worksheet.SheetProtectionValue, int> item in actualLockingValues)
             {
-                try
-                {
-                    temp = Enum.GetName(typeof(Worksheet.SheetProtectionValue), item.Key); // Note! If the enum names differs from the OOXML definitions, this method will cause invalid OOXML entries
-                    sb.Append(" ").Append(temp).Append("=\"").Append(item.Value.ToString("G", culture)).Append("\"");
-                }
-                catch
-                {
-                    // no-op
-                }
+                temp = Enum.GetName(typeof(Worksheet.SheetProtectionValue), item.Key); // Note! If the enum names differs from the OOXML definitions, this method will cause invalid OOXML entries
+                sb.Append(" ").Append(temp).Append("=\"").Append(item.Value.ToString("G", culture)).Append("\"");
             }
-            if (!string.IsNullOrEmpty(sheet.SheetProtectionPassword))
+            if (!string.IsNullOrEmpty(sheet.SheetProtectionPasswordHash))
             {
-                string hash = GeneratePasswordHash(sheet.SheetProtectionPassword);
-                sb.Append(" password=\"").Append(hash).Append("\"");
+                sb.Append(" password=\"").Append(sheet.SheetProtectionPasswordHash).Append("\"");
             }
-            sb.Append(" sheet=\"1\"/>");
+            sb.Append("/>");
             return sb.ToString();
         }
 
@@ -1454,20 +1483,17 @@ namespace PicoXLSX
                     alignmentString = sb2.ToString();
                 }
 
-                if (style.CurrentCellXf.Hidden || style.CurrentCellXf.Locked)
+                if (style.CurrentCellXf.Hidden && style.CurrentCellXf.Locked)
                 {
-                    if (style.CurrentCellXf.Hidden && style.CurrentCellXf.Locked)
-                    {
-                        protectionString = "<protection locked=\"1\" hidden=\"1\"/>";
-                    }
-                    else if (style.CurrentCellXf.Hidden && !style.CurrentCellXf.Locked)
-                    {
-                        protectionString = "<protection hidden=\"1\" locked=\"0\"/>";
-                    }
-                    else
-                    {
-                        protectionString = "<protection hidden=\"0\" locked=\"1\"/>";
-                    }
+                    protectionString = "<protection locked=\"1\" hidden=\"1\"/>";
+                }
+                else if (style.CurrentCellXf.Hidden && !style.CurrentCellXf.Locked)
+                {
+                    protectionString = "<protection hidden=\"1\" locked=\"0\"/>";
+                }
+                else if (!style.CurrentCellXf.Hidden && !style.CurrentCellXf.Locked)
+                {
+                    protectionString = "<protection locked=\"0\"/>";
                 }
 
                 sb.Append("<xf numFmtId=\"");
