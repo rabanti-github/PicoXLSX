@@ -1,12 +1,14 @@
 name: Generate Documentation
+permissions:
+  contents: write
 
 on:
   push:
     branches:
       - master
     paths-ignore: 
-      - 'docs/**'
-      - '.github/**'
+     - 'docs/**'
+     - '.github/**'
 
 jobs:
   build:
