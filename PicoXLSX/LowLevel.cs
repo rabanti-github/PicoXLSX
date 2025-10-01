@@ -1485,7 +1485,7 @@ namespace PicoXLSX
 
                 if (style.CurrentCellXf.Hidden && style.CurrentCellXf.Locked)
                 {
-                    protectionString = "<protection locked=\"1\" hidden=\"1\"/>";
+                    protectionString = "<protection hidden=\"1\"/>"; // Locked is true by default (no need to define)
                 }
                 else if (style.CurrentCellXf.Hidden && !style.CurrentCellXf.Locked)
                 {

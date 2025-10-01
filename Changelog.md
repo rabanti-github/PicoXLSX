@@ -1,5 +1,13 @@
 # Change Log
 
+## v3.4.5 
+
+---
+Release Date: **01.10.2025**
+
+- Fixed handling of worksheet protection (regression bug)
+
+
 ## v3.4.4 
 
 ---
