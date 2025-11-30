@@ -10,7 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PicoXLSX;
+using NanoXLSX;
+using NanoXLSX.Styles;
 using Testing;
 
 namespace Demo.Testing
@@ -56,14 +57,14 @@ namespace Demo.Testing
                 field.Add(row);
             }
             System.Console.WriteLine("Writing cells...");
-            PicoXLSX.Workbook b = new PicoXLSX.Workbook(filename, sheetName);
-            PicoXLSX.Worksheet s = b.CurrentWorksheet;
-            s.CurrentCellDirection = PicoXLSX.Worksheet.CellDirection.ColumnToColumn;
+            Workbook b = new Workbook(filename, sheetName);
+            Worksheet s = b.CurrentWorksheet;
+            s.CurrentCellDirection = Worksheet.CellDirection.ColumnToColumn;
             for (int i = 0; i < rows; i++)
             {
                 for (j = 0; j < cols; j++)
                 {
-                    s.AddNextCell(field[i][j], Style.BasicStyles.Bold);
+                    s.AddNextCell(field[i][j], BasicStyles.Bold);
                 }
                 s.GoToNextRow();
             }

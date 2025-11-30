@@ -1,56 +1,87 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <RootNamespace>PicoXLSX</RootNamespace>
-    <AssemblyName>PicoXLSX</AssemblyName>
-    <PackageId>PicoXLSX</PackageId>
-    <OutputType>Library</OutputType>
-    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
-    <Title>PicoXLSX</Title>
-    <Product>PicoXLSX</Product>
-    <Company>Raphael Stoeckli</Company>
-    <Authors>Raphael Stoeckli</Authors>
-    <Copyright>Copyright Raphael Stoeckli © 2025</Copyright>
-    <Description>PicoXLSX is a library to generate Microsoft Excel files (XLSX) in an easy and native way</Description>
-    <PackageProjectUrl>https://github.com/rabanti-github/PicoXLSX</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/rabanti-github/PicoXLSX.git</RepositoryUrl>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <PackageLicenseUrl></PackageLicenseUrl>
-    <PackageTags>Excel Office XLSX</PackageTags>
-    <PackageIcon>PicoXLSX.png</PackageIcon>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseFile></PackageLicenseFile>
-    <PackageReleaseNotes>Please see https://github.com/rabanti-github/PicoXLSX/blob/master/Changelog.md for the release notes</PackageReleaseNotes>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>3.4.5</Version>
-    <AssemblyVersion>3.4.5.0</AssemblyVersion>
-    <FileVersion>3.4.5.0</FileVersion>
-    <RepositoryType>git</RepositoryType>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>bin\Debug\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>bin\Release\</OutputPath>
-  </PropertyGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <PackageReference Include="System.IO.Packaging" Version="4.7.0" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="PicoXLSX.png" Pack="true" PackagePath="\" />
-  </ItemGroup>
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+
+		<!-- Don't build assemblies, only the .nupkg -->
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+
+		<!-- NuGet metadata -->
+		<PackageId>PicoXLSX</PackageId>
+		<Version>4.0.0-rc.1</Version>
+		<Authors>Raphael Stoeckli</Authors>
+		<Description>PicoXLSX is a library to generate Microsoft Excel files (XLSX) in an easy and native way. This package is the meta package of PicoXLSX and should be used in most cases as dependency in your project. It uses the dependencies of NanoXLSX</Description>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+
+		<!-- Optional -->
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Title>PicoXLSX (Meta-Package)</Title>
+		<Copyright>Copyright Raphael Stoeckli © 2025</Copyright>
+		<PackageProjectUrl>https://github.com/rabanti-github/NanoXLSX</PackageProjectUrl>
+		<PackageIcon>PicoXLSX.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/rabanti-github/PicoXLSX.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>Excel Office XLSX</PackageTags>
+		<PackageReleaseNotes>Please see https://github.com/rabanti-github/PicoXLSX/blob/master/Changelog.md for the release notes</PackageReleaseNotes>
+		<AssemblyVersion>4.0.0.0</AssemblyVersion>
+		<FileVersion>4.0.0.0</FileVersion>
+		<Version>4.0.0-rc.1</Version>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<EnableNETAnalyzers>True</EnableNETAnalyzers>
+		<AnalysisLevel>latest-recommended</AnalysisLevel>
+		<PackageType>MetaPackage</PackageType>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="PicoXLSX.png" Pack="true" PackagePath=".">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="../README.md" Pack="true" PackagePath="." />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+		<PackageReference Include="NanoXLSX.Core" Version="3.0.0-rc.2" />
+		<PackageReference Include="NanoXLSX.Writer" Version="3.0.0-rc.2" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+		<PackageReference Include="NanoXLSX.Core" Version="3.0.0-rc.2" />
+		<PackageReference Include="NanoXLSX.Writer" Version="3.0.0-rc.2" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<DocsProjectName>$(PackageId)</DocsProjectName>
+		<DocsVersion>$(Version)</DocsVersion>
+	</PropertyGroup>
+
+
+	<Target Name="GenerateDocsIndex" AfterTargets="Build">
+		<Exec Command="dotnet run --project ../Docs.IndexGenerator" />
+	</Target>
+
+	<PropertyGroup>
+		<DocsGeneratorConfig>$(SolutionDir)\Docs.IndexGenerator\Config\meta-package-config.json</DocsGeneratorConfig>
+	</PropertyGroup>
+
+	<Target Name="WriteDocsRootConfig" BeforeTargets="BeforeBuild">
+		<!-- Prepare JSON lines (escape double quotes) -->
+		<ItemGroup>
+			<_Lines Include="{" />
+			<_Lines Include="  &quot;packageName&quot;: &quot;$(MSBuildProjectName)&quot;," />
+			<_Lines Include="  &quot;version&quot;: &quot;$(Version)&quot;," />
+			<_Lines Include="  &quot;description&quot;: &quot;$(Description)&quot;" />
+			<_Lines Include="}" />
+		</ItemGroup>
+
+		<!-- Ensure target directory exists -->
+		<MakeDir Directories="$(DocsGeneratorConfig)\.." />
+
+		<!-- Write file (overwrites) -->
+		<WriteLinesToFile File="$(DocsGeneratorConfig)" Lines="@(_Lines)" Overwrite="true" Encoding="UTF-8" />
+		<Message Text="Wrote docs config to $(DocsGeneratorConfig)" Importance="High" />
+	</Target>
+
 </Project>

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PicoXLSX;
+using NanoXLSX;
 
 namespace Demo.Testing
 {
@@ -37,37 +37,37 @@ namespace Demo.Testing
             ushort usVal = 127;
 
             int i  = 0;
-            c = new Cell(bVal, Cell.CellType.NUMBER);
+            c = new Cell(bVal, Cell.CellType.Number);
             wb.CurrentWorksheet.AddCell(c, 0,i);
             i++;
-            c = new Cell(sbVal, Cell.CellType.NUMBER);
+            c = new Cell(sbVal, Cell.CellType.Number);
             wb.CurrentWorksheet.AddCell(c, 0, i);
             i++;
-            c = new Cell(dcVal, Cell.CellType.NUMBER);
+            c = new Cell(dcVal, Cell.CellType.Number);
             wb.CurrentWorksheet.AddCell(c, 0, i);
             i++;
-            c = new Cell(dVal, Cell.CellType.NUMBER);
+            c = new Cell(dVal, Cell.CellType.Number);
             wb.CurrentWorksheet.AddCell(c, 0, i);
             i++;
-            c = new Cell(fVal, Cell.CellType.NUMBER);
+            c = new Cell(fVal, Cell.CellType.Number);
             wb.CurrentWorksheet.AddCell(c, 0, i);
             i++;
-            c = new Cell(iVal, Cell.CellType.NUMBER);
+            c = new Cell(iVal, Cell.CellType.Number);
             wb.CurrentWorksheet.AddCell(c, 0, i);
             i++;
-            c = new Cell(uiVal, Cell.CellType.NUMBER);
+            c = new Cell(uiVal, Cell.CellType.Number);
             wb.CurrentWorksheet.AddCell(c, 0, i);
             i++;
-            c = new Cell(lVal, Cell.CellType.NUMBER);
+            c = new Cell(lVal, Cell.CellType.Number);
             wb.CurrentWorksheet.AddCell(c, 0, i);
             i++;
-            c = new Cell(ulVal, Cell.CellType.NUMBER);
+            c = new Cell(ulVal, Cell.CellType.Number);
             wb.CurrentWorksheet.AddCell(c, 0, i);
             i++;
-            c = new Cell(sVal, Cell.CellType.NUMBER);
+            c = new Cell(sVal, Cell.CellType.Number);
             wb.CurrentWorksheet.AddCell(c, 0, i);
             i++;
-            c = new Cell(usVal, Cell.CellType.NUMBER);
+            c = new Cell(usVal, Cell.CellType.Number);
             wb.CurrentWorksheet.AddCell(c, 0, i);
            
             wb.Save();
