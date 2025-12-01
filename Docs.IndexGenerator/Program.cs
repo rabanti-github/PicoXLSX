@@ -109,7 +109,7 @@ namespace Docs.IndexGenerator
           <h2>API Documentation</h2>
             <section>
             <ul class=""list"">
-                <li><a href=""v2/"">PicoXLSX 3.x</a> — Current version</li>
+                <li><a href=""v3/"">PicoXLSX 3.x</a> — Current version</li>
             </ul>
             </section>
 
@@ -195,7 +195,15 @@ header h1 { margin: 0; }
             var sb = new System.Text.StringBuilder();
             foreach (var e in cfg.Entries)
             {
-                string href = $"{Uri.EscapeDataString(e.Path)}/index.html";
+                string href;
+                if (e.Path.StartsWith("http"))
+                {
+                    href = e.Path;
+                }
+                else
+                {
+                    href = $"{Uri.EscapeDataString(e.Path)}/index.html";
+                }
                 sb.AppendLine($"        <li><a href=\"{href}\"><strong>{EscapeHtml(e.Title)}</strong></a> — {EscapeHtml(e.Description ?? "")}</li>");
             }
             return sb.ToString();

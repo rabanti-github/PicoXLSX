@@ -3,13 +3,13 @@
     {
       "id": "NanoXLSX.Core",
       "title": "NanoXLSX.Core API",
-      "path": "NanoXLSX.Core",
+      "path": "https://rabanti-github.github.io/NanoXLSX/NanoXLSX.Core",
       "description": "Core library"
     },
     {
       "id": "NanoXLSX.Writer",
       "title": "NanoXLSX.Writer API",
-      "path": "NanoXLSX.Writer",
+      "path": "https://rabanti-github.github.io/NanoXLSX/NanoXLSX.Writer",
       "description": "Writer component, to save XLSX files"
     }
   ]

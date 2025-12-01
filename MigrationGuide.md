@@ -9,7 +9,7 @@ There are some breaking changes, that are summarized in this migration guide.
 
 1. The namespace `PicoXLSX` was changed to `NanoXLSX`, to reflect the integration of PicoXLSX into NanoXLSX. Therefore, all occurrences of `PicoXLSX` in the code have to be replaced by `NanoXLSX`.
 2. All sub-classes, like `Cell.Address`, `Style.Font`, etc. are now independent classes. Therefore, all occurrences of these classes have to be adapted in the code, e.g. instead of `Style.Font font = new Font();`, `Font font = new Font();` is used. Additionally, some namespaces, like `NanoXLSX.Styles`, have to be added as usings.
-3. All constanst and enum values were renamed to follow the C# naming conventions (PascalCase for public members). Therefore, all occurrences of these constants and enum values have to be adapted in the code.
+3. All constants and enum values were renamed to follow the C# naming conventions (PascalCase for public members). Therefore, all occurrences of these constants and enum values have to be adapted in the code.
 
 Important to note is, that PicoXLSX can now be extended by adding further NanoXLSX package references. For instance, if `NanoXLSX.Reader` is added as NuGet reference to PicoXLSX, it gets reader functionalities and has basically the same scope as NanoXLSX (Meta-Package).
 
@@ -21,9 +21,9 @@ The following guide lists all necessary changes, as well as changed behaviors of
 
 ### Workbook
 
-  - The method `Workbook.AddStyle(Style)` was completely removed, after marked as obsolete in version 2.x. Styles should be added directly to cells or ranges. 
-  - The method `Workbook.AddStyleComponent(Style, AbstractStyle)` was completely removed, after marked as obsolete in version 2.x. Styles should be modified directly on cells, e.g. `workbook.CurrentWorksheet.Cells["A1"].CellStyle.CurrentFont.Bold = true;` or `workbook.CurrentWorksheet.Cells["A1"].CellStyle.Append(fontStyle)`. 
-  - The methods `Workbook.RemoveStyle(Style)`, `Workbook.RemoveStyle(Style, bool)`, `Workbook.RemoveStyle(string)` and `Workbook.RemoveStyle(string, bool)` were completely removed, after marked as obsolete in version 2.x. Styles should be removed directly from cells (e.g. `workbook.CurrentWorksheet.Cells["A1"].RemoveStyle()`.
+  - The method `Workbook.AddStyle(Style)` was completely removed, after marked as obsolete in version 3.x. Styles should be added directly to cells or ranges. 
+  - The method `Workbook.AddStyleComponent(Style, AbstractStyle)` was completely removed, after marked as obsolete in version 3.x. Styles should be modified directly on cells, e.g. `workbook.CurrentWorksheet.Cells["A1"].CellStyle.CurrentFont.Bold = true;` or `workbook.CurrentWorksheet.Cells["A1"].CellStyle.Append(fontStyle)`. 
+  - The methods `Workbook.RemoveStyle(Style)`, `Workbook.RemoveStyle(Style, bool)`, `Workbook.RemoveStyle(string)` and `Workbook.RemoveStyle(string, bool)` were completely removed, after marked as obsolete in version 3.x. Styles should be removed directly from cells (e.g. `workbook.CurrentWorksheet.Cells["A1"].RemoveStyle()`.
 
 ---
 

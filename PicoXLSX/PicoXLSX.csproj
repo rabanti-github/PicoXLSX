@@ -17,7 +17,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Title>PicoXLSX (Meta-Package)</Title>
 		<Copyright>Copyright Raphael Stoeckli © 2025</Copyright>
-		<PackageProjectUrl>https://github.com/rabanti-github/NanoXLSX</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/rabanti-github/PicoXLSX</PackageProjectUrl>
 		<PackageIcon>PicoXLSX.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/rabanti-github/PicoXLSX.git</RepositoryUrl>
