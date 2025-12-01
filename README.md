@@ -7,6 +7,15 @@
 ![GitHub License](https://img.shields.io/github/license/rabanti-github/PicoXLSX)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX?ref=badge_shield)
 
+## Pre-Release v4.x
+
+The pre-release of PicoXLSX is now available as [Nuget Package](https://www.nuget.org/packages/PicoXLSX/4.0.0-rc.1), version **4.0.0-rc.1**.
+Since PicoXLSX v4 is now based on [NanoXLSX](https://github.com/rabanti-github/NanoXLSX), and there are breaking changes between PicoXLSX v3.x and v4.0.0-rc1, please see the **[Migration guide](MigrationGuide.md)**, to migrate applications from v3 to v4. Please feel free to open issues, in case of problems with the pre-release.
+
+There will be possibly further adaptions and additional pre-releases before the final release.
+
+---
+
  PicoXLSX is a small .NET library written in C#, to create Microsoft Excel files in the XLSX format (Microsoft Excel 2007 or newer) in an easy and native way
 
 * **Minimum of dependencies** (\*
