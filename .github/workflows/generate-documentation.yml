@@ -1,74 +1,53 @@
-name: Generate Documentation
-permissions:
-  contents: write
+name: Build Documentation
 
 on:
   push:
     branches:
-      - master
+      - dev-v4
     paths-ignore: 
-     - 'docs/**'
-     - '.github/**'
+      - 'docs/**'
+#      - '.github/**'
+  pull_request:
 
 jobs:
-  build:
-    runs-on: windows-2022
-      
+  build-docs:
+    runs-on: ubuntu-latest
+
     steps:
-    - name: Install checkout
-      uses: actions/checkout@v3
-      with:
-        token: ${{ secrets.PUSH_TOKEN }}
-      
-    - name: Check build origin and author
-      id: check_build_origin_and_author
-      shell: powershell
-      run: |
-        $email = git config --global user.email
-        $name = git config --global user.name
-        if ($email -eq "actions@github.com" -and $name -eq "GitHub Actions") {
-          echo "build_origin=skip" >> $env:GITHUB_ENV
-          Write-Host "Skipping step because the last commit was system triggered"
-          echo "build_origin=skip" >> $env:GITHUB_ENV
-          exit 0
-        } else {
-          echo "build_origin=pass" >> $env:GITHUB_ENV
-          exit 0
-        }
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PUSH_TOKEN }}
+          
+      # Move static files locally
+      - name: Prepare docs folder
+        run: |
+          mkdir -p docs
+          mv Docs.IndexGenerator/Output/* docs/
 
-    - name: Build PicoXLSX project
-      if: ${{ env.build_origin }} == 'pass'
-      run: dotnet build "PicoXLSX/PicoXLSX.csproj" -c Debug
-  
-    - name: Add msbuild to PATH
-      if: ${{ env.build_origin }} == 'pass'
-      uses: microsoft/setup-msbuild@v1.1
+      # Pull current v3 docs from master branch
+      - name: Checkout master docs
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          path: master_docs
 
-    - name: Install SHFB
-      if: ${{ env.build_origin }} == 'pass'
-      uses: Bassman2/setup-SHFB@v1
-      with:
-        version: 2023.3.4.0
-        
-    - name: Clean up docs folder
-      shell: powershell
-      run: Remove-Item -Path docs/* -Recurse -Force
+      # Copy v3 docs to /docs/v2
+      - name: Add legacy v2 documentation
+        run: |
+          mkdir -p docs/v3
+          cp -r master_docs/docs/* docs/v3/
 
-    - name: Generate documentation
-      if: ${{ env.build_origin }} == 'pass'
-      run: msbuild Documentation/CodeDocumentation.shfbproj /p:configuration="Release" /m /verbosity:minimal
-    
-    - name: Push changes to GitHub
-      if: ${{ env.build_origin }} == 'pass'
-      env:
-        GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
-      run: |
-        git config --global user.email "actions@github.com"
-        git config --global user.name "GitHub Actions"
-        git add -f docs/
-        git commit -m "Update documentation"
-        git push
-    
-    - name: Clean up docs folder
-      shell: powershell
-      run: Remove-Item -Path docs/* -Recurse -Force
+      # Upload docs artifact
+      - name: Upload docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs
+          path: docs/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.PUSH_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: gh-pages
