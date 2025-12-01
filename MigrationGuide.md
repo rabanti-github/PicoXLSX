@@ -1,14 +1,17 @@
-# Migration Guide v2.x to v3.0.0
+# Migration Guide v3.x to v4.0.0
 
 ## Introduction
 
-NanoXLSX underwent several changes in version 3.0.0, to improve usability, consistency and modularization. This caused some breaking changes, that are summarized in this migration guide.
+PicoXLSX is now a subset of [NanoXLSX](https://github.com/rabanti-github/NanoXLSX) and therefore underwent some major changes. Since the used dependencies of NanoXLSX (v3.0.0) was also changed quite drastically between v2.x and 3.x (improved usability, consistency and modularization), these changes are reflecting now in PicoXLSX v4.x.
+There are some breaking changes, that are summarized in this migration guide.
 
-In the most cases, just namespaces have to be added or adapted, e.g. `using NanoXLSX.Extensions;` for the new reader extension methods.
+## General changes
 
-Furthermore, a lot of constants were renamed to follow the C# naming conventions.
+1. The namespace `PicoXLSX` was changed to `NanoXLSX`, to reflect the integration of PicoXLSX into NanoXLSX. Therefore, all occurrences of `PicoXLSX` in the code have to be replaced by `NanoXLSX`.
+2. All sub-classes, like `Cell.Address`, `Style.Font`, etc. are now independent classes. Therefore, all occurrences of these classes have to be adapted in the code, e.g. instead of `Style.Font font = new Font();`, `Font font = new Font();` is used. Additionally, some namespaces, like `NanoXLSX.Styles`, have to be added as usings.
+3. All constants and enum values were renamed to follow the C# naming conventions (PascalCase for public members). Therefore, all occurrences of these constants and enum values have to be adapted in the code.
 
-However, most important change is the modularization of NanoXLSX, where the reading and writing functionalities were moved to separate packages: `NanoXLSX.Reader` and `NanoXLSX.Writer`. The core package `NanoXLSX.Core` now only contains the core classes, like `Workbook`, `Worksheet`, `Cell`, `Style`, etc.
+Important to note is, that PicoXLSX can now be extended by adding further NanoXLSX package references. For instance, if `NanoXLSX.Reader` is added as NuGet reference to PicoXLSX, it gets reader functionalities and has basically the same scope as NanoXLSX (Meta-Package).
 
 The following guide lists all necessary changes, as well as changed behaviors of properties and methods.
 
@@ -18,10 +21,9 @@ The following guide lists all necessary changes, as well as changed behaviors of
 
 ### Workbook
 
-  - The method `Workbook.Load(...)` and `Workbook.LoadAsync(...)` were removed due to the modularization of NanoXLSX. Please see the  **Reader section** for more details. 
-  - The method `Workbook.AddStyle(Style)` was completely removed, after marked as obsolete in version 2.x. Styles should be added directly to cells or ranges. 
-  - The method `Workbook.AddStyleComponent(Style, AbstractStyle)` was completely removed, after marked as obsolete in version 2.x. Styles should be modified directly on cells, e.g. `workbook.CurrentWorksheet.Cells["A1"].CellStyle.CurrentFont.Bold = true;` or `workbook.CurrentWorksheet.Cells["A1"].CellStyle.Append(fontStyle)`. 
-  - The methods `Workbook.RemoveStyle(Style)`, `Workbook.RemoveStyle(Style, bool)`, `Workbook.RemoveStyle(string)` and `Workbook.RemoveStyle(string, bool)` were completely removed, after marked as obsolete in version 2.x. Styles should be removed directly from cells (e.g. `workbook.CurrentWorksheet.Cells["A1"].RemoveStyle()`.
+  - The method `Workbook.AddStyle(Style)` was completely removed, after marked as obsolete in version 3.x. Styles should be added directly to cells or ranges. 
+  - The method `Workbook.AddStyleComponent(Style, AbstractStyle)` was completely removed, after marked as obsolete in version 3.x. Styles should be modified directly on cells, e.g. `workbook.CurrentWorksheet.Cells["A1"].CellStyle.CurrentFont.Bold = true;` or `workbook.CurrentWorksheet.Cells["A1"].CellStyle.Append(fontStyle)`. 
+  - The methods `Workbook.RemoveStyle(Style)`, `Workbook.RemoveStyle(Style, bool)`, `Workbook.RemoveStyle(string)` and `Workbook.RemoveStyle(string, bool)` were completely removed, after marked as obsolete in version 3.x. Styles should be removed directly from cells (e.g. `workbook.CurrentWorksheet.Cells["A1"].RemoveStyle()`.
 
 ---
 
@@ -105,6 +107,7 @@ The following guide lists all necessary changes, as well as changed behaviors of
 
 ### Cell
 
+- All sub-classes, like `Cell.Address`, are now independent classes. Therefore, all occurrences of these classes have to be adapted in the code, e.g. instead of `Cell.Address address = new Cell.Address();`, `Address address = new Address();` is used. Additionally, some namespaces, like `NanoXLSX` have to be added (see particular sections).
 - The enum values of `Cell.CellType` were renamed, according to the following overview:
 
 | Old Enum Value      | New Enum Value         | Remarks  |
@@ -122,6 +125,7 @@ The following guide lists all necessary changes, as well as changed behaviors of
 
 ### Address (struct)
 
+- The class `Cell.Address` is now an independent struct `Address` in the namespace `NanoXLSX`. Therefore, all occurrences of this class have to be adapted in the code, e.g. instead of `Cell.Address address = new Cell.Address();`, `Address address = new Address();` is used. Additionally, the namespace `NanoXLSX` has to be added.
 - The property `Row` is now read-only (immutable). To change the property, a new Address object has to be created
 - The property `Column` is now read-only (immutable). To change the property, a new Address object has to be created
 - The property `Type` is now read-only (immutable). To change the property, a new Address object has to be created
@@ -130,21 +134,35 @@ The following guide lists all necessary changes, as well as changed behaviors of
 
 ### Range (struct)
 
+- The class `Cell.Range` is now an independent struct `Range` in the namespace `NanoXLSX`. Therefore, all occurrences of this class have to be adapted in the code, e.g. instead of `Cell.Range range = new Cell.Range();`, `Range range = new Range();` is used. Additionally, the namespace `NanoXLSX` has to be added.
 - The property `StartAddress` is now read-only (immutable). To change the property, a new Range object has to be created
 - The property `EndAddress` is now read-only (immutable). To change the property, a new Range object has to be created
  
 ---
 
+### BasicFormulas
+
+The class `Cell.BasicFormulas` was moved to an own class in the namespace `NanoXLSX`. The class name has to be changed in the code.
+
+---
+
 ### Styles 
 
-Styles were undergoing several changes in version 3.0.0, to improve usability and consistency.
+Styles were undergoing several changes in version 4.0.0, to improve usability and consistency.
 Especially the `Font` class was completely redesigned, according to the Excel specifications.
 Furthermore, a lot of constants were renamed to follow the C# naming conventions.
 
 - General in any Style class: All (s)RGB values are automatically validated and cast to upper case. If valid hex values are used, no actions are necessary. If existing code uses invalid hex values, these have to be adapted.
 
+### BasicStyles
+
+The class `Style.BasicStyles` was moved to an own class in the namespace `NanoXLSX.Styles`. The class name has to be changed in the code.
+
+---
+
 #### Font
 
+- The class `Style.Font` was moved to an own class in the namespace `NanoXLSX.Styles`. The class name has to be changed in the code.
 - The public constant values of the `Font` class were renamed, according to the following overview:
 
 | Old Constant             | New Constant           | Remarks  |
@@ -203,6 +221,7 @@ ApplicationDefined, ANSI, Default, Symbols, Mac, ShiftJIS, Hangul, Johab, GBK, B
 
 #### Border
 
+- The class `Style.Border` was moved to an own class in the namespace `NanoXLSX.Styles`. The class name has to be changed in the code.
 - The public constant values of the `Border` class were renamed, according to the following overview:
 
 | Old Constant             | New Constant           | Remarks  |
@@ -230,6 +249,7 @@ ApplicationDefined, ANSI, Default, Symbols, Mac, ShiftJIS, Hangul, Johab, GBK, B
 
 #### Fill
 
+- The class `Style.Fill` was moved to an own class in the namespace `NanoXLSX.Styles`. The class name has to be changed in the code.
 - The public constant values of the `Fill` class were renamed, according to the following overview:
 
 | Old Constant             | New Constant           | Remarks  |
@@ -261,6 +281,7 @@ ApplicationDefined, ANSI, Default, Symbols, Mac, ShiftJIS, Hangul, Johab, GBK, B
 
 #### CellXf
 
+- The class `Style.CellXf` was moved to an own class in the namespace `NanoXLSX.Styles`. The class name has to be changed in the code.
 - The public constant values of the `CellXf` class were renamed, according to the following overview:
 
 | Old Constant             | New Constant           | Remarks  |
@@ -312,6 +333,7 @@ ApplicationDefined, ANSI, Default, Symbols, Mac, ShiftJIS, Hangul, Johab, GBK, B
 
 #### NumberFormat
 
+- The class `Style.NumberFormat` was moved to an own class in the namespace `NanoXLSX.Styles`. The class name has to be changed in the code.
 - The public constant values of the `NumberFormat` class were renamed, according to the following overview:
 
 | Old Constant             | New Constant           | Remarks  |
@@ -369,97 +391,37 @@ ApplicationDefined, ANSI, Default, Symbols, Mac, ShiftJIS, Hangul, Johab, GBK, B
 ---
 
 ### Theme
-
 The `Theme` class was introduced with NanoXLSX v3.0.0 It represents the theme of a workbook, which contains several color schemes and font schemes.
 The class can mostly be ignored unless specific stylings are required.
 Theme may be references ind Styles, especially in Fonts.
-
 - The enum `Theme.ColorSchemeElement` was introduced to represent the color scheme elements of a theme. The available values are:
-
 ```cs
  dark1, light1, dark2, light2, accent1, accent2, accent3, accent4, accent5, accent6, hyperlink, followedHyperlink
 ```
 
 ---
 
-## Reader
-
-When it comes to reading workbooks, the reader was completely separated form NanoXLSX, as an own package: `NanoXLSX.Reader`. This package can be added to `NanoXLSX.Core` and provides several extension methods to load workbooks, worksheets, styles, etc. from files or streams.
-
-### Workbook
-
-  - The methods `Workbook.Load()` and `Workbook.LoadAsync()` were removed due to the modularization of NanoXLSX. To load workbooks, the new class `WorkbookReader` (in namespace `NanoXLSX.Extensions`) was introduced. Sample usage:
-
- ```csharp
-  using NanoXLSX.Extensions;
-
-  Workbook workbook = WorkbookReader.Load("path_to_file.xlsx");
-  Workbook workbook = WorkbookReader.Load("path_to_file.xlsx", new ReaderOptions(){ DateTimeFormat = "yyyy.MM.dd hh:mm:ss" }); // Using options
-  Workbook workbook = WorkbookReader.Load(stream); // Using a stream
-  Workbook workbook = await WorkbookReader.LoadAsync("path_to_file.xlsx"); // Using async method
-  ```
-
-  - If a workbook does not contain Metadata information, the property `Workbook.WorkbookMetadata` returned null. Now, an empty Metadata object is created by default in this case. The default object may also contain default properties, like a defined Application
-
-  ---
-
-### ImportOptions
-
-- The class `ImportOptions` was renamed to `ReaderOptions`, to better reflect the purpose of the class. The class name has to be changed in the code.
-- The public constants of the former `ImportOptions` class were moved to the new `ReaderOptions` class, according to the following overview:
-
-| Old ImportOptions Constant  | New ReaderOptions Constant      | Remarks        |
-|-------------------------|----------------------|------------------------|
-| `DEFAULT_TIMESPAN_FORMAT`   | `DefaultTimeSpanFormat`         |         |
-| `DEFAULT_DATETIME_FORMAT`   | `DefaultDateTimeFormat`         |         |
-
-- The following method of the class `ReaderOptions` were renamed:
-
-| Old method name | New method name | Remarks |
-|-----------------|-----------------|---------|
-| `EnforceValidColumnDimensions` | `EnforceStrictValidation` | Variants were combined in one flag |
-| `EnforceValidRowDimensions` | `EnforceStrictValidation` | Variants were combined in one flag |
-
-- The Enum value `ImportOptions.GlobalType.AllSingleToDecimal` (new in class `ReaderOptions`) was completely removed. If the behavior is required, the value `ReaderOptions.GlobalType.AllNumbersToDecimal` can be used instead.
-
----
-
-### Cell
-
-  - When reading Worksheets, All sorts of new line combinations could be read in for string cell values, like `\n\r`, that was transformed to `\r\n\r\n`. All new lines are transformed now just to `\n`, and `\r` is always stripped in combination with `\n`
-
----
-
-### Internal reader classes
-
-- All internally used reader classes were moved from the namespace `NanoXLSX.LowLevel` to the new namespace `NanoXLSX.Internal.Readers`. If these classes were used directly in the code, the namespace has to be adapted.
-- The architecture of all internally used reader classes was changed redesigned from scratch. If you have modified such classes, these modifications probably have to be redone.
-- **Please note**: The reader classes are not intended to be directly modified. However, you can implement custom readers that either replaces existing readers, or can be appended at several positions during the read process. This is part of the introduced plugin architecture.
-
 ## Common
 
 All changes related to common, mostly static functions
 
+### LowLevel
+
+The class `LowLevel` was copletely removed. All functionalities are now in particular utils or writer classes. Please see the documentation of NanoXLSX if you want to alter writer functionalities, since these are now modularized.
+
 ### Utils
 
-- The general `Utils` class was removed and replaced by several specific utils classes in the namespace `NanoXLSX.Utils`. The class name has to be adapted, according to the following method overview:
+- Several utils methods were removed from its original classes and replaced by several specific utils classes in the namespace `NanoXLSX.Utils`. The class name has to be adapted, according to the following method overview:
 
-| Old Utils Method        | New Utils Class      | Remarks        |
+| Utils Method            | Old Class  | New Utils Class      | Remarks        |
 |-------------------------|----------------------|------------------------|
-| `GetOADateTimeString`   | `DataUtils`          | No changes of the signature |
-| `GetOADateTime`         | `DataUtils`          | No changes of the signature |
-| `GetOATimeString`       | `DataUtils`          | No changes of the signature |
-| `GetOATime`             | `DataUtils`          | No changes of the signature |
-| `GetDateFromOA`   	  | `DataUtils`          | No changes of the signature |
-| `GetInternalColumnWidth`| `DataUtils`          | No changes of the signature |
-| `GetInternalRowHeight`  | `DataUtils`          | No changes of the signature |
-| `GetInternalPaneSplitWidth` | `DataUtils`      | No changes of the signature |
-| `GetInternalPaneSplitHeight`| `DataUtils`      | No changes of the signature |
-| `GetPaneSplitHeight`    | `DataUtils`          | No changes of the signature |
-| `GetPaneSplitWidth`     | `DataUtils`          | No changes of the signature |
-| `ToUpper`               | `ParserUtils`        | No changes of the signature |
-| `ToString`              | `ParserUtils`        | No changes of the signature |
-| `GeneratePasswordHash`  | `NanoXLSX.LegacyPassword` - new method name: `GenerateLegacyPasswordHash(string)` | No longer an utils method |
+| `GetOADateTimeString`   | `LowLevel` |`DataUtils`          | No changes of the signature |
+| `GetOATimeString`       | `LowLevel` |`DataUtils`          | No changes of the signature |
+| `GetInternalColumnWidth`| `LowLevel` | `DataUtils`          | No changes of the signature |
+| `GetInternalRowHeight`  | `LowLevel` | `DataUtils`          | No changes of the signature |
+| `GetInternalPaneSplitWidth` | `LowLevel` | `DataUtils`      | No changes of the signature |
+| `GetInternalPaneSplitHeight`| `LowLevel` | `DataUtils`      | No changes of the signature |
+| `GeneratePasswordHash`  | `LowLevel` | `NanoXLSX.LegacyPassword` - new method name: `GenerateLegacyPasswordHash(string)` | No longer an utils method |
 
 - The public constant values of the former `Utils` class were moved to specific utils classes in the name space `NanoXLSX.Utils.Constants`. The class names have to be adapted, according to the following overview:
 
