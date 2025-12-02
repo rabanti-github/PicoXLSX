@@ -2,7 +2,7 @@
 
 ## Introduction
 
-PicoXLSX is now a subset of [NanoXLSX](https://github.com/rabanti-github/NanoXLSX) and therefore underwent some major changes. Since the used dependencies of NanoXLSX (v3.0.0) was also changed quite drastically between v2.x and 3.x (improved usability, consistency and modularization), these changes are reflecting now in PicoXLSX v4.x. 
+PicoXLSX is now a subset of [NanoXLSX](https://github.com/rabanti-github/NanoXLSX) and therefore underwent some major changes. Since the used dependencies of NanoXLSX (v3.0.0) was also changed quite drastically between v2.x and 3.x (improved usability, consistency and modularization), these changes are reflecting now in PicoXLSX v4.x.
 There are some breaking changes, that are summarized in this migration guide.
 
 ## General changes

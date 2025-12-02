@@ -8,7 +8,7 @@
 
 		<!-- NuGet metadata -->
 		<PackageId>PicoXLSX</PackageId>
-		<Version>4.0.0-rc.1</Version>
+		<Version>4.0.0-rc.2</Version>
 		<Authors>Raphael Stoeckli</Authors>
 		<Description>PicoXLSX is a library to generate Microsoft Excel files (XLSX) in an easy and native way. This package is the meta package of PicoXLSX and should be used in most cases as dependency in your project. It uses the dependencies of NanoXLSX</Description>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -26,7 +26,7 @@
 		<PackageReleaseNotes>Please see https://github.com/rabanti-github/PicoXLSX/blob/master/Changelog.md for the release notes</PackageReleaseNotes>
 		<AssemblyVersion>4.0.0.0</AssemblyVersion>
 		<FileVersion>4.0.0.0</FileVersion>
-		<Version>4.0.0-rc.1</Version>
+		<Version>4.0.0-rc.2</Version>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -57,6 +57,21 @@
 		<DocsVersion>$(Version)</DocsVersion>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<!-- Placeholder files for lib folders -->
+		<None Include="_._">
+			<Pack>true</Pack>
+			<PackagePath>lib/net45/</PackagePath>
+		</None>
+		<None Include="_._">
+			<Pack>true</Pack>
+			<PackagePath>lib/netstandard2.0/</PackagePath>
+		</None>
+
+		<!-- Your build props files -->
+		<None Include="build/net45/PicoXLSX.props" Pack="true" />
+		<None Include="build/netstandard2.0/PicoXLSX.props" Pack="true" />
+	</ItemGroup>
 
 	<Target Name="GenerateDocsIndex" AfterTargets="Build">
 		<Exec Command="dotnet run --project ../Docs.IndexGenerator" />
