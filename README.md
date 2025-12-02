@@ -9,8 +9,8 @@
 
 ## Pre-Release v4.x
 
-The pre-release of PicoXLSX is now available as [Nuget Package](https://www.nuget.org/packages/PicoXLSX/4.0.0-rc.1), version **4.0.0-rc.1**.
-Since PicoXLSX v4 is now based on [NanoXLSX](https://github.com/rabanti-github/NanoXLSX), and there are breaking changes between PicoXLSX v3.x and v4.0.0-rc1, please see the **[Migration guide](MigrationGuide.md)**, to migrate applications from v3 to v4. Please feel free to open issues, in case of problems with the pre-release.
+The pre-release of PicoXLSX is now available as [Nuget Package](https://www.nuget.org/packages/PicoXLSX/4.0.0-rc.1), version **4.0.0-rc.2**.
+Since PicoXLSX v4 is now based on [NanoXLSX](https://github.com/rabanti-github/NanoXLSX), and there are breaking changes between PicoXLSX v3.x and v4.0.0-rc2, please see the **[Migration guide](MigrationGuide.md)**, to migrate applications from v3 to v4. Please feel free to open issues, in case of problems with the pre-release.
 
 There will be possibly further adaptions and additional pre-releases before the final release.
 
@@ -38,11 +38,11 @@ Note: Most changes came from the rewritten [NanoXLSX](https://github.com/rabanti
 Therefore, the change list in PicoXLSX is not as long as in NanoXLSX, since many these changes are dealing with reader functionality. 
 
 ## Roadmap
+
 Version 3.x of PicoXLSX was completely overhauled along with NanoXLSX v3.x.
 However, v3.x it is not planned as a LTS version. The upcoming v4.x is supposed to introduce some important functions, like in-line cell formatting, better formula handling and additional worksheet features.
 Furthermore, it is planned to introduce more modern OOXML features like the SHA256 implementation of worksheet passwords.
 One of the main aspects of this upcoming version is the retirement of the original code base in favor of a facade, using NanoXLSX as single dependency. This will reduce the maintenance effort dramatically.
-
 
 ## Requirements
 

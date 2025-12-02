@@ -1,31 +1,28 @@
 # Change Log
 
-## v3.4.5 
+## v3.4.5
 
 ---
 Release Date: **01.10.2025**
 
 - Fixed handling of worksheet protection (regression bug)
 
-
-## v3.4.4 
+## v3.4.4
 
 ---
 Release Date: **30.09.2025**
 
 - Fixed handling of worksheet protection (selecting locked or unlocked cells)
 
-Note: The default value of `Style.CurrentCellXf.Locked` is now true, to be consistent with Excel behavior. This change only affects worksheets with protection enabled and may require 
+Note: The default value of `Style.CurrentCellXf.Locked` is now true, to be consistent with Excel behavior. This change only affects worksheets with protection enabled and may require
   explicit unlocking of cells that should remain editable
 
-
-## v3.4.3 
+## v3.4.3
 
 ---
 Release Date: **26.04.2025**
 
 - Fixed a bug that prevented adding new worksheets when a pane split was defined
- 
 
 ## v3.4.2
 
@@ -34,7 +31,6 @@ Release Date: **24.01.2025**
 
 - Fixed a regression bug in the Cell function ConvertArray
 
-
 ## v3.4.1
 
 ---
@@ -42,7 +38,6 @@ Release Date: **19.01.2025**
 
 - Fixed a bug on writing default column styles (not persisted in some cases)
 - Code maintenance
-
 
 ## v3.4.0
 
@@ -56,7 +51,6 @@ Release Date: **12.01.2025**
 - Added ReplaceCellValue function. Functionality provided by Alexander Schlecht in NanoXLSX
 - Code maintenance
 
-
 ## v3.3.2
 
 ---
@@ -69,7 +63,8 @@ Release Date: **24.11.2024**
 
 ---
 Release Date: **26.10.2024**
-- Fixed a bug regarding the determination of the first data cell in an empty worksheet. Bug fix provided by Martin Stránský in NanoXLSX
+
+- Fixed a bug regarding the determination of the first data cell in an empty worksheet. Bug fix provided by Martin Strï¿½nskï¿½ in NanoXLSX
 
 ## v3.3.0
 
@@ -86,8 +81,7 @@ Release Date: **25.02.2024**
 
 - Fixed a bug when reading min and max values in the GetLastDataColumnNumber function. Bug fix provided by pokorny in NanoXLSX
 - Fixed a bug in the GetFirstDataCellAddress function
-- Code maintenance 
-
+- Code maintenance
 
 ## v3.2.0
 
@@ -99,7 +93,6 @@ Release Date: **07.09.2023**
 - Added worksheet option to show or hide grid lines
 - Added worksheet option to show or hide columns and row headers
 - Added worksheet option to show or hide rulers in page layout view type 
-
 
 ## v3.1.1
 
@@ -139,7 +132,8 @@ Release Date: **01.10.2022**
 - Fixed a bug in the functions to write font values (styles)
 - Updated documentation
 
-Note: 
+Note:
+
 - When defining a custom number format, now the CustomFormatCode property must always be defined as well, since an empty value leads to an invalid Workbook 
 - When a cell is now created (by constructor) with the type EMPTY, any passed value will be discarded in this cell
 
@@ -207,8 +201,8 @@ Note: some of the mentioned changes may be already implemented in v2.x as previe
 - Added uint as possible formula value. Valid types are int, uint, long, ulong, float, double, byte, sbyte, decimal, short and ushort
 - Added several validity checks
 
-
 ### Misc
+
 - Added several constants for boundary dates in the LowLevel class
 - Added several functions for pane splitting in the LowLevel class
 - Exposed the (legacy) password generation method in the LowLevel class
@@ -273,7 +267,6 @@ Release Date: **12.09.2021**
 
 Note: This patch release contains many fixes, optimizations and features as preview of the next planned minor release v2.12 or mayor release v3.0.
 These features are already available due to a recently reported bug and its fix, where pending changes were already published upstream (dev channel).
-
 
 ## v2.11.0
 
