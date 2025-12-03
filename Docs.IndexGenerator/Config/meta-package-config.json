@@ -1,5 +1,5 @@
 ﻿{
 "packageName": "PicoXLSX",
-"version": "4.0.0-rc.2",
+"version": "4.0.0-rc.3",
 "description": "PicoXLSX is a library to generate Microsoft Excel files (XLSX) in an easy and native way. This package is the meta package of PicoXLSX and should be used in most cases as dependency in your project. It uses the dependencies of NanoXLSX"
 }
