@@ -1,11 +1,14 @@
 ﻿# Change Log
 
-## v4.0.0-rc.2
+## v4.0.0-rc.2 + v4.0.0-rc.3
 
 ---
-Release Date: **02.12.2025**
+Release Date: **02.12.2025** / **03.12.2025**
 
 - Formal changes to enforce displaying target frameworks in NuGet meta package
+
+Note: The version numbers of the dependencies `NanoXLSX.Core` and `NanoXLSX.Writer` have not changed with this release. There are also no functional changes
+
 
 ## v4.0.0-rc.1
 

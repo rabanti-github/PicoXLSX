@@ -9,8 +9,8 @@
 
 ## Pre-Release v4.x
 
-The pre-release of PicoXLSX is now available as [Nuget Package](https://www.nuget.org/packages/PicoXLSX/4.0.0-rc.1), version **4.0.0-rc.2**.
-Since PicoXLSX v4 is now based on [NanoXLSX](https://github.com/rabanti-github/NanoXLSX), and there are breaking changes between PicoXLSX v3.x and v4.0.0-rc2, please see the **[Migration guide](MigrationGuide.md)**, to migrate applications from v3 to v4. Please feel free to open issues, in case of problems with the pre-release.
+The pre-release of PicoXLSX is now available as [Nuget Package](https://www.nuget.org/packages/PicoXLSX/4.0.0-rc.3), version **4.0.0-rc.3**.
+Since PicoXLSX v4 is now based on [NanoXLSX](https://github.com/rabanti-github/NanoXLSX), and there are breaking changes between PicoXLSX v3.x and v4.0.0-rc3, please see the **[Migration guide](MigrationGuide.md)**, to migrate applications from v3 to v4. Please feel free to open issues, in case of problems with the pre-release.
 
 There will be possibly further adaptions and additional pre-releases before the final release.
 
