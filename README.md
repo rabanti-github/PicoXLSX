@@ -28,11 +28,10 @@ PicoXLSX v4 is split into modular NuGet packages:
 | Module | Status | Description |
 |--------|--------|-------------|
 | **[NanoXLSX.Core](https://www.nuget.org/packages/NanoXLSX.Core)** | :green_circle: Mandatory, Bundled | Core library with workbooks, worksheets, cells, styles. No external dependencies |
-| **[NanoXLSX.Reader](https://www.nuget.org/packages/NanoXLSX.Reader)** | :large_blue_circle: Optional, Bundled | Extension methods to read/load XLSX files. Depends on Core |
+| **[NanoXLSX.Writer](https://www.nuget.org/packages/NanoXLSX.Writer)** |  :large_blue_circle: Optional, Bundled  | Extension methods to write/save XLSX files. Depends on Core |
 | **[NanoXLSX.Formatting](https://www.nuget.org/packages/NanoXLSX.Formatting)** | :large_blue_circle: Optional, Bundled | In-line cell formatting (rich text). [External repo](https://github.com/rabanti-github/NanoXLSX.Formatting). Depends on Core |
 | **[PicoXLSX](https://www.nuget.org/packages/PicoXLSX)** | :star: Meta-Package | Bundles all of the above. **Recommended for most users** |
-| **[NanoXLSX.Writer](https://www.nuget.org/packages/NanoXLSX.Writer)** |  :white_circle: Optional, Not bundled  | Extension methods to write/save XLSX files. Depends on Core |
-
+| **[NanoXLSX.Reader](https://www.nuget.org/packages/NanoXLSX.Reader)** | :white_circle: Optional, Not bundled | Extension methods to read/load XLSX files. Depends on Core |
 
 > **Note:** All bundled modules are included when you install the `PicoXLSX` meta-package. Optional, non-bundled modules will extend the functionality of PicoXLSX
 
