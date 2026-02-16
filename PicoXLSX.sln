@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{724CB7BF-A98C-4A0C-855A-4CAC66231746}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Docs.IndexGenerator", "Docs.IndexGenerator\Docs.IndexGenerator.csproj", "{F5FE59DE-256A-41FB-85D7-BD1E976F9F11}"
 EndProject
 Global
@@ -27,10 +25,6 @@ Global
 		{A70E40AA-98C1-453A-8030-B4798A89EBFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A70E40AA-98C1-453A-8030-B4798A89EBFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A70E40AA-98C1-453A-8030-B4798A89EBFC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{724CB7BF-A98C-4A0C-855A-4CAC66231746}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{724CB7BF-A98C-4A0C-855A-4CAC66231746}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{724CB7BF-A98C-4A0C-855A-4CAC66231746}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{724CB7BF-A98C-4A0C-855A-4CAC66231746}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F5FE59DE-256A-41FB-85D7-BD1E976F9F11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5FE59DE-256A-41FB-85D7-BD1E976F9F11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5FE59DE-256A-41FB-85D7-BD1E976F9F11}.Release|Any CPU.ActiveCfg = Release|Any CPU

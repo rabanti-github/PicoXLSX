@@ -26,10 +26,9 @@
 		<PackageReleaseNotes>Please see https://github.com/rabanti-github/PicoXLSX/blob/master/Changelog.md for the release notes</PackageReleaseNotes>
 		<AssemblyVersion>4.0.0.0</AssemblyVersion>
 		<FileVersion>4.0.0.0</FileVersion>
-		<Version>4.0.0-rc.3</Version>
+		<Version>4.0.0-rc.4</Version>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<IncludeSymbols>True</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<IncludeSymbols>False</IncludeSymbols>
 		<EnableNETAnalyzers>True</EnableNETAnalyzers>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 	</PropertyGroup>
@@ -39,16 +38,6 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Include="../README.md" Pack="true" PackagePath="." />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-		<PackageReference Include="NanoXLSX.Core" Version="3.0.0-rc.2" />
-		<PackageReference Include="NanoXLSX.Writer" Version="3.0.0-rc.2" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-		<PackageReference Include="NanoXLSX.Core" Version="3.0.0-rc.2" />
-		<PackageReference Include="NanoXLSX.Writer" Version="3.0.0-rc.2" />
 	</ItemGroup>
 
 	<PropertyGroup>
@@ -70,6 +59,12 @@
 		<!-- Your build props files -->
 		<None Include="build/net45/PicoXLSX.props" Pack="true" />
 		<None Include="build/netstandard2.0/PicoXLSX.props" Pack="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="NanoXLSX.Core" Version="3.0.0-rc.7" />
+		<PackageReference Include="NanoXLSX.Writer" Version="3.0.0-rc.6" />
+		<PackageReference Include="NanoXLSX.Formatting" Version="3.0.0-rc.1" />
 	</ItemGroup>
 
 	<Target Name="GenerateDocsIndex" AfterTargets="Build">
