@@ -7,50 +7,71 @@
 ![GitHub License](https://img.shields.io/github/license/rabanti-github/PicoXLSX)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX?ref=badge_shield)
 
-## Pre-Release v4.x
-
-The pre-release of PicoXLSX is now available as [Nuget Package](https://www.nuget.org/packages/PicoXLSX/4.0.0-rc.3), version **4.0.0-rc.3**.
-Since PicoXLSX v4 is now based on [NanoXLSX](https://github.com/rabanti-github/NanoXLSX), and there are breaking changes between PicoXLSX v3.x and v4.0.0-rc3, please see the **[Migration guide](MigrationGuide.md)**, to migrate applications from v3 to v4. Please feel free to open issues, in case of problems with the pre-release.
-
-There will be possibly further adaptions and additional pre-releases before the final release.
-
----
-
  PicoXLSX is a small .NET library written in C#, to create Microsoft Excel files in the XLSX format (Microsoft Excel 2007 or newer) in an easy and native way
 
-* **Minimum of dependencies** (\*
-* No need for an installation of Microsoft Office
-* No need for Office interop libraries
-* No need for 3rd party libraries
-* No need for an installation of the Microsoft Open Office XML SDK (OOXML)
+* :white_check_mark: **Minimum of dependencies** (\*
+* :x: No need for an installation of Microsoft Office
+* :x: No need for Office interop libraries
+* :x: No need for proprietary 3rd party libraries
+* :x: No need for an installation of the Microsoft Open Office XML SDK (OOXML)
 
-**Please have a look at the successor library [NanoXLSX](https://github.com/rabanti-github/NanoXLSX) for reader support.**
+:arrow_right: Please have a look at the **codebase library [NanoXLSX](https://github.com/rabanti-github/NanoXLSX)** for the full source code of PicoXLSX and NanoXLSX.
 
-Project website: [https://picoxlsx.rabanti.ch](https://picoxlsx.rabanti.ch) 
-See the **[Change Log](https://github.com/rabanti-github/PicoXLSX/blob/master/Changelog.md)** for recent updates.
+:globe_with_meridians: Project website: [https://picoxlsx.rabanti.ch](https://picoxlsx.rabanti.ch)
 
-## What's new in version 3.x
+:page_facing_up: See the **[Change Log](https://github.com/rabanti-github/PicoXLSX/blob/master/Changelog.md)** for recent updates.
 
-* Copy functions for worksheets
-* Several additional checks, exception handling and updated documentation
+## :package: Modules
 
-Note: Most changes came from the rewritten [NanoXLSX](https://github.com/rabanti-github/NanoXLSX) library v2.0. Unit testing was also introduced there.
-Therefore, the change list in PicoXLSX is not as long as in NanoXLSX, since many these changes are dealing with reader functionality. 
+PicoXLSX v4 is split into modular NuGet packages:
 
-## Roadmap
+| Module | Status | Description |
+|--------|--------|-------------|
+| **[NanoXLSX.Core](https://www.nuget.org/packages/NanoXLSX.Core)** | :green_circle: Mandatory, Bundled | Core library with workbooks, worksheets, cells, styles. No external dependencies |
+| **[NanoXLSX.Reader](https://www.nuget.org/packages/NanoXLSX.Reader)** | :large_blue_circle: Optional, Bundled | Extension methods to read/load XLSX files. Depends on Core |
+| **[NanoXLSX.Formatting](https://www.nuget.org/packages/NanoXLSX.Formatting)** | :large_blue_circle: Optional, Bundled | In-line cell formatting (rich text). [External repo](https://github.com/rabanti-github/NanoXLSX.Formatting). Depends on Core |
+| **[PicoXLSX](https://www.nuget.org/packages/PicoXLSX)** | :star: Meta-Package | Bundles all of the above. **Recommended for most users** |
+| **[NanoXLSX.Writer](https://www.nuget.org/packages/NanoXLSX.Writer)** |  :white_circle: Optional, Not bundled  | Extension methods to write/save XLSX files. Depends on Core |
 
-Version 3.x of PicoXLSX was completely overhauled along with NanoXLSX v3.x.
-However, v3.x it is not planned as a LTS version. The upcoming v4.x is supposed to introduce some important functions, like in-line cell formatting, better formula handling and additional worksheet features.
-Furthermore, it is planned to introduce more modern OOXML features like the SHA256 implementation of worksheet passwords.
-One of the main aspects of this upcoming version is the retirement of the original code base in favor of a facade, using NanoXLSX as single dependency. This will reduce the maintenance effort dramatically.
 
-## Requirements
+> **Note:** All bundled modules are included when you install the `PicoXLSX` meta-package. Optional, non-bundled modules will extend the functionality of PicoXLSX
 
-PicoXLSX was created with .NET version 4.5. Newer versions like 4.6 are working and tested. Furthermore, .NET Standard 2.0 is supported since v2.9. Older versions of.NET like 3.5 and 4.0 may also work with minor changes. Some functions introduced in .NET 4.5 were used and must be adapted in this case. 
+For advanced scenarios, you can install only the specific packages you need (e.g. `NanoXLSX.Core` + `NanoXLSX.Reader` for read-only applications).
+
+
+## :sparkles: What's new in version 4.x
+
+PicoXLSX v4 is a major release with significant architectural changes:
+
+* **Modular architecture** - Split into separate NuGet packages (Core, Reader, Writer, Formatting) with a plugin system
+* **New Color system** - Unified `Color` class supporting RGB, ARGB, indexed, theme and system colors
+* **Redesigned Font and Fill** - Font properties now use proper enums; Fill supports flexible color definitions with tint
+* **PascalCase naming** - All enums and constants follow C# naming conventions
+* **Immutable value types** - `Address` and `Range` structs are now immutable
+* **In-line formatting** - Rich text cell formatting via the NanoXLSX.Formatting module
+* **Utils reorganization** - `Utils` class split into `DataUtils`, `ParserUtils`, `Validators`
+
+:warning: **Breaking changes from v3.x** - There are breaking changes between PicoXLSX v3.4.5 and v4.0.0, mostly related to namespace changes and renamed enum values. See the **[Migration Guide](MigrationGuide.md)** for detailed upgrade instructions.
+
+## :world_map: Roadmap
+
+PicoXLSX v4.x (NanoXLSX v3.x) is planned as the **long-term supported version**. Possible future enhancements include:
+
+* :lock: Modern password handling (e.g. SHA-256 for worksheet protection)
+* :art: Auto-formatting capabilities
+* :1234: Formula assistant for easier formula creation
+* :paintbrush: Modern Style builder API
+* :speech_balloon: Support for cell comments
+* :framed_picture: Embedded images and charts
+* :rocket: Performance optimizations
+
+## :gear: Requirements
+
+The library is currently on compatibility level with .NET version 4.5 and .NET Standard 2.0. Newer versions should of course work as well. Older versions, like .NET 3.5 have only limited support, since newer language features were used.
 
 ### .NET 4.5 or newer
 
-*)The only requirement to compile the library besides .NET (v4.5 or newer) is the assembly **WindowsBase**, as well as **System.IO.Compression**. These assemblies are **standard components in all Microsoft Windows systems** (except Windows RT systems). If your IDE of choice supports referencing assemblies from the Global Assembly Cache (**GAC**) of Windows, select WindowsBase and Compression from there. If you want so select the DLLs manually and Microsoft Visual Studio is installed on your system, the DLL of WindowsBase can be found most likely under "c:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\WindowsBase.dll", as well as System.IO.Compression under "c:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.IO.Compression.dll". Otherwise you find them in the GAC, under "c:\Windows\Microsoft.NET\assembly\GAC_MSIL\WindowsBase" and "c:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.IO.Compression"
+\*)The only requirement to compile the library besides .NET (v4.5 or newer) is the assembly **WindowsBase**, as well as **System.IO.Compression**. These assemblies are **standard components in all Microsoft Windows systems** (except Windows RT systems). If your IDE of choice supports referencing assemblies from the Global Assembly Cache (**GAC**) of Windows, select WindowsBase and Compression from there. If you want so select the DLLs manually and Microsoft Visual Studio is installed on your system, the DLL of WindowsBase can be found most likely under "c:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\WindowsBase.dll", as well as System.IO.Compression under "c:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.IO.Compression.dll". Otherwise you find them in the GAC, under "c:\Windows\Microsoft.NET\assembly\GAC_MSIL\WindowsBase" and "c:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.IO.Compression"
 
 The NuGet package **does not require dependencies**
 
@@ -58,19 +79,15 @@ The NuGet package **does not require dependencies**
 
 .NET Standard v2.0 resolves the dependency System.IO.Compression automatically, using NuGet and does not rely anymore on WindowsBase in the development environment. In contrast to the .NET >=4.5 version, **no manually added dependencies necessary** (as assembly references) to compile the library.
 
-Please note that the demo project of the .NET Standard version will not work in Visual Studio 2017. To get the build working, unload the demo project of the .NET Standard version.
+## :hammer_and_wrench: Development and Testing
 
-### Documentation project
+The full source code of PicoXLSX is available in the [NanoXLSX repository](https://github.com/rabanti-github/NanoXLSX). There are also thousands of unit tests available, ensuring a very high code coverage and security against unwanted side effects on changes.
 
-If you want to compile the documentation project (folder: Documentation; project file: shfbproj), you need also the **[Sandcastle Help File Builder (SHFB)](https://github.com/EWSoftware/SHFB)**. It is also freely available. But you don't need the documentation project to build the NanoXLSX library.
+## :inbox_tray: Installation
 
-The .NET version of the documentation may vary, based on the installation. If v4.5 is not available, upgrade to target to a newer version, like v4.6
+### Using NuGet (recommended)
 
-## Installation
-
-### Using NuGet
-
-By Package Manager (PM):
+By package Manager (PM):
 
 ```sh
 Install-Package PicoXLSX
@@ -82,15 +99,9 @@ By .NET CLI:
 dotnet add package PicoXLSX
 ```
 
-### As DLL
+:information_source: **Note**: Other methods like adding DLLs or source files directly into your project are technically still possible, but **not recommended** anymore. Use dependency management, whenever possible
 
-Simply place the PicoXLSX DLL into your .NET project and add a reference to it. Please keep in mind that the .NET version of your solution must match with the runtime version of the PicoXLSX DLL (currently compiled with 4.5 and .NET Standard 2.0).
-
-### As source files
-
-Place all .CS files from the PicoXLSX source folder into your project. You can place them into a sub-folder if you wish. The files contains definitions for workbooks, worksheets, cells, styles, meta-data, low level methods and exceptions. In case of the .NET >=4.5 version, the necessary dependencies have to be referenced as well.
-
-## Usage
+## :bulb: Usage
 
 ### Quick Start (shortened syntax)
 
@@ -114,14 +125,20 @@ Place all .CS files from the PicoXLSX source folder into your project. You can p
  workbook.Save();                                                       // Save the workbook as myWorkbook.xlsx
 ```
 
-## Further References
+## :link: Further References
 
 See the full **API-Documentation** at: [https://rabanti-github.github.io/PicoXLSX/](https://rabanti-github.github.io/PicoXLSX/).
 
-The [Demo project](https://github.com/rabanti-github/PicoXLSX/tree/master/Demo) contains 17 simple use cases. You can find also the full documentation in the [Documentation-Folder](https://github.com/rabanti-github/PicoXLSX/tree/master/docs) (html files or single chm file) or as C# documentation in the particular .CS files.
+The **[Demo Project](https://github.com/rabanti-github/NanoXLSX.Demo)** contains 27 examples covering various use cases. The demo project is maintained in a separate repository.
+See the section **[PicoXLSX](https://github.com/rabanti-github/NanoXLSX.Demo/tree/main/PicoXLSX)** for the specific examples related to PicoXLSX.
 
 See also: [Getting started in the Wiki](https://github.com/rabanti-github/PicoXLSX/wiki/Getting-started)
 
-## License
+Hint: You will find most certainly any function, and the way how to use it, in the [Unit Test Project of nanoXLSX](https://github.com/rabanti-github/NanoXLSX/tree/master/NanoXlsx%20Test)
 
+## :balance_scale: License
+
+PicoXLSX is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+This library claims to be free of any dependencies on proprietary software or libraries.
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Frabanti-github%2FPicoXLSX?ref=badge_large)

@@ -204,3 +204,5 @@ Executable/
 
 # User defined
 /docs/*
+
+.claude/
