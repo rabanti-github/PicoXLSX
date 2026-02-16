@@ -128,7 +128,7 @@ dotnet add package PicoXLSX
 
 See the full **API-Documentation** at: [https://rabanti-github.github.io/PicoXLSX/](https://rabanti-github.github.io/PicoXLSX/).
 
-The **[Demo Project](https://github.com/rabanti-github/NanoXLSX.Demo)** contains 27 examples covering various use cases. The demo project is maintained in a separate repository.
+The **[Demo Project](https://github.com/rabanti-github/NanoXLSX.Demo)** contains 25 examples covering various use cases. The demo project is maintained in a separate repository.
 See the section **[PicoXLSX](https://github.com/rabanti-github/NanoXLSX.Demo/tree/main/PicoXLSX)** for the specific examples related to PicoXLSX.
 
 See also: [Getting started in the Wiki](https://github.com/rabanti-github/PicoXLSX/wiki/Getting-started)
