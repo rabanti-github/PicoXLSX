@@ -55,9 +55,6 @@
 			<PackagePath>lib/netstandard2.0/</PackagePath>
 		</None>
 
-		<!-- Your build props files -->
-		<None Include="build/net45/PicoXLSX.props" Pack="true" />
-		<None Include="build/netstandard2.0/PicoXLSX.props" Pack="true" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -66,12 +63,13 @@
 		<PackageReference Include="NanoXLSX.Formatting" Version="[3.0.0, 4.0.0)" />
 	</ItemGroup>
 
-	<Target Name="GenerateDocsIndex" AfterTargets="Build">
+	<Target Name="GenerateDocsIndex" AfterTargets="Pack" Condition="'$(TargetFramework)' == 'netstandard2.0'">
 		<Exec Command="dotnet run --project ../Docs.IndexGenerator" />
 	</Target>
 
 	<PropertyGroup>
 		<DocsGeneratorConfig>$(SolutionDir)\Docs.IndexGenerator\Config\meta-package-config.json</DocsGeneratorConfig>
+		
 	</PropertyGroup>
 
 	<Target Name="WriteDocsRootConfig" BeforeTargets="BeforeBuild">
