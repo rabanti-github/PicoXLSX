@@ -63,7 +63,7 @@
 		<PackageReference Include="NanoXLSX.Formatting" Version="[3.0.0, 4.0.0)" />
 	</ItemGroup>
 
-	<Target Name="GenerateDocsIndex" AfterTargets="Pack" Condition="'$(TargetFramework)' == 'netstandard2.0'">
+	<Target Name="GenerateDocsIndex" AfterTargets="Pack;Build" Condition="'$(TargetFramework)' == 'netstandard2.0'">
 		<Exec Command="dotnet run --project ../Docs.IndexGenerator" />
 	</Target>
 
