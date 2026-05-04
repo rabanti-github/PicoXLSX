@@ -64,6 +64,10 @@ PicoXLSX v4.x (NanoXLSX v3.x) is planned as the **long-term supported version**.
 * :framed_picture: Embedded images and charts
 * :rocket: Performance optimizations
 
+
+## :robot: For AI Agents
+For AI agents and LLM tooling, a machine-readable [`llms.txt`](https://raw.githubusercontent.com/rabanti-github/NanoXLSX/refs/heads/master/llms.txt) is available in the main repository (NanoXLSX).
+
 ## :gear: Requirements
 
 The library is currently on compatibility level with .NET version 4.5 and .NET Standard 2.0. Newer versions should of course work as well. Older versions, like .NET 3.5 have only limited support, since newer language features were used.
