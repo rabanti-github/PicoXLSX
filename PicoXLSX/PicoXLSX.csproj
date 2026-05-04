@@ -64,7 +64,7 @@
 	</ItemGroup>
 
 	<Target Name="GenerateDocsIndex" AfterTargets="Pack;Build" Condition="'$(TargetFramework)' == 'netstandard2.0'">
-		<Exec Command="dotnet run --project ../Docs.IndexGenerator" />
+		<Exec Command="dotnet run --project ../Docs.IndexGenerator -- --llmsOut &quot;$(MSBuildThisFileDirectory)..\llms.txt&quot;" />
 	</Target>
 
 	<PropertyGroup>
@@ -78,7 +78,8 @@
 			<_Lines Include="{" />
 			<_Lines Include="  &quot;packageName&quot;: &quot;$(MSBuildProjectName)&quot;," />
 			<_Lines Include="  &quot;version&quot;: &quot;$(Version)&quot;," />
-			<_Lines Include="  &quot;description&quot;: &quot;$(Description)&quot;" />
+			<_Lines Include="  &quot;description&quot;: &quot;$(Description)&quot;," />
+			<_Lines Include="  &quot;nuGetUrl&quot;: &quot;https://www.nuget.org/packages/$(PackageId)&quot;" />
 			<_Lines Include="}" />
 		</ItemGroup>
 

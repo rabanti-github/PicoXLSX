@@ -1,5 +1,10 @@
 ﻿{
   "projectName": "PicoXLSX",
   "baseDescription": "PicoXLSX is a library to generate Microsoft Excel files (XLSX) in an easy and native way.",
-  "rootDescription": "PicoXLSX is now a subset of <a href=\"https://github.com/rabanti-github/NanoXLSX\">NanoXLSX</a>, and uses its library parts. The library is modular and consists of one core and several optional dependencies.<br>There is no code anymore in the PicoXLSX repository. The code is maintained in the repository of NanoXLSX, and additional dependency projects.<br>This documentation page contains the links to all relevant documentation sub-pages of NanoXLSX."
+  "rootDescription": "PicoXLSX is now a subset of <a href=\"https://github.com/rabanti-github/NanoXLSX\">NanoXLSX</a>, and uses its library parts. The library is modular and consists of one core and several optional dependencies.<br>There is no code anymore in the PicoXLSX repository. The code is maintained in the repository of NanoXLSX, and additional dependency projects.<br>This documentation page contains the links to all relevant documentation sub-pages of NanoXLSX.",
+  "apiDocsUrl": "https://rabanti-github.github.io/PicoXLSX/",
+  "repositoryUrl": "https://github.com/rabanti-github/PicoXLSX",
+  "demoRepositoryUrl": "https://github.com/rabanti-github/NanoXLSX.Demo",
+  "demoRepositoryUseCaseUrl": "https://github.com/rabanti-github/NanoXLSX.Demo/tree/main/PicoXLSX/Demo/UseCases",
+  "llmsSummary": "A small, dependency-free .NET library to create Microsoft Excel (XLSX) files. Modular plugin architecture: a Core package plus optional Writer, and Formatting plugins. A Reader can be added separately. Targets .NET Standard 2.0 and .NET Framework 4.5+."
 }

@@ -66,8 +66,7 @@ PicoXLSX v4.x (NanoXLSX v3.x) is planned as the **long-term supported version**.
 
 
 ## :robot: For AI Agents
-For AI agents and LLM tooling, a machine-readable [`llms.txt`](https://raw.githubusercontent.com/rabanti-github/NanoXLSX/refs/heads/master/llms.txt) is available in the main repository (NanoXLSX).
-The only difference between PicoXLSX and NanoXLSX is the Package `NanoXLSX.Reader` that is not present in the meta-package PicoXLSX by default. The code base is identical.
+For AI agents and LLM tooling, a machine-readable [`llms.txt`](llms.txt) is available.
 
 ## :gear: Requirements
 

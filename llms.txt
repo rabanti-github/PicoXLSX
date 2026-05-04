@@ -1,0 +1,42 @@
+# PicoXLSX
+
+> A small, dependency-free .NET library to create Microsoft Excel (XLSX) files. Modular plugin architecture: a Core package plus optional Writer, and Formatting plugins. A Reader can be added separately. Targets .NET Standard 2.0 and .NET Framework 4.5+.
+
+## Packages
+
+Meta package **PicoXLSX v4.1.0** bundles all of the below.
+
+- [PicoXLSX](https://www.nuget.org/packages/PicoXLSX): PicoXLSX is a library to generate Microsoft Excel files (XLSX) in an easy and native way. This package is the meta package of PicoXLSX and should be used in most cases as dependency in your project. It uses the dependencies of NanoXLSX
+- [NanoXLSX.Core](https://www.nuget.org/packages/NanoXLSX.Core): Core library: workbooks, worksheets, cells, styles, colors. Has no external dependencies. (bundled)
+- [NanoXLSX.Writer](https://www.nuget.org/packages/NanoXLSX.Writer): Writer plugin: extension methods to save XLSX files. Depends on Core. (bundled)
+- [NanoXLSX.Formatting](https://www.nuget.org/packages/NanoXLSX.Formatting): Formatting plugin: in-line cell formatting (rich text). Depends on Core. Maintained in an external repository. (bundled)
+
+Other available packages (not bundled in meta package):
+
+- [NanoXLSX.Reader](https://www.nuget.org/packages/NanoXLSX.Reader): Reader plugin: extension methods to load XLSX files. Depends on Core.
+
+## API Documentation
+
+- Combined documentation portal: https://rabanti-github.github.io/PicoXLSX/
+- NanoXLSX.Core: https://rabanti-github.github.io/NanoXLSX/NanoXLSX.Core/
+- NanoXLSX.Writer: https://rabanti-github.github.io/NanoXLSX/NanoXLSX.Writer/
+- NanoXLSX.Formatting: https://rabanti-github.github.io/NanoXLSX.Formatting/
+- NanoXLSX.Reader: https://rabanti-github.github.io/NanoXLSX/NanoXLSX.Reader/
+
+## Source
+
+- Primary repository: https://github.com/rabanti-github/PicoXLSX
+- NanoXLSX.Core (external): https://github.com/rabanti-github/NanoXLSX
+- NanoXLSX.Writer (external): https://github.com/rabanti-github/NanoXLSX
+- NanoXLSX.Formatting (external): https://github.com/rabanti-github/NanoXLSX.Formatting
+- NanoXLSX.Reader (external): https://github.com/rabanti-github/NanoXLSX
+
+## Demos
+
+- Repository with running demo use cases: https://github.com/rabanti-github/NanoXLSX.Demo
+- Direct folder URL with use cases for PicoXLSX: https://github.com/rabanti-github/NanoXLSX.Demo/tree/main/PicoXLSX/Demo/UseCases
+
+## Notes
+
+- Docs.IndexGenerator/ is a build utility and not part of the public API.
+- This file is generated automatically on build from Docs.IndexGenerator/Config/*.json — do not edit by hand.
