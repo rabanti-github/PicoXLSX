@@ -67,6 +67,7 @@ PicoXLSX v4.x (NanoXLSX v3.x) is planned as the **long-term supported version**.
 
 ## :robot: For AI Agents
 For AI agents and LLM tooling, a machine-readable [`llms.txt`](llms.txt) is available.
+It lists all packages, installation commands, API documentation, source repositories, and a quick-start code snippet.
 
 ## :gear: Requirements
 
