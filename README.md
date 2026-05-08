@@ -37,7 +37,6 @@ PicoXLSX v4 is split into modular NuGet packages:
 
 For advanced scenarios, you can install only the specific packages you need (e.g. `NanoXLSX.Core` + `NanoXLSX.Reader` for read-only applications).
 
-
 ## :sparkles: What's new in version 4.x
 
 PicoXLSX v4 is a major release with significant architectural changes:
@@ -64,8 +63,8 @@ PicoXLSX v4.x (NanoXLSX v3.x) is planned as the **long-term supported version**.
 * :framed_picture: Embedded images and charts
 * :rocket: Performance optimizations
 
-
 ## :robot: For AI Agents
+
 For AI agents and LLM tooling, a machine-readable [`llms.txt`](llms.txt) is available.
 It lists all packages, installation commands, API documentation, source repositories, and a quick-start code snippet.
 
