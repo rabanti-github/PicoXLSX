@@ -32,6 +32,7 @@ PicoXLSX v4 is split into modular NuGet packages:
 | **[NanoXLSX.Formatting](https://www.nuget.org/packages/NanoXLSX.Formatting)** | :large_blue_circle: Optional, Bundled | In-line cell formatting (rich text). [External repo](https://github.com/rabanti-github/NanoXLSX.Formatting). Depends on Core |
 | **[PicoXLSX](https://www.nuget.org/packages/PicoXLSX)** | :star: Meta-Package | Bundles all of the above. **Recommended for most users** |
 | **[NanoXLSX.Reader](https://www.nuget.org/packages/NanoXLSX.Reader)** | :white_circle: Optional, Not bundled | Extension methods to read/load XLSX files. Depends on Core |
+| **[NanoXLSX.Compatibility](https://www.nuget.org/packages/NanoXLSX.Compatibility)** | :white_circle: Optional, Not bundled | Extension methods to add compatibility features like handling of external links. Depends on Core |
 
 > **Note:** All bundled modules are included when you install the `PicoXLSX` meta-package. Optional, non-bundled modules will extend the functionality of PicoXLSX
 

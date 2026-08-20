@@ -16,6 +16,7 @@ PicoXLSX is a meta-package bundling NanoXLSX.Core, NanoXLSX.Writer, and NanoXLSX
 - [NanoXLSX.Writer](https://www.nuget.org/packages/NanoXLSX.Writer): Writer plugin: extension methods to save XLSX files. Depends on Core. (bundled)
 - [NanoXLSX.Formatting](https://www.nuget.org/packages/NanoXLSX.Formatting): Formatting plugin: in-line cell formatting (rich text). Depends on Core. Maintained in an external repository. (bundled)
 - [NanoXLSX.Reader](https://www.nuget.org/packages/NanoXLSX.Reader): Reader plugin: extension methods to load XLSX files. Depends on Core.
+- [NanoXLSX.Compatibility](https://www.nuget.org/packages/NanoXLSX.Compatibility): Reader plugin: Extension methods to add compatibility features like handling of external links. Depends on Core.
 
 ## Usage
 
@@ -35,6 +36,7 @@ workbook.Save();
 - [NanoXLSX.Writer](https://rabanti-github.github.io/NanoXLSX/NanoXLSX.Writer/): Writer plugin: extension methods to save XLSX files. Depends on Core.
 - [NanoXLSX.Formatting](https://rabanti-github.github.io/NanoXLSX.Formatting/): Formatting plugin: in-line cell formatting (rich text). Depends on Core. Maintained in an external repository.
 - [NanoXLSX.Reader](https://rabanti-github.github.io/NanoXLSX/NanoXLSX.Reader/): Reader plugin: extension methods to load XLSX files. Depends on Core.
+- [NanoXLSX.Compatibility](https://rabanti-github.github.io/NanoXLSX/NanoXLSX.Compatibility/): Reader plugin: Extension methods to add compatibility features like handling of external links. Depends on Core.
 
 ## Source
 

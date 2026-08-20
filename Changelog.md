@@ -1,5 +1,36 @@
 ﻿# Change Log
 
+## v4.2.0
+
+---
+
+Release Date: **(20.08.2026)** <sup>(DMY)</sup>
+
+- Package: **NanoXLSX.Core**
+  * Added detection and metadata handling for external workbook references in formulas and defined names.
+  * Added support for defined names, including cell and range references, formulas, constants, workbook/worksheet scope and comments.
+  * Added `FormulaData` for extended formula metadata, including formula types, ranges, cached values, defined-name references and external-reference detection.
+  * Added support for cell error values (`CellType.Error` and `Errors.FormulaError`).
+  * Added `Validators.ValidateWorksheetName(...)`.
+  * Extended and optimized internal feature detection and processing.
+  * Extended the plug-in infrastructure with additional Reader and Writer interfaces and updated plug-in registration.
+  * Fixed a bug regarding plug-in loading. Bug fix provided by yolkin-games
+
+- Package: **NanoXLSX.Writer**
+  * Added writing of defined names.
+  * Added writing of extended formula metadata and cached formula values.
+  * Added writing of cell error values.
+  * Updated internal writer processing and package-part handling.
+  * Added infrastructure for writing external workbook references through compatibility plug-ins.
+
+- **General**
+  * Various internal processing optimizations.
+  * Added and extended test coverage for formulas, defined names, cell errors, relationship discovery and plug-ins.
+  * Code maintenance.
+
+Note: An optional package [NanoXLSX.Compatibility](https://www.nuget.org/packages/NanoXLSX.Compatibility) is available to handle external links.
+
+
 ## v4.1.0
 
 ---
@@ -10,6 +41,7 @@ Release Date: **(04.05.2026)** <sup>(DMY)</sup>
   * **Breaking change:** `Worksheet.Cells` now returns `IReadOnlyDictionary<string, Cell>` instead of `Dictionary<string, Cell>`. All read operations (`["A1"]`, `ContainsKey`, `TryGetValue`, `foreach`, `Count`, `Keys`, `Values`) work unchanged. Mutating properties of an existing cell in-place (e.g. `Cells["A1"].Value = x`) continues to work. Adding or removing cells through `Cells` directly (e.g. `Cells.Add(...)`, `Cells.Remove(...)`, `Cells["A1"] = new Cell(...)`) is no longer possible; use `Worksheet.AddCell(...)` and `Worksheet.RemoveCell(...)` instead.
   * Replaced internal cell storage with an integer-keyed dictionary (`(column, row)`), eliminating per-cell address string allocation on every `AddCell` call and reducing memory overhead for large workbooks.
   * Added `Worksheet.CellValues` property (`IEnumerable<Cell>`): allocation-free enumeration over all cells, preferred for hot iteration paths.
+
 - Package: **NanoXLSX.Writer**
   * Optimized writer performance (memory consumption, save time)
   * Updated internal worksheet iteration to use `Worksheet.CellValues`, eliminating per-cell string allocation during save.
