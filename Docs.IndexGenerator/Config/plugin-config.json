@@ -45,15 +45,15 @@
       "nuGetUrl": "https://www.nuget.org/packages/NanoXLSX.Reader"
     },
     {
-    "id": "NanoXLSX.Compatibility",
-    "title": "NanoXLSX.Compatibility API",
-    "path": "NanoXLSX.Compatibility",
-    "description": "Reader plugin: Extension methods to add compatibility features like handling of external links. Depends on Core.",
-    "repository": "https://github.com/rabanti-github/NanoXLSX",
-    "repositoryDisplayName": "NanoXLSX",
-    "bundled": false,
-    "apiDocsUrl": "https://rabanti-github.github.io/NanoXLSX/NanoXLSX.Compatibility/",
-    "nuGetUrl": "https://www.nuget.org/packages/NanoXLSX.Compatibility"
-  }
+      "id": "NanoXLSX.Compatibility",
+      "title": "NanoXLSX.Compatibility API",
+      "path": "NanoXLSX.Compatibility",
+      "description": "Reader plugin: Extension methods to add compatibility features like handling of external links. Depends on Core.",
+      "repository": "https://github.com/rabanti-github/NanoXLSX.Compatibility",
+      "repositoryDisplayName": "NanoXLSX.Compatibility",
+      "bundled": false,
+      "apiDocsUrl": "https://rabanti-github.github.io/NanoXLSX/NanoXLSX.Compatibility/",
+      "nuGetUrl": "https://www.nuget.org/packages/NanoXLSX.Compatibility"
+    }
   ]
 }

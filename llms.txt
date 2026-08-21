@@ -43,6 +43,7 @@ workbook.Save();
 - [PicoXLSX](https://github.com/rabanti-github/PicoXLSX): Primary repository (meta-package, docs)
 - [NanoXLSX](https://github.com/rabanti-github/NanoXLSX): Source code (external)
 - [NanoXLSX.Formatting](https://github.com/rabanti-github/NanoXLSX.Formatting): Source code (external)
+- [NanoXLSX.Compatibility](https://github.com/rabanti-github/NanoXLSX.Compatibility): Source code (external)
 
 ## Optional
 
