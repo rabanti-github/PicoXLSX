@@ -1,5 +1,15 @@
 ﻿# Change Log
 
+## v4.2.1
+
+---
+
+Release Date: **(25.08.2026)** <sup>(DMY)</sup>
+
+- Fixed a bug regarding path handling on writing files
+- Added constant`MaxZoomFactor` in Worksheet. The exiting constant `maxZoomFactor` is obsolete and will be removed with the next major release
+- Code maintenance
+
 ## v4.2.0
 
 ---
